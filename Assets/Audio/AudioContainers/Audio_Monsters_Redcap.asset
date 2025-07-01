@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Redcap
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: -1904537219
+        Data2: 1150083851
+        Data3: -723315322
+        Data4: 639581513
+      Path: event:/SFX/Monsters/RedCap/SFX_Enemies_RedCap_Idle
+    hurt:
+      Guid:
+        Data1: 1808838301
+        Data2: 1138076776
+        Data3: -436751207
+        Data4: -52089601
+      Path: event:/SFX/Monsters/RedCap/SFX_Enemies_RedCap_Hurt
+    die:
+      Guid:
+        Data1: 313889892
+        Data2: 1203617870
+        Data3: -1638752894
+        Data4: -1217609083
+      Path: event:/SFX/Monsters/RedCap/SFX_Enemies_RedCap_Die
+    attack:
+      Guid:
+        Data1: -2125725519
+        Data2: 1340896263
+        Data3: 39250598
+        Data4: 585725099
+      Path: event:/SFX/Monsters/RedCap/SFX_Enemies_RedCap_Attack
+    specialAttack:
+      Guid:
+        Data1: -1770283672
+        Data2: 1113637959
+        Data3: 1558536382
+        Data4: 871160501
+      Path: event:/SFX/Monsters/RedCap/SFX_Enemies_RedCap_AttackJump
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 311258801
+        Data2: 1270135803
+        Data3: 904766863
+        Data4: 1034088707
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy_Animal
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

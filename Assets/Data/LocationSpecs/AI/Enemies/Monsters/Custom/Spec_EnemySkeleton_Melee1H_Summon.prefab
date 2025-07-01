@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5362392657444178483
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4443325589952417686, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_EnemySkeleton_Melee1H_Summon
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423593210849289748, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: cb2336d048d7f3b42bfcb06c8fcad039
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423593210849289748, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: visualPrefab.address
+      value: d459af7ad6909f44bae9974b8963ffe0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_3763243018174193501_07e71a1cd0f77654ead73a9443f5d677
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4719053470291679615, guid: 386190b9f098e414c8d88472306aaad8, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4443325589952417686, guid: 386190b9f098e414c8d88472306aaad8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4097642399507561339}
+  m_SourcePrefab: {fileID: 100100000, guid: 386190b9f098e414c8d88472306aaad8, type: 3}
+--- !u!1 &8629695822564148645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4443325589952417686, guid: 386190b9f098e414c8d88472306aaad8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5362392657444178483}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4097642399507561339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8629695822564148645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27957d3edad01b7439426d86d519747b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeRangedSwitchDistance:
+    min: 4
+    max: 6.5
+  weaponsAlwaysEquipped: 1
+  usesCombatMovementAnimations: 1
+  usesAlertMovementAnimations: 0
+  canBePushed: 1
+  canLookAround: 1
+  canBeSlidInto: 1
+  customArrowData:
+    logicPrefab:
+      arReference:
+        address: 
+        subObjectName: 
+    visualPrefab:
+      arReference:
+        address: 
+        subObjectName: 
+    skills: []
+    logicData:
+      lifetime: 5
+      showLifetimeStartVFX: 0
+      lifeTimeStartVFXOnFirePointPosition: 0
+      piercing: 0
+      limitedPiercing: 0
+      piercingLimit: 1
+      dealDirectDamageOnContact: 1
+      explodeOnContact: 0
+      explodeOnEnviroHit: 0
+      explodeOnLifetimeEnd: 0

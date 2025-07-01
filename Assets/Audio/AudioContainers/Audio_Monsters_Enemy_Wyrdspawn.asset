@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Enemy_Wyrdspawn
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: -378841425
+        Data2: 1278725630
+        Data3: 1527492790
+        Data4: -1817763309
+      Path: event:/SFX/Monsters/Wyrdspawn/SFX_Enemies_Wyrdspawn_IdleMovement
+    hurt:
+      Guid:
+        Data1: -910898768
+        Data2: 1272641881
+        Data3: 1160450447
+        Data4: -318832032
+      Path: event:/SFX/Monsters/Wyrdspawn/SFX_Enemies_Wyrdspawn_Hurt
+    die:
+      Guid:
+        Data1: 1458301770
+        Data2: 1315726723
+        Data3: 1393413533
+        Data4: 700907215
+      Path: event:/SFX/Monsters/Wyrdspawn/SFX_Enemies_Wyrdspawn_DieWyrdspawn
+    attack:
+      Guid:
+        Data1: 713275862
+        Data2: 1163021115
+        Data3: 791615384
+        Data4: 1255643542
+      Path: event:/SFX/Monsters/Wyrdspawn/SFX_Enemies_Wyrdspawn_Attack
+    specialAttack:
+      Guid:
+        Data1: 648595415
+        Data2: 1142197797
+        Data3: 1319469203
+        Data4: -848713753
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 1776769049
+        Data2: 1203634200
+        Data3: -1364596860
+        Data4: -1970590248
+      Path: event:/SFX/Monsters/Wyrdspawn/SFX_Enemies_Wyrdspawn_Footsteps
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

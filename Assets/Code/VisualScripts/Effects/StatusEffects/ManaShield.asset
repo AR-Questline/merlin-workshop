@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: ManaShield
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"Damage","value":{"$content":0.0,"$type":"System.Single"},"typeHandle":{"Identification":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":969.3887,"y":-1360.791},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":340.0,"y":-1537.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"reference":{"_enumRef":"Awaken.TG.Main.General.StatTypes.CharacterStatType,
+      TG.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:ManaShield"},"defaultValues":{},"position":{"x":637.0,"y":-1524.0},"guid":"51cbf2dd-5201-451b-958f-a748ed8e5d36","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeLiteral","$id":"12"},{"defaultValues":{},"position":{"x":618.0,"y":-1418.0},"guid":"25c9e6b1-f6af-48cf-a445-97e81be07bb9","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"15"},{"defaultValues":{},"position":{"x":859.0,"y":-1516.0},"guid":"4c0f2d6b-3f8c-4787-a0c3-f4a02a786590","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.GetStat","$id":"17"},{"tweakType":"Add","Type":"Learn","defaultValues":{},"position":{"x":1070.0,"y":-1542.0},"guid":"100d7f0e-eb2d-4144-83f2-121c2a52d10d","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.StatModifierUnit","$id":"19"},{"name":"Shield","defaultValues":{},"position":{"x":868.0,"y":-1396.0},"guid":"c34cfc80-d6fd-4a5a-8254-a685728fbb6b","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"21"},{"sourceUnit":{"$ref":"12"},"sourceKey":"statType","destinationUnit":{"$ref":"17"},"destinationKey":"statType","guid":"7c6e11cb-6bf2-42ca-a41d-1216fbd62f4b","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"owner","destinationUnit":{"$ref":"17"},"destinationKey":"iWithStat","guid":"7e23c075-b8ae-4d97-9bc6-bb4203a6f851","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"17"},"sourceKey":"stat","destinationUnit":{"$ref":"19"},"destinationKey":"stat","guid":"1ddcf9c2-f751-42c3-8bdd-2031107611d8","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"value","destinationUnit":{"$ref":"19"},"destinationKey":"value","guid":"b2729356-c011-4c8a-8fc4-08cb29cc8d2f","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

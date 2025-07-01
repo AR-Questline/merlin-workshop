@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: Shop_Vendor_EdaShop
+  m_EditorClassIdentifier: 
+  table:
+    rid: 7855908650280812559
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 999712792754257926
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 13f338397b9e4a04aad949176f6e353c
+        quantity: 12
+        itemLvl: 0
+    - rid: 999712792754257927
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 17b7917e72f79204eb4650b2313ed355
+        quantity: 3
+        itemLvl: 0
+    - rid: 3304492595660980357
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 5
+        randomizedAmount: 10
+        generateOnlyOnce: 0
+        loot:
+          rid: 3304492595660980359
+    - rid: 3304492595660980359
+      type: {class: LootItemWithTags, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        tags:
+        - cook:vegetables
+        count: 1
+    - rid: 3304492595660980360
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 4
+        randomizedAmount: 8
+        generateOnlyOnce: 0
+        loot:
+          rid: 3304492595660980361
+    - rid: 3304492595660980361
+      type: {class: LootItemWithTags, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        tags:
+        - cook:meat
+        count: 1
+    - rid: 3304492595660980362
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 10
+        randomizedAmount: 10
+        generateOnlyOnce: 0
+        loot:
+          rid: 3304492595660980364
+    - rid: 3304492595660980364
+      type: {class: LootItemWithTags, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        tags:
+        - cook:grain
+        count: 1
+    - rid: 6815085568508297326
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 9cc0adf0fc3f7da4abc44619b8f24f90
+        quantity: 10
+        itemLvl: 0
+    - rid: 6815085568508297327
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 7e49df42792c040429ee63f84b0ca75f
+        quantity: 10
+        itemLvl: 0
+    - rid: 7855908650280812559
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 999712792754257926
+        - rid: 999712792754257927
+        - rid: 7855908650280812560
+        - rid: 6815085568508297326
+        - rid: 6815085568508297327
+        - rid: 3304492595660980357
+        - rid: 3304492595660980360
+        - rid: 3304492595660980362
+    - rid: 7855908650280812560
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 60b836b79ae994b46927a43a76269c41
+        quantity: 10
+        itemLvl: 0

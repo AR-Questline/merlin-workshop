@@ -1,0 +1,87 @@
+{
+    "name": "Unity.Localization.Editor",
+    "rootNamespace": "UnityEditor.Localization",
+    "references": [
+        "Unity.Localization",
+        "Unity.Addressables.Editor",
+        "Unity.Addressables",
+        "Unity.InternalAPIEditorBridge.013",
+        "Unity.ResourceManager",
+        "Unity.TextMeshPro",
+        "Unity.ugui",
+        "com.unity.quicksearch",
+        "Unity.Nuget.NewtonsoftJson.EditorTests",
+        "Unity.DeviceSimulator.Editor",
+        "UnityEditor.UI",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Unity.Localization.ThirdParty.Editor.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.modules.audio",
+            "expression": "1.0.0",
+            "define": "MODULE_AUDIO"
+        },
+        {
+            "name": "com.unity.modules.uielements",
+            "expression": "1.0.0",
+            "define": "MODULE_UITK"
+        },
+        {
+            "name": "com.unity.ugui",
+            "expression": "1.0.0",
+            "define": "PACKAGE_UGUI"
+        },
+        {
+            "name": "com.unity.textmeshpro",
+            "expression": "1.0.0",
+            "define": "PACKAGE_TMP"
+        },
+        {
+            "name": "com.unity.device-simulator",
+            "expression": "1.0.0",
+            "define": "PACKAGE_DEVICE_SIMULATOR "
+        },
+        {
+            "name": "com.unity.addressables",
+            "expression": "[1.0.0,1.99.0]",
+            "define": "ADDRESSABLES_V1"
+        },
+        {
+            "name": "Unity",
+            "expression": "2020.3",
+            "define": "ENABLE_PROPERTY_VARIANTS"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2020.3.16,2021.1.0]",
+            "define": "ENABLE_SAVE_ASSET_IF_DIRTY"
+        },
+        {
+            "name": "Unity",
+            "expression": "2021.3",
+            "define": "ENABLE_SAVE_ASSET_IF_DIRTY"
+        },
+        {
+            "name": "Unity",
+            "expression": "2021.2",
+            "define": "ENABLE_SEARCH"
+        },
+        {
+            "name": "Unity",
+            "expression": "2022",
+            "define": "ENABLE_SEARCH_QUERY_BUILDER"
+        }
+    ],
+    "noEngineReferences": false
+}

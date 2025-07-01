@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: Wyrd_RandomEnemy
+  m_EditorClassIdentifier: 
+  table:
+    rid: 6602534831580774877
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags:
+  - crazyconsumables:basic
+  references:
+    version: 2
+    RefIds:
+    - rid: 6602534831580774877
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 0
+        randomizedAmount: 1
+        loots:
+        - loot:
+            rid: 6602534845197058201
+          weight: 50
+        - loot:
+            rid: 6602534845197058202
+          weight: 30
+        - loot:
+            rid: 6602534845197058203
+          weight: 10
+        - loot:
+            rid: 6602534845197058204
+          weight: 1
+    - rid: 6602534845197058201
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 052a4ad4697f85048b02a9cb7c412b82
+    - rid: 6602534845197058202
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 5c0ac499e70b12644be5185ce71e57af
+    - rid: 6602534845197058203
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: d50c3d8fa78c6b24980ea79d068ce67f
+    - rid: 6602534845197058204
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 9c576cd5f893c2340b61d4e42e2cab31

@@ -1,0 +1,254 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4972358172478929993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7606011271690575114}
+  - component: {fileID: -9017686563544590471}
+  - component: {fileID: -4231855569211379062}
+  - component: {fileID: 6247773085816264442}
+  - component: {fileID: -2686368168981379269}
+  - component: {fileID: -1351770361870678}
+  - component: {fileID: -3428968549117406661}
+  - component: {fileID: 3678742486246684649}
+  m_Layer: 0
+  m_Name: Spec_NPC_Logic_Deadman
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7606011271690575114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-9017686563544590471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_9429057510164961145_6ee2e1518cdf82642ae65e05886f47e4
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: d820785f7c7fec643bbb3a6ed5a08685
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 1
+--- !u!114 &-4231855569211379062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &6247773085816264442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8874d02432ec45e69923334086ad3e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcTemplate:
+    _guid: bd0d1d1324ed62944a525f73d8104c67
+  actor:
+    guid: a6717abf-b074-493c-943d-168caa3fc5c7
+  storyOnDeath:
+    _guid: 
+  visualPrefab:
+    address: e8a6fdec2938d244cbd5caf1c02e4373
+    subObjectName: 
+  simplifiedDeadBodyPrefab:
+    arReference:
+      address: 
+      subObjectName: 
+  shouldSpawnDeathVfx: 1
+  hitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  criticalHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  backStabHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  <IsNew>k__BackingField: 0
+--- !u!114 &-2686368168981379269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27957d3edad01b7439426d86d519747b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeRangedSwitchDistance:
+    min: 4
+    max: 6.5
+  weaponsAlwaysEquipped: 0
+  usesCombatMovementAnimations: 1
+  usesAlertMovementAnimations: 1
+  canBePushed: 1
+  canLookAround: 1
+  canBeSlidInto: 1
+  customArrowData:
+    logicPrefab:
+      arReference:
+        address: 
+        subObjectName: 
+    visualPrefab:
+      arReference:
+        address: 
+        subObjectName: 
+    skills: []
+    logicData:
+      lifetime: 5
+      showLifetimeStartVFX: 0
+      lifeTimeStartVFXOnFirePointPosition: 0
+      piercing: 0
+      limitedPiercing: 0
+      piercingLimit: 1
+      dealDirectDamageOnContact: 1
+      explodeOnContact: 0
+      explodeOnEnviroHit: 0
+      explodeOnLifetimeEnd: 0
+--- !u!114 &-1351770361870678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfe8a54a78f486c9140ec77b9075438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootTableWrapper:
+    lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 8416686937260163187
+  additionalItemsFromBerlin: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 8416686937260163187
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 8416686937260163188
+    - rid: 8416686937260163188
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 
+--- !u!114 &-3428968549117406661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c7f98ff5f17be4f9dc7dcad0bf8ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3678742486246684649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972358172478929993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37e3c32bf3340a4a89591352ed323a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customDialogueLabel:
+    IdOverride: 
+    ID: Template/customDialogueLabel_3678742486246684649_6ee2e1518cdf82642ae65e05886f47e4
+  bookmark:
+    story:
+      _guid: 
+    chapterName: 
+  gesturesWrapper:
+    embedOverrides:
+      gestures:
+      - gestureStoryKey: g_Jumpscare
+        animationClip: {fileID: -2800776857931087693, guid: bf5fe45cf5ff86c4da7354d05d3e7b58,
+          type: 3}
+    explicitOverrides:
+      _guid: 414e6679cf2616945ba762ba7eca8bc4
+  viewFocus: {fileID: 0}
+  endStoryDistance: 1

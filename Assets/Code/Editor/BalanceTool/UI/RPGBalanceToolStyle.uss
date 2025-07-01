@@ -1,0 +1,57 @@
+@import url("project://database/Assets/Code/Editor/BalanceTool/UI/TGCommonEditorStyle.uss?fileID=7433441132597879392&guid=b405cc04350debb4682cf497f19ba36b&type=3#TGCommonEditorStyle");
+.unity-float-field__label {
+    max-width: 20px;
+    min-width: 10px;
+}
+
+.unity-integer-field__label {
+    max-width: 20px;
+    min-width: 10px;
+}
+
+.header {
+    font-size: 18px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 3px;
+    padding-bottom: 8px;
+}
+
+.bottom-border {
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+.result-label {
+    font-size: 12px;
+    -unity-text-align: middle-left;
+}
+
+.result-value {
+    font-size: 14px;
+    color: rgb(186, 152, 221);
+}
+
+.Button {
+    font-size: 20px;
+    -unity-text-align: middle-center;
+}
+
+TemplateContainer {
+    flex-grow: 1;
+}
+
+.readonly-field {
+    background-color: rgb(43, 35, 51);
+}
+
+.top-border {
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.5);
+}
+
+#unity-list-view__foldout-header Toggle {
+    font-size: 18px;
+    padding-bottom: 5px;
+    padding-top: 2px;
+}

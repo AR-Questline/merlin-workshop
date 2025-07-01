@@ -1,0 +1,304 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3400909169117007612
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -9026492811015987579, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: itemAudioContainerWrapper.dataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6df29e45529f72a4b89bee2d8533c284,
+        type: 2}
+    - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: lightCastManaCost
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastManaCostPerSecond
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: weight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: basePrice
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_900669011575156033_9a800b32b7a527b46a61ccec9a165776
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: templateType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: description.toggled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_900669011575156033_9a800b32b7a527b46a61ccec9a165776
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastInfo.magicType._enumRef
+      value: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Channeled
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: lightCastInfo.magicType._enumRef
+      value: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:AoE
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastInfo.effectType._enumRef
+      value: Awaken.TG.Main.Heroes.Items.Tooltips.MagicEffectType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Health
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: _abstractTypes.Array.data[0]._guid
+      value: 70542f872371398478d541b176cd91a2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastInfo.magicDescription.toggled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: lightCastInfo.magicDescription.toggled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastInfo.effectOverridenToken.toggled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastInfo.magicDescription.locString.ID
+      value: Template/heavyCastInfo_magicDescription_locString_900669011575156033_9a800b32b7a527b46a61ccec9a165776
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: lightCastInfo.magicDescription.locString.ID
+      value: Template/lightCastInfo_magicDescription_locString_900669011575156033_9a800b32b7a527b46a61ccec9a165776
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastInfo.effectOverridenToken.locString.ID
+      value: Template/heavyCastInfo_effectOverridenToken_locString_900669011575156033_9a800b32b7a527b46a61ccec9a165776
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801068699590706162, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: data.logicPrefab.arReference.address
+      value: 511012992de92584bbc8dcf6db7966b0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801068699590706162, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: data.visualPrefab.arReference.address
+      value: 2b42723fb2691cb4aaccc2d3e541703b
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423854835304496968, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: 39f0451f588dbfe43b8b9f57bd12335a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[0].name
+      value: Range
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[1].name
+      value: Angle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[2].name
+      value: AoERange
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[3].name
+      value: StatHealPerSecond
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[4].name
+      value: ApplyStatToCasterModifier
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[5].name
+      value: ApplyStatToMinionsModifier
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[6].name
+      value: MaxHealDelay
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[7].name
+      value: MaxHealMultiplier
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[8].name
+      value: StatusDuration
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[9].name
+      value: StatusStacks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[0].value
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[10].name
+      value: StatusDuration
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[1].value
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[2].value
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[3].value
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[4].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[5].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[6].value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[7].value
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[8].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[9].value
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[10].value
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].assetReferences.Array.data[0].assetReference.arReference.address
+      value: aa7cb73f47fa52744aa609f1aafc7b13
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Magic_Tier2_AbhartachsCalling
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f5982999cefc124b83de6d59ec5b11e, type: 3}

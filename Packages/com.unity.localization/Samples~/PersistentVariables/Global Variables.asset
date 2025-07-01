@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1e3e22ff9634e441a479f01f905a2f7, type: 3}
+  m_Name: Global Variables
+  m_EditorClassIdentifier: 
+  m_Variables:
+  - name: player-name
+    variable:
+      id: 0
+  - name: player
+    variable:
+      id: 1
+  - name: weapons
+    variable:
+      id: 2
+  - name: time-now
+    variable:
+      id: 3
+  references:
+    version: 1
+    00000000:
+      type: {class: StringGlobalVariable, ns: UnityEngine.Localization.SmartFormat.GlobalVariables,
+        asm: Unity.Localization}
+      data:
+        m_Value: Player 1
+    00000001:
+      type: {class: NestedGlobalVariablesGroup, ns: UnityEngine.Localization.SmartFormat.GlobalVariables,
+        asm: Unity.Localization}
+      data:
+        m_Value: {fileID: 11400000, guid: b33659680abccdc4b85d1b4ad1689060, type: 2}
+    00000002:
+      type: {class: WeaponDamageGroup, ns: UnityEngine.Localization.Samples, asm: Unity.Localization.Samples.PersistentVariables}
+    00000003:
+      type: {class: CurrentTime, ns: UnityEngine.Localization.Samples, asm: Unity.Localization.Samples.PersistentVariables}

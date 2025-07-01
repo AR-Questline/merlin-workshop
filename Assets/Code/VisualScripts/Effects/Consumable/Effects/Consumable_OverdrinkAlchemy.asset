@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Consumable_OverdrinkAlchemy
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":20.05582,"y":-102.8357},"zoom":0.9,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-562.0,"y":-294.0},"guid":"85a23f57-0329-4907-baeb-be79d261fae4","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"reference":{"_guid":"60a2ed0287e14c944b53b6ab5870becd"},"defaultValues":{},"position":{"x":-111.0,"y":-174.0},"guid":"b220aa40-1166-4304-b2b2-1f2fe9842d92","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Typing.StatusTemplateLiteral","$id":"11"},{"defaultValues":{"buildupStrengthIfPossible":{"$content":0.0,"$type":"System.Single"}},"position":{"x":145.0,"y":-93.0},"guid":"fe03a204-089a-47be-b622-e3d4ece75f1f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.ApplyStatus","$id":"14"},{"defaultValues":{},"position":{"x":-91.0,"y":-8.0},"guid":"310d5cb9-dae7-420e-9546-f7a896701a4f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"16"},{"type":"System.Single","value":{"$content":60.0,"$type":"System.Single"},"defaultValues":{},"position":{"x":-31.0,"y":97.0},"guid":"85f68410-bd7f-4eb5-a24b-575ff642e07c","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"18"},{"sourceUnit":{"$ref":"16"},"sourceKey":"owner","destinationUnit":{"$ref":"14"},"destinationKey":"character","guid":"c21ae41e-3623-4124-9ea9-864d13b0711a","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"output","destinationUnit":{"$ref":"14"},"destinationKey":"buildupStrengthIfPossible","guid":"4d5d6bfe-8ffa-4ca6-97aa-feb00182939a","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"StatusTemplate","destinationUnit":{"$ref":"14"},"destinationKey":"statusTemplate","guid":"360aa924-a590-4832-8b71-914cf98b9173","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

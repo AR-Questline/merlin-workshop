@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Weapon_MaceVeryHeavy
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 132852611
+        Data2: 1090102569
+        Data3: -289368662
+        Data4: 1582964925
+      Path: event:/SFX/Weapon/MaceVeryHeavy/SFX_Weapon_MaceVeryHeavy_Swing
+    meleeSwingHeavy:
+      Guid:
+        Data1: -1075827417
+        Data2: 1101773476
+        Data3: -1282074950
+        Data4: -845387030
+      Path: event:/SFX/Weapon/MaceVeryHeavy/SFX_Weapon_MaceVeryHeavy_SwingHeavy
+    meleeDashAttack:
+      Guid:
+        Data1: 118450151
+        Data2: 1321743403
+        Data3: -513369934
+        Data4: -335015989
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: 72886387
+        Data2: 1169934664
+        Data3: -163606112
+        Data4: -1414287937
+      Path: event:/SFX/Weapon/MaceLight/SFX_Weapon_MaceLight_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: 1391490140
+        Data2: 1084486762
+        Data3: 248112784
+        Data4: -1366471798
+      Path: event:/SFX/Weapon/MaceLight/SFX_Weapon_MaceLight_Unequip
+    meleeHit:
+      Guid:
+        Data1: -2096659895
+        Data2: 1165309528
+        Data3: -739510898
+        Data4: -1036092460
+      Path: event:/SFX/Weapon/MaceVeryHeavy/SFX_Weapon_MaceVeryHeavy_Hit
+    pommelHit:
+      Guid:
+        Data1: 1038506553
+        Data2: 1206600855
+        Data3: -1444198259
+        Data4: 2134578216
+      Path: event:/SFX/Weapon/MaceVeryHeavy/SFX_Weapon_MaceVeryHeavy_PommelHit
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCharging:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castFullyCharged:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castHeavyRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHeldIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    sheathe:
+      Guid:
+        Data1: 1718587846
+        Data2: 1159438237
+        Data3: -1189474167
+        Data4: -175743294
+      Path: event:/SFX/Weapon/MaceLight/SFX_Weapon_MaceLight_Sheathe
+    unsheathe:
+      Guid:
+        Data1: -759447650
+        Data2: 1103823074
+        Data3: -1777397885
+        Data4: -1923413990
+      Path: event:/SFX/Weapon/MaceLight/SFX_Weapon_MaceLight_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 429159821
+        Data2: 1317220218
+        Data3: 1814836613
+        Data4: -872200637
+      Path: event:/SFX/Weapon/MaceVeryHeavy/SFX_Weapon_MaceVeryHeavy_Block
+    parrySwing:
+      Guid:
+        Data1: 957073650
+        Data2: 1157879226
+        Data3: 1079608196
+        Data4: -2105185540
+      Path: event:/SFX/Weapon/Fist/SFX_Fist_Swing
+    pommelSwing:
+      Guid:
+        Data1: 957073650
+        Data2: 1157879226
+        Data3: 1079608196
+        Data4: -2105185540
+      Path: event:/SFX/Weapon/Fist/SFX_Fist_Swing
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 937985378
+        Data2: 1288507969
+        Data3: 180481451
+        Data4: -2009592812
+      Path: event:/EQ/SFX_Player_PickItem_Metal
+    dropItem:
+      Guid:
+        Data1: 1631607086
+        Data2: 1139822676
+        Data3: 955311493
+        Data4: 1948205287
+      Path: event:/EQ/SFX_Player_DropItem_Metal
+    specialAttackSwing:
+      Guid:
+        Data1: -1891189068
+        Data2: 1088389231
+        Data3: 27842727
+        Data4: 1460232109
+      Path: 

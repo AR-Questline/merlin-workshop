@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be89caf85329429880459bb108ccd465, type: 3}
+  m_Name: Npc_FightingStyle_T1
+  m_EditorClassIdentifier: 
+  desiredDistanceToTarget: 2.5
+  desiredDistanceToTargetWhenFistFighting: 1.25
+  minDistanceToTargetWhenFistFighting: 1.25
+  generalMask: {fileID: 0}
+  customActionsMask: {fileID: 0}
+  additiveMask: {fileID: 31900000, guid: 4199f1e8872f3884881617f2343b66fc, type: 2}
+  topBodyMask: {fileID: 31900000, guid: 272a75d17c0c6884e9cb3c2bc29e2b70, type: 2}
+  overridesMask: {fileID: 0}
+  areOverridesAdditive: 0
+  baseAnimations:
+    arReference:
+      address: 01b116b56cfdda541ab2de536a4ee162
+      subObjectName: 
+  baseBehaviours:
+    arReference:
+      address: 3efc53046be00a644aec87294e8e974a
+      subObjectName: 
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  fists:
+    animations:
+    - arReference:
+        address: 7c94c4b154813f140b818d1bdb6feb15
+        subObjectName: 
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: 6df21e97feefd724186087ad61e9e800
+        subObjectName: 
+    - arReference:
+        address: a59a991513652294dba92f6969176763
+        subObjectName: 
+  oneHanded:
+    animations:
+    - arReference:
+        address: 0441d6223d91f15498d3f5f2afc419de
+        subObjectName: 
+    conditionalAnimations:
+    - {fileID: 11400000, guid: 80e786b91ec6ab24e9460e4c6afa51b6, type: 2}
+    combatBehaviours:
+    - arReference:
+        address: 2ef273f890827f2429a68264f6af87ff
+        subObjectName: 
+    - arReference:
+        address: d2636d070ee0e914fa332fc438b92d00
+        subObjectName: 
+    - arReference:
+        address: a59a991513652294dba92f6969176763
+        subObjectName: 
+    - arReference:
+        address: 0cfc5cd684e393d468aa09cc48587886
+        subObjectName: 
+  daggerOneHanded:
+    animations:
+    - arReference:
+        address: 0441d6223d91f15498d3f5f2afc419de
+        subObjectName: 
+    - arReference:
+        address: 562bc45d7075267458931ea0c02d5652
+        subObjectName: 
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: 2ef273f890827f2429a68264f6af87ff
+        subObjectName: 
+    - arReference:
+        address: d2636d070ee0e914fa332fc438b92d00
+        subObjectName: 
+    - arReference:
+        address: a59a991513652294dba92f6969176763
+        subObjectName: 
+    - arReference:
+        address: 0cfc5cd684e393d468aa09cc48587886
+        subObjectName: 
+  ranged:
+    animations:
+    - arReference:
+        address: 435936b4c86072a468e504c359c282fb
+        subObjectName: 
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: 52b40de0535c4904eb7200e027f17a5b
+        subObjectName: 
+  twoHanded:
+    animations: []
+    conditionalAnimations:
+    - {fileID: 11400000, guid: e6f4c55e5d9bff340822496eea8c5498, type: 2}
+    - {fileID: 11400000, guid: 5c2eecdc718133a42a1096ccf6825011, type: 2}
+    combatBehaviours:
+    - arReference:
+        address: b95e3bb0a5026804695eba63fb5ade3c
+        subObjectName: 
+    - arReference:
+        address: a59a991513652294dba92f6969176763
+        subObjectName: 
+    - arReference:
+        address: 0cfc5cd684e393d468aa09cc48587886
+        subObjectName: 
+  dualWielding:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours: []
+  heavyDualWielding:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours: []

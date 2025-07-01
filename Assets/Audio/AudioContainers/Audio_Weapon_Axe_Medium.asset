@@ -1,0 +1,256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Weapon_Axe_VeryHeavy
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: -2027365574
+        Data2: 1176958099
+        Data3: -1267402871
+        Data4: -678003373
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_Swing
+    meleeSwingHeavy:
+      Guid:
+        Data1: 1735254417
+        Data2: 1201236225
+        Data3: 32853648
+        Data4: 917570812
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_SwingHeavy
+    meleeDashAttack:
+      Guid:
+        Data1: -1041582994
+        Data2: 1166382801
+        Data3: 187647897
+        Data4: -1954526533
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_DashAttack
+    meleeEquip:
+      Guid:
+        Data1: 937985378
+        Data2: 1288507969
+        Data3: 180481451
+        Data4: -2009592812
+      Path: event:/EQ/SFX_Player_PickItem_Metal
+    meleeUnEquip:
+      Guid:
+        Data1: 1631607086
+        Data2: 1139822676
+        Data3: 955311493
+        Data4: 1948205287
+      Path: event:/EQ/SFX_Player_DropItem_Metal
+    meleeHit:
+      Guid:
+        Data1: -1926087693
+        Data2: 1310996346
+        Data3: 318262151
+        Data4: 1261342065
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_Hit
+    pommelHit:
+      Guid:
+        Data1: -1256393081
+        Data2: 1215140610
+        Data3: -402553161
+        Data4: 1471798166
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_PommelHit
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCharging:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    sheathe:
+      Guid:
+        Data1: -686711476
+        Data2: 1185895406
+        Data3: 792243618
+        Data4: -359244198
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 700581428
+        Data2: 1165346948
+        Data3: 1652734907
+        Data4: -900672287
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 1285894264
+        Data2: 1307871557
+        Data3: 1774381991
+        Data4: -1526436608
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_Block
+    parrySwing:
+      Guid:
+        Data1: -1720284583
+        Data2: 1089354610
+        Data3: -290886255
+        Data4: 1360555278
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_PommelSwing
+    pommelSwing:
+      Guid:
+        Data1: -1720284583
+        Data2: 1089354610
+        Data3: -290886255
+        Data4: 1360555278
+      Path: event:/SFX/Weapon/AxeVeryHeavy/SFX_Weapon_AxeVeryHeavy_PommelSwing
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 937985378
+        Data2: 1288507969
+        Data3: 180481451
+        Data4: -2009592812
+      Path: event:/EQ/SFX_Player_PickItem_Metal
+    dropItem:
+      Guid:
+        Data1: 1631607086
+        Data2: 1139822676
+        Data3: 955311493
+        Data4: 1948205287
+      Path: event:/EQ/SFX_Player_DropItem_Metal
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="locales-list" />
+    <ui:VisualElement style="flex-direction: row;">
+        <ui:Button text="Add Locale" name="open-generator-button" tooltip="Open the Add Locale window" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; flex-grow: 1;" />
+        <ui:Button text="Add Custom Locale" name="add-custom-locale" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; flex-grow: 1;" />
+        <ui:Button text="Add All" name="add-all-button" tooltip="Add all Locale assets in the project" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

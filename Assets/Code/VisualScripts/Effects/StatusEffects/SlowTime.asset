@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: SlowTime
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":991.4583,"y":-164.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":363.0,"y":-515.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"slowDownAmount":{"nullMeansSelf":false,"allowsNull":false,"unit":{"$ref":"11"}},"defaultValues":{},"position":{"x":911.0,"y":-450.0},"guid":"cfd0d27a-56b5-4f23-a959-1db48c4f1e93","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.ApplySlowDownTimeUnit","$id":"11"},{"defaultValues":{},"position":{"x":664.0,"y":-202.0},"guid":"c93053f9-6b8d-45af-bfc7-72e14fdc99b2","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.RemoveSlowDownTimeUnit","$id":"14"},{"name":"SlowTimeStrength","defaultValues":{},"position":{"x":667.0,"y":-356.0},"guid":"677bfd23-6e3f-437a-b05e-657cfc930e1d","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"16"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onForget","destinationUnit":{"$ref":"14"},"destinationKey":"Enter","guid":"7b4316e3-8907-47a2-8bce-587ef95816d6","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onLearn","destinationUnit":{"$ref":"11"},"destinationKey":"Enter","guid":"f79b5102-25e8-4ba3-bf41-29e8d0027c77","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"value","destinationUnit":{"$ref":"11"},"destinationKey":"SlowDownAmount","guid":"dea230be-c51c-4d14-930d-790b83a3b51a","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: Shop_Govannon
+  m_EditorClassIdentifier: 
+  table:
+    rid: 7855908650280812559
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1478358807637131409
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: aa3ab3693467b6546bdfdbb8f206df9b
+        quantity: 3
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 1478358854769312017
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 4b107892636eccd459bde92657111b26
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 1478358854769312018
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 8bb8db1f83f2d5141bba33fea30d04ea
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 2125492848437493858
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 0ee45325eac596346b2ebf0a9cfe0e94
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 2125492848437493859
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: de60c6cf1ec55204fb838b9eac71a8f6
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 7661416378953629711
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 1478358807637131409
+        - rid: 1478358854769312017
+        - rid: 1478358854769312018
+        - rid: 2125492848437493858
+        - rid: 2125492848437493859
+    - rid: 7855908650280812559
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 7661416378953629711

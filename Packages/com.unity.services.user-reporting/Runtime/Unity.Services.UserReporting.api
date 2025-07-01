@@ -1,0 +1,57 @@
+// This file is generated. Do not modify by hand.
+// XML documentation file not found. To check if public methods have XML comments,
+// make sure the XML doc file is present and located next to the scraped dll
+namespace Unity.Services.UserReporting
+{
+    public interface IUserReporting
+    {
+        public abstract bool HasOngoingReport { get; }
+        public abstract bool SendEventsToAnalytics { get; set; }
+        public abstract bool SendInternalMetrics { get; set; }
+        public abstract void AddAttachmentToReport(string title, string filename, byte[] data, string mediaType = );
+        public abstract void AddDimensionValue(string dimension, string value);
+        public abstract void AddMetadata(string name, string value);
+        public abstract void ClearOngoingReport();
+        public abstract void Configure(Unity.Services.UserReporting.Client.UserReportingClientConfiguration configuration = default(Unity.Services.UserReporting.Client.UserReportingClientConfiguration), string projectIdentifier = default(string));
+        public abstract void CreateNewUserReport(System.Action callback = default(System.Action));
+        public abstract UnityEngine.Texture2D GetLatestScreenshot();
+        public abstract void LogEvent(Unity.Services.UserReporting.Client.UserReportEventLevel level, string message);
+        public abstract void SampleMetric(string name, double value);
+        public abstract void SendUserReport(System.Action<float> progressUpdate, System.Action<bool> result);
+        public abstract void SetEndpoint(string endpoint);
+        public abstract void SetProjectIdentifier(string projectIdentifier = default(string));
+        public abstract void SetReportDescription(string description);
+        public abstract void SetReportSummary(string summaryInputText);
+        public abstract void TakeScreenshot(int maximumWidth, int maximumHeight, object source = default(object));
+    }
+
+    public static class UserReportingService
+    {
+        public static Unity.Services.UserReporting.IUserReporting Instance { get; }
+    }
+}
+
+namespace Unity.Services.UserReporting.Client
+{
+    public enum MetricsGatheringMode
+    {
+        public const Unity.Services.UserReporting.Client.MetricsGatheringMode Automatic = 0;
+        public const Unity.Services.UserReporting.Client.MetricsGatheringMode Disabled = 2;
+        public const Unity.Services.UserReporting.Client.MetricsGatheringMode Manual = 1;
+        public int value__;
+    }
+
+    public enum UserReportEventLevel
+    {
+        public const Unity.Services.UserReporting.Client.UserReportEventLevel Error = 3;
+        public const Unity.Services.UserReporting.Client.UserReportEventLevel Info = 0;
+        public const Unity.Services.UserReporting.Client.UserReportEventLevel Success = 1;
+        public int value__;
+        public const Unity.Services.UserReporting.Client.UserReportEventLevel Warning = 2;
+    }
+
+    public class UserReportingClientConfiguration
+    {
+        public UserReportingClientConfiguration(int maximumEventCount = 100, int maximumMeasureCount = 300, int framesPerMeasure = 60, int maximumScreenshotCount = 10, Unity.Services.UserReporting.Client.MetricsGatheringMode metricsGatheringMode = 0) {}
+    }
+}

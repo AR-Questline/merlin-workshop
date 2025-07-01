@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_GhostInPainting
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 1531199983
+        Data2: 1095367437
+        Data3: -806697038
+        Data4: -488187927
+      Path: event:/SFX/Monsters/SFX_GhostPainting_Idle
+    hurt:
+      Guid:
+        Data1: 585416958
+        Data2: 1187528508
+        Data3: -1323310707
+        Data4: -767046790
+      Path: event:/SFX/Monsters/Barnaclator/SFX_Barnaclator_Hurt
+    die:
+      Guid:
+        Data1: 1582091900
+        Data2: 1189701026
+        Data3: 1156589231
+        Data4: -468715577
+      Path: event:/SFX/Monsters/Barnaclator/SFX_Barnaclator_Die
+    attack:
+      Guid:
+        Data1: -1031038512
+        Data2: 1157724984
+        Data3: 1983528625
+        Data4: 1465615892
+      Path: event:/SFX/Monsters/SFX_GhostPainting_Attack
+    specialAttack:
+      Guid:
+        Data1: -1290222416
+        Data2: 1251558849
+        Data3: -601230421
+        Data4: -261155306
+      Path: event:/SFX/Monsters/Barnaclator/SFX_Barnaclator_Spit
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

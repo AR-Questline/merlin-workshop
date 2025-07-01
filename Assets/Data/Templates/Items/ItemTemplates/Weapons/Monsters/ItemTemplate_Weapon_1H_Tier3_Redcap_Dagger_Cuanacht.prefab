@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4693220096599644081
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5550327546782349009, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: maxDamage
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: -5550327546782349009, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: minDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -5550327546782349009, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: heavyAttackStaminaCost
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: -5550327546782349009, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: lightAttackStaminaCost
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: -5550327546782349009, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: heavyAttackHoldCostPerTick
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: -4011751502619327846, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: dexterityRequired
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_7092060695541249036_631f0ab63c58cf54fa429d912d504760
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: 'tags.Array.data[0]'
+      value: item:tier3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_7092060695541249036_631f0ab63c58cf54fa429d912d504760
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: e39a4633a48cca849a19643e2b1c07a5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: shareableDropPrefab.arReference.address
+      value: 891adf122a3e6f4408aa98d52626fed0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073385374464319258, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: 360f3d559171fcc46855d499fa10deb3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: cc0494c8092a2ec4d9e11b5c454d1828,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Weapon_1H_Tier3_Redcap_Dagger_Cuanacht
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cc0494c8092a2ec4d9e11b5c454d1828, type: 3}

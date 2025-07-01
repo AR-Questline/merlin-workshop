@@ -1,0 +1,258 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5545430941669151807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3383205285082349501}
+  - component: {fileID: -2799901866828636200}
+  - component: {fileID: 6850958447694641624}
+  - component: {fileID: -263300001190304168}
+  - component: {fileID: 4610659802844130123}
+  m_Layer: 6
+  m_Name: Spec_CraftingStation_Cooking_WyrdnightRepeller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3383205285082349501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 674844725341943385}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2799901866828636200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_15646842206880915416_6432d18e7e1d2e447ae99f01bf5e7e7b
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: 2435bce9d4b51ec4bb8caf01e7527e80
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 1
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 0
+--- !u!114 &6850958447694641624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f1d837a85f458c99977714723b45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerDataWrapper:
+    rid: 194031482233160529
+  references:
+    version: 2
+    RefIds:
+    - rid: 194031482233160529
+      type: {class: SimpleMarkerDataWrapper, ns: Awaken.TG.Main.Maps.Markers, asm: TG.Main}
+      data:
+        method: 1
+        explicitData: {fileID: 11400000, guid: 302938ddd20d7e7458dccd4520750801, type: 2}
+        embeddedData:
+          defaultIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          visibleOnMap: 0
+          visibleOnMapUnderFogOfWar: 0
+          compassMarkerType: 0
+          hasMapMarkerOrderOverride: 0
+          mapMarkerOrderOverride: 0
+          ignoreDistanceRequirement: 0
+          ignoreAngleRequirement: 0
+--- !u!114 &-263300001190304168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &4610659802844130123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3ea76cf4d63044cbda5da7a8360c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtTargetOffset: {x: 0, y: 1, z: 0}
+--- !u!1 &6450163457843182349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 674844725341943385}
+  - component: {fileID: 99144922439926330}
+  - component: {fileID: 1064615702901617662}
+  - component: {fileID: 3403849680920460649}
+  - component: {fileID: 7422169238715380458}
+  m_Layer: 0
+  m_Name: Lit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &674844725341943385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3383205285082349501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &99144922439926330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1101b6ceab8d41b2bca5bf213183f501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startEnabled: 1
+--- !u!114 &1064615702901617662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9bb1d38bf154447be73a5355f49a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newState: 2
+  onInteract: 0
+  afterTime: 1
+  minimumTime:
+    <Ticks>k__BackingField: 216000000000
+  atSpecificTime: 1
+  specificTimeType: 1
+  specificTime:
+    <Ticks>k__BackingField: 288000000000
+  useLongerTime: 1
+--- !u!114 &3403849680920460649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01e0828ae4fb044c92d08d1acb35346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabsToOpen:
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ExperimentalCooking
+    tempRef:
+      _guid: 0fb5c07944ea0634095fd97f7d2d34f7
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:RecipeCooking
+    tempRef:
+      _guid: 0fb5c07944ea0634095fd97f7d2d34f7
+  alchemyTabsToOpen:
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:RecipeAlchemy
+    tempRef:
+      _guid: a4fc5c231fe4d9642b31158035e8aa1d
+  foredwellerLocation:
+    _guid: 2c59b7362abb72349acccc252435d7ec
+  foredwellerDialogue:
+    story:
+      _guid: 0420a35a6641be741b17ecaa93688288
+    chapterName: 
+  manualRestTime: 0
+  isUpgraded: 0
+--- !u!114 &7422169238715380458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fb5d20e7816ce46b7359e14438f55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishDelay: 1
+  hideWeapons: 1
+  hideHands: 1

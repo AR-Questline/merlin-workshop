@@ -1,0 +1,233 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1781720145803376954
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: desiredDistanceToTarget
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: 'managedReferences[224801154269446558]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.WaitBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: 'managedReferences[224801154269446563]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.KeepPositionBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: <BaseBehaviours>k__BackingField.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: <CustomBehaviours>k__BackingField.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446558].weight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446563].weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: '<CustomBehaviours>k__BackingField.Array.data[0]'
+      value: 6820257826140586053
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: '<CustomBehaviours>k__BackingField.Array.data[1]'
+      value: 224801154269446558
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: '<CustomBehaviours>k__BackingField.Array.data[2]'
+      value: 224801154269446563
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446558].useCooldown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[6820257826140586053].useCooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446558].untilEndOfFight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446558].cooldownDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446558].waitTimeRange.max
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446558].waitTimeRange.min
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[6820257826140586053].cooldownDuration
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[4765522250244030542].waitTimeRange.max
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[4765522250244030542].waitTimeRange.min
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[6820257826140586053].fireBallProjectile
+      value: 
+      objectReference: {fileID: 4072743105117775005, guid: 1e14ec2a99053be4986cf9d99d20bba1,
+        type: 3}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[6820257826140586053].maxFireBallVelocity
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446563].changeVelocityOnDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446563].chaseVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Run
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446563].closeVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Trot
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[224801154269446563].minimumTimeInStateToStartNewBehaviour
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8383278869581047920, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: managedReferences[6820257826140586053].fireBallInHandPrefab.arReference.address
+      value: 5f04b5de0a1519d44bf78c3545f122c8
+      objectReference: {fileID: 0}
+    - target: {fileID: -440286882116366613, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_7014981361059821521_f173592b40b615646881a33121fc4fcf
+      objectReference: {fileID: 0}
+    - target: {fileID: -440286882116366613, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: displayName.IdOverride
+      value: enemy_monster_ghost_calm
+      objectReference: {fileID: 0}
+    - target: {fileID: 3771896303918913128, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_EnemyMonster_T2_Ghost_Dryad_Calm
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011187036458090350, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 4a1378d3670badd4196ccae5fad7139c
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011187036458090350, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: storyOnDeath._guid
+      value: cffc3eb6cd06b7641ad4c1cc293d5ce0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011187036458090350, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: visualPrefab.address
+      value: cc20be7ce9a86bc459b4a24e858926a5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.165815
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: a52b9094ebd907948b86bd88d61bb936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a52b9094ebd907948b86bd88d61bb936, type: 3}

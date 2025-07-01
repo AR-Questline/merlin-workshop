@@ -1,0 +1,261 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4617839309831937200
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: armor
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: strength
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: maxHealth
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: magicArmor
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: magicDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: meleeDamage
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: templateType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: fightingStyle
+      value: 
+      objectReference: {fileID: 11400000, guid: a448f1f045d50bf459a8942c01a8a0b7,
+        type: 2}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: poiseThreshold
+      value: 24.750002
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: strengthLinear
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: fightingStyle._guid
+      value: a448f1f045d50bf459a8942c01a8a0b7
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: fightingStyle2._guid
+      value: a448f1f045d50bf459a8942c01a8a0b7
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupBurn
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupFull
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupMute
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupSlow
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupStun
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupWeak
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupBleed
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupDrunk
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupPoison
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupConfusion
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupCorruption
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.buildupIntoxicated
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierBurn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierFull
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierMute
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierSlow
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierStun
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierWeak
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierBleed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierDrunk
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierPoison
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierConfusion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierCorruption
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: statusStats.effectModifierIntoxicated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4255101538292336513, guid: af1ac6847ab7db742bbf7a45f2e3b27c,
+        type: 3}
+      propertyPath: m_Name
+      value: NPCTemplate_EnemyMonster_T2_Ghost_Dryad_Cold
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af1ac6847ab7db742bbf7a45f2e3b27c, type: 3}

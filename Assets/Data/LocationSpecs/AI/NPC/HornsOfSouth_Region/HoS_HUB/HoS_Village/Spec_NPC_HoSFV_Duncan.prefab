@@ -1,0 +1,260 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4443325589952417686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5931201620430829565}
+  - component: {fileID: 9102533663763092846}
+  - component: {fileID: -6419443080100583951}
+  - component: {fileID: 5256095575999560270}
+  - component: {fileID: -7732456122480579385}
+  - component: {fileID: -6953877554643885827}
+  - component: {fileID: 8533857148946191262}
+  - component: {fileID: -3333885185493470902}
+  m_Layer: 0
+  m_Name: Spec_NPC_HoSFV_Duncan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5931201620430829565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 100.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9102533663763092846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: npc_fv_duncan
+    ID: Template/displayName_9102533663763092846_a8396c05f2d7aa644bac57ad075b868b
+  tags:
+  - fv:duncan
+  startInteractabilityReference:
+    _enumRef: Awaken.TG.Main.Locations.LocationInteractability, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Hidden
+  prefabReference:
+    address: d820785f7c7fec643bbb3a6ed5a08685
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 1
+--- !u!114 &-6419443080100583951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &5256095575999560270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8874d02432ec45e69923334086ad3e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcTemplate:
+    _guid: 9ec1edc3fc8fef24f83f376bcb6b8994
+  actor:
+    guid: d3fdd007-314c-42f1-b6d6-526beec9a61b
+  storyOnDeath:
+    _guid: 
+  visualPrefab:
+    address: d3d2f9e3abb22d548873e22a99719d8a
+    subObjectName: 
+  simplifiedDeadBodyPrefab:
+    arReference:
+      address: 
+      subObjectName: 
+  shouldSpawnDeathVfx: 1
+  hitVFXReference:
+    arReference:
+      address: 6435b816784ea434589f4b48e31ccf70
+      subObjectName: 
+  criticalHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  backStabHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  <IsNew>k__BackingField: 0
+--- !u!114 &-7732456122480579385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f1d837a85f458c99977714723b45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerDataWrapper:
+    rid: 2189889110350758907
+  references:
+    version: 2
+    RefIds:
+    - rid: 2189889110350758907
+      type: {class: NpcMarkerDataWrapper, ns: Awaken.TG.Main.Maps.Markers, asm: TG.Main}
+      data:
+        method: 1
+        explicitData: {fileID: 11400000, guid: cccb215390a36be4299a728bf07728ff, type: 2}
+        embeddedData:
+          defaultIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          visibleOnMap: 0
+          visibleOnMapUnderFogOfWar: 0
+          compassMarkerType: 0
+          hasMapMarkerOrderOverride: 0
+          mapMarkerOrderOverride: 0
+          ignoreDistanceRequirement: 0
+          ignoreAngleRequirement: 0
+          friendlyMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hostileMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          combatMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hideOutsideOfCombat: 0
+--- !u!114 &-6953877554643885827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c7f98ff5f17be4f9dc7dcad0bf8ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8533857148946191262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37e3c32bf3340a4a89591352ed323a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customDialogueLabel:
+    IdOverride: 
+    ID: Template/customDialogueLabel_8533857148946191262_a8396c05f2d7aa644bac57ad075b868b
+  bookmark:
+    story:
+      _guid: be55d023d47d14447a72a3739821a4ba
+    chapterName: 
+  gesturesWrapper:
+    embedOverrides:
+      gestures: []
+    explicitOverrides:
+      _guid: 
+  viewFocus: {fileID: 0}
+  endStoryDistance: 1
+--- !u!114 &-3333885185493470902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0b19dec2bb2694cbe97e9d85d5ddf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponsAlwaysEquipped: 0
+  <CustomCombatBaseClass>k__BackingField:
+    rid: 8552660329392504847
+  references:
+    version: 2
+    RefIds:
+    - rid: 8552660329392504847
+      type: {class: CustomCombatBaseClass, ns: Awaken.TG.Main.AI.Combat.Attachments.Customs,
+        asm: TG.Main}
+      data:
+        DEBUG_Disable: 0
+        overrideDistanceToReleaseCombatSlotAt: 0
+        releaseCombatSlotAtDistance: 15
+        canBeSlidInto: 1
+        startInSpawn: 0
+        canMoveInSpawn: 0
+        usesCombatMovementAnimations: 1
+        usesAlertMovementAnimations: 0
+        useRandomDelayOnCombatEnter: 1
+        randomDelayOnCombatEnter:
+          min: 0
+          max: 0.6
+        canBePushed: 1

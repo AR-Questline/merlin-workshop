@@ -1,0 +1,774 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf1d4d26921684b9b8da5f2c9a2024, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: 
+  defaultItemAudioContainer:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      audioType: -1
+      armorHitType:
+        _enumRef: 
+      meleeSwing:
+        Guid:
+          Data1: 1378910652
+          Data2: 1104980738
+          Data3: 996442276
+          Data4: -1436978227
+        Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Swing
+      meleeSwingHeavy:
+        Guid:
+          Data1: 731160112
+          Data2: 1244118261
+          Data3: 399336612
+          Data4: 1637935125
+        Path: event:/SFX/Weapon/Axe/SFX_Weapon_Axe_Swing
+      meleeDashAttack:
+        Guid:
+          Data1: 118450151
+          Data2: 1321743403
+          Data3: -513369934
+          Data4: -335015989
+        Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Swing
+      meleeEquip:
+        Guid:
+          Data1: -680445402
+          Data2: 1245053561
+          Data3: 60158399
+          Data4: 845717759
+        Path: event:/SFX/Weapon/SFX_Weapon_Equip_Generic
+      meleeUnEquip:
+        Guid:
+          Data1: -680445402
+          Data2: 1245053561
+          Data3: 60158399
+          Data4: 845717759
+        Path: event:/SFX/Weapon/SFX_Weapon_Equip_Generic
+      meleeHit:
+        Guid:
+          Data1: 1743090892
+          Data2: 1095485630
+          Data3: -1703244353
+          Data4: 1151489930
+        Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+      pommelHit:
+        Guid:
+          Data1: -281756977
+          Data2: 1141817369
+          Data3: -453493105
+          Data4: -1804473654
+        Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Block
+      dragBow:
+        Guid:
+          Data1: 1584549594
+          Data2: 1250799994
+          Data3: 1396184731
+          Data4: 1730026203
+        Path: event:/SFX/Weapon/Bow/SFX_Weapon_Bow_Creak
+      equipBow:
+        Guid:
+          Data1: -680445402
+          Data2: 1245053561
+          Data3: 60158399
+          Data4: 845717759
+        Path: event:/SFX/Weapon/SFX_Weapon_Equip_Generic
+      unEquipBow:
+        Guid:
+          Data1: -680445402
+          Data2: 1245053561
+          Data3: 60158399
+          Data4: 845717759
+        Path: event:/SFX/Weapon/SFX_Weapon_Equip_Generic
+      releaseBow:
+        Guid:
+          Data1: -258791582
+          Data2: 1230861654
+          Data3: 814203791
+          Data4: -792688822
+        Path: event:/SFX/Weapon/Bow/SFX_Weapon_Bow_ArrowRelease
+      arrowSwish:
+        Guid:
+          Data1: -258791582
+          Data2: 1230861654
+          Data3: 814203791
+          Data4: -792688822
+        Path: event:/SFX/Weapon/Bow/SFX_Weapon_Bow_ArrowRelease
+      castBegun:
+        Guid:
+          Data1: -61658480
+          Data2: 1088986484
+          Data3: 1484637848
+          Data4: -2085460316
+        Path: event:/SFX/Weapon/Magic/SFX_CastBegin
+      castCharging:
+        Guid:
+          Data1: -165363902
+          Data2: 1261953265
+          Data3: 2035401124
+          Data4: -580296805
+        Path: event:/SFX/Weapon/Magic/SFX_CastCharging
+      castFullyCharged:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castCancel:
+        Guid:
+          Data1: -61658480
+          Data2: 1088986484
+          Data3: 1484637848
+          Data4: -2085460316
+        Path: event:/SFX/Weapon/Magic/SFX_CastBegin
+      castRelease:
+        Guid:
+          Data1: 218200869
+          Data2: 1311993860
+          Data3: -14984020
+          Data4: 1242440257
+        Path: event:/SFX/Weapon/Magic/SFX_CastRelease
+      castHeavyRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      equipMagic:
+        Guid:
+          Data1: -264416810
+          Data2: 1303593332
+          Data3: -133937753
+          Data4: 2075992879
+        Path: event:/SFX/Player/EQ/SFX_Player_PickItem_PaperLight
+      unEquipMagic:
+        Guid:
+          Data1: -680445402
+          Data2: 1245053561
+          Data3: 60158399
+          Data4: 845717759
+        Path: event:/SFX/Weapon/SFX_Weapon_Equip_Generic
+      magicHeldIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldChargedIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      projectileIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHit:
+        Guid:
+          Data1: 1452319692
+          Data2: 1200231055
+          Data3: -1148459343
+          Data4: -1497214510
+        Path: event:/SFX/Weapon/Magic/SFX_CastExplode
+      magicFailedCast:
+        Guid:
+          Data1: 1805965204
+          Data2: 1224046316
+          Data3: -1477652044
+          Data4: -989441214
+        Path: event:/SFX/UI/SFX_ManaFail
+      sheathe:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unsheathe:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      onBlockDamage:
+        Guid:
+          Data1: 127245772
+          Data2: 1290882058
+          Data3: -551672188
+          Data4: -1135013561
+        Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+      parrySwing:
+        Guid:
+          Data1: 957073650
+          Data2: 1157879226
+          Data3: 1079608196
+          Data4: -2105185540
+        Path: event:/SFX/Weapon/Fist/SFX_Fist_Swing
+      pommelSwing:
+        Guid:
+          Data1: 957073650
+          Data2: 1157879226
+          Data3: 1079608196
+          Data4: -2105185540
+        Path: event:/SFX/Weapon/Fist/SFX_Fist_Swing
+      footStep:
+        Guid:
+          Data1: 293947858
+          Data2: 1106722876
+          Data3: -1255190645
+          Data4: 1183351469
+        Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy_Short_Ground
+      bodyMovement:
+        Guid:
+          Data1: -332394245
+          Data2: 1138175982
+          Data3: 337941125
+          Data4: -829452689
+        Path: event:/SFX/Player/SFX_Player_BodyMovement
+      bodyMovementFast:
+        Guid:
+          Data1: 1129904607
+          Data2: 1304546702
+          Data3: -1083589477
+          Data4: 1978527544
+        Path: event:/SFX/Player/SFX_Player_BodyMovement _Fast
+      equipArmor:
+        Guid:
+          Data1: -680445402
+          Data2: 1245053561
+          Data3: 60158399
+          Data4: 845717759
+        Path: event:/SFX/Weapon/SFX_Weapon_Equip_Generic
+      unEquipArmor:
+        Guid:
+          Data1: -680445402
+          Data2: 1245053561
+          Data3: 60158399
+          Data4: 845717759
+        Path: event:/SFX/Weapon/SFX_Weapon_Equip_Generic
+      useItem:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      pickupItem:
+        Guid:
+          Data1: -191402363
+          Data2: 1086553513
+          Data3: -1154952280
+          Data4: 464724551
+        Path: event:/SFX/Player/EQ/SFX_Player_PickItem_Generic
+      dropItem:
+        Guid:
+          Data1: -925967327
+          Data2: 1170103361
+          Data3: -830037365
+          Data4: 2016954332
+        Path: event:/SFX/Player/EQ/SFX_Player_DropItem_Generic
+      specialAttackSwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+  defaultAliveAudioContainer:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      audioType: -1
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: -479076728
+          Data2: 1195657135
+          Data3: -100308569
+          Data4: -765717713
+        Path: event:/SFX/Humanoids/SFX_Enemies_Hum_Male_Hurt
+      die:
+        Guid:
+          Data1: 520302013
+          Data2: 1268322300
+          Data3: -767438690
+          Data4: 1515910982
+        Path: event:/SFX/Humanoids/SFX_Enemies_Hum_Male_Die
+      attack:
+        Guid:
+          Data1: 1348554677
+          Data2: 1131513912
+          Data3: 596853167
+          Data4: -1589919940
+        Path: event:/SFX/Humanoids/SFX_Enemies_Hum_Male_Attack
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: -668078404
+          Data2: 1194855155
+          Data3: 1631357631
+          Data4: 733519341
+        Path: event:/SFX/Player/SFX_Player_Dash
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+  defaultEnemyFootStep:
+    Guid:
+      Data1: -1058847788
+      Data2: 1092211816
+      Data3: 83581631
+      Data4: -1599002105
+    Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy
+  heroHitBonusAudio:
+    Guid:
+      Data1: 1186170078
+      Data2: 1179347641
+      Data3: -484367218
+      Data4: 2138540456
+    Path: event:/SFX/Player/SFX_Player_Hit
+  heroLandedSound:
+    Guid:
+      Data1: 1214204906
+      Data2: 1235131907
+      Data3: 1786776994
+      Data4: -551175891
+    Path: event:/SFX/Footstep/FootstepPlayer/FTS_Player
+  attackOutsideFOVWarningSound:
+    Guid:
+      Data1: 202037353
+      Data2: 1300928444
+      Data3: 2076868250
+      Data4: 532718117
+    Path: event:/SFX/Weapon/SFX_Combat_SpatialAwareness
+  trespassingWarning:
+    Guid:
+      Data1: 1482463997
+      Data2: 1329122045
+      Data3: -1111906372
+      Data4: 1579936405
+    Path: event:/SFX/UI/Notifications/SFX_Trespassing_Zone
+  trespassingDetection:
+    Guid:
+      Data1: -261697141
+      Data2: 1277925823
+      Data3: -935005808
+      Data4: -1978234689
+    Path: event:/SFX/UI/Notifications/SFX_Trespassing_Detected
+  startGameSound:
+    Guid:
+      Data1: -709994360
+      Data2: 1241410886
+      Data3: 2042515364
+      Data4: -829987218
+    Path: event:/SFX/UI/SFX_StartGame
+  lightNegativeFeedbackSound:
+    Guid:
+      Data1: -2060042732
+      Data2: 1254879255
+      Data3: -146001527
+      Data4: -1911158055
+    Path: event:/SFX/UI/SFX_NegativeFeedbackLight
+  strongNegativeFeedbackSound:
+    Guid:
+      Data1: 1939969547
+      Data2: 1332703653
+      Data3: 472887709
+      Data4: -1791109164
+    Path: event:/SFX/UI/SFX_NegativeFeedbackStrong
+  tabSelectedSound:
+    Guid:
+      Data1: -1809323402
+      Data2: 1281920374
+      Data3: -1042865782
+      Data4: 54421763
+    Path: event:/SFX/UI/SFX_ChangeTab
+  restoreDefaults:
+    Guid:
+      Data1: -282869971
+      Data2: 1143839934
+      Data3: 471712933
+      Data4: 541051115
+    Path: event:/SFX/UI/SFX_RestoreDefaults
+  buttonSelectedSound:
+    Guid:
+      Data1: 857139402
+      Data2: 1074900428
+      Data3: -849544055
+      Data4: -862001173
+    Path: event:/SFX/UI/SFX_Hoover
+  buttonClickedSound:
+    Guid:
+      Data1: 639492081
+      Data2: 1085449584
+      Data3: 1665598641
+      Data4: -50990707
+    Path: event:/SFX/UI/SFX_ClickButton
+  buttonAcceptSound:
+    Guid:
+      Data1: -1956039713
+      Data2: 1171624760
+      Data3: -1576333169
+      Data4: 253287726
+    Path: event:/SFX/UI/SFX_Accept
+  buttonApplySound:
+    Guid:
+      Data1: -1653325681
+      Data2: 1210984244
+      Data3: -1564848736
+      Data4: 201000731
+    Path: event:/SFX/UI/SFX_ClickApply
+  switchSlotSound:
+    Guid:
+      Data1: 1815985265
+      Data2: 1273342724
+      Data3: 2119989405
+      Data4: -1470974698
+    Path: event:/SFX/UI/SFX_SwitchSlot
+  defaultPromptAudio:
+    keyDownSound:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    keyUpSound:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    tapSound:
+      Guid:
+        Data1: -1956039713
+        Data2: 1171624760
+        Data3: -1576333169
+        Data4: 253287726
+      Path: event:/SFX/UI/SFX_Accept
+  craftingAudio:
+    createHoldSound:
+      Guid:
+        Data1: -646183059
+        Data2: 1151579726
+        Data3: -1606252147
+        Data4: 266696754
+      Path: event:/SFX/UI/Cooking/SFX_CookingLoad
+    craftingResultRegular:
+      Guid:
+        Data1: -1371172438
+        Data2: 1171033542
+        Data3: 340475309
+        Data4: -423035390
+      Path: event:/SFX/UI/Crafting/SFX_ResultRegular
+    craftingResultGreat:
+      Guid:
+        Data1: -1655695595
+        Data2: 1205900635
+        Data3: 1930150073
+        Data4: 824470639
+      Path: event:/SFX/UI/Crafting/SFX_ResultGreat
+    craftingResultPoor:
+      Guid:
+        Data1: -587811671
+        Data2: 1211813995
+        Data3: -1012053853
+        Data4: -1840495275
+      Path: event:/SFX/UI/Crafting/SFX_ResultPoor
+  expAudio:
+    priority: 0
+    eventReference:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+  itemAudio:
+    priority: 1
+    eventReference:
+      Guid:
+        Data1: -191402363
+        Data2: 1086553513
+        Data3: -1154952280
+        Data4: 464724551
+      Path: event:/EQ/SFX_Player_PickItem_Generic
+  locationAudio:
+    priority: 4
+    eventReference:
+      Guid:
+        Data1: 1703192336
+        Data2: 1266204328
+        Data3: 1500082874
+        Data4: 327437472
+      Path: event:/SFX/UI/Notifications/SFX_NewLocation
+  specialItemAudio:
+    priority: 3
+    eventReference:
+      Guid:
+        Data1: -1551966088
+        Data2: 1133693885
+        Data3: -457946745
+        Data4: -1890608508
+      Path: event:/SFX/UI/Notifications/SFX_ItemSpecial
+  proficiencyAudio:
+    priority: 5
+    eventReference:
+      Guid:
+        Data1: 882306487
+        Data2: 1224543599
+        Data3: -1624312662
+        Data4: -312648292
+      Path: event:/SFX/UI/Notifications/SFX_ProficiencyUp
+  levelUpAudio:
+    priority: 8
+    eventReference:
+      Guid:
+        Data1: -1512753083
+        Data2: 1317230929
+        Data3: 1143951525
+        Data4: -1748094763
+      Path: event:/SFX/UI/Notifications/SFX_LevelUp
+  questAudio:
+    <SoundPriority>k__BackingField: 7
+    <QuestTakenSound>k__BackingField:
+      Guid:
+        Data1: 1627463505
+        Data2: 1169360775
+        Data3: -481731941
+        Data4: -1351932466
+      Path: event:/SFX/UI/Notifications/SFX_NewQuest
+    <QuestCompletedSound>k__BackingField:
+      Guid:
+        Data1: 1627463505
+        Data2: 1169360775
+        Data3: -481731941
+        Data4: -1351932466
+      Path: event:/SFX/UI/Notifications/SFX_NewQuest
+    <QuestFailedSound>k__BackingField:
+      Guid:
+        Data1: 630965377
+        Data2: 1273032696
+        Data3: 1158125238
+        Data4: -2058272729
+      Path: event:/SFX/UI/Notifications/SFX_Objective_Fail
+  objectiveAudio:
+    <SoundPriority>k__BackingField: 6
+    <ObjectiveChangedSound>k__BackingField:
+      Guid:
+        Data1: -333853915
+        Data2: 1186986901
+        Data3: 1280175803
+        Data4: -1247572830
+      Path: event:/SFX/UI/Notifications/SFX_Objective_Change
+    <ObjectiveCompletedSound>k__BackingField:
+      Guid:
+        Data1: -790220736
+        Data2: 1192884946
+        Data3: 1361052289
+        Data4: 1657496507
+      Path: event:/SFX/UI/Notifications/SFX_Objective_Complete
+    <ObjectiveFailedSound>k__BackingField:
+      Guid:
+        Data1: 630965377
+        Data2: 1273032696
+        Data3: 1158125238
+        Data4: -2058272729
+      Path: event:/SFX/UI/Notifications/SFX_Objective_Fail
+  recipeAudio:
+    priority: 1
+    eventReference:
+      Guid:
+        Data1: 78498978
+        Data2: 1093052048
+        Data3: -661108037
+        Data4: 2108951212
+      Path: event:/SFX/UI/SFX_Recipe
+  journalAudio:
+    priority: 2
+    eventReference:
+      Guid:
+        Data1: -1926707987
+        Data2: 1136593717
+        Data3: 1954662838
+        Data4: 897997268
+      Path: event:/SFX/UI/Notifications/SFX_Journal_NewEntry
+  wyrdInfoAudio:
+    priority: 9
+    eventReference:
+      Guid:
+        Data1: -1551966088
+        Data2: 1133693885
+        Data3: -457946745
+        Data4: -1890608508
+      Path: event:/SFX/UI/Notifications/SFX_ItemSpecial
+  rainIntensityMultiplierWhenUnderRoof: 0.5
+  rainIntensityMultiplierWhenUnderWater: 0.2
+  fishingAudio:
+    music: []
+    ambient: []
+    snapshots: []
+    rodCastingStart:
+      Guid:
+        Data1: -865467506
+        Data2: 1150916434
+        Data3: -1701937526
+        Data4: 2040371936
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_RodCasting_Start
+    rodCastingThrow:
+      Guid:
+        Data1: -1580382381
+        Data2: 1117859546
+        Data3: -1035361405
+        Data4: 1977112093
+      Path: event:/SFX/UI/Fishing/SFX_FishingRod_Casting_Throw
+    rodCatch:
+      Guid:
+        Data1: -497151631
+        Data2: 1313246793
+        Data3: 2101800124
+        Data4: -391686234
+      Path: event:/SFX/UI/Fishing/SFX_FishingRod_Catch
+    fishingRodStruggling:
+      Guid:
+        Data1: 1198869408
+        Data2: 1306997153
+        Data3: -1916869221
+        Data4: 1361008012
+      Path: event:/SFX/UI/Fishing/SFX_FishingRod_Struggling
+    bobberHitWater:
+      Guid:
+        Data1: -1246995955
+        Data2: 1257501554
+        Data3: -1518082902
+        Data4: -1572406984
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_Bobber_HitWater
+    bobberSubmergeWithCatch:
+      Guid:
+        Data1: -27141836
+        Data2: 1260858860
+        Data3: -100942701
+        Data4: 1283041322
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_Bobber_Submegre_WithCatch
+    bobberSubmergeFakeCatch:
+      Guid:
+        Data1: -2113664103
+        Data2: 1128168730
+        Data3: 1534507153
+        Data4: -1974076383
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_Bobber_Submegre_FakeCatch
+    catchGarbage:
+      Guid:
+        Data1: 722989426
+        Data2: 1123434155
+        Data3: -806328394
+        Data4: -1840076793
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_CatchGarbage
+    catchCommonFish:
+      Guid:
+        Data1: 849867039
+        Data2: 1269089266
+        Data3: -1437751412
+        Data4: -1403023810
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_CatchCommonFish
+    catchUncommonFish:
+      Guid:
+        Data1: -781212491
+        Data2: 1150249282
+        Data3: 564773050
+        Data4: -905461344
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_CatchUncommonFish
+    catchRareFish:
+      Guid:
+        Data1: -804774502
+        Data2: 1143090013
+        Data3: 601895087
+        Data4: -1210449524
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_CatchFish_Special
+    catchLegendaryFish:
+      Guid:
+        Data1: -188646262
+        Data2: 1149147234
+        Data3: 764957326
+        Data4: 1644295597
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_CatchLegendaryFish
+    lineBreak:
+      Guid:
+        Data1: 1149480863
+        Data2: 1131557608
+        Data3: -1969997905
+        Data4: 272387854
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_LineBreak
+    fishFighting:
+      Guid:
+        Data1: -583984935
+        Data2: 1211894998
+        Data3: -1826693991
+        Data4: 2122082391
+      Path: event:/SFX/UI/Fishing/SFX_Fishing_FishWaterSplash
+  statusAudioMap: {fileID: 11400000, guid: 0efb6260a722b8547aa33e19291c4604, type: 2}
+  references:
+    version: 2
+    RefIds: []

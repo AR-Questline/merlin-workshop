@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: RandomShieldPictsTier1
+  m_EditorClassIdentifier: 
+  table:
+    rid: 451728331579850793
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 451728331579850793
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 451728331579850794
+    - rid: 451728331579850794
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 0
+        loots:
+        - loot:
+            rid: 451728331579850904
+          weight: 1
+        - loot:
+            rid: 451728331579850906
+          weight: 2
+    - rid: 451728331579850904
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: b265fda98186db84d8d1d8afee2b1505
+    - rid: 451728331579850906
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 227c79570b8d53e489352ff1219b2990

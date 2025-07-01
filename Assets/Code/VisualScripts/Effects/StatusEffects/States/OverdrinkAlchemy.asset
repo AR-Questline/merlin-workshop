@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OverdrinkAlchemy
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-60.4924,"y":343.4211},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-498.0,"y":-95.0},"guid":"975ad57d-21ae-4a5f-9c28-61ab35b17e23","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"tweakType":"Add","Type":"Learn","defaultValues":{},"position":{"x":299.0,"y":45.0},"guid":"da14d9f4-f608-4e49-963f-4eaf266697b2","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.StatModifierUnit","$id":"11"},{"defaultValues":{},"position":{"x":-151.0,"y":47.0},"guid":"1c2ae97f-f4cc-422b-ba90-d87e2e5697e5","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"13"},{"defaultValues":{},"position":{"x":59.0,"y":-15.0},"guid":"755508b1-4f42-4f7a-96b9-2d0588216db6","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.GetStat","$id":"15"},{"name":"StatModifier","defaultValues":{},"position":{"x":-62.0,"y":174.0},"guid":"91a9338d-7c35-4351-9a6c-415eb9c25db4","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"17"},{"defaultValues":{},"position":{"x":121.0,"y":214.0},"guid":"9bd85ae0-19da-4662-9492-550dbdcc50ba","$version":"A","$type":"Unity.VisualScripting.GenericMultiply","$id":"19"},{"type":"System.Single","value":{"$content":-1.0,"$type":"System.Single"},"defaultValues":{},"position":{"x":-12.0,"y":279.0},"guid":"b58ad14d-a15d-44c5-8d68-93dadec46176","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"21"},{"reference":{"_enumRef":"Awaken.TG.Main.General.StatTypes.CharacterStatType,
+      TG.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:MaxMana"},"defaultValues":{},"position":{"x":-134.0,"y":-66.0},"guid":"d8fe2a0c-6bce-427e-bded-739bc055aa4a","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeLiteral","$id":"23"},{"sourceUnit":{"$ref":"15"},"sourceKey":"stat","destinationUnit":{"$ref":"11"},"destinationKey":"stat","guid":"ec863e9c-62a5-47fb-ae98-7743a56c2129","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"owner","destinationUnit":{"$ref":"15"},"destinationKey":"iWithStat","guid":"aefcbd9b-026b-44d3-a953-1b838fc5dddb","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"output","destinationUnit":{"$ref":"19"},"destinationKey":"b","guid":"fde0b14f-a61e-4c9e-8560-1ef4b96422d3","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"product","destinationUnit":{"$ref":"11"},"destinationKey":"value","guid":"fc853d83-fd2f-4177-9c64-5a2d9f5afc0a","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"17"},"sourceKey":"value","destinationUnit":{"$ref":"19"},"destinationKey":"a","guid":"044b2b48-3489-419c-a712-49c4021e2c83","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"23"},"sourceKey":"statType","destinationUnit":{"$ref":"15"},"destinationKey":"statType","guid":"159bf8ed-9893-4713-bc7f-7937791b2942","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

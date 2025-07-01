@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="unity-theme-env-variables" class="unity-theme-env-variables">
+        <ui:VisualElement name="header" class="reorderable-list__header">
+            <ui:Image name="header-icon" />
+            <ui:Label text="Label" name="header-label" />
+        </ui:VisualElement>
+        <ui:ScrollView name="listView" class="reorderable-list" style="min-height: 30px;" />
+        <ui:VisualElement name="footer" class="reorderable-list-footer reorderable-list__footer" style="display: flex;">
+            <ui:Button text="-" name="removeButton" />
+            <ui:Button text="+" name="addButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

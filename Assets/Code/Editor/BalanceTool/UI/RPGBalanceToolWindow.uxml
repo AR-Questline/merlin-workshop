@@ -1,0 +1,170 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Code/Editor/BalanceTool/UI/RPGBalanceToolStyle.uss?fileID=7433441132597879392&amp;guid=06558487997df4540b837e13291501f1&amp;type=3#RPGBalanceToolStyle" />
+    <Style src="project://database/Assets/Code/Editor/BalanceTool/UI/TGCommonEditorStyle.uss?fileID=7433441132597879392&amp;guid=b405cc04350debb4682cf497f19ba36b&amp;type=3#TGCommonEditorStyle" />
+    <engine:Label text="RPG Balance Tool" name="header" class="header" style="padding-left: 5px; padding-bottom: 10px;" />
+    <engine:VisualElement name="stats-preset-root" style="flex-grow: 0; flex-shrink: 0;">
+        <engine:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row;">
+            <editor:ObjectField label="Stats Preset" allow-scene-objects="false" value="project://database/Assets/Resources/Data/BalanceTool/StatsPresets/DefaultStatsPreset.asset?fileID=11400000&amp;guid=51a537af67288ac45b6e1b03e4ceda29&amp;type=2#DefaultStatsPreset" type="Awaken.TG.Editor.BalanceTool.Presets.BalanceToolStatsPreset, TG.Editor" name="stats-preset" />
+            <engine:Button text="Reset Player stats" name="reset-stats" tooltip="Reset player stats to preset configuration" />
+            <engine:Button text="Save current stats" name="save-stats" tooltip="Save current stats, modifiers, add per level, equipment" />
+        </engine:VisualElement>
+        <editor:ObjectField label="Object Field" name="hero-template" value="project://database/Assets/Data/Templates/Heroes/HeroTemplate.prefab?fileID=743871136994654485&amp;guid=859337b15877f7a49af3715724cb9487&amp;type=3#HeroTemplate" style="display: none;" />
+    </engine:VisualElement>
+    <engine:VisualElement name="root" style="flex-direction: row; flex-shrink: 1; flex-grow: 1;">
+        <engine:ScrollView style="width: 30%; max-width: 600px;">
+            <engine:VisualElement name="input">
+                <engine:VisualElement style="flex-direction: row;">
+                    <engine:VisualElement name="computed" class="darker-bg" style="margin-top: 5px; padding-top: 0; width: 40%;">
+                        <engine:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                            <engine:Label text="Player Stats" name="computed-header" class="header" style="-unity-text-align: middle-left;" />
+                            <engine:VisualElement style="flex-grow: 1; flex-direction: row-reverse;">
+                                <engine:Label text="0" name="player-level-value" selectable="true" class="result-value" style="align-items: stretch; -unity-text-align: middle-left;" />
+                                <engine:Label text="lvl." class="result-label" />
+                            </engine:VisualElement>
+                        </engine:VisualElement>
+                        <engine:VisualElement class="bottom-border" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                            <engine:Label text="Effective HP" tooltip="Include armor damage reduction" class="result-label" />
+                            <engine:Label text="0" name="ehp-value" selectable="true" class="result-value" style="align-items: stretch;" />
+                        </engine:VisualElement>
+                        <engine:VisualElement class="bottom-border" style="flex-grow: 1; flex-direction: row; justify-content: space-between; border-bottom-width: 2px;">
+                            <engine:Label text="Effective SP" class="result-label" />
+                            <engine:Label text="0" name="esp-value" selectable="true" class="result-value" style="align-items: stretch;" />
+                        </engine:VisualElement>
+                        <engine:VisualElement class="bottom-border" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                            <engine:Label text="Light hit SP cost" tooltip="Based on equipped weapon and STR attack cost (for melee) or DEX attack cost (for ranged)" class="result-label" />
+                            <engine:Label text="0" name="light-sp-cost" selectable="true" class="result-value" style="align-items: stretch;" />
+                        </engine:VisualElement>
+                        <engine:VisualElement class="bottom-border" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                            <engine:Label text="Heavy hit SP cost" tooltip="Based on equipped weapon and STR attack cost (for melee) or DEX attack cost (for ranged)" class="result-label" />
+                            <engine:Label text="0" name="heavy-sp-cost" selectable="true" class="result-value" style="align-items: stretch;" />
+                        </engine:VisualElement>
+                        <engine:VisualElement class="bottom-border" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                            <engine:Label text="Weapon avg damage" class="result-label" />
+                            <engine:Label text="0" name="dmg-value" selectable="true" class="result-value" style="align-items: stretch;" />
+                        </engine:VisualElement>
+                        <engine:VisualElement class="bottom-border" style="flex-grow: 1; flex-direction: row; justify-content: space-between; border-bottom-width: 2px;">
+                            <engine:Label text="Damage output" tooltip="Include weapon proficiency and strength multiplier" class="result-label" />
+                            <engine:Label text="0" name="dmg-output-value" selectable="true" class="result-value" style="align-items: stretch;" />
+                        </engine:VisualElement>
+                        <engine:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                            <engine:Label text="Armor value" tooltip="Include armor proficiency" class="result-label" />
+                            <engine:Label text="0" name="armor-value" selectable="true" class="result-value" style="align-items: stretch;" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                    <engine:VisualElement class="darker-bg" style="flex-grow: 1;">
+                        <engine:MultiColumnListView name="general-modifiers" show-foldout-header="true" header-title="Modifiers" allow-add="false" allow-remove="false" show-bound-collection-size="false" style="flex-grow: 1;">
+                            <engine:Columns resize-preview="true">
+                                <engine:Column name="stat" title="Name" stretchable="true" min-width="120px" />
+                                <engine:Column name="base-value" title="Base Value" visible="false" min-width="60px" stretchable="true" />
+                                <engine:Column name="modifiers" title="Modifiers" min-width="60px" stretchable="true" />
+                                <engine:Column name="effective" title="Effective" visible="false" min-width="60px" stretchable="true" />
+                                <engine:Column name="notes" title="Notes" width="150px" visible="false" stretchable="true" />
+                            </engine:Columns>
+                        </engine:MultiColumnListView>
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                <engine:VisualElement class="darker-bg">
+                    <engine:Foldout text="Equipment" name="equipment">
+                        <editor:ObjectField label="Main Hand" allow-scene-objects="false" name="main-hand" value="project://database/Assets/Data/Templates/Items/ItemTemplates/Weapons/Melee/Fists/ItemTemplate_Weapon_1H_Tier0_Hero_Fists_MainHand.prefab?fileID=9174666264328438791&amp;guid=f254fb3419610b6429a08b2d0e6d9e70&amp;type=3#ItemTemplate_Weapon_1H_Tier0_Hero_Fists_MainHand" />
+                        <engine:Foldout text="Armor" name="armors">
+                            <editor:ObjectField label="Head" name="head" />
+                            <editor:ObjectField label="Body" name="body" />
+                            <editor:ObjectField label="Arms" name="arms" />
+                            <editor:ObjectField label="Legs" name="legs" />
+                            <editor:ObjectField label="Feet" name="feet" />
+                            <editor:ObjectField label="Cape" name="cape" />
+                        </engine:Foldout>
+                        <engine:Foldout text="Jewelry" name="jewelry" style="display: none;">
+                            <editor:ObjectField label="Amulet" name="amulet" />
+                            <editor:ObjectField label="RingA" name="ringA" />
+                            <editor:ObjectField label="RingB" name="ringB" />
+                        </engine:Foldout>
+                    </engine:Foldout>
+                </engine:VisualElement>
+                <engine:VisualElement class="darker-bg">
+                    <engine:MultiColumnListView name="player-base-stats" reorderable="true" show-foldout-header="true" header-title="Base stats" allow-add="false" allow-remove="false" show-bound-collection-size="false">
+                        <engine:Columns resize-preview="true">
+                            <engine:Column name="stat" title="Name" min-width="150px" stretchable="true" />
+                            <engine:Column name="base-value" title="Base Value" min-width="60px" stretchable="true" />
+                            <engine:Column name="modifiers" title="Modifiers" min-width="60px" stretchable="true" />
+                            <engine:Column name="effective" title="Effective" min-width="60px" stretchable="true" />
+                            <engine:Column name="notes" title="Notes" width="150px" visible="false" stretchable="true" />
+                        </engine:Columns>
+                    </engine:MultiColumnListView>
+                </engine:VisualElement>
+                <engine:VisualElement class="darker-bg">
+                    <engine:MultiColumnListView name="additional-stats" reorderable="true" show-foldout-header="true" header-title="Additional Stats" allow-add="false" allow-remove="false" show-bound-collection-size="false">
+                        <engine:Columns resize-preview="true">
+                            <engine:Column name="stat" title="Name" stretchable="true" min-width="200px" />
+                            <engine:Column name="base-value" title="Base Value" min-width="60px" visible="true" stretchable="true" />
+                            <engine:Column name="modifiers" title="Modifiers" stretchable="true" min-width="60px" />
+                            <engine:Column name="add-per-level" title="Add per Level" stretchable="true" min-width="60px" />
+                            <engine:Column name="effective" title="Effective" stretchable="true" min-width="60px" />
+                            <engine:Column name="notes" title="Notes" width="100px" stretchable="true" visible="false" />
+                        </engine:Columns>
+                    </engine:MultiColumnListView>
+                </engine:VisualElement>
+                <engine:VisualElement class="darker-bg">
+                    <engine:MultiColumnListView name="proficiency-stats" reorderable="true" show-foldout-header="true" header-title="Proficiency Stats" allow-remove="false" allow-add="false" show-bound-collection-size="false">
+                        <engine:Columns resize-preview="true">
+                            <engine:Column name="stat" title="Name" min-width="150px" stretchable="true" />
+                            <engine:Column name="base-value" title="Base Value" min-width="60px" stretchable="true" />
+                            <engine:Column name="modifiers" title="Modifiers" stretchable="true" min-width="60px" />
+                            <engine:Column name="effective" title="Effective" stretchable="true" min-width="60px" />
+                            <engine:Column name="notes" title="Notes" width="150px" stretchable="true" visible="false" />
+                        </engine:Columns>
+                    </engine:MultiColumnListView>
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:ScrollView>
+        <engine:VisualElement name="output" class="darker-bg" style="background-color: rgba(53, 53, 53, 0); margin-bottom: 0; padding-bottom: 0; flex-grow: 1;">
+            <engine:Label text="NPCs" name="output-header" class="header" />
+            <editor:Toolbar name="output-toolbar">
+                <editor:ToolbarSearchField name="search-field" />
+                <editor:ToolbarSpacer />
+                <engine:Label text="Templates:" style="-unity-text-align: middle-left;" />
+                <editor:ToolbarToggle label="Hide abstracts" name="abstract-visible" value="true" tooltip="Toggle to hide all abstract npc templates" style="width: 100px; -unity-text-align: middle-left;" />
+                <editor:ToolbarToggle label="Hide fleeing npcs" name="fleeing-visible" value="true" tooltip="Toggle to hide all npc who has fleeing combat archetype" style="width: 115px; -unity-text-align: middle-left;" />
+                <editor:ToolbarToggle label="Hide incorrect" name="incorrect-visible" value="true" tooltip="Toggle to hide all npc who hasn&apos;t any weapon" style="width: 100px; -unity-text-align: middle-left;" />
+                <engine:VisualElement style="flex-grow: 1; flex-direction: row-reverse;">
+                    <editor:ToolbarButton text="Save to templates" name="save-templates" tooltip="Only save currently applied stats" style="-unity-text-align: middle-left;" />
+                    <editor:ToolbarButton text="Apply all" name="apply-all" tooltip="Apply all stats changes to template then save it" style="-unity-text-align: middle-left;" />
+                    <editor:ToolbarButton text="Refresh NPCs" name="refresh-npcs" tooltip="In case of danger try to refresh NPCs list" style="-unity-text-align: middle-left;" />
+                </engine:VisualElement>
+            </editor:Toolbar>
+            <engine:MultiColumnListView name="output-tree" show-alternating-row-backgrounds="ContentOnly" fixed-item-height="40" allow-add="false" allow-remove="false" show-bound-collection-size="false" sorting-enabled="true" style="-unity-text-align: middle-left;">
+                <engine:Columns reorderable="false">
+                    <engine:Column name="name" title="Name" stretchable="true" min-width="250px" />
+                    <engine:Column name="template" title="Template" stretchable="true" min-width="50px" />
+                    <engine:Column name="hp" title="HP" stretchable="true" min-width="50px" />
+                    <engine:Column title="Effective HP" name="effective-hp" min-width="50px" stretchable="true" />
+                    <engine:Column title="Armor" name="armor" min-width="50px" stretchable="true" />
+                    <engine:Column name="avg-arm" title="Average ARM" min-width="50px" stretchable="true" />
+                    <engine:Column title="Average melee weapon mult" name="avg-melee-mult" min-width="50px" stretchable="true" />
+                    <engine:Column title="Average ranged weapon mult" name="avg-ranged-mult" min-width="50px" stretchable="true" />
+                    <engine:Column title="Average magic weapon mult" name="avg-magic-mult" min-width="50px" stretchable="true" />
+                    <engine:Column title="Melee Damage" name="melee-damage" min-width="50px" stretchable="true" />
+                    <engine:Column title="Ranged Damage" name="ranged-damage" min-width="50px" stretchable="true" />
+                    <engine:Column title="Magic Damage" name="magic-damage" min-width="50px" stretchable="true" />
+                    <engine:Column title="Melee DMG Output" name="output-melee-dmg" min-width="50px" stretchable="true" />
+                    <engine:Column title="Ranged DMG Output" name="output-ranged-dmg" min-width="50px" stretchable="true" />
+                    <engine:Column title="Magic DMG Output" name="output-magic-dmg" min-width="50px" stretchable="true" />
+                    <engine:Column title="Player Light Hit Stamina Bar To Kill (n times)" name="light-stamina-to-kill" min-width="50px" stretchable="true" />
+                    <engine:Column title="Player Heavy Hit Stamina Bar To Kill (n times)" name="heavy-stamina-to-kill" min-width="50px" stretchable="true" />
+                    <engine:Column title="Player hits to Kill Enemy" name="hits-to-kill-enemy" min-width="50px" stretchable="true" />
+                    <engine:Column name="stamina" title="Stamina" stretchable="true" min-width="50px" />
+                    <engine:Column name="avg-stamina-per-hit" title="Npc stamina per hit" stretchable="true" min-width="50px" />
+                    <engine:Column name="stamina-per-hit" title="Npc % stamina per hit" stretchable="true" min-width="50px" />
+                    <engine:Column title="Npc melee hits to Kill Player" name="melee-hits-to-kill-player" min-width="50px" stretchable="true" />
+                    <engine:Column title="Npc ranged hits to Kill Player" name="ranged-hits-to-kill-player" min-width="50px" stretchable="true" />
+                    <engine:Column title="Npc magic hits to Kill Player" name="magic-hits-to-kill-player" min-width="50px" stretchable="true" />
+                    <engine:Column name="poise-threshold" title="Poise threshold value" min-width="50px" stretchable="true" />
+                    <engine:Column name="hits-to-break-poise" title="How many hits player needs to make to break poise" min-width="50px" stretchable="true" />
+                    <engine:Column name="force-stumble-threshold" title="Forced stumble threshold value" stretchable="true" min-width="50px" />
+                    <engine:Column name="hits-to-force-stumble" title="How many hits player needs to make to force the enemy into stumble" stretchable="true" min-width="50px" />
+                    <engine:Column name="hero-knock-back" title="Hero KnockBack amount" stretchable="true" min-width="50px" />
+                </engine:Columns>
+            </engine:MultiColumnListView>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

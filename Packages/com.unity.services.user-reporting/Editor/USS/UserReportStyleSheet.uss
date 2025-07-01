@@ -1,0 +1,46 @@
+.project-settings-service-specific-container {
+    flex-grow:1;
+}
+
+.project-settings-header-container {
+    flex-direction:row;
+}
+
+.project-settings-title-container,
+.project-settings-section-container {
+    padding:4px 4px 4px 8px;
+    flex-direction:column;
+    flex-wrap:wrap;
+}
+
+.project-settings-title{
+    font-size:16px;
+    -unity-font-style:bold;
+}
+
+.label-container {
+    flex-direction:row;
+    align-items:flex-start;
+}
+
+.userreporting .service-icon {
+    background-image:resource("Builtin Skins/Shared/Images/ServicesWindow-ServiceIcon-Crash.png");
+}
+
+.userreporting #LearnMore {
+    margin-right:8px;
+    align-self:flex-end;
+}
+
+#CrashCapturePlayMode {
+    margin-left:5px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+#CrashLogCount {
+    margin-left:5px;
+    margin-top:10px;
+    margin-bottom:10px;
+    max-width:250px;
+}

@@ -1,0 +1,24 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Code/Editor/Tags/TagsManagementEditorStyle.uss?fileID=7433441132597879392&amp;guid=69e85140edffc3045a5608cd462bcb15&amp;type=3#TagsManagementEditorStyle" />
+    <Style src="project://database/Assets/Data/UI/Themes/EditorCommonStyle.uss?fileID=7433441132597879392&amp;guid=f5f36dde87c9e5a41a24bced9485d244&amp;type=3#EditorCommonStyle" />
+    <engine:VisualElement name="root" style="flex-grow: 1;">
+        <engine:VisualElement style="flex-grow: 0; flex-shrink: 0;">
+            <engine:Label text="Tags Management Tool" name="title" class="header margin" />
+            <engine:Label text="Currently allows you to edit the context of any tag. If you are adding a tag outside of the tool, please use the Force Refresh button to make sure that the state is correct." name="tool-description" class="margin" style="white-space: normal;" />
+        </engine:VisualElement>
+        <editor:Toolbar style="margin-top: 5px; margin-bottom: 0; justify-content: space-between;">
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; flex-direction: row;">
+                <editor:ToolbarSearchField />
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; flex-direction: row;">
+                <editor:ToolbarButton text="Expand All" name="expand-all" />
+                <editor:ToolbarButton text="Collapse All" name="collapse-all" />
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; flex-direction: row;">
+                <engine:Label text="In case of emergency - use" name="refresh-description" class="margin" style="-unity-text-align: middle-left;" />
+                <engine:Button text="Force Refresh" name="refresh-button" />
+            </engine:VisualElement>
+        </editor:Toolbar>
+        <engine:ScrollView name="all-tags-container" view-data-key="scroll-view-000" />
+    </engine:VisualElement>
+</engine:UXML>

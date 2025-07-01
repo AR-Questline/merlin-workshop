@@ -1,0 +1,10 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Code/Utility/Editor/SearchableMenu/ListElement.uss?fileID=7433441132597879392&amp;guid=16a4679cf70522a4994b8918612b1efb&amp;type=3#ListElement" />
+    <engine:VisualElement name="list-element" focusable="true" tabindex="1" class="unity-collection-view__item">
+        <engine:VisualElement name="value-and-path" picking-mode="Ignore" class="value-and-path">
+            <engine:Label text="List element 1" name="value" picking-mode="Ignore" />
+            <engine:Label text="List element 1" name="path" picking-mode="Ignore" class="path" />
+        </engine:VisualElement>
+        <engine:Label text="▸" name="arrow" picking-mode="Ignore" />
+    </engine:VisualElement>
+</engine:UXML>

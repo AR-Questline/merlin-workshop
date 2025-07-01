@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8300796799557822324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9103512926579350570}
+  - component: {fileID: 877037311328747010}
+  - component: {fileID: 9116593256897117374}
+  - component: {fileID: 4033590820628690}
+  m_Layer: 6
+  m_Name: Prefab_Fabric_Floor_05_LP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &9103512926579350570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300796799557822324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &877037311328747010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300796799557822324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec972b3dee4e4dcaa14247816f65ea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _excludeFromHlod: 1
+--- !u!114 &9116593256897117374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300796799557822324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ba29fb9cf54b3e955316a4eddcf8aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lodGroupSize: 1
+  lodGroupSerializableData:
+    isValid:
+      state: 1
+    localReferencePoint: {x: 0, y: 0, z: 0}
+    lodDistances0:
+      x: 1020.715
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    lodDistances1:
+      x: Infinity
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    localToWorldMatrix:
+      c0:
+        x: 1
+        y: 0
+        z: 0
+        w: 0
+      c1:
+        x: 0
+        y: 1
+        z: 0
+        w: 0
+      c2:
+        x: 0
+        y: 0
+        z: 1
+        w: 0
+      c3:
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+  children:
+  - {fileID: 4033590820628690}
+  isStatic: 1
+  hasLinkedLifetime: 0
+--- !u!114 &4033590820628690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300796799557822324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60fcd819e2b4b00a4cdf9d2d862f9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentGroup: {fileID: 9116593256897117374}
+  meshReference:
+    m_AssetGUID: a48ec1a33fb8b6845b3dacda8c560a10
+    m_SubObjectName: Mesh_Fabric_Floor_05_LP
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  materialReferences:
+  - m_AssetGUID: 9ffeac15a28dbb040a902f03e4159d55
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  renderMeshDescription:
+    layer: 6
+    renderingLayer: 257
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 1
+    staticShadowCaster: 0
+    lightProbeUsage: 1
+  localToWorldOffset:
+    c0:
+      x: 1
+      y: 0
+      z: 0
+      w: 0
+    c1:
+      x: 0
+      y: 1
+      z: 0
+      w: 0
+    c2:
+      x: 0
+      y: 0
+      z: 1
+      w: 0
+    c3:
+      x: 0
+      y: 0
+      z: 0
+      w: 1
+  aabb:
+    Center:
+      x: 0.1382812
+      y: 0.08561688
+      z: -0.032844633
+    Extents:
+      x: 0.8274354
+      y: 0.11208478
+      z: 0.5333452
+  visibleRange:
+    x: 0
+    y: Infinity
+  lodMask: 1
+  _archetypeKeys:
+  - isStatic: 1
+    isTransparent: 0
+    hasLod: 1
+    inMotionPass: 1
+    lightProbeUsage: 1
+  hasLinkedLifetime: 0

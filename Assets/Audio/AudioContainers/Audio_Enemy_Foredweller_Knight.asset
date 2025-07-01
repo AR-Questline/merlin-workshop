@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Enemy_Foredweller_Knight
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: 1811661730
+        Data2: 1190306495
+        Data3: -672132712
+        Data4: 7212712
+      Path: event:/SFX/Monsters/Foredweller/Foredweller_Knight_Hurt
+    die:
+      Guid:
+        Data1: 639260789
+        Data2: 1322463736
+        Data3: 1532087703
+        Data4: 1176955889
+      Path: event:/SFX/Monsters/Foredweller/Foredweller_Knight_Die
+    attack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -429591677
+        Data2: 1242314779
+        Data3: 759482021
+        Data4: -522508544
+      Path: event:/SFX/Monsters/Foredweller/Foredweller_03_Knight_Mvm_Footsteps
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

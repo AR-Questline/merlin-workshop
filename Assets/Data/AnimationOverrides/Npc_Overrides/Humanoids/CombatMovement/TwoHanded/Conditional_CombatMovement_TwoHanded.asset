@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286ef65b0f4f4236b67e2ae3b00969fb, type: 3}
+  m_Name: Conditional_CombatMovement_TwoHanded
+  m_EditorClassIdentifier: 
+  conditionalAnimations:
+  - itemConditions:
+    - _guid: a578a70e36e9f944ebf3ade0c0c3db69
+    animations:
+      arReference:
+        address: 17092e145d9453a4dafb472e05397f3d
+        subObjectName: 
+  - itemConditions:
+    - _guid: 4709d7ba5f279cf4b8cc0be860b45ca2
+    animations:
+      arReference:
+        address: 85903003de8c31346b5f15645e1ab3f5
+        subObjectName: 
+  - itemConditions:
+    - _guid: dc7fb31eeeb8e5643a4460e35e7f0bf0
+    animations:
+      arReference:
+        address: cdea48e180628df4399768e647a699c4
+        subObjectName: 
+  - itemConditions:
+    - _guid: 00e2ecb9a87647c42b02d08d71fc9c48
+    animations:
+      arReference:
+        address: 64047b96631385144abffecbb272cb7a
+        subObjectName: 

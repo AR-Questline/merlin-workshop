@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Talent_11_SlowEnemiesWithNegativeStatus
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":760.199,"y":206.481},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":825.0,"y":-171.0},"guid":"25f81ba1-02b1-4b1d-945d-901e9832a1c1","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"defaultValues":{"flag":{"$content":"BuildupSlowTalent","$type":"System.String"},"value":{"$content":true,"$type":"System.Boolean"}},"position":{"x":1125.0,"y":-167.0},"guid":"21f5f925-f8da-4687-a257-bcc9bce30030","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"11"},{"defaultValues":{"flag":{"$content":"BuildupSlowTalent","$type":"System.String"},"value":{"$content":false,"$type":"System.Boolean"}},"position":{"x":1125.0,"y":-26.0},"guid":"5a5ea587-a9de-466b-91fb-bcbb0f4ac3a9","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"13"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onLearn","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"cc11fa24-278f-4c20-83fd-fbc3495448ad","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onForget","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"afaf5c24-e309-4b20-a464-26ae67291957","$type":"Unity.VisualScripting.ControlConnection"}],"$version":"A"}}'
+    _objectReferences: []

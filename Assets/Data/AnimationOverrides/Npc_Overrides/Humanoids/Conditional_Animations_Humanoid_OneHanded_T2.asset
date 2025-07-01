@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286ef65b0f4f4236b67e2ae3b00969fb, type: 3}
+  m_Name: Conditional_Animations_Humanoid_OneHanded_T2
+  m_EditorClassIdentifier: 
+  conditionalAnimations:
+  - itemConditions:
+    - _guid: c7cb1c70a3c09864d9672f485df27af2
+    animations:
+      arReference:
+        address: fc404477bc37e8f428e26da3a4ec1709
+        subObjectName: 
+  - itemConditions:
+    - _guid: c8561d67520a02d4f9b02b43fa70df8f
+    animations:
+      arReference:
+        address: a9295d082fad26149ae046dca2715275
+        subObjectName: 

@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &999560093889689413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8028609651078576212}
+  - component: {fileID: 3713306922424407902}
+  - component: {fileID: 1481893076521182671}
+  m_Layer: 0
+  m_Name: SPR_Talent_OnKill_IncreaseWandPower_Status
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8028609651078576212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999560093889689413}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3713306922424407902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999560093889689413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28796ce50b55460f81238a29ad8f8600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  statusType:
+    _enumRef: Awaken.TG.Main.Heroes.Statuses.StatusType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Buff
+  iconReference:
+    arSpriteReference:
+      address: 96f740feb6c04144891736187af17cc2
+      subObjectName: 
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_3713306922424407902_e174d4f7b3d5efd47b64909be15b6be8
+  description:
+    IdOverride: 
+    ID: Template/description_3713306922424407902_e174d4f7b3d5efd47b64909be15b6be8
+  keywords: []
+  notSaved: 1
+  hiddenOnUI: 0
+  hiddenOnHUD: 0
+  alwaysShowSeparately: 1
+  invertProgressUI: 0
+  overrideToAddForDifferentItems: 0
+  addType: 6
+  addTypeOnStacking: 2
+  timerShouldDeStack: 0
+  upgradeReference:
+    _guid: 
+  fightValueFactor: 0
+  skill:
+    skillGraphRef:
+      _guid: fda10e8d3c5f8da49ba3bbbbea8127ec
+    variables:
+    - name: Value
+      value: 0.1
+    enums:
+    - name: StatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: MaxStatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    datums:
+    - name: GameplayVariable
+      type:
+        id: 4
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: TalentWandEffectsModifier
+        assetValue:
+          address: 
+          subObjectName: 
+    templates: []
+    assetReferences: []
+--- !u!114 &1481893076521182671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999560093889689413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab6a699ed5945868a70c95e94432a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 10
+  unscaledTime: 1

@@ -1,0 +1,42 @@
+﻿#pragma kernel SampleMesh
+
+#include "UniformMeshSamplingHelpers.hlsl"
+
+StructuredBuffer<TriangleWithUV> Triangles;
+int TrianglesCount;
+StructuredBuffer<float> AccumulatedTriangleArea;
+uint Seed;
+
+uint SamplesCount;
+
+RWStructuredBuffer<SampledPositionAndUV> Samples;
+
+[numthreads(128, 1, 1)]
+void SampleMesh(uint3 id : SV_DispatchThreadID)
+{
+    uint sampleIndex = id.x;
+    if (sampleIndex >= SamplesCount) return;
+
+    uint localSeed = Seed + (4 * sampleIndex);
+
+    float sampleArea = RandomFloat(localSeed) * AccumulatedTriangleArea[TrianglesCount - 1];
+    int triangleIndex = FindIndexOfArea(AccumulatedTriangleArea, sampleArea, TrianglesCount, localSeed + 1);
+
+    float2 randCoords = float2(RandomFloat(localSeed + 2), RandomFloat(localSeed + 3));
+    //http://inis.jinr.ru/sl/vol1/CMC/Graphics_Gems_1,ed_A.Glassner.pdf
+    //p24 uniform distribution from two numbers in triangle generating barycentric coordinate
+    //Alternatively, we can use "A Low-Distortion Map Between Triangle and Square" https://hal.archives-ouvertes.fr/hal-02073696v1/document
+    float t = sqrt(randCoords.y);
+    float barycentricCoordsX = 1.0f - t;
+    float barycentricCoordsY = (1 - randCoords.x) * t;
+    float barycentricCoordsZ = 1 - barycentricCoordsX - barycentricCoordsY;
+    TriangleWithUV triangleWithUv = Triangles[triangleIndex];
+    SampledPositionAndUV positionAndUV;
+    positionAndUV.position = (triangleWithUv.v0Pos * barycentricCoordsX) +
+        (triangleWithUv.v1Pos * barycentricCoordsY) +
+        (triangleWithUv.v2Pos * barycentricCoordsZ);
+    positionAndUV.uv = (triangleWithUv.v0UV * barycentricCoordsX) +
+        (triangleWithUv.v1UV * barycentricCoordsY) +
+        (triangleWithUv.v2UV * barycentricCoordsZ);
+    Samples[sampleIndex] = positionAndUV;
+}

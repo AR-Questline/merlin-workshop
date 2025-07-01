@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5545430941669151807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3383205285082349501}
+  - component: {fileID: -9130120985250361749}
+  - component: {fileID: 8302400451837707895}
+  - component: {fileID: 7242863050339649046}
+  m_Layer: 29
+  m_Name: Spec_DungeonProp_Logic_Emitter_ButtonElevator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3383205285082349501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-9130120985250361749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_9316623088459189867_3d4f207802fc2214bb323ad99608d99b
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: 24ddd46e389790b45bb4d6f79052d70a
+    subObjectName: 
+  snapToGround: 0
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 1
+--- !u!114 &8302400451837707895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &7242863050339649046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f241d07e164dec41bfa6e25886deca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customInteractLabel:
+    IdOverride: 
+    ID: Template/customInteractLabel_7242863050339649046_3d4f207802fc2214bb323ad99608d99b
+  locations:
+    targetTypes: 5
+    tags: []
+    locationRefs: []
+    actors: []
+    locationSpecsReferences:
+    - {fileID: 0}
+  storyOnInteract:
+    _guid: 
+  onlyOnce: 0
+  onlyOnceEvenIfInactive: 1
+  interactionSound:
+    Guid:
+      Data1: 1757715353
+      Data2: 1246254980
+      Data3: 1791475381
+      Data4: 2034001348
+    Path: event:/AmbienceEnviro/3D/SFX_gateLever_Open
+  inactiveInteractionSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  useInteraction: 0
+  useStates: 1
+  negateVisualState: 0
+  initialState: 0
+  changeStates: 1
+  syncWithReceiver: 1
+  useActiveSystem: 0
+  initialActive: 0
+  activeOnFlag: 0
+  activationFlag: 

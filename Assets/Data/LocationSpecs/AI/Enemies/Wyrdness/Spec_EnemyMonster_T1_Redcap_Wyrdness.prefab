@@ -1,0 +1,366 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3771896303918913128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8312814543175335931}
+  - component: {fileID: -440286882116366613}
+  - component: {fileID: -688245462930084842}
+  - component: {fileID: 7011187036458090350}
+  - component: {fileID: -2272393760896052111}
+  - component: {fileID: -8383278869581047920}
+  - component: {fileID: -2743736560248825894}
+  - component: {fileID: 7638523557485799278}
+  m_Layer: 0
+  m_Name: Spec_EnemyMonster_T1_Redcap_Wyrdness
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8312814543175335931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-440286882116366613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: enemy_monster_redcap
+    ID: Template/displayName_18006457191593185003_7eb45a6045448ae488829220d5db3478
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: 6092d014e815bb14682eec91c4d18348
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 1
+--- !u!114 &-688245462930084842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &7011187036458090350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95deb3f17351470e8242701ba2999287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcTemplate:
+    _guid: 
+  actor:
+    guid: 
+  storyOnDeath:
+    _guid: 
+  visualPrefab:
+    address: f2764c84515f63e46adc678914865d17
+    subObjectName: 
+  simplifiedDeadBodyPrefab:
+    arReference:
+      address: cdfd0f5f214fae5498170dcec8632553
+      subObjectName: 
+  shouldSpawnDeathVfx: 1
+  hitVFXReference:
+    arReference:
+      address: 6435b816784ea434589f4b48e31ccf70
+      subObjectName: 
+  criticalHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  backStabHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  renderIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  <IsNew>k__BackingField: 0
+  potentialActors: []
+--- !u!114 &-2272393760896052111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f193ec1f914e474b9b0f1078a5dba7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  data:
+    positionRange: 0.8
+    behaviours:
+    - name: StandOnSpawn
+      startHour: 0
+      startMinutes: 0
+      startDeviation: 0
+      subdivide: 0
+      intervalMinutes: 0
+      intervalDeviation: 0
+      type: 2
+      position:
+        space: 1
+        position: {x: 0, y: 0, z: 0}
+      forward:
+        space: 0
+        position: {x: 0, y: 0, z: 0}
+      range: 2
+      interactionTag: Interaction:cavedweller
+      allowInteractionRepeat: 0
+      waitTime:
+        min: 0
+        max: 0
+      uniqueID: 
+      scene:
+        reference:
+          address: 
+          subObjectName: 
+      hasInRainAction: 0
+      inRainAction: 
+    customActions: []
+    oneShots: []
+  template:
+    _guid: 
+--- !u!114 &-8383278869581047920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0b19dec2bb2694cbe97e9d85d5ddf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponsAlwaysEquipped: 1
+  <CustomCombatBaseClass>k__BackingField:
+    rid: 1000
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: CustomCombatBaseClass, ns: Awaken.TG.Main.AI.Combat.Attachments.Customs,
+        asm: TG.Main}
+      data:
+        DEBUG_Disable: 0
+        overrideDistanceToReleaseCombatSlotAt: 0
+        releaseCombatSlotAtDistance: 15
+        canBeSlidInto: 1
+        startInSpawn: 0
+        canMoveInSpawn: 0
+        usesCombatMovementAnimations: 0
+        usesAlertMovementAnimations: 0
+        useRandomDelayOnCombatEnter: 1
+        randomDelayOnCombatEnter:
+          min: 0.05
+          max: 0.35
+        canBePushed: 1
+--- !u!114 &-2743736560248825894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b450945e26341c28134eb48feb58878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aliveAudioContainerWrapper:
+    assetType: 0
+    dataAsset: {fileID: 11400000, guid: a92c68dd27770a34a8b2212add73c37e, type: 2}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+--- !u!114 &7638523557485799278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f1d837a85f458c99977714723b45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerDataWrapper:
+    rid: 2189889110350758907
+  references:
+    version: 2
+    RefIds:
+    - rid: 2189889110350758907
+      type: {class: NpcMarkerDataWrapper, ns: Awaken.TG.Main.Maps.Markers, asm: TG.Main}
+      data:
+        method: 1
+        explicitData: {fileID: 11400000, guid: 9093ff2c6738ad941af89c25e9c61c07, type: 2}
+        embeddedData:
+          defaultIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          visibleOnMap: 0
+          visibleOnMapUnderFogOfWar: 0
+          compassMarkerType: 0
+          hasMapMarkerOrderOverride: 0
+          mapMarkerOrderOverride: 0
+          ignoreDistanceRequirement: 0
+          ignoreAngleRequirement: 0
+          friendlyMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hostileMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          combatMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hideOutsideOfCombat: 0

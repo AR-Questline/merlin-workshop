@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: GetCombatTarget
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Get","label":null,"summary":null,"hideLabel":false}],"controlOutputDefinitions":[{"key":"GetEnd","label":null,"summary":null,"hideLabel":false}],"valueInputDefinitions":[],"valueOutputDefinitions":[{"_type":"UnityEngine.Transform","key":"CombatTarget","label":null,"summary":null,"hideLabel":false}],"title":null,"summary":"Get
+      a new combat target","pan":{"x":-611.4435,"y":-96.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-792.0,"y":-276.0},"guid":"76fdf3f2-f77d-475b-b3b2-ecc14c313480","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":-600.0,"y":-276.0},"guid":"d08c6bb5-141d-492e-bb59-b124a2603c89","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"specifyFallback":false,"kind":"Object","defaultValues":{"name":{"$content":"CombatTarget","$type":"System.String"},"object":null},"position":{"x":-954.0,"y":-123.0},"guid":"43766c92-974a-42b4-ac1c-51e792f8374c","$version":"A","$type":"Unity.VisualScripting.GetVariable"},{"defaultValues":{},"position":{"x":-748.0,"y":-69.0},"guid":"7ab0a606-2d8a-45d0-a6dd-8d17c39944df","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Fights.GetCurrentTargetUnit","$id":"18"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Get","destinationUnit":{"$ref":"14"},"destinationKey":"GetEnd","guid":"5b38eab4-dd76-432f-83f3-c6004e1d785c","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"target","destinationUnit":{"$ref":"14"},"destinationKey":"CombatTarget","guid":"1bbc2ff6-8dab-4cd9-ab9c-c45511cb20e1","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

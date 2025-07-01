@@ -1,0 +1,1 @@
+// Removed because we are using RecastMeshObjStatic instead of this script

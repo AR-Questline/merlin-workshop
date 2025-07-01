@@ -1,0 +1,46 @@
+.unity-foldout__toggle {
+    font-size: 16px;
+}
+
+.header {
+    font-size: 18px;
+    margin-left: 5px;
+    padding-left: 0;
+    padding-top: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.margin {
+    margin-left: 5px;
+}
+
+Foldout {
+    flex-shrink: 0;
+    flex-grow: 1;
+    padding-top: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+MultiColumnTreeView {
+    padding-right: 0;
+    padding-top: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    margin-left: -10px;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background-color: rgb(53, 53, 53);
+}
+
+#unity-tree-view__item-content Label {
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+}

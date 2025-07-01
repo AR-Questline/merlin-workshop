@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: GlobalTimeModifier
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":0.0,"y":0.0},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-223.0,"y":-316.0},"guid":"eb055ac9-a7aa-4ddd-b6bb-123afe9ba4c9","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"Type":"Learn","defaultValues":{"_globalTimeScale":{"$content":0.3,"$type":"System.Single"},"_myTimeScale":{"$content":1.1,"$type":"System.Single"}},"position":{"x":-218.0,"y":38.0},"guid":"22f28cb4-f3cc-47b2-aae2-dde4ddfc16b0","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.PassiveGlobalTimeScale"},{"Type":"Learn","defaultValues":{"_weight":{"$content":1.0,"$type":"System.Single"},"_timeIn":{"$content":1.0,"$type":"System.Single"},"_timeOut":{"$content":1.0,"$type":"System.Single"}},"position":{"x":-236.0,"y":168.0},"guid":"d154b32e-b0c0-4fac-a736-511f4219bb26","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.PassiveSlowmotionVolumeUnit"}],"$version":"A"}}'
+    _objectReferences: []

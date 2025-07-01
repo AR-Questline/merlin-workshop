@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: StatSet
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-2.492401,"y":218.5091},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-67.0,"y":6.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"name":"SetValue","defaultValues":{},"position":{"x":-16.0,"y":356.0},"guid":"8b789a2e-572b-434c-bebe-dce832163c35","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"11"},{"defaultValues":{},"position":{"x":-265.0,"y":350.0},"guid":"02f855b3-95cd-4cdb-ad53-4c5720f5616a","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"13"},{"name":"StatEnum","defaultValues":{},"position":{"x":-270.0,"y":228.0},"guid":"cd9afad0-e404-4358-94e3-01682ecc9a18","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeVariable","$id":"15"},{"tweakType":"Override","Type":"Learn","defaultValues":{},"position":{"x":174.0,"y":252.0},"guid":"53dabde5-7dfd-4582-81cf-b470b083afa5","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.StatModifierUnit","$id":"17"},{"defaultValues":{},"position":{"x":-47.0,"y":222.0},"guid":"f7c68304-44e2-408f-9310-cc0e6a7cfc44","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.GetStat","$id":"19"},{"sourceUnit":{"$ref":"13"},"sourceKey":"owner","destinationUnit":{"$ref":"19"},"destinationKey":"iWithStat","guid":"d135d620-c310-4cad-bfa3-31eabdade7c3","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"statType","destinationUnit":{"$ref":"19"},"destinationKey":"statType","guid":"89c252f1-95fe-4041-8b1f-bfae02112bc5","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"stat","destinationUnit":{"$ref":"17"},"destinationKey":"stat","guid":"b8b3f983-8fde-4c7a-8285-23a7176e95d6","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"value","destinationUnit":{"$ref":"17"},"destinationKey":"value","guid":"d7742eb9-b16c-46a6-bf83-c3bb89d6627d","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

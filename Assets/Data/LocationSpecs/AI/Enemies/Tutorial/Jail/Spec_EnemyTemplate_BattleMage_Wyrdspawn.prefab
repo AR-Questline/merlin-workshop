@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6535567835517612702
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[4765522593978777605].canUseRunAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597903931179105].desiredDistanceToTarget
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443325589952417686, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_EnemyTemplate_BattleMage_Wyrdspawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423593210849289748, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 4e6d2a7ead3099d41bf2f84b6d2f3017
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423593210849289748, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: shouldSpawnDeathVfx
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423593210849289748, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: visualPrefab.address
+      value: db74c4fc690c0ab4091f0ee55ad925db
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_2657601458255210480_432fba717d525ee48ad56bc4a36491f8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: displayName.IdOverride
+      value: enemy_monster_Wyrdhuman
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4443325589952417686, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4431191304833243520}
+  m_SourcePrefab: {fileID: 100100000, guid: 446816c88ee2b53409ab6e26fe257d10, type: 3}
+--- !u!1 &7429493823119211784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4443325589952417686, guid: 446816c88ee2b53409ab6e26fe257d10,
+    type: 3}
+  m_PrefabInstance: {fileID: 6535567835517612702}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4431191304833243520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7429493823119211784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b450945e26341c28134eb48feb58878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aliveAudioContainerWrapper:
+    assetType: 0
+    dataAsset: {fileID: 11400000, guid: d550f7140ab01ce479d85de0389c3368, type: 2}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 

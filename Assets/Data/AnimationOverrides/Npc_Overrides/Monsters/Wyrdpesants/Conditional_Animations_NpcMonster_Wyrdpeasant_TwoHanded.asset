@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286ef65b0f4f4236b67e2ae3b00969fb, type: 3}
+  m_Name: Conditional_Animations_NpcMonster_Wyrdpeasant_TwoHanded
+  m_EditorClassIdentifier: 
+  conditionalAnimations:
+  - itemConditions:
+    - _guid: d297213294a66b2408a41ae78e0dd138
+    animations:
+      arReference:
+        address: 3ba0df53137000f4caf2bc2406fc8427
+        subObjectName: 
+  - itemConditions:
+    - _guid: 89362b7cd8ee6054aaa67fed3ddeb683
+    animations:
+      arReference:
+        address: ac9892ba19b709242b59a0c22ea9db50
+        subObjectName: 
+  - itemConditions:
+    - _guid: 6d04da2e2d3213743913eaa933b276e2
+    animations:
+      arReference:
+        address: ac9892ba19b709242b59a0c22ea9db50
+        subObjectName: 

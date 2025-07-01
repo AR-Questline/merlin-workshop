@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: SPR_Talent_SummonDeathRestoresMana
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":1174.986,"y":-575.7673},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":169.0,"y":-556.0},"guid":"322392d9-e744-4de1-8d3b-533271c5ba07","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"defaultValues":{},"position":{"x":964.0,"y":-295.0},"guid":"f6a35793-da9c-482d-a6d7-afb7f15a1a8d","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.GetStat","$id":"11"},{"name":"StatValue","defaultValues":{},"position":{"x":775.0,"y":-449.0},"guid":"029ba713-867a-41f0-827d-b4cb6d764c49","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"13"},{"defaultValues":{},"position":{"x":737.0,"y":-226.0},"guid":"b9bc84d0-fc19-40c1-af42-80fcf6e7e8ed","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"15"},{"defaultValues":{"value":{"$content":0.0,"$type":"System.Single"}},"position":{"x":1158.0,"y":-597.0},"guid":"bb5546d0-629e-4d09-a1c0-6ece8207468f","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.IncreaseStatBy","$id":"17"},{"name":"StatEnum","defaultValues":{},"position":{"x":748.0,"y":-336.0},"guid":"20190642-926d-4386-9328-fb5d240ec43d","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeVariable","$id":"19"},{"Type":"Learn","defaultValues":{},"position":{"x":584.0,"y":-603.0},"guid":"84db3462-7bd9-4a69-84a7-b2bf3757b41e","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.BeforeSummonDeathUnit","$id":"21"},{"sourceUnit":{"$ref":"21"},"sourceKey":"trigger","destinationUnit":{"$ref":"17"},"destinationKey":"enter","guid":"8292959a-776c-478c-bc4f-b80e0667bf78","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"owner","destinationUnit":{"$ref":"11"},"destinationKey":"iWithStat","guid":"61cd665b-ef92-45de-aed9-7c771289f483","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"stat","destinationUnit":{"$ref":"17"},"destinationKey":"stat","guid":"35ec0c7a-ea26-4896-935c-b72b00cf94e3","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"statType","destinationUnit":{"$ref":"11"},"destinationKey":"statType","guid":"08cdd4a5-c86f-4102-8e57-31c94833bf0d","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"value","destinationUnit":{"$ref":"17"},"destinationKey":"value","guid":"6822edb2-922d-4b53-8f66-7a1165d03b75","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

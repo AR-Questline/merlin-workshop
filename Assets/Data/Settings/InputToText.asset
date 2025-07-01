@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 888da056a3c14d2f9b5252cf4379373b, type: 3}
+  m_Name: InputToText
+  m_EditorClassIdentifier: 
+  mouseBidings:
+  - actionName: MoreInfo
+    spriteName: mouse_right
+    text: 
+  - actionName: Accept
+    spriteName: mouse_left
+    text: 
+  keyToTextBidings: []
+  gamepadToTextBidings:
+  - identifierId: 0
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gameplay, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Horizontal
+    spriteName: anal_l
+    text: Left Stick X
+    sprite:
+      arSpriteReference:
+        address: 4c2536f28f2846248b50812f8a81c08a
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: cc9d4a1e565126d40a8b2cfa43db7600
+        subObjectName: 
+  - identifierId: 1
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gameplay, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:CameraVertical
+    spriteName: anal_l
+    text: Left Stick Y
+    sprite:
+      arSpriteReference:
+        address: 64738b8be8928e944afe4506a17bede6
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: cc9d4a1e565126d40a8b2cfa43db7600
+        subObjectName: 
+  - identifierId: 2
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gameplay, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:CameraHorizontal
+    spriteName: anal_r
+    text: Right Stick X
+    sprite:
+      arSpriteReference:
+        address: d64c397476b24f0498c51d5edb5ac706
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 7b4380a260ce6a7488d4385ce627ad17
+        subObjectName: 
+  - identifierId: 3
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gameplay, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:CameraVertical
+    spriteName: anal_r
+    text: Right Stick Y
+    sprite:
+      arSpriteReference:
+        address: 37f2ff0146c538a4092c6c6318cb75a3
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 7b4380a260ce6a7488d4385ce627ad17
+        subObjectName: 
+  - identifierId: 6
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+Generic, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Accept
+    spriteName: btn_a
+    text: A
+    sprite:
+      arSpriteReference:
+        address: 97dc04ce605cc514e875f292867964d4
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: ebc6207e5faf86c408a361f12eb13878
+        subObjectName: 
+  - identifierId: 7
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+Generic, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Cancel
+    spriteName: btn_b
+    text: B
+    sprite:
+      arSpriteReference:
+        address: 021b0819568c2774181118f517da1571
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 09332cb7a3eb52845a066a01f85370c2
+        subObjectName: 
+  - identifierId: 8
+    keybidings: []
+    spriteName: btn_x
+    text: X
+    sprite:
+      arSpriteReference:
+        address: 7fce48c860b928e4cbfe8f1d2b46977b
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 0157b254b453172439dde2addb6bb7ce
+        subObjectName: 
+  - identifierId: 9
+    keybidings: []
+    spriteName: btn_y
+    text: Y
+    sprite:
+      arSpriteReference:
+        address: 7cd96787a891eb7409d2e406053eb6df
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: fcd59f90fe4fe2d4a8da981e6420294e
+        subObjectName: 
+  - identifierId: 10
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+Generic, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Previous
+    spriteName: lb
+    text: L1
+    sprite:
+      arSpriteReference:
+        address: 006acd7c376750c4eaf442132a06539d
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 74aec44da0d2d124c8d58dd3ce676f10
+        subObjectName: 
+  - identifierId: 4
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+Generic, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:PreviousAlt
+    spriteName: lt
+    text: L2
+    sprite:
+      arSpriteReference:
+        address: 5fbea97e4bd3c5b45a45ef8a1a0eb750
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 824a6a11007687d41b63ccd75f8608f2
+        subObjectName: 
+  - identifierId: 11
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+Generic, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Next
+    spriteName: rb
+    text: R1
+    sprite:
+      arSpriteReference:
+        address: 9562b252b77e7c24ba24817c257b1a59
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 12893877163cc594ca308dfce298775d
+        subObjectName: 
+  - identifierId: 5
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+Generic, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:NextAlt
+    spriteName: rt
+    text: R2
+    sprite:
+      arSpriteReference:
+        address: 732cb7970a8f52445bb782d4f3bb9830
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 9adace2ba26ef7d469ad8a661b7155b0
+        subObjectName: 
+  - identifierId: 15
+    keybidings: []
+    spriteName: r3
+    text: R3
+    sprite:
+      arSpriteReference:
+        address: 3cc6c89606086bb41b6b0ccb507f18b7
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: ef06fd0589ba6d54b908e80fcf1517e0
+        subObjectName: 
+  - identifierId: 19
+    keybidings: []
+    spriteName: dpad_vertical
+    text: D-Pad
+    sprite:
+      arSpriteReference:
+        address: 6c36c1fa63d5c2340bb8a5f2dec2e7dd
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+  - identifierId: 12
+    keybidings:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+CharacterSheets, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ToggleMap
+    spriteName: change_view
+    text: 
+    sprite:
+      arSpriteReference:
+        address: 789895eb1890777448767f5c2e00d622
+        subObjectName: 
+    spriteHold:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+  holdAnimationBar:
+    arSpriteReference:
+      address: 6ff1fdc62a8b9fc4aaefe75257969dca
+      subObjectName: 

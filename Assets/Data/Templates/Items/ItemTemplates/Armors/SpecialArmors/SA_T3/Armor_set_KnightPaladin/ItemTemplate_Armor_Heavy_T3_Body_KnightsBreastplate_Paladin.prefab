@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8171579663968730515
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].skillGraphRef._guid
+      value: e699a32c4d76b8b48aa933b6586a5bca
+      objectReference: {fileID: 0}
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[1].name
+      value: GainValue
+      objectReference: {fileID: 0}
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[2].name
+      value: ValueCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[0].value
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].enums.Array.data[0].enumReference._enumRef
+      value: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ManaShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057645619341195430, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: strengthRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057645619341195430, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: enduranceRequired
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057645619341195430, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: spiritualityRequired
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: fc55b1c6e2f61e84d9d6a3faca06d000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: e57bedbb8b290524ba567b71c74764bc
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_5920805277155483182_0833ee2f48c542541b3e36953d613b79
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: tags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: 'tags.Array.data[1]'
+      value: item:withIron
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: EDITOR_bakedDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_5920805277155483182_0833ee2f48c542541b3e36953d613b79
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: description.locString.IdOverride
+      value: description_generic_increase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: heavyCastInfo.magicDescription.locString.ID
+      value: Template/heavyCastInfo_magicDescription_locString_5920805277155483182_0833ee2f48c542541b3e36953d613b79
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: lightCastInfo.magicDescription.locString.ID
+      value: Template/lightCastInfo_magicDescription_locString_5920805277155483182_0833ee2f48c542541b3e36953d613b79
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_Heavy_T3_Body_KnightsBreastplate_Paladin
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a693847416222134ab3c1fcdb326c603, type: 3}

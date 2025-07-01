@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87d0fc5ee8f4aa0a2b869c20267ac3f, type: 3}
+  m_Name: Alert
+  m_EditorClassIdentifier: 
+  hysteresis: 3
+  lookAt: 50
+  wander: 70
+  combat: 100
+  searchRadius: 10

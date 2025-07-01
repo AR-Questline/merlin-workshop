@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2332968909351227853
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1220691455846315007, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: managedReferences[1000].startInSpawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1220691455846315007, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: managedReferences[1000].canMoveInSpawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443325589952417686, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_EnemyMonster_T2_Bullrat_Weak
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.104665
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_6787748168785937571_da39d097e3adce74cb0ce1e82c5ccbcc
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: tags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      propertyPath: 'tags.Array.data[0]'
+      value: bullrat:active
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -2709630613991745365, guid: dc69c95f2c2930841aab6b7cfe48b4d5, type: 3}
+    - {fileID: 8992365253652462405, guid: dc69c95f2c2930841aab6b7cfe48b4d5, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4443325589952417686, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: -1897881340680363895}
+  m_SourcePrefab: {fileID: 100100000, guid: dc69c95f2c2930841aab6b7cfe48b4d5, type: 3}
+--- !u!1 &2146391600411795035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4443325589952417686, guid: dc69c95f2c2930841aab6b7cfe48b4d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2332968909351227853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1897881340680363895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146391600411795035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8874d02432ec45e69923334086ad3e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcTemplate:
+    _guid: b472450fe6d191d458567dd8b083f16b
+  actor:
+    guid: 
+  storyOnDeath:
+    _guid: 
+  visualPrefab:
+    address: 5007ea4e3d9226c4bbd64d7b3f16d944
+    subObjectName: 
+  simplifiedDeadBodyPrefab:
+    arReference:
+      address: cdfd0f5f214fae5498170dcec8632553
+      subObjectName: 
+  shouldSpawnDeathVfx: 1
+  hitVFXReference:
+    arReference:
+      address: 6435b816784ea434589f4b48e31ccf70
+      subObjectName: 
+  criticalHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  backStabHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  renderIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  <IsNew>k__BackingField: 0

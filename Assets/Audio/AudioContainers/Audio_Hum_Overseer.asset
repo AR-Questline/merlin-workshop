@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Hum_Overseer
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: -1534050452
+        Data2: 1075776104
+        Data3: -1576941939
+        Data4: 106529713
+      Path: event:/SFX/Humanoids/SFX_Enemies_Overseer_Hurt
+    die:
+      Guid:
+        Data1: 1220752783
+        Data2: 1131493494
+        Data3: -830891863
+        Data4: 1774336551
+      Path: event:/SFX/Humanoids/SFX_Enemies_Overseer_Death
+    attack:
+      Guid:
+        Data1: 765376533
+        Data2: 1273806215
+        Data3: 111857035
+        Data4: 1828219912
+      Path: event:/SFX/Humanoids/SFX_Enemies_Overseer_Attack
+    specialAttack:
+      Guid:
+        Data1: -851383352
+        Data2: 1250975828
+        Data3: -249839962
+        Data4: 1818539620
+      Path: event:/SFX/Humanoids/SFX_Enemies_Overseer_AoE
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1058847788
+        Data2: 1092211816
+        Data3: 83581631
+        Data4: -1599002105
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

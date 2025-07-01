@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &961688862954113219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6205795805761484242}
+  - component: {fileID: -1862985671577033041}
+  m_Layer: 0
+  m_Name: Shop_Vendor_Osmond
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6205795805761484242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961688862954113219}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1862985671577033041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961688862954113219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9836a7f6f2d24e75af3a52ce148d2749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  sellModifier: 2
+  buyModifier: 1
+  IsFence: 1
+  fenceBuyModifierMultiplier: 0.5
+  restockableItems:
+  - table:
+      _guid: b04a61048795d6640b89835db69ced64
+    capacity: 1
+    removeAllOnRestock: 1
+    removeOnRestock:
+      low: 0
+      high: 0
+  uniqueItems:
+  - itemTemplateReference:
+      _guid: e4482ad64db527746aec79a778e6c8b9
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 5ad361ea41fe6b44da374019901b5b91
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  restockWealthGain:
+    low: 20
+    high: 30
+  maxWealth: 200

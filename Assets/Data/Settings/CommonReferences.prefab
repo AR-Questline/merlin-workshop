@@ -1,0 +1,1653 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &753498827467823887
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4386051555272513266}
+  - component: {fileID: 2013665831955998453}
+  m_Layer: 0
+  m_Name: PromtAudioEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4386051555272513266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753498827467823887}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4056099129941209582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2013665831955998453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753498827467823887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c557bd4d58114e438b04741e87f1e90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
+  IsStatic: 0
+  timeScaleDependent: 0
+  stopOnDestroy: 1
+--- !u!1 &864570131557513006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8009892282851578481}
+  - component: {fileID: 2811804880874788589}
+  - component: {fileID: 1663464131015120409}
+  m_Layer: 0
+  m_Name: NotificationsAudioService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8009892282851578481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864570131557513006}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4056099129941209582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2811804880874788589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864570131557513006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342fc6e178a64fe59c5d0d219c7eff71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notificationEventEmitter: {fileID: 1663464131015120409}
+--- !u!114 &1663464131015120409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864570131557513006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c557bd4d58114e438b04741e87f1e90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
+  IsStatic: 0
+  timeScaleDependent: 0
+  stopOnDestroy: 1
+--- !u!1 &5401123940325327680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4056099129941209582}
+  - component: {fileID: 1322866515855436920}
+  m_Layer: 0
+  m_Name: CommonReferences
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4056099129941209582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401123940325327680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5680248206988810905}
+  - {fileID: 2433326722799488686}
+  - {fileID: 4386051555272513266}
+  - {fileID: 8241718729828010865}
+  - {fileID: 8009892282851578481}
+  - {fileID: 4739911578602625331}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1322866515855436920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401123940325327680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426f4840b1c5e984291d2c2700f4cf7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TemplateService>k__BackingField: {fileID: 6375092634734237550}
+  mainHandFistsTemplate:
+    _guid: f254fb3419610b6429a08b2d0e6d9e70
+  offHandFistsTemplate:
+    _guid: 3bfcd15275f44a743a561a5884638b41
+  finisherStatusTemplate:
+    _guid: c30edeae5104c0c49a9b1fe414b1d49f
+  invisibleHeroFaction:
+    _guid: f6aa7642c53ec8c4e941ff60617ab6de
+  wyrdNightStatusTemplate:
+    _guid: 63dcfd00d1632414a88c459952461e26
+  presetSelectorConfig: {fileID: 11400000, guid: 5f0c0a16d07e75d4599eeb8f13be22e2,
+    type: 2}
+  wyrdArthurTalentTreeTemplate:
+    _guid: 26c8f4dbd22b6a0439a2157fe93c581f
+  soulFragments:
+  - fragmentType: 10
+    skillReference:
+      skillGraphRef:
+        _guid: 68cedc0d1b887f941bfa3cf5962287b4
+      variables: []
+      enums: []
+      datums: []
+      templates: []
+      assetReferences: []
+  - fragmentType: 0
+    skillReference:
+      skillGraphRef:
+        _guid: ca15b5a340ab0894f98d3785dd4021d8
+      variables:
+      - name: Stat1Increase
+        value: 0.3
+      - name: Stat2Increase
+        value: 0.3
+      - name: DamageStat1Increase
+        value: 0.6
+      - name: DamageStat2Increase
+        value: 0.6
+      - name: TimeScale
+        value: 0.3
+      enums:
+      - name: Stat1
+        enumReference:
+          _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:MaxMana
+      - name: Stat2
+        enumReference:
+          _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:MaxStamina
+      - name: DamageStat1
+        enumReference:
+          _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Strength
+      - name: DamageStat2
+        enumReference:
+          _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:MagicStrength
+      datums: []
+      templates: []
+      assetReferences: []
+  - fragmentType: 1
+    skillReference:
+      skillGraphRef:
+        _guid: c97469dcf97c295499103e1ef337bf1e
+      variables:
+      - name: Stat1Increase
+        value: 0.5
+      - name: Stat2Increase
+        value: 0.5
+      - name: Stat3Increase
+        value: 0.5
+      - name: PoiseModify
+        value: 0.5
+      - name: ForceModify
+        value: 0.5
+      enums:
+      - name: StatEnum1
+        enumReference:
+          _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Strength
+      - name: StatEnum2
+        enumReference:
+          _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:CriticalChance
+      - name: StatEnum3
+        enumReference:
+          _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:CriticalDamageMultiplier
+      datums: []
+      templates: []
+      assetReferences: []
+  - fragmentType: 2
+    skillReference:
+      skillGraphRef:
+        _guid: b02794e7f12cb804d87ec7849347a58e
+      variables:
+      - name: IncomingDamage
+        value: -0.5
+      enums: []
+      datums: []
+      templates: []
+      assetReferences: []
+  - fragmentType: 3
+    skillReference:
+      skillGraphRef:
+        _guid: cfaf6c1a73e1fdd489b72642de2a5a5b
+      variables:
+      - name: IncomingDamage
+        value: -0.5
+      enums: []
+      datums: []
+      templates: []
+      assetReferences: []
+  - fragmentType: 4
+    skillReference:
+      skillGraphRef:
+        _guid: cf48fd5cf38405d4fa097953f0c118ed
+      variables: []
+      enums: []
+      datums: []
+      templates:
+      - name: SummonPrefab
+        templateReference:
+          _guid: fc2ce417d7c1cde459a96424c95b1de4
+      assetReferences:
+      - name: SpawnVFX
+        assetReference:
+          arReference:
+            address: 0d139743aa2c21d4da0c81fb4e609890
+            subObjectName: 
+  heroExpPerLevelSchema: {fileID: 11400000, guid: ee6e05aacd29a1346a16de856ff0584e,
+    type: 2}
+  journal:
+    _guid: 351b23220da10c64c9428da82d491c5d
+  inputToTextMapping: {fileID: 11400000, guid: 3c6a4809461a2ed49ba613ba59ce522d, type: 2}
+  keyMapping: {fileID: 11400000, guid: 88bb71a321820ad4ead773b1454bcc11, type: 2}
+  questMainCompassMarkerData:
+    defaultIcon:
+      arSpriteReference:
+        address: 04496ed99512a8a419b13113dcdccc0c
+        subObjectName: 
+    visibleOnMap: 0
+    visibleOnMapUnderFogOfWar: 0
+    compassMarkerType: 0
+    hasMapMarkerOrderOverride: 0
+    mapMarkerOrderOverride: 0
+    ignoreDistanceRequirement: 1
+    ignoreAngleRequirement: 1
+    activeQuestMarker:
+      arSpriteReference:
+        address: 8febc25730ab5c948beb7a49a4ccfd31
+        subObjectName: 
+    questMarkerExit:
+      arSpriteReference:
+        address: 04496ed99512a8a419b13113dcdccc0c
+        subObjectName: 
+    activeQuestMarkerExit:
+      arSpriteReference:
+        address: 8febc25730ab5c948beb7a49a4ccfd31
+        subObjectName: 
+  questSideCompassMarkerData:
+    defaultIcon:
+      arSpriteReference:
+        address: 9e23ab5b513c62b45ad56dff31f26cee
+        subObjectName: 
+    visibleOnMap: 0
+    visibleOnMapUnderFogOfWar: 0
+    compassMarkerType: 0
+    hasMapMarkerOrderOverride: 0
+    mapMarkerOrderOverride: 0
+    ignoreDistanceRequirement: 1
+    ignoreAngleRequirement: 1
+    activeQuestMarker:
+      arSpriteReference:
+        address: 833121f13de11524fb0f2d8b6525cd4d
+        subObjectName: 
+    questMarkerExit:
+      arSpriteReference:
+        address: 9e23ab5b513c62b45ad56dff31f26cee
+        subObjectName: 
+    activeQuestMarkerExit:
+      arSpriteReference:
+        address: 833121f13de11524fb0f2d8b6525cd4d
+        subObjectName: 
+  questOtherCompassMarkerData:
+    defaultIcon:
+      arSpriteReference:
+        address: 267cb2bdfd6bcbc4eb639d1e2debaf23
+        subObjectName: 
+    visibleOnMap: 0
+    visibleOnMapUnderFogOfWar: 0
+    compassMarkerType: 0
+    hasMapMarkerOrderOverride: 0
+    mapMarkerOrderOverride: 0
+    ignoreDistanceRequirement: 1
+    ignoreAngleRequirement: 1
+    activeQuestMarker:
+      arSpriteReference:
+        address: f8cf3570b9a51454d8da4750ec816c54
+        subObjectName: 
+    questMarkerExit:
+      arSpriteReference:
+        address: 267cb2bdfd6bcbc4eb639d1e2debaf23
+        subObjectName: 
+    activeQuestMarkerExit:
+      arSpriteReference:
+        address: f8cf3570b9a51454d8da4750ec816c54
+        subObjectName: 
+  quest3DMarkerData:
+    defaultIcon:
+      arSpriteReference:
+        address: 9bdcb63dc5aaecd40bc378b87954dc7b
+        subObjectName: 
+    visibleOnMap: 0
+    visibleOnMapUnderFogOfWar: 0
+    compassMarkerType: 0
+    hasMapMarkerOrderOverride: 0
+    mapMarkerOrderOverride: 0
+    ignoreDistanceRequirement: 0
+    ignoreAngleRequirement: 0
+    activeQuestMarker:
+      arSpriteReference:
+        address: 9bdcb63dc5aaecd40bc378b87954dc7b
+        subObjectName: 
+    questMarkerExit:
+      arSpriteReference:
+        address: 9bdcb63dc5aaecd40bc378b87954dc7b
+        subObjectName: 
+    activeQuestMarkerExit:
+      arSpriteReference:
+        address: 9bdcb63dc5aaecd40bc378b87954dc7b
+        subObjectName: 
+  heroMapMarkerData:
+    defaultIcon:
+      arSpriteReference:
+        address: ae3907feba4e26c409cd51500d0fa48f
+        subObjectName: 
+    visibleOnMap: 0
+    visibleOnMapUnderFogOfWar: 0
+    compassMarkerType: 0
+    hasMapMarkerOrderOverride: 0
+    mapMarkerOrderOverride: 0
+    ignoreDistanceRequirement: 0
+    ignoreAngleRequirement: 0
+  exitDialogIcon:
+    arSpriteReference:
+      address: 9f7e5e73227e4d3439206fed09b03394
+      subObjectName: 
+  shopDialogIcon:
+    arSpriteReference:
+      address: 2fdc453201760d34ba8efc6cb8ccfcc0
+      subObjectName: 
+  relicDialogIcon:
+    arSpriteReference:
+      address: e69783a3662538d41b39f40cf01c79cc
+      subObjectName: 
+  sharpeningDialogIcon:
+    arSpriteReference:
+      address: 8376376ee2e353b4795a44fc6c157cc4
+      subObjectName: 
+  customMarkerReference:
+    _guid: 0bf1e5fcdebaf694db705bcaeb4c9cc0
+  spyglassMarkerReference:
+    _guid: f82244edc339f454e9cc382e8c06a37d
+  fastTravelIcon:
+    arSpriteReference:
+      address: 9f10b69e91a85564b87124b58e76e4a0
+      subObjectName: 
+  keyIconsSpriteAssetPCReference:
+    arReference:
+      address: b3155b81d8ec83f40bd432f3ac6b070b
+      subObjectName: 
+  keyIconsSpriteAssetPSReference:
+    arReference:
+      address: f2e80a852051c6248bfdafeaea322008
+      subObjectName: 
+  keyIconsSpriteAssetXboxReference:
+    arReference:
+      address: 91717aeed423e9a45ab99cca5f07f143
+      subObjectName: 
+  nonAlphabetLanguages:
+  - {fileID: 11400000, guid: fd7a1abdf817ad844868582e4c6d0191, type: 2}
+  - {fileID: 11400000, guid: 7e1c782fc42d16441afbf825bd1ec8d8, type: 2}
+  achievementsReferences: {fileID: 11400000, guid: 9c24e626e4fed84478cd0ace365a6551,
+    type: 2}
+  statValuesConfig: {fileID: 11400000, guid: f8cf83ebf49de3e4eb0b31ce45538b41, type: 2}
+  sceneConfigs: {fileID: 11400000, guid: 02a758c4b41df8e4294f4fddcb9adf19, type: 2}
+  localizationVariables: {fileID: 11400000, guid: b153fed61072e364d94bd944742b6a2c,
+    type: 2}
+  campaignReference:
+    reference:
+      address: 3f87cb1c5e4dacb4bbd48153dcc4b7c8
+      subObjectName: 
+  tutorialConfig: {fileID: 11400000, guid: 1e605f912e53cbf448bfbe9b3aa31a51, type: 2}
+  mapData:
+    byScene:
+      pairs:
+      - key:
+          reference:
+            address: 3f87cb1c5e4dacb4bbd48153dcc4b7c8
+            subObjectName: 
+        value:
+          name:
+            IdOverride: 
+            ID: Template/mapData_byScene_pairs_Array_data0_value_name_1322866515855436920_d92d417ca0a8aaa46bdb3a3953ac49b0
+          sprite:
+            arSpriteReference:
+              address: e98ed845f8960ae41a554cbeed9c3dd5
+              subObjectName: 
+          bounds:
+            m_Center: {x: -1856.1492, y: 107.5, z: -3323.3098}
+            m_Extent: {x: 670.61884, y: 122.5, z: 673.0603}
+          aspectRatio: 0.9963726
+          hasFogOfWar: 1
+      - key:
+          reference:
+            address: ef5ed804b2393314cad3ee1703f610e7
+            subObjectName: 
+        value:
+          name:
+            IdOverride: 
+            ID: Template/mapData_byScene_pairs_Array_data1_value_name_1322866515855436920_d92d417ca0a8aaa46bdb3a3953ac49b0
+          sprite:
+            arSpriteReference:
+              address: 16ce8023158204548b9ba653d0199575
+              subObjectName: 
+          bounds:
+            m_Center: {x: -832.2422, y: 145.15, z: -2319.2065}
+            m_Extent: {x: 1444.1714, y: 204.85, z: 842.4333}
+          aspectRatio: 1.7142857
+          hasFogOfWar: 1
+      - key:
+          reference:
+            address: d4ac3bda5d6875f428002f6bb2423c8a
+            subObjectName: 
+        value:
+          name:
+            IdOverride: 
+            ID: Template/mapData_byScene_pairs_Array_data2_value_name_1322866515855436920_d92d417ca0a8aaa46bdb3a3953ac49b0
+          sprite:
+            arSpriteReference:
+              address: b6e5a2e06ca11c14c944a19f7ab7ff05
+              subObjectName: 
+          bounds:
+            m_Center: {x: 229.13257, y: 242.5, z: -3481.0103}
+            m_Extent: {x: 1157.4402, y: 257.5, z: 1161.2828}
+          aspectRatio: 0.99669105
+          hasFogOfWar: 1
+    sceneGroups:
+    - name: 
+      scenes:
+      - reference:
+          address: 3f87cb1c5e4dacb4bbd48153dcc4b7c8
+          subObjectName: 
+      - reference:
+          address: ef5ed804b2393314cad3ee1703f610e7
+          subObjectName: 
+      - reference:
+          address: d4ac3bda5d6875f428002f6bb2423c8a
+          subObjectName: 
+  horseDlcIds:
+  - ps5Id:
+      hasValue: 1
+      value: 0298191200890410
+    xboxStoreId:
+      hasValue: 1
+      value: 9PC00ZF371D8
+    steamId:
+      hasValue: 1
+      value: 3687050
+    gogId:
+      hasValue: 1
+      value: 2109111209
+  - ps5Id:
+      hasValue: 0
+      value: 
+    xboxStoreId:
+      hasValue: 0
+      value: 
+    steamId:
+      hasValue: 1
+      value: 3681950
+    gogId:
+      hasValue: 0
+      value: 0
+  horseDlcItem:
+    itemTemplateReference:
+      _guid: 317352ec19ebbf04f83a6ab83a806513
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  supportersPackDlcId:
+    ps5Id:
+      hasValue: 1
+      value: 0298191200890410
+    xboxStoreId:
+      hasValue: 1
+      value: 9PC00ZF371D8
+    steamId:
+      hasValue: 1
+      value: 3687050
+    gogId:
+      hasValue: 1
+      value: 2109111209
+  handCraftingGarbageItemTemplateRef:
+    _guid: 077bf894fdb1cad42ad1148908479d0f
+  alchemyGarbageItemTemplateRef:
+    _guid: 33e7f3cf8ed69a448aea698c81cd9cd3
+  furnitureSlotAction:
+    arReference:
+      address: 4c2cb971ebe54f441a283a1eea61ab5c
+      subObjectName: 
+  audioConfig: {fileID: 11400000, guid: 5f6866d79126baf4c99fc7a389e1ec90, type: 2}
+  audioCore: {fileID: 705118502609901189}
+  notificationsAudioService: {fileID: 2811804880874788589}
+  outsideFoVAttacksService: {fileID: 6154299112472305957}
+  promptAudioEmitter: {fileID: 2013665831955998453}
+  defaultGhostMaterial:
+    arReference:
+      address: a33fb32959ff78347a6ad3f8a4d4b85d
+      subObjectName: 
+  defaultGhostHeadMaterials:
+  - arReference:
+      address: da599bc1efd1a254ca042e69a8dff2ab
+      subObjectName: 
+  - arReference:
+      address: a33fb32959ff78347a6ad3f8a4d4b85d
+      subObjectName: 
+  - arReference:
+      address: da599bc1efd1a254ca042e69a8dff2ab
+      subObjectName: 
+  - arReference:
+      address: da599bc1efd1a254ca042e69a8dff2ab
+      subObjectName: 
+  - arReference:
+      address: da599bc1efd1a254ca042e69a8dff2ab
+      subObjectName: 
+  - arReference:
+      address: da599bc1efd1a254ca042e69a8dff2ab
+      subObjectName: 
+  defaultGhostVfx:
+    arReference:
+      address: 6aabf3d1e4452414686f43487c504e85
+      subObjectName: 
+  saturationReferences: {fileID: 11400000, guid: f80223a8fc3fbe14a851aaaa094b1416,
+    type: 2}
+  manGestures:
+    _guid: d7be8f023de4db04cb790da271d1c8f7
+  womanGestures:
+    _guid: de5b0988895969f4dacd66cfcfbd7b25
+  arrowPrefab:
+    arReference:
+      address: ce6fe3ff1bc44934bbbdfc9630644abb
+      subObjectName: 
+  arrowLogicPrefab:
+    arReference:
+      address: 5427286f9f0fbff4fb33b784bf905d20
+      subObjectName: 
+  weaponTrail:
+    arReference:
+      address: fbb0ac6f0cb04ac48983436a68ec97b5
+      subObjectName: 
+  defaultWeaponCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.12
+      value: 0.3
+      inSlope: 5.3333335
+      outSlope: 5.3333335
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.15
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.18
+      value: 0.5
+      inSlope: -1.0588235
+      outSlope: -1.0588235
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  default1HWeaponCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.13
+      value: 0.4
+      inSlope: 6
+      outSlope: 6
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.15
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.17
+      value: 0.5
+      inSlope: -1.0588236
+      outSlope: -1.0588236
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  default2HWeaponCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.1
+      value: 0.6
+      inSlope: 5.9999995
+      outSlope: 5.9999995
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.15
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0.7
+      inSlope: -1.0588235
+      outSlope: -1.0588235
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  testDummy:
+    _guid: 11dff0522bf4fb840a3d2ffa2c622d64
+  lightArmorStatus:
+    _guid: 7bbc435d08b236147b7a05ec3b5b7c10
+  mediumArmorStatus:
+    _guid: 3550cd0abdb2004419469192bdb168ff
+  heavyArmorStatus:
+    _guid: 37a694872d4d96e4c842aec420fed7d9
+  overloadArmorStatus:
+    _guid: 76938f6aec6af764c9f231fd23693107
+  dashPersistentOptimalStatus:
+    _guid: a12971a55c9acfa49984d8cc017c359b
+  dashOptimalStatus:
+    _guid: 6512f976415418a41a9f6e41ca0e5aa0
+  dashExhaustStatus:
+    _guid: f8fa02ddb0635aa49b154b6399a55554
+  stealthKillCameraPrefab:
+    arReference:
+      address: 9ee5e7c3fa4198240b23f9ceb6de2c43
+      subObjectName: 
+  cameraCutscenePrefab:
+    arReference:
+      address: 88512e7510e8df144a5b8b806c346abf
+      subObjectName: 
+  maleCutscenePrefab:
+    arReference:
+      address: e2ae034400f14fb44a7a1c571bf5fc11
+      subObjectName: 
+  femaleCutscenePrefab:
+    arReference:
+      address: 45ec74de13494194d963787be3cc0aa3
+      subObjectName: 
+  proficiencyAbstractRefs:
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:OneHanded
+    abstractTemplate:
+      _guid: 939f8f626f06d9b4b93a76bb5071530b
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:TwoHanded
+    abstractTemplate:
+      _guid: fb3f705c21071314b8d3a9fa554e0ed3
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Shield
+    abstractTemplate:
+      _guid: 480a71826b05a6e4d8eb1bd3d79682f8
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Archery
+    abstractTemplate:
+      _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:LightArmor
+    abstractTemplate:
+      _guid: dc5568dd613eb304f9ca7bc3a8af7206
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MediumArmor
+    abstractTemplate:
+      _guid: 3b699d9093bf4fe4ca782c36d3196a8f
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:HeavyArmor
+    abstractTemplate:
+      _guid: 01a5b968d368086489a0d83d4cb8ae37
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Unarmed
+    abstractTemplate:
+      _guid: c8318d6aefd1eb342b219adce68e366d
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Archery
+    abstractTemplate:
+      _guid: 4cb993cce00340043a37ebaf1abd2a3c
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:AnimalWeapon
+    abstractTemplate:
+      _guid: 854360c936df8134eb8d76f80007d787
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Unarmed
+    abstractTemplate:
+      _guid: ce3e6f2ff859b264bba0b40ed2218d24
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Magic
+    abstractTemplate:
+      _guid: a2493ac1d260f284893579aead2bb1e9
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Archery
+    abstractTemplate:
+      _guid: b15c91aaf473e054e9830a03abdd5e5e
+  oneHandedIcon:
+    arSpriteReference:
+      address: 7843467fe25bbd046a69f637afd059f1
+      subObjectName: 
+  twoHandedIcon:
+    arSpriteReference:
+      address: fe9dc88d550d5a24db244dc026c49a93
+      subObjectName: 
+  unarmedIcon:
+    arSpriteReference:
+      address: c582a45dc21cd6d4ca49ff1e6b55b231
+      subObjectName: 
+  shieldIcon:
+    arSpriteReference:
+      address: 00bab3666a8dcc14981ff861b7488c5e
+      subObjectName: 
+  athleticsIcon:
+    arSpriteReference:
+      address: 07f715bc7c2e8464a96aea92051e18b7
+      subObjectName: 
+  lightArmorIcon:
+    arSpriteReference:
+      address: d8ff1cbf74af9b940bde0282f0de3a14
+      subObjectName: 
+  mediumArmorIcon:
+    arSpriteReference:
+      address: 3a22629115f9f2343858361b5ebd5f47
+      subObjectName: 
+  heavyArmorIcon:
+    arSpriteReference:
+      address: c9bd2ce099a9d3a46abde054734a782c
+      subObjectName: 
+  archeryIcon:
+    arSpriteReference:
+      address: b2d6db94b4312b441beb8321a5e42087
+      subObjectName: 
+  evasionIcon:
+    arSpriteReference:
+      address: b572bb4679d81954da6ac6882a2c43c3
+      subObjectName: 
+  acrobaticsIcon:
+    arSpriteReference:
+      address: c1b9e1f386a0ed84aabb9d43bd71e59f
+      subObjectName: 
+  sneakIcon:
+    arSpriteReference:
+      address: 79164156e374c464aa8a81c94e6018eb
+      subObjectName: 
+  theftIcon:
+    arSpriteReference:
+      address: c82b9bcdabc35584ba7042300cb75f93
+      subObjectName: 
+  magicIcon:
+    arSpriteReference:
+      address: d74d0335913468f45b6a9540888c26e8
+      subObjectName: 
+  alchemyIcon:
+    arSpriteReference:
+      address: 25c37be444286ec42a95bbbee52b2314
+      subObjectName: 
+  cookingIcon:
+    arSpriteReference:
+      address: 1e5a229dc2bc2c64c981f4b9711971c7
+      subObjectName: 
+  handcraftingIcon:
+    arSpriteReference:
+      address: 400c66b585b66fc48a0a5c40a86929c2
+      subObjectName: 
+  strengthIcon:
+    arSpriteReference:
+      address: 54fd52a43d4a9024c8435e0b0e85d5da
+      subObjectName: 
+  enduranceIcon:
+    arSpriteReference:
+      address: d4a253e0d8f50e64da4c8b9a33ab4c8f
+      subObjectName: 
+  dexterityIcon:
+    arSpriteReference:
+      address: e0d0050a77bc7ee4093abc506e69bfc2
+      subObjectName: 
+  spiritualityIcon:
+    arSpriteReference:
+      address: c74a00f3443c0ed4886eef0827ee373a
+      subObjectName: 
+  practicalityIcon:
+    arSpriteReference:
+      address: 133fb18a044c6544d9833aee16f1cacb
+      subObjectName: 
+  perceptionIcon:
+    arSpriteReference:
+      address: 4df5c904747ff3d488279912a1bc4da8
+      subObjectName: 
+  environmentArrowVisualPrefab:
+    arReference:
+      address: 6ac6fa635dc4d1540a146a4cca6a60b7
+      subObjectName: 
+  environmentArrowVisualPrefabWithCollisions:
+    arReference:
+      address: 998e45dc107988046aaa9baa99830880
+      subObjectName: 
+  environmentArrowLocationTemplate:
+    _guid: 9eff280de28f9d347971e3a140efb361
+  brokenArrowItemTemplate:
+    _guid: 22b90af060c70984595230e39799b738
+  jailStatusTemplate:
+    _guid: 0d8a70c859ad56c438ec6f0454e36c09
+  unidentifiedItemTemplate:
+    _guid: 5c06380ed38d6e84197be585b8b69c2d
+  coinItemTemplate:
+    _guid: e350d81942c38e3449a3ca0b8868d1c6
+  cobwebItemTemplate:
+    _guid: 372ea54a09173364d8b4b27d7c0d3b16
+  cobwebCraftingIngredientTemplate:
+    _guid: d02b27e3ce916ce45869a1348c8b6090
+  bonfire:
+    itemTemplateReference:
+      _guid: 7ac0674f2987ae84ba88b5895d7fc11a
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  icarusRing:
+    _guid: f6d1a8cfa6df20746abdd0bab811d2ed
+  <OverEncumbranceStatus>k__BackingField:
+    _guid: 61d1845f37ba56a4096a46408ce80ee3
+  fishingData:
+    fishingTimeBase:
+      min: 3
+      max: 5
+    fishingTimeLimit:
+      min: 2
+      max: 6
+    fishingChanceLimit:
+      min: 0.1
+      max: 0.3
+    genericFishTable:
+      entries:
+      - data: {fileID: 11400000, guid: fb20025f32f3d97468b21b0f98473dba, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: afff93a9df9ed3f4f932a01b1a81a09f, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: 4c88a9af37bff6c4ebf87fa5ae5cc225, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: f624b93a57846b34b80d330b27743f5a, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: 1ea7375708fbc4340be7cd6ca9d628a3, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: cd4fdd151664c0743b01e08ae82f8c8a, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: 103b597be1653bd4c926cacf2657ba93, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: 0ab234893ea41ca45b8036fa30d7ed98, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: 8b7beaa76c779ef45ad3a3e0f7c8de2d, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: 914b9a0790febe248adf91900c0f7813, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+      - data: {fileID: 11400000, guid: 45c3c22dfd910c44fafea01e1f0d0c0c, type: 2}
+        overrideProbability: 0
+        occurrence: 15
+        probability: 0
+    genericFishDensity: 0.05
+  waterSplashingVfx:
+    arReference:
+      address: 88340ae70cfb39949b15aaf8312ad80b
+      subObjectName: 
+  noRenderMaterial: {fileID: 2100000, guid: da599bc1efd1a254ca042e69a8dff2ab, type: 2}
+  deadBodyHighlightVfx:
+    arReference:
+      address: c0161edde85b3454a8f1adc5899b8f9d
+      subObjectName: 
+  emptyLocationTemplate:
+    _guid: 97ea19c4978b6bd4d81793d92bf269d3
+  <WyrdSphereVoidTemplate>k__BackingField:
+    _guid: 7fa3b5eac60e7514ab61f5d7e1c8d549
+  presenceTrackerService: {fileID: 4766906304260265371}
+  <HumanoidWyrdFightStyle>k__BackingField:
+    _guid: 65e37762297b32a4fbf8939871714504
+  <CustomWyrdFightStyle1H>k__BackingField:
+    _guid: 687de1ec80df9f645b58863f626e98d3
+  <CustomWyrdFightStyle2H>k__BackingField:
+    _guid: 1a26c7f275c6ca841ad6dcc10a781c3f
+  <TattooConfigs>k__BackingField:
+  - type: 1
+    colorA: {r: 0, g: 0, b: 0, a: 1}
+    colorB: {r: 1, g: 1, b: 1, a: 1}
+    colorC: {r: 0, g: 0, b: 0, a: 0}
+    colorD: {r: 0, g: 0, b: 0, a: 0}
+    emissiveA: 0
+    emissiveB: 8
+    emissiveC: 0
+    emissiveD: 0
+    face:
+      address: e838f37fe8228e243bb03dd911b6a384
+      subObjectName: 
+    faceNormal:
+      address: 8b0dc8e7126c6df46b2a75652f198edd
+      subObjectName: 
+    torso:
+      address: 7cca0d91ba314f941a2b34759a8a3003
+      subObjectName: 
+    torsoNormal:
+      address: f88cc3a995cbb5b4fab9ba4ad09e5e8b
+      subObjectName: 
+  - type: 2
+    colorA: {r: 0, g: 0, b: 0, a: 1}
+    colorB: {r: 1, g: 1, b: 1, a: 1}
+    colorC: {r: 0, g: 0, b: 0, a: 0}
+    colorD: {r: 0, g: 0, b: 0, a: 0}
+    emissiveA: 0
+    emissiveB: 8
+    emissiveC: 0
+    emissiveD: 0
+    face:
+      address: 858d1f0c6a072df48bf73b68f296fbcc
+      subObjectName: 
+    faceNormal:
+      address: 4ffbc162ef627b64cb405b29a29a6f78
+      subObjectName: 
+    torso:
+      address: 2a4791eb3fac80a4c87d4a42ce122680
+      subObjectName: 
+    torsoNormal:
+      address: baddce3c2bd97a34b970b877084bf620
+      subObjectName: 
+  <WyrdSpawnTemplate>k__BackingField:
+    _guid: dced14b6fb3424b4f9c37b361cbcc7e8
+  <WyrdStalkerPassiveTemplate>k__BackingField:
+    _guid: ae5fc8110ca9ae64cb00d25c51e3778d
+  <WyrdStalkerActiveTemplates>k__BackingField:
+  - _guid: ed646674e6f83ee4c8dc9354ff9ddd0e
+  - _guid: 5a488593f84a7994288730b99bcf7bd0
+  - _guid: 1d323b4a6fe046b489e7e844224086c5
+  - _guid: eacaf9a3d871a41479d4338b6d724621
+  wyrdStalkerShowVFX:
+    arReference:
+      address: c61d9a2fc03de264fb05667b49150f56
+      subObjectName: 
+  wyrdStalkerHideVFX:
+    arReference:
+      address: df808bcc7c7377f4a91a8ce6e526cd08
+      subObjectName: 
+  handCutOffItemTemplate:
+    _guid: 74e7d334d50624741bb8f4b08f1ff338
+  cutOffHand:
+    arReference:
+      address: 7d8cafde553aaa642bd2039c073eb661
+      subObjectName: 
+  cutOffHandVFX:
+    arReference:
+      address: 54a884c9f642da743adb8e0a107f8774
+      subObjectName: 
+  noLeftArmPP: {fileID: 11400000, guid: 9da4320e65670d6448ca1091abb06a31, type: 2}
+  heroMainHandMask: {fileID: 31900000, guid: 61f5d8a1f7c7e1c43bcbce1c1a5ab4fe, type: 2}
+  heroOffHandMask: {fileID: 31900000, guid: 45182c49359c8904ea884f19f0743427, type: 2}
+  heroBothHandsMask: {fileID: 31900000, guid: 061a2f7ce8088f24e9de2f8376e87080, type: 2}
+  heroHeadOnlyMask: {fileID: 31900000, guid: 966db5ba5c46b874c93e2e3771ae6072, type: 2}
+  tppHeroMainHandMask: {fileID: 31900000, guid: 884fc9e08faaf274cb3bcb3da31f1b79,
+    type: 2}
+  tppHeroMainHandActiveMask: {fileID: 31900000, guid: b64f04fd889bcfb479378d2fc97f6ad2,
+    type: 2}
+  tppHeroOffHandMask: {fileID: 31900000, guid: 2d26f82f313853b48990bfbef2445ad4, type: 2}
+  tppHeroOffHandActiveMask: {fileID: 31900000, guid: 1a94640595ffebe48aed8b3deade7641,
+    type: 2}
+  tppHeroBothHandsMask: {fileID: 31900000, guid: ba0f0ed4d8b07ca4ab41251ac3ba36cb,
+    type: 2}
+  tppHeroLegsMask: {fileID: 31900000, guid: 39ab1b4f0e313474992c9258cb8c863d, type: 2}
+  tppCameraShakesMask: {fileID: 31900000, guid: a9feb91b351da8741b6fe40afba5ca80,
+    type: 2}
+  heroEmptyMask: {fileID: 31900000, guid: 892e625f58873c44fb953a11d5357b09, type: 2}
+  wholeBodyMask: {fileID: 31900000, guid: 257e1fee24e845d49881be9d2b9b65bc, type: 2}
+  maleRedDeathBody:
+    arReference:
+      address: b886c57ee59f54b40a7c7d9c71dbc38e
+      subObjectName: 
+  maleRedDeathFace:
+    arReference:
+      address: ade2a84d116d8514d920b1b387840473
+      subObjectName: 
+  femaleRedDeathBody:
+    arReference:
+      address: ee5d59f0ea8617e41845ff0679a6695d
+      subObjectName: 
+  femaleRedDeathFace:
+    arReference:
+      address: 13e5b2c0dc0a4b4498022ab0478eb568
+      subObjectName: 
+--- !u!1 &5629534158806165680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2433326722799488686}
+  - component: {fileID: 6375092634734237550}
+  m_Layer: 0
+  m_Name: Templates
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2433326722799488686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5629534158806165680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4056099129941209582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6375092634734237550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5629534158806165680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1c18567ddc478bb388006449ad9645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _abstractVeryLightWeight:
+    _guid: 3f7148d2004853e4d9b09e77bcbd48ac
+  _abstractLightWeight:
+    _guid: dcd64189d3cdf7044a4c6f44477ad9cd
+  _abstractMediumWeight:
+    _guid: daf158c6dbc15944abe6500fb253bae7
+  _abstractHeavyWeight:
+    _guid: ac284bdd722762346b747bef5ac29b16
+  _abstractVeryHeavyWeight:
+    _guid: 91c1a8aa11db5264da8b4f129b2bb1f8
+  _abstractWeapon:
+    _guid: 2f30322b4c5b3a54fbc84102796034a1
+  _abstractWeaponMelee:
+    _guid: c84ef87438835c942baf3187ca95dbcc
+  _abstractWeapon1H:
+    _guid: 09c270dd06b153c43a0b45cb92576146
+  _abstractWeapon2H:
+    _guid: 8ec1d86b07f91154fa2937710496d62e
+  _abstractWeaponDefaultFists:
+    _guid: a82be32f97b3f5345bf6d5ff45ca9188
+  _abstractWeaponFists:
+    _guid: c8318d6aefd1eb342b219adce68e366d
+  _abstractWeaponDagger:
+    _guid: cb6647448adbf0644bac9bda0c891af7
+  _abstractWeaponAxe:
+    _guid: a6f0e64b647872941a57e555b92e3d36
+  _abstractWeaponSword:
+    _guid: aa2bc01c92b5e4b44ad9343f0c682e70
+  _abstractWeaponBlunt:
+    _guid: 9245178b54698f8469ef0edbb82b7f70
+  _abstractWeaponPolearm:
+    _guid: eb6d6040c82ce9046a5dd9adb20a7186
+  _abstractShield:
+    _guid: 985c0f10af387704f83b4bd9a80799c2
+  _abstractRod:
+    _guid: 2549d23947e29e546b07f173ddf16dfe
+  _abstractWeaponRanged:
+    _guid: a3fa7758a5245ad4eb082cef3c46ea7c
+  _abstractArrow:
+    _guid: 4cb993cce00340043a37ebaf1abd2a3c
+  _abstractThrowable:
+    _guid: b15c91aaf473e054e9830a03abdd5e5e
+  _abstractMagic:
+    _guid: a2493ac1d260f284893579aead2bb1e9
+  _abstractMagicCastArtillery:
+    _guid: 215fdd7c20cb19346a75b841bdfec939
+  _abstractMagicCastChaingun:
+    _guid: 70542f872371398478d541b176cd91a2
+  _abstractMagicCastPistol:
+    _guid: 11a07a8cdfbe00344b9a173f3aefa854
+  _abstractMagicCastRailgun:
+    _guid: 24ab22ae60216694cb5efd947c91de4d
+  _abstractMagicCastRocketLauncher:
+    _guid: 895e3e8901ae6ed478048c553bf5adef
+  _abstractMagicCastShotgun:
+    _guid: fe3ad82b2b929a84cb2045f086d89a9d
+  _abstractSoulCube:
+    _guid: 8a35e250e89c0954f97fec95440eec40
+  _abstractArmor:
+    _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+  _abstractHelmet:
+    _guid: 413aeb6e44aac53418fbd288d9d33a98
+  _abstractCuirass:
+    _guid: 6564ee14dc41d514283ae7ee08b5c859
+  _abstractGauntlets:
+    _guid: b620a72224d4be74f955e5598c75826c
+  _abstractGreaves:
+    _guid: ef58d284302c2bd479f11e955aabc149
+  _abstractBoots:
+    _guid: 648934f8410617f428f3d21c267d457d
+  _abstractMetal:
+    _guid: ae974c5bda8c0e24c88d7fbdd2ad1101
+  _abstractComponent:
+    _guid: a7134970408c5d048ae10abaa53b9ea5
+  _abstractJewelry:
+    _guid: 09f205029a6116a4bb824f269f3dc2da
+  _abstractConsumableHealth:
+    _guid: db2ca4e9fd4718644952c46ace296f10
+  _abstractConsumableMana:
+    _guid: 2f767c5b467cbc04fbcc720c6beee4a2
+  _abstractConsumableStamina:
+    _guid: 44f5da28143307543bae978e78216634
+  _abstractConsumablePotionOther:
+    _guid: 22aa64baee2339a4a9186882a5464761
+  _abstractConsumableStat:
+    _guid: 4ab17f414637a24418ca79aa1378c4a1
+  _abstractConsumable:
+    _guid: 951069a6dd3c2f64fa5fab10db480434
+  _abstractPotion:
+    _guid: 1fa250c45b3bffc4d83957cbf1ca875e
+  _abstractPlainFood:
+    _guid: d79a6a1d22821614f837525e5b1c9469
+  _abstractAlcohol:
+    _guid: 75ad4bd4baf20274db98214f1cf6c0c8
+  _abstractKey:
+    _guid: 6323ff03b9b8fb0458f17b5ee3918299
+  _abstractTool:
+    _guid: 6a469d3aba13563448a87cb610eb6c25
+  _abstractPreyAnimal:
+    _guid: 397c8d2fdb170cd4f95ea6dbbde92985
+  _abstractAnimal:
+    _guid: 2d7c1ad6da67a3d488494e26b7e5af97
+  _abstractBandit:
+    _guid: e01cf4ccb8f2a0042bef32f18c1f99f8
+  _abstractBigHumanoid:
+    _guid: b0ef23c8d612b2e46a6b6cb6037e3342
+  _abstractBloody:
+    _guid: 4b8289af4440caf42b89b2733e4629ec
+  _abstractBoneMask:
+    _guid: 31f780c8c1a1ec74cb998f379f7065d9
+  _abstractBoss:
+    _guid: 317116db6c58ed64a8215be359d73c2d
+  _abstractCultist:
+    _guid: ddcfb28230386224ab21cd3ff3d22086
+  _abstractDalRiataBody:
+    _guid: 64514670e525f1d49b83bfc8ca037ae8
+  _abstractFemale:
+    _guid: 070d8ddea8293fb47a540a4f382d7bb9
+  _abstractGhost:
+    _guid: 2cbf742a45c17d64cbc764f22674cc80
+  _abstractHumanoid:
+    _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+  _abstractMale:
+    _guid: 30fee903493e89e4089f2aeeb5e42d2a
+  _abstractMiniBoss:
+    _guid: 738f727cd8e43dc47814a42e141ec5fb
+  _abstractMonster:
+    _guid: 9470ba1c7a4c27f4d8bdd4c13ce5106c
+  _abstractSkeleton:
+    _guid: 6bbbcb83de591f441b69f27633ef6eee
+  _abstractZombie:
+    _guid: 12ba664a8c270634694a159ecf2d83f5
+--- !u!1001 &3933410667207583763
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4056099129941209582}
+    m_Modifications:
+    - target: {fileID: 8363468144007022545, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioCore
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c5cff57ab44cf8c4ca1644c7a0317c9f, type: 3}
+--- !u!114 &705118502609901189 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4566471504895524502, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3933410667207583763}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec923458d294418983fc266ae6b27707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &5680248206988810905 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8665492546857595530, guid: c5cff57ab44cf8c4ca1644c7a0317c9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3933410667207583763}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4850673020311439791
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4056099129941209582}
+    m_Modifications:
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404682456635609809, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+        type: 3}
+      propertyPath: m_Name
+      value: OutsideFoVAttacksService
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef, type: 3}
+--- !u!114 &6154299112472305957 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1601446411987445898, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 4850673020311439791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab8d403a5dd4633a8fa869190de2f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8241718729828010865 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3544749543652917982, guid: 8b5620dda739ae54fbbd0b3f0b6a12ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 4850673020311439791}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9198257467702091481
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4056099129941209582}
+    m_Modifications:
+    - target: {fileID: 1370681725679928770, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_Name
+      value: PresenceTracker
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f699bf609ced42f4eb05a5f58aed0966, type: 3}
+--- !u!4 &4739911578602625331 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4494955374455637994, guid: f699bf609ced42f4eb05a5f58aed0966,
+    type: 3}
+  m_PrefabInstance: {fileID: 9198257467702091481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4766906304260265371 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4432019675537689410, guid: f699bf609ced42f4eb05a5f58aed0966,
+    type: 3}
+  m_PrefabInstance: {fileID: 9198257467702091481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d51f38e2a1496c9d0fc43efd8f3539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

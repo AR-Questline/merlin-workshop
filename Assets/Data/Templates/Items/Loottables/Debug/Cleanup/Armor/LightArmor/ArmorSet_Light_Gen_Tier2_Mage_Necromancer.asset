@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: ArmorSet_Light_Gen_Tier2_Mage_Necromancer
+  m_EditorClassIdentifier: 
+  table:
+    rid: 3168152186127647017
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3168152186127647017
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 5593304253294182402
+        - rid: 5593304253294182403
+        - rid: 5593304253294182410
+    - rid: 5593304253294182402
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: a7ab2588789569040b9d2ae795b24896
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182403
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e4bb0d7c02651dd478efaf3472e3d3e9
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182410
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 5664e0985e7c67f489c08ba5201c7413
+        quantity: 1
+        itemLvl: 0

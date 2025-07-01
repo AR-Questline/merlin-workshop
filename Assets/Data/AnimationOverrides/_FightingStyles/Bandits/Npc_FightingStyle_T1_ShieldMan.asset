@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a825736eb24dd7be1bd63dbbd796ce, type: 3}
+  m_Name: Npc_FightingStyle_T1_ShieldMan
+  m_EditorClassIdentifier: 
+  desiredDistanceToTarget: 2.5
+  desiredDistanceToTargetWhenFistFighting: 1.25
+  minDistanceToTargetWhenFistFighting: 1.25
+  generalMask: {fileID: 0}
+  customActionsMask: {fileID: 0}
+  additiveMask: {fileID: 31900000, guid: 4199f1e8872f3884881617f2343b66fc, type: 2}
+  topBodyMask: {fileID: 31900000, guid: 272a75d17c0c6884e9cb3c2bc29e2b70, type: 2}
+  overridesMask: {fileID: 0}
+  areOverridesAdditive: 0
+  baseAnimations:
+    arReference:
+      address: 01b116b56cfdda541ab2de536a4ee162
+      subObjectName: 
+  baseBehaviours:
+    arReference:
+      address: 3efc53046be00a644aec87294e8e974a
+      subObjectName: 
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  customs:
+    animations:
+    - arReference:
+        address: 26df1ced3ac766a41866c77fdc1951ce
+        subObjectName: 
+    - arReference:
+        address: 2124a090e7982ed42a85b60a0081fffe
+        subObjectName: 
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: 4b2d4b947fea24646bb970749c6b23eb
+        subObjectName: 
+    - arReference:
+        address: 521cc9934ce694e4bbd6a389943a0780
+        subObjectName: 

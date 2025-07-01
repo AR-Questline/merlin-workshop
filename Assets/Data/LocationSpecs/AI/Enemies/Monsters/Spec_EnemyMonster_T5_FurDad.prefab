@@ -1,0 +1,426 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8412708481227335424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6175935815748887779}
+  - component: {fileID: 3380426659250455128}
+  - component: {fileID: 1913784028411427809}
+  - component: {fileID: 5029596829785513416}
+  - component: {fileID: 5882844222316477952}
+  - component: {fileID: 8183368749475371849}
+  - component: {fileID: 6724536837182131349}
+  - component: {fileID: -7460864122532385642}
+  m_Layer: 0
+  m_Name: Spec_EnemyMonster_T5_FurDad
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6175935815748887779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3380426659250455128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: enemy_monster_FurDad
+    ID: Template/displayName_3380426659250455128_3b94a7b90b397664892f3a4277d18fdb
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: db351e88ce93f7041a98f2d73a1b7e34
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 1
+--- !u!114 &1913784028411427809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &5029596829785513416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95deb3f17351470e8242701ba2999287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcTemplate:
+    _guid: 6f645f69c17fe2a418c3ce63e0172430
+  actor:
+    guid: 
+  storyOnDeath:
+    _guid: 
+  visualPrefab:
+    address: 1e5e81cf3a2dca349b83884ebf95433f
+    subObjectName: 
+  simplifiedDeadBodyPrefab:
+    arReference:
+      address: cdfd0f5f214fae5498170dcec8632553
+      subObjectName: 
+  shouldSpawnDeathVfx: 1
+  hitVFXReference:
+    arReference:
+      address: 03f7619a9a4f4af46b46a4d2e8970031
+      subObjectName: 
+  criticalHitVFXReference:
+    arReference:
+      address: d7d85a8fd58455f479adde30cbd5c7b7
+      subObjectName: 
+  backStabHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: a3827a59fc2d5a744bbdda2bf6478dcb
+      subObjectName: 
+  npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  renderIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  <IsNew>k__BackingField: 0
+  potentialActors: []
+--- !u!114 &5882844222316477952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f193ec1f914e474b9b0f1078a5dba7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  data:
+    positionRange: 0.8
+    behaviours:
+    - name: StandOnSpawn
+      startHour: 0
+      startMinutes: 0
+      startDeviation: 0
+      subdivide: 0
+      intervalMinutes: 0
+      intervalDeviation: 0
+      type: 1
+      position:
+        space: 1
+        position: {x: 0, y: 0, z: 0}
+      forward:
+        space: 0
+        position: {x: 0, y: 0, z: 0}
+      range: 4
+      interactionTag: 
+      allowInteractionRepeat: 0
+      waitTime:
+        min: 6
+        max: 11
+      uniqueID: 
+      scene:
+        reference:
+          address: 
+          subObjectName: 
+      hasInRainAction: 0
+      inRainAction: 
+    customActions: []
+    oneShots: []
+  template:
+    _guid: 
+--- !u!114 &8183368749475371849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f1d837a85f458c99977714723b45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerDataWrapper:
+    rid: 2189889110350758907
+  references:
+    version: 2
+    RefIds:
+    - rid: 2189889110350758907
+      type: {class: NpcMarkerDataWrapper, ns: Awaken.TG.Main.Maps.Markers, asm: TG.Main}
+      data:
+        method: 1
+        explicitData: {fileID: 11400000, guid: 3494a02137cc3b34ebfc93d72058a597, type: 2}
+        embeddedData:
+          defaultIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          visibleOnMap: 0
+          visibleOnMapUnderFogOfWar: 0
+          compassMarkerType: 0
+          hasMapMarkerOrderOverride: 0
+          mapMarkerOrderOverride: 0
+          ignoreDistanceRequirement: 0
+          ignoreAngleRequirement: 0
+          friendlyMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hostileMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          combatMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hideOutsideOfCombat: 0
+--- !u!114 &6724536837182131349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b450945e26341c28134eb48feb58878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aliveAudioContainerWrapper:
+    assetType: 0
+    dataAsset: {fileID: 11400000, guid: aa09b05ff2a145f4aa9aebf1c385231f, type: 2}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+--- !u!114 &-7460864122532385642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412708481227335424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d26fb40fce3430ea31da12e63db9518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponsAlwaysEquipped: 1
+  canLoseTargetBasedOnVisibility: 0
+  <BossBaseClass>k__BackingField:
+    rid: 8765017718170845335
+  references:
+    version: 2
+    RefIds:
+    - rid: 8765017718170845335
+      type: {class: FurDad, ns: Awaken.TG.Main.AI.Combat.Attachments.Customs, asm: TG.Main}
+      data:
+        DEBUG_Disable: 0
+        overrideDistanceToReleaseCombatSlotAt: 0
+        releaseCombatSlotAtDistance: 15
+        canBeSlidInto: 0
+        statusConsumeInterval: 30
+        chanceForAoePhaseTransition: 0.5
+        buildupStrength: 50
+        initialConsumedElemental:
+          _guid: b37cb48091a741a4fa869e314130b141
+        statusToVFXMap:
+        - statusType:
+            _enumRef: Awaken.TG.Main.Heroes.Statuses.BuildupStatusType, TG.Main,
+              Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Burn
+          vfx:
+            arReference:
+              address: 35cb4f5e31ff92f42804f2fefeaba743
+              subObjectName: 
+          handVfx:
+            arReference:
+              address: 1dbebf7211847994b9dc715f396f52c0
+              subObjectName: 
+          explosionVfx:
+            arReference:
+              address: 24188a1f96a8e8e4382cf4bb4be5027f
+              subObjectName: 
+          consumeType: 1
+        - statusType:
+            _enumRef: Awaken.TG.Main.Heroes.Statuses.BuildupStatusType, TG.Main,
+              Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Poison
+          vfx:
+            arReference:
+              address: c2326b4f565269c42bd655f5a8508dc0
+              subObjectName: 
+          handVfx:
+            arReference:
+              address: abec1b13678271a41bcccecc2d13a65a
+              subObjectName: 
+          explosionVfx:
+            arReference:
+              address: b6c0a444795cf9943ac9a2f15e227c55
+              subObjectName: 
+          consumeType: 2
+        - statusType:
+            _enumRef: Awaken.TG.Main.Heroes.Statuses.BuildupStatusType, TG.Main,
+              Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Slow
+          vfx:
+            arReference:
+              address: f0dd1e9af749ebd4d96dc693407ef93c
+              subObjectName: 
+          handVfx:
+            arReference:
+              address: c56ff0d105a18964eaa61bc2b694aeff
+              subObjectName: 
+          explosionVfx:
+            arReference:
+              address: f21dcd4a08162984bb9ca8503139ed76
+              subObjectName: 
+          consumeType: 0
+        damageData:
+          damageSource: 1
+          damageValueType: 0
+          statsFromSlot:
+            _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentSlotType, TG.Main, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null:MainHand
+          useItemDamageMultiplier: 0
+          additionalMultiplier: 1
+          customDamage: 0
+          damageType: 1
+          damageSubTypes: []
+        explosionForceDamage: 5
+        explosionDuration: 0.01
+        explosionRange: 9
+        ragdollForce: 5

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnEquip_SetFlag
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-172.4924,"y":-142.1231},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":false,"equipRepetitive":true,"submit":true,"submitRepetitive":false,"defaultValues":{},"position":{"x":-552.0,"y":-297.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"defaultValues":{"flag":{"$content":"BonusGold","$type":"System.String"},"value":{"$content":true,"$type":"System.Boolean"}},"position":{"x":59.0,"y":-319.0},"guid":"e8c02c8d-c42e-4552-af46-3ac7a3976fa1","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"11"},{"defaultValues":{"flag":{"$content":"BonusGold","$type":"System.String"},"value":{"$content":false,"$type":"System.Boolean"}},"position":{"x":57.0,"y":12.0},"guid":"0aa8f213-f9ad-47d2-bdb1-8db946d153a7","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"13"},{"type":{"id":4},"defaultValues":{"name":{"$content":"Flag","$type":"System.String"}},"position":{"x":-182.0,"y":-152.0},"guid":"70a5a704-1f92-4116-8b23-f7bc1fac8dfb","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillDatumUnit","$id":"15"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onEquipRepetitive","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"d532292b-b8f9-4b6b-a481-1c028a8fafc7","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onUnequipRepetitive","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"18736914-2d82-472c-8191-9676539f32db","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"value","destinationUnit":{"$ref":"11"},"destinationKey":"flag","guid":"3987d9e2-7037-4e64-8cfd-3b62ff77211b","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"flag","guid":"5b4c5ffc-f023-4e03-80af-3a0a412e37bd","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

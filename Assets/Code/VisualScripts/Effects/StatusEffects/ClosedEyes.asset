@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: ClosedEyes
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":171.9999,"y":-394.2836},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-348.0,"y":-208.0},"guid":"43a9533c-09b6-4bc9-89af-6dc770d54443","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"defaultValues":{},"position":{"x":-78.0,"y":-456.0},"guid":"67760811-cd44-47bb-a540-ab0ffa45b4aa","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"11"},{"type":"System.Single","value":{"$content":0.0,"$type":"System.Single"},"defaultValues":{},"position":{"x":164.0,"y":-348.0},"guid":"08e54986-795d-4561-9300-ee5182c34e42","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"13"},{"defaultValues":{},"position":{"x":117.0,"y":-612.0},"guid":"60bf643b-0faf-45a2-9b2f-a37653a9377f","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.GetStat","$id":"15"},{"tweakType":"Override","Type":"Learn","defaultValues":{},"position":{"x":397.0,"y":-642.0},"guid":"d920338d-4349-4cf8-bbbd-b6261f29c4a3","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.StatModifierUnit","$id":"17"},{"reference":{"_enumRef":"Awaken.TG.Main.General.StatTypes.NpcStatType,
+      TG.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Sight"},"defaultValues":{},"position":{"x":-71.0,"y":-668.0},"guid":"38fc0c8a-8b0a-41bd-95c7-12db1c192f55","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeLiteral","$id":"19"},{"sourceUnit":{"$ref":"15"},"sourceKey":"stat","destinationUnit":{"$ref":"17"},"destinationKey":"stat","guid":"d8114790-574d-4e19-9ae8-873f3b996fa0","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"statType","destinationUnit":{"$ref":"15"},"destinationKey":"statType","guid":"4b7a86fe-6365-43ab-86ee-68b8dfc12950","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"owner","destinationUnit":{"$ref":"15"},"destinationKey":"iWithStat","guid":"a04d7669-3fb5-4d0d-b27b-67bfcf6a2ed3","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"output","destinationUnit":{"$ref":"17"},"destinationKey":"value","guid":"30c5b050-6e18-4b26-bb80-50c4733d3e3f","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: StartStoryOnStatusLearn
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":194.235,"y":-163.4},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-285.0,"y":-443.0},"guid":"10e654b0-5b7b-4482-99c7-78d64994ed0f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"chainable":false,"parameterNames":["bookmark"],"member":{"name":"TryStartStory","parameterTypes":["Awaken.TG.Main.Stories.StoryBookmark"],"targetType":"Awaken.TG.Main.Stories.Steps.Helpers.StoryUtils","targetTypeName":"Awaken.TG.Main.Stories.Steps.Helpers.StoryUtils","$version":"A"},"defaultValues":{},"position":{"x":109.0,"y":-380.0},"guid":"da42c9ed-5905-494b-8db6-b2b36f9767f8","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"11"},{"name":"Bookmark","defaultValues":{},"position":{"x":-255.0,"y":-111.0},"guid":"1978429e-1c58-4687-8990-7088d0525317","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillStoryGraphTemplate","$id":"15"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onLearn","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"9992dd46-6af5-493b-9d2c-e73db51f039b","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"Bookmark","destinationUnit":{"$ref":"11"},"destinationKey":"%bookmark","guid":"ce74e663-aec9-415a-b2d4-aa4a1ccb8fc2","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

@@ -1,0 +1,360 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3282080331818150091
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -7115959648689163848, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: mobItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7115959648689163848, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: 89a229726cc2ebb45b2f29feb940ddea
+      objectReference: {fileID: 0}
+    - target: {fileID: -7115959648689163848, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: 8b0e37b4e5132a34b9026e2d6664d3ab
+      objectReference: {fileID: 0}
+    - target: {fileID: -7115959648689163848, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].abstractNpcTemplates.Array.data[0]._guid
+      value: 2d89c9bd6158a1049b7460cee96ed7dd
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: maxDamage
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: minDamage
+      value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: forceDamage
+      value: 17.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: poiseDamage
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: ragdollForce
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: pushStaminaCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: parryStaminaCost
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: heavyCastManaCost
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: lightCastManaCost
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: heavyAttackStaminaCost
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: lightAttackStaminaCost
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: blockStaminaCostMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4475773184946659116, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: heavyAttackHoldCostPerTick
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: -40347233837419556, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: strengthRequired
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -40347233837419556, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: dexterityRequired
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: weight
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: basePrice
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_1063394609375480694_773871b1f896f2d4d8c5a1cacbcce12c
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: quality._enumRef
+      value: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null:Magic
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: 'tags.Array.data[0]'
+      value: item:tier3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: description.toggled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: itemName.IdOverride
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: EDITOR_bakedDescription
+      value: Sprint Attacks cost 30 and apply massive force to enemies in front of
+        you.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_1063394609375480694_773871b1f896f2d4d8c5a1cacbcce12c
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: 729894bee0a5c9146a1ca88024918781
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: shareableDropPrefab.arReference.address
+      value: c804ddd1cb50c82478ce239248c98bbb
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Weapon_2H_Polearm_Medium_Tier3_TheRamOfNuada
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9174666264328438791, guid: 49483a089f4ea2447a234e417273bd94,
+        type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 7195963263478641904}
+  m_SourcePrefab: {fileID: 100100000, guid: 49483a089f4ea2447a234e417273bd94, type: 3}
+--- !u!1 &5971417927337880780 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9174666264328438791, guid: 49483a089f4ea2447a234e417273bd94,
+    type: 3}
+  m_PrefabInstance: {fileID: 3282080331818150091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7195963263478641904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971417927337880780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a781d35a7464364dae8f087ddc8a36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionType:
+    _enumRef: 
+  chargeAble: 0
+  hasChargeSteps: 0
+  maxChargeSteps: 1
+  consumeOnUse: 0
+  skills:
+  - skillGraphRef:
+      _guid: a66e8b12cbbf88e468834be5ee8ae878
+    variables:
+    - name: AoEDamageModifier
+      value: 0.2
+    - name: Radius
+      value: 8
+    - name: Angle
+      value: 90
+    - name: Delay
+      value: 0.1
+    - name: PoiseDamageModifer
+      value: 99
+    - name: ForceDamageModifier
+      value: 6
+    - name: RagdollDamageModifier
+      value: 2
+    - name: Buildup
+      value: 0
+    - name: Duration
+      value: 0
+    - name: Stacks
+      value: 0
+    - name: LightCastManaCostCalculated
+      value: 0
+    - name: HeavyCastManaCostCalculated
+      value: 0
+    enums: []
+    datums:
+    - name: RequiresItemCharges
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: UseConeInstead
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: DamageSubtype
+      type:
+        id: 259
+      value:
+        simpleValue:
+          rawValue: 10
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnLightAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnHeavyAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnDashAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnPushAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    templates:
+    - name: Status
+      templateReference:
+        _guid: 51cd95ee768105841982c4d6625b0e97
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 2f1c91c95dadb2e44855797e044af495
+          subObjectName: 

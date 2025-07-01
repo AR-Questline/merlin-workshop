@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="flex-direction: row;">
+        <ui:TextField name="name" binding-path="m_LocaleName" style="flex-grow: 1;" />
+        <ui:TextField name="code" picking-mode="Ignore" binding-path="m_Identifier.m_Code" style="width: 100px;" />
+    </ui:VisualElement>
+</ui:UXML>

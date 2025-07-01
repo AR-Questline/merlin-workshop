@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Wyrdskill_Prologue
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-1052.397,"y":-578.4401},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":false,"equipRepetitive":true,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-1754.0,"y":-712.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"name":"TimeScale","defaultValues":{},"position":{"x":-1443.0,"y":-998.0},"guid":"b7ab2447-0ada-4397-8038-7e5205b089f3","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"11"},{"Type":"Equip","defaultValues":{"_globalTimeScale":{"$content":0.3,"$type":"System.Single"},"_myTimeScale":{"$content":1.0,"$type":"System.Single"}},"position":{"x":-1252.0,"y":-998.0},"guid":"45473f2b-90db-47bc-838b-e6a13ed7b7fb","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.PassiveGlobalTimeScale","$id":"13"},{"Type":"Equip","defaultValues":{"_weight":{"$content":1.0,"$type":"System.Single"},"_timeIn":{"$content":1.0,"$type":"System.Single"},"_timeOut":{"$content":1.0,"$type":"System.Single"}},"position":{"x":-1288.0,"y":-873.0},"guid":"74e96cbb-8977-4ab8-b062-ff376620642a","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.PassiveSlowmotionVolumeUnit"},{"sourceUnit":{"$ref":"11"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"_globalTimeScale","guid":"aef746c4-006a-4084-ba0e-bc5126839605","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

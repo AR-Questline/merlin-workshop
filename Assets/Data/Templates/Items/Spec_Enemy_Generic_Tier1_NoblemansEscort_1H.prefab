@@ -1,0 +1,387 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &901796342077572992
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -2270085940381157614, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: c98de888676de2e4dbfa70da9ab9920d
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443325589952417686, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_Enemy_Generic_Tier1_NoblemansEscort_1H
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: 'managedReferences[6850631821806796829]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours.MeleeAttackBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: 'managedReferences[6850631821806796875]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours.MeleeAttackBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: 'managedReferences[6850631821806796876]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours.MeleeAttackBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: 'managedReferences[6850631821806796877]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.KeepPositionBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: 'managedReferences[6850631821806796878]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.TauntBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: <MeleeBehaviours>k__BackingField.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796877].weight
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796878].weight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[0]'
+      value: 6850631821806796875
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[1]'
+      value: 6850631821806796876
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[2]'
+      value: 6850631821806796877
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[3]'
+      value: 6850631821806796878
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[4]'
+      value: 561597879484416145
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].maxDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].minDistance
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].staminaCost
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].maxDistance
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].minDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].staminaCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].maxDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].minDistance
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].staminaCost
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].canUseRunAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].canUseRunAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].canUseRunAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].canUseRunAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[561597794763669526].waitTimeRange.max
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[561597794763669526].waitTimeRange.min
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796878].allowStaminaRegen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].chanceForComboAttack
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].attackAnimatorState
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].attackAnimatorState
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].attackAnimatorState
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796878].maxDistanceForTaunt
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796878].minDistanceForTaunt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].predictPlayerMovement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].chanceForComboAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].chanceForComboAttack
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].chanceForComboAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].comboAttackStaminaCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].comboAttackStaminaCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].comboAttackStaminaCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796877].desiredDistanceToTarget
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].comboAttackAnimatorState
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].comboAttackAnimatorState
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].comboAttackAnimatorState
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796877].targetPositionAcceptRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796829].runningAttackAnimatorState
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796875].runningAttackAnimatorState
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796876].runningAttackAnimatorState
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796877].closeVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Trot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796877].wanderVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Run
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796878].tryToStartNewBehaviourAtDistance
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].minimumTimeInStateToStartNewBehaviour
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].minimumTimeInStateToStartNewBehaviour
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: managedReferences[6850631821806796877].minimumTimeInStateToStartNewBehaviour
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_8273500493127717614_3fa59147e6050074ba07c892742e4aba
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: displayName.IdOverride
+      value: enemy_human_NoblemansEscort
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2586270717a8a4c459d7e73d283022cb, type: 3}

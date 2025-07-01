@@ -1,0 +1,63 @@
+{
+    "name": "Unity.Localization.DocCodeSamples",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Unity.Localization",
+        "Unity.Localization.Editor",
+        "Unity.ResourceManager",
+        "Unity.Addressables",
+        "Unity.TextMeshPro",
+        "Unity.Addressables.Editor",
+        "UnityEditor.UI",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Unity.Localization.ThirdParty.Editor.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.modules.audio",
+            "expression": "1.0.0",
+            "define": "MODULE_AUDIO"
+        },
+        {
+            "name": "com.unity.modules.uielements",
+            "expression": "1.0.0",
+            "define": "MODULE_UITK"
+        },
+        {
+            "name": "com.unity.ugui",
+            "expression": "1.0.0",
+            "define": "PACKAGE_UGUI"
+        },
+        {
+            "name": "com.unity.textmeshpro",
+            "expression": "1.0.0",
+            "define": "PACKAGE_TMP"
+        },
+        {
+            "name": "Unity",
+            "expression": "2020.3",
+            "define": "ENABLE_PROPERTY_VARIANTS"
+        },
+        {
+            "name": "Unity",
+            "expression": "2021.2",
+            "define": "ENABLE_SEARCH"
+        }
+    ],
+    "noEngineReferences": false
+}

@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4839017279386118828
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -3970488882666513931, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: strengthRequired
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -3970488882666513931, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: dexterityRequired
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -3970488882666513931, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: enduranceRequired
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -3970488882666513931, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: practicalityRequired
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -825017860226033644, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -825017860226033644, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: skills.Array.data[0].skillGraphRef._guid
+      value: 1b5b2de6740e49e4a829246bbd414e11
+      objectReference: {fileID: 0}
+    - target: {fileID: -825017860226033644, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -825017860226033644, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[2].name
+      value: ValuePreCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: -825017860226033644, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[3].name
+      value: ValueCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: -825017860226033644, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[0].value
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -825017860226033644, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: skills.Array.data[0].enums.Array.data[0].enumReference._enumRef
+      value: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:StaminaRegen
+      objectReference: {fileID: 0}
+    - target: {fileID: -26941190644839840, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: armor
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: weightLoss
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_6947367560144505105_44c4ff77854fefc4b9ef4b2b75f69004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: quality._enumRef
+      value: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null:Magic
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: description.toggled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_6947367560144505105_44c4ff77854fefc4b9ef4b2b75f69004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: description.locString.IdOverride
+      value: description_generic_increase_multiply_percent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: a1c520a32a2a3d64b82c216a7fdb4f96,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_Medium_T3_Legs_KeepersPantsPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a1c520a32a2a3d64b82c216a7fdb4f96, type: 3}

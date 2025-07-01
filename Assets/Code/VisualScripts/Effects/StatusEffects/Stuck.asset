@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Stuck
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":143.5052,"y":-31.9158},"zoom":0.9,"elements":[{"defaultValues":{},"position":{"x":-285.0,"y":-443.0},"guid":"10e654b0-5b7b-4482-99c7-78d64994ed0f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"defaultValues":{"buildupStrengthIfPossible":{"$content":0.0,"$type":"System.Single"}},"position":{"x":126.0,"y":-428.0},"guid":"82f83c6f-bf2c-4aeb-9d7f-1d930ab2f375","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.ApplyStatus","$id":"11"},{"defaultValues":{},"position":{"x":-256.0,"y":-152.0},"guid":"c13b5388-0227-49fd-9e32-0715edf183ca","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"13"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onLearn","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"89d8a299-c665-4d45-8434-55fdcaf57e08","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"owner","destinationUnit":{"$ref":"11"},"destinationKey":"character","guid":"1203ac11-b96d-4150-b680-8c196818fe9e","$type":"Unity.VisualScripting.ValueConnection"},{"position":{"xMin":78.00006,"yMin":-475.2222,"xMax":402.4445,"yMax":-216.8889},"label":"Immobilize","comment":null,"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"guid":"01f00ad8-bcc1-463f-97db-b36b97debdf9","$version":"A","$type":"Unity.VisualScripting.GraphGroup"},{"position":{"xMin":82.0,"yMin":-191.0,"xMax":425.0,"yMax":43.0},"label":"Remove
+      Immobilize","comment":null,"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"guid":"c0939e69-9814-43aa-8b48-54c9cf9eb3fe","$version":"A","$type":"Unity.VisualScripting.GraphGroup"}],"$version":"A"}}'
+    _objectReferences: []

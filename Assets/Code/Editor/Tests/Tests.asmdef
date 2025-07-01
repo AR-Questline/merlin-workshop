@@ -1,0 +1,31 @@
+{
+    "name": "Tests",
+    "rootNamespace": "Awaken.TG",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Unity.PerformanceTesting",
+        "Unity.PerformanceTesting.Editor",
+        "Unity.PerformanceTesting.Tests.Editor",
+        "Unity.PerformanceTesting.Tests.Runtime",
+        "TG.Main",
+        "AwesomeTechnologies.VegetationStudioPro.Runtime",
+        "XNode",
+        "Awaken.Utility",
+        "UnityEditor.UI",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

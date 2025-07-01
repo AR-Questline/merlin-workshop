@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Animals_Boar
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 4
+    idle:
+      Guid:
+        Data1: 35640519
+        Data2: 1228016015
+        Data3: -6412620
+        Data4: -646363756
+      Path: event:/SFX/Animals/Boar/SFX_Animals_Boar_Idle
+    hurt:
+      Guid:
+        Data1: -738616654
+        Data2: 1076751934
+        Data3: 526716601
+        Data4: 172579315
+      Path: event:/SFX/Animals/Boar/SFX_Animals_Boar_Attack
+    die:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    attack:
+      Guid:
+        Data1: -738616654
+        Data2: 1076751934
+        Data3: 526716601
+        Data4: 172579315
+      Path: event:/SFX/Animals/Boar/SFX_Animals_Boar_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1058847788
+        Data2: 1092211816
+        Data3: 83581631
+        Data4: -1599002105
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy
+    roar:
+      Guid:
+        Data1: 35640519
+        Data2: 1228016015
+        Data3: -6412620
+        Data4: -646363756
+      Path: event:/SFX/Animals/Boar/SFX_Animals_Boar_Idle

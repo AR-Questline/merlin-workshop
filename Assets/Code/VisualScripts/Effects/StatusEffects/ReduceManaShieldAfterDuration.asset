@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: ReduceManaShieldAfterDuration
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"Damage","value":{"$content":0.0,"$type":"System.Single"},"typeHandle":{"Identification":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":2333.643,"y":-929.4951},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":2301.0,"y":-1279.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"10"},{"nest":{"source":"Macro","macro":0,"embed":null},"defaultValues":{},"position":{"x":2509.0,"y":-974.0},"guid":"e43d1491-0175-4a71-9ee2-d544a4c81fb2","$version":"A","$type":"Unity.VisualScripting.SubgraphUnit","$id":"12"},{"argumentCount":1,"defaultValues":{"name":{"$content":"ReduceManaShield","$type":"System.String"},"target":null},"position":{"x":2737.0,"y":-1102.0},"guid":"5f4e0638-63d4-49b2-be36-7d7d75dd1580","$version":"A","$type":"Unity.VisualScripting.TriggerCustomEvent","$id":"15"},{"name":"Shield","defaultValues":{},"position":{"x":2548.0,"y":-876.0},"guid":"c6e749c3-a1a5-4b53-b2ec-f49e6e5d530d","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"17"},{"sourceUnit":{"$ref":"10"},"sourceKey":"onForget","destinationUnit":{"$ref":"15"},"destinationKey":"enter","guid":"ab23f53c-2ad2-4c5f-8c2f-14f51fe46565","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Skill
+      Owner Transform","destinationUnit":{"$ref":"15"},"destinationKey":"target","guid":"e279e518-98f0-491b-a84d-234eb454cadc","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"17"},"sourceKey":"value","destinationUnit":{"$ref":"15"},"destinationKey":"argument_0","guid":"0532c152-03ad-43f3-a4e1-53833e0c0499","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences:
+    - {fileID: 11400000, guid: 828b00409cdd5ee49934ca344df5a7cb, type: 2}

@@ -1,0 +1,29 @@
+apiRules: 
+  - exclude: 
+      uidRegex: Tests$
+  - exclude: 
+      uidRegex: .*Test.*
+  - exclude: 
+      uidRegex: .*HideResourceFoldersScope.*
+  - exclude: 
+      uidRegex: .*IgnoreFailingLogMessage.*
+  - exclude: 
+      type: Namespace
+      uidRegex: GUI$
+  - exclude: 
+      type: Namespace
+      uidRegex: Unity.*\.Tests\..*$
+  - exclude: 
+      type: Namespace
+      uidRegex: DocExampleCode$
+  # hiding samples from api docs
+  - exclude:
+      uidRegex: .*Global Namespace.AddressablesUtility.*
+  - exclude:
+      uidRegex: .*Global Namespace.ComponentReference.*
+  - exclude:
+      uidRegex: .*Global Namespace.DisableAssetImportOnBuild.*
+  - exclude:
+      uidRegex: .*Global Namespace.LoadSceneForCustomBuild.*
+  - exclude:
+      uidRegex: .*Global Namespace.PrefabSpawnerSample.*

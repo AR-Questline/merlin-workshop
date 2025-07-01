@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_ThunderStorm
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: -89446432
+        Data2: 1266278917
+        Data3: -771704667
+        Data4: 1008752412
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_CastBegun
+    castCharging:
+      Guid:
+        Data1: -2062729107
+        Data2: 1123327861
+        Data3: -1933654596
+        Data4: -2107119674
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: 445013962
+        Data2: 1310083542
+        Data3: 722899592
+        Data4: 356774895
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_CastFullyCharged
+    castCancel:
+      Guid:
+        Data1: -579153518
+        Data2: 1320766348
+        Data3: 1816736941
+        Data4: 2049631427
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_CastCancel
+    castRelease:
+      Guid:
+        Data1: 823637470
+        Data2: 1278944403
+        Data3: -1085653119
+        Data4: -1652796925
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: -567176004
+        Data2: 1126886551
+        Data3: -1266439770
+        Data4: 1871509127
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: -355574494
+        Data2: 1159067296
+        Data3: -1390947198
+        Data4: 625656488
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_Equip
+    unEquipMagic:
+      Guid:
+        Data1: -355574494
+        Data2: 1159067296
+        Data3: -1390947198
+        Data4: 625656488
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: 999336931
+        Data2: 1169791099
+        Data3: 265202367
+        Data4: 1549080224
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 1637065674
+        Data2: 1293306054
+        Data3: -746374752
+        Data4: 660639856
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 1809001924
+        Data2: 1155945496
+        Data3: 433842352
+        Data4: 61952003
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_ProjectileIdle
+    magicHit:
+      Guid:
+        Data1: 1739961904
+        Data2: 1157543951
+        Data3: -2116248677
+        Data4: -639715556
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_Hit
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: 162218413
+        Data2: 1214213763
+        Data3: -736865664
+        Data4: -752052787
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 162218413
+        Data2: 1214213763
+        Data3: -736865664
+        Data4: -752052787
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_Sheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: -355574494
+        Data2: 1159067296
+        Data3: -1390947198
+        Data4: 625656488
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_Equip
+    dropItem:
+      Guid:
+        Data1: -355574494
+        Data2: 1159067296
+        Data3: -1390947198
+        Data4: 625656488
+      Path: event:/SFX/Spells/ThunderStorm/SFX_Spells_ThunderStorm_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

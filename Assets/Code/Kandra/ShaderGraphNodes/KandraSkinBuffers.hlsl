@@ -1,0 +1,26 @@
+﻿#ifndef KANDRA_SKIN_BUFFERS_INCLUDED
+#define KANDRA_SKIN_BUFFERS_INCLUDED
+
+#include "KandraDebug.hlsl"
+
+#if (defined(UNITY_DOTS_INSTANCING_ENABLED) && defined(KANDRA_SKINNING))
+
+#include "KandraStructs.hlsl"
+
+uniform StructuredBuffer<CompressedVertex> _GlobalOriginalVertices;
+uniform StructuredBuffer<RendererDatum> _GlobalRenderersData;
+uniform StructuredBuffer<SkinningVerticesDatum> _GlobalSkinningVerticesData;
+uniform StructuredBuffer<CompressedVertex> _GlobalSkinnedVertices;
+uniform StructuredBuffer<AdditionalVertexData> _GlobalAdditionalVerticesData;
+uniform StructuredBuffer<float3> _GlobalPreviousPositions;
+
+#define KANDRA_ORIGINAL_VERTICES_BUFFER _GlobalOriginalVertices
+#define KANDRA_RENDERERS_DATA_BUFFER _GlobalRenderersData
+#define KANDRA_SKINNING_DATA_BUFFER _GlobalSkinningVerticesData
+#define KANDRA_SKIN_VERTICES_BUFFER _GlobalSkinnedVertices
+#define KANDRA_ADDITIONAL_VERTICES_BUFFER _GlobalAdditionalVerticesData
+#define KANDRA_PREVIOUS_POSITIONS_BUFFER _GlobalPreviousPositions
+
+#endif
+
+#endif

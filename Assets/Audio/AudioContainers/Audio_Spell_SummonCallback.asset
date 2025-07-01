@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_SummonCallback
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: -553560038
+        Data2: 1130053155
+        Data3: 927634058
+        Data4: 1288405404
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_CastBegun
+    castCharging:
+      Guid:
+        Data1: 1598271892
+        Data2: 1217233640
+        Data3: 670490805
+        Data4: 1612590195
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: -850569431
+        Data2: 1164987868
+        Data3: 1706382237
+        Data4: -1345473118
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_CastFullyCharged
+    castCancel:
+      Guid:
+        Data1: 408197777
+        Data2: 1298264276
+        Data3: 2146318982
+        Data4: -1131100273
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_CastCancel
+    castRelease:
+      Guid:
+        Data1: -1114032446
+        Data2: 1320916200
+        Data3: -1975010666
+        Data4: 1219661503
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: 1630478023
+        Data2: 1141131063
+        Data3: 1089925250
+        Data4: -929219364
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: -940007895
+        Data2: 1204561272
+        Data3: -568423502
+        Data4: -1479061353
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_Equip
+    unEquipMagic:
+      Guid:
+        Data1: -940007895
+        Data2: 1204561272
+        Data3: -568423502
+        Data4: -1479061353
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: -99490244
+        Data2: 1252769213
+        Data3: -51486076
+        Data4: -1390415397
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: -922262114
+        Data2: 1174904413
+        Data3: -957022581
+        Data4: 84934543
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: -1328440470
+        Data2: 1254306640
+        Data3: 1077327510
+        Data4: 1108455816
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_ProjectileIdle
+    magicHit:
+      Guid:
+        Data1: 1915882189
+        Data2: 1107047950
+        Data3: -2041635930
+        Data4: -1415320413
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_Hit
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: 275175892
+        Data2: 1272490389
+        Data3: 1085358724
+        Data4: 2072457912
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 275175892
+        Data2: 1272490389
+        Data3: 1085358724
+        Data4: 2072457912
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_Sheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: -940007895
+        Data2: 1204561272
+        Data3: -568423502
+        Data4: -1479061353
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_Equip
+    dropItem:
+      Guid:
+        Data1: -940007895
+        Data2: 1204561272
+        Data3: -568423502
+        Data4: -1479061353
+      Path: event:/SFX/Spells/SummonCallback/SFX_Spells_SummonCallback_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

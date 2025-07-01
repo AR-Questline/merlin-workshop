@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &672565437759915310
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1382325995290807351, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: fefd86230c8f3394ea8992287f2217eb
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: a3f8565094797304daac8faf3c5a53ee
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: mobItems.Array.data[2].itemPrefab.address
+      value: 18e609678b1080247a9524bd3e461d52
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_3033398497745806995_109f3e3451267044f9bfbdc28c6e4648
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_3033398497745806995_109f3e3451267044f9bfbdc28c6e4648
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: dbac4b309bdaf354c8243c8853aa1bf9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_Heavy_T5_Head_TheudMysticHelmet_v1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9174666264328438791, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5920900530005001844}
+  m_SourcePrefab: {fileID: 100100000, guid: 31ed836cd68c8fc4488069b4824cb9ef, type: 3}
+--- !u!1 &8504934545255825705 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9174666264328438791, guid: 31ed836cd68c8fc4488069b4824cb9ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 672565437759915310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5920900530005001844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8504934545255825705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c9a1b7550142df966ddef0ca491555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strengthRequired: 0
+  dexterityRequired: 0
+  spiritualityRequired: 0
+  perceptionRequired: 0
+  enduranceRequired: 0
+  practicalityRequired: 0

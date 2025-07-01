@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6333203697434323422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5564201018591725748}
+  - component: {fileID: -5198906558835360612}
+  - component: {fileID: -3070426162178028498}
+  m_Layer: 0
+  m_Name: Status_Story_DecreaseDamage_ByPercent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5564201018591725748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333203697434323422}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5198906558835360612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333203697434323422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28796ce50b55460f81238a29ad8f8600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  statusType:
+    _enumRef: Awaken.TG.Main.Heroes.Statuses.StatusType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Blessing
+  iconReference:
+    arSpriteReference:
+      address: dde309d0862e1d447a73ae48f6ac5731
+      subObjectName: 
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_13247837514874191004_5ef6c6f711d93bc43bd414788e7b0c4c
+  description:
+    IdOverride: 
+    ID: Template/description_13247837514874191004_5ef6c6f711d93bc43bd414788e7b0c4c
+  keywords: []
+  hiddenOnUI: 0
+  hiddenOnHUD: 0
+  alwaysShowSeparately: 0
+  invertProgressUI: 0
+  overrideToAddForDifferentItems: 0
+  addType: 3
+  addTypeOnStacking: 2
+  timerShouldDeStack: 0
+  upgradeReference:
+    _guid: 5d8e6a077d140484bbfe4a70d1495583
+  fightValueFactor: 0
+  skill:
+    skillGraphRef:
+      _guid: 443c50527d2e0444bb960ff3136c6617
+    variables:
+    - name: ModifyValue
+      value: 20
+    - name: GainValue
+      value: 0
+    - name: CalculatedValue
+      value: 0
+    enums:
+    - name: StatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Strength
+    datums: []
+    templates: []
+    assetReferences: []
+--- !u!114 &-3070426162178028498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333203697434323422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab6a699ed5945868a70c95e94432a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 20
+  unscaledTime: 1

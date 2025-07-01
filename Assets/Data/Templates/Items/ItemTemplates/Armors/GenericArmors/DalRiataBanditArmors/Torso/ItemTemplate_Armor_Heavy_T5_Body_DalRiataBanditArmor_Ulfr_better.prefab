@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &962160664033410108
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 717936502073480362, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_Heavy_T5_Body_DalRiataBanditArmor_Ulfr_better
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476856714982302415, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1546524429448196093, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: strengthRequired
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1546524429448196093, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: enduranceRequired
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016115903753040602, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: armor
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190703760442651408, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_6391597721652514604_3b6f4bc2fd0a9354da0781e8223cf83e
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190703760442651408, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_6391597721652514604_3b6f4bc2fd0a9354da0781e8223cf83e
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190703760442651408, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: _abstractTypes.Array.data[0]._guid
+      value: 01a5b968d368086489a0d83d4cb8ae37
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190703760442651408, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: d3730f2bc6594654dbff013a4762053e
+      objectReference: {fileID: 0}
+    - target: {fileID: 7317059673687202970, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: 2abaa327a1914d546931f2fce7decaad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7317059673687202970, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: 9e11029520be1c14c98d2fb38150af67
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384092061750180552, guid: 56b30c8974a6d264ab0ebe814cf50624,
+        type: 3}
+      propertyPath: armorSurfaceType._enumRef
+      value: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ArmorMetal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 56b30c8974a6d264ab0ebe814cf50624, type: 3}

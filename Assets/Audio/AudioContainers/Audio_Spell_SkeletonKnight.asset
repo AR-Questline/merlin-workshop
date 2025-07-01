@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_SkeletonKnight
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 970372175
+        Data2: 1297777359
+        Data3: 499096723
+        Data4: -386733653
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_CastBegun
+    castCharging:
+      Guid:
+        Data1: -112350128
+        Data2: 1265482066
+        Data3: 1875777942
+        Data4: 1928650207
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: -1875945129
+        Data2: 1184836975
+        Data3: -1039807086
+        Data4: -1839662708
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_CastCancel
+    castRelease:
+      Guid:
+        Data1: -1629559475
+        Data2: 1267297838
+        Data3: 1049826183
+        Data4: -587445219
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: 1595828842
+        Data2: 1178951393
+        Data3: 2024631207
+        Data4: -345728580
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: 1839662801
+        Data2: 1129333631
+        Data3: -824304255
+        Data4: -1159203864
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_Equip
+    unEquipMagic:
+      Guid:
+        Data1: 1839662801
+        Data2: 1129333631
+        Data3: -824304255
+        Data4: -1159203864
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: 371938952
+        Data2: 1178154932
+        Data3: 634868620
+        Data4: -1253126459
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 1666711943
+        Data2: 1164218450
+        Data3: 1826764971
+        Data4: 453760446
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: -1123026723
+        Data2: 1304113992
+        Data3: -1386010487
+        Data4: -1307904779
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 1402217928
+        Data2: 1205761538
+        Data3: 1294965924
+        Data4: 1387944777
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 1839662801
+        Data2: 1129333631
+        Data3: -824304255
+        Data4: -1159203864
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_Equip
+    dropItem:
+      Guid:
+        Data1: 1839662801
+        Data2: 1129333631
+        Data3: -824304255
+        Data4: -1159203864
+      Path: event:/SFX/Spells/SkeletonKnight/SFX_Spells_SkeletonKnight_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

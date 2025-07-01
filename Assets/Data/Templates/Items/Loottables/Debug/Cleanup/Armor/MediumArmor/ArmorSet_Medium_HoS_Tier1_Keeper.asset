@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: ArmorSet_Medium_HoS_Tier1_Keeper
+  m_EditorClassIdentifier: 
+  table:
+    rid: 3168152186127647017
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3168152186127647017
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 5593304253294182403
+        - rid: 5593304253294182404
+        - rid: 5593304253294182405
+        - rid: 5593304253294182406
+        - rid: 5593304253294182407
+    - rid: 5593304253294182403
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: f298891ec5aea9445a4fa8063419dcb4
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182404
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 45192c058431ee947aa7e289706e3cfd
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182405
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 027b5a1fe4fb6db40ae415b92b89a535
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182406
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: a1c520a32a2a3d64b82c216a7fdb4f96
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182407
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 44b98e9bc397bf147b73126b2515f4f0
+        quantity: 1
+        itemLvl: 0

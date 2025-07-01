@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: PRA_Talent_SleepGivesRejuvenation
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":1094.853,"y":-462.277},"zoom":1.0,"elements":[{"learn":false,"learnRepetitive":true,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"defaultValues":{},"position":{"x":673.0,"y":-600.0},"guid":"a110096e-cd56-4d7f-813e-04c5c5e36514","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"defaultValues":{"flag":{"$content":"SleepGrantRejuvenation","$type":"System.String"},"value":{"$content":true,"$type":"System.Boolean"}},"position":{"x":991.0,"y":-610.0},"guid":"24ed8037-27a7-4a52-b308-15bb9c0e21b7","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"11"},{"defaultValues":{"flag":{"$content":"SleepGrantRejuvenation","$type":"System.String"},"value":{"$content":false,"$type":"System.Boolean"}},"position":{"x":989.0,"y":-471.0},"guid":"67dcd3a2-3a76-4754-8a71-304ed226ec00","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"13"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onLearnRepetitive","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"c9e0adf0-7f7b-4f26-91d1-89fdfb21a839","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onForgetRepetitive","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"4f8ceb5c-0600-470e-876d-d4eecbb5d9bf","$type":"Unity.VisualScripting.ControlConnection"}],"$version":"A"}}'
+    _objectReferences: []

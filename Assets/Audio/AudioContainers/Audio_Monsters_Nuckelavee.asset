@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Nuckelavee
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 648282923
+        Data2: 1193263897
+        Data3: -345712757
+        Data4: 552367833
+      Path: event:/SFX/Monsters/Nuckelavee/SFX_Enemies_Nuckelavee_Idle
+    hurt:
+      Guid:
+        Data1: -294131223
+        Data2: 1332440442
+        Data3: 1189590669
+        Data4: 591776539
+      Path: event:/SFX/Monsters/Nuckelavee/SFX_Enemies_Nuckelavee_Attack_Bite
+    die:
+      Guid:
+        Data1: 1510998987
+        Data2: 1279295316
+        Data3: -1929570392
+        Data4: -242236931
+      Path: event:/SFX/Monsters/Nuckelavee/SFX_Enemies_Nuckelavee_Die
+    attack:
+      Guid:
+        Data1: -294131223
+        Data2: 1332440442
+        Data3: 1189590669
+        Data4: 591776539
+      Path: event:/SFX/Monsters/Nuckelavee/SFX_Enemies_Nuckelavee_Attack_Bite
+    specialAttack:
+      Guid:
+        Data1: 1605895371
+        Data2: 1237018752
+        Data3: -16518500
+        Data4: -757474891
+      Path: event:/SFX/Monsters/Nuckelavee/SFX_Enemies_Nuckelavee_Attack_Spit
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -345193947
+        Data2: 1079333540
+        Data3: -1307081587
+        Data4: -1320504328
+      Path: event:/SFX/Monsters/Nuckelavee/SFX_Enemies_Nuckelavee_FTS
+    roar:
+      Guid:
+        Data1: -1859652776
+        Data2: 1186255742
+        Data3: -1081826672
+        Data4: -891152984
+      Path: event:/SFX/Monsters/Nuckelavee/SFX_Enemies_Nuckelavee_SoulSteal

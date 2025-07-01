@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8130841807659251953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1381296167530838729}
+  - component: {fileID: -8615223716988781025}
+  - component: {fileID: 7123557483218878153}
+  m_Layer: 0
+  m_Name: Status_Immobilize
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1381296167530838729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8130841807659251953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8615223716988781025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8130841807659251953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28796ce50b55460f81238a29ad8f8600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  statusType:
+    _enumRef: Awaken.TG.Main.Heroes.Statuses.StatusType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Debuff
+  iconReference:
+    arSpriteReference:
+      address: bd3b82ac7af51314287c3ee24b4fe5c1
+      subObjectName: 
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_9831520356720770591_edff99474b1bf26489a3fad7b6061315
+  description:
+    IdOverride: 
+    ID: Template/description_9831520356720770591_edff99474b1bf26489a3fad7b6061315
+  keywords: []
+  notSaved: 0
+  hiddenOnUI: 0
+  hiddenOnHUD: 0
+  alwaysShowSeparately: 0
+  invertProgressUI: 0
+  overrideToAddForDifferentItems: 0
+  addType: 2
+  addTypeOnStacking: 2
+  timerShouldDeStack: 0
+  upgradeReference:
+    _guid: 
+  fightValueFactor: 0
+  skill:
+    skillGraphRef:
+      _guid: 9ba2875b02d82e840b2167f2b1816f4b
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences: []
+--- !u!114 &7123557483218878153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8130841807659251953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab6a699ed5945868a70c95e94432a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 4
+  unscaledTime: 1

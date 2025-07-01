@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_NPC_Female
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: 462829404
+        Data2: 1176551507
+        Data3: 546926464
+        Data4: 563682672
+      Path: event:/SFX/Humanoids/SFX_Enemies_Hum_Female_Hurt
+    die:
+      Guid:
+        Data1: -695492073
+        Data2: 1160963647
+        Data3: 593375656
+        Data4: 1001234894
+      Path: event:/SFX/Humanoids/SFX_Enemies_Hum_Female_Die
+    attack:
+      Guid:
+        Data1: -1124588352
+        Data2: 1293439223
+        Data3: 1668058525
+        Data4: 66866453
+      Path: event:/SFX/Humanoids/SFX_Enemies_Hum_Female_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1058847788
+        Data2: 1092211816
+        Data3: 83581631
+        Data4: -1599002105
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

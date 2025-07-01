@@ -1,0 +1,27 @@
+{
+    "name": "Awaken.Utility.Editor",
+    "rootNamespace": "Awaken",
+    "references": [
+        "Awaken.Utility",
+        "Unity.Mathematics",
+        "Unity.Collections",
+        "Unity.Burst.CodeGen",
+        "Awaken.CommonInterfaces",
+        "UnityEditor.UI",
+        "UnityEngine.UI",
+        "Awaken.PackageUtilities",
+        "VendorWrappers",
+        "VendorWrappers.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

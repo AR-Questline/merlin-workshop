@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Weapon_GrantManaShield
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"Active","value":{"$content":false,"$type":"System.Boolean"},"typeHandle":{"Identification":"System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":542.3232,"y":195.5675},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-351.0,"y":-61.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"10"},{"defaultValues":{},"position":{"x":523.0,"y":108.0},"guid":"02e71ce6-d8e5-4de1-8681-6521fbe15527","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"12"},{"defaultValues":{"buildupStrengthIfPossible":{"$content":0.0,"$type":"System.Single"}},"position":{"x":764.0,"y":36.0},"guid":"921da682-f18b-4607-84bb-064f8e75ad66","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.ApplyStatus","$id":"14"},{"reference":{"_guid":"1b78b0c12762d4a458adf8f0621ad7d7"},"defaultValues":{},"position":{"x":486.0,"y":-97.0},"guid":"2126867e-1c4a-41ae-98fb-7aa3128c9cda","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Typing.StatusTemplateLiteral","$id":"16"},{"sourceUnit":{"$ref":"10"},"sourceKey":"onEquip","destinationUnit":{"$ref":"14"},"destinationKey":"enter","guid":"dc9fd308-b775-4ab4-a82d-79e27c858cf9","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"StatusTemplate","destinationUnit":{"$ref":"14"},"destinationKey":"statusTemplate","guid":"d3a4bd7a-0e83-401e-8639-86b06d577631","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"owner","destinationUnit":{"$ref":"14"},"destinationKey":"character","guid":"2a758d77-943c-419d-b7b1-47eee7f58404","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

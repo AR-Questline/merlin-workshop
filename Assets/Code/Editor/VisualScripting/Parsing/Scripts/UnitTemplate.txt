@@ -1,0 +1,37 @@
+﻿#USING#
+
+namespace #NAMESPACE# {
+    [UnitCategory("#CATEGORY#")]
+    [TypeIcon(typeof(FlowGraph))]
+    public class #NAME# : ARGeneratedUnit {
+
+        ControlInput enter;
+        ControlOutput exit;
+        
+        #INPUT_FIELDS#
+        
+        #OUTPUT_FIELDS#
+        
+        protected override void Definition() {
+            enter = ControlInput("Enter", Enter);
+            exit = ControlOutput("Exit");
+            Succession(enter, exit);
+
+            #INPUT_DEFINITION#
+
+            #OUTPUT_DEFINITION#
+        }
+
+        ControlOutput Enter(Flow flow) {
+            #INPUT_GET#
+            
+            Invoke(flow.stack.gameObject, flow#INVOKE_PARAMS#);
+            
+            #OUTPUT_SET#
+            
+            return exit;
+        }
+        
+        #INVOKE_DEFINITION#
+    }
+}

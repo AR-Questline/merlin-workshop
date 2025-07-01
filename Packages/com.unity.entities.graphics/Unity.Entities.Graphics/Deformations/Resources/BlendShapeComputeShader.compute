@@ -1,0 +1,90 @@
+#pragma kernel BlendShapeComputeKernel
+
+#define NBR_THREAD_GROUPS 1024
+
+#define NBR_THREADS_X 128
+#define NBR_THREADS_Y 1
+#define NBR_THREADS_Z 1
+
+#define THREAD_COUNT NBR_THREADS_Y * NBR_THREADS_X * NBR_THREADS_Z
+#define STEP_SIZE THREAD_COUNT * NBR_THREAD_GROUPS
+
+struct VertexData
+{
+	float3 Position;
+	float3 Normal;
+	float3 Tangent;
+};
+
+struct BlendShapeVertexDelta
+{
+	int    BlendShapeIndex;
+	float3 Position;
+	float3 Normal;
+	float3 Tangent;
+};
+#define SIZE_OF_VERTEX_DELTA 10
+
+uniform ByteAddressBuffer		 		_BlendShapeVertexData;
+uniform ByteAddressBuffer				_BlendShapeWeights;
+uniform RWStructuredBuffer<VertexData>	_DeformedMeshData : register(u1);
+
+uint g_VertexCount;
+uint g_BlendShapeWeightStartIndex;
+uint g_DeformedMeshStartIndex;
+uint g_InstanceCount;
+uint g_BlendShapeCount;
+
+BlendShapeVertexDelta LoadBlendShapeVertex(int index)
+{
+	index = index << 2;
+	uint4 v1 = _BlendShapeVertexData.Load4(index + 0 * 16);
+	uint3 v2 = _BlendShapeVertexData.Load3(index + 1 * 16);
+	uint3 v3 = _BlendShapeVertexData.Load3(index + 2 * 16);
+
+	BlendShapeVertexDelta data;
+	data.BlendShapeIndex = asint(v1.x);
+	data.Position = asfloat(v1.yzw);
+	data.Normal = asfloat(v2.xyz);
+	data.Tangent = asfloat(v3.xyz);
+	return data;
+}
+
+int2 LoadBlendShapeRange(uint index)
+{
+	int2 range = asint(_BlendShapeVertexData.Load2(index << 2));
+	return range;
+}
+
+float LoadBlendWeight(uint index)
+{
+	return asfloat(_BlendShapeWeights.Load(index << 2));
+}
+
+[numthreads(NBR_THREADS_X, NBR_THREADS_Y, NBR_THREADS_Z)]
+void BlendShapeComputeKernel(uint id : SV_GroupIndex, uint3 groupId : SV_GroupID)
+{
+	const uint totalNumVertices = g_VertexCount * g_InstanceCount;
+	const uint start = id + groupId[0] * THREAD_COUNT;
+
+	for (uint i = start; i < totalNumVertices; i += STEP_SIZE)
+	{
+		const uint sharedMeshVertexIndex = i % g_VertexCount;
+		const uint deformedMeshVertexIndex = g_DeformedMeshStartIndex + i;
+		const uint blendShapeWeightOffset = g_BlendShapeWeightStartIndex + (i / g_VertexCount) * g_BlendShapeCount;
+
+		VertexData vertex = _DeformedMeshData[deformedMeshVertexIndex];
+
+		const int2 range = LoadBlendShapeRange(sharedMeshVertexIndex);
+		for (int j = range[0]; j < range[1]; j += SIZE_OF_VERTEX_DELTA)
+		{
+			const BlendShapeVertexDelta vertexDelta = LoadBlendShapeVertex(j);
+			const float weight = LoadBlendWeight(blendShapeWeightOffset + vertexDelta.BlendShapeIndex) * 0.01f;
+			vertex.Position += weight * vertexDelta.Position;
+			vertex.Normal	+= weight * vertexDelta.Normal;
+			vertex.Tangent	+= weight * vertexDelta.Tangent;
+		}
+
+		_DeformedMeshData[deformedMeshVertexIndex] = vertex;
+	}
+}

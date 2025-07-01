@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_BloodAbomination
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: 200798058
+        Data2: 1185322677
+        Data3: 1086772909
+        Data4: -1758003906
+      Path: event:/SFX/Monsters/BloodAbomination/SFX_Enemies_BloodAbomination_Hurt
+    die:
+      Guid:
+        Data1: 1871850084
+        Data2: 1222442676
+        Data3: -1327948865
+        Data4: -1883749362
+      Path: event:/SFX/Monsters/BloodAbomination/SFX_Enemies_BloodAbomination_Die
+    attack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialAttack:
+      Guid:
+        Data1: 1141069651
+        Data2: 1187922229
+        Data3: 1136838075
+        Data4: 1921691712
+      Path: event:/SFX/Monsters/BloodAbomination/SFX_Enemies_BloodAbomination_SpecialAttack
+    specialBegin:
+      Guid:
+        Data1: -1130555961
+        Data2: 1229690575
+        Data3: -2114819162
+        Data4: -168869038
+      Path: event:/SFX/Monsters/BloodAbomination/SFX_Enemies_BloodAbomination_SpecialBegin
+    specialRelease:
+      Guid:
+        Data1: 1166095713
+        Data2: 1293701629
+        Data3: 1850689720
+        Data4: 1786559121
+      Path: event:/SFX/Monsters/BloodAbomination/SFX_Enemies_BloodAbomination_SpecialRelease
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

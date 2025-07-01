@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: EffectModifierGate
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Check","label":null,"summary":null,"hideLabel":false}],"controlOutputDefinitions":[{"key":"Success","label":null,"summary":null,"hideLabel":false},{"key":"Fail","label":null,"summary":null,"hideLabel":false}],"valueInputDefinitions":[],"valueOutputDefinitions":[{"_type":"System.Single","key":"Value","label":null,"summary":null,"hideLabel":false}],"title":null,"summary":null,"pan":{"x":221.8766,"y":-76.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":211.0,"y":-101.0},"guid":"1d39f41d-e1d3-4d4a-851a-59c63ae6c70e","$version":"A","$type":"Unity.VisualScripting.If","$id":"13"},{"numeric":true,"defaultValues":{"b":{"$content":0.0,"$type":"System.Single"}},"position":{"x":24.0,"y":-33.0},"guid":"fa1eecc2-3742-43ce-a814-b68071713f9e","$version":"A","$type":"Unity.VisualScripting.Greater","$id":"15"},{"defaultValues":{},"position":{"x":-181.0,"y":-102.0},"guid":"dd4dc417-7f52-401b-ae01-51324dd76ff3","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"17"},{"defaultValues":{},"position":{"x":368.0,"y":-100.0},"guid":"3395c75f-fc67-4320-b0f2-b7f0675eb530","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"19"},{"defaultValues":{},"position":{"x":-253.0,"y":92.0},"guid":"5003f128-5aa4-433d-92c4-a95d1dcc3ef2","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.GetStatusEffectModifier","$id":"21"},{"sourceUnit":{"$ref":"13"},"sourceKey":"ifTrue","destinationUnit":{"$ref":"19"},"destinationKey":"Success","guid":"e0ceeec3-063b-4047-9bd7-4ba7ebcbb94b","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"ifFalse","destinationUnit":{"$ref":"19"},"destinationKey":"Fail","guid":"4d58adfc-ab02-433f-a0ea-9d0c1bcedc44","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"17"},"sourceKey":"Check","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"16af97eb-cece-45f4-8b9e-8d73c622cde0","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"comparison","destinationUnit":{"$ref":"13"},"destinationKey":"condition","guid":"30dca462-ca3a-4d4e-bfda-85338cc885e9","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"modifier","destinationUnit":{"$ref":"15"},"destinationKey":"a","guid":"93f5e873-7272-4551-8662-8840729c43f0","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"modifier","destinationUnit":{"$ref":"19"},"destinationKey":"Value","guid":"2abd58b9-c090-4e07-83aa-989fa8502503","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

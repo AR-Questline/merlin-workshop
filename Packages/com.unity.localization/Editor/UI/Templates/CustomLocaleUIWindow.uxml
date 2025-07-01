@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Label text="Custom Locale Creator" name="customLocaleUI_label" style="justify-content: flex-end; align-items: center; -unity-font-style: bold; font-size: 18px; -unity-text-align: middle-center; height: 42px;" />
+    <ui:TextField picking-mode="Ignore" label="Locale Name" value="filler text" name="customLocaleUI_localeName" />
+    <ui:TextField picking-mode="Ignore" label="Locale Identifier" name="customLocaleUI_localeIdentifier" />
+    <ui:VisualElement name="customLocaleUI_buttonHolder" style="align-items: flex-end; justify-content: flex-end; height: 33px;">
+        <ui:Button text="Create Locale" name="customLocaleUI_CreateBTN" style="width: 190px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="customLocaleUI_HelpBox" style="height: 20px;" />
+</ui:UXML>

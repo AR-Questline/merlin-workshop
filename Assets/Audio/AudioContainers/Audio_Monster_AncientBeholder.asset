@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monster_AncientBeholder
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 4
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: -1886271354
+        Data2: 1166871516
+        Data3: -1424010878
+        Data4: 1574187265
+      Path: event:/SFX/Monsters/AcientBeholder/SFX_Enemies_AcientBeholder_Hurt
+    die:
+      Guid:
+        Data1: -748070923
+        Data2: 1244645069
+        Data3: -1506600003
+        Data4: 178796973
+      Path: event:/SFX/Monsters/AcientBeholder/SFX_Enemies_AcientBeholder_Die
+    attack:
+      Guid:
+        Data1: -482528995
+        Data2: 1132952219
+        Data3: 833118356
+        Data4: 1734694014
+      Path: event:/SFX/Monsters/AcientBeholder/SFX_Enemies_AcientBeholder_Attack
+    specialAttack:
+      Guid:
+        Data1: -440675706
+        Data2: 1120387045
+        Data3: 1394438318
+        Data4: -814130414
+      Path: event:/SFX/Monsters/AcientBeholder/SFX_Enemies_AcientBeholder_EyeShot
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1405577078
+        Data2: 1136740709
+        Data3: -842893169
+        Data4: -1984321136
+      Path: event:/SFX/Monsters/AcientBeholder/SFX_Enemies_AcientBeholder_FTS
+    roar:
+      Guid:
+        Data1: 659323006
+        Data2: 1151997929
+        Data3: -729680758
+        Data4: 1058368514
+      Path: event:/SFX/Monsters/AcientBeholder/SFX_Enemies_AcientBeholder_Roar

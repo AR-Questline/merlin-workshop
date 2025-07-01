@@ -1,0 +1,12 @@
+﻿#pragma kernel CSSample
+
+Texture2DArray _WaterSurface;
+SamplerState sampler_WaterSurface;
+StructuredBuffer<float2> _UVs;
+RWStructuredBuffer<float4> _Results;
+
+[numthreads(1,1,1)]
+void CSSample (uint3 id : SV_DispatchThreadID)
+{
+    _Results[id.x] = _WaterSurface.SampleLevel(sampler_WaterSurface, float3(_UVs[id.x], id.x), 0);
+}

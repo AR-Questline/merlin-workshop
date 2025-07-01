@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monster_SlugholderMage
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 4
+    idle:
+      Guid:
+        Data1: 1915373816
+        Data2: 1195896087
+        Data3: 23846049
+        Data4: -352612700
+      Path: event:/SFX/Monsters/Slugholder/SFX_Enemies_Slugholder_Idle_EyeBlink
+    hurt:
+      Guid:
+        Data1: -1107735645
+        Data2: 1317112223
+        Data3: -1423897922
+        Data4: 2064775757
+      Path: event:/SFX/Monsters/Slugholder/SFX_Enemies_Slugholder_Hurt
+    die:
+      Guid:
+        Data1: -900365069
+        Data2: 1077982722
+        Data3: -611437430
+        Data4: 153619318
+      Path: event:/SFX/Monsters/Slugholder/SFX_Enemies_Slugholder_Die
+    attack:
+      Guid:
+        Data1: -995650495
+        Data2: 1178643769
+        Data3: -322007389
+        Data4: 284300676
+      Path: event:/SFX/Monsters/Slugholder/SFX_Enemies_Slugholder_Attack
+    specialAttack:
+      Guid:
+        Data1: 1989674517
+        Data2: 1232625816
+        Data3: -88693621
+        Data4: 771789410
+      Path: event:/SFX/Monsters/Slugholder/SFX_Enemies_Slugholder_EyeShot
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1618208985
+        Data2: 1289197907
+        Data3: -1023794789
+        Data4: -1847465614
+      Path: event:/SFX/Monsters/Slugholder/SFX_Enemies_Slugholder_FTS
+    roar:
+      Guid:
+        Data1: 1294313057
+        Data2: 1284418830
+        Data3: -104723829
+        Data4: 1636994548
+      Path: event:/SFX/Monsters/Slugholder/SFX_Enemies_Slugholder_Roar

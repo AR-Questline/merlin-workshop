@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c6a830a3114341859fb490e30bd638, type: 3}
+  m_Name: StatValues
+  m_EditorClassIdentifier: 
+  statRanges:
+  - statRef:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:XP
+    configs:
+    - rangeType: 1
+      range:
+        min: 0.1
+        max: 0.15
+      constValue: 0.1
+      useConst: 1
+    - rangeType: 2
+      range:
+        min: 0.2
+        max: 0.25
+      constValue: 0.15
+      useConst: 1
+    - rangeType: 3
+      range:
+        min: 0.4
+        max: 0.6
+      constValue: 0.2
+      useConst: 1
+    - rangeType: 4
+      range:
+        min: 0.8
+        max: 1
+      constValue: 0.25
+      useConst: 1
+    - rangeType: 5
+      range:
+        min: 1.2
+        max: 1.3
+      constValue: 0.35
+      useConst: 1
+  - statRef:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CurrencyStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Wealth
+    configs:
+    - rangeType: 1
+      range:
+        min: 5
+        max: 10
+      constValue: 0
+      useConst: 0
+    - rangeType: 2
+      range:
+        min: 10
+        max: 25
+      constValue: 0
+      useConst: 0
+    - rangeType: 3
+      range:
+        min: 75
+        max: 125
+      constValue: 0
+      useConst: 0
+    - rangeType: 4
+      range:
+        min: 250
+        max: 500
+      constValue: 0
+      useConst: 0
+    - rangeType: 5
+      range:
+        min: 750
+        max: 1000
+      constValue: 0
+      useConst: 0
+  - statRef:
+      _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Health
+    configs:
+    - rangeType: 1
+      range:
+        min: 1
+        max: 5
+      constValue: 0
+      useConst: 0
+    - rangeType: 2
+      range:
+        min: 15
+        max: 15
+      constValue: 0
+      useConst: 0
+    - rangeType: 3
+      range:
+        min: 25
+        max: 30
+      constValue: 0
+      useConst: 0
+    - rangeType: 4
+      range:
+        min: 40
+        max: 50
+      constValue: 0
+      useConst: 0
+    - rangeType: 5
+      range:
+        min: 70
+        max: 80
+      constValue: 0
+      useConst: 0

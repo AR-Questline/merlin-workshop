@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9069378672974496194
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: level
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: expTier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: expLevel
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: maxHealth
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: magicDamage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: meleeDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: tags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: isPickpocketable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: 'tags.Array.data[1]'
+      value: Tier:2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: wyrdConvertedLootTables.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: statusStats._poison.buildupThreshold
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: wyrdConvertedLootTables.Array.data[0].table
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: wyrdConvertedLootTables.Array.data[1].table
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: wyrdConvertedLootTables.Array.data[0].lootReference._guid
+      value: 2de25dd5221233a49a9d84ddce1c7273
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4255101538292336513, guid: e6cf5678e37eef14d8081e460f711f24,
+        type: 3}
+      propertyPath: m_Name
+      value: NPCTemplate_EnemyMonster_T2_Swarm_Bees
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6cf5678e37eef14d8081e460f711f24, type: 3}

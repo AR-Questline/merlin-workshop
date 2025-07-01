@@ -1,0 +1,2666 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65155292188bf441800069b113eca13, type: 3}
+  m_Name: ScenarioGameConstants
+  m_EditorClassIdentifier: 
+  gameVersion: 1.03
+  initialScene:
+    reference:
+      address: a8cfefa6f4b68e34295decd0d4104edb
+      subObjectName: 
+  wipeSavesOnVersion: 1.00.020
+  gamepadAimTiltMultiplier:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00050265715
+      value: 0.7021728
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.24897909
+      value: 0.7015083
+      inSlope: -0.005812176
+      outSlope: -0.005812176
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.52482146
+    - serializedVersion: 3
+      time: 0.45076215
+      value: 1.0002114
+      inSlope: -0.004324019
+      outSlope: -0.004324019
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10083389
+    - serializedVersion: 3
+      time: 0.9019686
+      value: 1.0000049
+      inSlope: -0.015820833
+      outSlope: -0.015820833
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.42670804
+    - serializedVersion: 3
+      time: 0.93578434
+      value: 1.4005837
+      inSlope: -0.017979678
+      outSlope: -0.017979678
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.57669294
+    - serializedVersion: 3
+      time: 0.9996106
+      value: 1.4013814
+      inSlope: 0.01790532
+      outSlope: 0.01790532
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  melee1HDualSenseEffects:
+  - type: 0
+    startPosition: 2
+    endPosition: 3
+    position: 0
+    amplitude: 0
+    frequency: 0
+    strength: 2
+    startStrength: 0
+    endStrength: 0
+  melee2HDualSenseEffects:
+  - type: 0
+    startPosition: 3
+    endPosition: 6
+    position: 0
+    amplitude: 0
+    frequency: 0
+    strength: 4
+    startStrength: 0
+    endStrength: 0
+  blockDualSenseEffects:
+  - type: 0
+    startPosition: 2
+    endPosition: 8
+    position: 0
+    amplitude: 0
+    frequency: 0
+    strength: 1
+    startStrength: 1
+    endStrength: 2
+  bowDualSenseEffects:
+  - type: 1
+    startPosition: 2
+    endPosition: 8
+    position: 0
+    amplitude: 0
+    frequency: 0
+    strength: 0
+    startStrength: 2
+    endStrength: 5
+  magicDualSenseEffects:
+  - type: 2
+    startPosition: 2
+    endPosition: 3
+    position: 6
+    amplitude: 1
+    frequency: 60
+    strength: 2
+    startStrength: 2
+    endStrength: 4
+  heavyAttackWaitXboxVibrations:
+  - strength: 0.1
+    duration: 0.1
+  heavyAttackStartFirstHalfXboxVibrations:
+  - strength: 0.05
+    duration: 0.1
+  heavyAttackStartSecondHalfXboxVibrations:
+  - strength: 0.1
+    duration: 0.1
+  meleeAttackEnterXboxVibrations:
+  - strength: 0.05
+    duration: 0.25
+  magicPerformMidCastXboxVibrations:
+  - strength: 0.2
+    duration: 0.2
+  meleeEnviroHitFirstXboxVibrations:
+  - strength: 0.3
+    duration: 0.2
+  meleeNpcHitXboxVibrations:
+  - strength: 0.1
+    duration: 0.1
+  magicLightXboxVibrations:
+  - strength: 0.2
+    duration: 0.1
+  magicHeavyXboxVibrations:
+  - strength: 0.2
+    duration: 0.9
+  magicHeavyLoopXboxVibrations:
+  - strength: 0.2
+    duration: 1
+  magicCancelCastXboxVibrations:
+  - strength: 0.2
+    duration: 0.2
+  bowReleaseXboxVibrations:
+  - strength: 0.2
+    duration: 0.1
+  bowPullXboxVibrations:
+  - strength: 0.2
+    duration: 0.5
+  bowHoldXboxVibrations:
+  - strength: 0.1
+    duration: 1
+  magicPerformXboxVibrations:
+  - strength: 0.1
+    duration: 0.1
+  lowAssistData:
+    minAssistSpeed: 2
+    maxAssistSpeed: 4
+    distanceUntilSpeedDrops: 40
+    assistLongRange: 40
+    assistShortRange: 15
+    softAssistOnEnemyMultiplier: 0.6
+    maxAngleThatSlowsAssist: 2
+    narrowAngleMinMultiplier: 1
+    angleToStopTrackingRadians: 0.05
+  highAssistData:
+    minAssistSpeed: 9
+    maxAssistSpeed: 18
+    distanceUntilSpeedDrops: 40
+    assistLongRange: 40
+    assistShortRange: 15
+    softAssistOnEnemyMultiplier: 0.6
+    maxAngleThatSlowsAssist: 10
+    narrowAngleMinMultiplier: 1
+    angleToStopTrackingRadians: 0.25
+  maxHeroLevel: 9001
+  talentEveryNLevel: 1
+  rpgHeroStats:
+  - rpgStat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Strength
+    innateStatLevel: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MeleeDamageMultiplier
+      effectStrength: 0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: c84ef87438835c942baf3187ca95dbcc
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxStamina
+      effectStrength: 3
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: c84ef87438835c942baf3187ca95dbcc
+      allOrAny: 1
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:ArmorWeightMultiplier
+      effectStrength: -0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: c84ef87438835c942baf3187ca95dbcc
+      allOrAny: 1
+      abstractsOverriden: 0
+  - rpgStat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Endurance
+    innateStatLevel: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+      effectStrength: 8
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:EncumbranceLimit
+      effectStrength: 10
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:StaminaRegen
+      effectStrength: 1.5
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - rpgStat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Dexterity
+    innateStatLevel: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AttackSpeed
+      effectStrength: 0.04
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VisibilityMultiplier
+      effectStrength: -0.03
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: a3fa7758a5245ad4eb082cef3c46ea7c
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:NoiseMultiplier
+      effectStrength: -0.03
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: a3fa7758a5245ad4eb082cef3c46ea7c
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:RangedDamageMultiplier
+      effectStrength: 0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - rpgStat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Spirituality
+    innateStatLevel: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MagicStrength
+      effectStrength: 0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxMana
+      effectStrength: 6
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:ManaRegen
+      effectStrength: 0.3
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - rpgStat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Practicality
+    innateStatLevel: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AlchemyLevelBonus
+      effectStrength: 0.1
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:CookingLevelBonus
+      effectStrength: 0.1
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:EquipmentLevelBonus
+      effectStrength: 0.1
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:WeakSpotDamageMultiplier
+      effectStrength: 0.05
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:StaminaUsageMultiplier
+      effectStrength: -0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:ManaUsageMultiplier
+      effectStrength: -0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.TradeStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:SellModifier
+      effectStrength: 0.1
+      effectType:
+        _enumRef: 
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - rpgStat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Perception
+    innateStatLevel: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:CriticalDamageMultiplier
+      effectStrength: 0.05
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:CriticalChance
+      effectStrength: 0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:SneakDamageMultiplier
+      effectStrength: 0.08
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  armorWeightScoreParams:
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ManaRegen
+    operation:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    values:
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VeryLight
+      value: 1.25
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Light
+      value: 1.2
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Medium
+      value: 1
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Heavy
+      value: 0.9
+      isPenalty: 1
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Overload
+      value: 0.5
+      isPenalty: 1
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:StaminaRegen
+    operation:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    values:
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VeryLight
+      value: 1.25
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Light
+      value: 1.2
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Medium
+      value: 1
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Heavy
+      value: 0.9
+      isPenalty: 1
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Overload
+      value: 0.25
+      isPenalty: 1
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:AttackSpeed
+    operation:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    values:
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VeryLight
+      value: 1.25
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Light
+      value: 1.2
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Medium
+      value: 1
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Heavy
+      value: 0.9
+      isPenalty: 1
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Overload
+      value: 0.5
+      isPenalty: 1
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:SpellChargeSpeed
+    operation:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    values:
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VeryLight
+      value: 1.25
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Light
+      value: 1.2
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Medium
+      value: 1
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Heavy
+      value: 0.9
+      isPenalty: 1
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Overload
+      value: 0.5
+      isPenalty: 1
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:DashSpeed
+    operation:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    values:
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VeryLight
+      value: 1.25
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Light
+      value: 1.2
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Medium
+      value: 1
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Heavy
+      value: 0.9
+      isPenalty: 1
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Overload
+      value: 0.5
+      isPenalty: 1
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MovementSpeedMultiplier
+    operation:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    values:
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VeryLight
+      value: 1.25
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Light
+      value: 1.2
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Medium
+      value: 1
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Heavy
+      value: 0.9
+      isPenalty: 1
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Overload
+      value: 0.5
+      isPenalty: 1
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MaxDashOptimalCounter
+    operation:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:AddPreMultiply
+    values:
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:VeryLight
+      value: 3
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Light
+      value: 3
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Medium
+      value: 2
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Heavy
+      value: 1
+      isPenalty: 0
+    - weight:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemWeight, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Overload
+      value: 0
+      isPenalty: 1
+  defaultHeroGender: 1
+  <HeavyArmorThreshold>k__BackingField: 0.12
+  <MediumArmorThreshold>k__BackingField: 0.06
+  <LightArmorThreshold>k__BackingField: 0.024
+  obstaclesMask:
+    serializedVersion: 2
+    m_Bits: 73
+  maxNpcToTargetDistanceSqr: 2500
+  heroToCloseDistanceSqr: 2500
+  heroDetectionHalfExtent: 0.1501
+  <HeroVisibilityCoyoteTime>k__BackingField: 0.7
+  <DeathNoiseDelay>k__BackingField: 0.5
+  <DeathNoiseRange>k__BackingField: 10
+  <CorpsesAlertStrength>k__BackingField: 20
+  <AlertEnterInformRange>k__BackingField: 7
+  npcHealthRegenerationOutsideCombat: 0.01
+  npcHealthRegenerationUnconscious: 0.05
+  npcRegenerationDelay: 5
+  evasionCap: 100
+  poiseCriticalDamageMultiplier: 1.5
+  maxEnemiesPerUnit: 5
+  defaultDualWieldingMainHand:
+    arReference:
+      address: fcde0c3ac392ced48a10c88669f9aa5c
+      subObjectName: 
+  defaultDualWieldingOffHand:
+    arReference:
+      address: a61bd7309617bb84cb4c38b5c32767e1
+      subObjectName: 
+  defaultDualWieldingMainHandTpp:
+    arReference:
+      address: 9e758f00b2fcf1f45a17fa64528911ed
+      subObjectName: 
+  defaultDualWieldingOffHandTpp:
+    arReference:
+      address: fcd10b449e911a04aa99d713539744ca
+      subObjectName: 
+  defaultMeleeOffHand:
+    arReference:
+      address: e23d338c0fb72624fa97371fa95df188
+      subObjectName: 
+  defaultMeleeOffHandTpp:
+    arReference:
+      address: fcd10b449e911a04aa99d713539744ca
+      subObjectName: 
+  staminaDepletedStatusTemplate:
+    _guid: 5c3fded9081b77946bd7a22f535d9418
+  projectileHitMask:
+    serializedVersion: 2
+    m_Bits: 2164285513
+  defaultHeroPenetratingObstaclesMask:
+    serializedVersion: 2
+    m_Bits: 41943040
+  heroMineLimit: 5
+  npcMineLimit: 2
+  npcSummonLimit: 10
+  tooStrongEnemyLevelDiff: 10
+  screenShakeAnimationLayerWeight: 0.8
+  npcForceRagdollMultiplier: 1
+  criticalForceDamageMultiplier: 2
+  criticalRagdollForceMultiplier: 1.5
+  weakspotForceDamageMultiplier: 3
+  weakspotRagdollForceMultiplier: 1.5
+  defaultHealingItem:
+    arReference:
+      address: 75f7c3dc5ed31f447b70cf1f095bc5f9
+      subObjectName: 
+  defaultHealingVFX:
+    arReference:
+      address: dc3dfeb9bfce9b949bebd64dd89e6eff
+      subObjectName: 
+  duelFaction:
+    _guid: 93d11c62f67ea804da99265139fe1d6e
+  defeatedDuelistAnimations:
+    address: 1d83472c224468940ae52694511d6752
+    subObjectName: 
+  shortStaminaRegenPreventDuration: 0.1
+  mediumStaminaRegenPreventDuration: 0.33
+  maxStaminaRegenPreventDuration: 6
+  mediumPreventAfterStaminaConsumed: 5
+  maxPreventAfterStaminaConsumed: 50
+  additionalFlatHitStopDurationThatAllowsNextAttack: 0.15
+  spikeTrapDamageDelay: 0.1
+  heroKnockDownForceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.25
+      inSlope: -0.75
+      outSlope: -0.75
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minDirectionalShakesStrength: 1
+  maxDirectionalShakesStrength: 7
+  directionalShakesHealthCutoff: 0.5
+  addGemSlotCost: 500
+  attachGemCost: 0
+  retrieveGemSlotCost: 0
+  sharpeningBaseCost: 0
+  sharpeningHeroIngredientMultiplier: 1
+  bonfireUpgradeCost: 10
+  bonfireUpgradeCostReduced: 5
+  bonfirePrayCost: 20
+  bonfireWyrdSkillRestoreCost: 10
+  additionalWaterDepthCheck: 0.65
+  bonfireCraftingUpgrades:
+  - _guid: e73ea5ae22ade234585dd9dd01f87e47
+  - _guid: 427d50e945681104197ce206046165a9
+  minutesTimestampToCountKill: 10
+  <TinyEnemyExpMulti>k__BackingField: 0.02
+  <LowEnemyExpMulti>k__BackingField: 0.03
+  <MidEnemyExpMulti>k__BackingField: 0.05
+  <HighEnemyExpMulti>k__BackingField: 0.08
+  <EpicEnemyExpMulti>k__BackingField: 0.2
+  <ProficiencyLvlHeroExpMulti>k__BackingField: 0.01
+  <RecipeLearnExpMulti>k__BackingField: 0
+  <RecipeLearnCraftingExp>k__BackingField: 0
+  <FishingRodIncreasedDurabilityMultiplier>k__BackingField: 1.3
+  wyrdWhisperFlags:
+  - whisper:gongDiscovered
+  - whisper:sewalEntered
+  - whisper:questingBeastSeen
+  - whisper:hosEntered
+  - whisper:archspireDiscover
+  - whisper:stonehengeDiscovered
+  - whisper:andrasteFDSeen
+  - whisper:mistbearerKilled
+  - whisper:kingsRoadDiscovered
+  <DamageDecreasePerMissingPoint>k__BackingField: 0.1108
+  <ManaCostIncreasePerMissingPoint>k__BackingField: 0.05
+  <BlockDamageReductionPerMissingPoint>k__BackingField: 0.04
+  <ArmorReductionPerMissingPoint>k__BackingField: 0.1
+  questMarkerMaxDistance: 100
+  questMarkerMinDistance: 5
+  mapMarkersList:
+  - compassMarkerType: 0
+    nearDistance: 10
+    farDistance: 75
+  - compassMarkerType: 1
+    nearDistance: 20
+    farDistance: 125
+  - compassMarkerType: 2
+    nearDistance: 30
+    farDistance: 150
+  - compassMarkerType: 3
+    nearDistance: 5
+    farDistance: 50
+  - compassMarkerType: 4
+    nearDistance: 5
+    farDistance: 75
+  mapGamepadMoveSpeed: 30
+  mapGamepadScrollSpeed: 1
+  mapGamepadSnapPower: 0.3
+  mapMarkerFullHdSize: 52
+  mapZoomIn: 0.05
+  mapZoomOut: 0.5
+  tooltipDelay: 0.8
+  gameStartYear: 2026
+  gameStartMonth: 2
+  gameStartDay: 28
+  gameStartHour: 7
+  gameStartMinute: 30
+  dayDurationInMinutes: 30
+  npcGrid:
+    gridHalfSize: 6
+    chunkSize: 30
+    hysteresis: 0.8
+  craftedItemLevelProficiencyMultiplier: 0.05
+  craftingFactor: 0.03
+  consumeLessAlcoholInAlchemyMultiplier: 0.5
+  <DropPopupThreshold>k__BackingField: 5
+  defaultItemDropPrefab:
+    _guid: ef2ff1fcd5a0ce0429bb0955f1092dfa
+  defaultDeadBodyReplacedPrefab:
+    _guid: d39d8063a1a9e00418c962f942ad247d
+  defaultDeadBodyReplacedVisualPrefab:
+    arReference:
+      address: a2a48e0d2ae5ac047a695ed7020c779f
+      subObjectName: 
+  defaultSharpeningConfig: {fileID: 11400000, guid: 7f286613f01853f43b68e78e0a58d32a,
+    type: 2}
+  defaultWeightReductionConfig: {fileID: 11400000, guid: 32c51fc32297683408a260c049f4c65f,
+    type: 2}
+  sharpeningConfigs:
+  - tier: 1
+    defaultConfigOfTier: {fileID: 11400000, guid: a92a204bba11ce346ac948b3958824e1,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: ebed387a22ab7f341bd503531ea73e3f,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: ebed387a22ab7f341bd503531ea73e3f,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: ebed387a22ab7f341bd503531ea73e3f,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  - tier: 2
+    defaultConfigOfTier: {fileID: 11400000, guid: 8377368be733e6042a4e6c6991fea638,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: b36a6832997ae524bb9426de2e33be42,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: b36a6832997ae524bb9426de2e33be42,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: b36a6832997ae524bb9426de2e33be42,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  - tier: 3
+    defaultConfigOfTier: {fileID: 11400000, guid: fb5f02d2b83f17b49935e7ace0bf919a,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: 8f89e7cfae3995045b6fa5d128d78c3f,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: 8f89e7cfae3995045b6fa5d128d78c3f,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: 8f89e7cfae3995045b6fa5d128d78c3f,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  - tier: 4
+    defaultConfigOfTier: {fileID: 11400000, guid: 90880a2ec0e239f43a0d7fc006ee67dd,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: a2605fbb2a5943d429425a22a978bca9,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: a2605fbb2a5943d429425a22a978bca9,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: a2605fbb2a5943d429425a22a978bca9,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  - tier: 5
+    defaultConfigOfTier: {fileID: 11400000, guid: c0ee2754578123c438c05f3e31139f80,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: cd03806946d3174498f073a29e1670ce,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: cd03806946d3174498f073a29e1670ce,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: cd03806946d3174498f073a29e1670ce,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  - tier: 6
+    defaultConfigOfTier: {fileID: 11400000, guid: 79a260e5496164b4bb8bc17d15f44344,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: 0924d6bd13699aa4591dd722e07b4a0e,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: 0924d6bd13699aa4591dd722e07b4a0e,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: 0924d6bd13699aa4591dd722e07b4a0e,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  - tier: 7
+    defaultConfigOfTier: {fileID: 11400000, guid: a4572ad56c8cee8448a0ce86fa0cedbd,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: 2b9ed7c9ac599274db114ea0743f6c79,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: 2b9ed7c9ac599274db114ea0743f6c79,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: 2b9ed7c9ac599274db114ea0743f6c79,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  - tier: 8
+    defaultConfigOfTier: {fileID: 11400000, guid: 43c57db14590ca54d9a13adbe02896a5,
+      type: 2}
+    configsPerAbstract:
+    - abstractItemTemplate:
+        _guid: 8ec1d86b07f91154fa2937710496d62e
+      itemUpgradeConfig: {fileID: 11400000, guid: 82fea17ae6d27284e98dc7b669c3b1c3,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 6564ee14dc41d514283ae7ee08b5c859
+      itemUpgradeConfig: {fileID: 11400000, guid: 82fea17ae6d27284e98dc7b669c3b1c3,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: ef58d284302c2bd479f11e955aabc149
+      itemUpgradeConfig: {fileID: 11400000, guid: 82fea17ae6d27284e98dc7b669c3b1c3,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      itemUpgradeConfig: {fileID: 11400000, guid: dce03cbe7f563f445b97f1f7acb434fe,
+        type: 2}
+    - abstractItemTemplate:
+        _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+      itemUpgradeConfig: {fileID: 11400000, guid: f69eee288cf86164ca64635371e0c763,
+        type: 2}
+  weightReductionConfigs:
+  - tier: 1
+    defaultConfigOfTier: {fileID: 11400000, guid: a92a204bba11ce346ac948b3958824e1,
+      type: 2}
+    configsPerAbstract: []
+  - tier: 2
+    defaultConfigOfTier: {fileID: 11400000, guid: 8377368be733e6042a4e6c6991fea638,
+      type: 2}
+    configsPerAbstract: []
+  - tier: 3
+    defaultConfigOfTier: {fileID: 11400000, guid: fb5f02d2b83f17b49935e7ace0bf919a,
+      type: 2}
+    configsPerAbstract: []
+  - tier: 4
+    defaultConfigOfTier: {fileID: 11400000, guid: 90880a2ec0e239f43a0d7fc006ee67dd,
+      type: 2}
+    configsPerAbstract: []
+  - tier: 5
+    defaultConfigOfTier: {fileID: 11400000, guid: c0ee2754578123c438c05f3e31139f80,
+      type: 2}
+    configsPerAbstract: []
+  - tier: 6
+    defaultConfigOfTier: {fileID: 11400000, guid: 79a260e5496164b4bb8bc17d15f44344,
+      type: 2}
+    configsPerAbstract: []
+  - tier: 7
+    defaultConfigOfTier: {fileID: 11400000, guid: a4572ad56c8cee8448a0ce86fa0cedbd,
+      type: 2}
+    configsPerAbstract: []
+  magicArrowTemplate:
+    _guid: 
+  defaultItemBuffStatus:
+    _guid: c927c8238ea3c034a96e721503ab9117
+  spyglassFovMultiplier: 0.15
+  spyglassVolumeChangeSpeed: 5
+  sketchItemTemplate:
+    _guid: 283023d6b8ce40e47bc60f7885138977
+  sketchVolumePrefabReference:
+    arReference:
+      address: 30a0e7690004c2d4481138396c5693c9
+      subObjectName: 
+  sketchHandsRenderersTempLayer: 16
+  newCameraStabilisationDelayFramesCount: 2
+  sketchVolumeStabilisationDelayFramesCount: 0
+  sketchingExposureStabilisationDelayFramesCount: 10
+  itemLevelDataList:
+  - itemLevel: -2
+    itemNameAffix:
+      IdOverride: level-2_item_name_affix
+      ID: Template/itemLevelDataList_Array_data0_itemNameAffix_11400000_95e6b664111d4b3478ab22527a5217b9
+  - itemLevel: -1
+    itemNameAffix:
+      IdOverride: level-1_item_name_affix
+      ID: Template/itemLevelDataList_Array_data1_itemNameAffix_11400000_95e6b664111d4b3478ab22527a5217b9
+  priceMultiplierConfigs:
+  - abstracts:
+    - _guid: 2f30322b4c5b3a54fbc84102796034a1
+    - _guid: 1aa85ab6066a7c04cb9b0a416e39d7e7
+    - _guid: 09f205029a6116a4bb824f269f3dc2da
+    - _guid: b15c91aaf473e054e9830a03abdd5e5e
+    - _guid: 6a469d3aba13563448a87cb610eb6c25
+    onlyForGivenQuality: 1
+    quality:
+      _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Magic
+    multiplier: 2
+  skillImproveMult: 4
+  skillImproveMOffset: -9
+  proficiencyParams:
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:OneHanded
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgDealt
+      xpValue: 1
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:OneHandedMeleeDamageMultiplier
+      effectStrength: 0.002
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: 939f8f626f06d9b4b93a76bb5071530b
+      allOrAny: 0
+      abstractsOverriden: 1
+    - statEffected:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:LightAttackCost
+      effectStrength: -0.1
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Multi
+      abstractFilters:
+      - _guid: 939f8f626f06d9b4b93a76bb5071530b
+      allOrAny: 0
+      abstractsOverriden: 1
+    - statEffected:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:HeavyAttackCost
+      effectStrength: -0.1
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Multi
+      abstractFilters:
+      - _guid: 939f8f626f06d9b4b93a76bb5071530b
+      allOrAny: 0
+      abstractsOverriden: 1
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:TwoHanded
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgDealt
+      xpValue: 1
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:TwoHandedMeleeDamageMultiplier
+      effectStrength: 0.002
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: fb3f705c21071314b8d3a9fa554e0ed3
+      allOrAny: 0
+      abstractsOverriden: 1
+    - statEffected:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:LightAttackCost
+      effectStrength: -0.1
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Multi
+      abstractFilters:
+      - _guid: fb3f705c21071314b8d3a9fa554e0ed3
+      allOrAny: 0
+      abstractsOverriden: 1
+    - statEffected:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:HeavyAttackCost
+      effectStrength: -0.1
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Multi
+      abstractFilters:
+      - _guid: fb3f705c21071314b8d3a9fa554e0ed3
+      allOrAny: 0
+      abstractsOverriden: 1
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Shield
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgBlocked
+      xpValue: 1
+    skillUseMult: 1.5
+    skillSpecificMult: 1
+    skillUseOffset: 15
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.Heroes.Items.ItemStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:BlockStaminaCostMultiplier
+      effectStrength: -0.002
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: 480a71826b05a6e4d8eb1bd3d79682f8
+      allOrAny: 0
+      abstractsOverriden: 1
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:ParryWindowBonus
+      effectStrength: 0.001
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: 480a71826b05a6e4d8eb1bd3d79682f8
+      allOrAny: 0
+      abstractsOverriden: 1
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Archery
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgDealt
+      xpValue: 1
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:RangedDamageMultiplier
+      effectStrength: 0.002
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      allOrAny: 0
+      abstractsOverriden: 1
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:BowSwayMultiplier
+      effectStrength: -0.005
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+      allOrAny: 0
+      abstractsOverriden: 1
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Athletics
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Sprint
+      xpValue: 2.4
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:FastSwim
+      xpValue: 3.2
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 0
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:SprintSpeed
+      effectStrength: 0.005
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:SwimSpeed
+      effectStrength: 0.005
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Evasion
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Dash
+      xpValue: 8
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Slide
+      xpValue: 8
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 0
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DashSpeed
+      effectStrength: 0.003
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DashStamina
+      effectStrength: -0.2
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Multi
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Acrobatics
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Jump
+      xpValue: 0.6
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:FallDmg
+      xpValue: 2.2
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 5
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:FallDamageMultiplier
+      effectStrength: -0.5
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Multi
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:LightArmor
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgReceived
+      xpValue: 1
+    skillUseMult: 3
+    skillSpecificMult: 1
+    skillUseOffset: 3
+    effectsList: []
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MediumArmor
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgReceived
+      xpValue: 1
+    skillUseMult: 4
+    skillSpecificMult: 1
+    skillUseOffset: 3
+    effectsList: []
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:HeavyArmor
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgReceived
+      xpValue: 1
+    skillUseMult: 5
+    skillSpecificMult: 1
+    skillUseOffset: 3
+    effectsList: []
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Unarmed
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgDealt
+      xpValue: 1
+    skillUseMult: 2
+    skillSpecificMult: 1
+    skillUseOffset: 10
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:UnarmedMeleeDamageMultiplier
+      effectStrength: 0.03
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: c8318d6aefd1eb342b219adce68e366d
+      allOrAny: 0
+      abstractsOverriden: 1
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:AnimalWeapon
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgDealt
+      xpValue: 1
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 1
+    effectsList: []
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Theft
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:PickBroke
+      xpValue: 125
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:LockUnlocked
+      xpValue: 100
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:PickpocketSuccess
+      xpValue: 1
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:PickpocketFail
+      xpValue: 2
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 0
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:FenceSellBonusMultiplier
+      effectStrength: 0.01
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Sneak
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Walk
+      xpValue: 1
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Sneak
+      xpValue: 5
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:RangedDmgDealt
+      xpValue: 2
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgDealt
+      xpValue: 5
+    skillUseMult: 1
+    skillSpecificMult: 3
+    skillUseOffset: 0
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:CrouchNoiseMultiplier
+      effectStrength: -0.0025
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:CrouchVisibilityMultiplier
+      effectStrength: -0.0025
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters: []
+      allOrAny: 0
+      abstractsOverriden: 0
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Alchemy
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Alchemy
+      xpValue: 3
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 0
+    effectsList: []
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Cooking
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Cooking
+      xpValue: 3
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 0
+    effectsList: []
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Handcrafting
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Handcrafting
+      xpValue: 1.5
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 0
+    effectsList: []
+  - proficiency:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Magic
+    baseXPParamsList:
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DmgDealt
+      xpValue: 1
+    - type:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.Observers.BaseXPType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:SummonDmgDealt
+      xpValue: 1
+    skillUseMult: 1
+    skillSpecificMult: 1
+    skillUseOffset: 1
+    effectsList:
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MagicStrength
+      effectStrength: 0.002
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: 78870751b125c4d40a4638c9d94e6c35
+      allOrAny: 0
+      abstractsOverriden: 1
+    - statEffected:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:ManaUsageMultiplier
+      effectStrength: -0.002
+      effectType:
+        _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AddPreMultiply
+      abstractFilters:
+      - _guid: a2493ac1d260f284893579aead2bb1e9
+      allOrAny: 0
+      abstractsOverriden: 1
+  sneakNearbyEnemiesRadius: 15
+  dialogueCameraMaxAngle: 6
+  dialogueLookAreaSize: 15
+  dialogueCameraResetDelay: 3
+  dialogueCameraResetSpeed: 2
+  dialogueCameraLookSpeedMultiplier: 0.02
+  dialogueCameraSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  gamepadWorldCameraLookSpeedMultiplier: 60
+  criticalSlowMoDuration: 0.25
+  criticalSlowMoFovMultiplier: 1.2
+  criticalSlowMoCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0023659766
+      outSlope: -0.0023659766
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8431899
+    - serializedVersion: 3
+      time: 0.1495005
+      value: 0.51342195
+      inSlope: 0.02842728
+      outSlope: 0.02842728
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.38177794
+    - serializedVersion: 3
+      time: 0.61525863
+      value: 0.5176642
+      inSlope: 0.023874188
+      outSlope: 0.023874188
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5202419
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.0073423106
+      outSlope: 0.0073423106
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5617267
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  parrySlowMoDuration: 0.25
+  parryFovMultiplier: 1.1
+  parrySlowMoCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0023659766
+      outSlope: -0.0023659766
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8431899
+    - serializedVersion: 3
+      time: 0.1495005
+      value: 0.51342195
+      inSlope: 0.02842728
+      outSlope: 0.02842728
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.38177794
+    - serializedVersion: 3
+      time: 0.61525863
+      value: 0.5176642
+      inSlope: 0.023874188
+      outSlope: 0.023874188
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5202419
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.0073423106
+      outSlope: 0.0073423106
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5617267
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chonkyCriticalSlowMoDuration: 1.5
+  chonkyCriticalSlowMoFovMultiplier: 1
+  chonkyCriticalSlowMoCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0023659766
+      outSlope: -0.0023659766
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8431899
+    - serializedVersion: 3
+      time: 0.1495005
+      value: 0.2525031
+      inSlope: 0.02842728
+      outSlope: 0.02842728
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.38177794
+    - serializedVersion: 3
+      time: 0.61525863
+      value: 0.25674534
+      inSlope: 0.023874188
+      outSlope: 0.023874188
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5202419
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.0073423106
+      outSlope: 0.0073423106
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5617267
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chonkyParrySlowMoDuration: 1.5
+  chonkyParryFovMultiplier: 1
+  chonkyParrySlowMoCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0023659766
+      outSlope: -0.0023659766
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8431899
+    - serializedVersion: 3
+      time: 0.1495005
+      value: 0.2525031
+      inSlope: 0.02842728
+      outSlope: 0.02842728
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.38177794
+    - serializedVersion: 3
+      time: 0.61525863
+      value: 0.25674534
+      inSlope: 0.023874188
+      outSlope: 0.023874188
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5202419
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.0073423106
+      outSlope: 0.0073423106
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5617267
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  defaultItemVfxContainer:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      damageTypeMetalVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: ba276a2236f84df44a5eff1886889a3b
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 041b633494db2064db479462eee5f479
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 1cf03ea74c0214a4ba4c5f288f57096e
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 02c562adcb92d864fa1c74898e7047b0
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 45ab9774bc9360a44aca7f2361344be5
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 0925e7c34f2979345a86428121d68327
+            subObjectName: 
+      damageTypeWoodVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: ba276a2236f84df44a5eff1886889a3b
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 041b633494db2064db479462eee5f479
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 1cf03ea74c0214a4ba4c5f288f57096e
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 45ab9774bc9360a44aca7f2361344be5
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 0925e7c34f2979345a86428121d68327
+            subObjectName: 
+      damageTypeArrowVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: ba276a2236f84df44a5eff1886889a3b
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: cb4be3c2f977c8e42aaca516b56295e5
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 1cf03ea74c0214a4ba4c5f288f57096e
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 02c562adcb92d864fa1c74898e7047b0
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: cb4be3c2f977c8e42aaca516b56295e5
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 45ab9774bc9360a44aca7f2361344be5
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 0925e7c34f2979345a86428121d68327
+            subObjectName: 
+      damageTypeMagicVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: ba276a2236f84df44a5eff1886889a3b
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 041b633494db2064db479462eee5f479
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 1cf03ea74c0214a4ba4c5f288f57096e
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 45ab9774bc9360a44aca7f2361344be5
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 0925e7c34f2979345a86428121d68327
+            subObjectName: 
+      damageTypeOrganicVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: ba276a2236f84df44a5eff1886889a3b
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 041b633494db2064db479462eee5f479
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 1cf03ea74c0214a4ba4c5f288f57096e
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 02c562adcb92d864fa1c74898e7047b0
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 45ab9774bc9360a44aca7f2361344be5
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: c927d43cbf412e44a8c09d649fa14d23
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 0925e7c34f2979345a86428121d68327
+            subObjectName: 
+  defaultCriticalVFX:
+    arReference:
+      address: aaa4af51543f7404eb1844188075d9cd
+      subObjectName: 
+  defaultBackStabVFX:
+    arReference:
+      address: 
+      subObjectName: 
+  defaultDeathVFX:
+    arReference:
+      address: 2e2476a2248b1b94cbd6236b2a3b799e
+      subObjectName: 
+  uniformMeshPreparerComputeShader: {fileID: 7200000, guid: cc5b08a7d37f507448e68ee7ddb7f1b8,
+    type: 3}
+  uniformMeshSamplerComputeShader: {fileID: 7200000, guid: f8819c94aa106904997bf694c1222895,
+    type: 3}
+  depthTextureStreamingParams:
+    pixelsPerUnit: 6
+    chunkTextureSizeInUnits: 100
+    smoothingAreaRadiusInUnits: 1
+    heightDiffThreshold: 0.2
+    maxHeightDiff: 5
+    textureDataMaxBytesToCopyPerFrame: 1572864
+  EDITOR_hdrpUnlitMaterial: {fileID: 2100000, guid: 4afe53420299a3b459cf0bf9a2b64d19,
+    type: 2}
+  pickAngleSpeed: 80
+  lockAngleSpeed: 160
+  lockSuccessDelay: 200
+  lockResetDelay: 300
+  lockMaxOpenAngleRemap:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.01
+      value: 0.85
+      inSlope: 0.0011808763
+      outSlope: 0.0011808763
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.043389253
+    - serializedVersion: 3
+      time: 30
+      value: 0
+      inSlope: 0.0046141758
+      outSlope: 0.0046141758
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.051131062
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minProficiencyAlertMultiplier: 0.8
+  maxProficiencyAlertMultiplier: 0.19
+  pickpocketAlertLose: 0.05
+  MapMarkerSizeByCameraSize:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 10
+      inSlope: 0.061139498
+      outSlope: 0.061139498
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.07640669
+    - serializedVersion: 3
+      time: 880
+      value: 40
+      inSlope: 0.033333335
+      outSlope: 0.033333335
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1200
+      value: 50
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fogOfWarShader: {fileID: 7200000, guid: dd201f91fb70a774b8907f180fb67227, type: 3}
+  fogOfWarParams:
+    revealPixelsRadius: 256
+    revealRadiusThreshold: 0.5
+    breakDistanceInCirclesBetween: 0.9
+    maskTextureMultiplier: 0.25
+    revealBrushIntensity: 0.5
+    softAreaPixelsCount: 64
+    falloffPow: 2
+  <WeatherPresets>k__BackingField:
+  - name: All day sun
+    intensityCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    maxVariation: 0
+    allowVariationOutsideOfRain: 0
+    maxTranslation: 0
+    weight: 1
+  - name: Short rain with variation
+    intensityCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.4
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.46107554
+        value: 0.79056793
+        inSlope: 2.072826
+        outSlope: 2.072826
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.31225294
+      - serializedVersion: 3
+        time: 0.51830983
+        value: 0.8044127
+        inSlope: -0.66981006
+        outSlope: -0.66981006
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.58772767
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    maxVariation: 0.2
+    allowVariationOutsideOfRain: 0
+    maxTranslation: 1
+    weight: 3
+  <HeavyRainThreshold>k__BackingField: 0.3
+  wyrdWhispersOperationType:
+    _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Add
+  wyrdWhispersStatBonus: 1
+  <WyrdEmpoweredStats>k__BackingField:
+  - statEffected:
+      _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MaxHealth
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    isRandomized: 1
+    min: 0.7
+    max: 1.3
+    effectStrength: 1
+  - statEffected:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MaxStamina
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    isRandomized: 0
+    min: 0
+    max: 0
+    effectStrength: 4
+  - statEffected:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Strength
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    isRandomized: 1
+    min: 0.9
+    max: 4
+    effectStrength: 4
+  - statEffected:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MagicStrength
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    isRandomized: 1
+    min: 0.9
+    max: 1.4
+    effectStrength: 3
+  wyrdConvertedConfig:
+    storyRef:
+      _guid: 322b76175ca9ace46ac5eda0c3dbb575
+  wyrdConvertedFallbackLoot:
+    lootType: 0
+    lootReference:
+      _guid: 92bfc02c2897c8c4da736be80757d271
+    table:
+      rid: 2097845386788470784
+  wyrdspawnVariants:
+  - maxHeroLevel: 5
+    enemyVariant:
+      _guid: 237e11569d32e7540ae8c5207a89dd3d
+  - maxHeroLevel: 10
+    enemyVariant:
+      _guid: 64ff443515c6aa24caccab167e2bfec5
+  - maxHeroLevel: 15
+    enemyVariant:
+      _guid: 3fd487b2c44772f45955016b27777600
+  - maxHeroLevel: 20
+    enemyVariant:
+      _guid: dced14b6fb3424b4f9c37b361cbcc7e8
+  - maxHeroLevel: 25
+    enemyVariant:
+      _guid: 7727306438f4a6b4f88bc9ef61807b69
+  - maxHeroLevel: 30
+    enemyVariant:
+      _guid: 3f1bd5b3d4dad764f93a17fac3cd9b1e
+  - maxHeroLevel: 35
+    enemyVariant:
+      _guid: 376438d3c610f1741a4182319b0819b1
+  - maxHeroLevel: 40
+    enemyVariant:
+      _guid: ae8cba51034ffdc478acd3fb2cb9bea6
+  - maxHeroLevel: 45
+    enemyVariant:
+      _guid: cd0778f1100d8da4d927fb096da53441
+  - maxHeroLevel: 50
+    enemyVariant:
+      _guid: 529fdba73eae1c9439b5f601225d0446
+  wyrdStalkerSpawnRange:
+    min: 33
+    max: 66
+  wyrdStalkerAfterHiddenNextShowCooldown: 30
+  visibilityCoyoteTime: 0.75
+  visibilityCoyoteTimeDecreaseSpeed: 3
+  wyrdStalkerAudioRange:
+    min: 15
+    max: 60
+  wyrdStalkerNeverSeenMaxAudioThreshold: 0.5
+  wyrdStalkerSpawnAudioCue:
+    Guid:
+      Data1: -817145448
+      Data2: 1149189807
+      Data3: -104323961
+      Data4: 1078649368
+    Path: event:/SFX/Player/SFX_Player_Slowmo_IN
+  wyrdStalkerOnSightAudioCue:
+    Guid:
+      Data1: 92018468
+      Data2: 1323185345
+      Data3: -946366055
+      Data4: -276481491
+    Path: event:/SFX/NPC/SFX_GuardAlarm
+  wyrdStalkerHideAudioCue:
+    Guid:
+      Data1: -339676976
+      Data2: 1299986605
+      Data3: 117178251
+      Data4: 321760922
+    Path: event:/SFX/Player/SFX_Player_Slowmo_OUT
+  wyrdStalkerPassiveSpawnChance: 0.1
+  tooLongVisibleTimeout: 2
+  tooLongVisibleCoyoteTimeDecreaseSpeed: 5
+  passiveWyrdStalkerAliveRangeSqr:
+    min: 144
+    max: 10000
+  wyrdStalkerActiveSpawnChance: 0.4
+  wyrdStalkerStatsModifierPerSoulCount:
+  - statEffected:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:StrengthLinear
+    effectStrength: 5
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:AddPreMultiply
+    abstractFilters: []
+    allOrAny: 0
+    abstractsOverriden: 0
+  - statEffected:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MaxStamina
+    effectStrength: 50
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Stats.OperationType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Multi
+    abstractFilters: []
+    allOrAny: 0
+    abstractsOverriden: 0
+  BackWeaponSlotOffset:
+  - itemAbstracts:
+    - _guid: e01e3e95904a4454c9d15afb0aa26a38
+    offset: {x: -0.001999571, y: -0.1500003, z: -0.005999215}
+    rotation: {x: 3.2, y: -170.938, z: 180.934}
+  - itemAbstracts:
+    - _guid: bf6f941990c41df4393d114746ae173e
+    offset: {x: 0, y: 0.85, z: 0.106}
+    rotation: {x: -160, y: 0, z: 0}
+  - itemAbstracts:
+    - _guid: aa2bc01c92b5e4b44ad9343f0c682e70
+    - _guid: 8ec1d86b07f91154fa2937710496d62e
+    offset: {x: 0, y: -0.193, z: -0.095}
+    rotation: {x: 0, y: 0, z: 0}
+  - itemAbstracts:
+    - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+    offset: {x: 0, y: 0.286, z: 0.076}
+    rotation: {x: -135, y: 0, z: 0}
+  - itemAbstracts:
+    - _guid: fb3f705c21071314b8d3a9fa554e0ed3
+    offset: {x: 0.015, y: 0.428, z: -0.19}
+    rotation: {x: -20.421, y: 0, z: 0.435}
+  - itemAbstracts:
+    - _guid: 480a71826b05a6e4d8eb1bd3d79682f8
+    offset: {x: -0.0019, y: -0.15, z: -0.0059}
+    rotation: {x: 3.2, y: -170.93, z: 180.934}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2097845386788470784
+      type: {class: MarkLootAsUnidentified, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        _loot:
+          rid: 2097845386788470785
+    - rid: 2097845386788470785
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 8c594573a93c7294e8c4fd0ff00467f3
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0

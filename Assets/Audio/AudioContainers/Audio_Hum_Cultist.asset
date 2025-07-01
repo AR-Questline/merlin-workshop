@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Hum_Cultist
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    idle:
+      Guid:
+        Data1: -1101021460
+        Data2: 1221664275
+        Data3: 1910272169
+        Data4: 1745467925
+      Path: event:/SFX/Humanoids/SFX_Enemies_Cultist_Idle
+    hurt:
+      Guid:
+        Data1: 715717197
+        Data2: 1286575257
+        Data3: -1555267161
+        Data4: 563526474
+      Path: event:/SFX/Humanoids/SFX_Enemies_Cultist_Hurt
+    die:
+      Guid:
+        Data1: -1860264172
+        Data2: 1077360806
+        Data3: 2067328640
+        Data4: -921094886
+      Path: event:/SFX/Humanoids/SFX_Enemies_Cultist_Death
+    attack:
+      Guid:
+        Data1: 541542881
+        Data2: 1304887009
+        Data3: 823767460
+        Data4: 1235998376
+      Path: event:/SFX/Humanoids/SFX_Enemies_Cultist_Attack
+    specialAttack:
+      Guid:
+        Data1: 541542881
+        Data2: 1304887009
+        Data3: 823767460
+        Data4: 1235998376
+      Path: event:/SFX/Humanoids/SFX_Enemies_Cultist_Attack
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1058847788
+        Data2: 1092211816
+        Data3: 83581631
+        Data4: -1599002105
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

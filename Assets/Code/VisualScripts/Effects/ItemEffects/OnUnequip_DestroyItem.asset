@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnUnequip_DestroyItem
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-22.49243,"y":9.509094},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-248.0,"y":-277.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"chainable":false,"parameterNames":[],"member":{"name":"DecrementQuantity","parameterTypes":[],"targetType":"Awaken.TG.Main.Heroes.Items.Item","targetTypeName":"Awaken.TG.Main.Heroes.Items.Item","$version":"A"},"defaultValues":{},"position":{"x":82.0,"y":-50.0},"guid":"0c8b6719-26fc-4f8f-a58d-a8ef8c2b1792","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"11"},{"defaultValues":{},"position":{"x":-108.0,"y":30.0},"guid":"04b01753-d8d8-4516-99a8-10b3317496da","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillItemUnit","$id":"15"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onUnequip","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"576207da-f215-4d2a-b78f-808fb89313c0","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"item","destinationUnit":{"$ref":"11"},"destinationKey":"target","guid":"e2eb1641-5efe-481c-bdef-1d9281baa302","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

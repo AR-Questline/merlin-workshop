@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Weapon_BlockIgnoringAttacks
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"Active","value":{"$content":false,"$type":"System.Boolean"},"typeHandle":{"Identification":"System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":142.535,"y":-134.2087},"zoom":0.9748252,"elements":[{"defaultValues":{},"position":{"x":284.0,"y":-518.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"Type":"Equip","defaultValues":{},"position":{"x":-150.0,"y":-177.0},"guid":"0cfd4db5-238e-4b24-b7e1-f73394494b8f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.BeforeDamageDealtUnit","$id":"12"},{"member":{"name":"Parameters","parameterTypes":null,"targetType":"Awaken.TG.Main.Fights.DamageInfo.Damage","targetTypeName":"Awaken.TG.Main.Fights.DamageInfo.Damage","$version":"A"},"defaultValues":{},"position":{"x":106.0,"y":-70.0},"guid":"1ad87f9b-801a-40ab-985c-3f2c215e3fcd","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"14"},{"chainable":false,"member":{"name":"Inevitable","parameterTypes":null,"targetType":"Awaken.TG.Main.Fights.DamageInfo.DamageParameters","targetTypeName":"Awaken.TG.Main.Fights.DamageInfo.DamageParameters","$version":"A"},"defaultValues":{"input":{"$content":true,"$type":"System.Boolean"}},"position":{"x":303.0,"y":-171.0},"guid":"461a4b7c-ff93-455c-870c-7382ba88149e","$version":"A","$type":"Unity.VisualScripting.SetMember","$id":"17"},{"sourceUnit":{"$ref":"12"},"sourceKey":"trigger","destinationUnit":{"$ref":"17"},"destinationKey":"assign","guid":"f86d6807-214b-4f09-ab71-6561a1cee780","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"TPayload","destinationUnit":{"$ref":"14"},"destinationKey":"target","guid":"fbf14720-ee4f-4db0-a966-6a3f98704939","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"14"},"sourceKey":"value","destinationUnit":{"$ref":"17"},"destinationKey":"target","guid":"555dfd38-b6f2-40aa-bc7a-d700507b7f22","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

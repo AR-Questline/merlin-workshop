@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Global Variables Sample_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 27153e20147c06c4c8d1304d28104a87, type: 2}
+  m_Metadata:
+    m_Items:
+    - id: 0
+  m_TableData:
+  - m_Id: 3343051288576
+    m_Localized: 'The time now is <color=red>{global-sample.time-now:H:mm:ss}</color>
+
+      (Click
+      to Refresh)'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 16824966213632
+    m_Localized: Welcome <color=blue>{global-sample.player-name}</color>.
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 327189743673344
+    m_Localized: Player Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327442517598208
+    m_Localized: Enter player name..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328014486446080
+    m_Localized: 'Hello <color=red>{global-sample.player-name:{}|<Player Name>}</color>
+
+      This
+      scene contains examples of using the Global Variables feature.
+
+      Global
+      Variables can be used in a Smart String without passing in any additional arguments.
+
+      When
+      the value of a Global Variable changes, all subscribers of the variable refresh
+      automatically.'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 346998531301376
+    m_Localized: Vitality {global-sample.player.vitality}
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 351169280090112
+    m_Localized: Endurance {global-sample.player.endurance}
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 351688677531648
+    m_Localized: Strength {global-sample.player.strength}
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 352010531643392
+    m_Localized: Dexterity {global-sample.player.dexterity}
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 352337414725632
+    m_Localized: Intelligence {global-sample.player.intelligence}
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 352656420904960
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 364039518691328
+    m_Localized: Sword ({global-sample.weapons.sword})
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 365103068356608
+    m_Localized: Weapons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 366934439895040
+    m_Localized: Mace ({global-sample.weapons.mace})
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 367094825885696
+    m_Localized: Axe ({global-sample.weapons.axe})
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 367279828246528
+    m_Localized: Dagger ({global-sample.weapons.dagger})
+    m_Metadata:
+      m_Items:
+      - id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0070625d0a0300000070225e4d0f00000020f2d2532a0100002032e4973b0100002032f8623f01000020b2e6db3f01000020b2d626400100002072f2724001000020328e174b01000020f294b94d01000020b2ecde4d01000020b2ff094e0100

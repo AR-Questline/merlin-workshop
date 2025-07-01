@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4628768214894623893
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].gender
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].gender
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[2].gender
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: 47d5b9bc07d424e44a0ae0867dd9f491
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: 54b57a916627a824083b3d3c138bf62c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[2].itemPrefab.address
+      value: 5af1667503ef12c42817ae364c04284f
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].abstractNpcTemplates.Array.data[0]._guid
+      value: 2d89c9bd6158a1049b7460cee96ed7dd
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].abstractNpcTemplates.Array.data[0]._guid
+      value: 2d89c9bd6158a1049b7460cee96ed7dd
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_7165531871338340136_e132c8c5c2d4493418585e068d08d5c4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_7165531871338340136_e132c8c5c2d4493418585e068d08d5c4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: 1a37dbd720689184c9efb7c3697bc2fe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_Heavy_T4_Head_SveinnPathfinderHelmet_v1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9174666264328438791, guid: 4d0eac9bbcccad94690b2191a81b9528,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6724378173929283498}
+  m_SourcePrefab: {fileID: 100100000, guid: 4d0eac9bbcccad94690b2191a81b9528, type: 3}
+--- !u!1 &4570668124825139346 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9174666264328438791, guid: 4d0eac9bbcccad94690b2191a81b9528,
+    type: 3}
+  m_PrefabInstance: {fileID: 4628768214894623893}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6724378173929283498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4570668124825139346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c9a1b7550142df966ddef0ca491555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strengthRequired: 0
+  dexterityRequired: 0
+  spiritualityRequired: 0
+  perceptionRequired: 0
+  enduranceRequired: 0
+  practicalityRequired: 0

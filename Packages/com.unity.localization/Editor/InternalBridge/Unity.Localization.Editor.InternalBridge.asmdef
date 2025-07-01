@@ -1,0 +1,27 @@
+{
+    "name": "Unity.InternalAPIEditorBridge.013",
+    "rootNamespace": "UnityEditor.Localization.Bridge",
+    "references": ["GUID:343deaaf83e0cee4ca978e7df0b80d21","GUID:2bafac87e7f4b9b418d9448d219b01ab"],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "2020.3",
+            "define": "ENABLE_PROPERTY_VARIANTS"
+        },
+        {
+            "name": "Unity",
+            "expression": "2021.2",
+            "define": "ENABLE_SEARCH"
+        }
+    ],
+    "noEngineReferences": false
+}

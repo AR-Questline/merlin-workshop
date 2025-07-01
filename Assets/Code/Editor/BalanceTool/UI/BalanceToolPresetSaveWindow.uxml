@@ -1,0 +1,18 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Code/Editor/BalanceTool/RPGBalanceToolStyle.uss?fileID=7433441132597879392&amp;guid=06558487997df4540b837e13291501f1&amp;type=3#RPGBalanceToolStyle" />
+    <engine:VisualElement name="root" style="flex-grow: 1; justify-content: space-between; margin-left: 10px; margin-right: 10px; margin-top: 20px; margin-bottom: 10px; flex-shrink: 0;">
+        <engine:VisualElement name="info" style="flex-grow: 0;">
+            <engine:Label text="Save Preset" name="save-info-title" style="-unity-text-align: middle-center; font-size: 14px; -unity-font-style: bold;" />
+            <engine:Label text="Saves the following statistics fields as a statistics preset." name="save-info" style="-unity-text-align: middle-center; flex-wrap: wrap; white-space: normal;" />
+        </engine:VisualElement>
+        <engine:VisualElement name="file" style="flex-grow: 0;">
+            <engine:Label text="Label" name="file-path" selectable="true" style="margin-left: 3px;" />
+            <engine:TextField label="Filename" placeholder-text="file name" name="file-name" />
+            <engine:Label text="Lorem ipsum" name="validation-info" style="-unity-text-align: middle-right; color: rgb(211, 34, 34); margin-top: 1px; -unity-font-style: italic;" />
+        </engine:VisualElement>
+        <engine:VisualElement name="buttons" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; justify-content: flex-end;">
+            <engine:Button text="Cancel" name="cancel" style="background-color: rgb(88, 62, 62);" />
+            <engine:Button text="Confirm" name="confirm" style="background-color: rgb(62, 76, 89);" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

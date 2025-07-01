@@ -1,0 +1,87 @@
+{
+    "name": "Drawing",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.UI",
+        "Unity.Burst",
+        "Unity.Mathematics",
+        "Unity.Collections",
+        "Unity.RenderPipelines.HighDefinition.Runtime",
+        "Unity.RenderPipelines.Core.Runtime",
+        "UnityEditor.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "MODULE_BURST",
+        "MODULE_MATHEMATICS",
+        "MODULE_COLLECTIONS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.burst",
+            "expression": "1.2.1-preview",
+            "define": "MODULE_BURST"
+        },
+        {
+            "name": "com.unity.mathematics",
+            "expression": "1.1.0",
+            "define": "MODULE_MATHEMATICS"
+        },
+        {
+            "name": "com.unity.collections",
+            "expression": "0.4.0-preview",
+            "define": "MODULE_COLLECTIONS"
+        },
+        {
+            "name": "com.unity.collections",
+            "expression": "0.6.0-preview",
+            "define": "MODULE_COLLECTIONS_0_6_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.collections",
+            "expression": "0.8.0-preview",
+            "define": "MODULE_COLLECTIONS_0_8_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "0.0.0",
+            "define": "MODULE_RENDER_PIPELINES_UNIVERSAL"
+        },
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "0.0.0",
+            "define": "MODULE_RENDER_PIPELINES_HIGH_DEFINITION"
+        },
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "9.0",
+            "define": "MODULE_RENDER_PIPELINES_HIGH_DEFINITION_9_0_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "16.0",
+            "define": "MODULE_RENDER_PIPELINES_HIGH_DEFINITION_16_0_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.collections",
+            "expression": "0.12.0-preview",
+            "define": "MODULE_COLLECTIONS_0_12_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "15.0.7",
+            "define": "MODULE_RENDER_PIPELINES_UNIVERSAL_15_0_7_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "17.0.0",
+            "define": "MODULE_RENDER_PIPELINES_UNIVERSAL_17_0_0_OR_NEWER"
+        }
+    ],
+    "noEngineReferences": false
+}

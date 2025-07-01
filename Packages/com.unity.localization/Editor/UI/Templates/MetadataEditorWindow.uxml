@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="true">
+    <ui:VisualElement style="flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+        <ui:ScrollView name="contents" style="flex-grow: 1;" />
+        <ui:Button text="Done" style="align-self: flex-end;" />
+    </ui:VisualElement>
+</ui:UXML>

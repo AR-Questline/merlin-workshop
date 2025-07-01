@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Foldout text="Smart Format" value="false">
+        <uie:PropertyField binding-path="m_Settings" />
+        <uie:PropertyField binding-path="m_Parser" />
+    </ui:Foldout>
+</ui:UXML>

@@ -1,0 +1,94 @@
+.horizontalContainer {
+    margin: 50px;
+    flex-direction: row;
+}
+
+#boxesContainer {
+    padding: 10px;
+    background-color: rgb(128, 128, 128);
+    align-self: flex-start;
+    flex-shrink: 0;
+}
+
+#boxesContainer > VisualElement {
+    width: 100px;
+    height: 100px;
+}
+
+#TwoPlusOneContainer {
+    height: 100px;
+    flex-shrink: 0;
+}
+
+#large {
+    flex: 0.7;
+    background-color: rgb(255, 0, 0);
+}
+
+#small {
+    flex: 0.3;
+    background-color: rgb(0, 0, 255);
+}
+
+#wrapContainer {
+    flex-wrap: wrap;
+}
+
+#wrapContainer > VisualElement {
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    background-color: #0000FF;
+}
+
+.editorControlDisplayer {
+    flex-direction: row;
+}
+
+.editorControlDisplayer .extraField {
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.editorControlDisplayer .controlField {
+    flex: 1;
+}
+
+.focusButton {
+    max-height: 20px;
+}
+
+.unity-list-view {
+    --unity-item-height: 20;
+}
+
+TreeView {
+    --unity-item-height: 15;
+}
+
+.split-container {
+    flex: 1;
+    padding: 10px;
+}
+
+.inner-container {
+    flex: 1;
+    overflow: hidden;
+}
+
+.element {
+    flex: 1 1 100px;
+    background-color: #555555;
+    border-bottom-width: 1px;
+    border-color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.element Label {
+    background-color: #000000;
+    color: #999999;
+    -unity-text-align: middle-center;
+    flex: 0 0 auto;
+}

@@ -1,0 +1,193 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6750718249520870346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8122902217194243909}
+  - component: {fileID: 3955092427561616622}
+  m_Layer: 0
+  m_Name: Abstract_NPCTemplate_DalRiataBody
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8122902217194243909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6750718249520870346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3955092427561616622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6750718249520870346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27df3c5a96dc924997ffdff14d55e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 1
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  faction:
+    _guid: c1c6f46c478db534486a3e069ca9ef07
+  defaultCrimeOwner:
+    _guid: 
+  level: 1
+  npcData: {fileID: 0}
+  fightingStyle:
+    _guid: 
+  isNotGrounded: 0
+  useRichAISlowdownTime: 1
+  requiresPathToTarget: 1
+  isSpellCaster: 0
+  canDealDamageToFriendlies: 0
+  maxHealth: 100
+  healthRegen: 0
+  maxStamina: 100
+  staminaRegenPerTick: 0.25
+  staminaUsageMultiplier: 1
+  canBeWyrdEmpowered: 1
+  canEnterCombat: 1
+  meleeDamage: 10
+  rangedDamage: 10
+  magicDamage: 10
+  armor: 0
+  armorMultiplier: 1
+  damageReceivedMultipliers: []
+  statusResistance: 0
+  forceStumbleThreshold: 4
+  npcWeight: 80
+  npcHitMask:
+    serializedVersion: 2
+    m_Bits: 2164260864
+  poiseThreshold: 33
+  blockValue: 50
+  blockPenaltyMultiplier: 1
+  combatSlotsLimit: 2
+  heroKnockBack: 100
+  statusStats:
+    displayType: 0
+    _bleed:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Bleed
+    _burn:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Burn
+    _frenzy:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Frenzy
+    _confusion:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Confusion
+    _corruption:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Corruption
+    _mute:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Mute
+    _poison:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Poison
+    _slow:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Slow
+    _stun:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Stun
+    _weak:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Weak
+    _drunk:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Drunk
+    _intoxicated:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Intoxicated
+    _full:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Full
+  crimeNpcValue: 4
+  crimeReactionArchetype: 0
+  returnToSpawnPointArchetype: 1
+  npcType: 2
+  expLevel: 0
+  expTier: 0
+  expReward: 0
+  isPickpocketable: 1
+  isDeadBodyLootable: 1
+  fistsTemplate:
+    _guid: 
+  inventoryItems:
+    lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 6725568025187057681
+  lootTables:
+  - lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 6725568025187057693
+  corpseLootTables: []
+  wyrdConvertedLootTables: []
+  tags:
+  - template:abstract
+  difficultyTag: 
+  surfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:HitFlesh
+  canTriggerAggroMusic: 1
+  onHitCriticalVFX:
+    arReference:
+      address: 
+      subObjectName: 
+  tattooType: 0
+  dummyDeathClipTransition:
+    address: 
+    subObjectName: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 6725568025187057681
+      type: {class: LootEmpty, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data: 
+    - rid: 6725568025187057693
+      type: {class: LootEmpty, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data: 

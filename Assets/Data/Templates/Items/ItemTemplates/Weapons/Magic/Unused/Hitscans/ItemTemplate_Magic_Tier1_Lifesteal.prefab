@@ -1,0 +1,628 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9174666264328438791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7123199763436368482}
+  - component: {fileID: 2543871262668956605}
+  - component: {fileID: 6423854835304496968}
+  - component: {fileID: 7765184236265230154}
+  - component: {fileID: 6009337219891481119}
+  - component: {fileID: 4681096150434516243}
+  - component: {fileID: -3154006170619675142}
+  m_Layer: 0
+  m_Name: ItemTemplate_Magic_Tier1_Lifesteal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7123199763436368482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2543871262668956605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc88cdec074e78e46bc67fe4e55b723d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 3
+  _isAbstract: 0
+  _abstractTypes:
+  - _guid: b85e12a8567d3714b9b4713e329c7ce1
+  - _guid: 310c75f738d0e874db8c422614e20adc
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  tags:
+  - item:important
+  - item:spell
+  - item:tier1
+  iconReference:
+    arSpriteReference:
+      address: d0b06d5e6fe06c543956b08a14580434
+      subObjectName: 
+  itemName:
+    IdOverride: 
+    ID: Template/itemName_2543871262668956605_96b25609ddf2cd24ca0230fc804b65e9
+  flavor:
+    toggled: 0
+    locString:
+      IdOverride: 
+      ID: Template/flavor_locString_2543871262668956605_566e9eb5153036a429f895d59c3b7ba8
+  description:
+    toggled: 1
+    locString:
+      IdOverride: 
+      ID: Template/description_locString_2543871262668956605_96b25609ddf2cd24ca0230fc804b65e9
+  EDITOR_bakedDescription: Channeling sucks the life out of the target and gives
+    a portion of it back to you.
+  lightCastInfo:
+    magicType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:None
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicEffectType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Damage
+    effectOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    costType:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Mana
+    costOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    magicDescription:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+  heavyCastInfo:
+    magicType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:None
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicEffectType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Damage
+    effectOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    costType:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Mana
+    costOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    magicDescription:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+  quality:
+    _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Magic
+  basePrice: 10
+  overrideBuyPrice: 0
+  buyPrice: 0
+  priceLevelMultiplier: 2
+  overrideBuyPriceMultiplier: 0
+  buyPriceMultiplier: 1
+  keywords: []
+  levelBonus: 0
+  weight: 0.5
+  weightLoss: 0.5
+  upgradeChance: 0.5
+  crimeItemValue: 8
+  canStack: 0
+  cannotBeDropped: 0
+  hiddenOnUI: 0
+  visibleOnUIForLoadout: 0
+  damageSurfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:DamageMetal
+  shareableDropPrefab:
+    arReference:
+      address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+--- !u!114 &6423854835304496968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a957f4aba3b1fe45824bb17ff81e46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobItems:
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 0
+    hand: 0
+    itemPrefab:
+      address: 6bd37ca74bcfdf44d8e2a92f09c362cb
+      subObjectName: 
+  equipmentType:
+    _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Magic
+  gemSlots: 0
+  finisherType:
+    _enumRef: Awaken.TG.Main.Heroes.Combat.FinisherType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:None
+  hitsToHitStop:
+    _enumRef: Awaken.TG.Main.Animations.FSM.Heroes.Modifiers.HitsToHitStop, TG.Main,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Blunt
+--- !u!114 &7765184236265230154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a781d35a7464364dae8f087ddc8a36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionType:
+    _enumRef: Awaken.TG.Main.Heroes.Items.Attachments.ItemActionType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:CastSpell
+  chargeAble: 0
+  hasChargeSteps: 0
+  maxChargeSteps: 1
+  consumeOnUse: 0
+  skills:
+  - skillGraphRef:
+      _guid: e076823b9cbc8d542b5f74748a555ae3
+    variables:
+    - name: StatCost
+      value: 10
+    - name: Range
+      value: 10
+    - name: AutoTargetAngle
+      value: 40
+    - name: ApplyStatToCasterModifier
+      value: 1
+    - name: ApplyStatToMinionsModifier
+      value: 0
+    - name: ProjectileSpread
+      value: 0
+    - name: ProjectileVelocity
+      value: 0
+    - name: HeavyCastStartDamageMultiplier
+      value: 0.5
+    - name: HeavyCastEndDamageMultiplier
+      value: 1
+    - name: EndDamageDelay
+      value: 3
+    - name: HeavyCastAverageDamageCalculated
+      value: 0
+    - name: HeavyCastAverageStatCalculated
+      value: 0
+    enums:
+    - name: StatToDrain
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToStopRegeneration
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:HealthRegen
+    - name: StatCostEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    datums: []
+    templates:
+    - name: StatusToApply
+      templateReference:
+        _guid: b7e793b253b79ac4d8a9c25846e79680
+    assetReferences:
+    - name: DrainTargetVFX
+      assetReference:
+        arReference:
+          address: 682d0de63ddddf545b5134f9763c2193
+          subObjectName: 
+--- !u!114 &6009337219891481119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
+    _objectReferences: []
+--- !u!114 &4681096150434516243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightAttackStaminaCost: 0
+  heavyAttackStaminaCost: 0
+  heavyAttackHoldCostPerTick: 0
+  blockStaminaCostMultiplier: 0.5
+  parryStaminaCost: 25
+  drawBowStaminaCostPerTick: 0
+  holdItemStaminaCostPerTick: 10
+  pushStaminaCost: 0
+  minDamage: 8
+  maxDamage: 8
+  damageGain: 0
+  heavyAttackDamageMultiplier: 0
+  pushDamageMultiplier: 0
+  backStabDamageMultiplier: 1
+  armorPenetration: 0
+  damageIncreasePerCharge: 4
+  criticalDamageMultiplier: 0
+  weakSpotDamageMultiplier: 0
+  sneakDamageMultiplier: 0
+  damageType: 2
+  damageSubTypes:
+  - subType: 20
+    percentage: 100
+    calculatedPercentage: 1
+  armor: 0
+  armorGain: 0
+  blockDamageReductionPercent: 0
+  blockAngle: 0
+  blockGain: 1
+  forceDamage: 1
+  forceDamageGain: 0
+  forceDamagePushMultiplier: 3
+  ragdollForce: 5
+  poiseDamage: 8
+  poiseDamageGain: 0
+  poiseDamageHeavyAttackMultiplier: 1.5
+  poiseDamagePushMultiplier: 3
+  npcDamageMultiplier: 1
+  attacksPerSecond: -1
+  randomnessModifier: 1
+  rangedZoomModifier: -1
+  bowDrawSpeedModifier: 1
+  lightCastManaCost: 0
+  heavyCastManaCost: 0
+  heavyCastManaCostPerSecond: 0
+  magicHeldSpeedMultiplier: 0.3
+--- !u!114 &-3154006170619675142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d60e2b3fadb9b489f3f221d82aec65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armorSurfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:ArmorFabric
+  itemAudioContainerWrapper:
+    assetType: 0
+    dataAsset: {fileID: 11400000, guid: f5b5ffb5c2ea34a459dce9b692a1fb2e, type: 2}
+    data:
+      audioType: 0
+      armorHitType:
+        _enumRef: 
+      meleeSwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeSwingHeavy:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeDashAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeEquip:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeUnEquip:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeHit:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      pommelHit:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dragBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      equipBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unEquipBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      releaseBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      arrowSwish:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castBegun:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castCharging:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castFullyCharged:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castCancel:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castHeavyRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      equipMagic:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unEquipMagic:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldChargedIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      projectileIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHit:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicFailedCast:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      sheathe:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unsheathe:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      onBlockDamage:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      parrySwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      pommelSwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      bodyMovement:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      bodyMovementFast:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      equipArmor:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unEquipArmor:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      useItem:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      pickupItem:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dropItem:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttackSwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 

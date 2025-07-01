@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_LifeTransfusion
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: -844347071
+        Data2: 1223920262
+        Data3: 1530291133
+        Data4: 121631521
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_CastBegun
+    castCharging:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castFullyCharged:
+      Guid:
+        Data1: -1814353590
+        Data2: 1324043315
+        Data3: -1591008613
+        Data4: -1731252046
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_CastFullyCharged
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: -1664548525
+        Data2: 1156987636
+        Data3: 1093737907
+        Data4: 465394527
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipMagic:
+      Guid:
+        Data1: -699452359
+        Data2: 1256119159
+        Data3: -552026994
+        Data4: 1174786300
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_Equip
+    unEquipMagic:
+      Guid:
+        Data1: -699452359
+        Data2: 1256119159
+        Data3: -552026994
+        Data4: 1174786300
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: -1371949142
+        Data2: 1253606733
+        Data3: -1460008550
+        Data4: 207788514
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 1865561497
+        Data2: 1076594289
+        Data3: -379144296
+        Data4: -853520498
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: 702597337
+        Data2: 1275913646
+        Data3: 1553675396
+        Data4: 297383056
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 2131009854
+        Data2: 1136738933
+        Data3: -1252223356
+        Data4: -1557009084
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: -699452359
+        Data2: 1256119159
+        Data3: -552026994
+        Data4: 1174786300
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_Equip
+    dropItem:
+      Guid:
+        Data1: -699452359
+        Data2: 1256119159
+        Data3: -552026994
+        Data4: 1174786300
+      Path: event:/SFX/Spells/LifeTransfusion/SFX_Spells_LifeTransfusion_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

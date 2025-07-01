@@ -1,0 +1,19 @@
+#pragma kernel CSSample
+
+Texture2D _Splatmap0;
+Texture2D _Splatmap1;
+SamplerState sampler_Splatmap0;
+SamplerState sampler_Splatmap1;
+float4 _UV;
+bool _HasSecondSplatmap;
+RWStructuredBuffer<float4> _Results;
+
+[numthreads(1,1,1)]
+void CSSample (uint3 id : SV_DispatchThreadID)
+{
+    _Results[0] = _Splatmap0.SampleLevel(sampler_Splatmap0, _UV.xy, 0);
+    if(_HasSecondSplatmap)
+    {
+        _Results[1] = _Splatmap1.SampleLevel(sampler_Splatmap1, _UV.xy, 0);
+    }
+}

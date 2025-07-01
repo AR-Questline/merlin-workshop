@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: RandomCoins_1
+  m_EditorClassIdentifier: 
+  table:
+    rid: 999712808141324451
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 999712808141324451
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 999712808141324452
+        - rid: 999712808141324453
+    - rid: 999712808141324452
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 10
+        randomizedAmount: 14
+        generateOnlyOnce: 0
+        loot:
+          rid: 999712808141324456
+    - rid: 999712808141324453
+      type: {class: LootTableFlagConditional, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        flag: 
+        ifTrue:
+          rid: 999712808141324454
+        ifFalse:
+          rid: 999712808141324455
+    - rid: 999712808141324454
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e350d81942c38e3449a3ca0b8868d1c6
+        quantity: 5
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 999712808141324455
+      type: {class: LootEmpty, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data: 
+    - rid: 999712808141324456
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e350d81942c38e3449a3ca0b8868d1c6
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0

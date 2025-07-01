@@ -1,0 +1,47 @@
+{
+    "name": "Unity.Localization",
+    "rootNamespace": "UnityEngine.Localization",
+    "references": [
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Unity.InternalAPIEngineBridge.013",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro",
+        "UnityEditor.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.modules.audio",
+            "expression": "1.0.0",
+            "define": "MODULE_AUDIO"
+        },
+        {
+            "name": "com.unity.modules.uielements",
+            "expression": "1.0.0",
+            "define": "MODULE_UITK"
+        },
+        {
+            "name": "com.unity.ugui",
+            "expression": "1.0.0",
+            "define": "PACKAGE_UGUI"
+        },
+        {
+            "name": "com.unity.textmeshpro",
+            "expression": "1.0.0",
+            "define": "PACKAGE_TMP"
+        },
+        {
+            "name": "Unity",
+            "expression": "2020.3",
+            "define": "ENABLE_PROPERTY_VARIANTS"
+        }
+    ],
+    "noEngineReferences": false
+}

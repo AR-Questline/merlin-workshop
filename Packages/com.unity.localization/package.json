@@ -1,0 +1,73 @@
+{
+  "name": "com.unity.localization",
+  "displayName": "Localization",
+  "version": "1.5.3",
+  "unity": "2019.4",
+  "description": "Use the Localization package to easily configure localization settings for your application.\n\nAdd support for multiple languages and regional variants, including:\n\n• String localization: Set different strings to display based on locale. Use the Smart Strings feature to add logic to automatically replace specific strings, such as placeholders and plurals.\n• Asset localization: Use a different asset (such as a texture, model, or audio file) based on a locale.\n• Pseudo-localization: Test how your project will adapt to different localizations at an early stage, before adding your translations.\n• Import and export localization data to XLIFF, CSV and Google Sheets.\n\nAdd localization to your projects using the Localization package to help make your applications more accessible to a wider audience.",
+  "keywords": [
+    "localization",
+    "locale",
+    "language"
+  ],
+  "dependencies": {
+    "com.unity.addressables": "1.22.2",
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  },
+  "relatedPackages": {
+    "com.unity.localization.tests": "1.5.3"
+  },
+  "_upm": {
+    "changelog": "### Added\n\n- Added additional menu options to Tables Window to expose the CSV Extension(s) available for a collection. This enables you to import and export data using custom settings configured through the CSV Extensions on the collection. (LOC-1130)\n- Added 'Open(Merge)` and `Import(Merge)' options to the CSV Extension property drawer. (LOC-1130)\n\n### Changed\n\n- Upgraded to Addressables 1.22.2. (LOC-1125)\n\n### Fixed\n\n- Added \"None\" option to localized string and asset picker. ([LOC-1141](https://issuetracker.unity3d.com/product/unity/issues/guid/LOC-1141))\n- Added support for tracking UGUI Layout Groups via property variants so the layout updates when a locale is changed. This will require re-adding the GameObjectLocalizer as we do not currently have a way to update existing trackers to the new type. ([LOC-1128](https://issuetracker.unity3d.com/product/unity/issues/guid/LOC-1128))\n- Fixed `LocalizationSettings.ProjectLocale` being null when the available locales are not initialized. ([LOC-1139](https://issuetracker.unity3d.com/product/unity/issues/guid/LOC-1139))\n- Fixed `MetadataType.All` not including `AllSharedTableEntries` and `LocalizationSettings`. ([LOC-1131](https://issuetracker.unity3d.com/product/unity/issues/guid/LOC-1131))\n- Fixed `StackOverflowException` when two locales use each other as fallbacks and Preload Behavior is set to Preload Selected Locale And Fallbacks. ([LOC-1119](https://issuetracker.unity3d.com/product/unity/issues/guid/LOC-1119))\n- Fixed an issue where we would parse strings that were not marked as smart. ([LOC-1156](https://issuetracker.unity3d.com/product/unity/issues/guid/LOC-1156))\n- Fixed being able to create cyclic locale fallbacks through the editor. (LOC-1117)\n- Fixed TrackedTransform so it correctly applies the locale position and rotation to a tracked GameObject. ([LOC-1148](https://issuetracker.unity3d.com/product/unity/issues/guid/LOC-1148))"
+  },
+  "upmCi": {
+    "footprint": "4f49f2ee69495e9b3a964965ea6b237613336f78"
+  },
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.localization@1.5/manual/index.html",
+  "repository": {
+    "url": "https://github.cds.internal.unity3d.com/unity/com.unity.localization.git",
+    "type": "git",
+    "revision": "da1ce1d52234fd7265be8dc35797298743715d76"
+  },
+  "samples": [
+    {
+      "displayName": "Creating Locales",
+      "description": "This sample shows how to Locales including custom ones through script.",
+      "path": "Samples~/CreatingLocales"
+    },
+    {
+      "displayName": "Loading Strings",
+      "description": "This sample shows multiple ways to fetch localized strings from the Localization system.",
+      "path": "Samples~/LoadingStrings"
+    },
+    {
+      "displayName": "Language Selection Menu (IMGUI)",
+      "description": "This sample shows how to implement a simple language selection menu using IMGUI. The sample also includes an example of overriding the LocalesProvider in order to provide a custom list of available Locales.",
+      "path": "Samples~/LocaleMenuIMGUI"
+    },
+    {
+      "displayName": "Language Selection Menu (UGUI)",
+      "description": "This sample shows how to implement a simple language selection menu using a UGUI Dropdown.",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "path": "Samples~/LocaleMenuUGUI"
+    },
+    {
+      "displayName": "Smart Strings - Persistent Variables",
+      "description": "These samples show how Persistent Variables can be used in Smart Strings and how custom variables can be created.",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "path": "Samples~/PersistentVariables"
+    },
+    {
+      "displayName": "Preloading Screen",
+      "description": "Preloading is a way to ensure that chosen Localization data is immediately available and does not require additional loading. This sample shows how to implement a loading screen to wait for preloading to complete.",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "path": "Samples~/PreloadingScreen"
+    }
+  ],
+  "_fingerprint": "aa064bb50234973893f4f1f5a782887beed2a8bb"
+}

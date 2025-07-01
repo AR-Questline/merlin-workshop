@@ -1,0 +1,256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Weapon_Bow_Heavy
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeSwingHeavy:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeDashAttack:
+      Guid:
+        Data1: 118450151
+        Data2: 1321743403
+        Data3: -513369934
+        Data4: -335015989
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Swing
+    meleeEquip:
+      Guid:
+        Data1: -1851396970
+        Data2: 1112164568
+        Data3: -1510200395
+        Data4: 1158041699
+      Path: event:/EQ/SFX_Player_PickItem_Bow
+    meleeUnEquip:
+      Guid:
+        Data1: -472568842
+        Data2: 1186099485
+        Data3: 895562895
+        Data4: -1767602541
+      Path: event:/EQ/SFX_Player_DropItem_Bow
+    meleeHit:
+      Guid:
+        Data1: 64933679
+        Data2: 1217000092
+        Data3: -598507611
+        Data4: 1802051872
+      Path: event:/SFX/Weapon/BowHeavy/SFX_Weapon_BowHeavy_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: -129285000
+        Data2: 1214889302
+        Data3: -1433855867
+        Data4: -1221306908
+      Path: event:/SFX/Weapon/BowHeavy/SFX_Weapon_BowHeavy_DragBow
+    equipBow:
+      Guid:
+        Data1: -1851396970
+        Data2: 1112164568
+        Data3: -1510200395
+        Data4: 1158041699
+      Path: event:/EQ/SFX_Player_PickItem_Bow
+    unEquipBow:
+      Guid:
+        Data1: -472568842
+        Data2: 1186099485
+        Data3: 895562895
+        Data4: -1767602541
+      Path: event:/EQ/SFX_Player_DropItem_Bow
+    releaseBow:
+      Guid:
+        Data1: 527529201
+        Data2: 1335889952
+        Data3: 1069051796
+        Data4: 184892103
+      Path: event:/SFX/Weapon/BowHeavy/SFX_Weapon_BowHeavy_ReleaseBow
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCharging:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    sheathe:
+      Guid:
+        Data1: -735599521
+        Data2: 1232215504
+        Data3: -2096901999
+        Data4: 508215017
+      Path: event:/SFX/Weapon/Bow/SFX_Weapon_Bow_Sheathe
+    unsheathe:
+      Guid:
+        Data1: -1362062118
+        Data2: 1332959663
+        Data3: 2144926903
+        Data4: -849383175
+      Path: event:/SFX/Weapon/Bow/SFX_Weapon_Bow_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 433335277
+        Data2: 1297491400
+        Data3: 58277053
+        Data4: -822355234
+      Path: event:/SFX/Shield/SFX_WoodenShield_Block
+    parrySwing:
+      Guid:
+        Data1: 957073650
+        Data2: 1157879226
+        Data3: 1079608196
+        Data4: -2105185540
+      Path: event:/SFX/Weapon/Fist/SFX_Fist_Swing
+    pommelSwing:
+      Guid:
+        Data1: 957073650
+        Data2: 1157879226
+        Data3: 1079608196
+        Data4: -2105185540
+      Path: event:/SFX/Weapon/Fist/SFX_Fist_Swing
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: -1851396970
+        Data2: 1112164568
+        Data3: -1510200395
+        Data4: 1158041699
+      Path: event:/EQ/SFX_Player_PickItem_Bow
+    dropItem:
+      Guid:
+        Data1: -472568842
+        Data2: 1186099485
+        Data3: 895562895
+        Data4: -1767602541
+      Path: event:/EQ/SFX_Player_DropItem_Bow
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

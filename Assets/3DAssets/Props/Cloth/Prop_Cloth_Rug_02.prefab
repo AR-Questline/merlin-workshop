@@ -1,0 +1,174 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7850746239316398991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4654889924716935921}
+  - component: {fileID: 8085074406616212741}
+  - component: {fileID: 3918830661198453436}
+  - component: {fileID: 3713240941516543124}
+  m_Layer: 6
+  m_Name: Prop_Cloth_Rug_02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &4654889924716935921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7850746239316398991}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8085074406616212741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7850746239316398991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ba29fb9cf54b3e955316a4eddcf8aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lodGroupSize: 2.765828
+  lodGroupSerializableData:
+    isValid:
+      state: 1
+    localReferencePoint: {x: -0.024549603, y: 0.022727832, z: 0.014473438}
+    lodDistances0:
+      x: 114.55673
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    lodDistances1:
+      x: Infinity
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    localToWorldMatrix:
+      c0:
+        x: 1
+        y: 0
+        z: 0
+        w: 0
+      c1:
+        x: 0
+        y: 1
+        z: 0
+        w: 0
+      c2:
+        x: 0
+        y: 0
+        z: 1
+        w: 0
+      c3:
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+  children:
+  - {fileID: 3918830661198453436}
+  isStatic: 1
+  hasLinkedLifetime: 0
+--- !u!114 &3918830661198453436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7850746239316398991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60fcd819e2b4b00a4cdf9d2d862f9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentGroup: {fileID: 8085074406616212741}
+  meshReference:
+    m_AssetGUID: 5a49bd5e4b16a4142a72de5e76bfd1f4
+    m_SubObjectName: Mesh_Prop_FloorRag_02
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  materialReferences:
+  - m_AssetGUID: 118e8f2b956ba1147ac22f99db6dbb8a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  renderMeshDescription:
+    layer: 0
+    renderingLayer: 385
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 0
+    staticShadowCaster: 0
+    lightProbeUsage: 1
+  localToWorldOffset:
+    c0:
+      x: 1
+      y: 0
+      z: 0
+      w: 0
+    c1:
+      x: 0
+      y: 1
+      z: 0
+      w: 0
+    c2:
+      x: 0
+      y: 0
+      z: 1
+      w: 0
+    c3:
+      x: 0
+      y: -0.0041544475
+      z: 0
+      w: 1
+  aabb:
+    Center:
+      x: -0.024549574
+      y: 0.02688228
+      z: 0.014473438
+    Extents:
+      x: 0.8807832
+      y: 0.02462297
+      z: 1.382914
+  visibleRange:
+    x: 0
+    y: 13123.245
+  lodMask: 1
+  _archetypeKeys:
+  - isStatic: 1
+    isTransparent: 0
+    hasLod: 1
+    inMotionPass: 0
+    lightProbeUsage: 1
+  hasLinkedLifetime: 0
+--- !u!114 &3713240941516543124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7850746239316398991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec972b3dee4e4dcaa14247816f65ea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _excludeFromHlod: 1
+  _cullWithHlod: 1

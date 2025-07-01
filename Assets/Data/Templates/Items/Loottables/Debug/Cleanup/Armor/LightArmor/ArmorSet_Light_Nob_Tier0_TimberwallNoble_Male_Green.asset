@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: ArmorSet_Light_Nob_Tier0_TimberwallNoble_Male_Green
+  m_EditorClassIdentifier: 
+  table:
+    rid: 3168152186127647017
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3054692387903504628
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 0
+        loots:
+        - loot:
+            rid: 3054692387903504629
+          weight: 1
+        - loot:
+            rid: 3054692408633065482
+          weight: 1
+    - rid: 3054692387903504629
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 2ccb07ba8108611448a50659077bd31c
+        quantity: 1
+        itemLvl: 0
+    - rid: 3054692387903504657
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 3fc917c8ec05a3943a1ac95d9093c888
+        quantity: 1
+        itemLvl: 0
+    - rid: 3054692408633065482
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: cd58417e1d9ad2e46a97b861f5435e79
+        quantity: 1
+        itemLvl: 0
+    - rid: 3054692408633065483
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 5bb22dfbe5b43394e9e5bada3f876924
+        quantity: 1
+        itemLvl: 0
+    - rid: 3054692408633065484
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 2ab8401d609fbc34887fa0940800faa7
+        quantity: 1
+        itemLvl: 0
+    - rid: 3054692408633065485
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: c37457977c5745847a2abc51770eba71
+        quantity: 1
+        itemLvl: 0
+    - rid: 3168152186127647017
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 3054692387903504628
+        - rid: 3054692387903504657
+        - rid: 3054692408633065483
+        - rid: 3054692408633065484
+        - rid: 3054692408633065485

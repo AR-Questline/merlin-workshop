@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_WolfsCall
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: -566368981
+        Data2: 1199687726
+        Data3: 1553262483
+        Data4: -800749848
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_CastBegun
+    castCharging:
+      Guid:
+        Data1: -1811347549
+        Data2: 1294549492
+        Data3: 992799164
+        Data4: -1010936971
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: 1273700017
+        Data2: 1205695932
+        Data3: 128801420
+        Data4: 807705728
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_CastCancel
+    castRelease:
+      Guid:
+        Data1: -1737867713
+        Data2: 1169250430
+        Data3: -241300339
+        Data4: 1938308677
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: 301918957
+        Data2: 1218546607
+        Data3: -1025589073
+        Data4: -1705890378
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: 19105170
+        Data2: 1089432148
+        Data3: 972903060
+        Data4: -1788375665
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_Equip
+    unEquipMagic:
+      Guid:
+        Data1: 19105170
+        Data2: 1089432148
+        Data3: 972903060
+        Data4: -1788375665
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: -1046827078
+        Data2: 1131189651
+        Data3: -1329246832
+        Data4: -1688212388
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: -2009732664
+        Data2: 1159642084
+        Data3: -1947899239
+        Data4: 1345141550
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 976917915
+        Data2: 1252511764
+        Data3: 2062530721
+        Data4: 1025096962
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 19105170
+        Data2: 1089432148
+        Data3: 972903060
+        Data4: -1788375665
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_Equip
+    dropItem:
+      Guid:
+        Data1: 19105170
+        Data2: 1089432148
+        Data3: 972903060
+        Data4: -1788375665
+      Path: event:/SFX/Spells/WolfsCall/SFX_Spells_WolfsCall_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

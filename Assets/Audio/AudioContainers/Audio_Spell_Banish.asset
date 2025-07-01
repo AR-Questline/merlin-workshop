@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_Banish
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 1450144716
+        Data2: 1316425147
+        Data3: 631183532
+        Data4: -308565768
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_CastBegun
+    castCharging:
+      Guid:
+        Data1: -33847904
+        Data2: 1329803330
+        Data3: 17401491
+        Data4: -411144133
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: 1665717787
+        Data2: 1331896540
+        Data3: -1633141098
+        Data4: 1601649839
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_CastFullyCharged
+    castCancel:
+      Guid:
+        Data1: -334424230
+        Data2: 1201432113
+        Data3: 216998040
+        Data4: -562663514
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_CastCancel
+    castRelease:
+      Guid:
+        Data1: -1951615845
+        Data2: 1217408325
+        Data3: 2048826268
+        Data4: 1005619279
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: 1127340660
+        Data2: 1088146054
+        Data3: -964718426
+        Data4: -760495219
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: 1538305681
+        Data2: 1232308043
+        Data3: -1509997379
+        Data4: -591866922
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_Equip
+    unEquipMagic:
+      Guid:
+        Data1: 1538305681
+        Data2: 1232308043
+        Data3: -1509997379
+        Data4: -591866922
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: 1818823986
+        Data2: 1141943894
+        Data3: -1205862977
+        Data4: -394059214
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 844596664
+        Data2: 1099899917
+        Data3: 1709009333
+        Data4: -1702443221
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 1952201099
+        Data2: 1127611322
+        Data3: 1369845395
+        Data4: 943087723
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_ProjectileIdle
+    magicHit:
+      Guid:
+        Data1: 195946911
+        Data2: 1083051570
+        Data3: -1530039156
+        Data4: 1375187692
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_Hit
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: 890483415
+        Data2: 1180253994
+        Data3: -2129329782
+        Data4: 244060138
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 890483415
+        Data2: 1180253994
+        Data3: -2129329782
+        Data4: 244060138
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_Sheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 1538305681
+        Data2: 1232308043
+        Data3: -1509997379
+        Data4: -591866922
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_Equip
+    dropItem:
+      Guid:
+        Data1: 1538305681
+        Data2: 1232308043
+        Data3: -1509997379
+        Data4: -591866922
+      Path: event:/SFX/Spells/Banish/SFX_Spells_Banish_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

@@ -1,0 +1,265 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6673170490206080542
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -2030504492413747376, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: strengthRequired
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -2030504492413747376, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: dexterityRequired
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -2030504492413747376, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: enduranceRequired
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -1342416209863646601, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: armor
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 215660845427092069, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: armorSurfaceType._enumRef
+      value: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ArmorMetal
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: e48562e1fdc55a9499328ebab81f0f64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: ba4e270e1433cd148ac1d678dc39b667
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: basePrice
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_9211682420203416995_722d8130f61aca243a8decca544c8652
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: quality._enumRef
+      value: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null:Magic
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: 'tags.Array.data[1]'
+      value: item:tier4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: description.toggled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: itemName.IdOverride
+      value: item_armor_heavy_DuelKnightArmor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_9211682420203416995_722d8130f61aca243a8decca544c8652
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: description.locString.IdOverride
+      value: description_increasestatatthreshold_percent_double
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: _abstractTypes.Array.data[0]._guid
+      value: 01a5b968d368086489a0d83d4cb8ae37
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: 2180fc3034aa3bb42b10efe11e57fae3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_T4_Body_DuelKnightArmor
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9174666264328438791, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8115571195877514119}
+  m_SourcePrefab: {fileID: 100100000, guid: 063d12280a187214dbec00b4b3c68671, type: 3}
+--- !u!1 &2578640020882901529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9174666264328438791, guid: 063d12280a187214dbec00b4b3c68671,
+    type: 3}
+  m_PrefabInstance: {fileID: 6673170490206080542}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8115571195877514119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2578640020882901529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a781d35a7464364dae8f087ddc8a36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionType:
+    _enumRef: 
+  chargeAble: 0
+  hasChargeSteps: 0
+  maxChargeSteps: 1
+  consumeOnUse: 0
+  skills:
+  - skillGraphRef:
+      _guid: 7863afd6e92e72a418fc0c1595d7a0f4
+    variables:
+    - name: Threshold
+      value: 0.25
+    - name: StatIncrease
+      value: 0.33
+    - name: ValueGain
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    enums:
+    - name: ModifiedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Strength
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    datums:
+    - name: AboveStatThreshold
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
+      _guid: 7863afd6e92e72a418fc0c1595d7a0f4
+    variables:
+    - name: Threshold
+      value: 0.5
+    - name: StatIncrease
+      value: 0.5
+    - name: ValueGain
+      value: 0.01
+    - name: ValueCalculated
+      value: 0
+    enums:
+    - name: ModifiedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:AttackSpeed
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Stamina
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxStamina
+    datums:
+    - name: AboveStatThreshold
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    templates: []
+    assetReferences: []

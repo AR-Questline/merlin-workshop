@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6665977373852768126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6203764302525156477}
+  - component: {fileID: 7815642769866991015}
+  m_Layer: 0
+  m_Name: NPCTemplate_Special_KingArthur_Bossfight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6203764302525156477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665977373852768126}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7815642769866991015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665977373852768126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27df3c5a96dc924997ffdff14d55e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes:
+  - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+  - _guid: 30fee903493e89e4089f2aeeb5e42d2a
+  - _guid: 2c5a87460fec9a749877f6e61a895b72
+  - _guid: 682f8a6d56dec9d4280393e56bd40e8c
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  faction:
+    _guid: 315e8bd87cef248468f30612e93787c1
+  defaultCrimeOwner:
+    _guid: 
+  level: 50
+  npcData: {fileID: 11400000, guid: e739b131a0e7afa40baeed6d365c3daf, type: 2}
+  fightingStyle:
+    _guid: deff570479e4fc5418eb604ad096c054
+  isNotGrounded: 0
+  useRichAISlowdownTime: 1
+  requiresPathToTarget: 1
+  isSpellCaster: 1
+  canDealDamageToFriendlies: 0
+  returnToSpawnPointArchetype: 1
+  maxHealth: 20000
+  healthRegen: 0
+  maxStamina: 500
+  staminaRegenPerTick: 5
+  staminaUsageMultiplier: 1
+  canBeWyrdEmpowered: 0
+  canEnterCombat: 1
+  meleeDamage: 100
+  rangedDamage: 75
+  magicDamage: 75
+  armor: 0
+  armorMultiplier: 1
+  damageReceivedMultipliers: []
+  statusResistance: 0
+  forceStumbleThreshold: 1800
+  npcWeight: 80
+  npcHitMask:
+    serializedVersion: 2
+    m_Bits: 2164260864
+  poiseThreshold: 1800
+  blockValue: 100
+  blockPenaltyMultiplier: 0.5
+  combatSlotsLimit: 2
+  heroKnockBack: 200
+  statusStats:
+    displayType: 0
+    invulnerableToStatuses:
+    - _guid: ec53df3de954bba47a68ef8c0f69b8a9
+    _bleed:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Bleed
+    _burn:
+      buildupThreshold: 1
+      effectStrength: 2
+      buildupName: Burn
+    _frenzy:
+      buildupThreshold: 3
+      effectStrength: 1
+      buildupName: Frenzy
+    _confusion:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Confusion
+    _corruption:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Corruption
+    _mute:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Mute
+    _poison:
+      buildupThreshold: 1
+      effectStrength: 2
+      buildupName: Poison
+    _slow:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Slow
+    _stun:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Stun
+    _weak:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Weak
+    _drunk:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Drunk
+    _intoxicated:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Intoxicated
+    _full:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Full
+  crimeNpcValue: 4
+  crimeReactionArchetype: 0
+  npcType: 2
+  expLevel: 11
+  expTier: 5
+  expReward: 620
+  isPickpocketable: 0
+  isDeadBodyLootable: 0
+  fistsTemplate:
+    _guid: 
+  inventoryItems:
+    lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 7766364333048594468
+  lootTables:
+  - lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 7855908944372301898
+  corpseLootTables: []
+  wyrdConvertedLootTables: []
+  tags:
+  - Tier:7
+  - MusicTier:4
+  difficultyTag: 
+  surfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:HitFlesh
+  canTriggerAggroMusic: 1
+  onHitCriticalVFX:
+    arReference:
+      address: 
+      subObjectName: 
+  tattooType: 0
+  dummyDeathClipTransition:
+    address: 
+    subObjectName: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 4863316041054552160
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 4863316041054552161
+        - rid: 4863316041054552162
+        - rid: 4863316041054552163
+        - rid: 4863316041054552164
+        - rid: 4863316041054552165
+    - rid: 4863316041054552161
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: df8417fa541f68c489821dcccd25e974
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 4863316041054552162
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: d3c661850fed66845bd31501f83b75f9
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 4863316041054552163
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 2dc6a60e2520be147b7699bebc0ce8a5
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 4863316041054552164
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: a99a07cce38a4fe4aa5bd0159c5ee9b5
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 4863316041054552165
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 35f8c60a4a258b24297dc3c12be8a07e
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 7766364333048594468
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 7855908944372301860
+        - rid: 4863316041054552160
+    - rid: 7855908944372301860
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e54629aeaf5ab394e9d30b0e35f07598
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 7855908944372301898
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array: []

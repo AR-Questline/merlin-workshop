@@ -1,0 +1,59 @@
+{
+	"FileContentKeywordValidation":
+	{
+		"IgnoreFilenames":
+		[
+			"Editor/HlslDerivatives/HlslTree.cs",
+			"Editor/HlslDerivatives/HlslGenerator.cs",
+			"Editor/HlslDerivatives/HlslParser.cs"
+		]	
+			
+		"Keywords":
+		[
+			{
+				"Targets": "+PS4",
+				"Files":
+				[
+					"Documentation~/Building-For-Consoles.md"
+				],
+				"Patterns":
+				[
+					"com\\.unity\\.render-pipelines\\.ps4"
+				]
+			},
+			{
+				"Targets": "+PS5",
+				"Files":
+				[
+					"Documentation~/Building-For-Consoles.md"
+				],
+				"Patterns":
+				[
+					"com\\.unity\\.render-pipelines\\.ps5"
+				]
+			},
+			{
+				"Targets": "+PS5",
+				"Files":
+				[
+					"Editor/Material/ShaderGraph/HDTarget.cs"
+				],
+				"Patterns":
+				[
+					"Pragma\\.OnlyRenderers.*Platform\\.PS5"
+				]
+			},
+			{
+				"Targets": "+XboxOne",
+				"Files":
+				[
+					"Documentation~/Building-For-Consoles.md"
+				],
+				"Patterns":
+				[
+					"com\\.unity\\.render-pipelines\\.xboxone"
+				]
+			}		
+		]
+	}
+}

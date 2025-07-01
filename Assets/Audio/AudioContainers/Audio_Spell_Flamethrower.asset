@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_Flamethrower
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCharging:
+      Guid:
+        Data1: 131931973
+        Data2: 1301983512
+        Data3: -1886528873
+        Data4: -1500604976
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: -1972434647
+        Data2: 1076374643
+        Data3: 1092738709
+        Data4: 671082613
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_CastFullyCharged
+    castCancel:
+      Guid:
+        Data1: -1576802165
+        Data2: 1206285361
+        Data3: 2035183240
+        Data4: -1093325514
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_CastCancel
+    castRelease:
+      Guid:
+        Data1: 442837424
+        Data2: 1289122728
+        Data3: -727471171
+        Data4: 12210158
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: 1928701309
+        Data2: 1161276269
+        Data3: -576717895
+        Data4: -550912931
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: -606487110
+        Data2: 1234906683
+        Data3: -1482314092
+        Data4: -1388979879
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_Equip
+    unEquipMagic:
+      Guid:
+        Data1: -606487110
+        Data2: 1234906683
+        Data3: -1482314092
+        Data4: -1388979879
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: 827482726
+        Data2: 1112398686
+        Data3: 377762747
+        Data4: -62257152
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: -1598071277
+        Data2: 1339372376
+        Data3: -1664558406
+        Data4: -152778168
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: -606487110
+        Data2: 1234906683
+        Data3: -1482314092
+        Data4: -1388979879
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_Equip
+    unsheathe:
+      Guid:
+        Data1: -606487110
+        Data2: 1234906683
+        Data3: -1482314092
+        Data4: -1388979879
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_Equip
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: -606487110
+        Data2: 1234906683
+        Data3: -1482314092
+        Data4: -1388979879
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_Equip
+    dropItem:
+      Guid:
+        Data1: -606487110
+        Data2: 1234906683
+        Data3: -1482314092
+        Data4: -1388979879
+      Path: event:/SFX/Spells/FlameTorrent/SFX_Spells_FlameTorrent_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

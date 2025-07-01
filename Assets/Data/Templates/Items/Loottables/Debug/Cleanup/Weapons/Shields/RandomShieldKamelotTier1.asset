@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: RandomShieldKamelotTier1
+  m_EditorClassIdentifier: 
+  table:
+    rid: 451728331579850778
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+    oldNames:
+    - Assets/Data/Templates/Data/Items/Loottables/Weapons/Random1HWeapon.asset
+    - Assets/Data/Templates/Data/Items/Loottables/Weapons/Random1HWeapon_Axes 1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/Random1HWeapon.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/Random1HWeapon 1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/RandomWeaponMelee1HTier1 1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/RandomWeaponGenericMelee1HTier1
+      1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/RandomWeaponKamelotMelee1HTier1
+      1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/RandomWeaponPictsMelee1HTier1
+      1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/RandomRangedWeaponPictsTier1
+      1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/RandomRangedWeaponDalRiataTier1
+      1.asset
+    - Assets/Data/Templates/Items/Loottables/Weapons/RandomShieldKamelotTier1.asset
+  references:
+    version: 2
+    RefIds:
+    - rid: 451728331579850778
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 451728331579850779
+    - rid: 451728331579850779
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 0
+        loots:
+        - loot:
+            rid: 451728331579850903
+          weight: 1
+        - loot:
+            rid: 451728331579850888
+          weight: 2
+    - rid: 451728331579850888
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 227c79570b8d53e489352ff1219b2990
+    - rid: 451728331579850903
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: c1e59a9980668be46a7c8741fe3a54b2

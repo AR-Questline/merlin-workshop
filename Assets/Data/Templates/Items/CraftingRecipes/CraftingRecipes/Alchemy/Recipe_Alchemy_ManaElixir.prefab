@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6049495708473799734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1701532073645601209}
+  - component: {fileID: 6566124336919952589}
+  m_Layer: 0
+  m_Name: Recipe_Alchemy_ManaElixir
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1701532073645601209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049495708473799734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6566124336919952589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049495708473799734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3242c537e42f44f68bfedca1553ca56f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  disableItemLevels: 0
+  itemCraftingDifficulty: 0
+  statRequirement:
+    _enumRef: 
+  statRequirementValue: 0
+  ingredients:
+  - templateReference:
+      _guid: 75ad4bd4baf20274db98214f1cf6c0c8
+    count: 4
+  - templateReference:
+      _guid: b80b9db75e3ec044cb8fa417b18fcbf2
+    count: 4
+  - templateReference:
+      _guid: 24c46f41f2f1ed14a9adb9edaccc63b1
+    count: 2
+  outcome:
+    _guid: f9c36d379b9b9bc4fa6a5df6a5afdcea
+  quantity: 1
+  isHidden: 0
+  storyOnCreation:
+    _guid: 

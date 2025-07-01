@@ -1,0 +1,575 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9174666264328438791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7123199763436368482}
+  - component: {fileID: 2543871262668956605}
+  - component: {fileID: -3093218543943943464}
+  - component: {fileID: 8983052315939280750}
+  - component: {fileID: -3260888584376115406}
+  m_Layer: 0
+  m_Name: ItemTemplate_Alchemy_BeesNectar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7123199763436368482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2543871262668956605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc88cdec074e78e46bc67fe4e55b723d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes:
+  - _guid: 22aa64baee2339a4a9186882a5464761
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  tags:
+  - potions:advanced
+  iconReference:
+    arSpriteReference:
+      address: f03ceddc1f3f2dd408ad64fc64ee7bfb
+      subObjectName: 
+  itemName:
+    IdOverride: item_craftingresults_alchemy_beesnectar
+    ID: Template/itemName_2543871262668956605_ae8228b967f022140b910d206846b7db
+  flavor:
+    toggled: 1
+    locString:
+      IdOverride: 
+      ID: Template/flavor_locString_2543871262668956605_68c1677f5f1d79a458b0ebc307a1d0d9
+  description:
+    toggled: 1
+    locString:
+      IdOverride: 
+      ID: Template/description_locString_2543871262668956605_ae8228b967f022140b910d206846b7db
+  EDITOR_bakedDescription: Restores 100% Health, 100% Mana, and 100% Stamina.
+  lightCastInfo:
+    magicType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:None
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicEffectType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Damage
+    effectOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    costType:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Mana
+    costOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    magicDescription:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+  heavyCastInfo:
+    magicType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:None
+    effectType:
+      _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicEffectType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Damage
+    effectOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    costType:
+      _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Mana
+    costOverridenToken:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+    magicDescription:
+      toggled: 0
+      locString:
+        IdOverride: 
+        ID: 
+  quality:
+    _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Magic
+  basePrice: 400
+  overrideBuyPrice: 0
+  buyPrice: 0
+  priceLevelMultiplier: 2
+  overrideBuyPriceMultiplier: 0
+  buyPriceMultiplier: 1
+  keywords: []
+  levelBonus: 0
+  weight: 0.05
+  weightLoss: 0.5
+  upgradeChance: 0
+  crimeItemValue: 8
+  canStack: 1
+  cannotBeDropped: 0
+  hiddenOnUI: 0
+  visibleOnUIForLoadout: 0
+  damageSurfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:DamageMetal
+  shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+--- !u!114 &-3093218543943943464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a781d35a7464364dae8f087ddc8a36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionType:
+    _enumRef: Awaken.TG.Main.Heroes.Items.Attachments.ItemActionType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Eat
+  chargeAble: 0
+  hasChargeSteps: 0
+  maxChargeSteps: 1
+  consumeOnUse: 1
+  skills:
+  - skillGraphRef:
+      _guid: d5ab45e7eb066a84ea55f9ab4f78b92f
+    variables:
+    - name: HealValue
+      value: 0.5
+    - name: Gain
+      value: 0.01
+    - name: HealValueCalculated
+      value: 0
+    enums:
+    - name: StatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Mana
+    - name: MaxStatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxMana
+    datums: []
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
+      _guid: 044ae51b997dbfd4daa7ec3c4051d2a0
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
+      _guid: 
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
+      _guid: d5ab45e7eb066a84ea55f9ab4f78b92f
+    variables:
+    - name: HealValue
+      value: 0.5
+    - name: Gain
+      value: 0.01
+    - name: HealValueCalculated
+      value: 0
+    enums:
+    - name: StatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: MaxStatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    datums: []
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
+      _guid: d5ab45e7eb066a84ea55f9ab4f78b92f
+    variables:
+    - name: HealValue
+      value: 0.5
+    - name: Gain
+      value: 0.01
+    - name: HealValueCalculated
+      value: 0
+    enums:
+    - name: StatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Stamina
+    - name: MaxStatEnum
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxStamina
+    datums: []
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
+      _guid: 
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences: []
+--- !u!114 &8983052315939280750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d60e2b3fadb9b489f3f221d82aec65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armorSurfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:ArmorFabric
+  itemAudioContainerWrapper:
+    assetType: 0
+    dataAsset: {fileID: 11400000, guid: 118f02139bcb6964695b10f06f4c556b, type: 2}
+    data:
+      audioType: 0
+      armorHitType:
+        _enumRef: 
+      meleeSwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeSwingHeavy:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeDashAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeEquip:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeUnEquip:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      meleeHit:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      pommelHit:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dragBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      equipBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unEquipBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      releaseBow:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      arrowSwish:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castBegun:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castCharging:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castFullyCharged:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castCancel:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      castHeavyRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      equipMagic:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unEquipMagic:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldChargedIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      projectileIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHit:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicFailedCast:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      sheathe:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unsheathe:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      onBlockDamage:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      parrySwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      pommelSwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      bodyMovement:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      bodyMovementFast:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      equipArmor:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      unEquipArmor:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      useItem:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      pickupItem:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dropItem:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttackSwing:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+--- !u!114 &-3260888584376115406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a957f4aba3b1fe45824bb17ff81e46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobItems: []
+  equipmentType:
+    _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:QuickUse
+  gemSlots: 0
+  finisherType:
+    _enumRef: Awaken.TG.Main.Heroes.Combat.FinisherType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:None
+  hitsToHitStop:
+    _enumRef: Awaken.TG.Main.Animations.FSM.Heroes.Modifiers.HitsToHitStop, TG.Main,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Blunt

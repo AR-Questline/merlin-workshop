@@ -1,0 +1,20 @@
+{
+  "ErrorExceptions": [],
+  "WarningExceptions": [
+    {
+      "ValidationTest": "Manifest Validation",
+      "ExceptionMessage": "Package dependency com.unity.entities@0.60.0-preview.88 must be promoted to production before this package is promoted to production. (Except for core packages)",
+      "PackageVersion": "1.2.0-pre.4"
+    },
+    {
+      "ValidationTest": "Folder Structure Validation",
+      "ExceptionMessage": "The Resources Directory should not be used in packages.  For more guidance, please visit https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity6.html",
+      "PackageVersion": "1.2.0-pre.4"
+    },
+    {
+      "ValidationTest": "Package Lifecycle Validation",
+      "ExceptionMessage": "com.unity.entities.graphics has never been promoted to production before. Please contact Release Management through slack in #devs-pkg-promotion to promote the first version of your package before trying to use this automated pipeline. Read more about this error and potential solutions at https://docs.unity3d.com/Packages/com.unity.package-validation-suite@latest/index.html?preview=1&subfolder=/manual/lifecycle_validation_error.html#the-very-first-version-of-a-package-must-be-promoted-by-release-management",
+      "PackageVersion": "1.2.0-pre.4"
+    }
+  ]
+}

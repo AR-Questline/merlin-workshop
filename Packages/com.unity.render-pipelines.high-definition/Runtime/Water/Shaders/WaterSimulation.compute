@@ -1,0 +1,351 @@
+#pragma kernel InitializePhillipsSpectrum
+#pragma kernel EvaluateDispersion
+#pragma kernel EvaluateNormals EVALUATE_ADDITIONAL_DATA=EvaluateNormals
+#pragma kernel EvaluateNormalsJacobian EVALUATE_ADDITIONAL_DATA=EvaluateNormalsJacobian EVALUATE_JACOBIAN
+#pragma kernel PrepareCausticsGeometry
+#pragma kernel EvaluateInstanceData EVALUATE_INSTANCE_DATA=EvaluateInstanceData
+#pragma kernel EvaluateInstanceDataInfinite EVALUATE_INSTANCE_DATA=EvaluateInstanceDataInfinite INFINITE_WATER
+
+#pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
+
+// #pragma enable_d3d11_debug_symbols
+
+// Required to be defined for some includes
+#define WATER_SIMULATION
+
+// These values are chosen so that an iFFT patch of 1000km^2 will
+// yield a Phillips spectrum distribution in the [-1, 1] range
+#define EARTH_GRAVITY 9.81
+#define SQRT2 1.41421356237
+#define ONE_OVER_SQRT2 0.70710678118
+#define PHILLIPS_AMPLITUDE_SCALAR 0.2
+
+// SRP generic includes
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Water/WaterSystemDef.cs.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Water/Shaders/WaterUtilities.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/FrustumCulling.hlsl"
+
+uint4 WaterHashFunctionUInt4(uint3 coord)
+{
+    uint4 x = coord.xyzz;
+    x = ((x >> 16u) ^ x.yzxy) * 0x45d9f3bu;
+    x = ((x >> 16u) ^ x.yzxz) * 0x45d9f3bu;
+    x = ((x >> 16u) ^ x.yzxx) * 0x45d9f3bu;
+    return x;
+}
+
+float4 WaterHashFunctionFloat4(uint3 p)
+{
+    return WaterHashFunctionUInt4(p) / (float)0xffffffffU;
+}
+
+//http://www.dspguide.com/ch2/6.htm
+float GaussianDis(float u, float v)
+{
+    return sqrt(-2.0 * log(max(u, 1e-6f))) * cos(PI * v);
+}
+
+float Phillips(float2 k, float2 w, float V, float directionDampener, float invPatchSize)
+{
+    float kk = k.x * k.x + k.y * k.y;
+    float result = 0.0;
+    if (kk != 0.0)
+    {
+        float L = (V * V) / EARTH_GRAVITY;
+        // To avoid _any_ directional bias when there is no wind we lerp towards 0.5f
+        float wk = lerp(dot(normalize(k), w), 0.5, directionDampener);
+        float phillips = (exp(-1.0f / (kk * L * L)) / (kk * kk)) * (wk * wk);
+        result = phillips * (wk < 0.0f ? directionDampener : 1.0);
+    }
+    return PHILLIPS_AMPLITUDE_SCALAR * result * invPatchSize * invPatchSize;
+}
+
+float2 ComplexExp(float arg)
+{
+    return float2(cos(arg), sin(arg));
+}
+
+float2 ComplexMult(float2 a, float2 b)
+{
+    return float2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
+}
+
+float3 ShuffleDisplacement(float3 displacement)
+{
+    return float3(-displacement.y, displacement.x, -displacement.z);
+}
+
+// InitializePhillipsSpectrum UAVS
+RWTexture2DArray<float2> _H0BufferRW;
+
+// The noise function that we use generates a visible assymetry in the spectrum, this solves the issue
+#define NOISE_FUNCTION_OFFSET 64
+
+[numthreads(8, 8, 1)]
+void InitializePhillipsSpectrum(uint3 thread : SV_DispatchThreadID)
+{
+    // See EvaluateWaterNoiseSampleOffset
+    int sampleOffset = 0;
+    if (_BandResolution == 128)
+        sampleOffset = 64;
+    if (_BandResolution == 64)
+        sampleOffset = 96;
+
+    // This water offset ensures that when we switch the resolution the spectrum stays about the same
+    uint3 sampleCoordinate = uint3(thread.xy + sampleOffset, thread.z);
+
+    // We need 4 random numbers from the sample coords
+    float4 rn = WaterHashFunctionFloat4(sampleCoordinate + NOISE_FUNCTION_OFFSET);
+
+    // First part of the phillips spectrum term
+    float2 E = ONE_OVER_SQRT2 * float2(GaussianDis(rn.x, rn.y), GaussianDis(rn.z, rn.w));
+
+    // Second part of the phillips spectrum term
+    float invPatchSize = GetBandPatchData(thread.z).x;
+    float2 k = TWO_PI * (thread.xy - _BandResolution * 0.5) * invPatchSize;
+    float2 windDirection = -OrientationToDirection(_PatchOrientation[thread.z]);
+    float P = Phillips(k, windDirection, _PatchWindSpeed[thread.z], _PatchDirectionDampener[thread.z], invPatchSize);
+
+    // Combine and output
+    _H0BufferRW[int3(thread.xyz)] = E * sqrt(P);
+}
+
+// EvaluateDispersion UAVS
+Texture2DArray<float2> _H0Buffer;
+RWTexture2DArray<float4> _HtRealBufferRW;
+RWTexture2DArray<float4> _HtImaginaryBufferRW;
+
+[numthreads(8, 8, 1)]
+void EvaluateDispersion(uint3 currentThread : SV_DispatchThreadID)
+{
+    float invPatchSize = GetBandPatchData(currentThread.z).x;
+    float2 k = TWO_PI * (currentThread.xy - _BandResolution * 0.5) * invPatchSize;
+
+    float  kl = length(k);
+    float  w = sqrt(EARTH_GRAVITY * kl);
+    float2 kx = float2(k.x / kl, 0.0);
+    float2 ky = float2(k.y / kl, 0.0);
+
+    float2 h0 = LOAD_TEXTURE2D_ARRAY(_H0Buffer, currentThread.xy, currentThread.z);
+    float2 ht = ComplexMult(h0, ComplexExp(w * _SimulationTime));
+    float2 dx = ComplexMult(ComplexMult(float2(0, -1), kx), ht);
+    float2 dy = ComplexMult(ComplexMult(float2(0, -1), ky), ht);
+
+    if (dx.x != dx.x) dx.x = 0.f;
+    if (dx.y != dx.y) dx.y = 0.f;
+    if (dy.x != dy.x) dy.x = 0.f;
+    if (dy.y != dy.y) dy.y = 0.f;
+
+    // TODO: This is a work around to handle singularity at origin.
+    // The above nan check should have picked it up but it doesn't
+    // work on metal. Must investigate.
+    uint halfBandResolution = _BandResolution / 2;
+    if((currentThread.x == halfBandResolution) && (currentThread.y == halfBandResolution))
+    {
+        dx = float2(0, 0);
+        dy = float2(0, 0);
+    }
+
+    _HtRealBufferRW[int3(currentThread.xy, currentThread.z)] = float4(ht.x, dx.x, dy.x, 0);
+    _HtImaginaryBufferRW[int3(currentThread.xy, currentThread.z)] = float4(ht.y, dx.y, dy.y, 0);
+}
+
+// EvaluateNormals UAVS
+Texture2DArray<float4> _PreviousWaterAdditionalDataBuffer;
+RWTexture2DArray<float4> _WaterAdditionalDataBufferRW;
+
+void EvaluateDisplacedPoints(float3 displacementC, float3 displacementR, float3 displacementU,
+                                float normalization, float pixelSize,
+                                out float3 p0, out float3 p1, out float3 p2)
+{
+    p0 = displacementC * normalization;
+    p1 = displacementR * normalization + float3(pixelSize, 0, 0);
+    p2 = displacementU * normalization + float3(0, 0, pixelSize);
+}
+
+float EvaluateJacobian(float3 p0, float3 p1, float3 p2, float pixelSize)
+{
+    // Compute the jacobian of this texel
+    float Jxx = 1.f + (p1.x - p0.x) / pixelSize;
+    float Jyy = 1.f + (p2.z - p0.z) / pixelSize;
+    float Jyx = (p1.z - p0.z) / pixelSize;
+    float Jxy = (p2.x - p0.x) / pixelSize;
+    return (Jxx * Jyy - Jxy * Jyx);
+}
+
+[numthreads(8, 8, 1)]
+void EVALUATE_ADDITIONAL_DATA(uint3 currentThread : SV_DispatchThreadID)
+{
+    // Extract the information about the pixel to process
+    uint2 coord = currentThread.xy;
+    uint bandIdx = currentThread.z;
+
+    // Get the displacement we need for the evaluate (and re-order them)
+    float3 displacementCenter = ShuffleDisplacement(LOAD_TEXTURE2D_ARRAY(_WaterDisplacementBuffer, coord, bandIdx).xyz);
+    float3 displacementRight = ShuffleDisplacement(LOAD_TEXTURE2D_ARRAY(_WaterDisplacementBuffer, uint2(coord + int2(1, 0)) & (_BandResolution - 1), bandIdx).xyz);
+    float3 displacementUp = ShuffleDisplacement(LOAD_TEXTURE2D_ARRAY(_WaterDisplacementBuffer, uint2(coord + int2(0, 1)) & (_BandResolution - 1), bandIdx).xyz);
+
+    // Evaluate the displacement normalization factor and pixel size
+    float invPatchSize = GetBandPatchData(bandIdx).x;
+    float pixelSize = rcp(_BandResolution * invPatchSize);
+
+    // We evaluate the displacement without the choppiness as it doesn't behave properly for distance surfaces
+    float3 p0, p1, p2;
+    EvaluateDisplacedPoints(displacementCenter, displacementRight, displacementUp, GetPatchAmplitudeMultiplier(bandIdx), pixelSize, p0, p1, p2);
+
+    // Compute the surface gradients of this band
+    float2 surfaceGradient = EvaluateSurfaceGradients(p0, p1, p2);
+
+    // Evaluate the jacobian if required
+    float jacobian = 0.0;
+
+#if defined(EVALUATE_JACOBIAN)
+    // Compute the jacobian of this texel
+    jacobian = EvaluateJacobian(p0, p1, p2, pixelSize);
+#endif
+
+    // Output the normal and foam
+    _WaterAdditionalDataBufferRW[int3(coord, bandIdx)] = float4(surfaceGradient, jacobian, jacobian);
+}
+
+// Output indices for the caustics buffer
+RWByteAddressBuffer _CauticsGeometryRW;
+int _CausticGeometryResolution;
+
+[numthreads(8, 8, 1)]
+void PrepareCausticsGeometry(uint3 currentThread : SV_DispatchThreadID)
+{
+    // This thread is in charge of outputing the indices of the quad which coordinates is currentThread.xy
+    uint2 coord = currentThread.xy;
+
+    // For a given quad resolution N x P, we have (N + 1) x (P + 1) vertices
+    // Vertices are ordered this way (N being the resolution of the grid)
+    // 0                1            2            ...          N
+    // N+1              N+2          N+3          ...          2N+1
+    // ...              ...          ...          ...          ...
+    // (P-1)*N+P-1   (P -1)N+P    (P -1)N+P+1     ...          P*N+P
+    int quadIndex = currentThread.y * _CausticGeometryResolution + currentThread.x;
+
+    // Indices are ordered this way to be up facing
+    // A --- C
+    // |   | |
+    // | |   |
+    // B ----D
+    // A -> B -> C and C -> B -> D
+    uint A = quadIndex + currentThread.y;
+    uint B = A + _CausticGeometryResolution + 1;
+    uint C = A + 1;
+    uint D = B + 1;
+
+    // Output the indices of triangle 0 of the quad
+    _CauticsGeometryRW.Store((6 * quadIndex) * 4, A);
+    _CauticsGeometryRW.Store((6 * quadIndex + 1) * 4, B);
+    _CauticsGeometryRW.Store((6 * quadIndex + 2) * 4, C);
+
+    // Output the indices of triangle 1 of the quad
+    _CauticsGeometryRW.Store((6 * quadIndex + 3) * 4, C);
+    _CauticsGeometryRW.Store((6 * quadIndex + 4) * 4, B);
+    _CauticsGeometryRW.Store((6 * quadIndex + 5) * 4, D);
+}
+
+// Function that evaluates the bounds of a given patch based on it's index
+void ComputePatchBounds(uint patch,
+                        inout float2 center,
+                        inout float2 size,
+                        inout float2 rotation)
+{
+    uint id = patch % 4;
+    float scale = 1 << (patch >> 2);
+
+    center = float2(-0.25f, -0.75f);
+    size = float2(1.5f, 0.5f) * 0.5f;
+
+    rotation = float2(scale, 0);
+    if (id == 1) rotation = float2(0, -scale);
+    if (id == 2) rotation = float2(-scale, 0);
+    if (id == 3) rotation = float2(0, scale);
+
+    center = center.x * rotation.xy + center.y * float2(-rotation.y, rotation.x);
+    size = size.x * abs(rotation.xy) + size.y * abs(rotation.yx);
+
+    center = center * _GridSize + _PatchOffset;
+    size = size * _GridSize + _MaxWaveDisplacement;
+}
+
+bool PatchIsInRegion(float2 center, float2 size)
+{
+    return all(abs(center) < _RegionExtent + size);
+}
+
+#define MAX_PATCH_COUNT (7*7)
+
+// Group share flag that allows us to keep track of the valid instances
+groupshared uint gs_instanceValidity[MAX_PATCH_COUNT];
+groupshared float2 gs_instanceRotation[MAX_PATCH_COUNT];
+
+// Structure that holds the per data patch info
+StructuredBuffer<FrustumGPU> _FrustumGPUBuffer;
+RWStructuredBuffer<float2> _WaterPatchDataRW;
+RWStructuredBuffer<int> _WaterInstanceDataRW;
+
+[numthreads(MAX_PATCH_COUNT, 1, 1)]
+void EVALUATE_INSTANCE_DATA(uint currentPatch : SV_DispatchThreadID)
+{
+    // Compute the patch center and size while accounting for it's maximal deformation
+    float2 center, size, rotation;
+    ComputePatchBounds(currentPatch, center, size, rotation);
+
+    // Only include the instance if it is valid
+    bool patchIsVisible = (currentPatch >> 2) < _MaxLOD;
+
+#if !defined(INFINITE_WATER)
+    // In case this is an non-infinite surface, we cull patches outside of the allowed region
+    patchIsVisible = patchIsVisible && PatchIsInRegion(center, size);
+#endif
+
+    // Frustum cull the patch
+    if (patchIsVisible)
+    {
+        OrientedBBox obb;
+        obb.center = mul(ApplyCameraTranslationToMatrix(_WaterSurfaceTransform), float4(center.x, 0.0f, center.y, 1.0f)).xyz;
+        obb.right = _WaterSurfaceTransform_Inverse[0].xyz;
+        obb.up    = _WaterSurfaceTransform_Inverse[1].xyz;
+        obb.extentX = size.x;
+        obb.extentY = _MaxWaveHeight + _MaxWaterDeformation;
+        obb.extentZ = size.y;
+
+        patchIsVisible = FrustumOBBIntersection(obb, _FrustumGPUBuffer[0]);
+    }
+
+    // Propagate the patch data
+    gs_instanceValidity[currentPatch] = patchIsVisible;
+    gs_instanceRotation[currentPatch] = rotation;
+
+    // Wait untill all workers have processed their patch data
+    GroupMemoryBarrierWithGroupSync();
+
+    // The first thread is in charge of outputing the instance data, their count
+    if (currentPatch == 0)
+    {
+        // For each patch that needs to be processed
+        uint totalInstanceCount = 0;
+        for (uint patchIdx = 0; patchIdx < _MaxLOD * 4; ++patchIdx)
+        {
+            if (gs_instanceValidity[patchIdx])
+            {
+                // Output the patch data to the next slot
+                _WaterPatchDataRW[totalInstanceCount] = gs_instanceRotation[patchIdx];
+
+                // Increment the count
+                totalInstanceCount++;
+            }
+        }
+
+        // Output the actual instance count
+        // NOTE: Here we have to multiply by the XR view count as it redispatches the geometry
+        // for each view
+        _WaterInstanceDataRW[1] = totalInstanceCount * _XRViewCount;
+    }
+}

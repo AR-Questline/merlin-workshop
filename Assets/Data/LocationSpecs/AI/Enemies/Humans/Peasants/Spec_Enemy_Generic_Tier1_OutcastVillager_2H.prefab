@@ -1,0 +1,295 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7362639332736723165
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -2270085940381157614, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 2876d2dea8010904ebfff4eb7afc87c8
+      objectReference: {fileID: 0}
+    - target: {fileID: -2270085940381157614, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: potentialActors.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -2270085940381157614, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: potentialActors.Array.data[0].guid
+      value: becc1547-f905-4816-8ffb-d448e921ef04
+      objectReference: {fileID: 0}
+    - target: {fileID: -2270085940381157614, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: potentialActors.Array.data[1].guid
+      value: 05461c10-42e7-4741-b988-66d713e52a7f
+      objectReference: {fileID: 0}
+    - target: {fileID: -2270085940381157614, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: potentialActors.Array.data[2].guid
+      value: 095bc080-b7d8-48af-b962-bab5c6a444a6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2270085940381157614, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: potentialActors.Array.data[3].guid
+      value: 51a924b9-c41b-4e33-a80b-7bbe34a0ff87
+      objectReference: {fileID: 0}
+    - target: {fileID: -2270085940381157614, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: potentialActors.Array.data[4].guid
+      value: 74a65d0a-3fb2-4ba7-a6bd-fde7ae609862
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443325589952417686, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_Enemy_Generic_Tier1_OutcastVillager_2H
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: 'managedReferences[8467001983847891112]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.RangedBehaviours.ThrowItemBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[4]'
+      value: 8467001983847891112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].useCooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].overrideHand
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].animatorState
+      value: 46
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].canUseRunAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].itemProjectile
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].maxItemVelocity
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].untilEndOfFight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597794763669526].waitTimeRange.max
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597794763669526].waitTimeRange.min
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].aimAtEnemyHeight
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].cooldownDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].attackAnimatorState
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597794763669524].defaultRestDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].manualDamageAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].maxItemThrowsInRow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].chanceForComboAttack
+      value: 0.061
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].maxDistanceToTarget
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].minDistanceToTarget
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].predictPlayerMovement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].checkItemInInventory
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].manualDamageOverride
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].overridenCastingHand
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597794763669524].staminaRegenMultiplier
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].overrideAnimatorState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].predictPlayerMovement
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].spendAmmoFromInventory
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].triggeringChanceAfterMelee
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].projectileVelocityMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].minimumTimeInStateToStartNewBehaviour
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].minimumTimeInStateToStartNewBehaviour
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].itemInHandPrefab.arReference.address
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002451492574832468, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: managedReferences[8467001983847891112].itemInHandPrefab.arReference.subObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_1765388329353035187_d9fb7728fde8f384888700dea16db3f9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 28fda94dce31b9b49a136e891ef833cd,
+        type: 3}
+      propertyPath: displayName.IdOverride
+      value: enemy_human_OutcastVillager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 28fda94dce31b9b49a136e891ef833cd, type: 3}

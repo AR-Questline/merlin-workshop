@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Animals_Pig
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 4
+    idle:
+      Guid:
+        Data1: -1426014129
+        Data2: 1318638729
+        Data3: -659728253
+        Data4: -101260988
+      Path: event:/SFX/Animals/Pig/SFX_Animals_Pig_Idle
+    hurt:
+      Guid:
+        Data1: 629361905
+        Data2: 1134210670
+        Data3: -1876343118
+        Data4: 1580220983
+      Path: event:/SFX/Animals/Pig/SFX_Animals_Pig_GetHit
+    die:
+      Guid:
+        Data1: -278355526
+        Data2: 1319482372
+        Data3: -1587490172
+        Data4: 1548603037
+      Path: event:/SFX/Animals/Pig/SFX_Animals_Pig_Die
+    attack:
+      Guid:
+        Data1: 36926540
+        Data2: 1319693148
+        Data3: -1024346970
+        Data4: 1562625635
+      Path: event:/SFX/Animals/Pig/SFX_Animals_Pig_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 814397945
+        Data2: 1277888522
+        Data3: -939338824
+        Data4: 1943146022
+      Path: event:/SFX/Animals/Pig/SFX_Animals_Pig_FTS
+    roar:
+      Guid:
+        Data1: -1402040418
+        Data2: 1201203856
+        Data3: 470370455
+        Data4: -400353879
+      Path: event:/SFX/Animals/Pig/SFX_Animals_Pig_Idle_Calm

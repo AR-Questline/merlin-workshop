@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a825736eb24dd7be1bd63dbbd796ce, type: 3}
+  m_Name: Npc_FightingStyle_T3_BattleMage
+  m_EditorClassIdentifier: 
+  desiredDistanceToTarget: 2.5
+  desiredDistanceToTargetWhenFistFighting: 1.25
+  minDistanceToTargetWhenFistFighting: 1.25
+  generalMask: {fileID: 0}
+  customActionsMask: {fileID: 0}
+  additiveMask: {fileID: 31900000, guid: 4199f1e8872f3884881617f2343b66fc, type: 2}
+  topBodyMask: {fileID: 31900000, guid: 272a75d17c0c6884e9cb3c2bc29e2b70, type: 2}
+  overridesMask: {fileID: 0}
+  areOverridesAdditive: 0
+  baseAnimations:
+    arReference:
+      address: 01b116b56cfdda541ab2de536a4ee162
+      subObjectName: 
+  baseBehaviours:
+    arReference:
+      address: d0f4316879c003e4bb1128148b3b909a
+      subObjectName: 
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  customs:
+    animations:
+    - arReference:
+        address: 0441d6223d91f15498d3f5f2afc419de
+        subObjectName: 
+    conditionalAnimations:
+    - {fileID: 11400000, guid: 6a4f5f4a9ff7f7e47b2f0dd8d0bb15d5, type: 2}
+    combatBehaviours:
+    - arReference:
+        address: c1e7687c07bfab44382899f3465f028d
+        subObjectName: 

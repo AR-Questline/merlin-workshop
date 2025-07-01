@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Talent_11_StatusExplosion
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"Interval","value":{"$content":0.5,"$type":"System.Single"},"typeHandle":{"Identification":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":596.4597,"y":109.4135},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":362.0,"y":-422.0},"guid":"322392d9-e744-4de1-8d3b-533271c5ba07","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"name":"Radius","defaultValues":{},"position":{"x":448.0,"y":-161.0},"guid":"68e1f2f4-f9f7-431c-ae31-52f30b619395","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"12"},{"Type":"Learn","defaultValues":{"chance":{"$content":1.0,"$type":"System.Single"},"radius":{"$content":1.0,"$type":"System.Single"}},"position":{"x":648.0,"y":-214.0},"guid":"313846a7-c369-4cf9-a55a-a3c72b8cbdb8","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.StatusSpreadUnit","$id":"14"},{"sourceUnit":{"$ref":"12"},"sourceKey":"value","destinationUnit":{"$ref":"14"},"destinationKey":"radius","guid":"30cbc938-50fd-4dab-a038-95ba1c467a06","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

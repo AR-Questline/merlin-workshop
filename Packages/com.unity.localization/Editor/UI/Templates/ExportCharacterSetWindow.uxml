@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <UnityEditor.Localization.UI.ProjectCollectionsTableSelector style="padding-top: 2px;" />
+    <ui:VisualElement style="flex-direction: row-reverse; min-height: 24px;">
+        <ui:Button text="Export Selected" name="export-button" />
+    </ui:VisualElement>
+</ui:UXML>

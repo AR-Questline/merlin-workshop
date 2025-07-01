@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: AllWeaponRanged
+  m_EditorClassIdentifier: 
+  table:
+    rid: 1275787905525350844
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1275787905525350844
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 8306388212383481877
+        - rid: 8306388212383481879
+        - rid: 8306388212383481878
+        - rid: 8306388212383481876
+    - rid: 8306388212383481876
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 7d7cdae1e41d75b428d781ec927634de
+        quantity: 1
+        itemLvl: 0
+    - rid: 8306388212383481877
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 960e4fdb9733fd942a73ded2137c80a5
+        quantity: 1
+        itemLvl: 0
+    - rid: 8306388212383481878
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: ee98c2d9df7f82f499617d77e5311193
+        quantity: 1
+        itemLvl: 0
+    - rid: 8306388212383481879
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: f9a159408664e754493910d13704965c
+        quantity: 1
+        itemLvl: 0

@@ -1,0 +1,62 @@
+// Definitions
+//--------------------------------------------------------------------------------------------------
+
+// #pragma enable_d3d11_debug_symbols
+#pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
+
+#pragma kernel MainCS
+
+//#pragma multi_compile _ SSR_APPROX
+
+//--------------------------------------------------------------------------------------------------
+// Included headers
+//--------------------------------------------------------------------------------------------------
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/ScreenSpaceLighting/ScreenSpaceLighting.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/ScreenSpaceLighting/ShaderVariablesScreenSpaceReflection.cs.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Builtin/BuiltinData.hlsl"
+
+#ifdef DEBUG_DISPLAY
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Debug.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+#endif
+
+RW_TEXTURE2D_ARRAY(float, _LensFlareOcclusion);
+
+int _MultipassID;
+
+groupshared float localOcclusion[8][8][SHADEROPTIONS_XR_MAX_VIEWS];
+
+[numthreads(8, 8, 2)]
+void MainCS(uint3 dispatchThreadId : SV_DispatchThreadID, uint3 groupThreadID : SV_GroupThreadID)
+{
+    uint threadIdZ;
+    // For SinglePass XR
+    if (_MultipassID < 0)
+        threadIdZ = dispatchThreadId.z;
+    else // For Multipass XR
+        threadIdZ = (uint)_MultipassID;
+
+    // Row[0] is reserved to store the results
+    if (_MultipassID < 0 || (_MultipassID >= 0 && dispatchThreadId.z == threadIdZ))
+        localOcclusion[groupThreadID.x][groupThreadID.y][threadIdZ] = _LensFlareOcclusion[uint3(dispatchThreadId.x, dispatchThreadId.y + 1, threadIdZ)].x;
+
+    GroupMemoryBarrierWithGroupSync();
+
+    if (groupThreadID.y < 4 && (_MultipassID < 0 || (_MultipassID >= 0 && dispatchThreadId.z == threadIdZ)))
+        localOcclusion[groupThreadID.x][groupThreadID.y][threadIdZ] = max(localOcclusion[groupThreadID.x][groupThreadID.y][threadIdZ], localOcclusion[groupThreadID.x][groupThreadID.y + 4][threadIdZ]);
+    GroupMemoryBarrierWithGroupSync();
+
+    if (groupThreadID.y < 2 && (_MultipassID < 0 || (_MultipassID >= 0 && dispatchThreadId.z == threadIdZ)))
+        localOcclusion[groupThreadID.x][groupThreadID.y][threadIdZ] = max(localOcclusion[groupThreadID.x][groupThreadID.y][threadIdZ], localOcclusion[groupThreadID.x][groupThreadID.y + 2][threadIdZ]);
+    GroupMemoryBarrierWithGroupSync();
+
+    if (groupThreadID.y == 0)
+    {
+        if (_MultipassID < 0 || (_MultipassID >= 0 && dispatchThreadId.z == threadIdZ))
+            _LensFlareOcclusion[uint3(dispatchThreadId.x, 0, threadIdZ)] = max(localOcclusion[groupThreadID.x][0][threadIdZ], localOcclusion[groupThreadID.x][1][threadIdZ]);
+    }
+}

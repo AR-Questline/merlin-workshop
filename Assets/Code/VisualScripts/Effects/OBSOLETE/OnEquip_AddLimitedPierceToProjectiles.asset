@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnEquip_AddLimitedPierceToProjectiles
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-463.9953,"y":-2589.19},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-1624.0,"y":-2764.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"Type":"Equip","defaultValues":{},"position":{"x":-1205.0,"y":-2610.0},"guid":"c19ae0e1-67fe-4c55-b2c7-407db4f78b33","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.OnFiredProjectileUnit","$id":"11"},{"chainable":false,"parameterNames":["bonusLimit"],"member":{"name":"IncreasePiercingLimit","parameterTypes":["System.Int32"],"targetType":"Awaken.TG.Main.AI.Fights.Projectiles.DamageDealingProjectile","targetTypeName":"Awaken.TG.Main.AI.Fights.Projectiles.DamageDealingProjectile","$version":"A"},"defaultValues":{"target":null,"%bonusLimit":{"$content":0,"$type":"System.Int32"}},"position":{"x":-910.0,"y":-2603.0},"guid":"feaa17a8-9f95-417a-a05a-b36cb2ce0b13","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"13"},{"name":"BonusLimit","defaultValues":{},"position":{"x":-1145.0,"y":-2468.0},"guid":"487d394c-d888-4d86-b5dc-8e56933614fd","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"17"},{"sourceUnit":{"$ref":"11"},"sourceKey":"trigger","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"aeb90002-52c3-43ed-aa02-168c1b14e4ff","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"projectile","destinationUnit":{"$ref":"13"},"destinationKey":"target","guid":"c456c531-dd0e-4093-93c9-c65e6a1b703f","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"17"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"%bonusLimit","guid":"329cf131-5313-4ea0-802e-e9a82da46e29","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

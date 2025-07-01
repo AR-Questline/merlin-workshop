@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: DeathListener
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"Damage","value":{"$content":0.0,"$type":"System.Single"},"typeHandle":{"Identification":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"},{"name":"DeathOverlooker","value":null,"typeHandle":{"Identification":"UnityEngine.GameObject,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":643.0947,"y":-172.9596},"zoom":0.8082545,"elements":[{"defaultValues":{},"position":{"x":212.0,"y":-455.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"argumentCount":1,"coroutine":false,"defaultValues":{"target":null,"name":{"$content":"SetDeathOverlooker","$type":"System.String"}},"position":{"x":356.0,"y":-39.0},"guid":"d0665a8e-2846-47e8-a73d-20dac0a0ade1","$version":"A","$type":"Unity.VisualScripting.CustomEvent","$id":"13"},{"specifyFallback":false,"kind":"Graph","defaultValues":{"name":{"$content":"DeathOverlooker","$type":"System.String"}},"position":{"x":682.0,"y":-173.0},"guid":"37e2d89c-52bf-485a-aeb5-1ae60f40afdd","$version":"A","$type":"Unity.VisualScripting.GetVariable","$id":"15"},{"nest":{"source":"Macro","macro":0,"embed":null},"defaultValues":{},"position":{"x":120.0,"y":-78.0},"guid":"0293d28d-ac3f-431e-a380-9efccde71707","$version":"A","$type":"Unity.VisualScripting.SubgraphUnit","$id":"17"},{"Type":"Learn","defaultValues":{},"position":{"x":701.0,"y":-298.0},"guid":"29f1f035-bf9b-44d0-8180-a21b35398839","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.OnDeathUnit","$id":"20"},{"argumentCount":0,"defaultValues":{"name":{"$content":"NPCDied","$type":"System.String"},"target":null},"position":{"x":983.0,"y":-290.0},"guid":"e45772dc-dc48-4b63-8de8-8e5c110ba6d7","$version":"A","$type":"Unity.VisualScripting.TriggerCustomEvent","$id":"22"},{"kind":"Graph","defaultValues":{"name":{"$content":"DeathOverlooker","$type":"System.String"}},"position":{"x":669.0,"y":-47.0},"guid":"7f642ce2-931b-4c6c-80bc-574d41fcccc2","$version":"A","$type":"Unity.VisualScripting.SetVariable","$id":"24"},{"sourceUnit":{"$ref":"13"},"sourceKey":"trigger","destinationUnit":{"$ref":"24"},"destinationKey":"assign","guid":"5356e36a-9e8e-4b20-b46d-16f7b5ce0a68","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"20"},"sourceKey":"trigger","destinationUnit":{"$ref":"22"},"destinationKey":"enter","guid":"3c033093-342b-40a5-9155-3418eea77f03","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"argument_0","destinationUnit":{"$ref":"24"},"destinationKey":"input","guid":"753131db-d0b9-4056-8332-6c54a7049275","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"value","destinationUnit":{"$ref":"22"},"destinationKey":"target","guid":"efa6ea5f-50e1-4739-a975-d08aee032a79","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"17"},"sourceKey":"Skill
+      Owner Transform","destinationUnit":{"$ref":"13"},"destinationKey":"target","guid":"1c0af36c-1e7d-4a53-84e2-eb6b4e714711","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences:
+    - {fileID: 11400000, guid: 828b00409cdd5ee49934ca344df5a7cb, type: 2}

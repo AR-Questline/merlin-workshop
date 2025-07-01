@@ -1,0 +1,112 @@
+#pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
+
+// Render clouds
+#pragma kernel RenderClouds
+
+#pragma multi_compile _ PHYSICALLY_BASED_SUN
+#pragma multi_compile _ CLOUDS_MICRO_EROSION
+#pragma multi_compile _ CLOUDS_SIMPLE_PRESET
+#pragma multi_compile _ TRACE_FOR_SKY
+#pragma multi_compile _ PERCEPTUAL_TRANSMITTANCE
+
+// #pragma enable_d3d11_debug_symbols
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/RayTracingCommon.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/VolumetricClouds/VolumetricCloudsUtilities.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/AtmosphericScattering/AtmosphericScattering.hlsl"
+
+// Output texture
+RW_TEXTURE2D_X(float3, _CloudsLightingTextureRW);
+RW_TEXTURE2D_X(float2, _CloudsDepthTextureRW);
+
+CloudRay BuildRay(uint2 intermediateCoord)
+{
+    CloudRay ray;
+    ZERO_INITIALIZE(CloudRay, ray);
+    float2 positionCS = _LowResolutionEvaluation ? intermediateCoord * _IntermediateResolutionScale : intermediateCoord;
+
+    // Compute the position of the point from which the ray will start
+    ray.originWS = GetCameraPositionWS();
+
+    // Compute the view direction
+    ray.direction = GetCloudViewDirWS(positionCS);
+
+    // Compute the max ray length
+    ray.maxRayLength = FLT_MAX;
+
+    #ifndef TRACE_FOR_SKY
+    if (_ValidSceneDepth)
+    {
+        // TODO: Neighbor analysis to represent full depth range
+        // Ref: Creating the Atmospheric World of Red Dead Redemption 2, slide 55
+        float depthValue = LOAD_TEXTURE2D_X(_CameraDepthTexture, _ReprojDepthMipOffset + intermediateCoord).x;
+        if (depthValue != UNITY_RAW_FAR_CLIP_VALUE)
+            ray.maxRayLength = LinearEyeDepth(positionCS * _ScreenSize.zw, depthValue, _InvProjParams) * rcp(dot(ray.direction, -UNITY_MATRIX_V[2].xyz));
+    }
+    #endif
+
+    // Keep track of the integration noise
+    ray.integrationNoise = _EnableIntegration ? GetBNDSequenceSample(intermediateCoord, _AccumulationFrameIndex, 0) : 0.0;
+
+    return ray;
+}
+
+[numthreads(8, 8, 1)]
+void RenderClouds(uint3 traceCoord : SV_DispatchThreadID, int groupIndex : SV_GroupIndex)
+{
+    UNITY_XR_ASSIGN_VIEW_INDEX(traceCoord.z);
+
+    // If we can, load the cloud lut into the LDS
+    #ifdef CLOUDS_SIMPLE_PRESET
+    LoadCloudLutToLDS(groupIndex);
+    #endif
+
+    // If this is bigger than the trace size, we are done
+    if (any(traceCoord.xy >= uint2(_TraceScreenSize.xy)))
+        return;
+
+    // Depending on if we are in full res or not, use a different intermediate coord
+    uint2 intermediateCoord = traceCoord.xy; // Full resolution case
+    if (_LowResolutionEvaluation)
+    {
+        intermediateCoord = traceCoord.xy * 2;
+        if (_EnableIntegration)
+            intermediateCoord += ComputeCheckerBoardOffset(traceCoord.xy, _SubPixelIndex);
+    }
+
+    // Given that the rendering resolution is not guaranteed to be an even number, we need to clamp to the intermediate resolution in this case
+    intermediateCoord = min(intermediateCoord, _IntermediateScreenSize.xy - 1);
+
+    // Build the ray we will use of the ray marching.
+    CloudRay ray = BuildRay(intermediateCoord);
+
+    // Evaluate the cloud transmittance
+    VolumetricRayResult result = TraceVolumetricRay(ray);
+
+    #if defined(PHYSICALLY_BASED_SUN) && !defined(TRACE_FOR_SKY)
+    if (!result.invalidRay && _PBRFogEnabled)
+    {
+        // Apply atmospheric fog
+        float3 V = ray.direction;
+        float2 positionNDC = intermediateCoord * _IntermediateScreenSize.zw;
+
+        // We have to transform transmittance in the same way as during final combine
+        // This is still faster than evaluating atmospheric scattering at full res
+        float2 finalCoord = _LowResolutionEvaluation ? intermediateCoord * 2 : intermediateCoord;
+        float transmittance = EvaluateFinalTransmittance(finalCoord, result.transmittance);
+
+        float3 skyColor, skyOpacity;
+        EvaluateAtmosphericScattering(V, positionNDC, result.meanDistance, skyColor, skyOpacity);
+        result.scattering.xyz = result.scattering.xyz * (1 - skyOpacity) + skyColor * (1 - transmittance);
+    }
+    #endif
+
+    // Output the result
+    _CloudsLightingTextureRW[COORD_TEXTURE2D_X(traceCoord.xy)] = result.scattering;
+
+    // Compute the cloud depth
+    float cloudDepth = result.meanDistance * dot(ray.direction, -UNITY_MATRIX_V[2].xyz); // Distance to depth
+    float depth = result.invalidRay ? UNITY_RAW_FAR_CLIP_VALUE : EncodeInfiniteDepth(cloudDepth, _CloudNearPlane);
+    _CloudsDepthTextureRW[COORD_TEXTURE2D_X(traceCoord.xy)] = float2(depth, result.transmittance);
+}

@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Rootambusher
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: -1198926098
+        Data2: 1097150240
+        Data3: 1357976730
+        Data4: -667821816
+      Path: event:/SFX/Monsters/Rootambusher/SFX_Monster_Rootambusher_Hurt
+    die:
+      Guid:
+        Data1: -1198926098
+        Data2: 1097150240
+        Data3: 1357976730
+        Data4: -667821816
+      Path: event:/SFX/Monsters/Rootambusher/SFX_Monster_Rootambusher_Hurt
+    attack:
+      Guid:
+        Data1: -818802340
+        Data2: 1085425271
+        Data3: 830528395
+        Data4: 1179118473
+      Path: event:/SFX/Monsters/Rootambusher/SFX_Monster_Rootambusher_Attack_Short
+    specialAttack:
+      Guid:
+        Data1: -1974893493
+        Data2: 1165100130
+        Data3: 520834739
+        Data4: 1602374395
+      Path: event:/SFX/Monsters/Rootambusher/SFX_Monster_Rootambusher_Attack_Long
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 1745859567
+        Data2: 1189848124
+        Data3: 295986322
+        Data4: 272456710
+      Path: event:/SFX/Monsters/Rootambusher/SFX_Monster_Rootambusher_FTS
+    roar:
+      Guid:
+        Data1: 1956836490
+        Data2: 1188598210
+        Data3: 1319742904
+        Data4: -1117870776
+      Path: event:/SFX/Monsters/Rootambusher/SFX_Monster_Rootambusher_Roar

@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Weapon_Hammer_HeavyNew
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 830116578
+        Data2: 1335865490
+        Data3: 1994940587
+        Data4: -1022007385
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_Swing
+    meleeSwingHeavy:
+      Guid:
+        Data1: 1075625024
+        Data2: 1140962610
+        Data3: -702049092
+        Data4: 1594179084
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_SwingHeavy
+    meleeDashAttack:
+      Guid:
+        Data1: -1110560135
+        Data2: 1196166699
+        Data3: 1235248003
+        Data4: 1937388497
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_NameHere_DashAttack
+    meleeEquip:
+      Guid:
+        Data1: -389055997
+        Data2: 1224198547
+        Data3: 2082009994
+        Data4: -921550554
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -910694788
+        Data2: 1245612502
+        Data3: -937754707
+        Data4: -1114801317
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1176698889
+        Data2: 1105236901
+        Data3: -611123808
+        Data4: 655770077
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_Hit
+    pommelHit:
+      Guid:
+        Data1: -507720861
+        Data2: 1257206717
+        Data3: 273838763
+        Data4: 1247864054
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_PommelHit
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCharging:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castFullyCharged:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castHeavyRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHeldIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    sheathe:
+      Guid:
+        Data1: 1637130479
+        Data2: 1097792055
+        Data3: -1635000659
+        Data4: -1504819378
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_Sheathe
+    unsheathe:
+      Guid:
+        Data1: -1777919477
+        Data2: 1131304387
+        Data3: 929060992
+        Data4: 646708576
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: -1277426042
+        Data2: 1249549559
+        Data3: 603801269
+        Data4: -244611838
+      Path: event:/SFX/Weapon/HammerHeavy/SFX_Weapon_HammerHeavy_Block
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 937985378
+        Data2: 1288507969
+        Data3: 180481451
+        Data4: -2009592812
+      Path: event:/EQ/SFX_Player_PickItem_Metal
+    dropItem:
+      Guid:
+        Data1: 1631607086
+        Data2: 1139822676
+        Data3: 955311493
+        Data4: 1948205287
+      Path: event:/EQ/SFX_Player_DropItem_Metal
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

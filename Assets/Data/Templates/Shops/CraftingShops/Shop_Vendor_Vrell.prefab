@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &961688862954113219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6205795805761484242}
+  - component: {fileID: -1862985671577033041}
+  m_Layer: 0
+  m_Name: Shop_Vendor_Vrell
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6205795805761484242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961688862954113219}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1862985671577033041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961688862954113219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9836a7f6f2d24e75af3a52ce148d2749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  sellModifier: 2
+  buyModifier: 1
+  IsFence: 0
+  fenceBuyModifierMultiplier: 0.5
+  restockableItems:
+  - table:
+      _guid: 410fee1ce530c5c4dbd8787cc6ae591b
+    capacity: 1
+    removeAllOnRestock: 1
+    removeOnRestock:
+      low: 0
+      high: 0
+  uniqueItems:
+  - itemTemplateReference:
+      _guid: 35b73a086986cba4e968f7175e7e2a77
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 4f910f630ebba204389060a0684128a3
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 70d47d4f144415044a06ee07d7757e69
+    quantity: 3
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 65438786e36e1a2488209c48888974f9
+    quantity: 2
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 7c02a73db1506ae44ab218dee7e9c5f5
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 68ba42f7430b9cb4fa04bbb79a9678da
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: bd1bf721aa4852145be0816e82204071
+    quantity: 2
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 14192137d1a3e214da236a146235e7c4
+    quantity: 2
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: b2f437066c8c08e429f2b61e72843ec9
+    quantity: 2
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 609a537ea6baeb343812ec07f838de28
+    quantity: 2
+    itemLvl:
+      low: 0
+      high: 0
+  - itemTemplateReference:
+      _guid: 4b9f944d0f225bf4eb8538975c5d451a
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  restockWealthGain:
+    low: 20
+    high: 30
+  maxWealth: 400

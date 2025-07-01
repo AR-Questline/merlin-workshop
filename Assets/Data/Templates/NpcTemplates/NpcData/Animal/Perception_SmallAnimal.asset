@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8347d62486dd4e52b8ba14cde0cca1b3, type: 3}
+  m_Name: Perception_SmallAnimal
+  m_EditorClassIdentifier: 
+  coreDistance: 15
+  maxDistance: 30
+  inCombatCoreDistance: 20
+  inCombatMaxDistance: 40
+  coreAngle: 45
+  maxAngle: 100
+  inCombatCoreAngle: 60
+  inCombatMaxAngle: 160
+  visionCutoff: 0.05
+  radarRange: 10
+  heroRadarRange: 5
+  maxInformRange: 25
+  coreInformRange: 0.3
+  maxHearingRange: 12
+  coreHearingRange: 5
+  ignoreAngleFactor: 0
+  useCustomFactors: 0
+  customAngleFactor: 0
+  customCombatAngleFactor: 0
+  angleFactor: -0.2958111
+  combatAngleFactor: 0.10839578
+  maxDot: -0.1736482
+  inCombatMaxDot: -0.9396926

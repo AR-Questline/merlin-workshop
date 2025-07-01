@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnEquip_IncreaseSpecificWeaponDamage
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":1780.721,"y":10.71889},"zoom":0.9,"elements":[{"defaultValues":{},"position":{"x":1028.0,"y":-275.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"name":"DamageMultiplier","defaultValues":{},"position":{"x":1613.0,"y":59.0},"guid":"962039c3-0b5e-4fd4-bdc0-a47815390417","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"11"},{"count":2,"Type":"Equip","defaultValues":{"type
+      0":{"$content":"Multiply","$type":"Awaken.TG.Main.Heroes.Stats.Tweaks.TweakPriority"},"modifier
+      0":{"$content":0.0,"$type":"System.Single"},"type 1":{"$content":"Multiply","$type":"Awaken.TG.Main.Heroes.Stats.Tweaks.TweakPriority"},"modifier
+      1":{"$content":0.0,"$type":"System.Single"}},"position":{"x":2083.0,"y":-178.0},"guid":"2ca18873-9aa5-4476-bad9-bb398933d04f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.ItemTypeTweakUnit","$id":"13"},{"reference":{"_enumRef":"Awaken.TG.Main.Heroes.Items.ItemStatType,
+      TG.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:BaseMinDmg"},"defaultValues":{},"position":{"x":1625.0,"y":-183.0},"guid":"3d6052be-f8a1-47c9-8c33-959092feba9a","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeLiteral","$id":"15"},{"reference":{"_enumRef":"Awaken.TG.Main.Heroes.Items.ItemStatType,
+      TG.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:BaseMaxDmg"},"defaultValues":{},"position":{"x":1625.0,"y":-78.0},"guid":"da709343-b589-42b8-8d45-4b57c9dc793f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeLiteral","$id":"18"},{"count":1,"defaultValues":{},"position":{"x":1765.0,"y":-333.0},"guid":"18b42972-20b4-4635-8184-558940b58a28","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Utils.Items.FilterItemByTemplateUnit","$id":"21"},{"name":"TargetWeapon","defaultValues":{},"position":{"x":1473.0,"y":-350.0},"guid":"1390032a-1418-4305-82d0-fc08588daff3","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillItemTemplate","$id":"23"},{"sourceUnit":{"$ref":"15"},"sourceKey":"statType","destinationUnit":{"$ref":"13"},"destinationKey":"stat
+      0","guid":"c06222b1-e796-4d5b-9b0e-3a54512d1b6c","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"modifier
+      0","guid":"7584a107-91fb-46fa-ade2-fd9d8c6f4eb6","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"statType","destinationUnit":{"$ref":"13"},"destinationKey":"stat
+      1","guid":"31d19ee1-2a1b-48f8-be15-2d3c97ea2575","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"modifier
+      1","guid":"21fc46d7-181d-4f3c-8244-d9e1acf510fb","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"filter","destinationUnit":{"$ref":"13"},"destinationKey":"filter","guid":"a536b204-b495-4518-b454-094e5271b44a","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"23"},"sourceKey":"ItemTemplate","destinationUnit":{"$ref":"21"},"destinationKey":"template_0","guid":"58743b35-5cd1-435c-8793-7802c5a859f8","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

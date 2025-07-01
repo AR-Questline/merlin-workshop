@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Talent_10_IncreaseHealing
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":832.9511,"y":-254.4318},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":288.0,"y":-320.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"defaultValues":{"flag":{"$content":"FoodMorePotent","$type":"System.String"},"value":{"$content":true,"$type":"System.Boolean"}},"position":{"x":706.0,"y":-289.0},"guid":"2acfcf2a-9d10-4e24-85f6-5dd72a68f39f","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"11"},{"defaultValues":{"flag":{"$content":"FoodMorePotent","$type":"System.String"},"value":{"$content":false,"$type":"System.Boolean"}},"position":{"x":703.0,"y":-147.0},"guid":"f7ff752b-60f9-4fb9-9ad8-ab88b40b80ad","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetFlagUnit","$id":"13"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onLearn","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"522ce8bf-53a1-42a4-965a-f361255e1aa7","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onForget","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"2260a6a6-8877-4676-824d-b85f3cfd4d02","$type":"Unity.VisualScripting.ControlConnection"}],"$version":"A"}}'
+    _objectReferences: []

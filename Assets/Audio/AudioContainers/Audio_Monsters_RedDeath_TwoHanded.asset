@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_RedDeath_TwoHanded
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: -1503354285
+        Data2: 1264820788
+        Data3: -1995255119
+        Data4: 1685708705
+      Path: event:/SFX/Monsters/RedDeath/SFX_Enemies_RedDeathFrantic_Panting
+    hurt:
+      Guid:
+        Data1: -1880629846
+        Data2: 1232563534
+        Data3: 819570622
+        Data4: 1273306139
+      Path: event:/SFX/Monsters/RedDeath/SFX_Enemies_RedDeathFrantic_Hurt
+    die:
+      Guid:
+        Data1: -1138059760
+        Data2: 1108960350
+        Data3: 897189030
+        Data4: 844785272
+      Path: event:/SFX/Monsters/RedDeath/SFX_Enemies_RedDeathFrantic_Die
+    attack:
+      Guid:
+        Data1: 1484401093
+        Data2: 1101091323
+        Data3: -1870905450
+        Data4: 2009213587
+      Path: event:/SFX/Monsters/RedDeath/SFX_Enemies_RedDeathFrantic_Attack
+    specialAttack:
+      Guid:
+        Data1: 1066055070
+        Data2: 1191626932
+        Data3: -899389513
+        Data4: -797767357
+      Path: event:/SFX/Monsters/RedDeath/SFX_Enemies_RedDeathFrantic_AttackJump
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1477726079
+        Data2: 1130629846
+        Data3: -1020523888
+        Data4: -196624111
+      Path: event:/SFX/Monsters/RedDeath/FTS_Enemies_RedDeathFrantic
+    roar:
+      Guid:
+        Data1: 1057455372
+        Data2: 1234453199
+        Data3: -1876603261
+        Data4: 993938836
+      Path: event:/SFX/Monsters/RedDeath/SFX_Enemies_RedDeathFrantic_Growl

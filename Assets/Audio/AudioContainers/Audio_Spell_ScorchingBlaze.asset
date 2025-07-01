@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_ScorchingBlaze
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: -788639833
+        Data2: 1166364371
+        Data3: -1135057484
+        Data4: 61834270
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_CastBegun
+    castCharging:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castFullyCharged:
+      Guid:
+        Data1: -773743709
+        Data2: 1097893992
+        Data3: 1351301047
+        Data4: -1583025573
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_CastFullyCharged
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: -1926534092
+        Data2: 1204030000
+        Data3: 1495469701
+        Data4: -360080191
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: -913214198
+        Data2: 1168934998
+        Data3: 888327587
+        Data4: -1524315117
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: 2033829565
+        Data2: 1109158894
+        Data3: -2147031150
+        Data4: -1105855178
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_Equip
+    unEquipMagic:
+      Guid:
+        Data1: 2033829565
+        Data2: 1109158894
+        Data3: -2147031150
+        Data4: -1105855178
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: 1390399005
+        Data2: 1241235591
+        Data3: 1185401476
+        Data4: -2056521461
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: -1876787281
+        Data2: 1263631513
+        Data3: -234589299
+        Data4: 284508066
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 1726776087
+        Data2: 1164808367
+        Data3: -1263463259
+        Data4: -634040649
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_ProjectileIdle
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: -1883224490
+        Data2: 1319475111
+        Data3: 1653337512
+        Data4: 1066961178
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_Sheathe
+    unsheathe:
+      Guid:
+        Data1: -1124021744
+        Data2: 1212743624
+        Data3: 1423057303
+        Data4: 60217972
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 2033829565
+        Data2: 1109158894
+        Data3: -2147031150
+        Data4: -1105855178
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_Equip
+    dropItem:
+      Guid:
+        Data1: 2033829565
+        Data2: 1109158894
+        Data3: -2147031150
+        Data4: -1105855178
+      Path: event:/SFX/Spells/ScorchingBlaze/SFX_Spells_ScorchingBlaze_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

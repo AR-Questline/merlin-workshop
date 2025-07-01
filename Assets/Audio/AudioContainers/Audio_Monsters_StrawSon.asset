@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_StrawSon
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 1728959051
+        Data2: 1139749048
+        Data3: -542461777
+        Data4: 550017673
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawson_Movement
+    hurt:
+      Guid:
+        Data1: 2010307261
+        Data2: 1182376973
+        Data3: -1342336380
+        Data4: -1823343825
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawson_Hurt
+    die:
+      Guid:
+        Data1: 1026785311
+        Data2: 1187330312
+        Data3: 427391878
+        Data4: 2055546956
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawson_Die
+    attack:
+      Guid:
+        Data1: -1189210312
+        Data2: 1325255073
+        Data3: 2133836457
+        Data4: 1772031045
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawson_Attack
+    specialAttack:
+      Guid:
+        Data1: -1189210312
+        Data2: 1325255073
+        Data3: 2133836457
+        Data4: 1772031045
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawson_Attack
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 1728959051
+        Data2: 1139749048
+        Data3: -542461777
+        Data4: 550017673
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawson_Movement
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

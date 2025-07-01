@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: CameraShake
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":501.0,"y":267.0},"zoom":1.0,"elements":[{"coroutine":false,"defaultValues":{},"position":{"x":-204.0,"y":-144.0},"guid":"92a87880-196d-4270-8b04-9dd54d89bfd3","$version":"A","$type":"Unity.VisualScripting.Start"},{"defaultValues":{},"position":{"x":234.0,"y":-2.0},"guid":"9267af54-649d-4861-95af-84f05d7013a4","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.CoroutineUnit","$id":"11"},{"specifyFallback":false,"kind":"Object","defaultValues":{"name":{"$content":"ShakeTime","$type":"System.String"},"object":null},"position":{"x":57.0,"y":167.0},"guid":"e19409f5-a5e7-4e2a-b5d2-aa0e940f6d84","$version":"A","$type":"Unity.VisualScripting.GetVariable","$id":"13"},{"defaultValues":{"amplitude":{"$content":1.0,"$type":"System.Single"},"frequency":{"$content":7.0,"$type":"System.Single"},"time":{"$content":6.0,"$type":"System.Single"},"pick":{"$content":0.0,"$type":"System.Single"}},"position":{"x":416.0,"y":50.0},"guid":"ca9485e2-36fe-4dd0-a15a-5e33020e01ac","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Fights.ShakeCamera","$id":"15"},{"argumentCount":0,"coroutine":false,"defaultValues":{"target":null,"name":{"$content":"Interact","$type":"System.String"}},"position":{"x":62.0,"y":-18.0},"guid":"4caf2bc6-5cdf-4a9d-80bd-e12e3d86ccfd","$version":"A","$type":"Unity.VisualScripting.CustomEvent","$id":"17"},{"coroutine":false,"defaultValues":{},"position":{"x":-204.0,"y":60.0},"guid":"592eea0c-bdf3-46c8-be38-6e8d8fa94386","$version":"A","$type":"Unity.VisualScripting.Update"},{"sourceUnit":{"$ref":"17"},"sourceKey":"trigger","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"274b9373-824d-4d40-8828-87b0b77e2a00","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"exit","destinationUnit":{"$ref":"15"},"destinationKey":"","guid":"f4afc70d-7fcd-4aa1-a2cc-acea414fb25a","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"value","destinationUnit":{"$ref":"15"},"destinationKey":"time","guid":"0f569ce1-0304-4b45-a78c-20dea77f387e","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

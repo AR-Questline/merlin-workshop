@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <UnityEditor.Localization.UI.ProjectCollectionsTableSelector style="padding-top: 2px;" />
+    <ui:VisualElement style="flex-grow: 0; flex-shrink: 0;">
+        <ui:VisualElement style="flex-direction: row; min-height: 20px;" />
+    </ui:VisualElement>
+    <uie:ObjectField label="Source Language" allow-scene-objects="false" name="source-language-field" tooltip="The language to use for the original text that needs to be translated into the target language." view-data-key="localization-xliff-export-source" />
+    <ui:TextField picking-mode="Ignore" label="Name" value="Exported XLIFF" name="name-text-field" tooltip="The root name to use for all exported files." view-data-key="localization-xliff-export-name" />
+    <ui:VisualElement style="flex-direction: row-reverse; min-height: 24px;">
+        <ui:Button text="Export Selected" name="export-button" />
+        <UnityEditor.Localization.UI.XliffVersionPopup tooltip="The XLIFF file format version." view-data-key="localization-xliff-export-version" />
+    </ui:VisualElement>
+</ui:UXML>

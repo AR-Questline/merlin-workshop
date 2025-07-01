@@ -1,0 +1,207 @@
+#pragma kernel SkinningDense1ComputeKernel
+#pragma kernel SkinningDense2ComputeKernel
+#pragma kernel SkinningDense4ComputeKernel
+#pragma kernel SkinningSparseComputeKernel
+
+#define NBR_THREAD_GROUPS 1024
+
+#define NBR_THREADS_X 128
+#define NBR_THREADS_Y 1
+#define NBR_THREADS_Z 1
+
+#define THREAD_COUNT NBR_THREADS_Y * NBR_THREADS_X * NBR_THREADS_Z
+#define STEP_SIZE THREAD_COUNT * NBR_THREAD_GROUPS
+
+struct VertexData
+{
+	float3 Position;
+	float3 Normal;
+	float3 Tangent;
+};
+
+struct SkinInfluence1
+{
+	uint index;
+};
+
+#define DENSE_SKIN_INFLUENCE(influencesPerVertex)	\
+struct SkinInfluence##influencesPerVertex			\
+{													\
+	float##influencesPerVertex weights;				\
+	uint##influencesPerVertex indices;				\
+};
+
+DENSE_SKIN_INFLUENCE(2)
+DENSE_SKIN_INFLUENCE(4)
+
+struct SparseSkinInfluence
+{
+	float weight;
+	uint index;
+};
+
+uniform ByteAddressBuffer				_SharedMeshBoneWeights;
+uniform ByteAddressBuffer				_SkinMatrices;
+uniform RWStructuredBuffer<VertexData>	_DeformedMeshData : register(u1);
+
+uint g_VertexCount;
+uint g_SharedMeshBoneCount;
+uint g_InstanceCount;
+uint g_DeformedMeshStartIndex;
+uint g_SkinMatricesStartIndex;
+
+SkinInfluence1 LoadDenseSkinInfluence1(uint index)
+{
+	const uint offset = index * 4;
+
+	SkinInfluence1 data;
+	data.index = asuint(_SharedMeshBoneWeights.Load(offset));
+	return data;
+}
+
+SkinInfluence2 LoadDenseSkinInfluence2(uint index)
+{
+	const uint offset = index * 16;
+
+	SkinInfluence2 data;
+	uint4 values = _SharedMeshBoneWeights.Load4(offset);
+	data.weights = asfloat(values.xy);
+	data.indices = values.zw;
+	return data;
+}
+
+SkinInfluence4 LoadDenseSkinInfluence4(uint index)
+{
+	const uint offset = index * 32;
+
+	SkinInfluence4 data;
+	data.weights = asfloat(_SharedMeshBoneWeights.Load4(offset + 0 * 16));
+	data.indices = asuint(_SharedMeshBoneWeights.Load4(offset + 1 * 16));
+	return data;
+}
+
+SparseSkinInfluence LoadSparseSkinInfluence(uint index)
+{
+	const uint offset = index * 4;
+	const uint weightAndIndex = _SharedMeshBoneWeights.Load(offset);
+
+	SparseSkinInfluence data;
+	data.weight = float(weightAndIndex >> 16) * (1.0f / 65535.0f);
+	data.index = weightAndIndex & 0xFFFF;
+	return data;
+}
+
+// Returns the buffer range where the blend shape deltas for a given vertex can be found.
+// The first element contains the start index. The second element contains the end index.
+uint2 LoadSkinInfluenceRange(uint index)
+{
+	const uint offset = index * 4;
+	const uint2 range = asuint(_SharedMeshBoneWeights.Load2(offset));
+	return range;
+}
+
+float3x4 LoadSkinMatrix(uint index)
+{
+	uint offset = index * 48;
+
+	// Read in 4 columns of float3 data each.
+	// Done in 3 load4 and then repacking into final 3x4 matrix
+	float4 p1 = asfloat(_SkinMatrices.Load4(offset + 0 * 16));
+	float4 p2 = asfloat(_SkinMatrices.Load4(offset + 1 * 16));
+	float4 p3 = asfloat(_SkinMatrices.Load4(offset + 2 * 16));
+
+	return float3x4(
+		p1.x, p1.w, p2.z, p3.y,
+		p1.y, p2.x, p2.w, p3.z,
+		p1.z, p2.y, p3.x, p3.w
+		);
+}
+
+VertexData SkinVertexDense1(in uint sharedVertexIndex, in uint vertexIndex, in uint boneOffset)
+{
+	VertexData vertex = _DeformedMeshData[vertexIndex];
+	const float4 basePos = float4(vertex.Position, 1);
+	const float4 baseNrm = float4(vertex.Normal, 0);
+	const float4 baseTan = float4(vertex.Tangent, 0);
+
+	const SkinInfluence1 influence = LoadDenseSkinInfluence1(sharedVertexIndex);
+	const float3x4 skinMatrix = LoadSkinMatrix(boneOffset + influence.index);
+
+	vertex.Position = mul(skinMatrix, basePos);
+	vertex.Normal   = mul(skinMatrix, baseNrm);
+	vertex.Tangent  = mul(skinMatrix, baseTan);
+
+	return vertex;
+}
+
+#define SKIN_VERTEX_DENSE(countPerVertex)																			\
+VertexData SkinVertexDense##countPerVertex(in uint sharedVertexIndex, in uint vertexIndex, in uint boneOffset)		\
+{																													\
+	VertexData vertex = _DeformedMeshData[vertexIndex];																\
+	const float4 basePos = float4(vertex.Position, 1);																\
+	const float4 baseNor = float4(vertex.Normal, 0);																\
+	const float4 baseTan = float4(vertex.Tangent, 0);																\
+	vertex = (VertexData)0;																							\
+																													\
+	const SkinInfluence##countPerVertex influence = LoadDenseSkinInfluence##countPerVertex(sharedVertexIndex);		\
+																													\
+	for (uint i = 0; i < countPerVertex; ++i)																		\
+	{																												\
+		const float3x4 skinMatrix = LoadSkinMatrix(boneOffset + influence.indices[i]);								\
+																													\
+		vertex.Position += mul(skinMatrix, basePos) * influence.weights[i];											\
+		vertex.Normal   += mul(skinMatrix, baseNor) * influence.weights[i];											\
+		vertex.Tangent  += mul(skinMatrix, baseTan) * influence.weights[i];											\
+	}																												\
+																													\
+	return vertex;																									\
+}
+
+SKIN_VERTEX_DENSE(2)
+SKIN_VERTEX_DENSE(4)
+
+VertexData SkinVertexSparse(in uint sharedVertexIndex, in uint vertexIndex, in uint boneOffset)
+{
+	VertexData vertex = _DeformedMeshData[vertexIndex];
+	const float4 basePos = float4(vertex.Position, 1);
+	const float4 baseNor = float4(vertex.Normal, 0);
+	const float4 baseTan = float4(vertex.Tangent, 0);
+	vertex = (VertexData)0;
+
+	const uint2 range = LoadSkinInfluenceRange(sharedVertexIndex);
+	for (uint i = range[0]; i < range[1]; ++i)
+	{
+		const SparseSkinInfluence influence = LoadSparseSkinInfluence(i);
+		const float3x4 skinMatrix = LoadSkinMatrix(boneOffset + influence.index);
+
+		vertex.Position += mul(skinMatrix, basePos) * influence.weight;
+		vertex.Normal   += mul(skinMatrix, baseNor) * influence.weight;
+		vertex.Tangent  += mul(skinMatrix, baseTan) * influence.weight;
+	}
+
+	return vertex;
+}
+
+#define SKINNING_KERNEL(function)																					\
+[numthreads(NBR_THREADS_X, NBR_THREADS_Y, NBR_THREADS_Z)]															\
+void Skinning##function##ComputeKernel(uint id : SV_GroupIndex, uint3 groupId : SV_GroupID)							\
+{																													\
+	const uint totalNumVertices = g_VertexCount * g_InstanceCount;													\
+	const uint start = id + groupId[0] * THREAD_COUNT;																\
+																													\
+	for (uint i = start; i < totalNumVertices; i += STEP_SIZE)														\
+	{																												\
+		const uint sharedMeshVertexIndex = i % g_VertexCount;														\
+		const uint deformedMeshVertexIndex = g_DeformedMeshStartIndex + i;											\
+		const uint boneOffset = g_SkinMatricesStartIndex + ((i / g_VertexCount) * g_SharedMeshBoneCount);			\
+																													\
+		VertexData vertex = SkinVertex##function(sharedMeshVertexIndex, deformedMeshVertexIndex, boneOffset);		\
+																													\
+		_DeformedMeshData[deformedMeshVertexIndex] = vertex;														\
+	}																												\
+}
+
+SKINNING_KERNEL(Dense1)
+SKINNING_KERNEL(Dense2)
+SKINNING_KERNEL(Dense4)
+SKINNING_KERNEL(Sparse)

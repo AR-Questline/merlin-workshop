@@ -1,0 +1,407 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba1cb0192c04857ae41f5a997069db7, type: 3}
+  m_Name: TutorialConfig
+  m_EditorClassIdentifier: 
+  parryableEnemyTag: Tutorial:Parryable
+  parry:
+    sequenceKey: 33
+    title:
+      IdOverride: 
+      ID: Template/parry_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/parry_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: 6049da8015826724ba85de56e426e421
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gameplay, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Block
+  enemyStamina:
+    sequenceKey: 33
+    title:
+      IdOverride: 
+      ID: Template/enemyStamina_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/enemyStamina_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: 2aaf457a430443940a9430becd46530f
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding: []
+  bonfire:
+    sequenceKey: 14
+    title:
+      IdOverride: 
+      ID: Template/bonfire_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/bonfire_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: d6c7a320b27899040ba1088abed113d0
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+HUD, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:QuickUseWheel
+  bonfireBoost:
+    sequenceKey: 0
+    title:
+      IdOverride: 
+      ID: Template/bonfireBoost_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/bonfireBoost_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: b5b113524cb13464e8f84539436aaf23
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding: []
+  soulFragment1:
+    sequenceKey: 23
+    title:
+      IdOverride: 
+      ID: Template/soulFragment1_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/soulFragment1_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: 6dd9fcdb7309427428d949ea917a358d
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding: []
+  wyrdPower:
+    sequenceKey: 9
+    title:
+      IdOverride: 
+      ID: Template/wyrdPower_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/wyrdPower_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: 9cb1a37cf74cf38499a397ba1cc07c9f
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gameplay, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:UseWyrdSkillsSlot
+  redDeathSkillTree:
+    sequenceKey: 30
+    title:
+      IdOverride: 
+      ID: Template/redDeathSkillTree_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/redDeathSkillTree_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    graphic:
+      arSpriteReference:
+        address: 69f8677f2756e4c47b6c0d34a190fd07
+        subObjectName: icon_red death
+    keyBinding: []
+  firstMemoryShardAcquire:
+    sequenceKey: 31
+    title:
+      IdOverride: 
+      ID: Template/firstMemoryShardAcquire_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/firstMemoryShardAcquire_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    graphic:
+      arSpriteReference:
+        address: 5468ee2a85d1ac3419f034e38753c945
+        subObjectName: 
+    keyBinding: []
+  firstWyrdWhisperAcquire:
+    sequenceKey: 32
+    title:
+      IdOverride: 
+      ID: Template/firstWyrdWhisperAcquire_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/firstWyrdWhisperAcquire_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    graphic:
+      arSpriteReference:
+        address: 6c529d6e6a64a3a4b81d0b555d3159ed
+        subObjectName: 
+    keyBinding: []
+  spyglass:
+    sequenceKey: 24
+    title:
+      IdOverride: 
+      ID: Template/spyglass_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/spyglass_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: 49cd559250d44ee4c97924f56341019b
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+HUD, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:QuickUseWheel
+  fishingRod:
+    sequenceKey: 25
+    title:
+      IdOverride: 
+      ID: Template/fishingRod_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/fishingRod_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: 3c4987577c03baf49a646d3ece65f3bb
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+CharacterSheets, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Inventory
+  fishing:
+    sequenceKey: 35
+    title:
+      IdOverride: 
+      ID: Template/fishing_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/fishing_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: 78a3ce28c507f7d439c775f454666f45
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gameplay, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Interact
+  sketchbook:
+    sequenceKey: 26
+    title:
+      IdOverride: 
+      ID: Template/sketchbook_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/sketchbook_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    video:
+      video:
+        address: c14e559be23e430408785d34bf0f702e
+        subObjectName: 
+      subtitlesReference:
+        address: 
+        subObjectName: 
+      videoAudio:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+HUD, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:QuickUseWheel
+  horsePC:
+    sequenceKey: 29
+    title:
+      IdOverride: 
+      ID: Template/horsePC_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/horsePC_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    graphic:
+      arSpriteReference:
+        address: 7349b41673f24fc49b180fd12d2874cc
+        subObjectName: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+HUD, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:QuickUseWheel
+  horseConsole:
+    sequenceKey: 29
+    title:
+      IdOverride: 
+      ID: Template/horseConsole_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/horseConsole_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    graphic:
+      arSpriteReference:
+        address: 8a1a2b096542abe44b90c620ef959188
+        subObjectName: 
+    keyBinding:
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+UI+HUD, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:QuickUseWheel
+    - _enumRef: Awaken.TG.Main.Utility.KeyBindings+Gamepad, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:DPad_Right
+  horseArmorDlc:
+    sequenceKey: 34
+    title:
+      IdOverride: 
+      ID: Template/horseArmorDlc_title_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    text:
+      IdOverride: 
+      ID: Template/horseArmorDlc_text_11400000_1e605f912e53cbf448bfbe9b3aa31a51
+    icon:
+      arSpriteReference:
+        address: 
+        subObjectName: 
+    graphic:
+      arSpriteReference:
+        address: dce3ee0164d78e747b241b55222b8876
+        subObjectName: 
+    keyBinding: []

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Book_RecipeFor_CeremonialDagger
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"Active","value":{"$content":false,"$type":"System.Boolean"},"typeHandle":{"Identification":"System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":814.7161,"y":-89.54717},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":288.0,"y":-320.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"10"},{"defaultValues":{},"position":{"x":792.0,"y":-324.0},"guid":"d2878ea0-d392-4e6a-ad0d-80f189112200","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.LearnRecipe","$id":"12"},{"reference":{"_guid":"8d3255747368934498859aa6993d0e8b"},"defaultValues":{},"position":{"x":540.0,"y":-204.0},"guid":"6f2dcf60-e5d4-4974-8a9b-da1f70ce63e7","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Typing.RecipeLiteral","$id":"14"},{"sourceUnit":{"$ref":"10"},"sourceKey":"onSubmit","destinationUnit":{"$ref":"12"},"destinationKey":"enter","guid":"9daaf95b-f1f4-4de7-b37a-9f047cce7c79","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"14"},"sourceKey":"IRecipe","destinationUnit":{"$ref":"12"},"destinationKey":"recipe","guid":"7f3ead0b-78df-40aa-bd6f-6fafcc0f270d","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

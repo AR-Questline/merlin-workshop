@@ -1,0 +1,72 @@
+{
+  "name": "com.unity.addressables",
+  "displayName": "Addressables",
+  "version": "1.22.2",
+  "unity": "2019.4",
+  "description": "The Addressable Asset System allows the developer to ask for an asset via its address. Once an asset (e.g. a prefab) is marked \"addressable\", it generates an address which can be called from anywhere. Wherever the asset resides (local or remote), the system will locate it and its dependencies, then return it.\n\nUse 'Window->Asset Management->Addressables' to begin working with the system.\n\nAddressables use asynchronous loading to support loading from any location with any collection of dependencies. Whether you have been using direct references, traditional asset bundles, or Resource folders, addressables provide a simpler way to make your game more dynamic. Addressables simultaneously opens up the world of asset bundles while managing all the complexity.\n\nFor usage samples, see github.com/Unity-Technologies/Addressables-Sample",
+  "keywords": [
+    "asset",
+    "resources",
+    "bundle",
+    "bundles",
+    "assetbundles"
+  ],
+  "dependencies": {
+    "com.unity.scriptablebuildpipeline": "1.21.24",
+    "com.unity.modules.assetbundle": "1.0.0",
+    "com.unity.modules.imageconversion": "1.0.0",
+    "com.unity.modules.jsonserialize": "1.0.0",
+    "com.unity.modules.unitywebrequest": "1.0.0",
+    "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+  },
+  "_upm": {
+    "changelog": "- Fixed memory leak when loading Sprite objects from a SpriteAtlas asset.\n- Added support for directly calling Release() on AsyncOperationHandles that didn't have the option to.\n- Fixed issue where operation that uses WaitForCompletion can timeout much earlier than it should.\n- Sort collections to make serialized editor files deterministic\n- Fixed an issue where tearing down the Addressables instance could happen before user teardown code was getting called.\n- Fixed issue where labels on an addressable sub-entry are incorrectly added to the former parent entry."
+  },
+  "upmCi": {
+    "footprint": "d828e27c19c8a0b02bc63dd74aa88208da4959ad"
+  },
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.addressables@1.22/manual/index.html",
+  "repository": {
+    "url": "https://github.cds.internal.unity3d.com/unity/Addressables.git",
+    "type": "git",
+    "revision": "8c3d8e3f459edf307b582d67a31d29e34e6dcfb1"
+  },
+  "samples": [
+    {
+      "displayName": "Addressables Utility",
+      "description": "This sample contains a set of utility functions for Addressables.",
+      "path": "Samples~/AddressablesUtility"
+    },
+    {
+      "displayName": "ComponentReference",
+      "description": "This sample creates an AssetReference that is restricted to having a specific Component. See the ComponentReference sample project located at github.com/Unity-Technologies/Addressables-Sample",
+      "path": "Samples~/ComponentReference"
+    },
+    {
+      "displayName": "Custom Analyze Rules",
+      "description": "This sample shows how to create custom AnalyzeRules for use within the Analyze window. Both rules follow the recommended pattern for adding themselves to the UI. See the Custom Analyze Rules sample project located at github.com/Unity-Technologies/Addressables-Sample",
+      "path": "Samples~/CustomAnalyzeRules"
+    },
+    {
+      "displayName": "Custom Build and Playmode Scripts",
+      "description": "Example custom build and play mode scripts provided.  Along with a README discussing how to add them to the Addressables system.",
+      "path": "Samples~/CustomBuildAndPlaymodeScripts"
+    },
+    {
+      "displayName": "Disable AssetImport on Build",
+      "description": "A script that disables asset importing during a player build.  This improves build performance since AssetBundles are copied into StreamingAssets at build time.",
+      "path": "Samples~/DisableAssetImportOnBuild"
+    },
+    {
+      "displayName": "Import Groups Tool",
+      "description": "A tool that imports group assets (for example from a custom package) to the current project.",
+      "path": "Samples~/ImportExistingGroup"
+    },
+    {
+      "displayName": "Prefab Spawner",
+      "description": "A basic script that instantiates and destroys a prefab AssetReference.",
+      "path": "Samples~/PrefabSpawner"
+    }
+  ],
+  "_fingerprint": "2c1104372a9970792f1be7677326c8877d7d9de5"
+}

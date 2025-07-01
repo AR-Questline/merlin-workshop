@@ -1,0 +1,303 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &650406260049024688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1570020767671977305}
+  - component: {fileID: 3261360134519560347}
+  m_Layer: 0
+  m_Name: CookingTemplate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1570020767671977305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650406260049024688}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3261360134519560347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650406260049024688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd5fd3b49f254d67acf60e9b6be5fcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  recipeGroups:
+  - outcome:
+      _guid: 0ca57cb18f26fcf4eb105a074ae4a454
+    recipes:
+    - _guid: 185786f059bec3848a13389900370f9b
+  - outcome:
+      _guid: 65c751c7b7380ad4d8a456ca3fe0f452
+    recipes:
+    - _guid: 7898a05abae42e94287729edd62c5107
+  - outcome:
+      _guid: c0e1ce5ad9fe8ca45816cc3b39297674
+    recipes:
+    - _guid: 7f81dafb58f289e4a8116a92173090fb
+  - outcome:
+      _guid: 968f7067f083e144889876c81432c9c3
+    recipes:
+    - _guid: eb74ecc7803b17c4ea35b7c8178887f5
+  - outcome:
+      _guid: a2c6b5b4cbc44b741b5a743650140cba
+    recipes:
+    - _guid: 413642ce07c7df84291272fac6822ac9
+  - outcome:
+      _guid: 393454d6bd221054cb3fbff112bbdfef
+    recipes:
+    - _guid: d392c08ca7fa41e4cb0d0059b19d9170
+  - outcome:
+      _guid: 5e7e1c59660c0834e8b03b12f891685b
+    recipes:
+    - _guid: e959bcd0659c695468dbad7e19f0d12e
+  - outcome:
+      _guid: 7cf94ba4ff67b374691faaec9c0883a6
+    recipes:
+    - _guid: 145dfe6cdd984314c916b69e0fcf5237
+  - outcome:
+      _guid: 550e4acf31bbc4f4dab234caf174908e
+    recipes:
+    - _guid: 711a7c2c5afa08e468a80eda53a83f7d
+  - outcome:
+      _guid: a3fb6e6d9a9db7b4abb61c341b00aed2
+    recipes:
+    - _guid: fac57d2b689f1214fb4ffc37bd98a6d9
+  - outcome:
+      _guid: e1265dacc5913e2418a8aed5177a2ea1
+    recipes:
+    - _guid: 613e2b085cd1edb4d858470d111524f8
+  - outcome:
+      _guid: 5e3f4ac26a2b7374fbf156a94c6a10b4
+    recipes:
+    - _guid: 653b8b4ab4e1ab9498acc364c281041d
+  - outcome:
+      _guid: 6d6b29030714d404a870ffb5dc32378c
+    recipes:
+    - _guid: 9e29333f87f17d94c8c7b07e58e4be2a
+  - outcome:
+      _guid: 4894ed34eabfe1b4881483d84482926d
+    recipes:
+    - _guid: ea3f1dcd68b686749adbe565aeb5cee9
+  - outcome:
+      _guid: d244af69749dc8d4ea3e8a69de965c3d
+    recipes:
+    - _guid: b9ed70caf31904d44bcf53d276e34f19
+  - outcome:
+      _guid: a369d5ba18ee3bd47962716b0af82b1d
+    recipes:
+    - _guid: a3facc83cd9808a4b9f5434a7b1bc60d
+  - outcome:
+      _guid: f84cc508a1a92a443a78e3ac32a72835
+    recipes:
+    - _guid: 195f1efea83ba5743976a110ed539207
+  - outcome:
+      _guid: c8dd16633fda7dd4ebdedc6d021039d7
+    recipes:
+    - _guid: 0fae6796e1b4c8c4bbc47a247dade4a9
+  - outcome:
+      _guid: 7cccfa41c0cccb84c82b1a3d40377e1e
+    recipes:
+    - _guid: a74305ab0a380db47a9b5b400db1472c
+  - outcome:
+      _guid: 2a83ef9e0803f5e4d84872c3477e101d
+    recipes:
+    - _guid: e34812b97d78f9248a211594bfeffa1f
+  - outcome:
+      _guid: bf69ba576de72ab448221efb78a97a71
+    recipes:
+    - _guid: 56516b4822ff2f5468345416bfba4de5
+  - outcome:
+      _guid: ba9d2342c971d634396d1c7370e40427
+    recipes:
+    - _guid: 7f981da06d0f43749999e97665c7e65f
+  - outcome:
+      _guid: e1498d16d0c00364e9c6c1f1c31af6ba
+    recipes:
+    - _guid: af184238b4ec4f340ba1eaf97a44b8a0
+  - outcome:
+      _guid: aeedc11da35eda841a6132e2da579fb9
+    recipes:
+    - _guid: bb9eb9a89a109644db9a9c131f4ef5ea
+  - outcome:
+      _guid: f9420c98bbae0f04c9e2de0d8f8ce495
+    recipes:
+    - _guid: 52202e7f015c2964a8c994bc870aec9b
+  - outcome:
+      _guid: 3448c421ae6777244ab041176c33d027
+    recipes:
+    - _guid: 3e3bbf9afdc0b414998b3a522532a714
+  - outcome:
+      _guid: b043bbe99b035f64d8a9620c68b394fa
+    recipes:
+    - _guid: 6a5763362ca1215489995a5241aa7ba4
+  - outcome:
+      _guid: e57250fa8c38abb40a8d376c2c899061
+    recipes:
+    - _guid: 434f4f6378f2c89448bceab86d2b1b84
+  - outcome:
+      _guid: 37d001cf0b1641a4b8624cc50b78fe0f
+    recipes:
+    - _guid: c658f7c7a8a836c4c89bec98bdd7b9de
+  - outcome:
+      _guid: f9737715264d4764e888f5579504450b
+    recipes:
+    - _guid: fe38eb3789759aa4dbcc37dcfe41f45b
+  - outcome:
+      _guid: bf3c273aaa1a3ab4da932ebf62d87eed
+    recipes:
+    - _guid: ffa691b5f2febed46848185c7bac313f
+  - outcome:
+      _guid: 369365c2ddcfb5941b67120c97d6d9a6
+    recipes:
+    - _guid: d69553f04baa63b45b5acca435c8ff5e
+  - outcome:
+      _guid: 86254b307f4711144972304ca0597d7e
+    recipes:
+    - _guid: 63e323f26c3241040ac6716d5880a65b
+  - outcome:
+      _guid: 138d60bcebac13d4a9852632359dd636
+    recipes:
+    - _guid: c0576e1c3dd08b34caa0c10343ebb465
+  - outcome:
+      _guid: 87aa479131121a848876be4c4bb94ea8
+    recipes:
+    - _guid: 1fd270a087c58424abe12d4cb5052191
+  - outcome:
+      _guid: 1a0440c5b56ed8c45b6ea3ee4f43951f
+    recipes:
+    - _guid: 554a57e3012b77c4383d4df4f9e44d79
+  - outcome:
+      _guid: de60ce3ba96c72048a87b53c0ed6e8d9
+    recipes:
+    - _guid: c76e8eb12b889e549942f03a507f9dd8
+  - outcome:
+      _guid: d6d4be286e78ef04c8a2fcb5574a82ff
+    recipes:
+    - _guid: e106a7f9e0bac344dac3468f343ed03e
+  - outcome:
+      _guid: 9a28ea1680f45b849b1579258de4f936
+    recipes:
+    - _guid: eae04c07c93c6dd40a2e6a73829c7ef2
+  - outcome:
+      _guid: 230dd4a345b80ae4f8c3be4689f992f6
+    recipes:
+    - _guid: fc75607fd7dcec748b0ad221cd2200d3
+  - outcome:
+      _guid: 9317e1ca9db855b48a7039b7bf6f5a8b
+    recipes:
+    - _guid: 1dae61fe2c474f34ab361bc163199de2
+  - outcome:
+      _guid: 0cea6bf069c429640931fd7fdc640223
+    recipes:
+    - _guid: 9f4aa2313adb79c40a833d19e09eb7a4
+  - outcome:
+      _guid: 024b6451115e835489a476f4e2af2b0b
+    recipes:
+    - _guid: de2ecf127f077a741a26224fe8ef7192
+  - outcome:
+      _guid: ac255a03156f08347baf87605b37efdc
+    recipes:
+    - _guid: 3f6be2d78f2769244b6ef27485a3cf2a
+  - outcome:
+      _guid: 7531826daa77bcd42b4c304c4094bf02
+    recipes:
+    - _guid: 27db8166b4aa02249b8aba5c558cbce3
+  - outcome:
+      _guid: a9f2d9757edb112498c1c99eaf1dd75a
+    recipes:
+    - _guid: 535187df215e1324b864a845e0fe4a5c
+  - outcome:
+      _guid: 89ca21be69d67ba4293636660dc2641e
+    recipes:
+    - _guid: 79433d1baada262468e3e241ff6b8d55
+  - outcome:
+      _guid: 7efeca79c84e97b4eadf1f4d59096a3f
+    recipes:
+    - _guid: 6bddc269f64dc304b9db4a31508db6a2
+  - outcome:
+      _guid: 41ec999315309344aac88fb550e641ef
+    recipes:
+    - _guid: a475d29ec8b4b0d41b316a49c8bf2e70
+  - outcome:
+      _guid: b51f9e796245c8e49bb1877f33dfed16
+    recipes:
+    - _guid: 59d49e6d884dc5a4e8f96898c666033a
+  - outcome:
+      _guid: b51f9e796245c8e49bb1877f33dfed16
+    recipes:
+    - _guid: 71deba39aefbff04bbd8775a7d87886a
+  genericOutcomes:
+  - outcomeRef:
+      _guid: d62e263be3754ff408f41c3ec1f2e2aa
+    minScore: 0
+  - outcomeRef:
+      _guid: 10b303108c7319e4f8896bae27a68018
+    minScore: 15
+  - outcomeRef:
+      _guid: 4efbaec1c4a47954db1c09f7d0297f7e
+    minScore: 20
+  - outcomeRef:
+      _guid: 75c76c61c3f90d2409e1ef47d1fd1d80
+    minScore: 30
+  - outcomeRef:
+      _guid: 82cbf720b80887a4a915977d554e5b59
+    minScore: 40
+  - outcomeRef:
+      _guid: 32642224cff5bbd49b8ef0405373fe6f
+    minScore: 45
+  - outcomeRef:
+      _guid: 1a44ba6532ba24b4a96cf42634b3f4e9
+    minScore: 50
+  - outcomeRef:
+      _guid: e3b67b03f6d2fa44d9566ae4af646eb4
+    minScore: 60
+  - outcomeRef:
+      _guid: eb560019acda2c941aad25490e6d2af3
+    minScore: 75
+  - outcomeRef:
+      _guid: 9fdf940686b944a40a9c8252a272fef1
+    minScore: 90
+  - outcomeRef:
+      _guid: ce79add93ae4bec4386112e331d55f33
+    minScore: 105
+  - outcomeRef:
+      _guid: 5fa1de6b541d2db428f212f182d73e45
+    minScore: 120
+  - outcomeRef:
+      _guid: afea0b7df6f850a4eb9f480d6d5513fa
+    minScore: 135
+  - outcomeRef:
+      _guid: feb35eeddf320c448bafcfda2efdd45e
+    minScore: 150
+  minScoreForTasty: 40
+  minScoreForDelicious: 100

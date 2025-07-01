@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Global Variables Sample Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Global Variables Sample
+  m_TableCollectionNameGuidString: 27153e20147c06c4c8d1304d28104a87
+  m_Entries:
+  - m_Id: 3343051288576
+    m_Key: TIME_NOW
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16824966213632
+    m_Key: PLAYER_NAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327189743673344
+    m_Key: PLAYER_NAME_LABEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327442517598208
+    m_Key: PLAYER_NAME_PLACEHOLDER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328014486446080
+    m_Key: INTRO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 346998531301376
+    m_Key: VITALITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351169280090112
+    m_Key: ENDURANCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351688677531648
+    m_Key: STRENGTH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352010531643392
+    m_Key: DEXTERITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352337414725632
+    m_Key: INTELLIGENCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352656420904960
+    m_Key: RANDOM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 364039518691328
+    m_Key: SWORD_DMG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 365103068356608
+    m_Key: WEAPONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 366934439895040
+    m_Key: MACE_DMG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367094825885696
+    m_Key: AXE_DMG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367279828246528
+    m_Key: DAGGER_DMG
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1607348964087

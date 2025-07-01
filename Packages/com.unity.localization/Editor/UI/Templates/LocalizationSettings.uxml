@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <uie:PropertyField binding-path="m_AvailableLocales" />
+    <uie:PropertyField binding-path="m_AssetDatabase" />
+    <uie:PropertyField binding-path="m_StringDatabase" />
+    <uie:PropertyField binding-path="m_ProjectLocaleIdentifier" label="Project Locale " tooltip="The Locale the project will use by default. The Locale that project is built in by default." />
+    <uie:PropertyField binding-path="m_PreloadBehavior" label="Preload Behavior" tooltip="Determines which tables, that have been marked as preload, will be loaded during the preloading step." />
+    <uie:PropertyField binding-path="m_InitializeSynchronously" label="Initialize Synchronously" tooltip="Should the Initialization Operation block the main thread and complete immediately or run asynchronously in the background? Please note that this is not supported on WebGL." />
+</ui:UXML>

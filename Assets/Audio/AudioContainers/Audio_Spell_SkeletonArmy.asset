@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_SkeletonArmy
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 1851308780
+        Data2: 1116807912
+        Data3: 495671205
+        Data4: 651721568
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_CastBegun
+    castCharging:
+      Guid:
+        Data1: 1319606467
+        Data2: 1206376234
+        Data3: 375679392
+        Data4: 1613964030
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: 1622687265
+        Data2: 1156838711
+        Data3: 865241481
+        Data4: -2129703885
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_CastFullyCharged
+    castCancel:
+      Guid:
+        Data1: -150951850
+        Data2: 1114915276
+        Data3: 25654659
+        Data4: 321355960
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_CastCancel
+    castRelease:
+      Guid:
+        Data1: -507907319
+        Data2: 1108600086
+        Data3: -1580029052
+        Data4: 1028606657
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: -1172751989
+        Data2: 1218363740
+        Data3: -2131049569
+        Data4: -695066649
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: -1270712829
+        Data2: 1255584524
+        Data3: 1178347676
+        Data4: -190076997
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_Equip
+    unEquipMagic:
+      Guid:
+        Data1: -1270712829
+        Data2: 1255584524
+        Data3: 1178347676
+        Data4: -190076997
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: 372884547
+        Data2: 1173984996
+        Data3: 1098157733
+        Data4: -2048195662
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 1196256454
+        Data2: 1267878508
+        Data3: -1160562255
+        Data4: -252437848
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: 72484510
+        Data2: 1334450375
+        Data3: -1474149205
+        Data4: -357268544
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 72484510
+        Data2: 1334450375
+        Data3: -1474149205
+        Data4: -357268544
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_Sheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: -1270712829
+        Data2: 1255584524
+        Data3: 1178347676
+        Data4: -190076997
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_Equip
+    dropItem:
+      Guid:
+        Data1: -1270712829
+        Data2: 1255584524
+        Data3: 1178347676
+        Data4: -190076997
+      Path: event:/SFX/Spells/SkeletonArmy/SFX_Spells_SkeletonArmy_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

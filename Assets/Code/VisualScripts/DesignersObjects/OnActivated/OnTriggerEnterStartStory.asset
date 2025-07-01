@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnTriggerEnterStartStory
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":522.0,"y":14.0},"zoom":1.0,"elements":[{"coroutine":false,"defaultValues":{"target":null},"position":{"x":81.0,"y":-101.0},"guid":"7737e1c8-e051-46cd-aece-8860d8d5f7e5","$version":"A","$type":"Unity.VisualScripting.OnTriggerEnter","$id":"9"},{"chainable":false,"parameterNames":["bookmark"],"member":{"name":"TryStartStory","parameterTypes":["Awaken.TG.Main.Stories.StoryBookmark"],"targetType":"Awaken.TG.Main.Stories.Steps.Helpers.StoryUtils","targetTypeName":"Awaken.TG.Main.Stories.Steps.Helpers.StoryUtils","$version":"A"},"defaultValues":{},"position":{"x":973.0,"y":-101.0},"guid":"69d79244-6a68-4c62-af59-82a6210a9be0","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"11"},{"type":"Awaken.TG.Main.Stories.StoryBookmark","value":{"story":{"_guid":"3e80c01438e3bde4b92de4657fc9a591"},"chapterName":"","$type":"Awaken.TG.Main.Stories.StoryBookmark"},"defaultValues":{},"position":{"x":56.0,"y":20.0},"guid":"3dc27ced-41f7-4deb-8f9e-ac562f337fd5","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"15"},{"defaultValues":{},"position":{"x":353.0,"y":-101.0},"guid":"325d7e21-4e03-4e9c-9ecd-a54d46546c93","$version":"A","$type":"Unity.VisualScripting.Once","$id":"19"},{"defaultValues":{},"position":{"x":535.0,"y":-101.0},"guid":"ad32561d-588a-4fa0-9225-a8440ec9f6fb","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.CoroutineUnit","$id":"21"},{"defaultValues":{"block
+      save":{"$content":false,"$type":"System.Boolean"},"seconds":{"$content":5.0,"$type":"System.Single"},"unscaled":{"$content":false,"$type":"System.Boolean"}},"position":{"x":737.0,"y":-101.0},"guid":"3ed499d8-877b-4132-a3e5-0bb372778bd7","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Awaits.ARWaitForSecondsUnit","$id":"23"},{"sourceUnit":{"$ref":"9"},"sourceKey":"trigger","destinationUnit":{"$ref":"19"},"destinationKey":"enter","guid":"abe23e97-a35d-4388-a556-4da1023a1a2c","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"once","destinationUnit":{"$ref":"21"},"destinationKey":"enter","guid":"538665dd-e85c-414a-9118-15ae117d1dc0","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"exit","destinationUnit":{"$ref":"23"},"destinationKey":"enter","guid":"c0a9636a-c045-40e5-9dc4-27139eeec4ca","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"23"},"sourceKey":"exit","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"5a1cf0de-ee78-4b05-8df7-e62d14fea8ec","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"output","destinationUnit":{"$ref":"11"},"destinationKey":"%bookmark","guid":"cafdce94-6370-4431-874d-c5cdca9a264e","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267dcf0ff5968444e8e4b9d02fff7119, type: 3}
+  m_Name: VFX_Combat_Heal
+  m_EditorClassIdentifier: 
+  name: VFX_Combat_Heal
+  discription: Heal in combat
+  feedback: Ugly effect
+  prefab: {fileID: 8468406283454809219, guid: cceaa3f54935a4c4cb6dc4fcbd942a59, type: 3}
+  sfx:
+  - {fileID: 8300000, guid: c79449966d986314ba0991e725bbfde3, type: 3}
+  timing: 1
+  color: {r: 0, g: 1, b: 0.035513878, a: 1}
+  size: 1

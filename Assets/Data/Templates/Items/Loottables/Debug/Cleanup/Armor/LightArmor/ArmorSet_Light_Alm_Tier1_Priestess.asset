@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: ArmorSet_Light_Alm_Tier1_Priestess
+  m_EditorClassIdentifier: 
+  table:
+    rid: 3168152186127647017
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+    oldNames:
+    - Assets/Data/Templates/Data/Items/Loottables/RandomArmor.asset
+    - Assets/Data/Templates/Data/Items/Loottables/Armor/RandomArmor.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/RandomArmor 1.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/LightArmor/RandomArmor 1.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/LightArmor/ArmorSet_.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/LightArmor/ArmorSet_Kam_Footsoldier.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/HeavyArmor/ArmorSet_Kam_Footsoldier
+      1.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/HeavyArmor/ArmorSet_Vil_Peasant.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/LightArmor/ArmorSet_Vil_Peasant
+      1.asset
+    - Assets/Data/Templates/Items/Loottables/Armor/LightArmor/ArmorSet_Alm_Priestess.asset
+  references:
+    version: 2
+    RefIds:
+    - rid: 3168152186127647017
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 5593304253294182402
+        - rid: 5593304253294182403
+        - rid: 5593304253294182407
+        - rid: 7766364401094098954
+        - rid: 7766364401094098955
+    - rid: 5593304253294182402
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 3f11db7bee90d7644bf2cc1641ce33f7
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182403
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: b69c001c2aa1e9e47a09af2ae8d3acb9
+        quantity: 1
+        itemLvl: 0
+    - rid: 5593304253294182407
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 8348a869090450e47b4a8c5073e6d67a
+        quantity: 1
+        itemLvl: 0
+    - rid: 7766364401094098954
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 6811ac83b73bfe24d8cb14736c4f9cdc
+        quantity: 1
+        itemLvl: 0
+    - rid: 7766364401094098955
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: b7afcfeeddcfa90449fd05936f825363
+        quantity: 1
+        itemLvl: 0

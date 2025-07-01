@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnTriggerStartStory
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-41.7171,"y":53.85159},"zoom":1.0,"elements":[{"argumentCount":0,"coroutine":false,"defaultValues":{"target":null,"name":{"$content":"PreciousTaken","$type":"System.String"}},"position":{"x":-303.0,"y":-90.0},"guid":"376bef93-716b-46fc-b9b5-c2c113ae28fc","$version":"A","$type":"Unity.VisualScripting.CustomEvent","$id":"9"},{"type":"System.String","value":{"$content":"AlertBark","$type":"System.String"},"defaultValues":{},"position":{"x":-264.0,"y":132.0},"guid":"16eef825-0fc8-44cd-bf9b-f7abac7f7afe","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"11"},{"defaultValues":{},"position":{"x":-309.0,"y":32.0},"guid":"4735fcb6-62e9-4cad-9c71-867910865b24","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.GetLocationUnit","$id":"13"},{"defaultValues":{},"position":{"x":-428.0,"y":37.0},"guid":"13bb529f-53c0-4555-85e5-dc963e0f01da","$version":"A","$type":"Unity.VisualScripting.This","$id":"15"},{"defaultValues":{},"position":{"x":-65.0,"y":-85.0},"guid":"6646b986-a6cd-49cd-ae6e-c63fe6ab8c83","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.StartDialogueWithHero","$id":"17"},{"sourceUnit":{"$ref":"9"},"sourceKey":"trigger","destinationUnit":{"$ref":"17"},"destinationKey":"enter","guid":"989ece7a-ab28-4d53-9dfd-e26021acbd31","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"self","destinationUnit":{"$ref":"13"},"destinationKey":"","guid":"87ee33c7-8178-4370-969d-8f7e300f456b","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"output","destinationUnit":{"$ref":"17"},"destinationKey":"bookmark","guid":"b77e6baf-6d76-4a86-9b97-aefd93d4ca48","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"","destinationUnit":{"$ref":"17"},"destinationKey":"location","guid":"939a7f2a-3a51-47ad-ad20-56e6a759d58a","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

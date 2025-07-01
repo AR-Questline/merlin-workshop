@@ -1,0 +1,28 @@
+﻿#pragma enable_d3d11_debug_symbols
+#pragma enable_d3d12_debug_symbols
+#pragma kernel CSPrepareBones
+
+#include "../KandraStructs.hlsl"
+#include "SkinningUtils.hlsl"
+
+// -- Global buffers
+StructuredBuffer<Bone> _InputBones;
+StructuredBuffer<BindPose> _Bindposes;
+int bonesCount;
+// -- Per bone instance
+StructuredBuffer<SkinningBoneData> _SkinningBonesData;
+// -- Write
+RWStructuredBuffer<Bone> _SkinBones;
+
+[numthreads(256, 1, 1)]
+void CSPrepareBones (uint3 id : SV_DispatchThreadID)
+{
+    if(id.x >= bonesCount)
+    {
+        return;
+    }
+
+    const SkinningBoneData data = _SkinningBonesData[id.x];
+
+    _SkinBones[id.x].boneTransform = mul3x4(_InputBones[data.boneIndex].boneTransform, _Bindposes[data.bindPoseIndex].bindPose);
+}

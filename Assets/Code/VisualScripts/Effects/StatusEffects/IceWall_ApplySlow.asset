@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: IceWall_ApplySlow
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-184.4924,"y":99.37512},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-848.0,"y":-151.0},"guid":"64181d25-28dd-4e6e-b852-14e77761f525","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"defaultValues":{},"position":{"x":-452.0,"y":-275.0},"guid":"58a57c80-5678-4473-a953-57091b618ffd","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"11"},{"defaultValues":{"buildupStrengthIfPossible":{"$content":0.0,"$type":"System.Single"}},"position":{"x":-166.0,"y":-94.0},"guid":"26367e7b-bb32-4a70-991d-85aac6ca7fa2","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.ApplyStatus","$id":"13"},{"reference":{"_guid":"b37cb48091a741a4fa869e314130b141"},"defaultValues":{},"position":{"x":-492.0,"y":-424.0},"guid":"9048ce4b-8c54-4f8e-a99e-36c6d71e6fed","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Typing.StatusTemplateLiteral","$id":"15"},{"name":"SlowDuration","defaultValues":{},"position":{"x":-440.0,"y":108.0},"guid":"17eba7fc-7368-44f5-aefe-5a98bd4ab389","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"18"},{"name":"SlowDuration","defaultValues":{},"position":{"x":-402.0,"y":228.0},"guid":"7b283d70-a105-4ab4-9ea2-27f3e0abf99a","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"20"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onLearn","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"a042193a-262c-4b14-8d8c-f0524235ecf5","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"owner","destinationUnit":{"$ref":"13"},"destinationKey":"character","guid":"feae2078-b3b2-4d33-abdd-1d8c6f81589b","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"StatusTemplate","destinationUnit":{"$ref":"13"},"destinationKey":"statusTemplate","guid":"1589a2c6-636f-4980-a5fb-2c385fc6e528","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"20"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"buildupStrengthIfPossible","guid":"20ce137f-a57a-49ce-aa9f-83dd1fd21689","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"duration","guid":"581870c6-4a70-471b-a38b-4e599642d313","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

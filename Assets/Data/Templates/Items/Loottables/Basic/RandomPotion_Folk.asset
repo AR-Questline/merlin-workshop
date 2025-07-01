@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: RandomPotion_Folk
+  m_EditorClassIdentifier: 
+  table:
+    rid: 6602534626143764587
+  tableTags: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  _addItemsWithTags:
+  - potions:folk
+  references:
+    version: 2
+    RefIds:
+    - rid: 6602534626143764587
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 0
+        loots:
+        - loot:
+            rid: 6602534626143764588
+          weight: 1
+        - loot:
+            rid: 6602534626143764589
+          weight: 1
+        - loot:
+            rid: 6602534626143764590
+          weight: 1
+    - rid: 6602534626143764588
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: d772bbcb53ac48843b658466550cb8a1
+        quantity: 1
+        itemLvl: 0
+    - rid: 6602534626143764589
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: be9c83c0568b8444ca91a75bb46077f8
+        quantity: 1
+        itemLvl: 0
+    - rid: 6602534626143764590
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: f7b7ff9cbc421a847b1822bead4b4cc2
+        quantity: 1
+        itemLvl: 0

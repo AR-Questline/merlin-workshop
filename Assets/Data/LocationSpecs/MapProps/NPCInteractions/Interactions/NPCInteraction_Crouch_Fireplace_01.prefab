@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &125006981692368653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5256183581806813423}
+  - component: {fileID: 5171528315965623560}
+  - component: {fileID: 2970112454189204204}
+  - component: {fileID: 7566290663216073042}
+  m_Layer: 26
+  m_Name: NPCInteraction_Crouch_Fireplace_01
+  m_TagString: NPCInteraction
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &5256183581806813423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125006981692368653}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5171528315965623560
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125006981692368653}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2970112454189204204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125006981692368653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f0861c7fc152149aa505e96cc4b2d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7566290663216073042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125006981692368653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b49934a44304fcf9c5ff1af278ce3a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 
+  availability:
+    flag: 
+    resultProcessing: 0
+    resultShouldBeInversed: 0
+    resultIfNoFlag: 0
+    resultIfFlagTrue: 0
+    resultIfFlagFalse: 0
+  allowBarks: 1
+  overrideIdleBarksCooldown: 0
+  idleBarksCooldown: 10
+  interactionType: 0
+  dialogueType: 0
+  tags:
+  - Interaction:Casual
+  onlySpecificActor: 0
+  specificActor:
+    guid: 
+  forceThisInteractionForThisActor: 0
+  defaultWeight: 1
+  preventTakingDamage: 0
+  hasDuration: 0
+  durationType: 0
+  duration: 5
+  loopCount: 1
+  useExitAnimation: 1
+  exitDuration: 0.5
+  overrides:
+    address: e95d85f4df2ddeb439fe66318fb59086
+    subObjectName: 
+  canBePushedFrom: 1
+  canEnterCombat: 1
+  ignoreEnviroDanger: 0
+  exitToCombatAnimationSpeed: 3
+  talkInInteraction: 1
+  gestures:
+    embedOverrides:
+      gestures: []
+    explicitOverrides:
+      _guid: 50b512c0d8a019249ac2f2b2944c8414
+  closeEyes: 0
+  equipInInteraction: 0
+  weaponToUse: {fileID: 0}
+  itemToUse:
+    arReference:
+      address: 
+      subObjectName: 
+  handToSpawnItem: 0
+  equipHandOverride: 0
+  interactionVFX:
+    arReference:
+      address: 
+      subObjectName: 
+  interactionVFXPosition: {fileID: 0}
+  interactionSFX:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  allowGlancing: 1
+  talkRotationType: 1
+  allowTalkingFromBehind: 0
+  statusTemplate:
+    _guid: 

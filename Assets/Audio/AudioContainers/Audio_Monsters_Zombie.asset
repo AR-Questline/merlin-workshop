@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Zombie
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 554317884
+        Data2: 1217297643
+        Data3: 775477633
+        Data4: 1608651077
+      Path: event:/SFX/Monsters/Zombie/SFX_Enemies_Zombie_Idle
+    hurt:
+      Guid:
+        Data1: 1318596298
+        Data2: 1122699241
+        Data3: -697571439
+        Data4: 2024948454
+      Path: event:/SFX/Monsters/Zombie/SFX_Enemies_Zombie_Hurt
+    die:
+      Guid:
+        Data1: 508269820
+        Data2: 1115284025
+        Data3: 1222857604
+        Data4: -347307998
+      Path: event:/SFX/Monsters/Zombie/SFX_Enemies_Zombie_Die
+    attack:
+      Guid:
+        Data1: -1693434769
+        Data2: 1287085905
+        Data3: 490759818
+        Data4: -272492277
+      Path: event:/SFX/Monsters/Zombie/SFX_Enemies_Zombie_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -664270934
+        Data2: 1169092267
+        Data3: -1752216397
+        Data4: 2029978049
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy_Zombie
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

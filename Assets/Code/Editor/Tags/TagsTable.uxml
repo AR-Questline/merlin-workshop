@@ -1,0 +1,9 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <engine:MultiColumnTreeView name="tags-table" reorderable="true" show-border="true" style="height: auto; max-height: 600px; min-height: 20px;">
+        <engine:Columns>
+            <engine:Column name="name" title="Name" stretchable="true" max-width="250px" min-width="80px" />
+            <engine:Column name="context" title="Context" stretchable="true" min-width="300px" />
+            <engine:Column name="actions" title="Actions" stretchable="true" min-width="80px"  />
+        </engine:Columns>
+    </engine:MultiColumnTreeView>
+</engine:UXML>

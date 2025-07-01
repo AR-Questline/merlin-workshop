@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: SetInFight
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Get","label":null,"summary":null,"hideLabel":false}],"controlOutputDefinitions":[{"key":"GetEnd","label":null,"summary":null,"hideLabel":false}],"valueInputDefinitions":[{"hasDefaultValue":false,"defaultValue":{"$content":false,"$type":"System.Boolean"},"_type":"System.Boolean","key":"InFight","label":null,"summary":null,"hideLabel":false}],"valueOutputDefinitions":[],"title":null,"summary":"Get
+      a new combat target","pan":{"x":-69.4435,"y":-105.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-912.0,"y":-288.0},"guid":"76fdf3f2-f77d-475b-b3b2-ecc14c313480","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":-588.0,"y":-288.0},"guid":"d08c6bb5-141d-492e-bb59-b124a2603c89","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"kind":"Object","defaultValues":{"name":{"$content":"InFight","$type":"System.String"},"object":null},"position":{"x":-768.0,"y":-288.0},"guid":"793c0560-8779-44ab-9ead-114030a24af2","$version":"A","$type":"Unity.VisualScripting.SetVariable","$id":"16"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Get","destinationUnit":{"$ref":"16"},"destinationKey":"assign","guid":"6c6cf652-3d93-474f-ab25-e1fa91952f27","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"assigned","destinationUnit":{"$ref":"14"},"destinationKey":"GetEnd","guid":"ab371b6d-8ee3-475e-996b-9547e9d050c1","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"InFight","destinationUnit":{"$ref":"16"},"destinationKey":"input","guid":"870d8ca1-9f28-4bed-ace8-318c9d393a0e","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

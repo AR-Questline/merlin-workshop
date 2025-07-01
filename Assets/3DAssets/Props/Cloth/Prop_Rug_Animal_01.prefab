@@ -1,0 +1,174 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8511317236907271441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2026456194896426699}
+  - component: {fileID: 2355282187458539503}
+  - component: {fileID: 4024603153532193010}
+  - component: {fileID: -3059115609420097390}
+  m_Layer: 3
+  m_Name: Prop_Rug_Animal_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &2026456194896426699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511317236907271441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2355282187458539503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511317236907271441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ba29fb9cf54b3e955316a4eddcf8aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lodGroupSize: 1
+  lodGroupSerializableData:
+    isValid:
+      state: 1
+    localReferencePoint: {x: 0, y: 0, z: 0}
+    lodDistances0:
+      x: 73.71374
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    lodDistances1:
+      x: Infinity
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    localToWorldMatrix:
+      c0:
+        x: 1
+        y: 0
+        z: 0
+        w: 0
+      c1:
+        x: 0
+        y: 1
+        z: 0
+        w: 0
+      c2:
+        x: 0
+        y: 0
+        z: 1
+        w: 0
+      c3:
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+  children:
+  - {fileID: 4024603153532193010}
+  isStatic: 1
+  hasLinkedLifetime: 0
+--- !u!114 &4024603153532193010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511317236907271441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60fcd819e2b4b00a4cdf9d2d862f9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentGroup: {fileID: 2355282187458539503}
+  meshReference:
+    m_AssetGUID: 51551bfff868d644fb3b68f6c0962b34
+    m_SubObjectName: Mesh_Prop_AnimalRug_01
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  materialReferences:
+  - m_AssetGUID: 8f5f0925e313e254d93d7bd20ce22071
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  renderMeshDescription:
+    layer: 0
+    renderingLayer: 257
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 0
+    staticShadowCaster: 0
+    lightProbeUsage: 1
+  localToWorldOffset:
+    c0:
+      x: -1
+      y: -1.2246469e-16
+      z: -7.34684e-40
+      w: 0
+    c1:
+      x: -1.2246469e-16
+      y: 1
+      z: 1.2246469e-16
+      w: 0
+    c2:
+      x: -1.4997598e-32
+      y: 1.2246469e-16
+      z: -1
+      w: 0
+    c3:
+      x: 0
+      y: 0
+      z: 0
+      w: 1
+  aabb:
+    Center:
+      x: 0.11061025
+      y: 0.0937379
+      z: -0.20455962
+    Extents:
+      x: 1.368906
+      y: 0.08044022
+      z: 1.4144387
+  visibleRange:
+    x: 0
+    y: 5433.7153
+  lodMask: 1
+  _archetypeKeys:
+  - isStatic: 1
+    isTransparent: 0
+    hasLod: 1
+    inMotionPass: 0
+    lightProbeUsage: 1
+  hasLinkedLifetime: 0
+--- !u!114 &-3059115609420097390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511317236907271441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec972b3dee4e4dcaa14247816f65ea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _excludeFromHlod: 1
+  _cullWithHlod: 1

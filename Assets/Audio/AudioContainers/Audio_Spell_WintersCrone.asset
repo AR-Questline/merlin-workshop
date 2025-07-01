@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Spell_WintersCrone
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 24
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 1378910652
+        Data2: 1104980738
+        Data3: 996442276
+        Data4: -1436978227
+      Path: event:/SFX/Swing/SFX_Swing_Sword
+    meleeSwingHeavy:
+      Guid:
+        Data1: 731160112
+        Data2: 1244118261
+        Data3: 399336612
+        Data4: 1637935125
+      Path: event:/SFX/Swing/SFX_Swing_Heavy
+    meleeDashAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    meleeEquip:
+      Guid:
+        Data1: -1357164745
+        Data2: 1081372505
+        Data3: 1364636333
+        Data4: 1956707810
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: -777625249
+        Data2: 1273300398
+        Data3: -162288234
+        Data4: -1724204268
+      Path: event:/SFX/Weapon/Dagger/SFX_Weapon_Dagger_Unequip
+    meleeHit:
+      Guid:
+        Data1: 1743090892
+        Data2: 1095485630
+        Data3: -1703244353
+        Data4: 1151489930
+      Path: event:/SFX/Weapon/Sword/SFX_Weapon_Sword_Hit
+    pommelHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 424927980
+        Data2: 1207063457
+        Data3: -657141631
+        Data4: -1795123168
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_CastBegun
+    castCharging:
+      Guid:
+        Data1: 225843506
+        Data2: 1176301128
+        Data3: 171576229
+        Data4: -928115160
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_CastCharging
+    castFullyCharged:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: -1132984820
+        Data2: 1117122642
+        Data3: -2040243324
+        Data4: -1757615056
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_CastRelease
+    castHeavyRelease:
+      Guid:
+        Data1: 1158790369
+        Data2: 1180677914
+        Data3: -1724183142
+        Data4: -918622796
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_CastHeavyRelease
+    equipMagic:
+      Guid:
+        Data1: -2117566758
+        Data2: 1169845891
+        Data3: 510465185
+        Data4: 1471608883
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_Equip
+    unEquipMagic:
+      Guid:
+        Data1: -2117566758
+        Data2: 1169845891
+        Data3: 510465185
+        Data4: 1471608883
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_Equip
+    magicHeldIdle:
+      Guid:
+        Data1: -698500502
+        Data2: 1122836233
+        Data3: 1603964311
+        Data4: -1913421307
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_HeldIdle
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 1530847135
+        Data2: 1224681966
+        Data3: -896016246
+        Data4: -1056080959
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_HeldChargedIdle
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 1805965204
+        Data2: 1224046316
+        Data3: -1477652044
+        Data4: -989441214
+      Path: event:/SFX/UI/SFX_ManaFail
+    sheathe:
+      Guid:
+        Data1: -1621276341
+        Data2: 1287054525
+        Data3: 891747731
+        Data4: 1286262870
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_Sheathe
+    unsheathe:
+      Guid:
+        Data1: 954805244
+        Data2: 1099169551
+        Data3: 867666820
+        Data4: 262192805
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 127245772
+        Data2: 1290882058
+        Data3: -551672188
+        Data4: -1135013561
+      Path: event:/SFX/Weapon/Shield/SFX_Weapon_Shield_Block_Wooden
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: -2117566758
+        Data2: 1169845891
+        Data3: 510465185
+        Data4: 1471608883
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_Equip
+    dropItem:
+      Guid:
+        Data1: -2117566758
+        Data2: 1169845891
+        Data3: 510465185
+        Data4: 1471608883
+      Path: event:/SFX/Spells/WintersCrone/SFX_Spells_WintersCrone_Equip
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

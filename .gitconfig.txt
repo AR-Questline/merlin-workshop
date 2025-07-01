@@ -1,0 +1,20 @@
+[merge "unityyamlmerge"]
+    name = unityyamlmerge
+    driver = 'UnityYAMLMerge\\UnityYAMLMerge.exe' %O %A %B %A %L
+    recursive = binary
+[merge "listmerge"]
+    name = listmerge
+    driver = 'Tools\\AwakenMerge\\Build\\AwakenMerge.exe' -list %O %A %B %L %S %X %Y
+    recursive = binary
+[diff]
+    tool = meld
+[difftool "meld"]
+    path = Meld/Meld.exe
+[merge]
+    tool = meld
+[mergetool "meld"]
+    path = Meld/Meld.exe
+    trustExitCode = false
+    prompt = false
+[mergetool]
+	keepBackup = false

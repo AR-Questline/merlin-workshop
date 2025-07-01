@@ -1,0 +1,81 @@
+Pass
+{
+    $splice(PassName)
+    Tags
+    {
+        $splice(LightMode)
+    }
+
+    // Render State
+    $splice(RenderState)
+
+    // Debug
+    $splice(Debug)
+
+    // --------------------------------------------------
+    // Pass
+
+    HLSLPROGRAM
+
+    // Pragmas
+    $splice(PassPragmas)
+    // #pragma enable_d3d11_debug_symbols
+
+    // Keywords
+    $splice(PassKeywords)
+    $splice(GraphKeywords)
+
+    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+    #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+
+    $splice(GraphDefines)
+
+    // Includes
+    $splice(PreGraphIncludes)
+
+    // --------------------------------------------------
+    // Structs and Packing
+
+    $splice(PassStructs)
+
+    // --------------------------------------------------
+    // Graph
+
+    // Graph Properties
+    $splice(GraphProperties)
+
+    // Graph Includes
+    $splice(GraphIncludes)
+
+    // Graph Functions
+    $splice(GraphFunctions)
+
+    // Graph Pixel
+    $splice(GraphPixel)
+
+    // --------------------------------------------------
+    // Build Graph Inputs
+
+    // Graph Pixel
+    $features.graphPixel:   $include("Pixel.template.hlsl")
+
+    // --------------------------------------------------
+    // Build Surface Data
+
+    void GetVolumeData(FragInputs fragInputs, float3 V, out float3 scatteringColor, out float density)
+    {
+        SurfaceDescriptionInputs surfaceDescriptionInputs = FragInputsToSurfaceDescriptionInputs(fragInputs, V);
+        SurfaceDescription surfaceDescription = SurfaceDescriptionFunction(surfaceDescriptionInputs);
+
+        scatteringColor = surfaceDescription.BaseColor;
+        density = surfaceDescription.Alpha;
+    }
+
+    // --------------------------------------------------
+    // Main
+
+    $splice(PostGraphIncludes)
+
+    ENDHLSL
+}

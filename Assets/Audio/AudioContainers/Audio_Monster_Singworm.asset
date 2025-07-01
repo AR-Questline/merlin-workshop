@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monster_Singworm
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2147483645
+    idle:
+      Guid:
+        Data1: 1814225520
+        Data2: 1285069560
+        Data3: 863878306
+        Data4: 1967401438
+      Path: event:/SFX/Monsters/Singworm/SFX_Monster_Singworm_Idle
+    hurt:
+      Guid:
+        Data1: 2133897187
+        Data2: 1216553721
+        Data3: 894179504
+        Data4: 1547915521
+      Path: event:/SFX/Monsters/Singworm/SFX_Monster_Singworm_Hurt
+    die:
+      Guid:
+        Data1: 1716997843
+        Data2: 1216048126
+        Data3: 1856564875
+        Data4: -931578938
+      Path: event:/SFX/Monsters/Bullrat/SFX_Monster_Bullrat_Die
+    attack:
+      Guid:
+        Data1: 1037157046
+        Data2: 1322535303
+        Data3: -1780466499
+        Data4: 932175315
+      Path: event:/SFX/Monsters/Singworm/SFX_Monster_Singworm_Attack
+    specialAttack:
+      Guid:
+        Data1: 1037157046
+        Data2: 1322535303
+        Data3: -1780466499
+        Data4: 932175315
+      Path: event:/SFX/Monsters/Singworm/SFX_Monster_Singworm_Attack
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -465681397
+        Data2: 1200180587
+        Data3: 2097118387
+        Data4: -234650058
+      Path: event:/SFX/Monsters/Singworm/SFX_Monster_Singworm_Movement
+    roar:
+      Guid:
+        Data1: -1233607612
+        Data2: 1280752694
+        Data3: 454144671
+        Data4: 1910435798
+      Path: event:/SFX/Monsters/Singworm/SFX_Monster_Singworm_Roar

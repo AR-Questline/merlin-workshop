@@ -1,0 +1,11 @@
+{
+	SubShader
+	{
+	    Tags{ "RenderPipeline" = "HDRenderPipeline" }
+		Cull Off
+		
+		${VFXInclude("Shaders/VFXParticleHeader.template")}
+		${VFXIncludeRP("Templates/Mesh/PassSelection.template")}
+		${VFXIncludeRP("Templates/Mesh/PassDistortion.template")}
+	}
+}

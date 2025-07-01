@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnDeathInteract
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[{"name":"ObjectToInteract","value":null,"typeHandle":{"Identification":"UnityEngine.GameObject,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":70.2171,"y":-175.6781},"zoom":0.9500001,"elements":[{"defaultValues":{},"position":{"x":192.0,"y":-504.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"Type":"Learn","defaultValues":{},"position":{"x":228.0,"y":-252.0},"guid":"d9cc908f-32ed-40f0-91e3-9bd833276996","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.OnDeathUnit","$id":"12"},{"argumentCount":0,"defaultValues":{"name":{"$content":"Interact","$type":"System.String"},"target":null},"position":{"x":468.0,"y":-264.0},"guid":"379b4cb1-ddbf-4afd-940b-84f1ca06ffa5","$version":"A","$type":"Unity.VisualScripting.TriggerCustomEvent","$id":"14"},{"specifyFallback":false,"kind":"Graph","defaultValues":{"name":{"$content":"ObjectToInteract","$type":"System.String"}},"position":{"x":192.0,"y":-120.0},"guid":"91cdefdd-1ba4-46d1-8997-83d1ada10632","$version":"A","$type":"Unity.VisualScripting.GetVariable","$id":"16"},{"argumentCount":1,"coroutine":false,"defaultValues":{"target":null,"name":{"$content":"SetObjectToInteractOnDeath","$type":"System.String"}},"position":{"x":-480.0,"y":-264.0},"guid":"0f365396-899b-4bcc-b534-8986c8f0d17e","$version":"A","$type":"Unity.VisualScripting.CustomEvent","$id":"18"},{"kind":"Graph","defaultValues":{"name":{"$content":"ObjectToInteract","$type":"System.String"}},"position":{"x":-156.0,"y":-264.0},"guid":"7312e582-baee-4c87-9d45-3a34157cdc5a","$version":"A","$type":"Unity.VisualScripting.SetVariable","$id":"20"},{"sourceUnit":{"$ref":"12"},"sourceKey":"trigger","destinationUnit":{"$ref":"14"},"destinationKey":"enter","guid":"bda2e823-0d5a-457d-81e7-19216baa3af3","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"trigger","destinationUnit":{"$ref":"20"},"destinationKey":"assign","guid":"23df468e-ec3b-4c43-b4ca-15ee9b1bd291","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"value","destinationUnit":{"$ref":"14"},"destinationKey":"target","guid":"c70ae4e7-bb53-40e4-80a3-ecc68d576ca7","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"argument_0","destinationUnit":{"$ref":"20"},"destinationKey":"input","guid":"aa6b5431-76f7-41d8-922d-6f50766704af","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

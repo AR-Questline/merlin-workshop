@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_SkeletonMage
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: -1363399559
+        Data2: 1319662005
+        Data3: 573484423
+        Data4: 1005036494
+      Path: event:/SFX/Monsters/SkeletonMage/SFX_Enemies_SkeletonMage_IdleVoice
+    hurt:
+      Guid:
+        Data1: 1804120471
+        Data2: 1215596128
+        Data3: -1607860036
+        Data4: 959808591
+      Path: event:/SFX/Monsters/SkeletonMage/SFX_Enemies_SkeletonMage_HurtVoice
+    die:
+      Guid:
+        Data1: -357589571
+        Data2: 1314098366
+        Data3: -1005914983
+        Data4: -1839221337
+      Path: event:/SFX/Monsters/SkeletonMage/SFX_Enemies_SkeletonMage_Die
+    attack:
+      Guid:
+        Data1: 795386145
+        Data2: 1163224866
+        Data3: 1928469400
+        Data4: 1286956367
+      Path: event:/SFX/Monsters/SkeletonMage/SFX_Enemies_SkeletonMage_AttackVoice
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -2121955848
+        Data2: 1105012621
+        Data3: -593713009
+        Data4: -207082856
+      Path: event:/SFX/Monsters/SkeletonMage/SFX_Enemies_SkeletonMage_Footsteps
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

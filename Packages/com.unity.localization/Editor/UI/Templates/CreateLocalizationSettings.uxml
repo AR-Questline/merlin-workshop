@@ -1,0 +1,8 @@
+<UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="align-items: center; justify-content: center; flex-grow: 1;">
+        <ui:VisualElement>
+            <ui:Label text="No Active Localization Settings Found In Project." style="align-self: center; -unity-font-style-and-weight: bold;"/>
+            <ui:Button text="Create" name="create-settings-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</UXML>

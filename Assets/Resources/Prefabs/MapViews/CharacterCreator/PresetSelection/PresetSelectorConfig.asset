@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72c5e2c5d9d42f5ab18122859111eca, type: 3}
+  m_Name: PresetSelectorConfig
+  m_EditorClassIdentifier: 
+  sceneSets:
+  - scene: 
+    sceneGUID: a8cfefa6f4b68e34295decd0d4104edb
+    displayName:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data0_displayName_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    description:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data0_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    presets: []
+  - scene: 
+    sceneGUID: 3f87cb1c5e4dacb4bbd48153dcc4b7c8
+    displayName:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data1_displayName_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    description:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data1_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    presets:
+    - name:
+        IdOverride: 
+        ID: Template/sceneSets_Array_data1_presets_Array_data0_name_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      description:
+        IdOverride: 
+        ID: Template/sceneSets_Array_data1_presets_Array_data0_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      cleanPreset: 1
+      icon:
+        arSpriteReference:
+          address: 
+          subObjectName: 
+      startingGear: {fileID: 11400000, guid: 942f36ec8d1e53346ba0d62cab91dbf0, type: 2}
+      itemsOnly: []
+      talents: []
+      modifiesStats: 0
+      stats: []
+  - scene: 
+    sceneGUID: ef5ed804b2393314cad3ee1703f610e7
+    displayName:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data2_displayName_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    description:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data2_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    presets:
+    - name:
+        IdOverride: characterPreset_Defender
+        ID: Template/sceneSets_Array_data2_presets_Array_data0_name_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      description:
+        IdOverride: characterPreset_Defender_description
+        ID: Template/sceneSets_Array_data2_presets_Array_data0_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      cleanPreset: 0
+      icon:
+        arSpriteReference:
+          address: 5003b90dd09b26749b546e1afbce3289
+          subObjectName: 
+      startingGear: {fileID: 11400000, guid: 09e36e9b5dfaf0b489bc239f3a1cbb1b, type: 2}
+      itemsOnly:
+      - {fileID: 11400000, guid: 4906b8901d285404f87977c6f31fa2d8, type: 2}
+      talents: []
+      modifiesStats: 0
+      stats: []
+    - name:
+        IdOverride: characterPreset_Knight
+        ID: Template/sceneSets_Array_data2_presets_Array_data1_name_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      description:
+        IdOverride: characterPreset_Knight_description
+        ID: Template/sceneSets_Array_data2_presets_Array_data1_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      cleanPreset: 0
+      icon:
+        arSpriteReference:
+          address: 21d4004fb6b90c74a92874049241f411
+          subObjectName: 
+      startingGear: {fileID: 11400000, guid: 32c4971e75fa69949a685b7c80e84174, type: 2}
+      itemsOnly:
+      - {fileID: 11400000, guid: 4906b8901d285404f87977c6f31fa2d8, type: 2}
+      talents: []
+      modifiesStats: 0
+      stats: []
+    - name:
+        IdOverride: characterPreset_Rogue
+        ID: Template/sceneSets_Array_data2_presets_Array_data2_name_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      description:
+        IdOverride: characterPreset_Rogue_description
+        ID: Template/sceneSets_Array_data2_presets_Array_data2_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      cleanPreset: 0
+      icon:
+        arSpriteReference:
+          address: 5f9eede3e23c4da47b1d3f682a5b696b
+          subObjectName: 
+      startingGear: {fileID: 11400000, guid: c637097de7fcd6f46a8425ffefa29f80, type: 2}
+      itemsOnly:
+      - {fileID: 11400000, guid: 4906b8901d285404f87977c6f31fa2d8, type: 2}
+      talents: []
+      modifiesStats: 0
+      stats: []
+  - scene: 
+    sceneGUID: d4ac3bda5d6875f428002f6bb2423c8a
+    displayName:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data3_displayName_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    description:
+      IdOverride: 
+      ID: Template/sceneSets_Array_data3_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+    presets:
+    - name:
+        IdOverride: characterPreset_Defender
+        ID: Template/sceneSets_Array_data3_presets_Array_data0_name_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      description:
+        IdOverride: characterPreset_Defender_description
+        ID: Template/sceneSets_Array_data3_presets_Array_data0_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      cleanPreset: 0
+      icon:
+        arSpriteReference:
+          address: 5003b90dd09b26749b546e1afbce3289
+          subObjectName: 
+      startingGear: {fileID: 11400000, guid: 4f5a1d2afc2eb914e81323a360b0ce3d, type: 2}
+      itemsOnly:
+      - {fileID: 11400000, guid: 4906b8901d285404f87977c6f31fa2d8, type: 2}
+      talents: []
+      modifiesStats: 0
+      stats: []
+    - name:
+        IdOverride: characterPreset_Knight
+        ID: Template/sceneSets_Array_data3_presets_Array_data1_name_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      description:
+        IdOverride: characterPreset_Knight_description
+        ID: Template/sceneSets_Array_data3_presets_Array_data1_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      cleanPreset: 0
+      icon:
+        arSpriteReference:
+          address: 21d4004fb6b90c74a92874049241f411
+          subObjectName: 
+      startingGear: {fileID: 11400000, guid: 82a70ad27f7ce7648b0f236996776390, type: 2}
+      itemsOnly:
+      - {fileID: 11400000, guid: 4906b8901d285404f87977c6f31fa2d8, type: 2}
+      talents: []
+      modifiesStats: 0
+      stats: []
+    - name:
+        IdOverride: characterPreset_Rogue
+        ID: Template/sceneSets_Array_data3_presets_Array_data2_name_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      description:
+        IdOverride: characterPreset_Rogue_description
+        ID: Template/sceneSets_Array_data3_presets_Array_data2_description_11400000_5f0c0a16d07e75d4599eeb8f13be22e2
+      cleanPreset: 0
+      icon:
+        arSpriteReference:
+          address: 5f9eede3e23c4da47b1d3f682a5b696b
+          subObjectName: 
+      startingGear: {fileID: 11400000, guid: a2e1bf0daae4c25479b3008478483b40, type: 2}
+      itemsOnly:
+      - {fileID: 11400000, guid: 4906b8901d285404f87977c6f31fa2d8, type: 2}
+      talents: []
+      modifiesStats: 0
+      stats: []

@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6657ab89164460f86a887172b225b28, type: 3}
+  m_Name: Audio_Weapon_Hammer_VeryHeavy
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    armorHitType:
+      _enumRef: 
+    meleeSwing:
+      Guid:
+        Data1: 118067109
+        Data2: 1182080641
+        Data3: 1125344669
+        Data4: 1618408743
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_Swing
+    meleeSwingHeavy:
+      Guid:
+        Data1: -1355212079
+        Data2: 1179361628
+        Data3: 87605149
+        Data4: -163433733
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_SwingHeavy
+    meleeDashAttack:
+      Guid:
+        Data1: -1490927993
+        Data2: 1341406013
+        Data3: -852867448
+        Data4: 1215904841
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_DashAttack
+    meleeEquip:
+      Guid:
+        Data1: 1203609456
+        Data2: 1276033006
+        Data3: 567867792
+        Data4: -1921078884
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_Equip
+    meleeUnEquip:
+      Guid:
+        Data1: 229203949
+        Data2: 1265981179
+        Data3: 42278832
+        Data4: 1594999742
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_Unequip
+    meleeHit:
+      Guid:
+        Data1: -292360357
+        Data2: 1146619514
+        Data3: 1512220040
+        Data4: -480626534
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_Hit
+    pommelHit:
+      Guid:
+        Data1: -281565796
+        Data2: 1278459810
+        Data3: -1339596927
+        Data4: -222256962
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_PommelHit
+    dragBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    releaseBow:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    arrowSwish:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castBegun:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCharging:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castFullyCharged:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castCancel:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    castHeavyRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipMagic:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHeldIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHeldChargedIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    projectileIdle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicHit:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    magicFailedCast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    sheathe:
+      Guid:
+        Data1: 342734694
+        Data2: 1164246112
+        Data3: 1579971738
+        Data4: 1276446462
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_Sheathe
+    unsheathe:
+      Guid:
+        Data1: -1110878976
+        Data2: 1168298178
+        Data3: -993479513
+        Data4: 1464367005
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_Unsheathe
+    onBlockDamage:
+      Guid:
+        Data1: 474680198
+        Data2: 1177300814
+        Data3: 912828330
+        Data4: 615929524
+      Path: event:/SFX/Weapon/HammerVeryHeavy/SFX_Weapon_HammerVeryHeavy_Block
+    parrySwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pommelSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovement:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    bodyMovementFast:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    equipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    unEquipArmor:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    useItem:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    pickupItem:
+      Guid:
+        Data1: 937985378
+        Data2: 1288507969
+        Data3: 180481451
+        Data4: -2009592812
+      Path: event:/EQ/SFX_Player_PickItem_Metal
+    dropItem:
+      Guid:
+        Data1: 1631607086
+        Data2: 1139822676
+        Data3: 955311493
+        Data4: 1948205287
+      Path: event:/EQ/SFX_Player_DropItem_Metal
+    specialAttackSwing:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

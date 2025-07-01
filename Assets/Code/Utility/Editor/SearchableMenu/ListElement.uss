@@ -1,0 +1,30 @@
+:focus {
+    background-color: rgb(48, 48, 48);
+}
+
+.unity-collection-view__item {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+    font-size: 13px;
+    height: 26px;
+    color: rgb(255, 255, 255);
+    align-items: center;
+}
+
+.value-and-path {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.path {
+    color: rgb(161, 161, 161);
+}
+
+.highlight {
+    background-color: rgb(48, 48, 48);
+}
+
+.select {
+    background-color: rgb(132, 77, 33);
+}

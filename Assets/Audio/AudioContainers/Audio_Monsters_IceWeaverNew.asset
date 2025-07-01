@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_IceWeaverNew
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: -1020947706
+        Data2: 1303937736
+        Data3: 9319603
+        Data4: -696375009
+      Path: event:/SFX/Monsters/IceWeaver/SFX_Enemies_IceWeaver_Hurt
+    die:
+      Guid:
+        Data1: 1934144767
+        Data2: 1260879781
+        Data3: -497285706
+        Data4: 1433033111
+      Path: event:/SFX/Monsters/IceWeaver/SFX_Enemies_IceWeaver_Die
+    attack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialAttack:
+      Guid:
+        Data1: -1449802010
+        Data2: 1139809964
+        Data3: -336898128
+        Data4: -624929304
+      Path: event:/SFX/Monsters/IceWeaver/SFX_Enemies_IceWeaver_SpecialAttack
+    specialBegin:
+      Guid:
+        Data1: 1599760219
+        Data2: 1098884694
+        Data3: 300830895
+        Data4: -605212179
+      Path: event:/SFX/Monsters/IceWeaver/SFX_Enemies_IceWeaver_SpecialBegin
+    specialRelease:
+      Guid:
+        Data1: -2087820869
+        Data2: 1314553256
+        Data3: -2128288072
+        Data4: 756228421
+      Path: event:/SFX/Monsters/IceWeaver/SFX_Enemies_IceWeaver_SpecialRelease
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

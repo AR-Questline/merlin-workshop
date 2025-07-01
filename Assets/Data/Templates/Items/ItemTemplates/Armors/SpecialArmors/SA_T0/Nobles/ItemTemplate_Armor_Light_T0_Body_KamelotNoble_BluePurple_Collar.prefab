@@ -1,0 +1,174 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7104529134595585753
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1342416209863646601, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: armor
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1342416209863646601, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: magicArmor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: heroItemPrefab.address
+      value: b510007848b9b4b4baf73eb90f71cecb
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: 2d67c5c5282f65f4789d5b92e26a1e33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: 3741b9c9c6daca141b6865a511d8d0c4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: weight
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: basePrice
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_4743978107341280612_3676764835a11ab4baadc9136d137b55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: description.ID
+      value: Template/description_4743978107341280612_caea96804d986054ea1995237adb5659
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: tags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: sharpeningConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: b73e6e8717706bf4581d72f81304e1dd,
+        type: 2}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: 'tags.Array.data[0]'
+      value: item:tier0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: 'tags.Array.data[1]'
+      value: armors:weak
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: crimeValue._enumRef
+      value: Awaken.TG.Main.Fights.Factions.CrimeItemValue, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: description.toggled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: itemName.IdOverride
+      value: item_armor_light_torso_KamelotNobleman
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_4743978107341280612_3676764835a11ab4baadc9136d137b55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: damageSurfaceType._enumRef
+      value: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ArmorFabric
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: 62926516de3396b47bf6a9b43f1ccc1a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_Light_T0_Body_KamelotNoble_BluePurple_Collar
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -4047062517618786039, guid: f8855afa082ed064e86a4591bb52bd71, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f8855afa082ed064e86a4591bb52bd71, type: 3}

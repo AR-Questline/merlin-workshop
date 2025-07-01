@@ -1,0 +1,73 @@
+# https://dotnet.github.io/docfx/tutorial/howto_filter_out_unwanted_apis_attributes.html
+apiRules:
+  - exclude:
+      # inherited Object methods
+      uidRegex: ^System\.Object\..*$
+      type: Method
+  - exclude:
+      # mentioning types from System.* namespace
+      uidRegex: ^System\..*$
+      type: Type
+  - exclude:
+      # Tests
+      uidRegex: Localization\.Tests*
+      type: Namespace
+  - exclude:
+      # Samples.
+      uidRegex: Sample*
+      type: Namespace
+  - exclude:
+      uidRegex: ^Global Namespace.*
+      type: Namespace
+  - exclude:
+      # XLIFF generated code
+      uidRegex: XLIFF\.V.*
+      type: Namespace
+
+  # Smart format
+  - exclude:
+      uidRegex: UnityEngine\.Localization\.SmartFormat\.Core\.Formatting
+      type: Namespace
+  - exclude:
+      uidRegex: UnityEngine\.Localization\.SmartFormat\.Core\.Parsing
+      type: Namespace
+  - exclude:
+      uidRegex: UnityEngine\.Localization\.SmartFormat\.Core\.Output
+      type: Namespace
+  - exclude:
+      uidRegex: UnityEngine\.Localization\.SmartFormat\.Utilities
+      type: Namespace
+  - exclude:
+      uidRegex: Localization\.SmartFormat\.Tests*
+      type: Namespace
+
+  # XLIFF generated code
+  - exclude:
+      uidRegex: XLIFF\.V.*
+      type: Method
+
+  # Misc Unity
+  - exclude:
+      uidRegex: OnAfterDeserialize$
+      type: Method
+  - exclude:
+      uidRegex: OnBeforeSerialize$
+      type: Method
+  - exclude:
+      uidRegex: OnEnable$
+      type: Method
+  - exclude:
+      uidRegex: OnDisable$
+      type: Method
+  - exclude:
+      uidRegex: Finalize$
+      type: Method
+  - exclude:
+      uidRegex: ToString$
+      type: Method
+  - exclude:
+      uidRegex: UxmlFactory$
+      type: Class
+  - exclude:
+      uidRegex: UxmlTraits$
+      type: Class

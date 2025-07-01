@@ -1,0 +1,50 @@
+#pragma enable_d3d11_debug_symbols
+#pragma enable_d3d12_debug_symbols
+#pragma kernel CSCullTris
+
+uint _TrianglePairsCount;
+ByteAddressBuffer _OriginalIndices;
+ByteAddressBuffer _NewTriangles;
+RWByteAddressBuffer _OutputIndices;
+
+[numthreads(64, 1, 1)]
+void CSCullTris (uint3 id : SV_DispatchThreadID)
+{
+    if(id.x >= _TrianglePairsCount)
+    {
+        return;
+    }
+
+    const uint triangleIndexPair = _NewTriangles.Load(id.x * 4);
+    const uint indicesStart1 = (triangleIndexPair & 0xFFFF) * 3;
+    const uint indicesStart2 = (triangleIndexPair >> 16) * 3;
+    const uint loadIndex1 = (indicesStart1 / 2) * 4;
+    const uint loadIndex2 = (indicesStart2 / 2) * 4;
+
+    uint3 indices = 0;
+
+    const uint2 originalIndices1 = _OriginalIndices.Load2(loadIndex1);
+    if(indicesStart1 % 2 == 0)
+    {
+        indices.xy = originalIndices1;
+    }
+    else
+    {
+        indices.x = (originalIndices1.x >> 16) | (originalIndices1.y << 16);
+        indices.y = originalIndices1.y >> 16;
+    }
+
+    const uint2 originalIndices2 = _OriginalIndices.Load2(loadIndex2);
+    if(indicesStart2 % 2 == 0)
+    {
+        indices.y = indices.y & 0xFFFF | (originalIndices2.x << 16);
+        indices.z = (originalIndices2.x >> 16) | (originalIndices2.y << 16);
+    }
+    else
+    {
+        indices.y = indices.y & 0xFFFF | (originalIndices2.x & 0xFFFF0000);
+        indices.z = originalIndices2.y;
+    }
+
+    _OutputIndices.Store3(id.x * 12, indices);
+}

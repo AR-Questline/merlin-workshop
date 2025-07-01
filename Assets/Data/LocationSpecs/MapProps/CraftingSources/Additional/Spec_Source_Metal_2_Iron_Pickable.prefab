@@ -1,0 +1,284 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5651119349977507338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2943064894348130099}
+  - component: {fileID: 4436954313976906589}
+  - component: {fileID: 598247366297065940}
+  - component: {fileID: 2126511951562850790}
+  - component: {fileID: -6547964480982079069}
+  - component: {fileID: 6807750793926652453}
+  - component: {fileID: -2924747285163610135}
+  m_Layer: 0
+  m_Name: Spec_Source_Metal_2_Iron_Pickable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2943064894348130099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651119349977507338}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4436954313976906589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651119349977507338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: item_crafting_handcrafting_ore_Iron
+    ID: Template/displayName_4436954313976906589_1e288b987597a07439a6a7dc20a2fd5e
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: a6522af78830e57479e9e5b1270983fc
+    subObjectName: 
+  snapToGround: 0
+  _isNonMovable: 1
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 1
+--- !u!114 &598247366297065940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651119349977507338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02be8d841ce9e1448b41db8d011b6e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  healthRegen: 0
+  discardOnDeath: 0
+  discardDelayInSeconds: 0
+  armorMultiplier: 1
+  armor: 0
+  forceModifier: 1
+  surfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:HitStone
+  hitVFXReference:
+    arReference:
+      address: c13350183fc5bac40a6661e03db39a98
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: 33dcb39bada274e4785076af4b5467b3
+      subObjectName: 
+  storyOnDeath:
+    story:
+      _guid: 
+    chapterName: 
+  damageReceivedMultipliers: []
+--- !u!114 &2126511951562850790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651119349977507338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b40e4c091bc4bb48fd5d7e67ec6ae2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toolTypeRequired:
+    _enumRef: Awaken.TG.Main.Heroes.Items.ToolType, TG.Main, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null:Mining
+  lootTable:
+    lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 787220046432436240
+  references:
+    version: 2
+    RefIds:
+    - rid: 787220046432436240
+      type: {class: LootTableFlagConditional, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        flag: AdditionalOreLootFlag
+        ifTrue:
+          rid: 787220046432436241
+        ifFalse:
+          rid: 787220046432436242
+    - rid: 787220046432436241
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 825833f5426f1d84fa15a98a58361cfa
+        quantity: 4
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 787220046432436242
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 825833f5426f1d84fa15a98a58361cfa
+        quantity: 3
+        itemLvl:
+          low: 0
+          high: 0
+--- !u!114 &-6547964480982079069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651119349977507338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b450945e26341c28134eb48feb58878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aliveAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: -1534290061
+          Data2: 1198890826
+          Data3: 893032840
+          Data4: -1079584994
+        Path: event:/SFX/Weapon/SFX_Mining_Generic
+      die:
+        Guid:
+          Data1: 389111229
+          Data2: 1274230276
+          Data3: -1416922209
+          Data4: 147564301
+        Path: event:/SFX/Weapon/SFX_Mining_Stone_Destroy
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+--- !u!114 &6807750793926652453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651119349977507338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &-2924747285163610135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651119349977507338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68258572a96b4d20a8b3ff8263d48896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

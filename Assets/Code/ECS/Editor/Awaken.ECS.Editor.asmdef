@@ -1,0 +1,40 @@
+{
+    "name": "Awaken.ECS.Editor",
+    "rootNamespace": "Awaken.ECS.Editor",
+    "references": [
+        "Awaken.ECS",
+        "Unity.Entities",
+        "Unity.Collections",
+        "Unity.Mathematics",
+        "Unity.Burst",
+        "Unity.Entities.Graphics",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.ResourceManager",
+        "Awaken.CommonInterfaces",
+        "Unity.Mathematics.Extensions",
+        "Unity.Mathematics.Extensions.Hybrid",
+        "Unity.RenderPipelines.Core.Runtime",
+        "UniTask",
+        "Unity.Transforms",
+        "Awaken.Utility",
+        "Awaken.Utility.Editor",
+        "UnityEditor.UI",
+        "UnityEngine.UI",
+        "Awaken.PackageUtilities",
+        "Unity.Entities.Editor",
+        "VendorWrappers",
+        "VendorWrappers.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

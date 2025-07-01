@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3330594947989666947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8944080750825630217}
+  - component: {fileID: -6753078516018970376}
+  m_Layer: 0
+  m_Name: Recipe_Alchemy_ItemStory_PotionForOlf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8944080750825630217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330594947989666947}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.72, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6753078516018970376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330594947989666947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3242c537e42f44f68bfedca1553ca56f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  disableItemLevels: 0
+  itemCraftingDifficulty: 0
+  statRequirement:
+    _enumRef: 
+  statRequirementValue: 0
+  ingredients:
+  - templateReference:
+      _guid: 75ad4bd4baf20274db98214f1cf6c0c8
+    count: 1
+  - templateReference:
+      _guid: e3f40a1dc8af7e6439fa59b22982dc82
+    count: 5
+  - templateReference:
+      _guid: 8bb8db1f83f2d5141bba33fea30d04ea
+    count: 2
+  outcome:
+    _guid: 4a98068fd1cc0274aaa62f87b9116e20
+  quantity: 1
+  isHidden: 0
+  storyOnCreation:
+    _guid: 

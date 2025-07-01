@@ -1,0 +1,42 @@
+#pragma kernel FindVerticalDisplacements
+
+#pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
+
+// #pragma enable_d3d11_debug_symbols
+
+// Required for finding the vertical displacements
+#pragma multi_compile WATER_DECAL_PARTIAL WATER_DECAL_COMPLETE
+#pragma multi_compile WATER_ONE_BAND WATER_TWO_BANDS WATER_THREE_BANDS
+#pragma multi_compile _ WATER_LOCAL_CURRENT
+
+// Required to be defined for some includes
+#define WATER_SIMULATION
+
+// SRP generic includes
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Water/Shaders/SampleWaterSurface.hlsl"
+
+// The set of input position we need to process
+RWStructuredBuffer<float> _WaterCameraHeightBufferRW;
+
+// We allow up to 10 steps to figure out the height of the point
+#define SEARCH_ITERATION_COUNT 8
+
+// We consider that we found the point if we were able to
+#define SEARCH_DISTANCE_THRESHOLD 0.001
+
+[numthreads(1, 1, 1)]
+void FindVerticalDisplacements(uint3 currentThread : SV_DispatchThreadID)
+{
+    UNITY_XR_ASSIGN_VIEW_INDEX(currentThread.z);
+
+    int stepCount;
+    float currentError;
+    float height = FindVerticalDisplacement(_WorldSpaceCameraPos.xyz, SEARCH_ITERATION_COUNT, SEARCH_DISTANCE_THRESHOLD, stepCount, currentError);
+
+    _WaterCameraHeightBufferRW[4 * unity_StereoEyeIndex + 0] = height;
+    _WaterCameraHeightBufferRW[4 * unity_StereoEyeIndex + 1] = currentError;
+    _WaterCameraHeightBufferRW[4 * unity_StereoEyeIndex + 2] = stepCount;
+    _WaterCameraHeightBufferRW[4 * unity_StereoEyeIndex + 3] = 0.0;
+}

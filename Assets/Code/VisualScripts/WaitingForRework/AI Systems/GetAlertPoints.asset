@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: GetAlertPoints
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Get","label":null,"summary":null,"hideLabel":false}],"controlOutputDefinitions":[{"key":"GetEnd","label":null,"summary":null,"hideLabel":false}],"valueInputDefinitions":[],"valueOutputDefinitions":[{"_type":"System.Single","key":"Points","label":null,"summary":null,"hideLabel":false}],"title":null,"summary":"Get
+      a new combat target","pan":{"x":-69.4435,"y":-105.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-792.0,"y":-276.0},"guid":"76fdf3f2-f77d-475b-b3b2-ecc14c313480","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":-72.0,"y":-276.0},"guid":"d08c6bb5-141d-492e-bb59-b124a2603c89","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"defaultValues":{},"position":{"x":-564.0,"y":-276.0},"guid":"c8f0fd87-2365-4346-a2ee-0a11faeea6f0","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.GetStat","$id":"16"},{"member":{"name":"ModifiedValue","parameterTypes":null,"targetType":"Awaken.TG.Main.Heroes.Stats.Stat","targetTypeName":"Awaken.TG.Main.Heroes.Stats.Stat","$version":"A"},"defaultValues":{},"position":{"x":-288.0,"y":-180.0},"guid":"7f298d5b-e884-4d55-bfc3-e1c60e4a49c4","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"18"},{"defaultValues":{},"position":{"x":-696.0,"y":-156.0},"guid":"2078faba-53c2-497b-b36b-e12106f7b806","$version":"A","$type":"Unity.VisualScripting.This","$id":"21"},{"sourceUnit":{"$ref":"18"},"sourceKey":"value","destinationUnit":{"$ref":"14"},"destinationKey":"Points","guid":"5a4fcbb3-e72e-4cb4-99bc-e21737821a87","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Get","destinationUnit":{"$ref":"16"},"destinationKey":"enter","guid":"9d73c7a9-3ba7-4691-99a6-ceae9250a3de","$type":"Unity.VisualScripting.InvalidConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"exit","destinationUnit":{"$ref":"14"},"destinationKey":"GetEnd","guid":"fb1afaa4-f27d-4955-bf39-14cabe60ab7b","$type":"Unity.VisualScripting.InvalidConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"resultStats","destinationUnit":{"$ref":"18"},"destinationKey":"target","guid":"e76f312d-d0ed-4ba8-83d7-9ae4612c7848","$type":"Unity.VisualScripting.InvalidConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"self","destinationUnit":{"$ref":"16"},"destinationKey":"gameObject","guid":"15316db1-7906-433f-bb84-f550ee2f7568","$type":"Unity.VisualScripting.InvalidConnection"}],"$version":"A"}}'
+    _objectReferences: []

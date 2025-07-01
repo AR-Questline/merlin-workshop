@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: TODO_Loottable_EnemyForedweller_Wyrdstalker_2
+  m_EditorClassIdentifier: 
+  table:
+    rid: 6781946330057801853
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6781946330057801853
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 6781946330057801854
+        - rid: 6781946330057801855
+    - rid: 6781946330057801854
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 100
+        randomizedAmount: 20
+        generateOnlyOnce: 0
+        loot:
+          rid: 6781946330057801856
+    - rid: 6781946330057801855
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 5
+        randomizedAmount: 2
+        generateOnlyOnce: 0
+        loot:
+          rid: 6781946330057801857
+    - rid: 6781946330057801856
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 372ea54a09173364d8b4b27d7c0d3b16
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6781946330057801857
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: c86ea9001453b0e41934702600f755fd
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0

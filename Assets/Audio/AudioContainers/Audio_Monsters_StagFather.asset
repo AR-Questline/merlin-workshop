@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_StagFather
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 614096861
+        Data2: 1147621558
+        Data3: -1882115192
+        Data4: 714927264
+      Path: event:/SFX/Monsters/Stagfather/SFX_Enemies_StagFather_Idle
+    hurt:
+      Guid:
+        Data1: -1806050124
+        Data2: 1301370220
+        Data3: 1043739302
+        Data4: -874946309
+      Path: event:/SFX/Monsters/Stagfather/SFX_Enemies_StagFather_Hurt
+    die:
+      Guid:
+        Data1: 1224394227
+        Data2: 1100211430
+        Data3: 747572637
+        Data4: -1146828447
+      Path: event:/SFX/Monsters/Stagfather/SFX_Enemies_StagFather_Die
+    attack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 1992208880
+        Data2: 1180086564
+        Data3: -890760273
+        Data4: -2916312
+      Path: event:/SFX/Monsters/Stagfather/SFX_Enemies_StagFather_Footsteps
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

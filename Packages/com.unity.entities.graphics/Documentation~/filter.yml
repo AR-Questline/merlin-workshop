@@ -1,0 +1,32 @@
+apiRules:
+  - exclude:
+      # inherited Object methods
+      uidRegex: ^System\.Object\..*$
+      type: Method
+  - exclude:
+      # mentioning types from System.* namespace
+      uidRegex: ^System\..*$
+      type: Type
+  - exclude:
+      hasAttribute:
+        uid: System.ObsoleteAttribute
+      type: Member
+  - exclude:
+      hasAttribute:
+        uid: System.ObsoleteAttribute
+      type: Type
+  - exclude:
+      uidRegex: Tests$
+      type: Namespace
+  - exclude:
+      uidRegex: ^Unity\.Rendering\.DeformationsInPresentation\.On(Update|Create|Destroy)
+      type: Method
+  - exclude:
+      uidRegex: ^Unity\.Rendering\.EntitiesGraphicsSystem\.On(Update|Create|Destroy)
+      type: Method
+  - exclude:
+      uidRegex: ^Unity\.Rendering\.UpdateHybridChunksStructure\.On(Update|Create|Destroy)
+      type: Method
+  - exclude:
+      uidRegex: ^Unity\.Rendering\.HybridLightBakingDataSystem\.On(Update|Create|Destroy)
+      type: Method

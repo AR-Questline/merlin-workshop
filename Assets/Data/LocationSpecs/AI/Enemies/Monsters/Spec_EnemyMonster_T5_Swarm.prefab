@@ -1,0 +1,850 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3771896303918913128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8312814543175335931}
+  - component: {fileID: -440286882116366613}
+  - component: {fileID: -688245462930084842}
+  - component: {fileID: 7011187036458090350}
+  - component: {fileID: -2272393760896052111}
+  - component: {fileID: -8383278869581047920}
+  - component: {fileID: -2743736560248825894}
+  - component: {fileID: 7638523557485799278}
+  - component: {fileID: 3831202060853584075}
+  - component: {fileID: 7955466513511018392}
+  m_Layer: 0
+  m_Name: Spec_EnemyMonster_T5_Swarm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8312814543175335931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-440286882116366613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: enemy_monster_swarm
+    ID: Template/displayName_18006457191593185003_63c3b5802b687a0429ac03f9e7a1b133
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: ccbc10de91e41bf44bc1dd29a0f28e2b
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 0
+--- !u!114 &-688245462930084842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &7011187036458090350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95deb3f17351470e8242701ba2999287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcTemplate:
+    _guid: e6cf5678e37eef14d8081e460f711f24
+  actor:
+    guid: 
+  storyOnDeath:
+    _guid: 
+  visualPrefab:
+    address: 9b1cc7dd87ef58948967588c1471dc35
+    subObjectName: 
+  simplifiedDeadBodyPrefab:
+    arReference:
+      address: cee084d53322ec04ca39752e9754314a
+      subObjectName: 
+  shouldSpawnDeathVfx: 1
+  hitVFXReference:
+    arReference:
+      address: 7ee7697c078ff4444a95845655d2ec68
+      subObjectName: 
+  criticalHitVFXReference:
+    arReference:
+      address: 7ee7697c078ff4444a95845655d2ec68
+      subObjectName: 
+  backStabHitVFXReference:
+    arReference:
+      address: 7ee7697c078ff4444a95845655d2ec68
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: 7ee7697c078ff4444a95845655d2ec68
+      subObjectName: 
+  npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  renderIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  <IsNew>k__BackingField: 0
+  potentialActors: []
+--- !u!114 &-2272393760896052111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f193ec1f914e474b9b0f1078a5dba7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  data:
+    positionRange: 0.8
+    behaviours:
+    - name: StandOnSpawn
+      startHour: 0
+      startMinutes: 0
+      startDeviation: 0
+      subdivide: 0
+      intervalMinutes: 0
+      intervalDeviation: 0
+      type: 1
+      position:
+        space: 1
+        position: {x: 0, y: 0, z: 0}
+      forward:
+        space: 0
+        position: {x: 0, y: 0, z: 0}
+      range: 10
+      interactionTag: Interaction:cavedweller
+      allowInteractionRepeat: 0
+      waitTime:
+        min: 0
+        max: 0
+      uniqueID: 
+      scene:
+        reference:
+          address: 
+          subObjectName: 
+      hasInRainAction: 0
+      inRainAction: 
+    customActions: []
+    oneShots: []
+  template:
+    _guid: 
+--- !u!114 &-8383278869581047920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0b19dec2bb2694cbe97e9d85d5ddf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponsAlwaysEquipped: 1
+  <CustomCombatBaseClass>k__BackingField:
+    rid: 7900537580339331241
+  references:
+    version: 2
+    RefIds:
+    - rid: 7900537580339331241
+      type: {class: AlwaysPiercedEnemy, ns: Awaken.TG.Main.AI.Combat.Attachments.Customs,
+        asm: TG.Main}
+      data:
+        DEBUG_Disable: 0
+        overrideDistanceToReleaseCombatSlotAt: 0
+        releaseCombatSlotAtDistance: 15
+        canBeSlidInto: 0
+        startInSpawn: 0
+        canMoveInSpawn: 0
+        usesCombatMovementAnimations: 0
+        usesAlertMovementAnimations: 0
+        useRandomDelayOnCombatEnter: 0
+        randomDelayOnCombatEnter:
+          min: 0
+          max: 0.6
+        canBePushed: 0
+--- !u!114 &-2743736560248825894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b450945e26341c28134eb48feb58878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aliveAudioContainerWrapper:
+    assetType: 0
+    dataAsset: {fileID: 11400000, guid: 30d0464b88e48c24dbc31f08dc228fd5, type: 2}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+--- !u!114 &7638523557485799278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f1d837a85f458c99977714723b45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerDataWrapper:
+    rid: 2189889110350758907
+  references:
+    version: 2
+    RefIds:
+    - rid: 2189889110350758907
+      type: {class: NpcMarkerDataWrapper, ns: Awaken.TG.Main.Maps.Markers, asm: TG.Main}
+      data:
+        method: 1
+        explicitData: {fileID: 11400000, guid: 9093ff2c6738ad941af89c25e9c61c07, type: 2}
+        embeddedData:
+          defaultIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          visibleOnMap: 0
+          visibleOnMapUnderFogOfWar: 0
+          compassMarkerType: 0
+          hasMapMarkerOrderOverride: 0
+          mapMarkerOrderOverride: 0
+          ignoreDistanceRequirement: 0
+          ignoreAngleRequirement: 0
+          friendlyMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hostileMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          combatMarkerIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          hideOutsideOfCombat: 0
+--- !u!114 &3831202060853584075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05f17e31e37742e59aebb2141073cdc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persistent: 1
+  lifeTime: 20
+  onlyOnGrounded: 0
+  isRemovingOther: 0
+  isRemovable: 0
+  canApplyToSelf: 0
+  discardParentOnEnd: 0
+  discardOnOwnerDeath: 0
+  tickInterval: 0.2
+  statusTemplateRef:
+    _guid: 
+  buildupStrength: 0
+  dealsDamage: 1
+  damagePerSecond: 9
+  poiseDamage: 0
+  forceDamage: 0
+  ragdollForce: 0
+  inevitable: 0
+  damageType: 1
+--- !u!114 &7955466513511018392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771896303918913128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ba90c835c462a45980b1526016820d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      damageTypeMetalVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      damageTypeWoodVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      damageTypeArrowVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      damageTypeMagicVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      damageTypeOrganicVfx:
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitWood
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageWood
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitStone
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMetal
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorMetal
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMetal
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFlesh
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageOrganic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitGround
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitMagic
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:DamageMagic
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitFabric
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorFabric
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitLeather
+        additionalSurfaces:
+        - _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:ArmorLeather
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 
+      - hitSurface:
+          _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null:HitBones
+        additionalSurfaces: []
+        vfxEffect:
+          arReference:
+            address: 7ee7697c078ff4444a95845655d2ec68
+            subObjectName: 

@@ -1,0 +1,115 @@
+.vs
+Library
+Library.backup
+Temp
+UnityPackageManager
+obj
+.idea
+.vsconfig
+.DS_Store
+*.csproj
+*.sln
+!Tools/**/*.csproj
+!Tools/**/*.sln
+Tools/**/obj
+Tools/**/bin
+.tags
+*.*~
+*.DotSettings.user
+.vscode/settings.json
+**/.SourceCache/*
+**/.sp/*
+**/.sp.meta
+Assets/__*/**
+Assets/__*.meta
+Logs
+Builds
+UserSettings
+Localizations/backups
+Localizations/logs
+Localizations/*Base.csv
+Steamworks/tools/ContentBuilder/output/*
+Steamworks/tools/ContentBuilder/content/*
+GoGworks/content/*
+GoGworks/Cache
+Assets/WorldCreatorTerrains
+Assets/WorldCreatorTerrains.meta
+Assets/WorldCreatorSyncTool
+Assets/WorldCreatorSyncTool.meta
+Assets/_TerrainAutoUpgrade
+Assets/_TerrainAutoUpgrade.meta
+Assets/FbxExporters
+Assets/FbxExporters.meta
+ProjectSettings/FbxExportSettings.asset
+Assets/Editor
+Assets/Editor.meta
+Assets/ProCore
+Assets/ProCore.meta
+Assets/Vendor/AmplifyShaderEditor/Examples
+Assets/Vendor/AmplifyShaderEditor/Examples.meta
+Assets/Allegorithmic
+Assets/Allegorithmic.meta
+Assets/SP_Textures
+Assets/SP_Textures.meta
+Assets/UnusedAssets.txt
+Assets/UnusedAssets.txt.meta
+Assets/AssetsUsages.txt
+Assets/AssetsUsages.txt.meta
+Assets/Code/Editor/TGEditorPreferences.asset.meta
+Assets/Code/Editor/TGEditorPreferences.asset
+Assets/Vendor/EditorWorkingSet/Editor/categories*
+Assets/Vendor/EditorWorkingSet/Editor/working_set_data*
+Assets/Temp.meta
+RainbowFoldersRuleset.asset
+RainbowFoldersRuleset.asset.meta
+Assets/Shaders/TG/Cards/.vscode/settings.json
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
+ProjectSettings/RiderScriptEditorPersistedState.asset
+Assets/Vendor/Hierarchy 2/Editor/Settings.asset
+Assets/Plugins/QFSW/Quantum Console/Source/QuantumMacros.txt
+Assets/Plugins/QFSW/Quantum Console/Source/QuantumMacros.txt.meta
+Assets/Plugins/UnityEditorDarkMode/*
+Assets/Plugins/UnityEditorDarkMode.meta
+
+
+# STEAM
+Steamworks/tools/ContentBuilder/builder/appcache/*
+Steamworks/tools/ContentBuilder/builder/config/config.vdf
+Steamworks/tools/ContentBuilder/builder/userdata/*/config/*
+
+# FMOD             
+# Ignore the Cache folder since it is updated locally.
+/[Aa]ssets/Plugins/FMOD/Cache/*
+/[Aa]ssets/Vendor/FMOD/Cache/*
+FMod/TG-RPG/.cache/*
+FMod/TG-RPG/.user/*
+FMod/TG-RPG/.unsaved/*
+FMod/TG-RPG/Metadata/ProfilerFolder/*
+FMod/TG-RPG/Metadata/ProfilerSession/*
+
+# HOUDINI ENGINE
+Assets/HoudiniEngineAssetCache/*
+Assets/HoudiniEngineAssetCache.meta
+heu_session.txt
+heu_settings.ini
+
+# vHierarchy, vFavorites, vFolders
+Assets/Vendor/vHierarchy/*.asset*
+Assets/Vendor/vFavorites/*.asset*
+Assets/Vendor/vFolders/*.asset*
+                    
+# Ignore bank files in the StreamingAssets folder.
+/[Aa]ssets/StreamingAssets/**/*.bank
+/[Aa]ssets/StreamingAssets/**/*.bank.meta
+                    
+# If the source bank files are kept outside of the StreamingAssets folder then these can be ignored.
+# Log files can be ignored.
+fmod_editor.log
+FMod/TG-RPG/Metadata/Workspace.xml
+MemoryCaptures
+Packages~release
+Steamworks/tools/ContentBuilder/builder/update_hosts_cached.vdf
+Assets/StreamingAssets/vc.info
+Assets/StreamingAssets/vc.info.meta
+Assets/Plugins/FMOD/Resources/FmodEventGuidToPathMap.asset
+Assets/Plugins/FMOD/Resources/FmodEventGuidToPathMap.asset.meta

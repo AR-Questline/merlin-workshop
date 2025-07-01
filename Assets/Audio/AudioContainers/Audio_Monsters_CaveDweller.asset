@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_CaveDweller
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 2143826515
+        Data2: 1149234679
+        Data3: 1518836667
+        Data4: 1827697971
+      Path: event:/SFX/Monsters/CaveDweller/SFX_Enemies_CaveDweller_Eat
+    hurt:
+      Guid:
+        Data1: 150911435
+        Data2: 1197064519
+        Data3: -223073380
+        Data4: -1913579818
+      Path: event:/SFX/Monsters/CaveDweller/SFX_Enemies_CaveDweller_Hurt
+    die:
+      Guid:
+        Data1: -1840689737
+        Data2: 1316368087
+        Data3: -791709810
+        Data4: 1606492085
+      Path: event:/SFX/Monsters/CaveDweller/SFX_Enemies_CaveDweller_Die
+    attack:
+      Guid:
+        Data1: 1800026716
+        Data2: 1115394690
+        Data3: -2049949548
+        Data4: 1614884340
+      Path: event:/SFX/Monsters/CaveDweller/SFX_Enemies_CaveDweller_Attack
+    specialAttack:
+      Guid:
+        Data1: -1666971692
+        Data2: 1321443255
+        Data3: 512324521
+        Data4: -2124378596
+      Path: event:/SFX/Monsters/CaveDweller/SFX_Enemies_CaveDweller_AoE
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 311258801
+        Data2: 1270135803
+        Data3: 904766863
+        Data4: 1034088707
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy_Animal
+    roar:
+      Guid:
+        Data1: -1338179923
+        Data2: 1096079511
+        Data3: 1198517641
+        Data4: -501987590
+      Path: event:/SFX/Monsters/CaveDweller/SFX_Enemies_CaveDweller_Movement

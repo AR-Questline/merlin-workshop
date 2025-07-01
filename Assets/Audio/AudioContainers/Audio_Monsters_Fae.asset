@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Fae
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 653106234
+        Data2: 1128051611
+        Data3: -2086138741
+        Data4: -36521702
+      Path: event:/SFX/Monsters/Fae/SFX_Enemies_Fae_Stagger
+    hurt:
+      Guid:
+        Data1: 2068472372
+        Data2: 1250459602
+        Data3: -1657200506
+        Data4: 610271990
+      Path: event:/SFX/Monsters/Fae/SFX_Enemies_Fae_Hurt
+    die:
+      Guid:
+        Data1: -1426392561
+        Data2: 1224617931
+        Data3: 1069480582
+        Data4: -390970655
+      Path: event:/SFX/Monsters/Fae/SFX_Enemies_Fae_Die
+    attack:
+      Guid:
+        Data1: 1596894191
+        Data2: 1176816046
+        Data3: 1112795540
+        Data4: 286286800
+      Path: event:/SFX/Monsters/Fae/SFX_Enemies_Fae_Attack
+    specialAttack:
+      Guid:
+        Data1: 1596894191
+        Data2: 1176816046
+        Data3: 1112795540
+        Data4: 286286800
+      Path: event:/SFX/Monsters/Fae/SFX_Enemies_Fae_Attack
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 1179410590
+        Data2: 1262076031
+        Data3: 723245953
+        Data4: -1724816846
+      Path: event:/SFX/Monsters/Fae/SFX_Enemies_Fae_Footstep
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

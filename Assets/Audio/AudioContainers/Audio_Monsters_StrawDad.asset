@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_StrawDad
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: -1529961771
+        Data2: 1208996148
+        Data3: -349243519
+        Data4: 1099957349
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawdad_Movement
+    hurt:
+      Guid:
+        Data1: -106030974
+        Data2: 1233764591
+        Data3: 1059832992
+        Data4: -916976124
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawdad_Hurt
+    die:
+      Guid:
+        Data1: -1265453747
+        Data2: 1127225033
+        Data3: -137486205
+        Data4: -909914921
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawdad_Die
+    attack:
+      Guid:
+        Data1: 1520447959
+        Data2: 1258540457
+        Data3: 1799068313
+        Data4: 1759855723
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawdad_Attack
+    specialAttack:
+      Guid:
+        Data1: 1333332177
+        Data2: 1329385563
+        Data3: -587024981
+        Data4: -1652812916
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawdad_AttackSpecial
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 644298093
+        Data2: 1253919806
+        Data3: 190679459
+        Data4: -1921398133
+      Path: event:/SFX/Monsters/Strawdad/SFX_Enemies_Strawdad_FTS
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

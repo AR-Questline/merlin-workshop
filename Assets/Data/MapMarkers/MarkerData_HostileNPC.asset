@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4552f71d1242c3a9b64b1133e92413, type: 3}
+  m_Name: MarkerData_HostileNPC
+  m_EditorClassIdentifier: 
+  guid: 9093ff2c6738ad941af89c25e9c61c07
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  markerData:
+    defaultIcon:
+      arSpriteReference:
+        address: f86b8104ef2da464f9976e6a4141dedb
+        subObjectName: 
+    visibleOnMap: 0
+    visibleOnMapUnderFogOfWar: 0
+    compassMarkerType: 3
+    hasMapMarkerOrderOverride: 0
+    mapMarkerOrderOverride: 0
+    ignoreDistanceRequirement: 0
+    ignoreAngleRequirement: 0
+    friendlyMarkerIcon:
+      arSpriteReference:
+        address: 74722a93395bc4b4c971025d792e164a
+        subObjectName: 
+    hostileMarkerIcon:
+      arSpriteReference:
+        address: f86b8104ef2da464f9976e6a4141dedb
+        subObjectName: 
+    combatMarkerIcon:
+      arSpriteReference:
+        address: f86b8104ef2da464f9976e6a4141dedb
+        subObjectName: 
+    hideOutsideOfCombat: 0

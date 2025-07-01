@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8347d62486dd4e52b8ba14cde0cca1b3, type: 3}
+  m_Name: Perception_Animal_Prey
+  m_EditorClassIdentifier: 
+  coreDistance: 20
+  maxDistance: 35
+  inCombatCoreDistance: 20
+  inCombatMaxDistance: 55
+  coreAngle: 60
+  maxAngle: 100
+  inCombatCoreAngle: 90
+  inCombatMaxAngle: 180
+  visionCutoff: 0.05
+  radarRange: 10
+  heroRadarRange: 5
+  combatHitsInformRange: 12
+  maxInformRange: 15
+  coreInformRange: 5
+  maxHearingRange: 40
+  coreHearingRange: 20
+  ignoreAngleFactor: 1
+  useCustomFactors: 0
+  customAngleFactor: 0
+  customCombatAngleFactor: 0
+  angleFactor: -0.4131759
+  combatAngleFactor: 0.4
+  maxDot: -0.1736482
+  inCombatMaxDot: -1

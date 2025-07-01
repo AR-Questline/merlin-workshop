@@ -1,0 +1,250 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71165dd259654e4392a66fb866575235, type: 3}
+  m_Name: ForlornSet_Mage
+  m_EditorClassIdentifier: 
+  guid: 4f5a1d2afc2eb914e81323a360b0ce3d
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  modifiesLevel: 1
+  levelToSet: 35
+  percentToNextLevel: 0
+  modifiesLoadouts: 1
+  loadoutSet:
+    l1Slot1:
+      _guid: 6665a09a8acdaab48b7e0d01e08047ef
+    l1Slot1Lv: 0
+    l1Slot2:
+      _guid: 2816c958b916cd049820c0f1f46dbe7b
+    l1Slot2Lv: 4
+    l2Slot1:
+      _guid: 52d28e2e4b67e454caf2dc326f8f83a9
+    l2Slot1Lv: 0
+    l2Slot2:
+      _guid: d0c1606864ae8f34a8f9a55afb19f894
+    l2Slot2Lv: 0
+    l3Slot1:
+      _guid: 3c2a4f3996fbebb409f84d79efacdfe6
+    l3Slot1Lv: 0
+    l3Slot2:
+      _guid: 12d6c99da0f976c48be3b2a668e9072a
+    l3Slot2Lv: 0
+    l4Slot1:
+      _guid: 43d5f8143d8b0ae4ebd81ebb1616429f
+    l4Slot1Lv: 0
+    l4Slot2:
+      _guid: a5e32e0ec3970df4ba68585dca12362d
+    l4Slot2Lv: 4
+    armorSet:
+    - _guid: e6b397ef6ff9dc741b87299e39e230a3
+    - _guid: 5bb4657824a0de64da683254e928e2c8
+    - _guid: 3653505e0deac764eb1bee9bf1d7a810
+    - _guid: 3837d4e9b79905e46a6df2800d05e194
+    - _guid: 6c255776dfae9394fa48cf1821bb959e
+    - _guid: 460540f3b0184784e9396d1d66c9e120
+    - _guid: b044f68d3b865fc49a8f75366a7364ff
+    - _guid: d7fabef7dd58946489db77eb44b4b408
+    - _guid: 6c462a66409aa384d8d2f5fdf10c51d0
+  items:
+  - rid: 6548744515904864266
+  - rid: 6548744515904864267
+  - rid: 6548744515904864268
+  - rid: 7157792703026298881
+  - rid: 6548744515904864269
+  recipesToLearn: []
+  talents:
+  - talent:
+      _guid: b8344e0a90520384eb1f36fd7d7125f1
+    level: 5
+  - talent:
+      _guid: 27cd64770be1b60418f33d05a9b22feb
+    level: 1
+  - talent:
+      _guid: 999c8cd6d16382c408c8a564e4d9506c
+    level: 1
+  - talent:
+      _guid: b42cb7c40e658fb4692ba7505db3d1d7
+    level: 1
+  - talent:
+      _guid: 59dd68e4184792b42b7d85090e06f33c
+    level: 1
+  - talent:
+      _guid: e628e5ca988bfd44fade429862d80deb
+    level: 5
+  - talent:
+      _guid: 06ac73652baba43419fb234f09250fbe
+    level: 1
+  - talent:
+      _guid: b5de76be9d15e26468bc7b88a6eab33c
+    level: 1
+  - talent:
+      _guid: ffd9db4b9b465dc4895564e483412b51
+    level: 2
+  - talent:
+      _guid: 8c5ca2e07dd44b149b9830bf5e337895
+    level: 1
+  - talent:
+      _guid: 5265e51b5051cb24c82532a45c62d3c8
+    level: 1
+  - talent:
+      _guid: 5442226535d18c941901da2d70ae48f8
+    level: 1
+  - talent:
+      _guid: cfab7ac807b6f994487cd8fa2388e442
+    level: 1
+  - talent:
+      _guid: b0b5e7009b717594bac5b6aaeeae17d5
+    level: 3
+  - talent:
+      _guid: 7d8cf0a7d42bb2048a675d0411914aeb
+    level: 3
+  - talent:
+      _guid: 356e6576ff92be34d87e8bd4b945eddc
+    level: 1
+  - talent:
+      _guid: 87a905f4cd4a8614eb99eeca05f2a3bf
+    level: 4
+  modifiesStats: 1
+  stats:
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Strength
+    baseValue: 3
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Endurance
+    baseValue: 10
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Dexterity
+    baseValue: 1
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Spirituality
+    baseValue: 15
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Practicality
+    baseValue: 3
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Perception
+    baseValue: 9
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:OneHanded
+    baseValue: 50
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:TwoHanded
+    baseValue: 35
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Shield
+    baseValue: 20
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Athletics
+    baseValue: 45
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:HeavyArmor
+    baseValue: 40
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:MediumArmor
+    baseValue: 60
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:LightArmor
+    baseValue: 75
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Evasion
+    baseValue: 20
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Acrobatics
+    baseValue: 20
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Alchemy
+    baseValue: 30
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Cooking
+    baseValue: 30
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Handcrafting
+    baseValue: 30
+  - stat:
+      _enumRef: Awaken.TG.Main.General.StatTypes.ProfStatType, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Magic
+    baseValue: 90
+  wyrdSoulFragmentTypes: 000000000100000002000000
+  storyFlagsToSet: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6548744515904864266
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 9fdf940686b944a40a9c8252a272fef1
+        quantity: 15
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6548744515904864267
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e3b67b03f6d2fa44d9566ae4af646eb4
+        quantity: 25
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6548744515904864268
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: bb723c89ae600584a912d18471f9667b
+        quantity: 35
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6548744515904864269
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 70950703d3587b347a933b46c4e65871
+        quantity: 5
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 7157792703026298881
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 7a0082a19240bc246a6662f4ab70be89
+        quantity: 35
+        itemLvl:
+          low: 0
+          high: 0

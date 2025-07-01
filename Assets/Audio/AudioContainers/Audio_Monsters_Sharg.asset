@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Sharg
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 4
+    idle:
+      Guid:
+        Data1: -1965431577
+        Data2: 1304133981
+        Data3: -355183690
+        Data4: 1287584149
+      Path: event:/SFX/Monsters/Sharg/SFX_Enemies_Sharg_Idle
+    hurt:
+      Guid:
+        Data1: 1358107580
+        Data2: 1263564949
+        Data3: -295989342
+        Data4: 1234846071
+      Path: event:/SFX/Monsters/Sharg/SFX_Enemies_Sharg_Hurt
+    die:
+      Guid:
+        Data1: -1373814581
+        Data2: 1227219891
+        Data3: -1787820625
+        Data4: 761507264
+      Path: event:/SFX/Monsters/Sharg/SFX_Enemies_Sharg_Die
+    attack:
+      Guid:
+        Data1: 87510879
+        Data2: 1283618010
+        Data3: -1414070910
+        Data4: 1710140932
+      Path: event:/SFX/Monsters/Sharg/SFX_Enemies_Sharg_Attack_Punch
+    specialAttack:
+      Guid:
+        Data1: -1974496352
+        Data2: 1215459588
+        Data3: -629014620
+        Data4: -1138110338
+      Path: event:/SFX/Monsters/Sharg/SFX_Enemies_Sharg_Attack_Spit
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 73959149
+        Data2: 1114792757
+        Data3: -1233865034
+        Data4: -2022319536
+      Path: event:/SFX/Monsters/Sharg/SFX_Enemies_Sharg_FTS
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

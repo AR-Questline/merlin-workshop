@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_NPC_Vitus
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: 506611983
+        Data2: 1147178782
+        Data3: 1009020343
+        Data4: 1950834242
+      Path: event:/SFX/NPC/Efforts/Vitus/SFX_NpcEffort_Vitus_Hurt
+    die:
+      Guid:
+        Data1: -226423214
+        Data2: 1137206301
+        Data3: 140813960
+        Data4: -937029181
+      Path: event:/SFX/NPC/Efforts/Vitus/SFX_NpcEffort_Vitus_Die
+    attack:
+      Guid:
+        Data1: -1523424322
+        Data2: 1246673283
+        Data3: 963739807
+        Data4: 45022286
+      Path: event:/SFX/NPC/Efforts/Vitus/SFX_NpcEffort_Vitus_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1058847788
+        Data2: 1092211816
+        Data3: 83581631
+        Data4: -1599002105
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

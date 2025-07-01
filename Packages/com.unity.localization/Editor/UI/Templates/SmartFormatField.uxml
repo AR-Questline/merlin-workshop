@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement style="background-color: rgba(0, 0, 0, 0.11);">
+        <ui:VisualElement name="VisualElement" style="flex-direction: row;">
+            <ui:TextField name="value-field" style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row;">
+            <ui:Toggle name="smart-toggle" />
+            <ui:Label text="Smart" name="smart-label" style="-unity-text-align: middle-left;" />
+            <ui:VisualElement style="flex-grow: 1;" />
+            <ui:Button text="Preview" name="preview-button" />
+        </ui:VisualElement>
+        <ui:Label name="preview-text" />
+    </ui:VisualElement>
+</ui:UXML>

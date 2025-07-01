@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Consumable_ApplyStatus_OnDeathRevive
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-364.4924,"y":-231.5533},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-874.0,"y":-427.0},"guid":"d941a11e-b878-4bc1-9673-51ba6a42d6f8","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"defaultValues":{"buildupStrengthIfPossible":{"$content":0.0,"$type":"System.Single"}},"position":{"x":-269.0,"y":-443.0},"guid":"3997b7ce-98f8-41c9-acaa-9e360ff183d8","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Effects.ApplyStatus","$id":"11"},{"defaultValues":{},"position":{"x":-579.0,"y":-296.0},"guid":"825e1337-60ef-428d-a28a-d2529d8fa5e3","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"13"},{"reference":{"_guid":"032b025204bd24545ab73a39f847c3bb"},"defaultValues":{},"position":{"x":-498.0,"y":-587.0},"guid":"ecc0c870-9b7f-4bea-a3a6-ac4e34c3f128","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Typing.StatusTemplateLiteral","$id":"15"},{"type":"System.Single","value":{"$content":Infinity,"$type":"System.Single"},"defaultValues":{},"position":{"x":-515.0,"y":-172.0},"guid":"e621489a-a0db-4268-bdb7-da46abb18111","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"18"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onSubmit","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"eb53d434-6784-43ab-998c-9d766c7df765","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"StatusTemplate","destinationUnit":{"$ref":"11"},"destinationKey":"statusTemplate","guid":"08e99f0e-57cc-4a31-9b9d-fab5481d159b","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"owner","destinationUnit":{"$ref":"11"},"destinationKey":"character","guid":"b289751c-0e2d-4ae7-9382-0cb62a8d5e12","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"output","destinationUnit":{"$ref":"11"},"destinationKey":"duration","guid":"a6923c74-5b13-4b54-ab78-bd45b6373dc3","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

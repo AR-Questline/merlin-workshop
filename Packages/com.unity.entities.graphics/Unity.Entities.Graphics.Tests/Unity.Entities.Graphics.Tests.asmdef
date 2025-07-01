@@ -1,0 +1,62 @@
+{
+    "name": "Unity.Entities.Graphics.Tests",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Rendering",
+        "Unity.Entities.Graphics",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Mathematics.Extensions",
+        "Unity.Mathematics.Extensions.Hybrid",
+        "Unity.Scenes",
+        "Unity.Scenes.Editor",
+        "Unity.Entities.Tests",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Unity.RenderPipelines.HighDefinition.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.Collections",
+        "UnityEditor.UI",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "9.9.9",
+            "define": "HDRP_10_0_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "9.9.9",
+            "define": "URP_10_0_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.core",
+            "expression": "9.9.9",
+            "define": "SRP_10_0_0_OR_NEWER"
+        },
+        {
+            "name": "com.unity.tiny",
+            "expression": "0.21.9",
+            "define": "TINY_0_22_0_OR_NEWER"
+        }
+    ],
+    "noEngineReferences": false
+}

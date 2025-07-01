@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a825736eb24dd7be1bd63dbbd796ce, type: 3}
+  m_Name: Npc_FightingStyle_RedDeath_Infected
+  m_EditorClassIdentifier: 
+  desiredDistanceToTarget: 2.5
+  desiredDistanceToTargetWhenFistFighting: 1.25
+  minDistanceToTargetWhenFistFighting: 1.25
+  generalMask: {fileID: 0}
+  customActionsMask: {fileID: 0}
+  additiveMask: {fileID: 0}
+  topBodyMask: {fileID: 0}
+  overridesMask: {fileID: 0}
+  areOverridesAdditive: 0
+  baseAnimations:
+    arReference:
+      address: 34e79e6da87a19749b9dce6102e47b14
+      subObjectName: 
+  baseBehaviours:
+    arReference:
+      address: b5b783bdcd8ae0446a006e72b76108b3
+      subObjectName: 
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  customs:
+    animations:
+    - arReference:
+        address: 8c833278c157ac54aaa75811ac7afaae
+        subObjectName: 
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: a11b9a5541228434a99e2c671f2f4f84
+        subObjectName: 

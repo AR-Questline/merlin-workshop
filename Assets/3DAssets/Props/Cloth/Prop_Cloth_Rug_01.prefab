@@ -1,0 +1,174 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1195166642697295453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7594612119804361204}
+  - component: {fileID: 6024556454759895404}
+  - component: {fileID: 324758290548761555}
+  - component: {fileID: 8644760338732939457}
+  m_Layer: 6
+  m_Name: Prop_Cloth_Rug_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &7594612119804361204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195166642697295453}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6024556454759895404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195166642697295453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ba29fb9cf54b3e955316a4eddcf8aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lodGroupSize: 1
+  lodGroupSerializableData:
+    isValid:
+      state: 1
+    localReferencePoint: {x: 0, y: 0, z: 0}
+    lodDistances0:
+      x: 105.64508
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    lodDistances1:
+      x: Infinity
+      y: Infinity
+      z: Infinity
+      w: Infinity
+    localToWorldMatrix:
+      c0:
+        x: 1
+        y: 0
+        z: 0
+        w: 0
+      c1:
+        x: 0
+        y: 1
+        z: 0
+        w: 0
+      c2:
+        x: 0
+        y: 0
+        z: 1
+        w: 0
+      c3:
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+  children:
+  - {fileID: 324758290548761555}
+  isStatic: 1
+  hasLinkedLifetime: 0
+--- !u!114 &324758290548761555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195166642697295453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60fcd819e2b4b00a4cdf9d2d862f9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentGroup: {fileID: 6024556454759895404}
+  meshReference:
+    m_AssetGUID: 81a7365ddfb85744fa0b13d174b88cc6
+    m_SubObjectName: Mesh_Prop_FloorRag_01
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  materialReferences:
+  - m_AssetGUID: 3914bfe12c9ed404fbb86fd609723d8f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  renderMeshDescription:
+    layer: 0
+    renderingLayer: 385
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 0
+    staticShadowCaster: 0
+    lightProbeUsage: 1
+  localToWorldOffset:
+    c0:
+      x: 0.8409894
+      y: 0
+      z: 0
+      w: 0
+    c1:
+      x: 0
+      y: 1
+      z: 0
+      w: 0
+    c2:
+      x: 0
+      y: 0
+      z: 1
+      w: 0
+    c3:
+      x: -0.024268076
+      y: 0.04923248
+      z: 0.036456406
+      w: 1
+  aabb:
+    Center:
+      x: 0.00010994077
+      y: -0.0035913186
+      z: 0.00013276935
+    Extents:
+      x: 0.999267
+      y: 0.019697946
+      z: 0.999287
+  visibleRange:
+    x: 0
+    y: 11160.883
+  lodMask: 1
+  _archetypeKeys:
+  - isStatic: 1
+    isTransparent: 0
+    hasLod: 1
+    inMotionPass: 0
+    lightProbeUsage: 1
+  hasLinkedLifetime: 0
+--- !u!114 &8644760338732939457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195166642697295453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec972b3dee4e4dcaa14247816f65ea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _excludeFromHlod: 1
+  _cullWithHlod: 1

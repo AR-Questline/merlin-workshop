@@ -1,0 +1,122 @@
+#pragma kernel RevealMapSoft
+#pragma kernel HighlightCurrentPosition
+
+struct VisitedPixel
+{
+    float2 pixelCoordNorm;
+};
+
+cbuffer Constants
+{
+    uint VisitedPixelsCountMinusOne;
+    uint TextureSizeX, TextureSizeY;
+    uint RevealBrushRadius;
+    float RevealBrushIntensity;
+    float2 CurrentPositionPixelNorm;
+    int SoftAreaPixelsCount;
+    float InvSoftAreaPixelsCount;
+    float FalloffPow;
+}
+
+StructuredBuffer<VisitedPixel> VisitedPixels;
+RWTexture2D<float> VisibleMapMask;
+
+float DistanceToLine(float2 linePoint0, float2 linePoint1, float2 p)
+{
+    float2 lineDir = linePoint1 - linePoint0;
+    float2 pointDir = p - linePoint0;
+    float lineLengthSquared = dot(lineDir, lineDir);
+
+    // Project point onto the line segment, clamping to the segment bounds
+    float t = clamp(dot(pointDir, lineDir) / lineLengthSquared, 0.0, 1.0);
+    float2 projection = linePoint0 + t * lineDir;
+
+    // Calculate squared distance from point to the projection
+    float2 diff = p - projection;
+    return sqrt(dot(diff, diff));
+}
+
+float CalculateAlpha(float distanceFromCenter, float revealBrushRadius, float invSoftAreaPixelsCount)
+{
+    return saturate(1 - ((distanceFromCenter - revealBrushRadius) * invSoftAreaPixelsCount));
+}
+
+[numthreads(64,1,1)]
+void RevealMapSoft(uint3 id : SV_DispatchThreadID)
+{
+    uint visitedPixelIndex = id.x;
+    if (visitedPixelIndex >= VisitedPixelsCountMinusOne) return;
+
+    float2 visitedPixelCoordNorm = VisitedPixels[visitedPixelIndex].pixelCoordNorm;
+    float2 nextVisitedPixelCoordNorm = VisitedPixels[visitedPixelIndex + 1].pixelCoordNorm;
+    // value of -1 means discontinuity, so there is no need to draw a line
+    if (visitedPixelCoordNorm.x == -1 || nextVisitedPixelCoordNorm.x == -1) return;
+
+    float2 textureSize = float2(TextureSizeX, TextureSizeY);
+    int2 visitedPixelCoord = (int2)round(visitedPixelCoordNorm * textureSize);
+    int2 nextVisitedPixelCoord = (int2)round(nextVisitedPixelCoordNorm * textureSize);
+    float radiusWithSoftSize = RevealBrushRadius + SoftAreaPixelsCount;
+
+    int2 revealBrushBoxSize = int2(radiusWithSoftSize, radiusWithSoftSize);
+    int2 visitedChunkMinPixel = visitedPixelCoord - revealBrushBoxSize;
+    int2 visitedChunkMaxPixel = visitedPixelCoord + revealBrushBoxSize;
+
+    int2 nextVisitedChunkMinPixel = nextVisitedPixelCoord - revealBrushBoxSize;
+    int2 nextVisitedChunkMaxPixel = nextVisitedPixelCoord + revealBrushBoxSize;
+
+    int2 visibleAreaMinPixel = max(min(visitedChunkMinPixel, nextVisitedChunkMinPixel), int2(0, 0));
+    int2 visibleAreaMaxPixel = min(max(visitedChunkMaxPixel, nextVisitedChunkMaxPixel),
+                                   int2(TextureSizeX - 1, TextureSizeY - 1));
+
+    float2 visitedPixelPos = float2(visitedPixelCoord);
+    float2 nextVisitedPixelPos = float2(nextVisitedPixelCoord);
+    for (int y = visibleAreaMinPixel.y; y <= visibleAreaMaxPixel.y; y++)
+    {
+        for (int x = visibleAreaMinPixel.x; x <= visibleAreaMaxPixel.x; x++)
+        {
+            int2 pixelCoord = int2(x, y);
+            float2 pixelPos = float2(x, y);
+            float distanceToLine = DistanceToLine(visitedPixelPos, nextVisitedPixelPos, pixelPos);
+            float alpha = CalculateAlpha(distanceToLine, RevealBrushRadius, InvSoftAreaPixelsCount);
+            alpha *= RevealBrushIntensity;
+            if (distanceToLine <= radiusWithSoftSize && VisibleMapMask[pixelCoord] < alpha)
+            {
+                VisibleMapMask[pixelCoord] = alpha;
+            }
+        }
+    }
+}
+
+[numthreads(1,1,1)]
+void HighlightCurrentPosition(uint3 id : SV_DispatchThreadID)
+{
+    float2 visitedPixelCoordNorm = CurrentPositionPixelNorm;
+    float2 textureSize = float2(TextureSizeX, TextureSizeY);
+    int2 visitedPixelCoord = (int2)round(visitedPixelCoordNorm * textureSize);
+
+    float radiusWithSoftSize = RevealBrushRadius + SoftAreaPixelsCount;
+
+    int2 revealBrushBoxSize = int2(radiusWithSoftSize, radiusWithSoftSize);
+    int2 visitedChunkMinPixel = visitedPixelCoord - revealBrushBoxSize;
+    int2 visitedChunkMaxPixel = visitedPixelCoord + revealBrushBoxSize;
+
+    int2 visibleAreaMinPixel = max(visitedChunkMinPixel, int2(0, 0));
+    int2 visibleAreaMaxPixel = min(visitedChunkMaxPixel, int2(TextureSizeX - 1, TextureSizeY - 1));
+
+    float2 visitedPixelPos = float2(visitedPixelCoord);
+    for (int y = visibleAreaMinPixel.y; y <= visibleAreaMaxPixel.y; y++)
+    {
+        for (int x = visibleAreaMinPixel.x; x <= visibleAreaMaxPixel.x; x++)
+        {
+            int2 pixelCoord = int2(x, y);
+            float2 pixelPos = float2(x, y);
+            float distanceToPoint = distance(visitedPixelPos, pixelPos);
+            float alpha = CalculateAlpha(distanceToPoint, RevealBrushRadius, InvSoftAreaPixelsCount);
+            if (distanceToPoint <= radiusWithSoftSize && VisibleMapMask[pixelCoord] < alpha)
+            {
+                VisibleMapMask[pixelCoord] = alpha;
+            }
+           
+        }
+    }
+}

@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6219716342315990171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2567511030986152996}
+  - component: {fileID: 5139138451748450921}
+  m_Layer: 0
+  m_Name: Recipe_Handcrafting_ItemStory_TheudProtectionCharm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2567511030986152996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219716342315990171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5139138451748450921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219716342315990171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b11b7e9e2d5418b8513ea610e1d2758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  disableItemLevels: 1
+  itemCraftingDifficulty: 0
+  statRequirement:
+    _enumRef: 
+  statRequirementValue: 0
+  ingredients:
+  - templateReference:
+      _guid: 18c146b292b7fec489240972aefe6bfa
+    count: 2
+  - templateReference:
+      _guid: 69bf73eebb0339448bf11e6c8906d5da
+    count: 1
+  - templateReference:
+      _guid: 2cb9d4b8894f76347814adea5cb195cb
+    count: 1
+  outcome:
+    _guid: 93a65acf46e592141bb259311a10b81f
+  quantity: 1
+  isHidden: 0
+  storyOnCreation:
+    _guid: 

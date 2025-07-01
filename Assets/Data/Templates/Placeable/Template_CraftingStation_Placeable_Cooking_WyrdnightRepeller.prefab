@@ -1,0 +1,600 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4939378906308733938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 114342809690276434}
+  - component: {fileID: 6848607534592593196}
+  - component: {fileID: 4010682669728664304}
+  - component: {fileID: 2019016319085098429}
+  - component: {fileID: 8769632799622111776}
+  - component: {fileID: 8429128540810374182}
+  m_Layer: 0
+  m_Name: Unlit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &114342809690276434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939378906308733938}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3383205285082349501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6848607534592593196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939378906308733938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1101b6ceab8d41b2bca5bf213183f501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startEnabled: 0
+--- !u!114 &4010682669728664304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939378906308733938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 064580e15490461ea30e2ca0ae5086c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customInteractLabel:
+    IdOverride: interaction_lightafire
+    ID: Template/customInteractLabel_4010682669728664304_24ca35bcbb7064b4785b92da79015c9b
+  interactionSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  blockInCombat: 1
+  waitForManualFinishAction: 0
+--- !u!114 &2019016319085098429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939378906308733938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9bb1d38bf154447be73a5355f49a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newState: 1
+  onInteract: 1
+  afterTime: 0
+  minimumTime:
+    <Ticks>k__BackingField: 0
+  atSpecificTime: 0
+  specificTimeType: 2
+  specificTime:
+    <Ticks>k__BackingField: 0
+  useLongerTime: 1
+--- !u!114 &8769632799622111776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939378906308733938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4034d7f74e9a11d4aba703de95e3e73a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8429128540810374182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939378906308733938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298ab09c56c1eb3408a9f3fb78f206c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfter:
+    <Ticks>k__BackingField: 863400000000
+  destroyOnRestore: 0
+--- !u!1 &5545430941669151807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3383205285082349501}
+  - component: {fileID: -2799901866828636200}
+  - component: {fileID: 6850958447694641624}
+  - component: {fileID: -263300001190304168}
+  - component: {fileID: 6080397016261285519}
+  - component: {fileID: 4284561931644018764}
+  - component: {fileID: 4610659802844130123}
+  - component: {fileID: 2733867308015706387}
+  m_Layer: 6
+  m_Name: Template_CraftingStation_Placeable_Cooking_WyrdnightRepeller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3383205285082349501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 114342809690276434}
+  - {fileID: 674844725341943385}
+  - {fileID: 5271743608412679926}
+  - {fileID: 5907578509477787213}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2799901866828636200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: item_placeable_bonfire
+    ID: Template/displayName_15646842206880915416_24ca35bcbb7064b4785b92da79015c9b
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: 7a4775e071c81324b94f433e7d8cba4e
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 1
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 0
+--- !u!114 &6850958447694641624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f1d837a85f458c99977714723b45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerDataWrapper:
+    rid: 194031482233160529
+  references:
+    version: 2
+    RefIds:
+    - rid: 194031482233160529
+      type: {class: SimpleMarkerDataWrapper, ns: Awaken.TG.Main.Maps.Markers, asm: TG.Main}
+      data:
+        method: 1
+        explicitData: {fileID: 11400000, guid: 302938ddd20d7e7458dccd4520750801, type: 2}
+        embeddedData:
+          defaultIcon:
+            arSpriteReference:
+              address: 
+              subObjectName: 
+          visibleOnMap: 0
+          visibleOnMapUnderFogOfWar: 0
+          compassMarkerType: 0
+          hasMapMarkerOrderOverride: 0
+          mapMarkerOrderOverride: 0
+          ignoreDistanceRequirement: 0
+          ignoreAngleRequirement: 0
+--- !u!114 &-263300001190304168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &6080397016261285519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78b030055d8425282016a982e103500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4284561931644018764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbe21072547775409b292212451fe15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  states:
+  - name: Unlit
+    interactOnStart: 0
+  - name: Lit
+    interactOnStart: 1
+  - name: Lit_Boosted
+    interactOnStart: 1
+  - name: Destroyed
+    interactOnStart: 0
+  startingState: 0
+--- !u!114 &4610659802844130123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3ea76cf4d63044cbda5da7a8360c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtTargetOffset: {x: 0, y: 1, z: 0}
+--- !u!114 &2733867308015706387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fb5d20e7816ce46b7359e14438f55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishDelay: 1
+  hideWeapons: 1
+  hideHands: 0
+--- !u!1 &6400520489136731753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5271743608412679926}
+  - component: {fileID: 5185377906888472274}
+  - component: {fileID: 2913770694778878183}
+  - component: {fileID: 2698140833599210192}
+  m_Layer: 0
+  m_Name: Lit_Boosted
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5271743608412679926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400520489136731753}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3383205285082349501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5185377906888472274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400520489136731753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1101b6ceab8d41b2bca5bf213183f501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startEnabled: 0
+--- !u!114 &2913770694778878183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400520489136731753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9bb1d38bf154447be73a5355f49a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newState: 3
+  onInteract: 0
+  afterTime: 1
+  minimumTime:
+    <Ticks>k__BackingField: 216000000000
+  atSpecificTime: 1
+  specificTimeType: 1
+  specificTime:
+    <Ticks>k__BackingField: 288000000000
+  useLongerTime: 1
+--- !u!114 &2698140833599210192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400520489136731753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01e0828ae4fb044c92d08d1acb35346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabsToOpen:
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ExperimentalCooking
+    tempRef:
+      _guid: 0fb5c07944ea0634095fd97f7d2d34f7
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:RecipeCooking
+    tempRef:
+      _guid: 0fb5c07944ea0634095fd97f7d2d34f7
+  alchemyTabsToOpen:
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:RecipeAlchemy
+    tempRef:
+      _guid: a4fc5c231fe4d9642b31158035e8aa1d
+  foredwellerLocation:
+    _guid: 111cd15fc292a4f4a83ab9b45aa44877
+  foredwellerDialogue:
+    story:
+      _guid: 0420a35a6641be741b17ecaa93688288
+    chapterName: 
+  manualRestTime: 0
+  isUpgraded: 1
+--- !u!1 &6450163457843182349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 674844725341943385}
+  - component: {fileID: 99144922439926330}
+  - component: {fileID: 1064615702901617662}
+  - component: {fileID: 3403849680920460649}
+  m_Layer: 0
+  m_Name: Lit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &674844725341943385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3383205285082349501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &99144922439926330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1101b6ceab8d41b2bca5bf213183f501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startEnabled: 0
+--- !u!114 &1064615702901617662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9bb1d38bf154447be73a5355f49a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newState: 3
+  onInteract: 0
+  afterTime: 1
+  minimumTime:
+    <Ticks>k__BackingField: 216000000000
+  atSpecificTime: 1
+  specificTimeType: 1
+  specificTime:
+    <Ticks>k__BackingField: 288000000000
+  useLongerTime: 1
+--- !u!114 &3403849680920460649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163457843182349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01e0828ae4fb044c92d08d1acb35346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabsToOpen:
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:ExperimentalCooking
+    tempRef:
+      _guid: 0fb5c07944ea0634095fd97f7d2d34f7
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:RecipeCooking
+    tempRef:
+      _guid: 0fb5c07944ea0634095fd97f7d2d34f7
+  alchemyTabsToOpen:
+  - enumRef:
+      _enumRef: Awaken.TG.Main.Crafting.Cooking.CraftingTabTypes, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:RecipeAlchemy
+    tempRef:
+      _guid: a4fc5c231fe4d9642b31158035e8aa1d
+  foredwellerLocation:
+    _guid: 111cd15fc292a4f4a83ab9b45aa44877
+  foredwellerDialogue:
+    story:
+      _guid: 0420a35a6641be741b17ecaa93688288
+    chapterName: 
+  manualRestTime: 0
+  isUpgraded: 0
+--- !u!1 &9139421009722810561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5907578509477787213}
+  - component: {fileID: 2258224723570568040}
+  - component: {fileID: 8203325351230621789}
+  - component: {fileID: 7543857009416774564}
+  m_Layer: 0
+  m_Name: Destroyed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5907578509477787213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139421009722810561}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3383205285082349501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2258224723570568040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139421009722810561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1101b6ceab8d41b2bca5bf213183f501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startEnabled: 0
+--- !u!114 &8203325351230621789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139421009722810561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa2d99c3f2ac4f4cbecff7a8409140a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDistance: 100
+--- !u!114 &7543857009416774564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139421009722810561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298ab09c56c1eb3408a9f3fb78f206c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfter:
+    <Ticks>k__BackingField: 432000000000
+  destroyOnRestore: 1

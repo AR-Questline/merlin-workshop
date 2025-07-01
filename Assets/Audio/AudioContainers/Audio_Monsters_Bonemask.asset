@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Bonemask
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: -470757031
+        Data2: 1199066939
+        Data3: 1716005024
+        Data4: 1349134856
+      Path: event:/SFX/Monsters/Bonemask/SFX_Monster_Bonemask_Idle
+    hurt:
+      Guid:
+        Data1: -172320215
+        Data2: 1204667382
+        Data3: -1998398067
+        Data4: -1179612400
+      Path: event:/SFX/Monsters/Bonemask/SFX_Monster_Bonemask_Hurt
+    die:
+      Guid:
+        Data1: 648465029
+        Data2: 1143994687
+        Data3: -1971378273
+        Data4: 355798967
+      Path: event:/SFX/Monsters/Bonemask/SFX_Monster_Bonemask_Die
+    attack:
+      Guid:
+        Data1: 699380195
+        Data2: 1273572748
+        Data3: -2017608820
+        Data4: 164519977
+      Path: event:/SFX/Monsters/Bonemask/SFX_Monster_Bonemask_Attack_Short
+    specialAttack:
+      Guid:
+        Data1: -1764969004
+        Data2: 1261289374
+        Data3: -1156877677
+        Data4: 824319252
+      Path: event:/SFX/Monsters/Bonemask/SFX_Monster_Bonemask_Attack_Swing
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 311258801
+        Data2: 1270135803
+        Data3: 904766863
+        Data4: 1034088707
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy_Animal
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

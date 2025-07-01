@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Special_HatchRemainingStepsDescription
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":92.0,"y":30.0},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-28.0,"y":-27.0},"guid":"26e54a2b-f316-48e0-93cb-8827307b8669","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"name":"StepsRemaining","defaultValues":{"Value":{"$content":0.0,"$type":"System.Single"}},"position":{"x":423.0,"y":-157.0},"guid":"dea536b9-6ef1-4c84-bbe5-043fbd76196b","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillComputableUnit","$id":"11"},{"chainable":false,"parameterNames":["item"],"member":{"name":"GetRemainingStepsForItem","parameterTypes":["Awaken.TG.Main.Heroes.Items.Item"],"targetType":"Awaken.TG.Main.Heroes.Items.Attachments.ItemHatching","targetTypeName":"Awaken.TG.Main.Heroes.Items.Attachments.ItemHatching","$version":"A"},"defaultValues":{},"position":{"x":166.0,"y":-173.0},"guid":"2dde57f8-fb86-4bb1-8859-f5cadcf08be7","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"13"},{"defaultValues":{},"position":{"x":-24.0,"y":-152.0},"guid":"ecadf0e8-88a7-4451-a7a1-d8071b66f7d2","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillItemUnit","$id":"17"},{"sourceUnit":{"$ref":"17"},"sourceKey":"item","destinationUnit":{"$ref":"13"},"destinationKey":"%item","guid":"b89b6a92-d6f5-4564-87b4-127766d3d50c","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"result","destinationUnit":{"$ref":"11"},"destinationKey":"Value","guid":"01b83f52-3f4f-44bd-bd27-3e13f8aa72a8","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

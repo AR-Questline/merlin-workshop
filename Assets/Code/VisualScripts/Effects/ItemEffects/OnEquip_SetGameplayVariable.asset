@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnEquip_SetGameplayVariable
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":179.3076,"y":-76.15334},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":false,"equipRepetitive":true,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-552.0,"y":-297.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit","$id":"9"},{"type":{"id":4},"defaultValues":{"name":{"$content":"VariableName","$type":"System.String"}},"position":{"x":-182.0,"y":-152.0},"guid":"70a5a704-1f92-4116-8b23-f7bc1fac8dfb","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillDatumUnit","$id":"11"},{"defaultValues":{"name":{"$content":"","$type":"System.String"}},"position":{"x":144.0,"y":-342.0},"guid":"bc69031e-969a-44fb-bca7-0ddc72688fa5","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.SetGameplayVariable","$id":"13"},{"nest":{"source":"Macro","macro":0,"embed":null},"defaultValues":{},"position":{"x":-170.0,"y":-255.0},"guid":"f84ff87b-01ce-47fa-bebc-c034f2cec2fd","$version":"A","$type":"Unity.VisualScripting.SubgraphUnit","$id":"15"},{"defaultValues":{"name":{"$content":"","$type":"System.String"}},"position":{"x":142.0,"y":27.0},"guid":"ab5ac12c-2b76-4b2d-9864-eaca7adc0304","$version":"A","$type":"Awaken.TG.VisualScripts.Units.General.RemoveGameplayVariable","$id":"18"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onEquipRepetitive","destinationUnit":{"$ref":"13"},"destinationKey":"","guid":"cd1e54b3-394c-446a-82d1-dc07ac7dcb99","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"onUnequipRepetitive","destinationUnit":{"$ref":"18"},"destinationKey":"","guid":"254344f6-8709-4341-bdb8-ef85516c027e","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"value","destinationUnit":{"$ref":"13"},"destinationKey":"name","guid":"ea3fb8a8-e514-4fcf-aee8-9676f068044d","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"Skill
+      Owner Transform","destinationUnit":{"$ref":"13"},"destinationKey":"context","guid":"e321a55b-382c-4a17-84f6-ef9272b443cb","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"Skill
+      Owner Transform","destinationUnit":{"$ref":"18"},"destinationKey":"context","guid":"94f0b55e-cffc-4549-ab18-064e6445d6a1","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"value","destinationUnit":{"$ref":"18"},"destinationKey":"name","guid":"e2f404eb-8c8c-4c1b-847b-426b6cf50d4c","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences:
+    - {fileID: 11400000, guid: 828b00409cdd5ee49934ca344df5a7cb, type: 2}

@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Monsters_Bloat
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 6
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: -1897852519
+        Data2: 1271261138
+        Data3: -643727488
+        Data4: 2147300620
+      Path: event:/SFX/Monsters/Bloat/SFX_Enemies_Bloat_Hurt
+    die:
+      Guid:
+        Data1: -181201962
+        Data2: 1237229852
+        Data3: 388523683
+        Data4: 878403933
+      Path: event:/SFX/Monsters/Bloat/SFX_Enemies_Bloat_Die
+    attack:
+      Guid:
+        Data1: -906780787
+        Data2: 1234870191
+        Data3: -432310911
+        Data4: -529561797
+      Path: event:/SFX/Monsters/Bloat/SFX_Enemies_Bloat_Attack
+    specialAttack:
+      Guid:
+        Data1: 913775755
+        Data2: 1101459649
+        Data3: -924077383
+        Data4: -1637823516
+      Path: event:/SFX/Monsters/Bloat/SFX_Enemies_Bloat_ThrowUp
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -2063837095
+        Data2: 1222809137
+        Data3: 1262472378
+        Data4: -293261223
+      Path: event:/SFX/Monsters/Bloat/SFX_Enemies_Bloat_Footstep
+    roar:
+      Guid:
+        Data1: -2113215396
+        Data2: 1233062689
+        Data3: 633895313
+        Data4: 15569082
+      Path: event:/SFX/Monsters/Bloat/SFX_Enemies_Bloat_Roar

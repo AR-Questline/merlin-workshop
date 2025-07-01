@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5868541702092160576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2051817782176178312}
+  - component: {fileID: -4406379910431823661}
+  m_Layer: 0
+  m_Name: Status_Mermaid_Singing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2051817782176178312
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5868541702092160576}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4406379910431823661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5868541702092160576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28796ce50b55460f81238a29ad8f8600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  statusType:
+    _enumRef: Awaken.TG.Main.Heroes.Statuses.StatusType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Curse
+  iconReference:
+    arSpriteReference:
+      address: 4f285367ccc431e4da7c24fab90919c6
+      subObjectName: 
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_14040364163277727955_e5d28814c2ee3ff40a9685d3563c4fbb
+  description:
+    IdOverride: 
+    ID: Template/description_14040364163277727955_e5d28814c2ee3ff40a9685d3563c4fbb
+  keywords: []
+  notSaved: 1
+  hiddenOnUI: 0
+  hiddenOnHUD: 0
+  alwaysShowSeparately: 0
+  invertProgressUI: 0
+  overrideToAddForDifferentItems: 0
+  addType: 2
+  addTypeOnStacking: 2
+  timerShouldDeStack: 0
+  upgradeReference:
+    _guid: 
+  fightValueFactor: 0
+  skill:
+    skillGraphRef:
+      _guid: 5c4b400080501b44da9846a91708c2c1
+    variables:
+    - name: SpeedDownwards
+      value: -3
+    - name: SpeedTowards
+      value: 1
+    enums: []
+    datums: []
+    templates: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 11158db8271e6904c83ebd75953288b1
+          subObjectName: 

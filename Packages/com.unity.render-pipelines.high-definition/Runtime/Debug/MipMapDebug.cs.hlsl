@@ -1,0 +1,38 @@
+//
+// This file was automatically generated. Please don't edit by hand. Execute Editor command [ Edit > Rendering > Generate Shader Includes ] instead
+//
+
+#ifndef MIPMAPDEBUG_CS_HLSL
+#define MIPMAPDEBUG_CS_HLSL
+//
+// UnityEngine.Rendering.HighDefinition.DebugMipMapMode:  static fields
+//
+#define DEBUGMIPMAPMODE_NONE (0)
+#define DEBUGMIPMAPMODE_MIP_STREAMING_PERFORMANCE (1)
+#define DEBUGMIPMAPMODE_MIP_STREAMING_STATUS (2)
+#define DEBUGMIPMAPMODE_MIP_STREAMING_ACTIVITY (3)
+#define DEBUGMIPMAPMODE_MIP_STREAMING_PRIORITY (4)
+#define DEBUGMIPMAPMODE_MIP_COUNT (5)
+#define DEBUGMIPMAPMODE_MIP_RATIO (6)
+
+//
+// UnityEngine.Rendering.HighDefinition.DebugMipMapModeTerrainTexture:  static fields
+//
+#define DEBUGMIPMAPMODETERRAINTEXTURE_CONTROL (0)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER0 (1)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER1 (2)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER2 (3)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER3 (4)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER4 (5)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER5 (6)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER6 (7)
+#define DEBUGMIPMAPMODETERRAINTEXTURE_LAYER7 (8)
+
+//
+// UnityEngine.Rendering.HighDefinition.DebugMipMapStatusMode:  static fields
+//
+#define DEBUGMIPMAPSTATUSMODE_MATERIAL (0)
+#define DEBUGMIPMAPSTATUSMODE_TEXTURE (1)
+
+
+#endif

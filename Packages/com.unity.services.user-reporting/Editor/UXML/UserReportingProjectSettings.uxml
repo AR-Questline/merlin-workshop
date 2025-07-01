@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement class="userreporting">
+        <ui:VisualElement class="scroll-container">
+            <ui:VisualElement class="cloud-diag-user-report" />
+        </ui:VisualElement>
+        <ui:VisualElement class="separator" />
+        <ui:VisualElement name="LearnMore" class="field-block link-button">
+            <ui:TextElement text="Learn More" class="link-button"/>
+            <ui:VisualElement class="external-link-icon" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

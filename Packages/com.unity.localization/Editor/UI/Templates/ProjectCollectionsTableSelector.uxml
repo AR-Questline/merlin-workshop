@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Label text="Selected Tables" style="-unity-text-align: upper-center; -unity-font-style: bold;" />
+    <ui:ScrollView name="select-list" show-vertical-scroller="true" style="flex-grow: 1; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
+    <uie:Toolbar style="max-height: 20px; min-height: 20px; flex-direction: row; padding-left: 1px;">
+        <uie:ToolbarButton text="Select All" name="select-all-button" tooltip="Select all visible tables" style="flex-shrink: 0;" />
+        <uie:ToolbarButton text="Select None" name="select-none-button" tooltip="Deselect all visible tables" style="flex-shrink: 0;" />
+        <uie:ToolbarSearchField focusable="True" name="search-field" style="flex-shrink: 1; flex-grow: 1;" />
+    </uie:Toolbar>
+</ui:UXML>

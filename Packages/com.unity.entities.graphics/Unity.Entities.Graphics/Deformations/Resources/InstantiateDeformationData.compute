@@ -1,0 +1,58 @@
+#pragma kernel InstantiateDeformationDataKernel
+
+#define NBR_THREAD_GROUPS 1024
+
+#define NBR_THREADS_X 128
+#define NBR_THREADS_Y 1
+#define NBR_THREADS_Z 1
+
+#define THREAD_COUNT NBR_THREADS_Y * NBR_THREADS_X * NBR_THREADS_Z
+#define STEP_SIZE THREAD_COUNT * NBR_THREAD_GROUPS
+
+struct VertexData
+{
+	float3 Position;
+	float3 Normal;
+	float3 Tangent;
+};
+
+uniform ByteAddressBuffer _SharedMeshVertexBuffer : register(t1);
+uniform RWStructuredBuffer<VertexData>	_DeformedMeshData : register(u1);
+
+uint g_VertexCount;
+uint g_DeformedMeshStartIndex;
+uint g_InstanceCount;
+
+VertexData LoadVertex(uint index)
+{
+	// Vertex attribute is assumed to be position, normal & tangent.
+	// These are float3, float3 and float4 respectively, thus the stride is 40. 
+	uint offset = index * 40;
+
+	// Note that VertexData uses float3 for tangent.
+	float3 pos = asfloat(_SharedMeshVertexBuffer.Load3(offset + 0 * 12));
+	float3 nor = asfloat(_SharedMeshVertexBuffer.Load3(offset + 1 * 12));
+	float3 tan = asfloat(_SharedMeshVertexBuffer.Load3(offset + 2 * 12));
+
+	VertexData data = (VertexData)0;
+	data.Position = pos;
+	data.Normal = nor;
+	data.Tangent = tan;
+
+	return data;
+}
+
+[numthreads(NBR_THREADS_X, NBR_THREADS_Y, NBR_THREADS_Z)]
+void InstantiateDeformationDataKernel(uint id : SV_GroupIndex, uint3 groupId : SV_GroupID)
+{
+	const uint totalNumVertices = g_VertexCount * g_InstanceCount;
+	const uint start = id + groupId[0] * THREAD_COUNT;
+
+	for (uint i = start; i < totalNumVertices; i += STEP_SIZE)
+	{
+		const uint sharedMeshVertexIndex = i % g_VertexCount;
+		const uint deformedMeshVertexIndex = g_DeformedMeshStartIndex + i;
+
+		_DeformedMeshData[deformedMeshVertexIndex] = LoadVertex(sharedMeshVertexIndex);
+	}
+}

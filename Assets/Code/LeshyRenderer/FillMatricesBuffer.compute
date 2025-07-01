@@ -1,0 +1,222 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct PackedMatrix
+{
+    float c0x;
+    float c0y;
+    float c0z;
+    float c1x;
+    float c1y;
+    float c1z;
+    float c2x;
+    float c2y;
+    float c2z;
+    float c3x;
+    float c3y;
+    float c3z;
+};
+
+struct SmallTransform
+{
+    float3 position;
+    float4 rotation;
+    float3 scale;
+};
+
+struct Remap
+{
+    uint cpuStart;
+    uint cpuEnd;
+    uint gpuStart;
+};
+
+float3x3 Inverse3x3(in float3x3 m)
+{
+    float3 row0 = m[0];
+    float3 row1 = m[1];
+    float3 row2 = m[2];
+
+    float3 col0 = cross(row1, row2);
+    float3 col1 = cross(row2, row0);
+    float3 col2 = cross(row0, row1);
+
+    float det = dot(row0, col0);
+
+    return transpose(float3x3(col0, col1, col2)/det);
+}
+
+float4x4 AffineInverse3D(in float4x4 m)
+{
+    float3x3 R = (float3x3)m;
+    float3 T = m._m03_m13_m23;
+
+    float3x3 invR = Inverse3x3(R);
+    float3 invT = -mul(invR, T);
+
+    return float4x4(
+        invR._m00, invR._m01, invR._m02, invT.x,
+        invR._m10, invR._m11, invR._m12, invT.y,
+        invR._m20, invR._m21, invR._m22, invT.z,
+        0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void RotationToMatrix(float4 q, out float3 c0, out float3 c1, out float3 c2)
+{
+    float4 v = q;
+    float4 v2 = v + v;
+
+    const uint3 npn = uint3(0x80000000, 0x00000000, 0x80000000);
+    const uint3 nnp = uint3(0x80000000, 0x80000000, 0x00000000);
+    const uint3 pnn = uint3(0x00000000, 0x80000000, 0x80000000);
+    c0 = v2.y * asfloat(asuint(v.yxw) ^ npn) - v2.z * asfloat(asuint(v.zwx) ^ pnn) + float3(1, 0, 0);
+    c1 = v2.z * asfloat(asuint(v.wzy) ^ nnp) - v2.x * asfloat(asuint(v.yxw) ^ npn) + float3(0, 1, 0);
+    c2 = v2.x * asfloat(asuint(v.zwx) ^ pnn) - v2.y * asfloat(asuint(v.wzy) ^ nnp) + float3(0, 0, 1);
+}
+
+void TRS(in float3 translation, in float4 rotation, in float3 scale, out float4x4 m)
+{
+    float3 c0;
+    float3 c1;
+    float3 c2;
+    RotationToMatrix(rotation, c0, c1, c2);
+
+    m._m00 = c0.x * scale.x;
+    m._m10 = c0.y * scale.x;
+    m._m20 = c0.z * scale.x;
+    m._m30 = 0;
+
+    m._m01 = c1.x * scale.y;
+    m._m11 = c1.y * scale.y;
+    m._m21 = c1.z * scale.y;
+    m._m31 = 0;
+
+    m._m02 = c2.x * scale.z;
+    m._m12 = c2.y * scale.z;
+    m._m22 = c2.z * scale.z;
+    m._m32 = 0;
+
+    m._m03 = translation.x;
+    m._m13 = translation.y;
+    m._m23 = translation.z;
+    m._m33 = 1;
+}
+
+void UnpackSmallTransform(in SmallTransform transform, out float4x4 m)
+{
+    TRS(transform.position, transform.rotation, transform.scale, m);
+}
+
+void PackMatrix(in float4x4 m, out PackedMatrix packedMatrix)
+{
+    packedMatrix.c0x = m._m00;
+    packedMatrix.c0y = m._m10;
+    packedMatrix.c0z = m._m20;
+    packedMatrix.c1x = m._m01;
+    packedMatrix.c1y = m._m11;
+    packedMatrix.c1z = m._m21;
+    packedMatrix.c2x = m._m02;
+    packedMatrix.c2y = m._m12;
+    packedMatrix.c2z = m._m22;
+    packedMatrix.c3x = m._m03;
+    packedMatrix.c3y = m._m13;
+    packedMatrix.c3z = m._m23;
+}
+
+float UnpackHalf(uint x)
+{
+    const uint shifted_exp = (0x7c00 << 13);
+    uint uf = (x & 0x7fff) << 13;
+    uint e = uf & shifted_exp;
+    uf += (127 - 15) << 23;
+    uf += e == shifted_exp ? (128u - 16u) << 23 : 0;
+    uf = e == 0 ? asuint(asfloat(uf + (1 << 23)) - 6.10351563e-05f) : uf;
+    uf |= (x & 0x8000) << 16;
+    return asfloat(uf);
+}
+
+float4 UnpackRotation(uint2 packedRotation)
+{
+    const uint packedX = packedRotation.x & 0xFFFF;
+    const uint packedY = packedRotation.x >> 16;
+    const uint packedZ = packedRotation.y & 0xFFFF;
+    const uint packedW = packedRotation.y >> 16;
+
+    return float4(
+        UnpackHalf(packedX),
+        UnpackHalf(packedY),
+        UnpackHalf(packedZ),
+        UnpackHalf(packedW)
+    );
+}
+
+float3 UnpackScale(uint2 packedScale)
+{
+    const uint packedX = packedScale.x & 0xFFFF;
+    const uint packedY = packedScale.x >> 16;
+    const uint packedZ = packedScale.y & 0xFFFF;
+
+    return float3(
+        UnpackHalf(packedX),
+        UnpackHalf(packedY),
+        UnpackHalf(packedZ)
+    );
+}
+
+ByteAddressBuffer _Transforms;
+int _TransformsLength;
+
+ByteAddressBuffer _Remaps;
+int _RemapsLength;
+
+int _InverseStartIndex;
+
+RWByteAddressBuffer _Output;
+
+[numthreads(64,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    if(id.x >= _TransformsLength)
+    {
+        return;
+    }
+
+    uint gpuStart = 0;
+    for(uint i = 0; i < _RemapsLength; i++)
+    {
+        const uint3 remapsData = _Remaps.Load3(i*12);
+        Remap remap;
+        remap.cpuStart = remapsData.x;
+        remap.cpuEnd = remapsData.y;
+        remap.gpuStart = remapsData.z;
+        if(remap.cpuStart <= id.x && id.x < remap.cpuEnd)
+        {
+            gpuStart = remap.gpuStart - remap.cpuStart;
+            break;
+        }
+    }
+
+    SmallTransform transform;
+    transform.position = asfloat(_Transforms.Load3(id.x*28+0));
+    const uint4 packedRest = _Transforms.Load4(id.x*28+12);
+    transform.rotation = UnpackRotation(packedRest.xy);
+    transform.scale = UnpackScale(packedRest.zw);
+
+    float4x4 originalMatrix;
+    UnpackSmallTransform(transform, originalMatrix);
+    PackedMatrix packedMatrix;
+    PackMatrix(originalMatrix, packedMatrix);
+
+    _Output.Store3((id.x+gpuStart) * 48 + 00, asuint(float3(packedMatrix.c0x, packedMatrix.c0y, packedMatrix.c0z)));
+    _Output.Store3((id.x+gpuStart) * 48 + 12, asuint(float3(packedMatrix.c1x, packedMatrix.c1y, packedMatrix.c1z)));
+    _Output.Store3((id.x+gpuStart) * 48 + 24, asuint(float3(packedMatrix.c2x, packedMatrix.c2y, packedMatrix.c2z)));
+    _Output.Store3((id.x+gpuStart) * 48 + 36, asuint(float3(packedMatrix.c3x, packedMatrix.c3y, packedMatrix.c3z)));
+
+    const float4x4 inverseMatrix = AffineInverse3D(originalMatrix);
+    PackMatrix(inverseMatrix, packedMatrix);
+
+    _Output.Store3((id.x+_InverseStartIndex+gpuStart) * 48 + 00, asuint(float3(packedMatrix.c0x, packedMatrix.c0y, packedMatrix.c0z)));
+    _Output.Store3((id.x+_InverseStartIndex+gpuStart) * 48 + 12, asuint(float3(packedMatrix.c1x, packedMatrix.c1y, packedMatrix.c1z)));
+    _Output.Store3((id.x+_InverseStartIndex+gpuStart) * 48 + 24, asuint(float3(packedMatrix.c2x, packedMatrix.c2y, packedMatrix.c2z)));
+    _Output.Store3((id.x+_InverseStartIndex+gpuStart) * 48 + 36, asuint(float3(packedMatrix.c3x, packedMatrix.c3y, packedMatrix.c3z)));
+}

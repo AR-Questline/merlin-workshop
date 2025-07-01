@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: PRA_Talent_ConsumeLessAlcoholInAlchemy
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":1191.97,"y":-472.235},"zoom":1.0,"elements":[{"learn":false,"learnRepetitive":true,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":814.0,"y":-803.0},"guid":"a110096e-cd56-4d7f-813e-04c5c5e36514","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"Type":"Learn","defaultValues":{},"position":{"x":790.0,"y":-366.0},"guid":"f02e8776-1b1b-4c46-abd5-8dec421fc512","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Talents.UnlockConsumeLessAlcoholInAlchemyUnit"},{"position":{"xMin":725.0,"yMin":-430.0,"xMax":1361.0,"yMax":-266.0},"label":"game
+      constants > Crafting/Talents/consumeLessAlcoholInAlchemyMultiplier ","comment":null,"color":{"r":0.0,"g":0.6938869,"b":0.972549,"a":1.0},"guid":"5371c858-a7cb-4b6b-a498-f847e1957a1a","$version":"A","$type":"Unity.VisualScripting.GraphGroup"}],"$version":"A"}}'
+    _objectReferences: []

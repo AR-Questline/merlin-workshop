@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7953552082188301980
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1342416209863646601, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: armor
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -1342416209863646601, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: armorGain
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057645619341195430, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: strengthRequired
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057645619341195430, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: enduranceRequired
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057645619341195430, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: practicalityRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: mobItems.Array.data[0].itemPrefab.address
+      value: 1126facddec7cad41b1aa2823b3394d2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382325995290807351, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: mobItems.Array.data[1].itemPrefab.address
+      value: 96878bda3a45b144ba92dea024ec78eb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: basePrice
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: itemName.ID
+      value: Template/itemName_5561123198869951777_cdc30ca6a2e65cc46ab2c035a4f1f679
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: quality._enumRef
+      value: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null:Normal
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: 'tags.Array.data[0]'
+      value: item:tier2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: flavor.locString.ID
+      value: Template/flavor_locString_5561123198869951777_cdc30ca6a2e65cc46ab2c035a4f1f679
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: itemName.IdOverride
+      value: item_armor_heavy_torso_RustyKnightsBreastplate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: EDITOR_bakedDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: description.locString.ID
+      value: Template/description_locString_5561123198869951777_cdc30ca6a2e65cc46ab2c035a4f1f679
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: iconReference.arSpriteReference.address
+      value: e17596c958373f14d8ff2e4a8c7c8b8d
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123199763436368482, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174666264328438791, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemTemplate_Armor_Heavy_T2_Body_RustyKnightsBreastplateV3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a693847416222134ab3c1fcdb326c603, type: 3}

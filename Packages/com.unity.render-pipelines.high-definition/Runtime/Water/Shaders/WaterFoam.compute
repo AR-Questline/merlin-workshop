@@ -1,0 +1,66 @@
+#pragma kernel ReprojectFoam
+#pragma kernel AttenuateFoam
+
+#pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
+
+// #pragma enable_d3d11_debug_symbols
+
+// Required to be defined for some includes
+#define WATER_SIMULATION
+
+// SRP generic includes
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Water/Shaders/SampleWaterSurface.hlsl"
+
+// EvaluateNormals UAVS
+RWTexture2D<float2> _WaterFoamBufferRW;
+float4 _PreviousFoamRegionScaleOffset;
+
+bool PreviousLocationInsideRegion(float2 foamPrevUV)
+{
+    return all(saturate(foamPrevUV) == foamPrevUV);
+}
+
+float2 EvaluatePreviousDecalUV(float3 transformedPositionAWS)
+{
+    // EvaluateDecalUV with prev region
+    return (transformedPositionAWS.xz - _PreviousFoamRegionScaleOffset.zw) * _PreviousFoamRegionScaleOffset.xy + 0.5f;
+}
+
+[numthreads(8, 8, 1)]
+void ReprojectFoam(uint3 currentThread : SV_DispatchThreadID,
+                        int groupIndex : SV_GroupIndex,
+                        uint2 groupId : SV_GroupID,
+                        uint2 groupThreadId : SV_GroupThreadID)
+{
+    // Extract the information about the pixel to process
+    uint2 coord = currentThread.xy;
+
+    // Evaluate the UV coordinates of this pixel
+    float2 foamRegionCoord = (coord + 0.5f) / _WaterFoamRegionResolution;
+
+    // Evaluate the world space position of this pixel
+    float3 foamPosWS = EvaluateInverseDecalUV(foamRegionCoord);
+
+    // Evaluate the previous foam region
+    float2 foamPrevUV = EvaluatePreviousDecalUV(foamPosWS);
+
+    // Output the normal and foam
+    _WaterFoamBufferRW[coord] = PreviousLocationInsideRegion(foamPrevUV) ? SAMPLE_TEXTURE2D_LOD(_WaterFoamBuffer, s_linear_clamp_sampler, foamPrevUV, 0).xy : 0.0;
+}
+
+
+[numthreads(8, 8, 1)]
+void AttenuateFoam(uint3 currentThread : SV_DispatchThreadID,
+                        int groupIndex : SV_GroupIndex,
+                        uint2 groupId : SV_GroupID,
+                        uint2 groupThreadId : SV_GroupThreadID)
+{
+    // Extract the information about the pixel to process
+    uint2 coord = currentThread.xy;
+
+    // Output the normal and foam
+    _WaterFoamBufferRW[coord] = saturate(LOAD_TEXTURE2D_LOD(_WaterFoamBuffer, coord, 0).xy);
+}

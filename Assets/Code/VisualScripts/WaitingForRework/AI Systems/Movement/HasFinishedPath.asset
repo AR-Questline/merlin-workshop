@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: HasFinishedPath
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Start","label":null,"summary":null,"hideLabel":false}],"controlOutputDefinitions":[{"key":"End","label":null,"summary":null,"hideLabel":false}],"valueInputDefinitions":[],"valueOutputDefinitions":[{"_type":"System.Boolean","key":"Finished","label":null,"summary":null,"hideLabel":false}],"title":null,"summary":"Rotate
+      to a point ingoring Y","pan":{"x":310.6961,"y":-73.8295},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-226.0,"y":-224.0},"guid":"776db927-05a7-49d3-931b-8df0de90537e","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":360.0,"y":-216.0},"guid":"e440f4c2-a9c4-4490-a9f8-a7d0a5c2d3fd","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"member":{"name":"remainingDistance","parameterTypes":null,"targetType":"UnityEngine.AI.NavMeshAgent","targetTypeName":"UnityEngine.AI.NavMeshAgent","$version":"A"},"defaultValues":{"target":null},"position":{"x":-108.0,"y":-131.0},"guid":"10ba4e42-e543-4b73-a498-2afb81cb6b2b","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"16"},{"member":{"name":"stoppingDistance","parameterTypes":null,"targetType":"UnityEngine.AI.NavMeshAgent","targetTypeName":"UnityEngine.AI.NavMeshAgent","$version":"A"},"defaultValues":{"target":null},"position":{"x":-108.0,"y":-24.0},"guid":"e9431bb4-60f6-4a3e-a874-3387a35f4acb","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"19"},{"numeric":true,"defaultValues":{"b":{"$content":0.0,"$type":"System.Single"}},"position":{"x":144.0,"y":-132.0},"guid":"b106a7d7-0b21-4836-b09b-3848a24dfc0c","$version":"A","$type":"Unity.VisualScripting.LessOrEqual","$id":"22"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Start","destinationUnit":{"$ref":"14"},"destinationKey":"End","guid":"2c8cae63-9463-4f97-bbde-1978d34e2b3e","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"value","destinationUnit":{"$ref":"22"},"destinationKey":"a","guid":"c1bdae63-8397-4e07-8460-4a6507c0a592","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"value","destinationUnit":{"$ref":"22"},"destinationKey":"b","guid":"940f304a-a7cf-4167-aba3-b8daccaae531","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"22"},"sourceKey":"comparison","destinationUnit":{"$ref":"14"},"destinationKey":"Finished","guid":"7db66457-0682-42bc-ba93-aa1254206e2c","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

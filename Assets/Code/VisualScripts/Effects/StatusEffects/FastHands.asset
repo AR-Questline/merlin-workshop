@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: FastHands
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-136.9734,"y":115.2096},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-302.0,"y":-333.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"tweakType":"Add","Type":"Learn","defaultValues":{},"position":{"x":7.0,"y":153.0},"guid":"0ceaee71-d3ea-40ed-bb92-044c2ad7b5e6","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.StatModifierUnit","$id":"11"},{"defaultValues":{},"position":{"x":-692.0,"y":294.0},"guid":"df2b108e-2750-4c85-8a4a-01eebbbfb9d8","$version":"A","$type":"Awaken.TG.Main.Skills.Units.GetSkillOwnerUnit","$id":"13"},{"name":"AttackSpeedMultiplier","defaultValues":{},"position":{"x":-697.0,"y":172.0},"guid":"38ed9994-9167-4842-9c6e-d69a1e041010","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeVariable","$id":"15"},{"defaultValues":{},"position":{"x":-474.0,"y":166.0},"guid":"6299e53c-d352-4022-9bb0-cca391cbfeea","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Generated.Stats.GetStat","$id":"17"},{"name":"AttackSpeedMultiplierValue","defaultValues":{},"position":{"x":-465.0,"y":301.0},"guid":"e1b8b9f3-0504-4584-9d7a-61f1bab5999f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"19"},{"sourceUnit":{"$ref":"13"},"sourceKey":"owner","destinationUnit":{"$ref":"17"},"destinationKey":"iWithStat","guid":"259962f6-aa3d-49cb-bd2a-81aaea949efa","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"statType","destinationUnit":{"$ref":"17"},"destinationKey":"statType","guid":"c3138f78-9dcc-4f8a-9e28-1f33cef3ed58","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"17"},"sourceKey":"stat","destinationUnit":{"$ref":"11"},"destinationKey":"stat","guid":"de4a5fd1-b796-4843-bffe-ae23bbea704a","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"value","destinationUnit":{"$ref":"11"},"destinationKey":"value","guid":"dcdc19c7-f52e-46f8-bc5b-009dc986e44d","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

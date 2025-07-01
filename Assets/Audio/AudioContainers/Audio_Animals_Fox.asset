@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Animals_Fox
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 4
+    idle:
+      Guid:
+        Data1: 984592972
+        Data2: 1262944543
+        Data3: -2123959670
+        Data4: 194985944
+      Path: event:/SFX/Animals/Fox/SFX_Animals_Fox_Idle
+    hurt:
+      Guid:
+        Data1: 2087818292
+        Data2: 1118714116
+        Data3: 9103772
+        Data4: 1762433915
+      Path: event:/SFX/Animals/Fox/SFX_Animals_Fox_Hurt
+    die:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    attack:
+      Guid:
+        Data1: 601312689
+        Data2: 1267594299
+        Data3: -1962223704
+        Data4: -1466836220
+      Path: event:/SFX/Animals/Fox/SFX_Animals_Fox_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 311258801
+        Data2: 1270135803
+        Data3: 904766863
+        Data4: 1034088707
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy_Animal
+    roar:
+      Guid:
+        Data1: 984592972
+        Data2: 1262944543
+        Data3: -2123959670
+        Data4: 194985944
+      Path: event:/SFX/Animals/Fox/SFX_Animals_Fox_Idle

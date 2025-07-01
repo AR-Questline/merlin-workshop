@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_NPC_Corvyn
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 2
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: -1611002701
+        Data2: 1205198372
+        Data3: 818089651
+        Data4: -1952414413
+      Path: event:/SFX/NPC/Efforts/Corvyn/SFX_NpcEffort_Corvyn_Hurt
+    die:
+      Guid:
+        Data1: -782943021
+        Data2: 1323401550
+        Data3: 263151263
+        Data4: -1729114812
+      Path: event:/SFX/NPC/Efforts/Corvyn/SFX_NpcEffort_Corvyn_Die
+    attack:
+      Guid:
+        Data1: -346296105
+        Data2: 1110800106
+        Data3: -1165497928
+        Data4: -375205776
+      Path: event:/SFX/NPC/Efforts/Corvyn/SFX_NpcEffort_Corvyn_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: -1058847788
+        Data2: 1092211816
+        Data3: 83581631
+        Data4: -1599002105
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be89caf85329429880459bb108ccd465, type: 3}
+  m_Name: Npc_FightingStyle_T4_PoisonedWarrior
+  m_EditorClassIdentifier: 
+  desiredDistanceToTarget: 2.5
+  desiredDistanceToTargetWhenFistFighting: 1.25
+  minDistanceToTargetWhenFistFighting: 1.25
+  generalMask: {fileID: 0}
+  customActionsMask: {fileID: 0}
+  additiveMask: {fileID: 31900000, guid: 4199f1e8872f3884881617f2343b66fc, type: 2}
+  topBodyMask: {fileID: 31900000, guid: 272a75d17c0c6884e9cb3c2bc29e2b70, type: 2}
+  overridesMask: {fileID: 0}
+  areOverridesAdditive: 0
+  baseAnimations:
+    arReference:
+      address: 3e223a657c180d74fbf11dbc17d4616b
+      subObjectName: 
+  baseBehaviours:
+    arReference:
+      address: 5bd4544511b50ed4f899933f9a5a8ea8
+      subObjectName: 
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  fists:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours: []
+  oneHanded:
+    animations:
+    - arReference:
+        address: 380e72f22a5ffe247abb3b6e4426a869
+        subObjectName: 
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: 701a98814fd71b0429cfb64878194a15
+        subObjectName: 
+  daggerOneHanded:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours: []
+  ranged:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours: []
+  twoHanded:
+    animations:
+    - arReference:
+        address: 780c00309316e8e45baf2333d2b0c6c6
+        subObjectName: 
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: 4c6b94cff0841a44094338c2b79363d0
+        subObjectName: 
+  dualWielding:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours: []
+  heavyDualWielding:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours: []

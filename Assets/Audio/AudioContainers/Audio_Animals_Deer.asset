@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0ff3c3af64d6f9979b13df63a059f, type: 3}
+  m_Name: Audio_Animals_Deer
+  m_EditorClassIdentifier: 
+  audioContainer:
+    audioType: 4
+    idle:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    hurt:
+      Guid:
+        Data1: 795308026
+        Data2: 1077058378
+        Data3: -917461080
+        Data4: -2102297850
+      Path: event:/SFX/Animals/Deer/SFX_Animals_Deer_Hurt
+    die:
+      Guid:
+        Data1: -1690947875
+        Data2: 1144602744
+        Data3: -1983038807
+        Data4: 138136158
+      Path: event:/SFX/Animals/Deer/SFX_Animals_Deer_Die
+    attack:
+      Guid:
+        Data1: 2126363680
+        Data2: 1310034067
+        Data3: 405571463
+        Data4: 1817702011
+      Path: event:/SFX/Animals/SFX_Animals_Bear_Attack
+    specialAttack:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialBegin:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    specialRelease:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    fall:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    dash:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    footStep:
+      Guid:
+        Data1: 311258801
+        Data2: 1270135803
+        Data3: 904766863
+        Data4: 1034088707
+      Path: event:/SFX/Footstep/FootstepEnemies/FTS_Enemy_Animal
+    roar:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 

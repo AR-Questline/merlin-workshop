@@ -1,0 +1,178 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5276083595303261484
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4887187339619651936, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_NPC_T3_SyldrenMermaid_Morgen
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880781814916791141, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_1775775000349912649_0848fb25748cf134abdbbeeb09dfc1a1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880781814916791141, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: displayName.IdOverride
+      value: enemy_monster_syldren_mermaid_morgen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565818339587218392, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 63ce82349be8b774fbc43b451a393b73
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5251352062768282620, guid: 360bfe9f78eb31f478b944d920242394, type: 3}
+    - {fileID: 7565818339587218392, guid: 360bfe9f78eb31f478b944d920242394, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4887187339619651936, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: -6095031193597536928}
+    - targetCorrespondingSourceObject: {fileID: 4887187339619651936, guid: 360bfe9f78eb31f478b944d920242394,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8227769164371903116}
+  m_SourcePrefab: {fileID: 100100000, guid: 360bfe9f78eb31f478b944d920242394, type: 3}
+--- !u!1 &786631225405195340 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4887187339619651936, guid: 360bfe9f78eb31f478b944d920242394,
+    type: 3}
+  m_PrefabInstance: {fileID: 5276083595303261484}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6095031193597536928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786631225405195340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8874d02432ec45e69923334086ad3e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcTemplate:
+    _guid: 63ce82349be8b774fbc43b451a393b73
+  actor:
+    guid: e1ff7890-72e6-430f-97dc-a6f45bc09a3f
+  storyOnDeath:
+    _guid: 00ede3b560865f449ba687e3f37e975a
+  visualPrefab:
+    address: 637a26fe2160e02478e1dd9b55700943
+    subObjectName: 
+  simplifiedDeadBodyPrefab:
+    arReference:
+      address: cdfd0f5f214fae5498170dcec8632553
+      subObjectName: 
+  shouldSpawnDeathVfx: 1
+  hitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  criticalHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  backStabHitVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  deathVFXReference:
+    arReference:
+      address: 
+      subObjectName: 
+  npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  renderIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  <IsNew>k__BackingField: 0
+--- !u!114 &-8227769164371903116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786631225405195340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37e3c32bf3340a4a89591352ed323a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customDialogueLabel:
+    IdOverride: 
+    ID: Template/customDialogueLabel_10218974909337648500_0848fb25748cf134abdbbeeb09dfc1a1
+  bookmark:
+    story:
+      _guid: 59247ef17c4f7a14aa641a35dd940529
+    chapterName: 
+  gesturesWrapper:
+    embedOverrides:
+      gestures: []
+    explicitOverrides:
+      _guid: 
+  viewFocus: {fileID: 0}
+  endStoryDistance: 1

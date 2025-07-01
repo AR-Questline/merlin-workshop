@@ -1,0 +1,915 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1974798873572788122
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: desiredDistanceToTarget
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[6618113786267566081]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.CustomBehaviours.UseHealingItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[6618113786267566082]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.CustomBehaviours.UseHealingItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: <BaseBehaviours>k__BackingField.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: <CustomBehaviours>k__BackingField.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597903931179102].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597903931179104].weight
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<BaseBehaviours>k__BackingField.Array.data[7]'
+      value: 6618113786267566082
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[4765522593978777605].weight
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].healHpFlat
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].healHpFlat
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].castingHand
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].useCooldown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].castingHand
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].useCooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].overrideHand
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].overrideHand
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].animatorState
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].animatorState
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].untilEndOfFight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].untilEndOfFight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].cooldownDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].cooldownDuration
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].minDistanceToTarget
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].minDistanceToTarget
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].overrideAnimatorState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].overrideAnimatorState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].invokeWhenHpBelowPercent
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].invokeWhenHpBelowPercent
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].onUseVFX.arReference.address
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].onUseVFX.arReference.address
+      value: dc3dfeb9bfce9b949bebd64dd89e6eff
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].itemInHand.arReference.address
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].itemInHand.arReference.address
+      value: cb17f9d27971d23428ea37b894171954
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].onUseVFX.arReference.subObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].onUseVFX.arReference.subObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].itemInHand.arReference.subObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].itemInHand.arReference.subObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].skillEffectReference.enums.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.enums.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].skillEffectReference.skillGraphRef._guid
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.skillGraphRef._guid
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].skillEffectReference.templates.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].skillEffectReference.variables.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.templates.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566081].skillEffectReference.assetReferences.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.assetReferences.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[0].name
+      value: Duration
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[1].name
+      value: Buildup
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[2].name
+      value: BuildupGain
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[3].name
+      value: BuildupCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[0].value
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[1].value
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[2].value
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400658903125469910, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[6618113786267566082].skillEffectReference.variables.Array.data[3].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443325589952417686, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_Enemy_Generic_Tier2_DisgracedNobleman
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423593210849289748, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 055b4c5214846134ea38ffa0344205e9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[1009]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours.MeleeAttackBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].maxDistance
+      value: 3.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].minDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].staminaCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597788643393747]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours.MeleeAttackBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597788643393748]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours.MeleeAttackBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597794763669519]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.GetHitBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597794763669520]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.ParriedBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597794763669521]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.StaggerBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597794763669522]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.StumbleBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597794763669524]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.RestBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597794763669526]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.WaitBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597879484416087]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.RangedBehaviours.BowBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597879484416088]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.RangedBehaviours.GetBetterRangedPositionBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597879484416142]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.KeepPositionBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597879484416143]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.KeepPositionBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597879484416144]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.RunBackBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597879484416145]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.TauntBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: 'managedReferences[561597879484416146]'
+      value: TG.Main Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours.TauntBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].canUseRunAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: <BaseBehaviours>k__BackingField.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: <FistsBehaviours>k__BackingField.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].attackAnimatorState
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: <ArcherBehaviours>k__BackingField.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].chanceForComboAttack
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597794763669524].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597794763669526].weight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416088].weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].weight
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].weight
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416144].weight
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416145].weight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416146].weight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<BaseBehaviours>k__BackingField.Array.data[0]'
+      value: 561597794763669519
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<BaseBehaviours>k__BackingField.Array.data[1]'
+      value: 561597794763669520
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<BaseBehaviours>k__BackingField.Array.data[2]'
+      value: 561597794763669521
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<BaseBehaviours>k__BackingField.Array.data[3]'
+      value: 561597794763669522
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<BaseBehaviours>k__BackingField.Array.data[4]'
+      value: 561597794763669524
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<BaseBehaviours>k__BackingField.Array.data[5]'
+      value: 561597794763669526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<FistsBehaviours>k__BackingField.Array.data[0]'
+      value: 1009
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<FistsBehaviours>k__BackingField.Array.data[1]'
+      value: 561597879484416143
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<FistsBehaviours>k__BackingField.Array.data[2]'
+      value: 561597879484416146
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[0]'
+      value: 561597788643393747
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[1]'
+      value: 561597788643393748
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[2]'
+      value: 561597879484416142
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<MeleeBehaviours>k__BackingField.Array.data[3]'
+      value: 561597879484416145
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].comboAttackStaminaCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<ArcherBehaviours>k__BackingField.Array.data[0]'
+      value: 561597879484416087
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<ArcherBehaviours>k__BackingField.Array.data[1]'
+      value: 561597879484416088
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: '<ArcherBehaviours>k__BackingField.Array.data[2]'
+      value: 561597879484416144
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].comboAttackAnimatorState
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].maxDistance
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].minDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].staminaCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].maxDistance
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].minDistance
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].staminaCost
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[1009].runningAttackAnimatorState
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597794763669524].animatorState
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416144].distanceToStop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].canUseRunAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].canUseRunAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].aimAtEnemyHeight
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].maxArrowVelocity
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597794763669526].waitTimeRange.max
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597794763669526].waitTimeRange.min
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416145].allowStaminaRegen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416146].allowStaminaRegen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].attackAnimatorState
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].attackAnimatorState
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597794763669524].defaultRestDuration
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416144].minDistanceToInvoke
+      value: 6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416145].maxDistanceForTaunt
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416145].minDistanceForTaunt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416146].maxDistanceForTaunt
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416146].minDistanceForTaunt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].chanceForComboAttack
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].chanceForComboAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].arrowProjectilePrefab
+      value: 
+      objectReference: {fileID: 1550800345144822, guid: 3baef372b5bb7f04195917f361571880,
+        type: 3}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].predictPlayerMovement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].comboAttackStaminaCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].comboAttackStaminaCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597794763669524].staminaRegenMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].arrowVelocityMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416087].minDistanceToFireRanged
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].desiredDistanceToTarget
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].desiredDistanceToTarget
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].comboAttackAnimatorState
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].comboAttackAnimatorState
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416144].distanceToStopWhenRanged
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].targetPositionAcceptRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].targetPositionAcceptRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393747].runningAttackAnimatorState
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597788643393748].runningAttackAnimatorState
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].closeVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Trot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].closeVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Trot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416144].forceExitAfterSecondsElapsed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].wanderVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Run
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].wanderVelocityScheme._enumRef
+      value: Awaken.TG.Main.AI.Movement.Controllers.VelocityScheme, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Run
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416145].tryToStartNewBehaviourAtDistance
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416146].tryToStartNewBehaviourAtDistance
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416142].minimumTimeInStateToStartNewBehaviour
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522281234992699017, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: managedReferences[561597879484416143].minimumTimeInStateToStartNewBehaviour
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_7292831099733381876_98fc030e9c0ebc14c86dbb62a75593a7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: 446816c88ee2b53409ab6e26fe257d10,
+        type: 3}
+      propertyPath: displayName.IdOverride
+      value: enemy_human_DisgracedNobleman
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 446816c88ee2b53409ab6e26fe257d10, type: 3}

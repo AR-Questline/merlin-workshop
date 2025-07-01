@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a825736eb24dd7be1bd63dbbd796ce, type: 3}
+  m_Name: Npc_FightingStyle_RedDeath_2H
+  m_EditorClassIdentifier: 
+  desiredDistanceToTarget: 2.5
+  desiredDistanceToTargetWhenFistFighting: 1.25
+  minDistanceToTargetWhenFistFighting: 1.25
+  generalMask: {fileID: 0}
+  customActionsMask: {fileID: 0}
+  additiveMask: {fileID: 0}
+  topBodyMask: {fileID: 0}
+  overridesMask: {fileID: 0}
+  areOverridesAdditive: 0
+  baseAnimations:
+    arReference:
+      address: f5c447dc43d3e7645beacbe51bb7c10c
+      subObjectName: 
+  baseBehaviours:
+    arReference:
+      address: b5b783bdcd8ae0446a006e72b76108b3
+      subObjectName: 
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  customs:
+    animations: []
+    conditionalAnimations: []
+    combatBehaviours:
+    - arReference:
+        address: 38c9889e15ed4234686da3ea373b01ec
+        subObjectName: 
