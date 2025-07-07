@@ -11,15 +11,9 @@ To render small static geometry the game uses custom system named Drake. In this
 8. Try if mod is working in game 
 
 
-<br/>
-<p align="center">
-    <video src="../Resources/tut-ragdoll-force.mp4" controls width="600">
-    Your browser does not support the video tag.
-    </video>
-</p>
-<br/>
+![Video Tutorial](../Resources/tut-ragdoll-force.mp4)
 
-<div style="display: flex; justify-content: space-between; width: 100%;">
-  <a href="../modding-overview.md" style="text-decoration: none;">⬅️ Previous: Modding Overview</a>
-  <a href="ragdoll-force.md" style="text-decoration: none;">Next: Ragdoll Force ➡️</a>
-</div>
+
+| Previous | Next |
+|---------|-------------|
+| [Modding Overview](../modding-overview.md) | [Ragdoll Force](ragdoll-force.md) |
