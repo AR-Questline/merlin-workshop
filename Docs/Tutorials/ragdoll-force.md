@@ -8,10 +8,4 @@ In this tutorial we'll show you how to change item's stats.
 5. Build mod with top toolbar `TG/Modding/Build`
 6. Try if mod is working in game 
 
-
-![Video Tutorial](../Resources/tut-ragdoll-force.mp4)
-
-
-| Previous | Next |
-|---------|-------------|
-| [Drake Material](drake-material.md) | [Modding Overview](../modding-overview.md) |
+[⬅️ Previous: Drake Material](drake-material.md) | [Next: Modding Overview ➡️](../modding-overview.md)
