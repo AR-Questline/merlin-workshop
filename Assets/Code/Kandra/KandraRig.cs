@@ -4,7 +4,6 @@ using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.GameObjects;
 using Awaken.Utility.LowLevel.Collections;
-using Sirenix.OdinInspector;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -26,20 +25,16 @@ namespace Awaken.Kandra {
 
         public Transform[] bones;
         public ushort[] boneParents;
-        [ListDrawerSettings(OnBeginListElementGUI = "BeginDrawBoneName", OnEndListElementGUI = "EndDrawBoneName")]
         public FixedString64Bytes[] boneNames;
 
         public ushort baseBoneCount;
 
-        [ShowInInspector, NonSerialized, Sirenix.OdinInspector.ReadOnly]
-        readonly List<KandraRenderer> _mergedRenderers = new List<KandraRenderer>();
         UnsafeList<UnsafeArray<ushort>> _addedBones;
-
-        [ShowInInspector, NonSerialized, Sirenix.OdinInspector.ReadOnly]
-        readonly List<KandraRenderer> _activeRenderers = new List<KandraRenderer>();
-
         UnsafeList<int> _addedBonesRefCount;
-        [ShowInInspector]
+
+        [NonSerialized] readonly List<KandraRenderer> _mergedRenderers = new List<KandraRenderer>();
+        [NonSerialized] readonly List<KandraRenderer> _activeRenderers = new List<KandraRenderer>();
+
         bool _isRegistered;
 
         void Awake() {
@@ -364,16 +359,10 @@ namespace Awaken.Kandra {
             }
         }
 
-        // === Odin
-        // ReSharper disable UnusedMember.Local
-        void BeginDrawBoneName(int index) {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(boneNames[index].ToString());
+        public struct EditorAccessor {
+            public static List<KandraRenderer> MergedRenderers(KandraRig rig) => rig._mergedRenderers;
+            public static List<KandraRenderer> ActiveRenderers(KandraRig rig) => rig._activeRenderers;
+            public static bool IsRegistered(KandraRig rig) => rig._isRegistered;
         }
-
-        void EndDrawBoneName(int _) {
-            GUILayout.EndHorizontal();
-        }
-        // ReSharper restore UnusedMember.Local
     }
 }

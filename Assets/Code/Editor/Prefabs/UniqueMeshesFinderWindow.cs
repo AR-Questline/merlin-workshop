@@ -149,7 +149,7 @@ namespace Awaken.TG.Editor.Prefabs {
         void DrawTable() {
             _tableScroll = EditorGUILayout.BeginScrollView(_tableScroll, GUILayout.Height(TableHeight));
 
-            if (_table.Draw(_uniques, TableHeight, _tableScroll.y)) {
+            if (_table.Draw(_uniques, TableHeight, _tableScroll.y, position.width)) {
                 _uniques.Sort(_table.Sorter);
                 OnFilterChanged();
             }

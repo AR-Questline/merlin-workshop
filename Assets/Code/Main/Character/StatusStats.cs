@@ -138,33 +138,33 @@ namespace Awaken.TG.Main.Character {
                 StatusStatsValues statValues = statusStats.ParentModel.StatusStatsTemplate.StatusStats;
                 int tier = statusStats.ParentModel.Tier;
                 
-                BleedBuildupDif = statusStats.BleedBuildup.BaseValue - statValues.Bleed.GetThreshold(tier);
-                BleedEffectModifierDif = statusStats.BleedEffectModifier.BaseValue - statValues.Bleed.GetModifier();
-                BurnBuildupDif = statusStats.BurnBuildup.BaseValue - statValues.Burn.GetThreshold(tier);
-                BurnEffectModifierDif = statusStats.BurnEffectModifier.BaseValue - statValues.Burn.GetModifier();
-                FrenzyBuildupDif = statusStats.FrenzyBuildup.BaseValue - statValues.Frenzy.GetThreshold(tier);
-                FrenzyEffectModifierDif = statusStats.FrenzyEffectModifier.BaseValue - statValues.Frenzy.GetModifier();
-                ConfusionBuildupDif = statusStats.ConfusionBuildup.BaseValue - statValues.Confusion.GetThreshold(tier);
-                ConfusionEffectModifierDif = statusStats.ConfusionEffectModifier.BaseValue - statValues.Confusion.GetModifier();
-                CorruptionBuildupDif = statusStats.CorruptionBuildup.BaseValue - statValues.Corruption.GetThreshold(tier);
-                CorruptionEffectModifierDif = statusStats.CorruptionEffectModifier.BaseValue - statValues.Corruption.GetModifier();
-                MuteBuildupDif = statusStats.MuteBuildup.BaseValue - statValues.Mute.GetThreshold(tier);
-                MuteEffectModifierDif = statusStats.MuteEffectModifier.BaseValue - statValues.Mute.GetModifier();
-                PoisonBuildupDif = statusStats.PoisonBuildup.BaseValue - statValues.Poison.GetThreshold(tier);
-                PoisonEffectModifierDif = statusStats.PoisonEffectModifier.BaseValue - statValues.Poison.GetModifier();
-                SlowBuildupDif = statusStats.SlowBuildup.BaseValue - statValues.Slow.GetThreshold(tier);
-                SlowEffectModifierDif = statusStats.SlowEffectModifier.BaseValue - statValues.Slow.GetModifier();
-                StunBuildupDif = statusStats.StunBuildup.BaseValue - statValues.Stun.GetThreshold(tier);
-                StunEffectModifierDif = statusStats.StunEffectModifier.BaseValue - statValues.Stun.GetModifier();
-                WeakBuildupDif = statusStats.WeakBuildup.BaseValue - statValues.Weak.GetThreshold(tier);
-                WeakEffectModifierDif = statusStats.WeakEffectModifier.BaseValue - statValues.Weak.GetModifier();
+                BleedBuildupDif = statusStats.BleedBuildup.ValueForSave - statValues.Bleed.GetThreshold(tier);
+                BleedEffectModifierDif = statusStats.BleedEffectModifier.ValueForSave - statValues.Bleed.GetModifier();
+                BurnBuildupDif = statusStats.BurnBuildup.ValueForSave - statValues.Burn.GetThreshold(tier);
+                BurnEffectModifierDif = statusStats.BurnEffectModifier.ValueForSave - statValues.Burn.GetModifier();
+                FrenzyBuildupDif = statusStats.FrenzyBuildup.ValueForSave - statValues.Frenzy.GetThreshold(tier);
+                FrenzyEffectModifierDif = statusStats.FrenzyEffectModifier.ValueForSave - statValues.Frenzy.GetModifier();
+                ConfusionBuildupDif = statusStats.ConfusionBuildup.ValueForSave - statValues.Confusion.GetThreshold(tier);
+                ConfusionEffectModifierDif = statusStats.ConfusionEffectModifier.ValueForSave - statValues.Confusion.GetModifier();
+                CorruptionBuildupDif = statusStats.CorruptionBuildup.ValueForSave - statValues.Corruption.GetThreshold(tier);
+                CorruptionEffectModifierDif = statusStats.CorruptionEffectModifier.ValueForSave - statValues.Corruption.GetModifier();
+                MuteBuildupDif = statusStats.MuteBuildup.ValueForSave - statValues.Mute.GetThreshold(tier);
+                MuteEffectModifierDif = statusStats.MuteEffectModifier.ValueForSave - statValues.Mute.GetModifier();
+                PoisonBuildupDif = statusStats.PoisonBuildup.ValueForSave - statValues.Poison.GetThreshold(tier);
+                PoisonEffectModifierDif = statusStats.PoisonEffectModifier.ValueForSave - statValues.Poison.GetModifier();
+                SlowBuildupDif = statusStats.SlowBuildup.ValueForSave - statValues.Slow.GetThreshold(tier);
+                SlowEffectModifierDif = statusStats.SlowEffectModifier.ValueForSave - statValues.Slow.GetModifier();
+                StunBuildupDif = statusStats.StunBuildup.ValueForSave - statValues.Stun.GetThreshold(tier);
+                StunEffectModifierDif = statusStats.StunEffectModifier.ValueForSave - statValues.Stun.GetModifier();
+                WeakBuildupDif = statusStats.WeakBuildup.ValueForSave - statValues.Weak.GetThreshold(tier);
+                WeakEffectModifierDif = statusStats.WeakEffectModifier.ValueForSave - statValues.Weak.GetModifier();
                 
-                DrunkBuildupDif = statusStats.DrunkBuildup.BaseValue - statValues.Drunk.GetThreshold(tier);
-                DrunkEffectModifierDif = statusStats.DrunkEffectModifier.BaseValue - statValues.Drunk.GetModifier();
-                IntoxicatedBuildupDif = statusStats.IntoxicatedBuildup.BaseValue - statValues.Intoxicated.GetThreshold(tier);
-                IntoxicatedEffectModifierDif = statusStats.IntoxicatedEffectModifier.BaseValue - statValues.Intoxicated.GetModifier();
-                FullBuildupDif = statusStats.FullBuildup.BaseValue - statValues.Full.GetThreshold(tier);
-                FullEffectModifierDif = statusStats.FullEffectModifier.BaseValue - statValues.Full.GetModifier();
+                DrunkBuildupDif = statusStats.DrunkBuildup.ValueForSave - statValues.Drunk.GetThreshold(tier);
+                DrunkEffectModifierDif = statusStats.DrunkEffectModifier.ValueForSave - statValues.Drunk.GetModifier();
+                IntoxicatedBuildupDif = statusStats.IntoxicatedBuildup.ValueForSave - statValues.Intoxicated.GetThreshold(tier);
+                IntoxicatedEffectModifierDif = statusStats.IntoxicatedEffectModifier.ValueForSave - statValues.Intoxicated.GetModifier();
+                FullBuildupDif = statusStats.FullBuildup.ValueForSave - statValues.Full.GetThreshold(tier);
+                FullEffectModifierDif = statusStats.FullEffectModifier.ValueForSave - statValues.Full.GetModifier();
             }
         }
     }

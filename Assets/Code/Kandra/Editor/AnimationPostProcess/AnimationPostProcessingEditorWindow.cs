@@ -1,6 +1,5 @@
 ﻿using System;
-using Awaken.Kandra.AnimationPostProcessing;
-using Awaken.TG.Editor.Utility.Localization;
+using Awaken.Kandra.AnimationPostProcess;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Maths;
@@ -10,8 +9,8 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Object = UnityEngine.Object;
 
-namespace Awaken.TG.Editor.Animations {
-    public class AnimationPostProcessingEditor : EditorWindow {
+namespace Awaken.Kandra.Editor.AnimationPostProcess {
+    public class AnimationPostProcessingEditorWindow : EditorWindow {
         AnimationPostProcessingPreset _preset;
         Transform _prefab;
         Transform _instance;
@@ -22,9 +21,15 @@ namespace Awaken.TG.Editor.Animations {
         Vector2 _scroll;
         int _selectedBoneIndex = -1;
 
-        [MenuItem("TG/Assets/Mesh/AnimPP Editor")]
+        [MenuItem("TG/Assets/Kandra/AnimPP Editor")]
         static void Open() {
-            GetWindow<AnimationPostProcessingEditor>().Show();
+            Open(null);
+        }
+
+        public static void Open(AnimationPostProcessingPreset preset) {
+            var window = GetWindow<AnimationPostProcessingEditorWindow>();
+            window._preset = preset;
+            window.Show();
         }
         
         void OnGUI() {

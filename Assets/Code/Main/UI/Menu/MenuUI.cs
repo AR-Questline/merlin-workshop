@@ -5,8 +5,10 @@ using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Saving.SaveSlots;
 using Awaken.TG.Main.Settings.Windows;
 using Awaken.TG.Main.UI.Bugs;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.Main.UI.Menu.Artbook;
+using Awaken.TG.Main.UI.Menu.ModManager;
 using Awaken.TG.Main.UI.Menu.OST;
 using Awaken.TG.Main.UI.Menu.SaveLoadUI;
 using Awaken.TG.Main.UI.PhotoMode;
@@ -41,17 +43,10 @@ namespace Awaken.TG.Main.UI.Menu {
             this.ListenTo(VModalBlocker.Events.ModalDismissed, Close, this);
         }
 
-        public static void OpenLoadUI() {
-            World.Add(new LoadMenuUI());
-        }
-
-        public static void OpenSaveUI() {
-            World.Add(new SaveMenuUI());
-        }
-
-        public static void OpenSettingUI() {
-            World.Add(new AllSettingsUI());
-        }
+        public static void OpenLoadUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new LoadMenuUI()), parentView);
+        public static void OpenSaveUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new SaveMenuUI()), parentView);
+        public static void OpenSettingUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new AllSettingsUI()), parentView);
+        public static void OpenModUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new ModManagerUI()), parentView);
         
         public static void OpenOstUI() {
             World.Add(new OstUI());
@@ -61,9 +56,9 @@ namespace Awaken.TG.Main.UI.Menu {
             World.Add(new ArtbookUI());
         }
 
-        public static void OpenBugReportUI() {
+        public static void OpenBugReportUI(View parentView) {
 #if !UNITY_GAMECORE
-            World.Add(new UserBugReporting(false));
+            UIUtils.AddOverlayUIView(World.Add(new UserBugReporting(false)), parentView);
 #endif
         }
         
@@ -83,14 +78,6 @@ namespace Awaken.TG.Main.UI.Menu {
                 PopupUI.CancelTapPrompt(ClosePopup),
                 LocTerms.PopupQuitToSystem.Translate()
             );
-        }
-        
-        public void ReportBug() {
-            OpenBugReportUI();
-        }
-        
-        public void ShowOptions() {
-            OpenSettingUI();
         }
         
         public void Unstuck() {

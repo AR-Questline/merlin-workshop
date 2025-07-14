@@ -34,7 +34,13 @@ namespace Awaken.TG.MVC.Domains {
                         LoadSave.Get.LoadSaveSlotMetadata(domain);
                         LoadSave.Get.ClearCache(domain);
 
-                        loadedSaveSlots.Add((slot, LatestSaveSlot()));
+                        SaveSlot latestSaveSlot = LatestSaveSlot();
+
+                        if (latestSaveSlot.ChangedID) {
+                            LoadSave.Get.SaveMetadataDomainSynchronous(domain); // ensure new slot id is saved
+                        }
+                        
+                        loadedSaveSlots.Add((slot, latestSaveSlot));
                     } catch (Exception e) {
                         Log.Critical?.Error($"Error while loading metadata domain {Domain.SaveSlotMetaData(slot)}. Exception below");
                         Debug.LogException(e);
@@ -88,7 +94,7 @@ namespace Awaken.TG.MVC.Domains {
                         }
                             
                         IOUtil.DirectoryCopy(oldSlotPath, newSlotPath);
-                        pair.saveSlot.DiscardAfterFolderRename(oldSlotPath);
+                        pair.saveSlot.DiscardAfterFolderRename(pair.expectedFolder);
                         
                         loadedSaveSlots[i] = (tempFolder, pair.saveSlot);
                     } catch (Exception e) {

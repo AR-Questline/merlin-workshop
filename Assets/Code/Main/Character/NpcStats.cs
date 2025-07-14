@@ -82,19 +82,19 @@ namespace Awaken.TG.Main.Character {
             public void PrepareForSave(NpcStats npcStats) {
                 NpcTemplate template = npcStats.ParentModel.Template;
                 
-                SightDif = npcStats.Sight.BaseValue - DefaultPerceptionValues;
-                SightLengthMultiplierDif = npcStats.SightLengthMultiplier.BaseValue - DefaultPerceptionValues;
-                HearingDif = npcStats.Hearing.BaseValue - DefaultPerceptionValues;
-                PoiseThresholdDif = npcStats.PoiseThreshold.BaseValue - DefaultPoiseValue;
-                ForceStumbleThresholdDif = npcStats.ForceStumbleThreshold.BaseValue - DefaultPoiseValue;
+                SightDif = npcStats.Sight.ValueForSave - DefaultPerceptionValues;
+                SightLengthMultiplierDif = npcStats.SightLengthMultiplier.ValueForSave - DefaultPerceptionValues;
+                HearingDif = npcStats.Hearing.ValueForSave - DefaultPerceptionValues;
+                PoiseThresholdDif = npcStats.PoiseThreshold.ValueForSave - DefaultPoiseValue;
+                ForceStumbleThresholdDif = npcStats.ForceStumbleThreshold.ValueForSave - DefaultPoiseValue;
                 
-                BlockDif = npcStats.Block.BaseValue - template.blockValue;
-                BlockPenaltyMultiplierDif = npcStats.BlockPenaltyMultiplier.BaseValue - template.blockPenaltyMultiplier;
-                MeleeDamageDif = npcStats.MeleeDamage.BaseValue - template.meleeDamage;
-                RangedDamageDif = npcStats.RangedDamage.BaseValue - template.rangedDamage;
-                MagicDamageDif = npcStats.MagicDamage.BaseValue - template.magicDamage;
-                ForceDamageMultiplierDif = npcStats.ForceDamageMultiplier.BaseValue - 1;
-                HeroKnockBackDif = npcStats.HeroKnockBack.BaseValue - template.heroKnockBack;
+                BlockDif = npcStats.Block.ValueForSave - template.blockValue;
+                BlockPenaltyMultiplierDif = npcStats.BlockPenaltyMultiplier.ValueForSave - template.blockPenaltyMultiplier;
+                MeleeDamageDif = npcStats.MeleeDamage.ValueForSave - template.meleeDamage;
+                RangedDamageDif = npcStats.RangedDamage.ValueForSave - template.rangedDamage;
+                MagicDamageDif = npcStats.MagicDamage.ValueForSave - template.magicDamage;
+                ForceDamageMultiplierDif = npcStats.ForceDamageMultiplier.ValueForSave - 1;
+                HeroKnockBackDif = npcStats.HeroKnockBack.ValueForSave - template.heroKnockBack;
             }
         }
     }

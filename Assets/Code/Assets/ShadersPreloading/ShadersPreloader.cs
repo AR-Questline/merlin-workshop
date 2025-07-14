@@ -16,6 +16,10 @@ namespace Awaken.TG.Assets.ShadersPreloading {
         public static ShadersPreloader Instance { get; private set; }
 
         public static bool ShouldPreload() {
+            if (PlatformUtils.IsEditor) {
+                return Configuration.GetBool(PreloadInEditor);
+            }
+
             var forcePreloadShaders = Configuration.GetBool(ForcePreloadShadersKey);
             if (forcePreloadShaders) {
                 return true;
@@ -24,10 +28,6 @@ namespace Awaken.TG.Assets.ShadersPreloading {
             var forceNotPreloadShaders = Configuration.GetBool(DoNotPreloadKey);
             if (forceNotPreloadShaders) {
                 return false;
-            }
-
-            if (PlatformUtils.IsEditor) {
-                return Configuration.GetBool(PreloadInEditor);
             }
 
             if (PlatformUtils.IsConsole || PlatformUtils.IsSteamDeck) {

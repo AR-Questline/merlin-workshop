@@ -106,6 +106,12 @@ namespace Awaken.TG.Main.UI.Components {
             _destinedPosition.x = Mathf.Clamp01(Rect.normalizedPosition.x + _normalizedOffset.x);
             _destinedPosition.y = Mathf.Clamp01(Rect.normalizedPosition.y + _normalizedOffset.y);
         }
+        
+        public void SnapToComponent(Component selected) {
+            _selectedRect = selected.transform as RectTransform;
+            RecalculatePosition();
+            Rect.normalizedPosition = _destinedPosition;
+        }
 
         RectTransform FindSelectedRect(Component selected) {
             Transform selectedTransform = selected.transform;

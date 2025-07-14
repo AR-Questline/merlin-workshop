@@ -1,6 +1,7 @@
 using System;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Scenes.SceneConstructors;
@@ -17,7 +18,7 @@ namespace Awaken.TG.Main.General.StatTypes {
         public ProficiencyCategory Category { get; }
         public Func<ShareableSpriteReference> GetIcon { get; }
 
-        ProfStatType(string id, string displayName, string description, Func<ICharacter, Stat> getter, ProficiencyCategory category = null, Func<ShareableSpriteReference> getIcon = null, bool useStrength = false, CharacterStatType multiStat = null,
+        ProfStatType(string id, string displayName, string description, Func<Hero, Stat> getter, ProficiencyCategory category = null, Func<ShareableSpriteReference> getIcon = null, bool useStrength = false, CharacterStatType multiStat = null,
             string inspectorCategory = "Proficiencies") : base(id, displayName, getter, inspectorCategory, new Param {Description = description}) {
             UseStrength = useStrength;
             MultiStat = multiStat;

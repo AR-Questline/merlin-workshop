@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -208,7 +210,7 @@ namespace Awaken.TG.Main.Saving {
                 deleteTask.GetAwaiter().GetResult();
                 _saveSystem.BeginSaving(saveSlot, dataSize);
 
-                var metadataTask = saveSlot.CaptureSlotInfo();
+                var metadataTask = saveSlot.CaptureSlotInfo(_domainsCache.CachedDomainsCount);
                 tasks.Add(metadataTask);
                 
                 var usedLargeFilesIndices = new UnsafeBitmask(1, ARAlloc.Persistent);
@@ -240,8 +242,15 @@ namespace Awaken.TG.Main.Saving {
 
         async UniTask EndSavingTask(List<UniTask> tasks, SaveSlot saveSlot) {
             await UniTask.WhenAll(tasks);
-            await _saveSystem.EndSaving(saveSlot, false);
-            World.Services.Get<CachedDomainsVerificationService>().DiscardSaveIfCorrupted(saveSlot);
+
+            var saveSummary = await _saveSystem.EndSaving(saveSlot, false);
+            
+            var cachedDomainsVerificationService = World.Services.Get<CachedDomainsVerificationService>();
+            if (!saveSlot.ValidateDomainAmount(saveSummary, out var errorMessage)) {
+                cachedDomainsVerificationService.InformThatSavingCachedDomainFailed(Domain.Gameplay, errorMessage, DomainDataSource.Invalid);
+            }
+            
+            cachedDomainsVerificationService.DiscardSaveIfCorrupted(saveSlot);
         }
 
         public void SaveMetadataDomainSynchronous(Domain domain) {
@@ -276,8 +285,11 @@ namespace Awaken.TG.Main.Saving {
 
         public void LoadSaveSlotToCache(SaveSlot saveSlot) {
             string relativePath = saveSlot.CurrentDomain.ConstructSavePath(saveSlot);
-            CloudService.Get.BeginLoadDirectory(relativePath);
-
+            var saveSummary = CloudService.Get.BeginLoadDirectory(relativePath);
+            if (!saveSlot.ValidateDomainAmount(saveSummary, out string errorMessage)) {
+                throw new Exception(errorMessage);
+            }
+            
             try {
                 foreach (var domainToLoad in DomainUtils.GetSaveSlotChildren()) {
                     if (_loadSystem.TryLoadCompressedSaveDataFromFile(domainToLoad, saveSlot, out var compressedBytes)) {

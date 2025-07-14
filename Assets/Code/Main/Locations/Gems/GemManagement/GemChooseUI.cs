@@ -30,7 +30,7 @@ namespace Awaken.TG.Main.Locations.Gems.GemManagement {
             var gemSlots = ParentModel.Elements<GemSlotUI>();
 
             if (gemSlots.Any(gem => gem.PreviewGemItem == item)) {
-                return false;
+                return item.Quantity - 1 > 0;
             }
             
             if (gearItem.IsArmor) {

@@ -20,7 +20,7 @@ namespace Awaken.Kandra {
         public ushort bindposesCount;
         public float reciprocalUvDistribution;
 
-        public string archive;
+        public string modDirectory;
         
         public unsafe Data ReadSerializedData(UnsafeArray<byte>.Span serializedData) {
             CheckSerializedDataLength(serializedData.Length);

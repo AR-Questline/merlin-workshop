@@ -56,7 +56,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
             InitDrake(transparencyID);
 
             if (HasAshPrefab) {
-                ashPrefabRef.Preload<GameObject>(() => StillExists);
+                ashPrefabRef.Preload<GameObject>(() => StillExists).Forget();
             }
             
             if (delay > 0) {

@@ -239,6 +239,14 @@ namespace Awaken.TG.Main.Utility {
                 
                 public BugReport(string enumName) : base(enumName) { }
             }
+
+            public class Mods : UI {
+                public static readonly Mods
+                    ModUp = new(nameof(ModUp)),
+                    ModDown = new(nameof(ModDown));
+                
+                Mods(string enumName) : base(enumName) { }
+            }
             
             UI(string enumName) : base(enumName) { }
         }

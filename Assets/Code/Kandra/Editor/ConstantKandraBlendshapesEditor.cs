@@ -1,12 +1,11 @@
 ﻿using System;
 using Awaken.Utility.Collections;
-using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace Awaken.Kandra.Editor {
     [CustomEditor(typeof(ConstantKandraBlendshapes))]
-    public class ConstantKandraBlendshapesEditor : OdinEditor {
+    public class ConstantKandraBlendshapesEditor : UnityEditor.Editor {
         public override void OnInspectorGUI() {
             var blendshapes = (ConstantKandraBlendshapes)target;
             if (!blendshapes.TryGetComponent<KandraRenderer>(out var renderer)) {

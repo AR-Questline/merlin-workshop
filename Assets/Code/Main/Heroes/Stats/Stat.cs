@@ -34,6 +34,8 @@ namespace Awaken.TG.Main.Heroes.Stats {
         public int BaseInt => Mathf.CeilToInt(BaseValue);
 
         public int ModifiedInt => Mathf.CeilToInt(ModifiedValue);
+        
+        public virtual float ValueForSave => BaseValue;
 
         public float PredictedModification {
             get {

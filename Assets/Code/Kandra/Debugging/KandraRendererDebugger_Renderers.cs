@@ -92,7 +92,7 @@ namespace Awaken.Kandra.Debugging {
             GUILayout.BeginHorizontal();
             GUILayout.Space(Indent);
             GUILayout.BeginVertical();
-            renderer.DrawDebugInfo();
+            renderer.DrawMemoryInfo();
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
         }

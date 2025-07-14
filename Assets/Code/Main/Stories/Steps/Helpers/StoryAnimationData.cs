@@ -1,16 +1,14 @@
 using System.Threading;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.AI.Idle.Interactions;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.Animations.FSM.Npc.Machines;
 using Awaken.TG.Main.Animations.FSM.Npc.States.Custom;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.Utils;
-using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
-using Awaken.TG.MVC;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Awaken.TG.Main.Stories.Steps.Helpers {
     public class StoryAnimationData {
@@ -18,7 +16,8 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
         
         public NpcElement npcElement;
         public ARNpcAnimancer arNpcAnimancer;
-        public AnimationClip animationClip;
+        public ARAssetReference gestureClipRef;
+        public float animationLength;
         CancellationToken _token;
 
         public async UniTaskVoid StartAnimation(CancellationToken stopToken) {
@@ -46,11 +45,11 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
                 if (!await AsyncUtil.DelayTime(npcElement, TransitionDuration, _token)) return;
             }
             
-            if (arNpcAnimancer == null || animationClip == null) {
+            if (arNpcAnimancer == null || gestureClipRef is not { IsSet: true }) {
                 await EnterCustomStoryTalking(_token);
             } else {
                 npcElement.SetAnimatorState(fsmType, NpcStateType.CustomGesticulate);
-                npcElement.GetAnimatorSubstateMachine(fsmType).Element<CustomGesticulate>().PlayClip(animationClip);
+                npcElement.GetAnimatorSubstateMachine(fsmType).Element<CustomGesticulate>().PlayClip(gestureClipRef).Forget();
                 await AsyncUtil.UntilCancelled(_token);
             }
 

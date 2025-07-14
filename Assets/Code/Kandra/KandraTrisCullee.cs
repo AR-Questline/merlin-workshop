@@ -4,7 +4,6 @@ using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.LowLevel.Collections;
-using Sirenix.OdinInspector;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -13,11 +12,11 @@ using UnityEngine;
 namespace Awaken.Kandra {
     [RequireComponent(typeof(KandraRenderer)), BurstCompile, ExecuteInEditMode]
     public class KandraTrisCullee : MonoBehaviour {
-        [InlineProperty] public SerializableGuid id;
+        public SerializableGuid id;
         public KandraRenderer kandraRenderer;
 
         UnsafeBitmask _visibleTris;
-        [FoldoutGroup("Debug"), ShowInInspector, Sirenix.OdinInspector.ReadOnly] StructList<KandraTrisCuller> _cullers = new StructList<KandraTrisCuller>(8);
+        StructList<KandraTrisCuller> _cullers = new StructList<KandraTrisCuller>(8);
 
         bool _inUnityLifetime;
 
@@ -62,7 +61,6 @@ namespace Awaken.Kandra {
         }
 #endif
 
-        [FoldoutGroup("Debug"), Button]
         public void Cull(KandraTrisCuller culler) {
             if (_cullers.Contains(culler)) {
                 Log.Critical?.Error("Trying to cull a culler that was already culled");
@@ -79,7 +77,6 @@ namespace Awaken.Kandra {
             }
         }
 
-        [FoldoutGroup("Debug"), Button]
         public void Uncull(KandraTrisCuller culler) {
             if (!kandraRenderer.rendererData.mesh) {
                 return;
@@ -95,7 +92,6 @@ namespace Awaken.Kandra {
             }
         }
 
-        [FoldoutGroup("Debug"), Button]
         unsafe void UpdateCulledMesh() {
             if (_cullers.Count == 0) {
                 kandraRenderer.ReleaseCullableMesh();
@@ -172,7 +168,10 @@ namespace Awaken.Kandra {
             ushort i3;
         }
 
+#if UNITY_EDITOR
         public struct EditorAccess {
+            public static ref readonly StructList<KandraTrisCuller> Cullers(KandraTrisCullee cullee) => ref cullee._cullers;
+
             public static UnsafeBitmask GetVisibleTriangles(KandraTrisCullee cullee, Allocator allocator) {
                 var trianglesCount = cullee.kandraRenderer.rendererData.mesh.indicesCount / 3;
                 var visibleTris = new UnsafeBitmask(trianglesCount, allocator);
@@ -182,6 +181,11 @@ namespace Awaken.Kandra {
                 }
                 return visibleTris;
             }
+
+            public static void UpdateCulledMesh(KandraTrisCullee cullee) {
+                cullee.UpdateCulledMesh();
+            }
         }
+#endif
     }
 }

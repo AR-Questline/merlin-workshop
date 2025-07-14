@@ -204,8 +204,6 @@ namespace Awaken.TG.Main.Fights.Finishers {
             var heroAnimancer = Hero.Current.MainView.GetComponentInChildren<ARHeroAnimancer>(true);
             heroAnimancer.RemoveOverrides(this, _heroAnimationHandle.Result);
             targetDeathAnimation.UnloadAndClear();
-            targetDeathAnimation.UnloadPreload();
-            targetDeathAnimation.Preload();
         }
 
         public void Unload() {

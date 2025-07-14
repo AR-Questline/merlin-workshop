@@ -185,24 +185,22 @@ namespace Awaken.TG.Main.Settings.Graphics {
             var pixelsCount = resolution.width * resolution.height;
 
             if (PlatformUtils.IsPS5Pro) {
-                if (pixelsCount >= PixelsCount4K) {
-                    return 0.7f;
-                } else if (pixelsCount > PixelsCount2K) {
-                    return 0.8f;
-                } else if (pixelsCount == PixelsCount2K) {
-                    return 0.9f;
-                } else if (pixelsCount > PixelsCount1K) {
-                    return 0.95f; // Fix distortion
+                if (pixelsCount > PixelsCount4K) { // (4K - 8K>
+                    return 0.1f;
+                } else if (pixelsCount > PixelsCount2K) { // (2K - 4K>
+                    return 0.35f;
+                } else if (pixelsCount > PixelsCount1K) { // (1K - 2K>
+                    return 0.75f;
                 } else {
                     return 0.9f;
                 }
             } else {
-                if (pixelsCount >= PixelsCount4K) {
-                    return 0.6f;
-                } else if (pixelsCount >= PixelsCount2K) {
-                    return 0.85f;
-                } else if (pixelsCount > PixelsCount1K) {
-                    return 0.95f; // Fix distortion
+                if (pixelsCount > PixelsCount4K) { // (4K - 8K>
+                    return 0.1f;
+                } else if (pixelsCount > PixelsCount2K) { // (2K - 4K>
+                    return 0.3f;
+                } else if (pixelsCount > PixelsCount1K) { // (1K - 2K>
+                    return 0.7f;
                 } else {
                     return 0.9f;
                 }
@@ -212,10 +210,12 @@ namespace Awaken.TG.Main.Settings.Graphics {
                 return 0.5f;
             } else {
                 var pixelsCount = resolution.width * resolution.height;
-                if (pixelsCount > PixelsCount4K) {
+                if (pixelsCount > PixelsCount4K) { // (4K - 8K>
                     return 0.1f;
-                } else if (pixelsCount > PixelsCount2K) {
+                } else if (pixelsCount > PixelsCount2K) { // (2K - 4K>
                     return 0.4f;
+                } else if (pixelsCount > PixelsCount1K) { // (1K - 2K>
+                    return 0.8f;
                 } else {
                     return 0.9f;
                 }

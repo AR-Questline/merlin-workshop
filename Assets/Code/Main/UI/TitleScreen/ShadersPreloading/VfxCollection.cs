@@ -10,6 +10,7 @@ namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
     [CreateAssetMenu(menuName = "TG/Assets/Shaders/Vfx collection")]
     public class VfxCollection : ScriptableObject {
         public GameObject[] vfxPrefabs = Array.Empty<GameObject>();
+        public VisualEffectAsset[] vfxAssets = Array.Empty<VisualEffectAsset>();
 
 #if UNITY_EDITOR
         [Button]
@@ -29,6 +30,22 @@ namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
             }
 
             vfxPrefabs = vfxNewSet.ToArray();
+
+            var vfxAssetsSet = new HashSet<VisualEffectAsset>();
+            if (update) {
+                vfxAssetsSet.UnionWith(vfxAssets.WhereNotUnityNull());
+            }
+
+            var allAssetsGuids = UnityEditor.AssetDatabase.FindAssets("t:VisualEffectAsset", new[] { "Assets" });
+            foreach (var guid in allAssetsGuids) {
+                var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+                var visualEffectAsset = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualEffectAsset>(path);
+                if (visualEffectAsset != null) {
+                    vfxAssetsSet.Add(visualEffectAsset);
+                }
+            }
+
+            vfxAssets = vfxAssetsSet.ToArray();
         }
 #endif
     }

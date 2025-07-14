@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Awaken.Kandra.AnimationPostProcessing;
+using Awaken.Kandra.AnimationPostProcess;
 using Awaken.Kandra.Managers;
 using Awaken.Kandra.VFXs;
 using Awaken.Utility;

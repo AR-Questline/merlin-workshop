@@ -28,12 +28,13 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace Awaken.TG.Main.Heroes.Animations {
     public partial class PetShargAction : AbstractLocationAction {
         public sealed override bool IsNotSaved => true;
+        static ShareableARAssetReference CutOffHandRef => CommonReferences.Get.cutOffHand;
 
         bool _handCutOff;
         IEventListener _handCutListener, _exitListener;
         HeroLocationInteractionInvolvement _involvement;
         ARAsyncOperationHandle<GameObject> _cutOffHandHandle;
-        ARAssetReference _cutOffHand;
+        AsyncOperationHandle<GameObject> _cutOffHandPreloadHandle;
         GameObject _cutOffHandInstance;
         bool _exited;
         
@@ -59,8 +60,7 @@ namespace Awaken.TG.Main.Heroes.Animations {
         protected override void OnStart(Hero hero, IInteractableWithHero interactable) {
             _exitListener = Hero.Current.ListenToLimited(HeroPetSharg.Events.PetShargEnded, Exit, this);
             _exited = false;
-            _cutOffHand = CommonReferences.Get.cutOffHand.Get();
-            _cutOffHand.PreloadLight<GameObject>();
+            _cutOffHandPreloadHandle = CutOffHandRef.PreloadLight<GameObject>();
 
             VHeroController heroController = hero.VHeroController;
             heroController.HeroCamera.SetPitch(0);
@@ -113,7 +113,7 @@ namespace Awaken.TG.Main.Heroes.Animations {
         }
 
         void SpawnCutOffHand() {
-            _cutOffHandHandle = _cutOffHand.LoadAsset<GameObject>();
+            _cutOffHandHandle = CutOffHandRef.Get().LoadAsset<GameObject>();
             _cutOffHandHandle.OnComplete(h => {
                 if (HasBeenDiscarded || _exited) {
                     ReleaseCutoffHand();
@@ -155,8 +155,9 @@ namespace Awaken.TG.Main.Heroes.Animations {
                 Object.Destroy(_cutOffHandInstance);
                 _cutOffHandInstance = null;
             }
-            _cutOffHand.ReleaseAsset();
-            _cutOffHand = null;
+            
+            CutOffHandRef.ReleasePreloadLight(_cutOffHandPreloadHandle);
+            _cutOffHandPreloadHandle = default;
             
             World.EventSystem.TryDisposeListener(ref _handCutListener);
             World.EventSystem.TryDisposeListener(ref _exitListener);

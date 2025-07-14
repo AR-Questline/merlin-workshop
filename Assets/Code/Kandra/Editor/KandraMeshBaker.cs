@@ -6,10 +6,9 @@ using Awaken.Kandra.Data;
 using Awaken.Kandra.Managers;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.Editor.Helpers;
 using Awaken.Utility.Extensions;
 using Awaken.Utility.LowLevel.Collections;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using Unity.Burst;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
@@ -18,17 +17,40 @@ using UnityEngine;
 
 namespace Awaken.Kandra.Editor {
     [BurstCompile]
-    public class KandraMeshBaker : OdinEditorWindow {
+    public class KandraMeshBaker : AREditorWindow {
         static readonly StringBuilder ReusableStringBuilder = new();
         
-        [SerializeField, OnValueChanged(nameof(InputChanged))] Mesh mesh;
-        [SerializeField, OnValueChanged(nameof(InputChanged)), ValueDropdown(nameof(PossibleRootBones))] string rootBoneName;
+        [SerializeField] Mesh mesh;
+        [SerializeField] string rootBoneName;
 
-        [ShowInInspector, ReadOnly] KandraMesh result;
+        KandraMesh _result;
 
+        string[] _possibleRootBones = Array.Empty<string>();
         string _error;
 
-        [Button]
+        protected override void OnEnable() {
+            base.OnEnable();
+
+            AddButton("Bake", Bake, () => mesh && !string.IsNullOrEmpty(rootBoneName));
+            AddCustomDrawer(nameof(rootBoneName), DrawRootBone);
+        }
+
+        protected override void OnGUI() {
+            EditorGUI.BeginChangeCheck();
+
+            base.OnGUI();
+
+            if (EditorGUI.EndChangeCheck()) {
+                InputChanged();
+            }
+
+            if (!_error.IsNullOrWhitespace()) {
+                EditorGUILayout.HelpBox(_error, MessageType.Error);
+            } else if (_result) {
+                EditorGUILayout.ObjectField("Result:", _result, typeof(KandraMesh), false);
+            }
+        }
+
         void Bake() {
             if (!TryGetFbxRenderer(mesh, out var fbx, out var renderer, out _error)) {
                 return;
@@ -36,14 +58,17 @@ namespace Awaken.Kandra.Editor {
             if (!TryGetRootBone(fbx, renderer, ValidateRootBoneName(rootBoneName), out var rootBone, out var rootBoneIndex, out _error)) {
                 return;
             }
-            result = Create(mesh, rootBoneIndex, out _);
+            _result = Create(mesh, rootBoneIndex, out _);
         }
 
-        protected override void OnImGUI() {
-            base.OnImGUI();
-            if (!_error.IsNullOrWhitespace()) {
-                EditorGUILayout.HelpBox(_error, MessageType.Error);
+        void DrawRootBone(SerializedProperty rootBoneNameProp) {
+            if (_possibleRootBones.Length == 0) {
+                return;
             }
+            var selectedIndex = Array.IndexOf(_possibleRootBones, rootBoneNameProp.stringValue);
+            selectedIndex = EditorGUILayout.Popup("Root Bone", selectedIndex, _possibleRootBones);
+            var selectedValue = selectedIndex < 0 ? "-" : _possibleRootBones[selectedIndex];
+            rootBoneNameProp.stringValue = selectedValue;
         }
 
         public static KandraMesh Create(Mesh mesh, int rootBoneIndex, out float3x4 rootBoneBindpose) {
@@ -401,11 +426,8 @@ namespace Awaken.Kandra.Editor {
         }
 
         void InputChanged() {
-            result = null;
-        }
-
-        string[] PossibleRootBones() {
-            return GetPossibleRootBones(mesh);
+            _result = null;
+            _possibleRootBones = GetPossibleRootBones(mesh);
         }
 
         public static string[] GetPossibleRootBones(Mesh mesh) {

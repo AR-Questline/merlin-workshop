@@ -30,7 +30,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Fishing {
 
         Prompt _closePrompt;
 
-        public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
+        public override Transform DetermineHost() => Services.Get<ViewHosting>().OnHUD();
         FishCaughtData Data => Target.data;
 
         protected override void OnInitialize() {

@@ -53,6 +53,10 @@ namespace Awaken.TG.Assets {
         public MeshAssetReferenceAttribute(AddressableGroup group, params string[] labels) : base(new[] {typeof(Mesh)}, true, group, labels) { }
     }
     
+    public class AnimationClipAssetReferenceAttribute : ARAssetReferenceSettingsAttribute {
+        public AnimationClipAssetReferenceAttribute(params string[] labels) : base(new[] {typeof(AnimationClip)}, true, AddressableGroup.Animations, labels) { }
+    }
+    
     public class ClipTransitionAssetReferenceAttribute : ARAssetReferenceSettingsAttribute {
         public ClipTransitionAssetReferenceAttribute(params string[] labels) : base(new[] {typeof(ClipTransitionAsset)}, true, AddressableGroup.AnimatorOverrides, labels) { }
     }

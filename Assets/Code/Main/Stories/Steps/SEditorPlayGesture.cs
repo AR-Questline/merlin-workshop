@@ -1,3 +1,4 @@
+using Awaken.TG.Assets;
 using Awaken.TG.Main.AI.Idle.Interactions;
 using Awaken.TG.Main.Character.Features;
 using Awaken.TG.Main.Fights;
@@ -80,16 +81,16 @@ namespace Awaken.TG.Main.Stories.Steps {
                 return null;
             }
 
-            Gender gender = speaker.GetGender();
-            AnimationClip clip = speaker.InteractionGestures?.TryToGetGestureOverrideClip(gestureKey) ?? 
-                                 speaker.GesturesWrapper?.TryToGetGestureOverrideClip(gestureKey) ??
-                                 GesturesSerializedWrapper.TryToGetDefaultGesture(gestureKey, gender);
+            GestureData? gestureData = speaker.InteractionGestures?.TryToGetGestureOverrideClipRef(gestureKey) ?? 
+                                       speaker.GesturesWrapper?.TryToGetGestureOverrideClipRef(gestureKey) ??
+                                       GesturesHelper.TryToGetDefaultGesture(gestureKey, speaker.GetGender());
             
-            if (clip != null) {
+            if (gestureData.HasValue) {
                 var data = new StoryAnimationData {
                     npcElement = speaker,
                     arNpcAnimancer =  arNpcAnimancer,
-                    animationClip = clip
+                    gestureClipRef = gestureData.Value.animationClipRef.Get(),
+                    animationLength = gestureData.Value.animationLength,
                 };
                 
                 return data;

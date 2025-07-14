@@ -20,11 +20,15 @@ using Awaken.TG.MVC.Utils;
 using Awaken.TG.Utility;
 using Awaken.Utility.Maths;
 using DG.Tweening;
+using JetBrains.Annotations;
 using UnityEngine;
 using Compass = Awaken.TG.Main.Maps.Compasses.Compass;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
     public partial class MapSceneUI : Element<MapUI>, MapSubTabsUI.ITab {
+        public static float MinZoom => GameConstants.Get.mapZoomIn;
+        public static float MaxZoom => GameConstants.Get.mapZoomOut;
+        
         public SceneReference Scene { get; }
         readonly bool _isCurrentScene;
         readonly MapSceneData _data;
@@ -32,20 +36,20 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
         Vector2 _startDragTranslation;
         float _fullZoom;
         
-        WeakModelRef<MapMarker> _selectedMarker;
+        WeakModelRef<MapMarker> _pointedMarkerRef;
         Tween _fadeFastTravel;
+        
+        bool _canvasCalculated;
+        Action _afterFirstCanvasCalculate;
         
         public Vector3 WorldPosition { get; private set; }
 
         public Type TabView => typeof(VMapSceneUI);
-        public Camera MarkersCamera => ParentModel.MarkersCamera;
         public MapSceneData Data => _data;
         public float Zoom => Mathf.Lerp(MinZoom, MaxZoom, _fullZoom);
         
         public float GamepadTranslationSpeed => Services.Get<GameConstants>().mapGamepadMoveSpeed * Zoom;
-        
-        float MinZoom => GameConstants.Get.mapZoomIn;
-        float MaxZoom => GameConstants.Get.mapZoomOut;
+        [CanBeNull] public MapMarker PointedMarker => _pointedMarkerRef.Get();
         
         public new static class Events {
             public static readonly Event<MapUI, MapSceneUI> ParametersChanged = new(nameof(ParametersChanged));
@@ -63,6 +67,10 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
             var worldPosition = _isCurrentScene ? Hero.Current.Coords : Data.Bounds.center;
             worldPosition.y = Data.Bounds.max.y;
             WorldPosition = worldPosition;
+        }
+
+        public void SortMarkers() {
+            View<VMapSceneUI>().SortMarkers();
         }
         
         public void ChangeZoom(float scrollDelta) {
@@ -84,11 +92,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
         }
         
         public void PointingTo(MapMarker mapMarker) {
-            if (mapMarker?.ID == _selectedMarker.ID) {
+            if (mapMarker?.ID == _pointedMarkerRef.ID) {
                 return;
             }
 
-            _selectedMarker = new(mapMarker);
+            _pointedMarkerRef = new(mapMarker);
             
             var compass = World.Any<Compass>();
             var customMarker = compass?.CustomMarkerLocation;
@@ -122,7 +130,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
                         }
                     }
 
-                    _selectedMarker = new(null as MapMarker);
+                    _pointedMarkerRef = new(null as MapMarker);
                     ParentModel.Trigger(Events.ParametersChanged, this);
                     ParentModel.Trigger(Events.SelectedMarkerChanged, null);
                     Physics.SyncTransforms();
@@ -191,6 +199,20 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
                 );
             }
             return true;
+        }
+        
+        public void FirstCanvasCalculated() {
+            _canvasCalculated = true;
+            _afterFirstCanvasCalculate?.Invoke();
+            _afterFirstCanvasCalculate = null;
+        }
+        
+        public void AfterFirstCanvasCalculate(Action action) {
+            if (_canvasCalculated) {
+                action.Invoke();
+                return;
+            }
+            _afterFirstCanvasCalculate += action;
         }
     }
 }

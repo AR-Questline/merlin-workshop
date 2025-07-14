@@ -1,30 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using Awaken.Utility.Collections;
+using Awaken.Utility.Editor.Helpers;
 using Awaken.Utility.Editor.Prefabs;
 using Awaken.Utility.GameObjects;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
-using static Awaken.Utility.Editor.Prefabs.PrefabVariantCrawler;
 
 namespace Awaken.Kandra.Editor {
-    public class BatchKandraCreator : OdinEditorWindow {
-        [FolderPath] public string[] folders = Array.Empty<string>();
-        public Node<PrefabNodeData>[] prefabs = Array.Empty<Node<PrefabNodeData>>();
-        
+    public class BatchKandraCreator : AREditorWindow {
+        [DirectoryPath] public string[] folders = Array.Empty<string>();
+        public PrefabVariantCrawler.Node<PrefabVariantCrawler.PrefabNodeData>[] prefabs = Array.Empty<PrefabVariantCrawler.Node<PrefabVariantCrawler.PrefabNodeData>>();
+
+        SerializedObject _serializedObject;
+        bool _hasMissingScripts;
+
         [MenuItem("TG/Assets/Kandra/Batch Create")]
         public static void ShowWindow() {
             EditorWindow.GetWindow<BatchKandraCreator>().Show();
         }
-        
-        [Button]
-        void Gather() {
-            prefabs = PrefabVariantCrawler.Gather(ShouldBeBaked, folders);
+
+        protected override void OnEnable() {
+            base.OnEnable();
+
+            AddButton("Gather Prefabs", Gather, HasValidFolders);
+            AddButton("Remove Missing Scripts", RemoveMissingScripts, () => prefabs.Length > 0 && _hasMissingScripts);
+            AddButton("Create Kandra", Create, () => prefabs.Length > 0 && !_hasMissingScripts);
         }
 
-        [Button]
+        protected override void OnGUI() {
+            if (HasValidFolders() == false) {
+                EditorGUILayout.HelpBox("Please choose at least one valid directory", MessageType.Info);
+            }
+
+            base.OnGUI();
+        }
+
+        void Gather() {
+            prefabs = PrefabVariantCrawler.Gather(ShouldBeBaked, folders);
+            if (prefabs.Length > 0) {
+                _hasMissingScripts = HasMissingScripts();
+            }
+        }
+
         void RemoveMissingScripts() {
             PrefabVariantCrawler.Foreach(prefabs, (data, prefab, context) => {
                 RemoveMissingScripts(prefab.transform);
@@ -32,6 +50,7 @@ namespace Awaken.Kandra.Editor {
                 EditorUtility.SetDirty(prefab);
                 AssetDatabase.SaveAssetIfDirty(prefab);
             });
+            _hasMissingScripts = false;
             
             static void RemoveMissingScripts(Transform transform) {
                 GameObjectUtility.RemoveMonoBehavioursWithMissingScript(transform.gameObject);
@@ -40,8 +59,7 @@ namespace Awaken.Kandra.Editor {
                 }
             }
         }
-        
-        [Button]
+
         void Create() {
             var creator = GetWindow<CreateKandra>();
             creator.StartBatchCreating();
@@ -53,12 +71,12 @@ namespace Awaken.Kandra.Editor {
                 var hasNestedPrefabs = false;
 
                 foreach (var current in components) {
-                    var parent = GetFromSource(parentPrefabTransform, current, out var source);
-                    if (source is Source.CurrentPrefab) {
+                    var parent = PrefabVariantCrawler.GetFromSource(parentPrefabTransform, current, out var source);
+                    if (source is PrefabVariantCrawler.Source.CurrentPrefab) {
                         ownedList.Add(OwningPrefabData.Create(current));
-                    } else if (source == Source.ParentPrefab) {
+                    } else if (source == PrefabVariantCrawler.Source.ParentPrefab) {
                         overridenList.Add(OverridenPrefabData.Create(parent, current));
-                    } else if (source == Source.NestedPrefab) {
+                    } else if (source == PrefabVariantCrawler.Source.NestedPrefab) {
                         hasNestedPrefabs = true;
                     }
                 }
@@ -140,8 +158,40 @@ namespace Awaken.Kandra.Editor {
             return prefab.GetComponentInChildren<SkinnedMeshRenderer>(true) != null && prefab.GetComponentInChildren<KandraRenderer>(true) == null;
         }
 
+        bool HasMissingScripts() {
+            var hasAnyMissingScripts = false;
+
+            PrefabVariantCrawler.Foreach(prefabs, (data, prefab, context) => {
+                hasAnyMissingScripts = hasAnyMissingScripts || HasAnyMissingScripts(prefab.transform);
+            });
+
+            return hasAnyMissingScripts;
+
+            static bool HasAnyMissingScripts(Transform transform) {
+                if (GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(transform.gameObject) > 0) {
+                    return true;
+                }
+                foreach (Transform child in transform) {
+                    if (HasAnyMissingScripts(child)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        bool HasValidFolders() {
+            foreach (var folder in folders) {
+                if (!string.IsNullOrEmpty(folder) && AssetDatabase.IsValidFolder(folder)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         [Serializable]
-        struct KandraData : INodeData {
+        struct KandraData : PrefabVariantCrawler.INodeData {
             public string Path { get; }
             public GameObject Prefab { get; set; }
             
@@ -149,7 +199,7 @@ namespace Awaken.Kandra.Editor {
             public OwningPrefabData[] owned;
             public OverridenPrefabData[] overriden;
             
-            public KandraData(in PrefabNodeData prefab, bool hasNestedPrefabs, OwningPrefabData[] owned, OverridenPrefabData[] overriden) {
+            public KandraData(in PrefabVariantCrawler.PrefabNodeData prefab, bool hasNestedPrefabs, OwningPrefabData[] owned, OverridenPrefabData[] overriden) {
                 Path = prefab.Path;
                 Prefab = prefab.Prefab;
                 this.hasNestedPrefabs = hasNestedPrefabs;

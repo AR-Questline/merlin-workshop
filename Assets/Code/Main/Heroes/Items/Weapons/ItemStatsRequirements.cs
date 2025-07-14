@@ -95,13 +95,13 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
             public void PrepareForSave(ItemStatsRequirements itemStatsStats) {
                 ItemStatsRequirementsAttachment dataSource = itemStatsStats._dataSource;
 
-                StrengthRequiredDif = itemStatsStats.StrengthRequired.BaseValue - dataSource.strengthRequired;
-                DexterityRequiredDif = itemStatsStats.DexterityRequired.BaseValue - dataSource.dexterityRequired;
-                SpiritualityRequiredDif = itemStatsStats.SpiritualityRequired.BaseValue - dataSource.spiritualityRequired;
+                StrengthRequiredDif = itemStatsStats.StrengthRequired.ValueForSave - dataSource.strengthRequired;
+                DexterityRequiredDif = itemStatsStats.DexterityRequired.ValueForSave - dataSource.dexterityRequired;
+                SpiritualityRequiredDif = itemStatsStats.SpiritualityRequired.ValueForSave - dataSource.spiritualityRequired;
                 
-                PerceptionRequiredDif = itemStatsStats.PerceptionRequired.BaseValue - dataSource.perceptionRequired;
-                EnduranceRequiredDif = itemStatsStats.EnduranceRequired.BaseValue - dataSource.enduranceRequired;
-                PracticalityRequiredDif = itemStatsStats.PracticalityRequired.BaseValue - dataSource.practicalityRequired;
+                PerceptionRequiredDif = itemStatsStats.PerceptionRequired.ValueForSave - dataSource.perceptionRequired;
+                EnduranceRequiredDif = itemStatsStats.EnduranceRequired.ValueForSave - dataSource.enduranceRequired;
+                PracticalityRequiredDif = itemStatsStats.PracticalityRequired.ValueForSave - dataSource.practicalityRequired;
             }
         }
     }

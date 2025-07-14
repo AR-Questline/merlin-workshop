@@ -4,8 +4,10 @@ using System.Linq;
 using Awaken.TG.Editor.SimpleTools;
 using Awaken.TG.EditorOnly;
 using Awaken.TG.Graphics.Scene;
+using Awaken.TG.Main.AI.Idle.Interactions;
 using Awaken.TG.Main.Locations.Actions.Attachments;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.Utility.Animations.Gestures;
 using Awaken.Utility.Debugging;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
@@ -132,6 +134,74 @@ namespace Awaken.TG.Editor.Assets {
                 directory = config.directory;
                 include = true;
             }
+        }
+    }
+
+    class ValidateGestureOverrides : ProjectScanner {
+        [Button]
+        void Validate() {
+            foreach (var scene in SceneIterator()) {
+                var interactions =  FindObjectsByType<SimpleInteraction>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                foreach (var interaction in interactions) {
+                    var prefabParent = PrefabUtility.GetCorrespondingObjectFromSource(interaction.gameObject);
+                    if (prefabParent != null) {
+                        var instance = interaction.gameObject;
+                        PrefabStage prefabStage = PrefabStageUtility.GetPrefabStage(instance);
+                        if (prefabStage != null && prefabStage.prefabContentsRoot == instance) {
+                            continue;
+                        }
+                        var prefabHandle = PrefabUtility.GetPrefabInstanceHandle(instance);
+                        if (prefabHandle == null) {
+                            continue;
+                        }
+                        var modifications = PrefabUtility.GetPropertyModifications(instance);
+                        if (modifications == null || modifications.Length == 0) {
+                            continue;
+                        }
+
+                        foreach (var modification in modifications) {
+                            if (modification.propertyPath == "gestures.explicitOverrides._guid" ||
+                                modification.propertyPath.Contains("gestures.embedOverrides.gestures.Array")) {
+                                Debug.LogError($"Overriden Gestures in prefab interaction: {interaction} on scene: {scene}", interaction);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                var dialogues = FindObjectsByType<DialogueAttachment>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                foreach (var dialogue in dialogues) {
+                    var prefabParent = PrefabUtility.GetCorrespondingObjectFromSource(dialogue.gameObject);
+                    if (prefabParent != null) {
+                        var instance = dialogue.gameObject;
+                        PrefabStage prefabStage = PrefabStageUtility.GetPrefabStage(instance);
+                        if (prefabStage != null && prefabStage.prefabContentsRoot == instance) {
+                            continue;
+                        }
+                        var prefabHandle = PrefabUtility.GetPrefabInstanceHandle(instance);
+                        if (prefabHandle == null) {
+                            continue;
+                        }
+                        var modifications = PrefabUtility.GetPropertyModifications(instance);
+                        if (modifications == null || modifications.Length == 0) {
+                            continue;
+                        }
+
+                        foreach (var modification in modifications) {
+                            if (modification.propertyPath == "gesturesWrapper.explicitOverrides._guid" ||
+                                modification.propertyPath.Contains("gesturesWrapper.embedOverrides.gestures.Array")) {
+                                Debug.LogError($"Overriden Gestures in dialogue attachment: {dialogue} on scene: {SceneManager.GetActiveScene().name}", instance);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        [MenuItem("TG/Project Scanner/Validate Gesture Overrides")]
+        public static void Create() {
+            GetWindow<ValidateGestureOverrides>().Show();
         }
     }
 

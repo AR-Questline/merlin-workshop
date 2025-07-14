@@ -8,32 +8,25 @@ using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.Utility;
-using DG.Tweening;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
     public partial class MapUI : CharacterSheetTab<VMapUI>, MapSubTabsUI.ITabParent<VMapUI> {
-        public static bool FogOfWarEnabled { get; private set; } = true;
-        
-        Tween _fadeFastTravel;
+        public const float MarginSize = 0.05f;
+        // Margin size works for orthographic camera. IDK why for real world size multiplier is 21, but it works.  
+        public const float MarginSizeWorldMultiplier = 21;
+
         bool _fastTravelAllowed;
-        
         Prompt _markerActionPrompt;
         
+        public static bool FogOfWarEnabled { get; private set; } = true;
         public MapSubTabType CurrentType { get; set; }
         public Tabs<MapUI, VMapSubTabsUI, MapSubTabType, MapSceneUI> TabsController { get; set; }
 
-        public Camera MarkersCamera => View<VMapCamera>() is { } view ? view.MarkersCamera : null;
-
         public bool FastTravelAllowed => _fastTravelAllowed || World.HasAny<FireplaceUI>();
         
-        protected override void OnInitialize() {
-            var prompts = ParentModel.Prompts;
-            _markerActionPrompt = prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Map.PlaceCustomMarker, LocTerms.UIMapPlaceCustomMarker.Translate()), this);
-            prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Map.MapTranslate, LocTerms.UIMapMove.Translate()), this);
-            prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Map.MapZoom, LocTerms.UIMapZoom.Translate()), this);
-
-        }
+        VMapUI VMapUI => View<VMapUI>();
 
         protected override void AfterViewSpawned(VMapUI view) {
             ParentModel.SetHeroOnRenderVisible(false);
@@ -41,9 +34,10 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
             var scenes = MapSubTabsUI.CollectAvailableScenes(out var currentType);
             CurrentType = currentType;
             if (scenes.Length > 0) {
-                World.SpawnView<VMapCamera>(this);
                 AddElement(new MapSubTabsUI(scenes));
             }
+            
+            InitPrompts();
         }
 
         public void AllowFastTravel() {
@@ -63,6 +57,20 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
 
         public static bool ToggleFogOfWar(bool? fogOfWarEnabled) {
             return FogOfWarEnabled = fogOfWarEnabled ?? !FogOfWarEnabled;
+        }
+
+        void InitPrompts() {
+            var prompts = ParentModel.Prompts;
+            ParentModel.Prompts.BindPrompt(Prompt.VisualOnlyTap(null, LocTerms.UIMapMove.Translate()), this, VMapUI.MapTranslateCustomPrompt);
+            VMapUI.MapTranslateCustomPrompt.transform.SetParent(ParentModel.PromptsHost);
+            prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Map.MapZoom, LocTerms.UIMapZoom.Translate()), this);
+            _markerActionPrompt = prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Map.PlaceCustomMarker, LocTerms.UIMapPlaceCustomMarker.Translate()), this);
+        }
+        
+        public static float GetOrthoSize(float zoom, in Vector3 boundsSize, float mapAspectRatio) {
+            float maxZ = math.max(boundsSize.z, boundsSize.x / mapAspectRatio);
+            float maxSize = maxZ / 2;
+            return (zoom + MarginSize) * maxSize;
         }
     }
 }

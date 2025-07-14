@@ -1,21 +1,20 @@
 ﻿using System;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
-using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Awaken.Kandra.AnimationPostProcessing {
+namespace Awaken.Kandra.AnimationPostProcess {
     public class AnimationPostProcessing : MonoBehaviour {
         [SerializeField] Entry[] entries = Array.Empty<Entry>();
         
-        [NonSerialized, ShowInInspector, ReadOnly] Entry[] _additionalEntries = Array.Empty<Entry>();
+        [NonSerialized] Entry[] _additionalEntries = Array.Empty<Entry>();
 
-        [NonSerialized, ShowInInspector, ReadOnly] public Transform[] transforms = Array.Empty<Transform>();
-        [NonSerialized, ShowInInspector, ReadOnly] public Vector3[] positions = Array.Empty<Vector3>();
-        [NonSerialized, ShowInInspector, ReadOnly] public Vector3[] scales = Array.Empty<Vector3>();
-        [NonSerialized, ShowInInspector, ReadOnly] public int[] batchStartIndex;
-        
+        [NonSerialized] public Transform[] transforms = Array.Empty<Transform>();
+        [NonSerialized] public Vector3[] positions = Array.Empty<Vector3>();
+        [NonSerialized] public Vector3[] scales = Array.Empty<Vector3>();
+        [NonSerialized] public int[] batchStartIndex = Array.Empty<int>();
+
         void Awake() {
             RecalculateData();
         }
@@ -33,7 +32,6 @@ namespace Awaken.Kandra.AnimationPostProcessing {
             Refresh();
         }
         
-        [Button]
         public void Refresh() {
             if (enabled && gameObject.activeInHierarchy) {
                 OnDisable();
@@ -118,9 +116,9 @@ namespace Awaken.Kandra.AnimationPostProcessing {
 
         [Serializable]
         public struct Entry {
-            [HorizontalGroup, HideLabel] public AnimationPostProcessingPreset preset;
-            [HorizontalGroup, HideLabel, Range(-1, 1)] public float weight;
-            
+            public AnimationPostProcessingPreset preset;
+            [Range(-1, 1)] public float weight;
+
             public Entry(AnimationPostProcessingPreset preset, float weight = 1) {
                 this.preset = preset;
                 this.weight = weight;
@@ -130,7 +128,14 @@ namespace Awaken.Kandra.AnimationPostProcessing {
         struct IntermediateBoneData {
             public Transform transform;
             public Vector3 position;
-            public Vector3 scale;            
+            public Vector3 scale;
         }
+
+#if UNITY_EDITOR
+        public struct EditorAccess {
+            public static ref readonly Entry[] Entries(AnimationPostProcessing pp) => ref pp.entries;
+            public static ref readonly Entry[] AdditionalEntries(AnimationPostProcessing pp) => ref pp._additionalEntries;
+        }
+#endif
     }
 }

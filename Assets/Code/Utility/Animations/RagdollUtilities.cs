@@ -14,17 +14,30 @@ namespace Awaken.Utility.Animations {
 
         public static void RemoveRagdoll(Transform transform) {
             foreach (var bone in RagdollBones(transform)) {
-                if (Application.isPlaying) {
-                    Object.Destroy(bone.GetComponent<ConfigurableJoint>());
-                    Object.Destroy(bone.GetComponent<CharacterJoint>());
-                    Object.Destroy(bone.GetComponent<Rigidbody>());
-                    Object.Destroy(bone.GetComponent<Collider>());
-                } else {
-                    Object.DestroyImmediate(bone.GetComponent<ConfigurableJoint>());
-                    Object.DestroyImmediate(bone.GetComponent<CharacterJoint>());
-                    Object.DestroyImmediate(bone.GetComponent<Rigidbody>());
-                    Object.DestroyImmediate(bone.GetComponent<Collider>());
-                }
+                RemoveRagdollBone(bone);
+            }
+        }
+
+        // Destroys ragdoll components and prevents ragdoll logic from recognising
+        // any transform from given tree as a ragdoll bone by resetting a layer.
+        public static void RemoveRagdollPermanently(Transform transform) {
+            foreach (var bone in RagdollBones(transform)) {
+                RemoveRagdollBone(bone);
+                bone.gameObject.layer = RenderLayers.Default;
+            }
+        }
+
+        public static void RemoveRagdollBone(Transform bone) {
+            if (Application.isPlaying) {
+                Object.Destroy(bone.GetComponent<ConfigurableJoint>());
+                Object.Destroy(bone.GetComponent<CharacterJoint>());
+                Object.Destroy(bone.GetComponent<Rigidbody>());
+                Object.Destroy(bone.GetComponent<Collider>());
+            } else {
+                Object.DestroyImmediate(bone.GetComponent<ConfigurableJoint>());
+                Object.DestroyImmediate(bone.GetComponent<CharacterJoint>());
+                Object.DestroyImmediate(bone.GetComponent<Rigidbody>());
+                Object.DestroyImmediate(bone.GetComponent<Collider>());
             }
         }
 

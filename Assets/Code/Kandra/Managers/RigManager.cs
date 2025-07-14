@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Awaken.Kandra.AnimationPostProcessing;
+using Awaken.Kandra.AnimationPostProcess;
 using Awaken.Kandra.Data;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;

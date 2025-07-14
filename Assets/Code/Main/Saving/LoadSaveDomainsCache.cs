@@ -26,6 +26,7 @@ namespace Awaken.TG.Main.Saving {
         Dictionary<Domain, uint> _cachedDomainsFilesSizes = new();
 
         public IEnumerable<Domain> CachedDomains => _cachedDomainsFilesSizes.Keys;
+        public int CachedDomainsCount => _cachedDomainsFilesSizes.Count;
 
         public LoadSaveDomainsCache() {
             DeleteAndCreateCachedDomainsDirectory();

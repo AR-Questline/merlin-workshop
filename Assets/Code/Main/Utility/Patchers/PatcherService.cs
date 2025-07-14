@@ -32,6 +32,7 @@ namespace Awaken.TG.Main.Utility.Patchers {
             new Patcher101_102(),
             new Patcher102_103(),
             new Patcher104_105(),
+            new Patcher106_106(),
             new Patcher_Final(), // put final as last
         };
 

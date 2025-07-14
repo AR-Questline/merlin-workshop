@@ -1,29 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using Awaken.Kandra.Data;
 using Awaken.TG.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.GameObjects;
 using Awaken.Utility.LowLevel.Collections;
 using Awaken.Utility.Previews;
-using Sirenix.OdinInspector;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 namespace Awaken.Kandra {
     [ExecuteInEditMode]
     public class KandraRenderer : MonoBehaviour, IARPreviewProvider {
-        [InlineProperty, HideLabel]
-#if UNITY_EDITOR
-        [OnValueChanged(nameof(EDITOR_RenderingDataChanged), true)]
-#endif
         public RendererData rendererData;
 
 #if UNITY_EDITOR
@@ -32,6 +24,7 @@ namespace Awaken.Kandra {
         [field: NonSerialized]
         public uint RenderingId { get; set; } = KandraRendererManager.InvalidBitmask | KandraRendererManager.ValidBitmask;
         [field: NonSerialized] public bool Destroyed { get; set; }
+
         public ushort BlendshapesCount => (ushort)rendererData.blendshapeWeights.Length;
 
         void Awake() {
@@ -455,10 +448,6 @@ namespace Awaken.Kandra {
             }
             materialsToRelease.Clear();
 
-#if UNITY_EDITOR
-            rendererData.EDITOR_Materials = rendererData.materials.CreateCopy();
-#endif
-
             TexturesChanged();
         }
 
@@ -510,7 +499,7 @@ namespace Awaken.Kandra {
             return (ownSize, sharedSize);
         }
 
-        public void DrawDebugInfo() {
+        public void DrawMemoryInfo() {
             if (KandraRendererManager.Instance.RigManager.TryGetMemoryRegionFor(rendererData.rig, out var rigMemory)) {
                 var memory = KandraRendererManager.Instance.RigManager.GetMemoryUsageFor(rendererData.rig);
                 GUILayout.Label($"Rig: {rigMemory} {M.HumanReadableBytes(memory)}");
@@ -555,12 +544,6 @@ namespace Awaken.Kandra {
 
         // Editor
 #if UNITY_EDITOR
-        [ShowInInspector] bool _showSkinnedVertices;
-        [ShowInInspector] uint Id => RenderingId & KandraRendererManager.ValidBitmask;
-        [ShowInInspector] bool IsRegistered => KandraRendererManager.Instance.IsRegistered(RenderingId);
-        [ShowInInspector] bool IsWaiting => KandraRendererManager.IsWaitingId(RenderingId);
-        [ShowInInspector] bool IsInvalid => KandraRendererManager.IsInvalidId(RenderingId);
-
         void OnDrawGizmosSelected() {
             if (KandraRendererManager.IsInvalidId(RenderingId) || KandraRendererManager.IsWaitingId(RenderingId)) {
                 return;
@@ -574,29 +557,6 @@ namespace Awaken.Kandra {
             Gizmos.matrix = rootBoneMatrix;
             Gizmos.DrawWireCube(bounds.center, bounds.size);
             Gizmos.matrix = oldMatrix;
-
-            if (_showSkinnedVertices) {
-                Gizmos.color = Color.blue;
-                var skinningManager = KandraRendererManager.Instance.SkinningManager;
-                var startingIndex = skinningManager.GetVertexStart(RenderingId);
-
-                var indices = KandraRendererManager.Instance.StreamingManager.LoadIndicesData(rendererData.mesh);
-                var trianglesCount = indices.Length / 3;
-                var skinnedVertices = new CompressedVertex[rendererData.mesh.vertexCount];
-                skinningManager.OutputVerticesBuffer.GetData(skinnedVertices, 0, (int)startingIndex, rendererData.mesh.vertexCount);
-
-                System.Span<Vector3> points = stackalloc Vector3[3];
-                for (var i = 0u; i < trianglesCount; ++i) {
-                    var i1 = indices[i * 3];
-                    var i2 = indices[i * 3 + 1];
-                    var i3 = indices[i * 3 + 2];
-
-                    points[0] = skinnedVertices[i1].position;
-                    points[1] = skinnedVertices[i2].position;
-                    points[2] = skinnedVertices[i3].position;
-                    Gizmos.DrawLineStrip(points, looped: true);
-                }
-            }
         }
 
         public void EDITOR_RenderingDataChanged() {
@@ -619,7 +579,6 @@ namespace Awaken.Kandra {
         }
 
         public void EDITOR_RecreateMaterials() {
-            rendererData.materials = rendererData.EDITOR_Materials.CreateCopy();
             var materialBroker = KandraRendererManager.Instance.MaterialBroker;
             rendererData.materialsInstancesRefCount = new ushort[rendererData.materials.Length];
             rendererData.materialsInstances = new Material[rendererData.materials.Length];
@@ -641,46 +600,33 @@ namespace Awaken.Kandra {
             // -- Authoring
             public KandraRig rig;
 
-            [FoldoutGroup("Meshes")] public KandraMesh mesh;
+            public KandraMesh mesh;
+            public KandraBoundsAmplifier boundsAmplifier;
+
 #if UNITY_EDITOR
 #if ADDRESSABLES_BUILD
             [NonSerialized]
 #endif
-            [FormerlySerializedAs("sourceMesh"), FoldoutGroup("Meshes")] public Mesh EDITOR_sourceMesh;
-#endif
-            [FoldoutGroup("Meshes")] public KandraBoundsAmplifier boundsAmplifier;
+            public Mesh EDITOR_sourceMesh;
 
-#if UNITY_EDITOR
             [NonSerialized] Material[] _editorMaterials;
-
-            [FoldoutGroup("Materials"), ShowInInspector, LabelText("Materials"), DisableIf(nameof(DisableMaterialsEditing))]
-            public Material[] EDITOR_Materials {
-                get => _editorMaterials ??= materials.CreateCopy();
-                set => _editorMaterials = value;
-            }
-
-            bool DisableMaterialsEditing => materialsInstancesRefCount.IsNotNullOrEmpty() && materialsInstancesRefCount.Any(static r => r > 0);
 #endif
 
-            [FoldoutGroup("Materials/Debug", Order = 1), Sirenix.OdinInspector.ReadOnly]
             public Material[] materials;
-            [FoldoutGroup("Materials/Debug"), NonSerialized, ShowInInspector, Sirenix.OdinInspector.ReadOnly]
-            public ushort[] materialsInstancesRefCount;
-            [FoldoutGroup("Materials/Debug"), NonSerialized, ShowInInspector, Sirenix.OdinInspector.ReadOnly]
-            public Material[] materialsInstances;
+            [NonSerialized] public ushort[] materialsInstancesRefCount;
+            [NonSerialized] public Material[] materialsInstances;
 
-            [FoldoutGroup("Bones")] public ushort[] bones;
-            [FoldoutGroup("Bones")] public ushort rootBone;
-            [FoldoutGroup("Bones")] public float3x4 rootBoneMatrix;
+            public ushort[] bones;
+            public ushort rootBone;
+            public float3x4 rootBoneMatrix;
 
-            [InlineProperty, HideLabel, Header("Filtering Settings")]
             public RendererFilteringSettings filteringSettings;
-            [Space]
+
             public ConstantKandraBlendshapes constantBlendshapes;
 
             // -- Runtime
-            [NonSerialized, ShowInInspector, FoldoutGroup("Meshes")] public KandraRenderingMesh originalMesh;
-            [NonSerialized, ShowInInspector, FoldoutGroup("Meshes")] public KandraRenderingMesh culledMesh;
+            [NonSerialized] public KandraRenderingMesh originalMesh;
+            [NonSerialized] public KandraRenderingMesh culledMesh;
 
             public UnsafeArray<float> blendshapeWeights;
 
@@ -711,11 +657,7 @@ namespace Awaken.Kandra {
         [Serializable]
         public struct RendererFilteringSettings : IEquatable<RendererFilteringSettings> {
             public ShadowCastingMode shadowCastingMode;
-            [HideInInspector] public uint renderingLayersMask;
-            [ShowInInspector] KandraRenderingLayers RenderingLayersMask {
-                get => (KandraRenderingLayers)renderingLayersMask;
-                set => renderingLayersMask = (uint)value;
-            }
+            public uint renderingLayersMask;
 
             public RendererFilteringSettings(ShadowCastingMode shadowCastingMode, uint renderingLayersMask) {
                 this.shadowCastingMode = shadowCastingMode;

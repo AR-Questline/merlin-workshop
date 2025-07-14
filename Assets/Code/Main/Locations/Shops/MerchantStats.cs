@@ -66,10 +66,10 @@ namespace Awaken.TG.Main.Locations.Shops {
             public void PrepareForSave(MerchantStats merchantStats) {
                 GetInitialValues(merchantStats, out float buyModifier, out float sellModifier, out float wealth, out float cobweb);
                 
-                BuyModifierDif = merchantStats.BuyModifier.BaseValue - buyModifier;
-                SellModifierDif = merchantStats.SellModifier.BaseValue - sellModifier;
-                WealthDif = merchantStats.Wealth.BaseValue - wealth;
-                CobwebDif = merchantStats.Cobweb.BaseValue - cobweb;
+                BuyModifierDif = merchantStats.BuyModifier.ValueForSave - buyModifier;
+                SellModifierDif = merchantStats.SellModifier.ValueForSave - sellModifier;
+                WealthDif = merchantStats.Wealth.ValueForSave - wealth;
+                CobwebDif = merchantStats.Cobweb.ValueForSave - cobweb;
             }
             
             void GetInitialValues(MerchantStats merchantStats, out float buyModifier, out float sellModifier, out float wealth, out float cobweb) {

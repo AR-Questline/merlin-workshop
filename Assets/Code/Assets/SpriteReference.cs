@@ -76,16 +76,6 @@ namespace Awaken.TG.Assets {
             arSpriteReference.ReleaseAsset();
         }
         
-        public void Preload() {
-            arSpriteReference?.PreloadLight<Sprite>();
-        }
-        public void Preload(GameObject owner) {
-            arSpriteReference?.Preload<Sprite>(() => owner != null);
-        }
-        public void Preload(Func<bool> shouldExtendTimeout) {
-            arSpriteReference?.Preload<Sprite>(shouldExtendTimeout);
-        }
-
         public static SpriteReference Create(string GUID) {
             return new SpriteReference {
                 arSpriteReference = new ARAssetReference(GUID)

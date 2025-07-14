@@ -22,6 +22,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
         public ObjectiveState newState;
         [InfoBox("Allow change from Failed or Complete states, use it wisely")]
         public bool allowChangeFromFinalStates;
+        public bool onlyIfActive = false;
 
         public TemplateReference QuestRef => questRef;
         public string TargetValue {
@@ -44,6 +45,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
                 objectiveGuid = objectiveGuid,
                 newState = newState,
                 allowChangeFromFinalStates = allowChangeFromFinalStates,
+                onlyIfActive = onlyIfActive && newState is ObjectiveState.Failed or ObjectiveState.Completed
             };
         }
     }
@@ -53,8 +55,12 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
         public string objectiveGuid;
         public ObjectiveState newState;
         public bool allowChangeFromFinalStates;
+        public bool onlyIfActive;
         
         public override StepResult Execute(Story story) {
+            if (onlyIfActive && QuestUtils.StateOfObjective(story.Memory, questRef, objectiveGuid) != ObjectiveState.Active) {
+                return StepResult.Immediate;
+            }
             QuestUtils.ChangeObjectiveState(questRef, objectiveGuid, newState, allowChangeFromFinalStates);
             return StepResult.Immediate;
         }

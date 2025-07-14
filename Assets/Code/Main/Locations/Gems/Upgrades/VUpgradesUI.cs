@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -21,11 +22,10 @@ namespace Awaken.TG.Main.Locations.Gems.Upgrades {
         public override Transform DetermineHost() => World.Services.Get<ViewHosting>().OnMainCanvas();
 
         protected override void OnInitialize() {
-            craftButton.InitializeButton(Target.Craft, LocTerms.Handcrafting.Translate());
-            upgradeButton.InitializeButton(Target.Upgrade, LocTerms.SharpenTab.Translate());
-            addGemButton.InitializeButton(Target.AddGem, LocTerms.GemAttachingTab.Translate());
-            weightReductionButton.InitializeButton(Target.WeightReduction, LocTerms.ArmorWeightReductionTab.Translate());
-            unlockEffectButton.InitializeButton(Target.UnlockEffect, "Unlock Effect");
+            craftButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.Craft(), this), LocTerms.Handcrafting.Translate());
+            upgradeButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.Upgrade(), this), LocTerms.SharpenTab.Translate());
+            addGemButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.AddGem(), this), LocTerms.GemAttachingTab.Translate());
+            weightReductionButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.WeightReduction(), this), LocTerms.ArmorWeightReductionTab.Translate());
         }
     }
 }

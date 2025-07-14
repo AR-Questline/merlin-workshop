@@ -79,7 +79,7 @@ namespace Awaken.Utility.Graphics {
             }
 
             infos.Sort(_batchedInfoTable.Sorter);
-            _batchedInfoTable.Draw(infos, Position.height, Scroll.y);
+            _batchedInfoTable.Draw(infos, Position.height, Scroll.y, Position.width);
 
             if (_inspectedAsset) {
                 GUILayout.BeginHorizontal();
@@ -92,7 +92,7 @@ namespace Awaken.Utility.Graphics {
             }
 
             if (_inspectedAsset) {
-                var sorterChanged = _visualEffectsTable.Draw(_visualEffects, Position.height, Scroll.y);
+                var sorterChanged = _visualEffectsTable.Draw(_visualEffects, Position.height, Scroll.y, Position.width);
                 if (sorterChanged) {
                     _visualEffects.Sort(_visualEffectsTable.Sorter);
                 }

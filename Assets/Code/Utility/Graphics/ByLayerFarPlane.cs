@@ -41,7 +41,7 @@ namespace Awaken.Utility.Graphics {
         [Serializable]
         struct LayerSetting {
             public LayerMask layers;
-            [Range(0, 5000), Tooltip("Zero means camera far plane")]
+            [Range(0, 10000), Tooltip("Zero means camera far plane")]
             public float farPlane;
 #if UNITY_EDITOR
             public Color gizmosColor;

@@ -2,9 +2,11 @@
 using System;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Utility.Attributes;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Awaken.TG.Assets {
     /// <summary>
@@ -58,6 +60,15 @@ namespace Awaken.TG.Assets {
             var reference = Get();
             reference?.LoadAsset<T>().OnComplete(onCompleted);
             return reference;
+        }
+        
+        // === Preloading
+        public AsyncOperationHandle<T> PreloadLight<T>() where T : class {
+            return Addressables.LoadAssetAsync<T>(RuntimeKey);
+        }
+        
+        public void ReleasePreloadLight<T>(AsyncOperationHandle<T> preloadHandle) where T : class {
+            preloadHandle.Release();
         }
 
         bool Equals(ShareableARAssetReference other) {

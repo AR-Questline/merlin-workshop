@@ -1,6 +1,6 @@
 ﻿using System;
 using Animancer;
-using Awaken.Kandra.AnimationPostProcessing;
+using Awaken.Kandra.AnimationPostProcess;
 using Awaken.TG.Assets;
 using Awaken.TG.Graphics.Cutscenes;
 using Awaken.TG.Graphics.VFX;

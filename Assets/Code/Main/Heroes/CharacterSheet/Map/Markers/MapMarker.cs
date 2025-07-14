@@ -56,6 +56,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
 
         public void SpawnView(MapSceneUI mapSceneUI) {
             var view = World.SpawnView(this, ViewType);
+            ((IVMapMarker)view).Init(mapSceneUI);
             mapSceneUI.ListenTo(Model.Events.BeforeDiscarded, _ => view.Discard(), this);
         }
 

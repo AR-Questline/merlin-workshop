@@ -191,24 +191,24 @@ namespace Awaken.TG.Main.Character {
             }
 
             public void PrepareForSave(ProficiencyStats profStats) {
-                OneHandedDif = profStats.OneHanded.BaseValue - ProficiencyBaseValue;
-                TwoHandedDif = profStats.TwoHanded.BaseValue - ProficiencyBaseValue;
-                UnarmedDif = profStats.Unarmed.BaseValue - ProficiencyBaseValue;
-                ShieldDif = profStats.Shield.BaseValue - ProficiencyBaseValue;
-                AthleticsDif = profStats.Athletics.BaseValue - ProficiencyBaseValue;
-                LightArmorDif = profStats.LightArmor.BaseValue - ProficiencyBaseValue;
-                MediumArmorDif = profStats.MediumArmor.BaseValue - ProficiencyBaseValue;
-                HeavyArmorDif = profStats.HeavyArmor.BaseValue - ProficiencyBaseValue;
-                ArcheryDif = profStats.Archery.BaseValue - ProficiencyBaseValue;
-                EvasionDif = profStats.Evasion.BaseValue - ProficiencyBaseValue;
-                AcrobaticsDif = profStats.Acrobatics.BaseValue - ProficiencyBaseValue;
-                SneakDif = profStats.Sneak.BaseValue - ProficiencyBaseValue;
-                TheftDif = profStats.Theft.BaseValue - ProficiencyBaseValue;
-                MagicDif = profStats.Magic.BaseValue - ProficiencyBaseValue;
-                AlchemyDif = profStats.Alchemy.BaseValue - ProficiencyBaseValue;
-                CookingDif = profStats.Cooking.BaseValue - ProficiencyBaseValue;
-                HandcraftingDif = profStats.Handcrafting.BaseValue - ProficiencyBaseValue;
-                AnimalWeaponDif = profStats.AnimalWeapon.BaseValue - 1;
+                OneHandedDif = profStats.OneHanded.ValueForSave - ProficiencyBaseValue;
+                TwoHandedDif = profStats.TwoHanded.ValueForSave - ProficiencyBaseValue;
+                UnarmedDif = profStats.Unarmed.ValueForSave - ProficiencyBaseValue;
+                ShieldDif = profStats.Shield.ValueForSave - ProficiencyBaseValue;
+                AthleticsDif = profStats.Athletics.ValueForSave - ProficiencyBaseValue;
+                LightArmorDif = profStats.LightArmor.ValueForSave - ProficiencyBaseValue;
+                MediumArmorDif = profStats.MediumArmor.ValueForSave - ProficiencyBaseValue;
+                HeavyArmorDif = profStats.HeavyArmor.ValueForSave - ProficiencyBaseValue;
+                ArcheryDif = profStats.Archery.ValueForSave - ProficiencyBaseValue;
+                EvasionDif = profStats.Evasion.ValueForSave - ProficiencyBaseValue;
+                AcrobaticsDif = profStats.Acrobatics.ValueForSave - ProficiencyBaseValue;
+                SneakDif = profStats.Sneak.ValueForSave - ProficiencyBaseValue;
+                TheftDif = profStats.Theft.ValueForSave - ProficiencyBaseValue;
+                MagicDif = profStats.Magic.ValueForSave - ProficiencyBaseValue;
+                AlchemyDif = profStats.Alchemy.ValueForSave - ProficiencyBaseValue;
+                CookingDif = profStats.Cooking.ValueForSave - ProficiencyBaseValue;
+                HandcraftingDif = profStats.Handcrafting.ValueForSave - ProficiencyBaseValue;
+                AnimalWeaponDif = profStats.AnimalWeapon.ValueForSave - 1;
             }
         }
     }

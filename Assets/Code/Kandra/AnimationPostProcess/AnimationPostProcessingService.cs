@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using UniversalProfiling;
 
-namespace Awaken.Kandra.AnimationPostProcessing {
+namespace Awaken.Kandra.AnimationPostProcess {
     public static class AnimationPostProcessingService {
         public const int BatchSize = 8;
         

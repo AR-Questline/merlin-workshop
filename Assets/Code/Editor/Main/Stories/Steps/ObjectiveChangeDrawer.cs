@@ -15,7 +15,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
         protected override void OnElementGUI() {
             GUILayout.Space(5);
             GUIUtils.PushLabelWidth(190);
-            DrawPropertiesExcept(nameof(SEditorObjectiveChange.newState), nameof(SEditorObjectiveChange.objectiveGuid));
+            DrawPropertiesExcept(nameof(SEditorObjectiveChange.newState), nameof(SEditorObjectiveChange.objectiveGuid), nameof(SEditorObjectiveChange.onlyIfActive));
             GUIUtils.PopLabelWidth();
 
             SEditorObjectiveChange step = Target<SEditorObjectiveChange>();
@@ -48,10 +48,15 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
 
                 EditorGUILayout.Space(3);
                 DrawProperties(nameof(SEditorObjectiveChange.newState));
+
                 
                 GUIUtils.PopLabelWidth();
                 GUIUtils.PopFieldWidth();
                 EditorGUILayout.EndHorizontal();
+                
+                if (step.newState is ObjectiveState.Failed or ObjectiveState.Completed) {
+                    DrawProperties(nameof(SEditorObjectiveChange.onlyIfActive));
+                }
             }
         }
     }

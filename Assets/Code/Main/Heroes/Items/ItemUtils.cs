@@ -531,11 +531,6 @@ namespace Awaken.TG.Main.Heroes.Items {
             return Hero.Current.HeroItems.Loadouts.Any(loadout => loadout.Contains(item));
         }
         
-        public static bool IsUsedInLoadout(this Item item, out HeroLoadout loadout) {
-            loadout = Hero.Current.HeroItems.Loadouts.FirstOrDefault(loadout => loadout.Contains(item));
-            return loadout != null;
-        }
-        
         public static bool IsUsedInLoadout(this Item item, int index) {
             return Hero.Current.HeroItems.LoadoutAt(index).Contains(item);
         }

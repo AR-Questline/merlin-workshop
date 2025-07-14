@@ -1,31 +1,25 @@
 ﻿using System;
-using Awaken.Kandra.AnimationPostProcessing;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.Editor.Helpers;
 using Awaken.Utility.Maths;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
-namespace Awaken.TG.Editor.Animations {
-    public class AnimationPostProcessingVisualizer : OdinEditorWindow {
+namespace Awaken.Kandra.Editor.AnimationPostProcess {
+    public class AnimationPostProcessingVisualizer : AREditorWindow {
         [SerializeField] bool autoRefresh = true;
         [SerializeField] GameObject prefab;
-        [SerializeField] AnimationPostProcessing.Entry[] entries = Array.Empty<AnimationPostProcessing.Entry>();
-        
+        [SerializeField] Kandra.AnimationPostProcess.AnimationPostProcessing.Entry[] entries = Array.Empty<Kandra.AnimationPostProcess.AnimationPostProcessing.Entry>();
+
         Transform _instance;
 
-        protected override void OnImGUI() {
-            EditorGUI.BeginChangeCheck();
-            base.OnImGUI();
-            if (EditorGUI.EndChangeCheck()) {
-                if (autoRefresh) {
-                    Refresh();
-                }
-            }
+        protected override void OnEnable() {
+            base.OnEnable();
+
+            AddButton("Refresh", Refresh);
         }
 
         protected override void OnDisable() {
@@ -35,7 +29,16 @@ namespace Awaken.TG.Editor.Animations {
             }
         }
 
-        [Button]
+        protected override void OnGUI() {
+            EditorGUI.BeginChangeCheck();
+            base.OnGUI();
+            if (EditorGUI.EndChangeCheck()) {
+                if (autoRefresh) {
+                    Refresh();
+                }
+            }
+        }
+
         void Refresh() {
             if (_instance) {
                 DestroyImmediate(_instance.gameObject);
@@ -45,7 +48,7 @@ namespace Awaken.TG.Editor.Animations {
                 return;
             }
             _instance = Instantiate(prefab.transform);
-            AnimationPostProcessingEditor.PrepareInstance(_instance);
+            AnimationPostProcessingEditorWindow.PrepareInstance(_instance);
             
             var bones = _instance.GetComponentsInChildren<Transform>();
             var boneNames = ArrayUtils.Select(bones, bone => {
@@ -71,7 +74,7 @@ namespace Awaken.TG.Editor.Animations {
             }
         }
         
-        [MenuItem("TG/Assets/Mesh/AnimPP Visualizer")]
+        [MenuItem("TG/Assets/Kandra/AnimPP Visualizer")]
         static void Open() {
             GetWindow<AnimationPostProcessingVisualizer>().Show();
         }

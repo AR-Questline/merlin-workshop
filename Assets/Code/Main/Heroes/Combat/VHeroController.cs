@@ -340,6 +340,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
                   .WithFixedUpdate(ProcessFixedUpdate)
                   .WithTimeScaleChanged(OnTimeScaleChanged)
                   .WithTimeComponentsOf(gameObject);
+            
+            _timeScaleCache.UpdateTimeScale(Target.GetTimeScaleModifier(), Time.frameCount);
         }
 
         // === Lifecycle

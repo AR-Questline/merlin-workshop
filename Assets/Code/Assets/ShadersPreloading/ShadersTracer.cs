@@ -5,6 +5,7 @@ using Awaken.Utility.LowLevel;
 using QFSW.QC;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
+using UnityEngine.Networking.PlayerConnection;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using Log = Awaken.Utility.Debugging.Log;
@@ -118,6 +119,19 @@ namespace Awaken.TG.Assets.ShadersPreloading {
 #endif
         }
 
+        void SendToEditor() {
+#if DEBUG
+            if (PlayerConnection.instance.isConnected) {
+                var fileName = GetOutputFileName(_activeCollection);
+                _activeCollection.SendToEditor(fileName);
+            } else {
+                Log.Debug?.Error("No PlayerConnection found! Collection not sent to Editor.");
+            }
+#else
+            Log.Critical?.Error("Shaders tracing is supported only in DEBUG build");
+#endif
+        }
+
         // === Others
         void EnsureActiveCollectionSet() {
             if (_activeCollection != null) {
@@ -181,6 +195,11 @@ namespace Awaken.TG.Assets.ShadersPreloading {
             if (wasTracing) {
                 Instance.StartTracing();
             }
+        }
+
+        [Command("shadersTracer.sendToEditor", "")]
+        static void SendToEditorCommand() {
+            Instance.SendToEditor();
         }
     }
 }

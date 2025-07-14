@@ -8,5 +8,6 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
         Transform SlotsParent { get; }
         void OnSelectionChanged(SelectionChange selectionChange);
         void SaveLoadAction(SaveLoadSlotUI saveLoadSlotUI);
+        void SetupAcceptPrompt(SelectionChange selectionChange);
     }
 }

@@ -11,6 +11,7 @@ using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.LootTables;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.Saving.Cloud.Services;
 using Awaken.TG.Main.Saving.LargeFiles;
 using Awaken.TG.Main.Scenes;
 using Awaken.TG.Main.Settings.Gameplay;
@@ -45,9 +46,7 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
         const string AutoSaveIdPrefix = "AutoSave";
         const string IdSlotPattern = "[0-9]+";
         const int MaxQuickAutoSlots = 3;
-
-        bool _discardWithFiles = true;
-
+        
         public override Domain DefaultDomain => Domain.SaveSlotMetaData(ID);
 
         public Action screenShotTaken;
@@ -68,6 +67,7 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
         [Saved] byte[] _screenshotBytes;
         [Saved] public List<ItemSpawningData> ItemsToModifyOnLoad { get; [RequiredMember] private set; } = new();
         [Saved] public UnsafeBitmask usedLargeFilesIndices;
+        [Saved] public int SavedDomainCount { get; private set; } = -1;
         
         public uint SlotIndex { get; private set; }
         public bool ChangedID { get; private set; }
@@ -140,10 +140,10 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             uint oSlotIndex = original.SlotIndex;
             var lfsIndices = original.usedLargeFilesIndices;
 
-            original.DiscardWithoutFiles();
+
+            original.Discard();
             World.Add(newSlot);
             LoadSave.Get.Save(newSlot);
-            CleanLfs(oSlotIndex, lfsIndices, false);
 
             return newSlot;
         }
@@ -168,7 +168,7 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             TriggerChange();
         }
 
-        public UniTask CaptureSlotInfo() {
+        public UniTask CaptureSlotInfo(int domainsCount) {
             SceneService sceneService = Services.Get<SceneService>();
             SceneRef = sceneService.MainSceneRef;
             AdditiveSceneRef = sceneService.AdditiveSceneRef;
@@ -182,6 +182,8 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             HeroId = hero.HeroID;
             Hardcore = World.Only<DifficultySetting>().Difficulty.SaveRestriction.HasFlagFast(SaveRestriction.Hardcore);
             HeroLocation = sceneService.ActiveSceneDisplayName;
+            
+            SavedDomainCount = domainsCount;
 
             return TakeGameplayScreenshot();
         }
@@ -249,18 +251,26 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             _slotFilesToDelete = oldFolderName;
             Discard();
         }
-        
-        // === Discard
-        public void DiscardWithoutFiles() {
-            _discardWithFiles = false;
-            Discard();
-        }
-        
-        protected override void OnDiscard(bool fromDomainDrop) {
-            if (!_discardWithFiles) {
-                return;
+
+        public bool ValidateDomainAmount(SaveResult saveResult, out string errorMessage) {
+            if (saveResult.SupportsFileCounting == false || SavedDomainCount == -1) {
+                errorMessage = null;
+                return true;
             }
 
+            int domainsCount = saveResult.FileCount - 1; // Don't count the metadata file
+            if (domainsCount != SavedDomainCount) {
+                errorMessage = $"Save slot {ID}: domain count ({SavedDomainCount}) doesn't equal domain files inside save folder ({domainsCount})\n" +
+                                       $"Please load the previous save slot.";
+                return false;
+            }
+            errorMessage = null;
+            return true;
+        }
+
+        // === Discard
+        
+        protected override void OnDiscard(bool fromDomainDrop) {
             CleanLfs(SlotIndex, usedLargeFilesIndices, fromDomainDrop);
             if (!fromDomainDrop) {
                 Log.Marking?.Warning($"Deleting save slot files for {LogUtils.GetDebugName(this)}");

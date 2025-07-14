@@ -177,13 +177,17 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
             bool renameActive = selectionValid && !_hoveredSlotUI.saveSlot.IsQuickSave && !_hoveredSlotUI.saveSlot.IsAutoSave;
             _renamePrompt?.SetupState(renameActive, renameActive);
             _removePrompt.SetActive(selectionValid);
-            _acceptPrompt.SetActive(selectionChange.Selected);
+            SetupAcceptPrompt(selectionChange);
         }
 
         public virtual void SaveLoadAction(SaveLoadSlotUI saveSlotUI) {
             SaveSlot slot = saveSlotUI.saveSlot;
             LoadSave.Get.Load(slot, World.HasAny<DeathUI.DeathUI>() ? "Death Load UI" : "Menu Load UI");
             Close();
+        }
+
+        public virtual void SetupAcceptPrompt(SelectionChange selectionChange) {
+            _acceptPrompt.SetActive(selectionChange.Selected);
         }
 
         public UIResult Handle(UIEvent evt) {

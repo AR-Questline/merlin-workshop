@@ -151,10 +151,10 @@ namespace Awaken.TG.Main.Saving {
             CloudService.Get.BeginSaveDirectory(slot.GetDirectory(), size);
         }
 
-        public async UniTask EndSaving(SaveSlot slot, bool failed) {
-            bool success = await CloudService.Get.EndSaveDirectory(slot.GetDirectory(), failed);
+        public async UniTask<SaveResult> EndSaving(SaveSlot slot, bool failed) {
+            var result = await CloudService.Get.EndSaveDirectory(slot.GetDirectory(), failed);
 
-            if (!success) {
+            if (!result.Success) {
                 slot.Discard();
                 if (!World.HasAny<PopupUI>()) {
                     PopupUI.SpawnNoChoicePopup(typeof(VSmallPopupUI), LocTerms.SavingFailed.Translate());
@@ -164,6 +164,8 @@ namespace Awaken.TG.Main.Saving {
             }
 
             UniversalProfiler.SetMarker(new Color(0, 1, 1), "SaveSystem.EndSaving");
+
+            return result.SaveResult;
         }
         
         // === Actual saving

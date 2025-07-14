@@ -7,9 +7,9 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public Gender Gender => gender;
     }
     
-    public enum Gender {
-        None,
-        Male,
-        Female
+    public enum Gender : byte {
+        None = 0,
+        Male = 1,
+        Female = 2
     }
 }

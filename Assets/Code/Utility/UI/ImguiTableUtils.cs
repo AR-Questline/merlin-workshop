@@ -18,6 +18,10 @@ namespace Awaken.Utility.UI {
         public static readonly Color OddRowColor = new Color(0.25f, 0.0f, 0.0f, 0.55f);
 
         public static ImguiTable<T>.ColumnDefinition EnabledColumn<T>(int width = 96) where T : Behaviour {
+            return EnabledColumn<T>(Width.Fixed(width));
+        }
+
+        public static ImguiTable<T>.ColumnDefinition EnabledColumn<T>(Width width) where T : Behaviour {
             return ImguiTable<T>.ColumnDefinition.Create("Enabled", width, EnabledDrawer, static l => l.enabled ? 1 : 0, FloatDrawer, static l => l.enabled);
         }
 
@@ -30,7 +34,11 @@ namespace Awaken.Utility.UI {
         }
 
         public static ImguiTable<T>.ColumnDefinition ActiveColumn<T>(int width = 96) where T : Behaviour {
-            return ImguiTable<T>.ColumnDefinition.Create("Active", width, ActiveDrawer, static l => l.gameObject.activeInHierarchy ? 1 : 0, FloatDrawer, static l => l.gameObject.activeInHierarchy);
+            return ActiveColumn<T>(Width.Fixed(width));
+        }
+
+        public static ImguiTable<T>.ColumnDefinition ActiveColumn<T>(Width width) where T : Behaviour {
+            return ImguiTable<T>.ColumnDefinition.Create("Active",  width, ActiveDrawer, static l => l.gameObject.activeInHierarchy ? 1 : 0, FloatDrawer, static l => l.gameObject.activeInHierarchy);
         }
 
         public static void ActiveDrawer<T>(in Rect rect, T behaviour) where T : Component {

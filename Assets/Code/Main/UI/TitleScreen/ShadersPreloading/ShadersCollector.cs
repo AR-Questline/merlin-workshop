@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using QFSW.QC;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.VFX;
 
 namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
     public static class ShadersCollector {
@@ -38,21 +39,46 @@ namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
 
             PrepareEnvironment();
 
-            s_allTestCount = vfxCollection.vfxPrefabs.Length;
+            var vfxPrefabsCount = vfxCollection.vfxPrefabs.Length;
+            var vfxAssetsCount = vfxCollection.vfxAssets.Length;
+            s_allTestCount = vfxPrefabsCount + vfxAssetsCount;
 
             var position = Hero.Current.Rotation * Vector3.forward * 12f;
 
-            for (int i = 0; i < vfxCollection.vfxPrefabs.Length; i++) {
+            for (int i = 0; i < vfxPrefabsCount; i++) {
                 if (token.IsCancellationRequested) {
                     break;
                 }
 
-                s_currentTestIndex = i;
+                ++s_currentTestIndex;
                 var prefab = vfxCollection.vfxPrefabs[i];
                 var vfx = Object.Instantiate(prefab, position, Quaternion.identity);
+                EnableAllGameObjects(vfx);
                 await UniTask.DelayFrame(60);
                 Object.Destroy(vfx);
             }
+
+            await UniTask.NextFrame();
+
+            var host = new GameObject("VFX_Host", typeof(VisualEffect));
+            host.transform.position = position;
+            var effect = host.GetComponent<VisualEffect>();
+
+            for (int i = 0; i < vfxAssetsCount; i++) {
+                if (token.IsCancellationRequested) {
+                    break;
+                }
+
+                ++s_currentTestIndex;
+                var vfxAsset = vfxCollection.vfxAssets[i];
+                host.SetActive(false);
+                effect.visualEffectAsset = vfxAsset;
+                await UniTask.NextFrame();
+                host.SetActive(true);
+                await UniTask.DelayFrame(60);
+            }
+
+            Object.Destroy(host);
 
             await UniTask.NextFrame();
             ShadersTracer.SaveTracingResultsToFileCommand();
@@ -70,6 +96,13 @@ namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
         static void CleanupEnvironment() {
             s_saveBlocker?.Discard();
             s_saveBlocker = null;
+        }
+
+        static void EnableAllGameObjects(GameObject vfx) {
+            var allTransforms = vfx.GetComponentsInChildren<Transform>(true);
+            foreach (var tr in allTransforms) {
+                tr.gameObject.SetActive(true);
+            }
         }
 
         class CollectorWindow : UGUIWindowDisplay<CollectorWindow> {

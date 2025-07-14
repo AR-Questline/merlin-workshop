@@ -1,11 +1,10 @@
+using Awaken.Utility.Editor.Helpers;
 using Awaken.Utility.Maths;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace Awaken.Kandra.Editor {
-    public class BakeKandraRendererToMeshWindow : OdinEditorWindow {
+    public class BakeKandraRendererToMeshWindow : AREditorWindow {
         [MenuItem("TG/Assets/Kandra/Bake to mesh")]
         static void ShowWindow() {
             var window = GetWindow<BakeKandraRendererToMeshWindow>();
@@ -15,7 +14,11 @@ namespace Awaken.Kandra.Editor {
 
         public KandraRenderer kandraRenderer;
 
-        [Button]
+        protected override void OnEnable() {
+            base.OnEnable();
+            AddButton("Bake", Bake, () => kandraRenderer);
+        }
+
         public void Bake() {
             var bakedMesh = kandraRenderer.BakePoseMesh(kandraRenderer.rendererData.rig.transform.worldToLocalMatrix.Orthonormal());
             bakedMesh.UploadMeshData(true);

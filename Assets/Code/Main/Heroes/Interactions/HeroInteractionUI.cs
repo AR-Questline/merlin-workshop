@@ -37,8 +37,13 @@ namespace Awaken.TG.Main.Heroes.Interactions {
             ParentModel.ListenTo(ICharacter.Events.CombatExited, OnCombatStateChanged, this);
         }
 
-        static void OnCombatStateChanged() {
-            World.Any<HeroInteractionUI>()?.TriggerChange();
+        void OnCombatStateChanged() {
+            foreach (IHeroAction a in Interactable.AvailableActions(Hero.Current)) {
+                if (a.GetAvailability(Hero.Current, Interactable) == ActionAvailability.Available) {
+                    TriggerChange();
+                    break;
+                }
+            }
         }
 
         public virtual UIResult Handle(UIEvent evt) {

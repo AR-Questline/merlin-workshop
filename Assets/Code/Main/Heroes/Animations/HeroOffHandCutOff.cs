@@ -1,4 +1,4 @@
-﻿using Awaken.Kandra.AnimationPostProcessing;
+﻿using Awaken.Kandra.AnimationPostProcess;
 using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Loadouts;

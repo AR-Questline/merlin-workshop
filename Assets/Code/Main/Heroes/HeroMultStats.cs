@@ -54,10 +54,10 @@ namespace Awaken.TG.Main.Heroes {
             }
 
             public void PrepareForSave(HeroMultStats heroStats) {
-                ExpMultiplierDif = heroStats.ExpMultiplier.BaseValue - DefaultMultiplier;
-                KillExpMultiplierDif = heroStats.KillExpMultiplier.BaseValue - DefaultMultiplier;
-                WealthMultiplierDif = heroStats.WealthMultiplier.BaseValue - DefaultMultiplier;
-                ProfMultiplierDif = heroStats.ProfMultiplier.BaseValue - DefaultMultiplier;
+                ExpMultiplierDif = heroStats.ExpMultiplier.ValueForSave - DefaultMultiplier;
+                KillExpMultiplierDif = heroStats.KillExpMultiplier.ValueForSave - DefaultMultiplier;
+                WealthMultiplierDif = heroStats.WealthMultiplier.ValueForSave - DefaultMultiplier;
+                ProfMultiplierDif = heroStats.ProfMultiplier.ValueForSave - DefaultMultiplier;
             }
         }
     }

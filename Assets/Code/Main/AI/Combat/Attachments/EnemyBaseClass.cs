@@ -48,6 +48,7 @@ using Awaken.TG.Utility.Attributes;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
+using Pathfinding;
 using Sirenix.OdinInspector;
 using Unity.IL2CPP.CompilerServices;
 using Unity.Mathematics;
@@ -263,9 +264,11 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
                     Vector3 dirFromTarget = destination - targetPosition;
                     destination = targetPosition + dirFromTarget.normalized * DistancesToTargetHandler.DesiredDistanceToTarget(npcElement, target);
                 } else if (animationEvent.teleportType == ARAnimationEvent.TeleportType.Dash) {
-                    destination = npcElement.Right() * RandomUtil.UniformFloat(3, 6) * RandomUtil.RandomSign();
+                    destination = npcElement.Coords + npcElement.Right() * RandomUtil.UniformFloat(3, 6) * RandomUtil.RandomSign();
                 }
 
+                NNInfo result = AstarPath.active.GetNearest(destination);
+                destination = result.node != null ? result.position : destination;
                 NpcTeleporter.Teleport(npcElement, destination, TeleportContext.FromCombat);
             }
         }

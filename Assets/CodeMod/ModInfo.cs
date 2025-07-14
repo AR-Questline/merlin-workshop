@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
@@ -55,6 +56,18 @@ namespace Modding
                 metas.Add($"tags: {string.Join(' ', info.tags)}");
             }
             File.WriteAllLines($"{directory}\\mod.meta", metas);
+        }
+        
+        [MenuItem("TG/Modding/Open Directory")]
+        private static void Open()
+        {
+            Process.Start("explorer.exe", ModsDirectory);
+        }
+        
+        [MenuItem("TG/Modding/Wiki")]
+        private static void Wiki()
+        {
+            Process.Start("https://github.com/AR-Questline/merlin-workshop/wiki");
         }
     }
 }

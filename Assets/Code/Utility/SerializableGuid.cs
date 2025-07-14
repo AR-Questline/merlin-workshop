@@ -1,5 +1,4 @@
-﻿using Awaken.Utility;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using Awaken.TG.Utility.Attributes;
 using Sirenix.OdinInspector;
@@ -30,6 +29,14 @@ namespace Awaken.Utility {
             _guidPart3 = 0;
             _guidPart4 = 0;
             Guid = guid;
+        }
+        
+        public SerializableGuid(int part1, int part2, int part3, int part4) {
+            Guid = Guid.Empty;
+            _guidPart1 = part1;
+            _guidPart2 = part2;
+            _guidPart3 = part3;
+            _guidPart4 = part4;
         }
 
         public SerializableGuid(string guidString) : this(Guid.Parse(guidString)) { }

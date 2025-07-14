@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Awaken.Kandra.AnimationPostProcessing;
+using Awaken.Kandra.AnimationPostProcess;
 using Awaken.TG.Assets;
 using Awaken.TG.Graphics.Saturation;
 using Awaken.TG.Graphics.Scene;
@@ -240,6 +240,8 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         [FoldoutGroup("Visuals"), SerializeField] Material noRenderMaterial;
         [FoldoutGroup("Visuals"), SerializeField, ARAssetReferenceSettings(new []{typeof(GameObject)}, group: AddressableGroup.VFX)]
         public ShareableARAssetReference deadBodyHighlightVfx;
+        [FoldoutGroup("Visuals")]
+        public AnimationPostProcessingPreset dummyNoHeadPP;
         
         [CustomValueDrawer("@Awaken.TG.EditorOnly.OdinHelpers.Space(20)"), ShowInInspector] string _space_ODIN3;
         

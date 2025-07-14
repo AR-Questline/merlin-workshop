@@ -4,6 +4,7 @@ using Awaken.TG.Assets;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
+using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.GameObjects;
@@ -76,6 +77,11 @@ namespace Awaken.TG.Main.UI.Helpers {
             }
             
             return keyDisplayName.ToSprite().PercentSizeText(150);
+        }
+        
+        public static void AddOverlayUIView(Model model, View parentView) {
+            parentView.TrySetActiveOptimized(false);
+            model.ListenTo(Model.Events.AfterDiscarded, () => parentView.TrySetActiveOptimized(true), parentView);
         }
     }
 }

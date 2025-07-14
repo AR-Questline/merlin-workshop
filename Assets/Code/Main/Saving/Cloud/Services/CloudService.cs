@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Awaken.TG.MVC.Domains;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -107,20 +108,25 @@ namespace Awaken.TG.Main.Saving.Cloud.Services {
         /// <summary>
         ///  End batch mode for saving given save slot.
         /// </summary>
-        public virtual UniTask<bool> EndSaveDirectory(string directory, bool failed) {
-            return UniTask.FromResult(true);
+        public virtual UniTask<EndSaveDirectoryResult> EndSaveDirectory(string directory, bool failed) {
+            return UniTask.FromResult(new EndSaveDirectoryResult {
+                Success = true,
+                SaveResult = SaveResult.Default,
+            });
         }
 
         /// <summary>
         /// Start batch mode for save slot loading.
         /// </summary>
-        public virtual void BeginLoadDirectory(string directory) { }
+        public virtual SaveResult BeginLoadDirectory(string directory) {
+            return SaveResult.Default;
+        }
         
         /// <summary>
         /// Ends batch mode for save slot loading.
         /// </summary>
         public virtual void EndLoadDirectory(string directory) { }
-
+        
         public virtual IEnumerable<string> CollectFoundSaveSlots() {
             if (!WorksOnFileSystem) yield break;
             

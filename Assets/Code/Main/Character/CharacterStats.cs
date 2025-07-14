@@ -328,78 +328,78 @@ namespace Awaken.TG.Main.Character {
             public void PrepareForSave(CharacterStats characterStats) {
                 ITemplate template = characterStats.ParentModel.CharacterStatsTemplate;
                 
-                LevelDif = characterStats.Level.BaseValue - template.Level;
-                TalentPointsDif = characterStats.TalentPoints.BaseValue - template.TalentPoints;
-                BaseStatPointsDif = characterStats.BaseStatPoints.BaseValue - template.BaseStatPoints;
+                LevelDif = characterStats.Level.ValueForSave - template.Level;
+                TalentPointsDif = characterStats.TalentPoints.ValueForSave - template.TalentPoints;
+                BaseStatPointsDif = characterStats.BaseStatPoints.ValueForSave - template.BaseStatPoints;
                 
-                MaxStaminaDif = characterStats.MaxStamina.BaseValue - template.MaxStamina;
-                StaminaDif = characterStats.Stamina.BaseValue - characterStats.MaxStamina.BaseValue;
-                StaminaRegenDif = characterStats.StaminaRegen.BaseValue - template.StaminaRegen;
-                StaminaUsageMultiplierDif = characterStats.StaminaUsageMultiplier.BaseValue - template.StaminaUsageMultiplier;
-                SprintCostMultiplierDif = characterStats.SprintCostMultiplier.BaseValue - DefaultMultiplier;
+                MaxStaminaDif = characterStats.MaxStamina.ValueForSave - template.MaxStamina;
+                StaminaDif = characterStats.Stamina.ValueForSave - characterStats.MaxStamina.ValueForSave;
+                StaminaRegenDif = characterStats.StaminaRegen.ValueForSave - template.StaminaRegen;
+                StaminaUsageMultiplierDif = characterStats.StaminaUsageMultiplier.ValueForSave - template.StaminaUsageMultiplier;
+                SprintCostMultiplierDif = characterStats.SprintCostMultiplier.ValueForSave - DefaultMultiplier;
                 
-                MaxManaDif = characterStats.MaxMana.BaseValue - template.MaxMana;
-                ManaDif = characterStats.Mana.BaseValue - characterStats.MaxMana.BaseValue;
-                ManaUsageMultiplierDif = characterStats.ManaUsageMultiplier.BaseValue - template.ManaUsageMultiplier;
-                ManaRegenDif = characterStats.ManaRegen.BaseValue - template.ManaRegen;
-                ManaRegenPercentageDif = characterStats.ManaRegenPercentage.BaseValue - template.ManaRegenPercentage;
-                ManaShieldDif = characterStats.ManaShield.BaseValue;
-                ManaShieldRetaliationDif = characterStats.ManaShieldRetaliation.BaseValue;
+                MaxManaDif = characterStats.MaxMana.ValueForSave - template.MaxMana;
+                ManaDif = characterStats.Mana.ValueForSave - characterStats.MaxMana.ValueForSave;
+                ManaUsageMultiplierDif = characterStats.ManaUsageMultiplier.ValueForSave - template.ManaUsageMultiplier;
+                ManaRegenDif = characterStats.ManaRegen.ValueForSave - template.ManaRegen;
+                ManaRegenPercentageDif = characterStats.ManaRegenPercentage.ValueForSave - template.ManaRegenPercentage;
+                ManaShieldDif = characterStats.ManaShield.ValueForSave;
+                ManaShieldRetaliationDif = characterStats.ManaShieldRetaliation.ValueForSave;
                 
-                MeleeRetaliationDif = characterStats.MeleeRetaliation.BaseValue;
+                MeleeRetaliationDif = characterStats.MeleeRetaliation.ValueForSave;
                 
-                MovementSpeedMultiplierDif = characterStats.MovementSpeedMultiplier.BaseValue - DefaultMultiplier;
+                MovementSpeedMultiplierDif = characterStats.MovementSpeedMultiplier.ValueForSave - DefaultMultiplier;
                 
-                StrengthDif = characterStats.Strength.BaseValue - template.Strength;
-                StrengthLinearDif = characterStats.StrengthLinear.BaseValue - template.StrengthLinear;
+                StrengthDif = characterStats.Strength.ValueForSave - template.Strength;
+                StrengthLinearDif = characterStats.StrengthLinear.ValueForSave - template.StrengthLinear;
                 
-                IncomingDamageDif = characterStats.IncomingDamage.BaseValue - DefaultMultiplier;
-                IncomingHealingDif = characterStats.IncomingHealing.BaseValue - DefaultMultiplier;
-                ConsumableHealingBonusDif = characterStats.ConsumableHealingBonus.BaseValue - DefaultMultiplier;
-                PotionHealingBonusDif = characterStats.PotionHealingBonus.BaseValue - DefaultMultiplier;
+                IncomingDamageDif = characterStats.IncomingDamage.ValueForSave - DefaultMultiplier;
+                IncomingHealingDif = characterStats.IncomingHealing.ValueForSave - DefaultMultiplier;
+                ConsumableHealingBonusDif = characterStats.ConsumableHealingBonus.ValueForSave - DefaultMultiplier;
+                PotionHealingBonusDif = characterStats.PotionHealingBonus.ValueForSave - DefaultMultiplier;
 
-                EvasionDif = characterStats.Evasion.BaseValue - template.Evasion;
-                ResistanceDif = characterStats.Resistance.BaseValue - template.Resistance;
-                LifeStealDif = characterStats.LifeSteal.BaseValue;
+                EvasionDif = characterStats.Evasion.ValueForSave - template.Evasion;
+                ResistanceDif = characterStats.Resistance.ValueForSave - template.Resistance;
+                LifeStealDif = characterStats.LifeSteal.ValueForSave;
                 
-                BuffStrengthDif = characterStats.BuffStrength.BaseValue - DefaultMultiplier;
-                BuffDurationDif = characterStats.BuffDuration.BaseValue - DefaultMultiplier;
-                DebuffStrengthDif = characterStats.DebuffStrength.BaseValue - DefaultMultiplier;
-                DebuffDurationDif = characterStats.DebuffDuration.BaseValue - DefaultMultiplier;
+                BuffStrengthDif = characterStats.BuffStrength.ValueForSave - DefaultMultiplier;
+                BuffDurationDif = characterStats.BuffDuration.ValueForSave - DefaultMultiplier;
+                DebuffStrengthDif = characterStats.DebuffStrength.ValueForSave - DefaultMultiplier;
+                DebuffDurationDif = characterStats.DebuffDuration.ValueForSave - DefaultMultiplier;
 
                 //speeds
-                AttackSpeedDif = characterStats.AttackSpeed.BaseValue - DefaultMultiplier;
+                AttackSpeedDif = characterStats.AttackSpeed.ValueForSave - DefaultMultiplier;
 
                 //oneHanded
-                OneHandedLightAttackSpeedDif = characterStats.OneHandedLightAttackSpeed.BaseValue - DefaultMultiplier;
-                OneHandedHeavyAttackSpeedDif = characterStats.OneHandedHeavyAttackSpeed.BaseValue - DefaultHeavyAttackSpeed;
+                OneHandedLightAttackSpeedDif = characterStats.OneHandedLightAttackSpeed.ValueForSave - DefaultMultiplier;
+                OneHandedHeavyAttackSpeedDif = characterStats.OneHandedHeavyAttackSpeed.ValueForSave - DefaultHeavyAttackSpeed;
                 //twoHanded
-                TwoHandedLightAttackSpeedDif = characterStats.TwoHandedLightAttackSpeed.BaseValue - DefaultMultiplier;
-                TwoHandedHeavyAttackSpeedDif = characterStats.TwoHandedHeavyAttackSpeed.BaseValue - DefaultHeavyAttackSpeed;
+                TwoHandedLightAttackSpeedDif = characterStats.TwoHandedLightAttackSpeed.ValueForSave - DefaultMultiplier;
+                TwoHandedHeavyAttackSpeedDif = characterStats.TwoHandedHeavyAttackSpeed.ValueForSave - DefaultHeavyAttackSpeed;
                 //dualHanded
-                DualHandedLightAttackSpeedDif = characterStats.DualHandedLightAttackSpeed.BaseValue - DefaultFistLightAttackSpeed;
-                DualHandedHeavyAttackSpeedDif = characterStats.DualHandedHeavyAttackSpeed.BaseValue - DefaultFistHeavyAttackSpeed;
+                DualHandedLightAttackSpeedDif = characterStats.DualHandedLightAttackSpeed.ValueForSave - DefaultFistLightAttackSpeed;
+                DualHandedHeavyAttackSpeedDif = characterStats.DualHandedHeavyAttackSpeed.ValueForSave - DefaultFistHeavyAttackSpeed;
                 //fists
-                FistLightAttackSpeedDif = characterStats.FistLightAttackSpeed.BaseValue - DefaultMultiplier;
-                FistHeavyAttackSpeedDif = characterStats.FistHeavyAttackSpeed.BaseValue - DefaultHeavyAttackSpeed;                
+                FistLightAttackSpeedDif = characterStats.FistLightAttackSpeed.ValueForSave - DefaultMultiplier;
+                FistHeavyAttackSpeedDif = characterStats.FistHeavyAttackSpeed.ValueForSave - DefaultHeavyAttackSpeed;                
                 //bow
-                BowDrawSpeedDif = characterStats.BowDrawSpeed.BaseValue - DefaultMultiplier;
+                BowDrawSpeedDif = characterStats.BowDrawSpeed.ValueForSave - DefaultMultiplier;
                 //block
-                BlockPrepareSpeedDif = characterStats.BlockPrepareSpeed.BaseValue - DefaultMultiplier;
+                BlockPrepareSpeedDif = characterStats.BlockPrepareSpeed.ValueForSave - DefaultMultiplier;
                 //spell
-                SpellChargeSpeedDif = characterStats.SpellChargeSpeed.BaseValue - DefaultMultiplier;
+                SpellChargeSpeedDif = characterStats.SpellChargeSpeed.ValueForSave - DefaultMultiplier;
                 //deflect
-                DeflectPrecisionDif = characterStats.DeflectPrecision.BaseValue;
+                DeflectPrecisionDif = characterStats.DeflectPrecision.ValueForSave;
                 
-                MeleeDamageMultiplierDif = characterStats.MeleeDamageMultiplier.BaseValue - DefaultMultiplier;
-                OneHandedMeleeDamageMultiplierDif = characterStats.OneHandedMeleeDamageMultiplier.BaseValue - DefaultMultiplier;
-                TwoHandedMeleeDamageMultiplierDif = characterStats.TwoHandedMeleeDamageMultiplier.BaseValue - DefaultMultiplier;
-                UnarmedMeleeDamageMultiplierDif = characterStats.UnarmedMeleeDamageMultiplier.BaseValue - DefaultMultiplier;
-                RangedDamageMultiplierDif = characterStats.RangedDamageMultiplier.BaseValue - DefaultMultiplier;
+                MeleeDamageMultiplierDif = characterStats.MeleeDamageMultiplier.ValueForSave - DefaultMultiplier;
+                OneHandedMeleeDamageMultiplierDif = characterStats.OneHandedMeleeDamageMultiplier.ValueForSave - DefaultMultiplier;
+                TwoHandedMeleeDamageMultiplierDif = characterStats.TwoHandedMeleeDamageMultiplier.ValueForSave - DefaultMultiplier;
+                UnarmedMeleeDamageMultiplierDif = characterStats.UnarmedMeleeDamageMultiplier.ValueForSave - DefaultMultiplier;
+                RangedDamageMultiplierDif = characterStats.RangedDamageMultiplier.ValueForSave - DefaultMultiplier;
                 
                 // Weapon Multipliers
-                MagicStrengthDif = characterStats.MagicStrength.BaseValue - DefaultMultiplier;
-                HoldBlockCostReductionDif = characterStats.HoldBlockCostReduction.BaseValue - DefaultMultiplier;
+                MagicStrengthDif = characterStats.MagicStrength.ValueForSave - DefaultMultiplier;
+                HoldBlockCostReductionDif = characterStats.HoldBlockCostReduction.ValueForSave - DefaultMultiplier;
             }
         }
     }

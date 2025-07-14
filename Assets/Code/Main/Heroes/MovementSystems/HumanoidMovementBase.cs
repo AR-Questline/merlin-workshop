@@ -995,9 +995,14 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         
         // === Discarding
         protected override void OnDiscard(bool fromDomainDrop) {
-            if (!fromDomainDrop && Controller != null && Controller.audioAnimator != null) {
-                Controller.audioAnimator.SetFloat(Movement, 0);
+            if (!fromDomainDrop) {
+                TrackSprintingState(false);
+                TrackWalkingState(false);
+                if (Controller != null && Controller.audioAnimator != null) {
+                    Controller.audioAnimator.SetFloat(Movement, 0);
+                }
             }
+            
             base.OnDiscard(fromDomainDrop);
         }
     }

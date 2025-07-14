@@ -27,10 +27,12 @@ namespace Awaken.TG.Main.UI.TitleScreen {
     public class VTitleScreenUI : View<TitleScreenUI>, IAutoFocusBase, IFocusSource {
         [Title("Title Menu Buttons")]
         [SerializeField] GameObject defaultButtonsParent;
+        [SerializeField] GameObject dlcButtonsParent;
         [SerializeField] ButtonConfig continueGame;
         [SerializeField] ButtonConfig newGame;
         [SerializeField] ButtonConfig loadGame;
         [SerializeField] ButtonConfig options;
+        [SerializeField] ButtonConfig modManager;
         [SerializeField] ButtonConfig ost;
         [SerializeField] ButtonConfig artbook;
         [SerializeField] ButtonConfig exitGame;
@@ -81,8 +83,14 @@ namespace Awaken.TG.Main.UI.TitleScreen {
                 LoadSave.Get.Load(slot, "TitleScreen Continue");
             });
             
-            loadGame.InitializeButton(MenuUI.OpenLoadUI);
-            options.InitializeButton(MenuUI.OpenSettingUI);
+            loadGame.InitializeButton(() => MenuUI.OpenLoadUI(this));
+            options.InitializeButton(() => MenuUI.OpenSettingUI(this));
+
+            bool isConsole = PlatformUtils.IsConsole;
+            modManager.TrySetActiveOptimized(!isConsole);
+            if (!isConsole) {
+                modManager.InitializeButton(() => MenuUI.OpenModUI(this));
+            }
             
             if (HasSupportersPackDlc()) {
                 ost.InitializeButton(MenuUI.OpenOstUI);
@@ -103,6 +111,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         public void SwitchButtons(bool isDefault) {
             Target.RefreshPrompt(!isDefault);
             defaultButtonsParent.SetActiveOptimized(isDefault);
+            dlcButtonsParent.SetActiveOptimized(isDefault);
             newGameButtonsParent.SetActiveOptimized(!isDefault);
             World.Only<Focus>().Select(isDefault ? DefaultFocus : prologue.button);
         }

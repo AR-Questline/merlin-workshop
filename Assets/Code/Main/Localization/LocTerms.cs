@@ -229,6 +229,8 @@ namespace Awaken.TG.Main.Localization {
             Pose = "Generic/Pose",
             Filter = "Generic/Filter",
             Random = "Generic/Random",
+            MoveUp = "Generic/MoveUp",
+            MoveDown = "Generic/MoveDown",
 
             PortalBlockedByCombat = "Interaction/PortalBlockedByCombat",
             

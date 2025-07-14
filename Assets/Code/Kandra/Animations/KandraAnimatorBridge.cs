@@ -1,6 +1,5 @@
 ﻿using System;
 using Awaken.Utility.Collections;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Awaken.Kandra.Animations {
@@ -8,8 +7,6 @@ namespace Awaken.Kandra.Animations {
         public KandraRenderer kandraRenderer;
         [NonSerialized] Material[] _materialsToAnimate;
 
-        [HideReferenceObjectPicker, OnValueChanged(nameof(EditorValueChanged), true)]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), ListDrawerSettings(ShowFoldout = false, ShowPaging = false, DefaultExpandedState = true, HideAddButton = true, CustomRemoveIndexFunction = nameof(EditorRemoveAnimatorProperty))]
         public AnimatorBridgeProperty[] properties;
 
         int _validPropertiesCount;
@@ -41,6 +38,7 @@ namespace Awaken.Kandra.Animations {
         }
 
         // === Editor
+#if UNITY_EDITOR
         void OnValidate() {
             if (!kandraRenderer) {
                 kandraRenderer = GetComponent<KandraRenderer>();
@@ -56,13 +54,13 @@ namespace Awaken.Kandra.Animations {
             }
         }
 
-        void EditorRemoveAnimatorProperty(int index) {
+        public void EditorRemoveAnimatorProperty(int index) {
             var property = properties[index];
             ArrayUtils.RemoveAt(ref properties, index);
             DestroyImmediate(property.gameObject, true);
         }
 
-        void EditorValueChanged() {
+        public void EditorValueChanged() {
             if (_materialsToAnimate == null || kandraRenderer == null || properties == null) {
                 return;
             }
@@ -77,22 +75,19 @@ namespace Awaken.Kandra.Animations {
             }
         }
 
-#if UNITY_EDITOR
-        [Button, HideIf(nameof(IsInPreviewMode)), EnableIf(nameof(HasValidRenderer))]
-        void EDITOR_EnterPreviewMode() {
+        public void EDITOR_EnterPreviewMode() {
             Awake();
         }
 
-        [Button, ShowIf(nameof(IsInPreviewMode)), EnableIf(nameof(HasValidRenderer))]
-        void EDITOR_ExitPreviewMode() {
+        public void EDITOR_ExitPreviewMode() {
             OnDestroy();
         }
 
-        bool IsInPreviewMode() {
+        public bool IsInPreviewMode() {
             return _materialsToAnimate != null;
         }
 
-        bool HasValidRenderer() {
+        public bool HasValidRenderer() {
             return kandraRenderer != null;
         }
 #endif

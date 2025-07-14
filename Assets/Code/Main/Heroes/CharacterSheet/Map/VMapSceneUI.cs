@@ -1,4 +1,6 @@
-﻿using Awaken.TG.Assets;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Awaken.TG.Assets;
 using Awaken.TG.Graphics.MapServices;
 using Awaken.TG.Main.FastTravel;
 using Awaken.TG.Main.Fights.Utils;
@@ -11,48 +13,51 @@ using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
-using Awaken.TG.Utility.Graphics;
-using Awaken.Utility;
+using Awaken.TG.Utility;
 using Awaken.Utility.Animations;
+using Awaken.Utility.Cameras;
 using Awaken.Utility.Maths;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
     [UsesPrefab("CharacterSheet/Map/" + nameof(VMapSceneUI))]
     public class VMapSceneUI : View<MapSceneUI>, IUIAware, IAutoFocusBase, IFocusSource {
+        const float Border = 0.952381f;
         static readonly int MaskTextureID = Shader.PropertyToID("_MaskTexture");
         
         [SerializeField] AspectRatioFitter aspectRatioFitter;
         [SerializeField] RectTransform prerenderedMapTransform;
         [SerializeField] RawImage markersImage;
         [SerializeField] Image mapImage;
+        public Transform markersParent;
         
         SpriteReference _mapSprite;
         FogOfWar _fogOfWar;
-        RenderTexture _markersTexture;
         RenderTexture _mapMaskTexture;
         float _viewportAspectRatio;
         
         Rect _parentScreenRect;
-        Rect _markersRect;
         Vector2 _parentCanvasSize;
         float _maxOrthoSize;
         
-        RaycastHit[] _markerUnderRaycastHits = new RaycastHit[4];
+        PointerEventData _pointerEventData;
+        readonly List<RaycastResult> _markerUnderRaycastResults = new(32);
         
         public bool ForceFocus => true;
         public Component DefaultFocus => this;
-        
-        Camera MarkersCamera => Target.MarkersCamera;
+
+        public Rect MinMaxRect { get; private set; }
         SceneReference Scene => Target.Scene;
         MapSceneData Data => Target.Data;
 
         protected override void OnInitialize() {
+            _pointerEventData = new PointerEventData(EventSystem.current);
             aspectRatioFitter.aspectRatio = Data.AspectRatio;
         }
-
+        
         protected override void OnFullyInitialized() {
             base.OnFullyInitialized();
             _mapSprite = Data.Sprite.Get();
@@ -63,7 +68,17 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
             
             AfterFirstCanvasCalculate().Forget();
             
-            _maxOrthoSize = VMapCamera.GetOrthoSize(1, Data.Bounds.size, Data.AspectRatio);
+            _maxOrthoSize = MapUI.GetOrthoSize(1, Data.Bounds.size, Data.AspectRatio);
+        }
+
+        public void SortMarkers() {
+            var markers = markersParent.GetComponentsInChildren<IVMapMarker>();
+            var orderedMarkers = markers.OrderBy(m => m.Target?.Order ?? 0);
+            int i = 0;
+            foreach (var mapMarkerView in orderedMarkers) {
+                mapMarkerView.transform.SetSiblingIndex(i);
+                i++;
+            }
         }
         
         protected override IBackgroundTask OnDiscard() {
@@ -75,10 +90,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
                 _mapMaskTexture.Release();
             }
             markersImage.texture = null;
-            if (_markersTexture) {
-                _markersTexture.Release();
-            }
-            _markersTexture = null;
             return base.OnDiscard();
         }
         
@@ -109,10 +120,12 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
                 return;
             }
             
-            _markersTexture = TextureUtils.CreateRenderTextureFor(markersImage.rectTransform);
-            MarkersCamera.targetTexture = _markersTexture;
-            markersImage.texture = _markersTexture;
-            _viewportAspectRatio = _markersTexture.width / (float)_markersTexture.height;
+            var rect = ((RectTransform)mapImage.transform).rect;
+            MinMaxRect = Rect.MinMaxRect(-rect.size.x / 2 * Border, -rect.size.y / 2 * Border,
+                rect.size.x / 2 * Border, rect.size.y / 2 * Border);
+            
+            var pixelsRect = markersImage.rectTransform.GetPixelsRect();
+            _viewportAspectRatio = pixelsRect.width / pixelsRect.height;
             
             var parent = (RectTransform)prerenderedMapTransform.parent;
             var bottomLeft = parent.WorldBottomLeftCorner();
@@ -120,17 +133,13 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
             _parentScreenRect = Rect.MinMaxRect(bottomLeft.x, bottomLeft.y, topRight.x, topRight.y);
             _parentCanvasSize = _parentScreenRect.size/parent.GetComponentInParent<Canvas>().transform.localScale.x;
 
-            var markersTransform = (RectTransform)markersImage.transform;
-            bottomLeft = markersTransform.WorldBottomLeftCorner();
-            topRight = markersTransform.WorldTopRightCorner();
-            _markersRect = Rect.MinMaxRect(bottomLeft.x, bottomLeft.y, topRight.x, topRight.y);
-
             UpdateZoomAndTranslation();
             Target.ParentModel.ListenTo(MapSceneUI.Events.ParametersChanged, _ => UpdateZoomAndTranslation(), this);
+            Target.FirstCanvasCalculated();
         }
 
         void UpdateZoomAndTranslation() {
-            var currentOrthoSize = VMapCamera.GetOrthoSize(Target.Zoom, Data.Bounds.size, Data.AspectRatio);
+            var currentOrthoSize = MapUI.GetOrthoSize(Target.Zoom, Data.Bounds.size, Data.AspectRatio);
             var scale = Vector3.one * (_maxOrthoSize / currentOrthoSize);
             prerenderedMapTransform.localScale = scale;
 
@@ -160,8 +169,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
             }
             
             if (evt is UIEPointTo pointTo) {
-                var marker = MarkerUnder(pointTo.Position);
-                Target.PointingTo(marker);
+                Target.PointingTo(MarkerUnder(pointTo.Position));
                 return UIResult.Accept;
             }
 
@@ -181,16 +189,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
                 uiResult = UIResult.Accept;
                 return true;
             }
-
-            if (MarkersCamera == null) {
-                uiResult = UIResult.Ignore;
-                return false;
-            }
             
             if (evt is UIEDrag drag) {
-                var previousPosition = ScreenToWorld(drag.PreviousPosition.screen, MarkersCamera);
-                var currentPosition = ScreenToWorld(drag.Position.screen, MarkersCamera);
-                Target.ChangeTranslation(previousPosition-currentPosition);
+                var previousPosition = ScreenToWorld(drag.PreviousPosition.screen);
+                var currentPosition = ScreenToWorld(drag.Position.screen);
+                Target.ChangeTranslation(previousPosition - currentPosition);
                 uiResult = UIResult.Accept;
                 return true;
             }
@@ -200,7 +203,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
                     if (marker) {
                         Target.MarkerClicked(marker);
                     } else {
-                        Target.GroundClicked(ScreenToWorld(mouseUp.Position.screen, MarkersCamera).XZ());
+                        Target.GroundClicked(ScreenToWorld(mouseUp.Position.screen).XZ());
                     }
                     uiResult = UIResult.Accept;
                     return true;
@@ -226,7 +229,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
                         Target.MarkerClicked(marker);
                     }
                 } else {
-                    Target.GroundClicked(ScreenToWorld(keyUp.Position.screen, MarkersCamera).XZ());
+                    Target.GroundClicked(ScreenToWorld(keyUp.Position.screen).XZ());
                 }
                 uiResult = UIResult.Accept;
                 return true;
@@ -259,26 +262,26 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
         }
         
         MapMarker MarkerUnder(UIPosition uiPosition) {
-            var uv = Rect.PointToNormalized(_markersRect, uiPosition.screen);
-            if (uv.x is < 0 or > 1 || uv.y is < 0 or > 1) {
-                return null;
-            }
-
-            var ray = MarkersCamera.ViewportPointToRay(uv);
-            var size = Physics.RaycastNonAlloc(ray, _markerUnderRaycastHits, 4096, RenderLayers.Mask.MapMarker);
-            for (int index = 0; index < size; index++) {
-                MapMarker hit = _markerUnderRaycastHits[index].collider.transform.GetComponentInParent<IVMapMarker>().Target;
-                if (hit.Grounded is not Hero) {
-                    return hit;
+            _pointerEventData.position = uiPosition.screen;
+            EventSystem.current.RaycastAll(_pointerEventData, _markerUnderRaycastResults);
+            foreach (var raycastResult in _markerUnderRaycastResults) {
+                var marker = raycastResult.gameObject.GetComponentInParent<IVMapMarker>();
+                if (marker != null) {
+                    return marker.Target;
                 }
             }
-
             return null;
         }
 
-        Vector3 ScreenToWorld(Vector2 screenPoint, Camera markersCamera) {
-            var viewport = Rect.PointToNormalized(_markersRect, screenPoint);
-            return markersCamera.ViewportToWorldPoint(viewport).X0Z();
+        Vector3 ScreenToWorld(Vector2 screenPoint) {
+            var bounds = Data.Bounds;
+            var mapImageRect = (RectTransform)mapImage.transform;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mapImageRect, screenPoint, null, out var localPoint);
+
+            Vector3 remappedPosition = Vector3.zero;
+            remappedPosition.x = localPoint.x.Remap(MinMaxRect.xMin, MinMaxRect.xMax, bounds.min.x, bounds.max.x);
+            remappedPosition.z = localPoint.y.Remap(MinMaxRect.yMin, MinMaxRect.yMax, bounds.min.z, bounds.max.z);
+            return remappedPosition;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Awaken.TG.Editor.Assets;
 using Awaken.TG.Main.General.Caches;
+using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -29,6 +30,7 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
 
         static GUIDCache s_instance;
         static readonly Regex GUIDRegex = new(@"[^a-z0-9]([a-z0-9]{32})[^a-z0-9]", RegexOptions.Compiled);
+        static readonly Regex SerializedGUIDRegex = new(@"graphGuid:[\s\n]+_guidPart1:\s(\d+)[\s\n]+_guidPart2:\s(\d+)[\s\n]+_guidPart3:\s(\d+)[\s\n]+_guidPart4:\s(\d+)", RegexOptions.Compiled);
         static readonly Regex RichEnumRegex = new(@"(Awaken\.[A-Za-z0-9_\.]+),\s+([A-Za-z0-9_\.]+),\s+(Version=\d+\.\d+\.\d+\.\d+),\s+(Culture=[a-z]+),\s+(PublicKeyToken=null):(\w+)", RegexOptions.Compiled);
         static readonly Regex IdOverrideRegex = new("IdOverride: (.+)", RegexOptions.Compiled);
         public static GUIDCache Instance => s_instance;
@@ -168,6 +170,16 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
             foreach (Match match in GUIDRegex.Matches(text)) {
                 var guid = match.Value.Substring(1, 32);
                 map.Add(guid, path);
+            }
+            foreach (Match match in SerializedGUIDRegex.Matches(text)) {
+                var groups = match.Groups;
+                var guid = new SerializableGuid(
+                    int.Parse(groups[1].Value),
+                    int.Parse(groups[2].Value),
+                    int.Parse(groups[3].Value),
+                    int.Parse(groups[4].Value)
+                );
+                map.Add(guid.ToString("N"), path); // "N" - digits without hyphens
             }
             foreach (Match match in RichEnumRegex.Matches(text)) {
                 var groups = match.Groups;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
@@ -128,28 +127,31 @@ namespace Awaken.Utility.Editor.Prefabs {
             GameObject Prefab { get; set; }
         }
         
-        [Serializable, InlineProperty]
+        [Serializable]
         public struct PrefabNodeData : INodeData {
             public string Path { get; }
-            [ShowInInspector, HideLabel] public GameObject Prefab { get; set; }
+            public GameObject Prefab {
+                get => _prefab;
+                set => _prefab = value;
+            }
+
+            [SerializeField] GameObject _prefab;
 
             public PrefabNodeData(string path) {
                 Path = path;
-                Prefab = AssetDatabase.LoadAssetAtPath<GameObject>(Path);
+                _prefab = AssetDatabase.LoadAssetAtPath<GameObject>(Path);
             }
         }
         
         [Serializable]
         public struct Node<TData> where TData : INodeData {
-            [HideLabel] public TData data;
-            [ShowIf(nameof(HasVariants))] public Node<TData>[] variants;
+            public TData data;
+            public Node<TData>[] variants;
 
             public Node(TData data, Node<TData>[] variants) {
                 this.data = data;
                 this.variants = variants;
             }
-            
-            bool HasVariants => variants is { Length: > 0 };
         }
         
         readonly struct PrefabWithParent {

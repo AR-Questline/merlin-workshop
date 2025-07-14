@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Awaken.TG.Assets;
+using Awaken.TG.Main.Character.Features;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.CharacterSheet;
@@ -23,6 +24,7 @@ using Awaken.TG.Main.Stories.Steps.Helpers;
 using Awaken.TG.Main.Stories.Tags;
 using Awaken.TG.Main.UI.Popup.PopupContents;
 using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.Animations.Gestures;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Events;
@@ -290,6 +292,7 @@ namespace Awaken.TG.Main.Stories {
                 }, null);
             }
 
+            GesturesHelper.PreloadDefaultGestures();
             World.Only<GameUI>().AddElement(new AlwaysPresentHandlers(UIContext.All, this, this));
         }
 
@@ -297,6 +300,7 @@ namespace Awaken.TG.Main.Stories {
             _runner.Stop();
             this.Trigger(StoryEvents.StoryEnded, this);
 
+            GesturesHelper.ReleaseDefaultGestures();
             ReleaseBanks();
             _graph.Dispose();
             // if (_loadingBanks.IsCreated) {
@@ -403,6 +407,9 @@ namespace Awaken.TG.Main.Stories {
             if (npc == null || npc.HasBeenDiscarded) {
                 return;
             }
+
+            npc.InteractionGestures?.Preload(this);
+            npc.GesturesWrapper?.Preload(this);
             
             if (!involve) {
                 var involvement = NpcInvolvement.GetFor(this, npc);

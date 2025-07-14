@@ -3,7 +3,6 @@ using Awaken.Kandra.Managers;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.LowLevel.Collections;
-using Sirenix.OdinInspector;
 using Unity.Burst;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
@@ -14,7 +13,7 @@ namespace Awaken.Kandra {
     public class KandraTrisCuller : MonoBehaviour {
         public CulledMesh[] culledMeshes;
 
-        [ShowInInspector] FrugalList<KandraTrisCullee> _cullees = new FrugalList<KandraTrisCullee>();
+        FrugalList<KandraTrisCullee> _cullees = new FrugalList<KandraTrisCullee>();
 
         bool _inUnityLifetime;
 
@@ -36,7 +35,6 @@ namespace Awaken.Kandra {
             }
         }
 
-        [Button]
         public void Cull(KandraTrisCullee cullee) {
             cullee.Cull(this);
             _cullees.Add(cullee);
@@ -46,7 +44,6 @@ namespace Awaken.Kandra {
             }
         }
 
-        [Button]
         public void Uncull(KandraTrisCullee cullee) {
             if (_cullees.Remove(cullee)) {
                 cullee.Uncull(this);
@@ -71,14 +68,14 @@ namespace Awaken.Kandra {
 
         [Serializable]
         public struct CulledMesh {
-            [InlineProperty] public SerializableGuid culleeId;
+            public SerializableGuid culleeId;
             public CulledRange[] culledRanges;
         }
 
         [Serializable]
         public struct CulledRange {
-            [HorizontalGroup] public uint start;
-            [HorizontalGroup] public ushort length;
+            public uint start;
+            public ushort length;
         }
 
         [BurstCompile]
@@ -94,5 +91,11 @@ namespace Awaken.Kandra {
                 }
             }
         }
+
+#if UNITY_EDITOR
+        public struct EditorAccess {
+            public static ref readonly FrugalList<KandraTrisCullee> Cullees(KandraTrisCuller culler) => ref culler._cullees;
+        }
+#endif
     }
 }

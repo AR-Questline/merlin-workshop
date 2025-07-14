@@ -68,7 +68,7 @@ namespace Awaken.TG.Graphics {
             var groundBounds = FindAnyObjectByType<GroundBounds>();
             var bounds = groundBounds.CalculateGameBounds();
             
-            camera.orthographicSize = VMapCamera.GetOrthoSize(1f, bounds.size, aspectRatio);
+            camera.orthographicSize = MapUI.GetOrthoSize(1f, bounds.size, aspectRatio);
             var cameraTransform = camera.transform;
             cameraTransform.localPosition = new(0, bounds.max.y, 0);
 

@@ -88,7 +88,7 @@ namespace Awaken.ECS.DrakeRenderer.Authoring {
                 float4Count += (uint)overrides[i].colorPropertyData.Length;
             }
             var allCount = floatCount + float4Count;
-            
+
             _runtimeOverrides = new UnsafeArray<MaterialOverrideData>(allCount, Allocator.Persistent);
             _fromToFloatValues = new UnsafeArray<float2>(floatCount, Allocator.Persistent);
             _fromToFloat4Values = new UnsafeArray<float4x2>(float4Count, Allocator.Persistent);
@@ -98,7 +98,7 @@ namespace Awaken.ECS.DrakeRenderer.Authoring {
             var float4Index = 0u;
             for (uint i = 0; i < overridesCount; i++) {
                 var materialKey = new FixedString128Bytes(overrides[i].material.AssetGUID);
-                
+
                 for(uint j = 0; j < overrides[i].floatPropertyData.Length; j++) {
                     _materialKeys[floatIndex] = materialKey;
                     _fromToFloatValues[floatIndex] = new float2(overrides[i].floatPropertyData[j].fromValue, overrides[i].floatPropertyData[j].toValue);
@@ -107,7 +107,7 @@ namespace Awaken.ECS.DrakeRenderer.Authoring {
                     _runtimeOverrides[floatIndex] = new MaterialOverrideData(typeIndex, currentValue);
                     ++floatIndex;
                 }
-                
+
                 for(uint j = 0; j < overrides[i].colorPropertyData.Length; j++) {
                     var realIndex = floatCount + float4Index;
                     _materialKeys[realIndex] = materialKey;
@@ -126,7 +126,7 @@ namespace Awaken.ECS.DrakeRenderer.Authoring {
             }
 
             UpdateProgress();
-            
+
             UpdateOverrides();
         }
 
@@ -166,7 +166,7 @@ namespace Awaken.ECS.DrakeRenderer.Authoring {
                 //TODO: don't allow for this situation to even happen (currently if Drake is spawned in NPC visual prefab (not location) this happens.
                 return;
             }
-            
+
             var materialOverridePack = new MaterialsOverridePack(_runtimeOverrides, _materialKeys);
             MaterialOverrideUtils.ApplyMaterialOverrides(access, materialOverridePack);
         }
@@ -185,7 +185,7 @@ namespace Awaken.ECS.DrakeRenderer.Authoring {
             public float fromValue;
             public float toValue;
         }
-        
+
         [Serializable]
         struct ColorPropertyOverrideData {
             [MaterialPropertyComponent]

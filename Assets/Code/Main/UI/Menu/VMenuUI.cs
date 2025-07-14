@@ -91,15 +91,15 @@ namespace Awaken.TG.Main.UI.Menu {
 
         void InitializeButtons() {
             resumeGame.InitializeButton(Target.Close);
-            saveGame.InitializeButton(MenuUI.OpenSaveUI);
-            loadGame.InitializeButton(MenuUI.OpenLoadUI);
+            saveGame.InitializeButton(() => MenuUI.OpenSaveUI(this));
+            loadGame.InitializeButton(() => MenuUI.OpenLoadUI(this));
             unstuck.InitializeButton(Target.Unstuck);
-            options.InitializeButton(Target.ShowOptions);
+            options.InitializeButton(() => MenuUI.OpenSettingUI(this));
             
             if (PlatformUtils.IsConsole) {
                 bugReport.gameObject.SetActive(false);
             } else {
-                bugReport.InitializeButton(Target.ReportBug);
+                bugReport.InitializeButton(() => MenuUI.OpenBugReportUI(this));
             }
             
             photoMode.InitializeButton(Target.ShowPhotoMode);

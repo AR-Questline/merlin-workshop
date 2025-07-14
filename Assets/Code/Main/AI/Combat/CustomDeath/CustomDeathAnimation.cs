@@ -10,6 +10,7 @@ using Awaken.TG.Main.Utility.Animations.ARAnimator;
 using Awaken.Utility.Debugging;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Awaken.TG.Main.AI.Combat.CustomDeath {
     [Serializable]
@@ -19,7 +20,7 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath {
         [SerializeField] bool useCustomRagdollData;
         [SerializeField, ShowIf(nameof(useCustomRagdollData))] PostponedRagdollBehaviourBase.RagdollEnableData customRagdollData = PostponedRagdollBehaviourBase.RagdollEnableData.Default;
         ARCustomDeathAnimations _arInteractionAnimations;
-        ARAssetReference _animations;
+        AsyncOperationHandle<ARStateToAnimationMapping> _preloadedAnimations;
 
         public bool UseCustomRagdollData => useCustomRagdollData;
         public PostponedRagdollBehaviourBase.RagdollEnableData CustomRagdollData => customRagdollData;
@@ -38,13 +39,19 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath {
         }
 
         public void Preload() {
-            _animations = animations.Get();
-            _animations.PreloadLight<ARStateToAnimationMapping>();
+            if (_preloadedAnimations.IsValid()) {
+                return;
+            }
+            
+            _preloadedAnimations = animations.PreloadLight<ARStateToAnimationMapping>();
         }
 
         public void UnloadPreload() {
-            _animations?.ReleaseAsset();
-            _animations = null;
+            if (_preloadedAnimations.IsValid() == false) {
+                return;
+            }
+            animations.ReleasePreloadLight(_preloadedAnimations);
+            _preloadedAnimations = default;
         }
 
         public void Load(NpcElement npc) {
@@ -52,7 +59,7 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath {
         }
 
         public void Load(ARNpcAnimancer npcAnimancer) {
-            _arInteractionAnimations = _animations == null ? new ARCustomDeathAnimations(npcAnimancer, animations) : new ARCustomDeathAnimations(npcAnimancer, _animations);
+            _arInteractionAnimations = new ARCustomDeathAnimations(npcAnimancer, animations);
             _arInteractionAnimations.LoadOverride();
         }
 

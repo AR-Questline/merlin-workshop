@@ -8,6 +8,7 @@ using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.MVC;
+using Awaken.TG.MVC.Events;
 
 namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
     public partial class KillTracker : BaseSimpleTracker<KillTrackerAttachment> {
@@ -25,6 +26,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
 
         protected override void OnInitialize() {
             Hero.Current.ListenTo(HealthElement.Events.OnKill, OnHeroKilledSomething, this);
+            World.EventSystem.ListenTo(EventSelector.AnySource, HealthElement.Events.OnHeroSummonKill, this, OnHeroKilledSomething);
         }
 
         void OnHeroKilledSomething(DamageOutcome damageOutcome) {

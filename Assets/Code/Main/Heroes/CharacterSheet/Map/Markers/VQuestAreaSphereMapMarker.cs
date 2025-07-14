@@ -2,28 +2,20 @@
 using Awaken.TG.MVC.Attributes;
 using Awaken.Utility.Maths;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
     [UsesPrefab("CharacterSheet/Map/" + nameof(VQuestAreaSphereMapMarker))]
     public class VQuestAreaSphereMapMarker : VSpriteMapMarker<QuestAreaMapMarker> {
-        [SerializeField] Vector2 spriteSize = new(2f, 2f);
-        [SerializeField] SpriteRenderer areaRenderer;
-        
-        Transform _spriteRendererTransform;
-        
-        protected override void Awake() {
-            base.Awake();
-            _spriteRendererTransform = SpriteRenderer.transform;
-        }
-        
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        [SerializeField] Image areaRenderer;
+        [SerializeField] RectTransform iconParent;
+
+        protected override void AfterFirstCanvasCalculate() {
             InitArea();
         }
         
-        protected override void UpdateMarkerScale(float heightWorldPercent) {
-            var heightScale = heightWorldPercent / spriteSize.y;
-            _spriteRendererTransform.localScale = heightScale.UniformVector3();
+        protected override void UpdateMarkerScale(float desiredScale) {
+            iconParent.localScale = desiredScale.UniformVector3();
         }
 
         void InitArea() {
@@ -32,7 +24,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
                 var sprite = areaRenderer.sprite;
                 var diameterInMeters = area.Radius * 2;
                 var diameterInPixels = diameterInMeters * sprite.pixelsPerUnit;
-                var scale = diameterInPixels / sprite.texture.width;
+                var scale = diameterInPixels / sprite.texture.width / areaRenderer.rectTransform.rect.size.x;
+                
                 areaRenderer.transform.localScale = scale.UniformVector3();
                 areaRenderer.gameObject.SetActive(true);
             } else {

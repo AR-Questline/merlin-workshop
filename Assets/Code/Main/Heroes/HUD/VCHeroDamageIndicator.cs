@@ -1,8 +1,9 @@
-using System.Collections;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.MVC;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace Awaken.TG.Main.Heroes.HUD {
     public class VCHeroDamageIndicator : ViewComponent<Hero> {
@@ -11,6 +12,7 @@ namespace Awaken.TG.Main.Heroes.HUD {
         [SerializeField] RectTransform directionalIndicator;
         
         Transform _attacker;
+        CancellationTokenSource _cts;
         
         protected override void OnAttach() {
             Target.AfterFullyInitialized(AfterFullyInitialized);
@@ -27,14 +29,15 @@ namespace Awaken.TG.Main.Heroes.HUD {
                 return;
             }
             
-            StopCoroutine(nameof(RotateDamagePointerToTarget));
-            StartCoroutine(nameof(RotateDamagePointerToTarget));
+            _cts?.Cancel();
+            _cts = new CancellationTokenSource();
+            RotateDamagePointerToTargetAsync(_cts.Token).Forget();
         }
         
-        IEnumerator RotateDamagePointerToTarget() {
+        async UniTaskVoid RotateDamagePointerToTargetAsync(CancellationToken token) {
             float duration = damageIndicatorDuration;
             
-            while (duration >= 0 && (_attacker != null)) {
+            while (duration >= 0 && _attacker != null && !token.IsCancellationRequested) {
                 Vector3 direction = Target.MainView.transform.position - _attacker.position;
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 rotation.z = -rotation.y;
@@ -44,12 +47,17 @@ namespace Awaken.TG.Main.Heroes.HUD {
                 Vector3 northDirection = new(0, 0, Target.MainView.transform.eulerAngles.y);
                 directionalIndicator.localRotation = rotation * Quaternion.Euler(northDirection);
 
-                duration -= Time.deltaTime;
+                duration -= Time.unscaledDeltaTime;
                 damageIndicator.alpha = Mathf.Lerp(0, 1, Mathf.Log(duration + 1, damageIndicatorDuration));
-                yield return null;
+                await UniTask.Yield(PlayerLoopTiming.Update);
             }
             
             damageIndicator.alpha = 0;
+        }
+        
+        protected override void OnDestroy() {
+            _cts?.Cancel();
+            _cts = null;
         }
     }
 }

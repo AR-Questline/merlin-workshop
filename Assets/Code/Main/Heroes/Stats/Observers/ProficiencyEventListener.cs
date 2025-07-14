@@ -64,7 +64,7 @@ namespace Awaken.TG.Main.Heroes.Stats.Observers {
         
         void AfterHeroFullyInitialized() {
             World.EventSystem.ListenTo(EventSelector.AnySource, HealthElement.Events.OnDamageTaken, this, OnDamageTakenCallback);
-            ParentModel.HeroItems.ListenTo(ICharacterInventory.Events.AnySlotChanged, EquippedGearChangeCallback, this);
+            ParentModel.Element<ArmorWeight>().ListenTo(ArmorWeight.Events.ArmorWeightScoreChanged, ArmorWeightScoreChangeCallback, this);
 
             ParentModel.ListenTo(Hero.Events.HeroSprintingStateChanged, SprintStateChangeCallback, this);
             ParentModel.ListenTo(Hero.Events.HeroJumped, HeroJumpedCallback, this);
@@ -85,7 +85,7 @@ namespace Awaken.TG.Main.Heroes.Stats.Observers {
             _profParams.ForEach(p => p.AttachListeners(Hero.Current, this));
             _profReferences.AddRange(ProfUtils.ProfReferences());
 
-            EquippedGearChangeCallback(EquipmentSlotType.MainHand);
+            ArmorWeightScoreChangeCallback(-1);
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
@@ -206,7 +206,7 @@ namespace Awaken.TG.Main.Heroes.Stats.Observers {
         /// <summary>
         /// Updates current armour proficiency
         /// </summary>
-        void EquippedGearChangeCallback(EquipmentSlotType _) {
+        void ArmorWeightScoreChangeCallback(float _) {
             ItemWeight weight = Hero.TryGetElement<ArmorWeight>()?.ArmorWeightType;
 
             if (weight == ItemWeight.Light) _currentArmorProf = ProfStatType.LightArmor;

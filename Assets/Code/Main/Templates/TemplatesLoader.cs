@@ -17,8 +17,10 @@ namespace Awaken.TG.Main.Templates {
     public class TemplatesLoader {
         const int TemplatesPreallocate = 11000;
 
-        public static bool LoadFromAddressables { get; private set; } = false;
-
+#if UNITY_EDITOR
+        public static bool EDITOR_LoadFromAddressables { get; private set; } = false;
+#endif
+        
         public readonly Dictionary<string, ITemplate> guidMap = new(TemplatesPreallocate);
         public readonly MultiMap<Type, ITemplate> typeMap = new(40);
 
@@ -34,7 +36,7 @@ namespace Awaken.TG.Main.Templates {
 
         void LoadAssets() {
 #if UNITY_EDITOR
-            if (LoadFromAddressables) {
+            if (EDITOR_LoadFromAddressables) {
                 LoadAssetsInBuild().Forget();
             } else {
                 LoadAssetsInEditor();

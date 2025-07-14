@@ -495,13 +495,14 @@ namespace Awaken.TG.Main.Heroes.Combat {
             if (angle < AimAssistData.maxAngleThatSlowsAssist) {
                 assistSpeed *= Mathf.Lerp(AimAssistData.narrowAngleMinMultiplier, 1f, angle / AimAssistData.maxAngleThatSlowsAssist);
             }
-            
-            Vector3 newDirection = Vector3.RotateTowards(TargetFollower.forward, targetDirection, assistSpeed * Time.deltaTime, 0.0f);
+
+            float heroTimeScale = Hero.Current.GetDeltaTime();
+            Vector3 newDirection = Vector3.RotateTowards(TargetFollower.forward, targetDirection, assistSpeed * heroTimeScale, 0.0f);
             TargetFollower.rotation = Quaternion.LookRotation(newDirection);
             Vector3 targetFollowerRotationEuler = TargetFollower.rotation.eulerAngles;
             Quaternion targetHeroRotation = Quaternion.Euler(targetFollowerRotationEuler.x, 0.0f, 0.0f);
-            FppArmsPivot.localRotation = Quaternion.Slerp(FppArmsPivot.localRotation, targetHeroRotation, Time.deltaTime);
-            FollowRotation(targetFollowerRotationEuler, Time.deltaTime, assistSpeed);
+            FppArmsPivot.localRotation = Quaternion.Slerp(FppArmsPivot.localRotation, targetHeroRotation, heroTimeScale);
+            FollowRotation(targetFollowerRotationEuler, heroTimeScale, assistSpeed);
         }
 
         void WorldCameraRotation(float deltaTime) {

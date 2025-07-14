@@ -30,11 +30,17 @@ namespace Awaken.TG.Main.Templates {
             }
         }
 
-        public void StartLoading(bool reload = false) {
-            if (TemplatesLoader.LoadFromAddressables && reload) {
+        public void StartLoading() {
+#if UNITY_EDITOR
+            if (TemplatesLoader.EDITOR_LoadFromAddressables) {
                 _loader = null;
             }
+#endif
             _loader ??= TemplatesLoader.CreateAndLoad();
+        }
+
+        public void Reload() {
+            _loader = TemplatesLoader.CreateAndLoad();
         }
         
         public T Get<T>(string guid) {

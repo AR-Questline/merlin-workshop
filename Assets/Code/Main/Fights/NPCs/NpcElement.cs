@@ -238,7 +238,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public StatusStats StatusStats => Element<StatusStats>();
         public StatusStats.ITemplate StatusStatsTemplate => Template;
         public NpcStats NpcStats => CachedElement(ref _cachedNpcStats);
-        public ProficiencyStats ProficiencyStats => Element<ProficiencyStats>();
+        public ProficiencyStats ProficiencyStats => throw new ArgumentException("NPCs cannot have proficiency stats");
         public AliveStats AliveStats => CachedElement(ref _cachedAliveStats);
         public AliveStats.ITemplate AliveStatsTemplate => Template;
         public LimitedStat Health => AliveStats.Health;

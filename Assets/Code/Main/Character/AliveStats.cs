@@ -90,14 +90,14 @@ namespace Awaken.TG.Main.Character {
             public void PrepareForSave(AliveStats aliveStats) {
                 ITemplate defaultData = aliveStats.ParentModel.AliveStatsTemplate;
                 
-                MaxHealthDif = aliveStats.MaxHealth.BaseValue - defaultData.MaxHealth;
-                HealthDif = aliveStats.Health.BaseValue - aliveStats.MaxHealth.BaseValue;
-                HealthRegenDif = aliveStats.HealthRegen.BaseValue;
-                ArmorMultiplierDif = aliveStats.ArmorMultiplier.BaseValue - defaultData.ArmorMultiplier;
-                ArmorDif = aliveStats.Armor.BaseValue - defaultData.Armor;
-                StatusResistanceDif = aliveStats.StatusResistance.BaseValue - defaultData.StatusResistance;
-                ForceStumbleThresholdDif = aliveStats.ForceStumbleThreshold.BaseValue - defaultData.ForceStumbleThreshold;
-                TrapDamageMultiplierDif = aliveStats.TrapDamageMultiplier.BaseValue - defaultData.TrapDamageMultiplier;
+                MaxHealthDif = aliveStats.MaxHealth.ValueForSave - defaultData.MaxHealth;
+                HealthDif = aliveStats.Health.ValueForSave - aliveStats.MaxHealth.ValueForSave;
+                HealthRegenDif = aliveStats.HealthRegen.ValueForSave;
+                ArmorMultiplierDif = aliveStats.ArmorMultiplier.ValueForSave - defaultData.ArmorMultiplier;
+                ArmorDif = aliveStats.Armor.ValueForSave - defaultData.Armor;
+                StatusResistanceDif = aliveStats.StatusResistance.ValueForSave - defaultData.StatusResistance;
+                ForceStumbleThresholdDif = aliveStats.ForceStumbleThreshold.ValueForSave - defaultData.ForceStumbleThreshold;
+                TrapDamageMultiplierDif = aliveStats.TrapDamageMultiplier.ValueForSave - defaultData.TrapDamageMultiplier;
             }
         }
     }

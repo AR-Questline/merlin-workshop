@@ -20,14 +20,14 @@ namespace Awaken.Utility.Graphics {
                 ImguiTableUtils.NameColumn<Light>(),
                 ImguiTableUtils.EnabledColumn<Light>(),
                 ImguiTableUtils.ActiveColumn<Light>(),
-                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Intensity", 96, ImguiTableUtils.FloatDrawer, static l => l.intensity),
-                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Range", 96, ImguiTableUtils.FloatDrawer, static l => l.range),
-                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Distance to center", 128, ImguiTableUtils.FloatDrawer, DistanceToLightCenter),
-                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Distance to radius", 128, ImguiTableUtils.FloatDrawer, DistanceToLightRadius),
-                ImguiTable<Light>.ColumnDefinition.Create("Shadows", 96, ShadowsDrawer, static l => l.shadows != LightShadows.None ? 1 : 0, ImguiTableUtils.FloatDrawer, static l => l.shadows != LightShadows.None ? 1 : 0),
-                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Shadows fade", 96, ImguiTableUtils.FloatDrawer, ShadowsFadeDistance),
-                ImguiTable<Light>.ColumnDefinition.Create("Volumetric", 96, VolumetricDrawer, static l => VolumetricEnabled(l) ? 1 : 0, ImguiTableUtils.FloatDrawer, VolumetricEnabled),
-                ImguiTable<Light>.ColumnDefinition.Create("Type", 96, TypeDrawer, static l => l.type.ToString())
+                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Intensity",  Width.Fixed(96), ImguiTableUtils.FloatDrawer, static l => l.intensity),
+                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Range",  Width.Fixed(96), ImguiTableUtils.FloatDrawer, static l => l.range),
+                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Distance to center",  Width.Fixed(128), ImguiTableUtils.FloatDrawer, DistanceToLightCenter),
+                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Distance to radius",  Width.Fixed(128), ImguiTableUtils.FloatDrawer, DistanceToLightRadius),
+                ImguiTable<Light>.ColumnDefinition.Create("Shadows", Width.Fixed(96), ShadowsDrawer, static l => l.shadows != LightShadows.None ? 1 : 0, ImguiTableUtils.FloatDrawer, static l => l.shadows != LightShadows.None ? 1 : 0),
+                ImguiTable<Light>.ColumnDefinition.CreateNumeric("Shadows fade",  Width.Fixed(96), ImguiTableUtils.FloatDrawer, ShadowsFadeDistance),
+                ImguiTable<Light>.ColumnDefinition.Create("Volumetric",  Width.Fixed(96), VolumetricDrawer, static l => VolumetricEnabled(l) ? 1 : 0, ImguiTableUtils.FloatDrawer, VolumetricEnabled),
+                ImguiTable<Light>.ColumnDefinition.Create("Type",  Width.Fixed(96), TypeDrawer, static l => l.type.ToString())
 #if UNITY_EDITOR
                 ,
                 ImguiTableUtils.PingColumn<Light>()
@@ -47,7 +47,7 @@ namespace Awaken.Utility.Graphics {
                 RefreshLights();
             }
 
-            if (_table.Draw(_allLights, Position.height, Scroll.y)) {
+            if (_table.Draw(_allLights, Position.height, Scroll.y, Position.width)) {
                 _allLights.Sort(_table.Sorter);
             }
         }

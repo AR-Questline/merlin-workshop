@@ -47,6 +47,7 @@ namespace Awaken.TG.Editor.Assets {
         [Space, Header("Other")]
         [OnValueChanged(nameof(UpdateEditorPreferences))] public bool debugTranslations = false;
         [OnValueChanged(nameof(UpdateEditorPreferences))] public bool disabledHideFlagsHeader = false;
+        [OnValueChanged(nameof(UpdateEditorPreferences))] public bool showKandraSkinnedVertices = false;
 
         [Space, Header("AR preview")]
         [OnValueChanged(nameof(UpdateEditorPreferences)), Range(0.1f, 10f)]

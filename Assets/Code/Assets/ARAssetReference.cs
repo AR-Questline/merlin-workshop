@@ -161,18 +161,25 @@ namespace Awaken.TG.Assets {
         }
         
         // === Preloading
-        public UniTask<T> Preload<T>() where T : class {
-            return ARPreloadHandle<T>.JustTask(this);
+        public AsyncOperationHandle<T> PreloadLight<T>() where T : class {
+            return LoadFromLocation<T>();
         }
-        
-        public void PreloadLight<T>() where T : class {
-            this.LoadAsset<T>();
+
+        public async UniTaskVoid Preload<T>(Func<bool> shouldExtendTimeout) where T : class {
+            var preload = PreloadLight<T>();
+            if (!preload.IsValid()) {
+                return;
+            }
+            
+            while (shouldExtendTimeout()) {
+                await UniTask.Delay( TimeSpan.FromSeconds(1), true);
+            }
+            
+            ReleasePreloadLight(preload);
         }
-        
-        public UniTask<T> Preload<T>(Func<bool> shouldExtendTimeout) where T : class {
-            var preload = new ARPreloadHandle<T>(this);
-            preload.Init(1, shouldExtendTimeout);
-            return preload.PreloadTask;
+
+        public void ReleasePreloadLight<T>(AsyncOperationHandle<T> preloadHandle) where T : class {
+            preloadHandle.Release();
         }
         
 #if UNITY_EDITOR

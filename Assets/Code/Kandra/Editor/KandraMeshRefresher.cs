@@ -1,31 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using Awaken.Utility.Collections;
+using Awaken.Utility.Editor.Helpers;
 using Awaken.Utility.Editor.Prefabs;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 using static Awaken.Utility.Editor.Prefabs.PrefabVariantCrawler;
 
 namespace Awaken.Kandra.Editor {
-    public class KandraMeshRefresher : OdinEditorWindow {
-        [FolderPath] public string[] folders = Array.Empty<string>();
-        [SerializeField, ListDrawerSettings(ShowFoldout = false)] Node<PrefabNodeData>[] prefabs = Array.Empty<Node<PrefabNodeData>>();
+    public class KandraMeshRefresher : AREditorWindow {
+        [DirectoryPath] public string[] folders = Array.Empty<string>();
+        [SerializeField] Node<PrefabNodeData>[] prefabs = Array.Empty<Node<PrefabNodeData>>();
         [SerializeField] string rootBoneName = "Hips";
         [SerializeField] bool forceEnable = true;
-        
-        [SerializeField, ListDrawerSettings(ShowFoldout = false), ShowIf(nameof(HasErrors))] List<Error> errors = new();
+        [SerializeField] List<Error> errors = new();
 
-        bool HasErrors => errors.Count > 0;
-        
-        [Button]
+        Vector2 _errorsScroll;
+
+        protected override void OnEnable() {
+            base.OnEnable();
+
+            AddButton("Gather", Gather, () => folders.Length > 0);
+            AddButton("Refresh", Refresh, () => prefabs.Length > 0);
+
+            AddCustomDrawer(nameof(errors), DrawErrors);
+        }
+
+        void DrawErrors(SerializedProperty errorsProp) {
+            if (errorsProp.arraySize <= 0) {
+                return;
+            }
+
+            _errorsScroll = EditorGUILayout.BeginScrollView(_errorsScroll);
+            EditorGUILayout.LabelField("Errors", EditorStyles.boldLabel);
+            EditorGUILayout.Space();
+            for (int i = 0; i < errorsProp.arraySize; i++) {
+                var errorProp = errorsProp.GetArrayElementAtIndex(i);
+                var prefabProp = errorProp.FindPropertyRelative("prefab");
+                var messageProp = errorProp.FindPropertyRelative("message");
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.ObjectField(prefabProp.objectReferenceValue, typeof(GameObject), false);
+                EditorGUILayout.LabelField(messageProp.stringValue);
+                EditorGUILayout.EndHorizontal();
+            }
+            EditorGUILayout.EndScrollView();
+        }
+
         void Gather() {
             prefabs = PrefabVariantCrawler.Gather(go => go.GetComponentInChildren<KandraRenderer>() != null, folders);
             errors.Clear();
         }
-        
-        [Button]
+
         void Refresh() {
             errors.Clear();
             PrefabVariantCrawler.Foreach(prefabs, (node, prefab, context) => {
@@ -73,8 +99,8 @@ namespace Awaken.Kandra.Editor {
         
         [Serializable]
         struct Error {
-            [HideLabel, HorizontalGroup] public GameObject prefab;
-            [HideLabel, HorizontalGroup, DisplayAsString] public string message;
+            public GameObject prefab;
+            public string message;
         }
     }
 }

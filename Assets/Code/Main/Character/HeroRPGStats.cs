@@ -104,12 +104,12 @@ namespace Awaken.TG.Main.Character {
             public void PrepareForSave(HeroRPGStats heroStats) {
                 var stats = GameConstants.Get.RPGStatParamsByType;
                 
-                StrengthDif = heroStats.Strength.BaseValue - stats[HeroRPGStatType.Strength].InnateStatLevel;
-                DexterityDif = heroStats.Dexterity.BaseValue - stats[HeroRPGStatType.Dexterity].InnateStatLevel;
-                SpiritualityDif = heroStats.Spirituality.BaseValue - stats[HeroRPGStatType.Spirituality].InnateStatLevel;
-                PerceptionDif = heroStats.Perception.BaseValue - stats[HeroRPGStatType.Perception].InnateStatLevel;
-                EnduranceDif = heroStats.Endurance.BaseValue - stats[HeroRPGStatType.Endurance].InnateStatLevel;
-                PracticalityDif = heroStats.Practicality.BaseValue - stats[HeroRPGStatType.Practicality].InnateStatLevel;
+                StrengthDif = heroStats.Strength.ValueForSave - stats[HeroRPGStatType.Strength].InnateStatLevel;
+                DexterityDif = heroStats.Dexterity.ValueForSave - stats[HeroRPGStatType.Dexterity].InnateStatLevel;
+                SpiritualityDif = heroStats.Spirituality.ValueForSave - stats[HeroRPGStatType.Spirituality].InnateStatLevel;
+                PerceptionDif = heroStats.Perception.ValueForSave - stats[HeroRPGStatType.Perception].InnateStatLevel;
+                EnduranceDif = heroStats.Endurance.ValueForSave - stats[HeroRPGStatType.Endurance].InnateStatLevel;
+                PracticalityDif = heroStats.Practicality.ValueForSave - stats[HeroRPGStatType.Practicality].InnateStatLevel;
             }
         }
     }

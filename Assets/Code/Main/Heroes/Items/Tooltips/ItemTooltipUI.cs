@@ -65,6 +65,8 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
             if (equipmentType == null) return null;
             
             var currentItem = Descriptor.ExistingItem;
+            if (currentItem == null) return null;
+            
             var currentSlot = HeroInventory.SlotWith(currentItem);
             var eqChoosePanelSlot = World.Any<EquipmentChooseUI>()?.EquipmentSlotType;
             if (Descriptor.IsEquipped && currentSlot == eqChoosePanelSlot) return null;
@@ -75,9 +77,8 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
             int minLevel = int.MaxValue;
             
             foreach (var otherEquippedItem in Hero.Current.HeroItems.EquippedItems()) {
-                // skip items the same as the one being compared
                 // skip items that are hidden on UI (e.g., hero fists)
-                if (otherEquippedItem == currentItem || otherEquippedItem.Template.hiddenOnUI) {
+                if (otherEquippedItem.HiddenOnUI) {
                     continue;
                 }
                 
@@ -95,13 +96,26 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
                 }
                 
                 bool inventoryOpen = World.Any<LoadoutsUI>() != null;
+                // skip if the item being compared is the same as the one being equipped outside of inventory
                 // skip comparing consumables outside of inventory
-                if (!inventoryOpen && equipmentType.Category == EquipmentCategory.QuickUse) {
+                if (!inventoryOpen && (equipmentType.Category == EquipmentCategory.QuickUse || currentItem == otherEquippedItem)) {
+                    continue;
+                }
+                
+                // skip throwable items from quick use slot
+                if (otherEquippedItemType.Category == EquipmentCategory.QuickUse &&
+                    ((currentItem.IsConsumable && !currentItem.IsThrowable && otherEquippedItem.IsThrowable) ||
+                     (otherEquippedItem.IsConsumable && !otherEquippedItem.IsThrowable && currentItem.IsThrowable))) {
                     continue;
                 }
                 
                 // skip items that are equipped in different slots than the one being actively compared
                 if (isNotWeaponOrAmmo && inventoryOpen && HeroInventory.SlotWith(otherEquippedItem) != eqChoosePanelSlot) {
+                    continue;
+                }
+                
+                // skip item that are in current loadout
+                if (!isNotWeaponOrAmmo && currentItem.IsEquipped && HeroInventory.CurrentLoadout[currentSlot] == currentItem) {
                     continue;
                 }
                 
@@ -159,7 +173,20 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
                 bool generalSlotMatch = toCompareType.Category != EquipmentCategory.Weapon && toCompareType == currentType;
                 // Generic slot type match
                 if (weaponSlotMatch || generalSlotMatch) {
-                    score += 1;
+                    score += 5;
+                }
+                
+                // Category match
+                if (toCompareType.Category == currentType.Category) {
+                    score += 3;
+                }
+
+                // If the item is the same as the one being compared, give it a constant score
+                var existingItem = Descriptor.ExistingItem;
+                if (toCompare == existingItem && !toCompare.IsEquipped) {
+                    score += 8;
+                } else if (toCompare == existingItem) {
+                    score = 1;
                 }
 
                 if (score > bestScore) {

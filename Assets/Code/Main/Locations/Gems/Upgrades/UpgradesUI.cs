@@ -1,6 +1,5 @@
 ﻿using Awaken.TG.Main.Crafting;
 using Awaken.TG.Main.Crafting.Cooking;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -20,24 +19,20 @@ namespace Awaken.TG.Main.Locations.Gems.Upgrades {
             _tabSetConfig = tabSetConfig;
         }
         
-        public void Craft() {
-            World.Add(new CraftingTabsUI(_tabSetConfig));
+        public Model Craft() {
+            return World.Add(new CraftingTabsUI(_tabSetConfig));
         }
 
-        public void Upgrade() {
-            GemsUI.OpenGemsUI(GemsUITabType.Sharpening);
+        public Model Upgrade() {
+            return GemsUI.OpenGemsUI(GemsUITabType.Sharpening);
         }
         
-        public void AddGem() {
-            GemsUI.OpenGemsUI(GemsUITabType.GemManagement);
+        public Model AddGem() {
+            return GemsUI.OpenGemsUI(GemsUITabType.GemManagement);
         }
         
-        public void WeightReduction() {
-            GemsUI.OpenGemsUI(GemsUITabType.WeightReduction);
-        }
-        
-        public void UnlockEffect() {
-            //GemsUI.OpenGemsUI(GemsUITabType.UnlockEffect);
+        public Model WeightReduction() {
+            return GemsUI.OpenGemsUI(GemsUITabType.WeightReduction);
         }
 
         public void Close() {

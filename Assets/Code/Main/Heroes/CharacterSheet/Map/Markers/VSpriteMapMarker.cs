@@ -4,17 +4,19 @@ using Awaken.Utility.Animations;
 using Awaken.Utility.GameObjects;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
     public abstract class VSpriteMapMarker<T> : VMapMarker<T> where T : SpriteMapMarker {
         [Title("Highlight")]
         [SerializeField] VCScale highlightFeedback;
-        [SerializeField] SpriteRenderer highlightSpriteRenderer;
-        [Title("Icon")]
-        [SerializeField] SpriteRenderer spriteRenderer;
-        [SerializeField] BoxCollider interactArea;
+        [SerializeField] Image highlightImage;
+        [Title("Icon")] 
+        [SerializeField] Image iconImage;
 
-        protected SpriteRenderer SpriteRenderer => spriteRenderer;
+        protected Image IconImage => iconImage;
         SpriteReference _spriteReference;
         
         protected override void Awake() {
@@ -30,10 +32,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
         void InitSprite() {
             if (Target.Icon is { IsSet: true } icon) {
                 _spriteReference = icon.Get();
-                _spriteReference.SetSprite(spriteRenderer, (spriteRenderer, _) => {
-                    spriteRenderer.sortingOrder = Target.Order;
-                    highlightSpriteRenderer.sortingOrder = Target.Order;
-                    interactArea.size = spriteRenderer.size;
+                _spriteReference.RegisterAndSetup(this, IconImage, (_, _) => {
                     StartHighlightAnimation();
                 });
             }
@@ -44,7 +43,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
                 return;
             }
             
-            spriteRenderer.sprite = null;
+            iconImage.sprite = null;
             _spriteReference.Release();
             _spriteReference = null;
         }

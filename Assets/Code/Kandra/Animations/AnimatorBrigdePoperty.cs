@@ -1,11 +1,9 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Awaken.Kandra.Animations {
-    [InlineProperty, HideLabel]
     public abstract class AnimatorBridgeProperty : MonoBehaviour {
-        [HideInInlineEditors] public int materialIndex;
-        [ReadOnly, HideLabel, HorizontalGroup] public string propertyName;
+        public int materialIndex;
+        public string propertyName;
         protected int _propertyId;
 
         void Awake() {

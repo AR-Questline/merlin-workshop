@@ -92,7 +92,7 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
         }
 
         public void InitHeavy() {
-            Services.Get<TemplatesProvider>().StartLoading(true);
+            Services.Get<TemplatesProvider>().StartLoading();
             Services.TryGet<AudioCore>()?.Initialize();
             PreviousScene = SceneService.ActiveSceneRef;
         }

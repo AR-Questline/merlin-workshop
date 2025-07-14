@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Awaken.Kandra.AnimationPostProcessing;
+using Awaken.Kandra.AnimationPostProcess;
 using Awaken.TG.Main.Animations.FSM.Npc.States.General;
 using Awaken.TG.Main.Animations.IK;
 using Awaken.TG.Main.Fights.DamageInfo;

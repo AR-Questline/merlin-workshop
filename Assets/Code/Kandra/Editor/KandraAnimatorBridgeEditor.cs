@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using Awaken.Kandra.Animations;
 using Awaken.Utility.Maths;
-using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace Awaken.Kandra.Editor {
     [CustomEditor(typeof(KandraAnimatorBridge))]
-    public class KandraAnimatorBridgeEditor : OdinEditor {
+    public class KandraAnimatorBridgeEditor : UnityEditor.Editor {
         static readonly HashSet<string> PropertiesBlackList = new HashSet<string> {
             "_Surface",
         };
 
-        string[] _cachedPaths;
+        string[] _cachedPaths = Array.Empty<string>();
         MaterialProperty[] _cachedProperties;
         int _cachedHash;
 
-        protected override void OnEnable() {
-            base.OnEnable();
+        protected void OnEnable() {
             var props = ((KandraAnimatorBridge)target).properties ?? Array.Empty<AnimatorBridgeProperty>();
             foreach (var bridgeProperty in props) {
                 bridgeProperty.gameObject.hideFlags = HideFlags.NotEditable | HideFlags.HideInHierarchy;
@@ -26,20 +24,67 @@ namespace Awaken.Kandra.Editor {
         }
 
         public override void OnInspectorGUI() {
-            base.OnInspectorGUI();
-
             var bridge = (KandraAnimatorBridge)target;
-            if (!bridge.kandraRenderer) {
-                return;
-            }
 
-            UpdateProperties((KandraAnimatorBridge)target);
+            EditorGUI.BeginChangeCheck();
+            bridge.kandraRenderer = (KandraRenderer)EditorGUILayout.ObjectField("Kandra Renderer", bridge.kandraRenderer, typeof(KandraRenderer), true);
+
+            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.LabelField("Properties", EditorStyles.boldLabel);
+            var properties = bridge.properties;
+            for (var i = 0; i < properties.Length; i++) {
+                var property = properties[i];
+                EditorGUILayout.BeginHorizontal();
+
+                if (property is RangeAnimatorBridgeProperty rangeProperty) {
+                    rangeProperty.value = EditorGUILayout.Slider(property.propertyName, rangeProperty.value, rangeProperty.minValue, rangeProperty.maxValue);
+                } else if (property is FloatAnimatorBridgeProperty floatProperty) {
+                    floatProperty.value = EditorGUILayout.FloatField(property.propertyName, floatProperty.value);
+                } else if (property is ColorAnimatorBridgeProperty colorProperty) {
+                    colorProperty.value = EditorGUILayout.ColorField(property.propertyName, colorProperty.value);
+                } else if (property is VectorAnimatorBridgeProperty vectorProperty) {
+                    vectorProperty.value = EditorGUILayout.Vector4Field(property.propertyName, vectorProperty.value);
+                } else if (property is IntAnimatorBridgeProperty intProperty) {
+                    intProperty.value = EditorGUILayout.IntField(property.propertyName, intProperty.value);
+                }
+
+                if (GUILayout.Button("X", GUILayout.Width(32))) {
+                    Undo.RecordObject(target, "Remove Property Override");
+                    bridge.EditorRemoveAnimatorProperty(i);
+                    i--;
+                }
+                EditorGUILayout.EndHorizontal();
+            }
 
             int selectedIndex = EditorGUILayout.Popup(new GUIContent("Add Override"), -1, _cachedPaths);
             if (selectedIndex >= 0) {
                 var property = _cachedProperties[selectedIndex];
-                AddPropertyOverride((KandraAnimatorBridge)target, property);
+                AddPropertyOverride(bridge, property);
             }
+
+            EditorGUILayout.EndVertical();
+            if (EditorGUI.EndChangeCheck()) {
+                bridge.EditorValueChanged();
+                EditorUtility.SetDirty(bridge);
+            }
+
+            if (!bridge.kandraRenderer) {
+                return;
+            }
+
+            using (new EditorGUI.DisabledScope(!bridge.HasValidRenderer())) {
+                if (bridge.IsInPreviewMode()) {
+                    if (GUILayout.Button("Exit Preview Mode")) {
+                        bridge.EDITOR_ExitPreviewMode();
+                    }
+                } else {
+                    if (GUILayout.Button("Enter Preview Mode")) {
+                        bridge.EDITOR_EnterPreviewMode();
+                    }
+                }
+            }
+
+            UpdateProperties(bridge);
         }
 
         void UpdateProperties(KandraAnimatorBridge kandraAnimatorBridge) {

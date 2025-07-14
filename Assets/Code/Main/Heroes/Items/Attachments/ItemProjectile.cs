@@ -17,6 +17,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Awaken.TG.Main.Heroes.Items.Attachments {
     public partial class ItemProjectile : Element<Item>, IRefreshedByAttachment<ItemProjectileAttachment>, ISkillOwner, ISkillProvider {
@@ -248,20 +249,37 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
     public struct ProjectilePreload {
         ARAssetReference _logicRef;
         ARAssetReference _visualRef;
+        AsyncOperationHandle<GameObject> _logicPreload;
+        AsyncOperationHandle<GameObject> _visualPreload;
         
         public ProjectilePreload(ARAssetReference logicRef, ARAssetReference visualRef) {
             this._logicRef = logicRef;
             this._visualRef = visualRef;
+            this._logicPreload = default;
+            this._visualPreload = default;
         }
         
         public void Preload() {
-            _logicRef.PreloadLight<GameObject>();
-            _visualRef.PreloadLight<GameObject>();
+            if (_logicPreload.IsValid() == false) {
+                _logicPreload = _logicRef.PreloadLight<GameObject>();
+            }
+
+            if (_visualPreload.IsValid() == false) {
+                _visualPreload = _visualRef.PreloadLight<GameObject>();
+            }
         }
 
         public void Release() {
-            _logicRef?.ReleaseAsset();
-            _visualRef?.ReleaseAsset();
+            if (_logicPreload.IsValid()) {
+                _logicRef.ReleasePreloadLight(_logicPreload);
+                _logicPreload = default;
+            }
+
+            if (_visualPreload.IsValid()) {
+                _visualRef.ReleasePreloadLight(_visualPreload);
+                _visualPreload = default;
+            }
+            
             _logicRef = null;
             _visualRef = null;
         }

@@ -955,5 +955,6 @@
         public const ushort ForceDirection = 953;
         public const ushort Direction = 954;
         public const ushort ActiveMods = 955;
+        public const ushort SavedDomainCount = 956;
     }
 }

@@ -257,7 +257,7 @@ namespace Awaken.TG.Graphics.MapServices {
 
         static Rect GetMapBounds(MapSceneData data) {
             var boundsSize = data.Bounds.size.xz();
-            var margin = VMapCamera.MarginSize * VMapCamera.MarginSizeWorldMultiplier;
+            var margin = MapUI.MarginSize * MapUI.MarginSizeWorldMultiplier;
             var newBoundsSize = boundsSize * margin;
             newBoundsSize.x = newBoundsSize.y * data.AspectRatio;
             var boundsCenter = data.Bounds.center.xz();

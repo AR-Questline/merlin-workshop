@@ -76,18 +76,18 @@ namespace Awaken.Kandra.Managers {
         }
 
         public string MeshDataPath(KandraMesh mesh) {
-            if (string.IsNullOrEmpty(mesh.archive)) {
+            if (string.IsNullOrEmpty(mesh.modDirectory)) {
                 return Path.Combine(_basePath, mesh.name + ".mdkandra");
             } else {
-                return Path.Combine(ModManager.ModDirectoryPath, mesh.archive, SubdirectoryName, mesh.name + ".mdkandra");
+                return Path.Combine(ModManager.ModDirectoryPath, mesh.modDirectory, SubdirectoryName, mesh.name + ".mdkandra");
             }
         }
 
         public string IndicesDataPath(KandraMesh mesh) {
-            if (string.IsNullOrEmpty(mesh.archive)) {
+            if (string.IsNullOrEmpty(mesh.modDirectory)) {
                 return Path.Combine(_basePath, mesh.name + ".ixkandra");
             } else {
-                return Path.Combine(ModManager.ModDirectoryPath, mesh.archive, SubdirectoryName, mesh.name + ".ixkandra");
+                return Path.Combine(ModManager.ModDirectoryPath, mesh.modDirectory, SubdirectoryName, mesh.name + ".ixkandra");
             }
         }
 

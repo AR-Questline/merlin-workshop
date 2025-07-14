@@ -85,6 +85,8 @@ namespace Awaken.TG.Main.Heroes.Stats {
             set => _cached = value;
         }
 
+        public override float ValueForSave => base.BaseValue;
+
         // === Construction
 
         public LimitedStat(IWithStats owner, StatType type, float initialValue, float lowerLimit, float upperLimit, bool allowOverflow = false) : base(owner, type, initialValue) {

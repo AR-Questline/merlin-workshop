@@ -44,6 +44,7 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
             slotButton.InitializeButton();
             slotButton.button.OnEvent += Handle;
             slotButton.button.OnPress += OnPressed;
+            slotButton.button.disableAllSounds = SaveSlot.IsAutoSave || SaveSlot.IsQuickSave;
             RefreshSlotData();
             Target.ListenTo(Model.Events.AfterChanged, RefreshSlotData, this);
         }
@@ -67,7 +68,8 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
             gameplayScreenshot.sprite = _sprite;
             
             questNameText.text = $"{SaveSlot.ActiveQuestName}";
-            saveNameText.text = $"{SaveSlot.DisplayName}";
+            string displayName = SaveSlot.IsQuickSave || SaveSlot.IsAutoSave ? SaveSlot.DisplayName.ToString().Bold() : SaveSlot.DisplayName;
+            saveNameText.text = $"{displayName}";
             playerInfoText.text = $"{LocTerms.LevelWithNumber.Translate(SaveSlot.HeroLevel)}     <b>{heroName}</b>     {SaveSlot.HeroLocation.ToString().Replace("_", " ")}";
             realDateTimeText.text = $"{SaveSlot.LastSavedTime:G}";
 

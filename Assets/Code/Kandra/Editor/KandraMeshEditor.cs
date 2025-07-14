@@ -1,8 +1,4 @@
-﻿using Awaken.Kandra.Managers;
-using Awaken.TG.Utility;
-using Awaken.Utility.Collections;
-using Sirenix.OdinInspector.Editor;
-using Unity.Collections;
+﻿using Awaken.TG.Utility;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEditor;
@@ -11,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Awaken.Kandra.Editor {
     [CustomEditor(typeof(KandraMesh))]
-    public class KandraMeshEditor : OdinEditor {
+    public class KandraMeshEditor : UnityEditor.Editor {
         const int SubmeshTextureResolution = 32;
         static readonly int SliderHash = "KandraMeshSlider".GetHashCode();
         static readonly Color[] SubMeshColors = new Color[] {
@@ -41,8 +37,7 @@ namespace Awaken.Kandra.Editor {
         Vector2 _previewDir = new Vector2(0, -20);
 
         // === Lifetime
-        protected override unsafe void OnEnable() {
-            base.OnEnable();
+        protected unsafe void OnEnable() {
             InitPreview();
 
             var kandraMesh = (KandraMesh)target;
@@ -57,8 +52,7 @@ namespace Awaken.Kandra.Editor {
             _indicesDataSize = (ulong)fileInfo.FileSize;
         }
 
-        protected override void OnDisable() {
-            base.OnDisable();
+        protected void OnDisable() {
             DisposePreview();
         }
 

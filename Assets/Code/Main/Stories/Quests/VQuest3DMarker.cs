@@ -96,14 +96,12 @@ namespace Awaken.TG.Main.Stories.Quests {
 
             Vector3 refPosition = _reference.position;
             Vector3 offsetPosition = refPosition + _offset;
-            Vector3 camForward = _heroFollowCamera.forward;
-            Vector3 questDirection = offsetPosition - _heroFollowCamera.position;
-            questDirection.Normalize();
 
-            float dot = Vector3.Dot(camForward, questDirection);
-
-            Vector2 viewportPoint = _mainCamera.WorldToViewportPoint(offsetPosition);
-            bool isVisible = dot > 0 && viewportPoint.x >= 0f && viewportPoint.x <= 1f && viewportPoint.y >= 0f && viewportPoint.y <= 1f;
+            Vector3 viewportPoint = _mainCamera.WorldToViewportPoint(offsetPosition);
+            bool isInFront = viewportPoint.z > 0f;
+            bool isOnScreen = viewportPoint.x is >= 0f and <= 1f &&
+                              viewportPoint.y is >= 0f and <= 1f;
+            bool isVisible = isInFront && isOnScreen;
             UpdateVisibility(isVisible);
         }
 

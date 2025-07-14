@@ -1,17 +1,15 @@
-using System.Collections.Generic;
-using System.Linq;
-using Awaken.TG.Main.Locations.Attachments;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.MVC;
 using Awaken.Utility.Collections;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Utility.Animations.Gestures {
-    public class GestureOverridesTemplate : ScriptableObject, ITemplate, IContainerAsset<GestureOverrides> {
+    public class GestureOverridesTemplate : ScriptableObject, ITemplate {
         public GestureOverrides gestureOverrides;
 
-        public AnimationClip TryToGetAnimationClip(string key) {
-            return gestureOverrides.TryToGetAnimationClip(key);
+        public GestureData? TryToGetAnimationClipRef(string key) {
+            return gestureOverrides.TryToGetAnimationClipRef(key);
         }
         
         // === ITemplate
@@ -20,7 +18,6 @@ namespace Awaken.TG.Main.Utility.Animations.Gestures {
         public string GUID { get; set; }
         public PooledList<ITemplate> DirectAbstracts => PooledList<ITemplate>.Empty;
         public bool IsAbstract => false;
-        public GestureOverrides Container => gestureOverrides;
         string INamed.DisplayName => string.Empty;
         string INamed.DebugName => name;
     }

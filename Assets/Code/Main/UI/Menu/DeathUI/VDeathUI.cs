@@ -88,12 +88,12 @@ namespace Awaken.TG.Main.UI.Menu.DeathUI {
             
             revive.InitializeButton(Target.Revive);
             loadLastCheckpoint.InitializeButton(MenuUI.LoadLastCheckpoint);
-            loadGame.InitializeButton(MenuUI.OpenLoadUI);
-            options.InitializeButton(MenuUI.OpenSettingUI);
+            loadGame.InitializeButton(() => MenuUI.OpenLoadUI(this));
+            options.InitializeButton(() => MenuUI.OpenSettingUI(this));
 #if UNITY_GAMECORE
             bugReport.gameObject.SetActive(false);
 #else
-            bugReport.InitializeButton(MenuUI.OpenBugReportUI);
+            bugReport.InitializeButton(() => MenuUI.OpenBugReportUI(this));
 #endif
             
             if (World.Only<DifficultySetting>().Difficulty.SaveRestriction.HasFlagFast(SaveRestriction.Hardcore)) {

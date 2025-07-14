@@ -7,6 +7,7 @@ using UnityEngine;
 namespace Awaken.Utility.UI {
     public struct ImguiTable<T> {
         ColumnDefinition[] _columns;
+        float[] _lastColumnWidths;
         UnsafeBitmask _visibleColumns;
         float[] _totals;
         float _cellHeight;
@@ -24,13 +25,18 @@ namespace Awaken.Utility.UI {
         Func<T, SearchPattern, bool> _searchPrediction;
 
         public bool ShowToolbar { get; set; }
+        public bool ShowHeader { get; set; }
         public bool ShowFooter { get; set; }
+
+        public float Padding { get; set; }
+        public float Margin { get; set; }
 
         public event Action OnSearchChanged;
 
         public Comparison<T> Sorter => _composedSorter ?? _sorter;
         public UnsafeBitmask VisibleColumns => _visibleColumns;
         public SearchPattern SearchContext => _searchContext;
+        public float CellHeight => _cellHeight;
 
         public ImguiTable(Func<T, SearchPattern, bool> searchPrediction, params ColumnDefinition[] columns) :
             this(searchPrediction, ImguiTableUtils.CellHeight, columns) {
@@ -44,6 +50,7 @@ namespace Awaken.Utility.UI {
             _sorter = _columns[0].sortAsc;
             _invertedSorter = _columns[0].sortDsc;
 
+            _lastColumnWidths = new float[_columns.Length];
             _totals = new float[_columns.Length];
 
             _fullSearchContext = string.Empty;
@@ -56,6 +63,10 @@ namespace Awaken.Utility.UI {
 
             ShowToolbar = true;
             ShowFooter = true;
+            ShowHeader = true;
+
+            Padding = 0;
+            Margin = 0;
 
             OnSearchChanged = null;
         }
@@ -66,11 +77,13 @@ namespace Awaken.Utility.UI {
             OnSearchChanged = null;
         }
 
-        public bool Draw(List<T> elements, float viewportHeight, float viewportY) {
+        public bool Draw(IReadOnlyList<T> elements, float viewportHeight, float viewportY, float preferredWidth) {
             var fullWidth = 0f;
             for (var i = 0; i < _columns.Length; i++) {
                 if (_visibleColumns[(uint)i]) {
-                    fullWidth += _columns[i].width;
+                    var width = _columns[i].width.GetWidth(preferredWidth);
+                    _lastColumnWidths[i] = width;
+                    fullWidth += width;
                 }
             }
 
@@ -89,7 +102,9 @@ namespace Awaken.Utility.UI {
                 DrawToolbar(ref drawRect, viewportRect, ref clearedSorting);
             }
 
-            DrawHeaders(ref drawRect, viewportRect, ref sortingChanged);
+            if (ShowHeader) {
+                DrawHeaders(ref drawRect, viewportRect, ref sortingChanged);
+            }
 
             if (ShowFooter) {
                 DrawContentWithTotals(elements, ref drawRect, viewportRect);
@@ -207,13 +222,16 @@ namespace Awaken.Utility.UI {
 
                 if (isHeaderVisible) {
                     var column = _columns[i];
-                    var columnHeaderRect = headersRect.AllocateLeft(column.width);
+                    var columnHeaderRect = headersRect.AllocateLeft(_lastColumnWidths[i]);
                     DrawHeader(column, columnHeaderRect, ref sortingChanged);
                 }
             }
         }
 
-        void DrawContentNoTotals(List<T> elements, ref PropertyDrawerRects drawRect, in Rect viewportRect) {
+        void DrawContentNoTotals(IReadOnlyList<T> elements, ref PropertyDrawerRects drawRect, in Rect viewportRect) {
+            var fullMargin = Margin * 2;
+            var fullPadding = Padding * 2;
+
             for (var i = 0; i < elements.Count; i++) {
                 var element = elements[i];
                 if (!_searchPrediction(element, _searchContext)) {
@@ -223,15 +241,24 @@ namespace Awaken.Utility.UI {
                 var isEven = GUI.color == ImguiTableUtils.OddColor;
                 GUI.color = isEven ? ImguiTableUtils.EvenColor : ImguiTableUtils.OddColor;
 
-                var rowRect = (PropertyDrawerRects)drawRect.AllocateTop(_cellHeight);
-                var isRowVisible = viewportRect.Overlaps((Rect)rowRect);
+                var fullRowRect = drawRect.AllocateTop(_cellHeight + fullMargin);
+                fullRowRect.y += Margin;
+                fullRowRect.height -= fullMargin;
+
+                var isRowVisible = viewportRect.Overlaps(fullRowRect);
                 if (isRowVisible == false) {
                     continue;
                 }
+
                 Color oldRowColor = GUI.color;
                 GUI.color = isEven ? ImguiTableUtils.EvenRowColor : ImguiTableUtils.OddRowColor;
-                GUI.DrawTexture((Rect)rowRect, Texture2D.whiteTexture);
+                GUI.DrawTexture(fullRowRect, Texture2D.whiteTexture);
                 GUI.color = oldRowColor;
+
+                fullRowRect.y += Padding;
+                fullRowRect.height -= fullPadding;
+
+                var rowRect = (PropertyDrawerRects)fullRowRect;
 
                 for (var j = 0; j < _columns.Length; j++) {
                     if (_visibleColumns[(uint)j] == false) {
@@ -239,13 +266,16 @@ namespace Awaken.Utility.UI {
                     }
                     var column = _columns[j];
 
-                    var cellRect = rowRect.AllocateLeft(column.width);
+                    var cellRect = rowRect.AllocateLeft(_lastColumnWidths[j]);
                     column.drawer(cellRect, element);
                 }
             }
         }
 
-        void DrawContentWithTotals(List<T> elements, ref PropertyDrawerRects drawRect, in Rect viewportRect) {
+        void DrawContentWithTotals(IReadOnlyList<T> elements, ref PropertyDrawerRects drawRect, in Rect viewportRect) {
+            var fullMargin = Margin * 2;
+            var fullPadding = Padding * 2;
+
             for (var i = 0; i < elements.Count; i++) {
                 var element = elements[i];
                 if (!_searchPrediction(element, _searchContext)) {
@@ -255,14 +285,21 @@ namespace Awaken.Utility.UI {
                 var isEven = GUI.color == ImguiTableUtils.OddColor;
                 GUI.color = isEven ? ImguiTableUtils.EvenColor : ImguiTableUtils.OddColor;
 
-                var rowRect = (PropertyDrawerRects)drawRect.AllocateTop(_cellHeight);
-                var isRowVisible = viewportRect.Overlaps((Rect)rowRect);
+                var fullRowRect = drawRect.AllocateTop(_cellHeight + fullMargin);
+                fullRowRect.y += Margin;
+                fullRowRect.height -= fullMargin;
+                var isRowVisible = viewportRect.Overlaps(fullRowRect);
                 if (isRowVisible) {
                     Color oldRowColor = GUI.color;
                     GUI.color = isEven ? ImguiTableUtils.EvenRowColor : ImguiTableUtils.OddRowColor;
-                    GUI.DrawTexture((Rect)rowRect, Texture2D.whiteTexture);
+                    GUI.DrawTexture(fullRowRect, Texture2D.whiteTexture);
                     GUI.color = oldRowColor;
                 }
+
+                fullRowRect.y += Padding;
+                fullRowRect.height -= fullPadding;
+
+                var rowRect = (PropertyDrawerRects)fullRowRect;
 
                 for (var j = 0; j < _columns.Length; j++) {
                     if (_visibleColumns[(uint)i] == false) {
@@ -274,7 +311,7 @@ namespace Awaken.Utility.UI {
                     _totals[j] += value;
 
                     if (isRowVisible) {
-                        var cellRect = rowRect.AllocateLeft(column.width);
+                        var cellRect = rowRect.AllocateLeft(_lastColumnWidths[j]);
                         column.drawer(cellRect, element);
                     }
                 }
@@ -291,7 +328,7 @@ namespace Awaken.Utility.UI {
                         continue;
                     }
                     var column = _columns[i];
-                    var totalRect = totalsRect.AllocateLeft(column.width);
+                    var totalRect = totalsRect.AllocateLeft(_lastColumnWidths[i]);
                     column.totalDrawer(totalRect, _totals[i]);
                 }
             }
@@ -311,17 +348,21 @@ namespace Awaken.Utility.UI {
             }
         }
 
-        float CalculateFullHeight(List<T> elements, bool withFilter) {
-            var fullHeight = ImguiTableUtils.HeaderHeight;
+        float CalculateFullHeight(IReadOnlyList<T> elements, bool withFilter) {
+            var fullHeight = 0f;
+            if (ShowHeader) {
+                fullHeight += ImguiTableUtils.HeaderHeight;
+            }
             if (ShowToolbar) {
                 fullHeight += ImguiTableUtils.ToolbarHeight;
             }
             if (ShowFooter) {
                 fullHeight += ImguiTableUtils.FooterHeight;
             }
+            var fullMargin = Margin * 2;
             for (var i = 0; i < elements.Count; i++) {
                 if (!withFilter || _searchPrediction(elements[i], _searchContext)) {
-                    fullHeight += _cellHeight;
+                    fullHeight += _cellHeight + fullMargin;
                 }
             }
             return fullHeight;
@@ -331,7 +372,7 @@ namespace Awaken.Utility.UI {
 
         public readonly struct ColumnDefinition {
             public readonly string name;
-            public readonly float width;
+            public readonly Width width;
 
             public readonly Func<T, float> toTotalExtractor;
             public readonly Drawer<T> drawer;
@@ -339,19 +380,19 @@ namespace Awaken.Utility.UI {
             public readonly Comparison<T> sortAsc;
             public readonly Comparison<T> sortDsc;
 
-            public static ColumnDefinition Create<U>(string name, float width, Drawer<T> drawer, Func<T, float> toTotalExtractor, Drawer<float> totalDrawer, Func<T, U> sortExtractor) where U : IComparable<U> {
+            public static ColumnDefinition Create<U>(string name, in Width width, Drawer<T> drawer, Func<T, float> toTotalExtractor, Drawer<float> totalDrawer, Func<T, U> sortExtractor) where U : IComparable<U> {
                 Comparison<T> sortAsc = (l, r) => sortExtractor(l).CompareTo(sortExtractor(r));
                 Comparison<T> sortDsc = (l, r) => sortExtractor(r).CompareTo(sortExtractor(l));
                 return new ColumnDefinition(name, width, drawer, toTotalExtractor, totalDrawer, sortAsc, sortDsc);
             }
 
-            public static ColumnDefinition Create<U>(string name, float width, Drawer<T> drawer, Func<T, U> sortExtractor) where U : IComparable<U> {
+            public static ColumnDefinition Create<U>(string name, Width width, Drawer<T> drawer, Func<T, U> sortExtractor) where U : IComparable<U> {
                 Comparison<T> sortAsc = (l, r) => sortExtractor(l).CompareTo(sortExtractor(r));
                 Comparison<T> sortDsc = (l, r) => sortExtractor(r).CompareTo(sortExtractor(l));
                 return new ColumnDefinition(name, width, drawer, _ => 0, TotalDrawer, sortAsc, sortDsc);
             }
 
-            public static ColumnDefinition CreateNumeric(string name, float width, Drawer<float> drawer, Func<T, float> toTotalExtractor) {
+            public static ColumnDefinition CreateNumeric(string name, Width width, Drawer<float> drawer, Func<T, float> toTotalExtractor) {
                 Comparison<T> sortAsc = (l, r) => toTotalExtractor(l).CompareTo(toTotalExtractor(r));
                 Comparison<T> sortDsc = (l, r) => toTotalExtractor(r).CompareTo(toTotalExtractor(l));
                 return new ColumnDefinition(name, width, ElementDrawer, toTotalExtractor, drawer, sortAsc, sortDsc);
@@ -359,7 +400,8 @@ namespace Awaken.Utility.UI {
                 void ElementDrawer(in Rect rect, T e) => drawer(rect, toTotalExtractor(e));
             }
 
-            public ColumnDefinition(string name, float width, Drawer<T> drawer, Func<T, float> toTotalExtractor, Drawer<float> totalDrawer, Comparison<T> sortAsc, Comparison<T> sortDsc) {
+
+            public ColumnDefinition(string name, Width width, Drawer<T> drawer, Func<T, float> toTotalExtractor, Drawer<float> totalDrawer, Comparison<T> sortAsc, Comparison<T> sortDsc) {
                 this.name = name;
                 this.width = width;
                 this.toTotalExtractor = toTotalExtractor;

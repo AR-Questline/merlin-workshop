@@ -29,10 +29,24 @@ namespace Awaken.TG.Main.Heroes.FootSteps {
             if (collider == null) {
                 return null;
             }
-            if (gameObject.GetComponent<RecastMeshObjStatic>() != null) {
+
+            GameObject go = gameObject;
+            if (go.GetComponent<RecastMeshObjStatic>() != null) {
                 return null;
             }
-            var recastObject = gameObject.AddComponent<RevertableRecastMeshObjStatic>();
+
+            LayerMask collectionSettingsLayerMask;
+            try {
+                collectionSettingsLayerMask = ((RecastGraph) AstarPath.active.graphs[0]).collectionSettings.layerMask;
+            } catch {
+                return null;
+            }
+            
+            if ((collectionSettingsLayerMask & (1 << go.layer)) == 0) {
+                return null;
+            }
+            
+            var recastObject = go.AddComponent<RevertableRecastMeshObjStatic>();
             recastObject.solid = true;
             recastObject.geometrySource = RecastMeshObjStatic.GeometrySource.Collider;
             recastObject.includeInScan = RecastMeshObjStatic.ScanInclusion.AlwaysInclude;

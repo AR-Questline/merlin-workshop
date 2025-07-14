@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Awaken.TG.Assets.Modding;
-using Awaken.TG.Utility.Attributes;
-using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -21,7 +18,7 @@ namespace Awaken.Utility.Assets.Modding {
         }
         
         public Mod[] AllMods { get; }
-        public ModStatus[] OrderedMods { get; }
+        public ModHandle[] OrderedMods { get; }
         
         public ModManager() {
             Addressables.InitializeAsync().WaitForCompletion();
@@ -31,17 +28,25 @@ namespace Awaken.Utility.Assets.Modding {
                 .Select(pair => new Mod(pair.Item1, pair.Item2))
                 .ToArray();
             Log.Important?.Warning($"Loaded Mods [{AllMods}]:\n\t" + string.Join("\n\t", AllMods.Select(mod => mod.Name)));
-            OrderedMods = new ModStatus[AllMods.Length];
+            OrderedMods = new ModHandle[AllMods.Length];
         }
         
         public void Refresh() {
             Addressables.RemoveModLocators();
-            foreach (var status in OrderedMods) {
-                if (status.active) {
-                    ref readonly var mod = ref status.Data(this);
+            foreach (var ptr in OrderedMods) {
+                if (ptr.active) {
+                    ref readonly var mod = ref Mod(ptr);
                     Addressables.AddModLocator(mod.Locator);
                 }
             }
+        }
+
+        public ref readonly Mod Mod(ModHandle ptr) {
+            return ref AllMods[ptr.index];
+        }
+
+        public ModMetadata Metadata(ModHandle ptr) {
+            return ModMetadata.Load(Mod(ptr).Name);
         }
     }
 }

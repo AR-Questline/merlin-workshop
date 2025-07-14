@@ -1,9 +1,8 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Awaken.Kandra.Animations {
     public sealed class IntAnimatorBridgeProperty : AnimatorBridgeProperty<int> {
-        [HorizontalGroup, HideLabel] public int value;
+        public int value;
 
         public override void Apply(Material[] materials) {
             materials[materialIndex].SetInt(_propertyId, value);

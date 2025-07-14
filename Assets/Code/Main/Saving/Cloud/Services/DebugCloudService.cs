@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Awaken.TG.Main.Saving.Utils;
 using Cysharp.Threading.Tasks;
 
@@ -44,8 +45,17 @@ namespace Awaken.TG.Main.Saving.Cloud.Services {
             AtomicDirectoryWriter.Begin(Path.Combine(DataPath, directory));
         }
 
-        public override UniTask<bool> EndSaveDirectory(string directory, bool failed) {
-            return AtomicDirectoryWriter.End(Path.Combine(DataPath, directory));
+        public override async UniTask<EndSaveDirectoryResult> EndSaveDirectory(string directory, bool failed) {
+            return new EndSaveDirectoryResult {
+                Success = await AtomicDirectoryWriter.End(Path.Combine(DataPath, directory)),
+                SaveResult = new SaveResult { FileCount = FileBasedSaveUtils.GetFileCount(directory) }
+            };
+        }
+
+        public override SaveResult BeginLoadDirectory(string directory) {
+            return new SaveResult {
+                FileCount = FileBasedSaveUtils.GetFileCount(directory),
+            };
         }
     }
 }

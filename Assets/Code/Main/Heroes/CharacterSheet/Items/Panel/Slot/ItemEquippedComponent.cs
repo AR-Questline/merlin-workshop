@@ -31,7 +31,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
                 return true;
             }
             
-            if (loadouts && item.IsUsedInLoadout(out HeroLoadout _)) {
+            if (loadouts && item.IsUsedInLoadout()) {
                 SetInternalVisibility(true);
                 return true;
             }

@@ -6,10 +6,9 @@ using Awaken.TG.Graphics.VFX;
 using Awaken.TG.Main.Heroes.SkinnedBones;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.Editor.Helpers;
 using Awaken.Utility.GameObjects;
 using Awaken.Utility.LowLevel.Collections;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEditor;
@@ -17,13 +16,12 @@ using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
 namespace Awaken.Kandra.Editor {
-    public class CreateKandra : OdinEditorWindow {
+    public class CreateKandra : AREditorWindow {
         static readonly Regex BlendshapeRegex = new(@"^m_BlendShapeWeights\.Array\.data\[(\d+)\]$", RegexOptions.Compiled);
         static readonly Dictionary<Shader, Shader> ShaderRedirects = new();
 
-        [OnValueChanged(nameof(TargetsChanged))]
         public GameObject[] targets = Array.Empty<GameObject>();
-        public GameObject[] withMissings = Array.Empty<GameObject>();
+        GameObject[] _withMissings = Array.Empty<GameObject>();
 
         Dictionary<Mesh, KandraMesh> _kandraMeshes = new();
         Dictionary<Mesh, float3x4> _rootBoneBindposes = new();
@@ -33,7 +31,23 @@ namespace Awaken.Kandra.Editor {
             EditorWindow.GetWindow<CreateKandra>().Show();
         }
 
-        [Button(ButtonSizes.Medium), EnableIf(nameof(CanCreate))]
+        protected override void OnEnable() {
+            base.OnEnable();
+
+            AddButton("Remove missing scripts", RemoveMissings, () => _withMissings.Length > 0);
+            AddButton("Create Kandra", Create, () => targets.Length > 0 && _withMissings.Length == 0);
+        }
+
+        protected override void OnGUI() {
+            EditorGUI.BeginChangeCheck();
+
+            base.OnGUI();
+
+            if (EditorGUI.EndChangeCheck()) {
+                TargetsChanged();
+            }
+        }
+
         void Create() {
             StartBatchCreating();
 
@@ -52,10 +66,6 @@ namespace Awaken.Kandra.Editor {
             targets = Array.Empty<GameObject>();
 
             FinishBatchCreating();
-        }
-
-        bool CanCreate() {
-            return targets.Length > 0 && withMissings.Length == 0;
         }
 
         public void StartBatchCreating() {
@@ -241,12 +251,12 @@ namespace Awaken.Kandra.Editor {
         }
 
         void TryToRetargetSalsa(SkinnedMeshRenderer skinnedRenderer, KandraRenderer kandraRenderer) {
-            var controllers = SalsaWithKandraBridge.CollectControllers(skinnedRenderer);
+            var controllers = SalsaWithKandraBridgeEditor.CollectControllers(skinnedRenderer);
             if (controllers.Count == 0) {
                 return;
             }
 
-            var bridgeMesh = SalsaWithKandraBridge.CreateBridgeMesh(skinnedRenderer.sharedMesh);
+            var bridgeMesh = SalsaWithKandraBridgeEditor.CreateBridgeMesh(skinnedRenderer.sharedMesh);
             var bridgeRenderer = CreateBridgeRenderer(skinnedRenderer, bridgeMesh);
 
             var usedBlendshapes = new HashSet<int>();
@@ -257,9 +267,9 @@ namespace Awaken.Kandra.Editor {
             }
 
             var bridge = skinnedRenderer.gameObject.AddComponent<SalsaWithKandraBridge>();
-            var bridgeEditorAccess = new SalsaWithKandraBridge.EditorAccess(bridge);
-            bridgeEditorAccess.Setup(kandraRenderer, bridgeRenderer);
-            bridgeEditorAccess.UpdateBlendshapes(usedBlendshapes);
+            SalsaWithKandraBridge.EditorAccess.BridgeRenderer(bridge) = bridgeRenderer;
+            SalsaWithKandraBridge.EditorAccess.KandraRenderer(bridge) = kandraRenderer;
+            SalsaWithKandraBridgeEditor.UpdateBlendshapes(bridge, usedBlendshapes);
             EditorUtility.SetDirty(bridge);
         }
 
@@ -420,7 +430,7 @@ namespace Awaken.Kandra.Editor {
 
         // === Missings
         void TargetsChanged() {
-            withMissings = Array.Empty<GameObject>();
+            _withMissings = Array.Empty<GameObject>();
             foreach (var target in targets) {
                 CheckMissing(target);
             }
@@ -429,23 +439,20 @@ namespace Awaken.Kandra.Editor {
         void CheckMissing(GameObject gameObject) {
             var count = GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(gameObject);
             if (count > 0) {
-                Array.Resize(ref withMissings, withMissings.Length + 1);
-                withMissings[^1] = gameObject;
+                Array.Resize(ref _withMissings, _withMissings.Length + 1);
+                _withMissings[^1] = gameObject;
             }
             foreach (Transform childT in gameObject.transform) {
                 CheckMissing(childT.gameObject);
             }
         }
 
-        [Button, ShowIf(nameof(AnyWithMissings))]
         void RemoveMissings() {
-            foreach (var target in withMissings) {
+            foreach (var target in _withMissings) {
                 GameObjectUtility.RemoveMonoBehavioursWithMissingScript(target);
             }
-            withMissings = Array.Empty<GameObject>();
+            _withMissings = Array.Empty<GameObject>();
         }
-
-        bool AnyWithMissings() => withMissings.Length > 0;
 
         struct SkinnedMeshData {
             public Mesh sourceMesh;

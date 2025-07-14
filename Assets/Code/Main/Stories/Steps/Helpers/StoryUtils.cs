@@ -161,8 +161,8 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             CancellationTokenSource cancellationSource = GetStoryCancellationSource(api);
 
             int animationLength = 0;
-            if (storyAnimationData != null && storyAnimationData.animationClip != null) {
-                animationLength = (int)(storyAnimationData.animationClip.length * 1000);
+            if (storyAnimationData is { gestureClipRef: not null }) {
+                animationLength = (int)(storyAnimationData.animationLength * 1000);
                 storyAnimationData.StartAnimation(cancellationSource.Token).Forget();
             }
             CancelWhenRead(text, cancellationSource, animationLength).Forget();
@@ -204,8 +204,8 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
         public static async UniTaskVoid CompleteWhenGestureEnds(Story api, StepResult result, StoryAnimationData storyAnimationData = null) {
             CancellationTokenSource cancellationSource = GetStoryCancellationSource(api);
             int animationLength = 0;
-            if (storyAnimationData != null && storyAnimationData.animationClip != null) {
-                animationLength = (int)(storyAnimationData.animationClip.length * 1000);
+            if (storyAnimationData != null && storyAnimationData.gestureClipRef != null) {
+                animationLength = (int)(storyAnimationData.animationLength * 1000);
                 storyAnimationData.StartAnimation(cancellationSource.Token).Forget();
             }
             await UniTask.Delay(animationLength, cancellationToken: cancellationSource.Token);

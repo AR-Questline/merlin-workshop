@@ -62,6 +62,7 @@ namespace Awaken.TG.Main.UI.Components {
         public Vector2 Spacing => spacing;
         public RectOffset Padding => padding;
         public Vector2 CellSize => constantSize ? constantCellSize : _itemSize;
+        public SelectionAutoScroll AutoScroll => autoScroll;
         
         Vector2 MaskSize => _viewportRT.rect.size;
         int ViewsCount => _viewsWithRectTransforms.Count;

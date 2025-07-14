@@ -14,7 +14,7 @@ namespace Awaken.TG.Main.Heroes.HUD {
         
         void IndicateNotEnoughMana(float amount) {
             if (glowEffect.IsPlaying == false) {
-                bar.SetPercentInstant(amount / Target.Mana.UpperLimit);
+                bar.SetPercentInstant(amount / Target.MaxManaWithReservation);
                 glowEffect.StartGlow();
             }
         }

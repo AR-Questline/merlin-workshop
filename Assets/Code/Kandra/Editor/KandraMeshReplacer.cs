@@ -2,37 +2,82 @@
 using System.Linq;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.Editor.Helpers;
 using Awaken.Utility.Extensions;
 using Awaken.Utility.GameObjects;
 using Awaken.Utility.LowLevel.Collections;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
 namespace Awaken.Kandra.Editor {
-    public class KandraMeshReplacer : OdinEditorWindow {
-        [SerializeField, OnValueChanged(nameof(OnInputChanged)), ListDrawerSettings(ShowFoldout = false)] ReplaceData[] replaces = Array.Empty<ReplaceData>();
+    public class KandraMeshReplacer : AREditorWindow {
+        [SerializeField] ReplaceData[] replaces = Array.Empty<ReplaceData>();
 
         [SerializeField] bool closeOnReplace;
 
         string _error;
-        
-        [Button]
+
+        Vector2 _replacesScrollPosition;
+
+        protected override void OnEnable() {
+            base.OnEnable();
+
+            AddButton("Replace", Replace, () => replaces.Length > 0);
+            AddCustomDrawer(nameof(replaces), DrawReplaces);
+        }
+
+        protected override void OnGUI() {
+            EditorGUI.BeginChangeCheck();
+
+            base.OnGUI();
+
+            if (EditorGUI.EndChangeCheck()) {
+                OnInputChanged();
+            }
+
+            if (!_error.IsNullOrWhitespace()) {
+                EditorGUILayout.HelpBox(_error, MessageType.Error);
+            }
+        }
+
+        void DrawReplaces(SerializedProperty replacesProp) {
+            if (replacesProp.arraySize == 0) {
+                return;
+            }
+
+            for (int i = 0; i < replacesProp.arraySize; i++) {
+                var replace = replacesProp.GetArrayElementAtIndex(i);
+                EditorGUI.indentLevel++;
+                EditorGUILayout.BeginVertical("box");
+
+                var rendererProp = replace.FindPropertyRelative(nameof(ReplaceData.renderer));
+                EditorGUILayout.PropertyField(rendererProp);
+
+                var meshProp = replace.FindPropertyRelative(nameof(ReplaceData.mesh));
+                EditorGUILayout.PropertyField(meshProp);
+
+                var rootBoneNameProp = replace.FindPropertyRelative(nameof(ReplaceData.rootBoneName));
+                var rootBoneNameValue = rootBoneNameProp.stringValue;
+                var possibleRootBones = KandraMeshBaker.GetPossibleRootBones(meshProp.objectReferenceValue as Mesh);
+                var index = Array.IndexOf(possibleRootBones, rootBoneNameValue);
+                var value = EditorGUILayout.Popup(rootBoneNameProp.displayName, index, possibleRootBones);
+                var newRootBoneName = value >= 0 ? possibleRootBones[value] : string.Empty;
+                if (newRootBoneName != rootBoneNameValue) {
+                    rootBoneNameProp.stringValue = newRootBoneName;
+                }
+
+                EditorGUILayout.EndVertical();
+                EditorGUI.indentLevel--;
+            }
+        }
+
         void Replace() {
             if (Replace(replaces, out _error)) {
                 if (closeOnReplace) {
                     Close();
                 }
-            }
-        }
-
-        protected override void OnImGUI() {
-            base.OnImGUI();
-            if (!_error.IsNullOrWhitespace()) {
-                EditorGUILayout.HelpBox(_error, MessageType.Error);
             }
         }
 
@@ -257,8 +302,16 @@ namespace Awaken.Kandra.Editor {
         
         [MenuItem("CONTEXT/KandraRenderer/Replace Mesh")]
         static void Replace(MenuCommand command) {
+            Replace(command.context as KandraRenderer);
+        }
+
+        public static void Replace(KandraRenderer renderer, Mesh mesh = null, string rootBoneName = null) {
             var window = GetWindow<KandraMeshReplacer>();
-            window.replaces = new[] { new ReplaceData { renderer = command.context as KandraRenderer } };
+            window.replaces = new[] { new ReplaceData {
+                renderer = renderer,
+                mesh = mesh ?? renderer.rendererData.EDITOR_sourceMesh,
+                rootBoneName = rootBoneName ?? renderer.rendererData.rig.boneNames[renderer.rendererData.rootBone].ToString()
+            } };
             window.closeOnReplace = true;
             window.Show();
         }
@@ -271,7 +324,7 @@ namespace Awaken.Kandra.Editor {
         public struct ReplaceData {
             public KandraRenderer renderer;
             public Mesh mesh;
-            [ValueDropdown(nameof(PossibleRootBones))] public string rootBoneName;
+            public string rootBoneName;
             
             string[] PossibleRootBones() {
                 return KandraMeshBaker.GetPossibleRootBones(mesh);
