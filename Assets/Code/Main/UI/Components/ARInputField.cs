@@ -1,6 +1,7 @@
 ﻿using System;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.Semaphores;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
@@ -29,6 +30,7 @@ namespace Awaken.TG.Main.UI.Components {
         public event Action<bool> OnHovered = delegate { };
         public bool IsSelected { get; private set; }
         public bool IsHovered { [UnityEngine.Scripting.Preserve] get; private set; }
+        public bool IsValid => this.IsValidForUIHandle();
         
         CoyoteSemaphore _isHovered;
         Tween _hoverTween;

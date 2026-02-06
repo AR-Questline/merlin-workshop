@@ -200,6 +200,10 @@ namespace Awaken.TG.Main.Heroes.WyrdStalker {
         /// Finds a spawn point that is just outside of the hero's FoV and Hero is visible from that point.
         /// </summary>
         bool TryFindValidSpawnPoint(out Vector3 spawnPoint) {
+            if (AstarPath.active == null) {
+                spawnPoint = Vector3.zero;
+                return false;
+            }
             var heroForward = Hero.Forward();
             var heroCoords = Hero.Coords;
             var heroHeadPosition = Hero.Head.position;
@@ -219,6 +223,13 @@ namespace Awaken.TG.Main.Heroes.WyrdStalker {
                     if (AIUtils.CanSee(spawnPoint + Vector3.up * WyrdStalkerHeight, heroHeadPosition)) {
                         var spawnPointNode = AstarPath.active.GetNearest(spawnPoint).node;
                         var heroPositionNode = AstarPath.active.GetNearest(heroCoords).node;
+                        if (heroPositionNode == null) {
+                            spawnPoint = Vector3.zero;
+                            return false;
+                        }
+                        if (spawnPointNode == null) {
+                            continue;
+                        }
                         if (PathUtilities.IsPathPossible(spawnPointNode, heroPositionNode)) {
                             return true;
                         }

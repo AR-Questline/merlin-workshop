@@ -1,5 +1,6 @@
 ﻿using Awaken.TG.Main.Cameras.CameraStack;
 using Awaken.TG.Main.Fights.Utils;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.HeroCreator.ViewComponents;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -24,7 +25,8 @@ namespace Awaken.TG.Main.UI.HeroCreator {
         RotatableObject _targetObject;
         
         protected override bool CanNestInside(View view) => false;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         protected override void OnMount() {
             base.OnMount();
             rotatableArea = rotatableArea != null ? rotatableArea : GetComponent<RectTransform>();

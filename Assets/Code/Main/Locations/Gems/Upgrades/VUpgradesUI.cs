@@ -14,7 +14,8 @@ namespace Awaken.TG.Main.Locations.Gems.Upgrades {
             upgradeButton,
             addGemButton,
             weightReductionButton,
-            unlockEffectButton;
+            unlockEffectButton,
+            transmogrifyButton;
         
         public bool ForceFocus => false;
         public Component DefaultFocus => upgradeButton.button;
@@ -26,6 +27,7 @@ namespace Awaken.TG.Main.Locations.Gems.Upgrades {
             upgradeButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.Upgrade(), this), LocTerms.SharpenTab.Translate());
             addGemButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.AddGem(), this), LocTerms.GemAttachingTab.Translate());
             weightReductionButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.WeightReduction(), this), LocTerms.ArmorWeightReductionTab.Translate());
+            transmogrifyButton.InitializeButton(() => UIUtils.AddOverlayUIView(Target.Transmogrify(), this), LocTerms.TransmogrifyTab.Translate());
         }
     }
 }

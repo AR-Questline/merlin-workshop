@@ -34,13 +34,16 @@ namespace Awaken.TG.Main.Fights.Duels {
                         data = default;
                         return false;
                     }
-                    if (location.GetCurrentCrimeOwnersFor(CrimeArchetype.Combat(CrimeNpcValue.Low)) is {IsEmpty: false} crimeOwners) {
-                        data = crimeOwners.PrimaryOwner.DuelArena;
-                        return true;
-                    } else {
-                        Log.Important?.Error($"{location} has no CrimeOwner to get duel arena");
-                        data = default;
-                        return false;
+
+                    using (var crimeOwners = location.GetCurrentCrimeOwnersFor(CrimeArchetype.Combat(CrimeNpcValue.Low))) {
+                        if (crimeOwners is {IsEmpty: false}) {
+                            data = crimeOwners.PrimaryOwner.DuelArena;
+                            return true;
+                        } else {
+                            Log.Important?.Error($"{location} has no CrimeOwner to get duel arena");
+                            data = default;
+                            return false;
+                        }
                     }
                 case ArenaDataSource.Custom:
                     data = new DuelArenaData() {

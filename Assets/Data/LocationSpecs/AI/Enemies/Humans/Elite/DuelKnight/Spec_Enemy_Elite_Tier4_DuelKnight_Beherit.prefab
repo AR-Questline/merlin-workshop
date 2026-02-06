@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8977210364365971020}
   - component: {fileID: 3108759362408370482}
   - component: {fileID: 7834792279120207031}
-  - component: {fileID: -5841619286651662896}
+  - component: {fileID: -5610469664432218030}
   m_Layer: 0
   m_Name: Spec_Enemy_Elite_Tier4_DuelKnight_Beherit
   m_TagString: Untagged
@@ -109,7 +109,7 @@ MonoBehaviour:
   storyOnDeath:
     _guid: bd6bf1968e153e1439ae927d7644c781
   visualPrefab:
-    address: 571971fa77d99a546ac4b1cb14aec955
+    address: 6b4ad5f8cddaaeb49b5eefe50e51aa16
     subObjectName: 
   simplifiedDeadBodyPrefab:
     arReference:
@@ -189,6 +189,12 @@ MonoBehaviour:
     oneShots: []
   template:
     _guid: 
+  fallbackInteractionData:
+    type: 0
+    range: 0
+    waitTime:
+      min: 0.5
+      max: 1.5
 --- !u!114 &8977210364365971020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,13 +285,11 @@ MonoBehaviour:
       _guid: 1941349211a0e3e4db0b9c88796802f1
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 0}
   endStoryDistance: 1
---- !u!114 &-5841619286651662896
+--- !u!114 &-5610469664432218030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,36 +298,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 4443325589952417686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27957d3edad01b7439426d86d519747b, type: 3}
+  m_Script: {fileID: 11500000, guid: db0b19dec2bb2694cbe97e9d85d5ddf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeRangedSwitchDistance:
-    min: 4
-    max: 6.5
   weaponsAlwaysEquipped: 0
-  usesCombatMovementAnimations: 1
-  usesAlertMovementAnimations: 1
-  canBePushed: 1
-  canLookAround: 1
-  canBeSlidInto: 1
-  customArrowData:
-    logicPrefab:
-      arReference:
-        address: 
-        subObjectName: 
-    visualPrefab:
-      arReference:
-        address: 
-        subObjectName: 
-    skills: []
-    logicData:
-      lifetime: 5
-      showLifetimeStartVFX: 0
-      lifeTimeStartVFXOnFirePointPosition: 0
-      piercing: 0
-      limitedPiercing: 0
-      piercingLimit: 1
-      dealDirectDamageOnContact: 1
-      explodeOnContact: 0
-      explodeOnEnviroHit: 0
-      explodeOnLifetimeEnd: 0
+  <CustomCombatBaseClass>k__BackingField:
+    rid: 43707216036888673
+  references:
+    version: 2
+    RefIds:
+    - rid: 43707216036888673
+      type: {class: CustomCombatBaseClass, ns: Awaken.TG.Main.AI.Combat.Attachments.Customs,
+        asm: TG.Main}
+      data:
+        DEBUG_Disable: 0
+        overrideDistanceToReleaseCombatSlotAt: 0
+        releaseCombatSlotAtDistance: 15
+        canBeSlidInto: 0
+        startInSpawn: 0
+        canMoveInSpawn: 0
+        usesCombatMovementAnimations: 1
+        usesAlertMovementAnimations: 0
+        useRandomDelayOnCombatEnter: 1
+        randomDelayOnCombatEnter:
+          min: 0
+          max: 0.6
+        canBePushed: 1

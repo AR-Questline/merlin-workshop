@@ -11,6 +11,7 @@ namespace Awaken.TG.Main.Locations.Elevator {
     public class ElevatorPlatformAttachment : MonoBehaviour, IAttachmentSpec {
         public Transform platformTransform;
         public float speed = 4;
+        public bool allowMoveWhenMoving;
         public bool useCustomDownwardsSpeed;
         [ShowIf(nameof(useCustomDownwardsSpeed))] public float customDownwardsSpeed = 4;
         public GameObject navmeshAddObject;

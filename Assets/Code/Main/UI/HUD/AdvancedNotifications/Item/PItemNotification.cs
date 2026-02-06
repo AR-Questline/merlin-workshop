@@ -1,5 +1,4 @@
 using Awaken.TG.Main.AudioSystem.Notifications;
-using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Stories;
@@ -20,7 +19,9 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.Item {
         VisualElement IPresenterWithAccessibilityBackground.Host => Content;
 
         public PItemNotification(VisualElement parent) : base(parent) { }
-        
+
+        protected override bool IsIndependentUpdate => true;
+
         protected override void CacheVisualElements(VisualElement contentRoot) {
             _itemName = contentRoot.Q<BetterOutlinedLabel>("item-name");
             _itemIcon = new VisualItemIcon(contentRoot.Q<VisualElement>("item-icon"));
@@ -38,21 +39,20 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.Item {
 
         protected override void OnBeforeShow(ItemNotification notification) {
             var itemData = notification.itemData;
+            int absoluteQuantity = Mathf.Abs(itemData.quantity);
             
-            if (itemData.quantity == null) {
-                _itemName.text = itemData.itemName;
-            } else switch (itemData.changeSign) {
+            switch (itemData.changeSign) {
                 case 'x':
-                    _itemName.text = LocTerms.ItemWithQuantity.Translate(itemData.quantity.Value, itemData.itemName);
+                    _itemName.text = LocTerms.ItemWithQuantity.Translate(absoluteQuantity, itemData.itemName);
                     break;
                 case '+':
-                    _itemName.text = LocTerms.ItemWithPositiveQuantityChange.Translate(itemData.quantity.Value, itemData.itemName);
+                    _itemName.text = LocTerms.ItemWithPositiveQuantityChange.Translate(absoluteQuantity, itemData.itemName);
                     break;
                 case '-':
-                    _itemName.text = LocTerms.ItemWithNegativeQuantityChange.Translate(itemData.quantity.Value, itemData.itemName);
+                    _itemName.text = LocTerms.ItemWithNegativeQuantityChange.Translate(absoluteQuantity, itemData.itemName);
                     break;
                 default: {
-                    _itemName.text = $"{itemData.itemName} {itemData.changeSign}{itemData.quantity.Value}";
+                    _itemName.text = $"{itemData.itemName} {itemData.changeSign}{absoluteQuantity}";
                     break;
                 }
             }

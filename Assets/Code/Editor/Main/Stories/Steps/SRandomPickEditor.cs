@@ -7,7 +7,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorRandomPick))]
     public class SRandomPickEditor : ElementEditor {
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawProperties();
 
             GUILayout.BeginHorizontal();

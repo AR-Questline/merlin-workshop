@@ -12,10 +12,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern {
     public class VTalentTreePattern : VTalentTreePatternBase {
         [SerializeField] CanvasGroup slotCanvasGroup;
         [SerializeField] List<SkillTalentSubTree> subTrees;
-
         public List<SkillTalentSubTree> SkillTalentTree => subTrees;
-        protected override List<TalentSubTreeBase> GetSubTrees() => subTrees.Cast<TalentSubTreeBase>().ToList();
-        
+        public override List<TalentSubTreeBase> SubTrees => subTrees.Cast<TalentSubTreeBase>().ToList();
+
         void Awake() {
             SetSlotInteractions(false);
         }
@@ -52,8 +51,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern {
         void CalculateOffsetToCenter() {
             for (int index = 0; index < subTrees.Count; index++) {
                 SkillTalentSubTree subTree = subTrees[index];
-                IEnumerable<RectTransform> slots = subTree.Segments.SelectMany(segment => segment.treeNodes)
-                    .Select(node => node.UISlot as RectTransform);
+                IEnumerable<RectTransform> slots = CachedSlots
+                    .Where(slot => slot.SubtreeType.Equals(subTree.SubtreeType))
+                    .Select(slot => slot.UISlot as RectTransform);
                 Bounds bounds = RectTransformUtil.CalculateBoundsOfRectTransform(slots);
                 var rectTransform = subTree.ButtonConfig.transform;
                 subTree.SetZoomInOffset(bounds.center.XY() - rectTransform.position.XY());
@@ -62,7 +62,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern {
         }
 #endif
     }
-    
         
     [Serializable]
     public class SkillTalentSubTree : TalentSubTreeBase {
@@ -70,14 +69,13 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern {
         [SerializeField] float zoomInScale;
         [SerializeField] Vector2 zoomInOffset;
         [Title("Name")]
-        [SerializeField] LocString subTreeName;
         [SerializeField] TMP_Text nameLabel;
-        
+
         public float ZoomInScale => zoomInScale;
         public Vector2 IconPosition => ButtonConfig.transform.position.XY() + zoomInOffset;
         
         public void SetupName() {
-            nameLabel.text = subTreeName.ToString();
+            nameLabel.text = SubtreeType.DisplayName;
         }
         
         public void SetNameActive(bool active) {
@@ -87,7 +85,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern {
 #if UNITY_EDITOR
         [Button]
         void CenterSubTreeImage() {
-            IEnumerable<RectTransform> slots = Segments.SelectMany(segment => segment.treeNodes).Select(node => node.UISlot as RectTransform);
+            IEnumerable<RectTransform> slots = slotsRoot.GetComponentsInChildren<TalentPatternSlot>(true)
+                .Where(slot => slot.SubtreeType.Equals(SubtreeType))
+                .Select(slot => slot.UISlot as RectTransform);
             Bounds bounds = RectTransformUtil.CalculateBoundsOfRectTransform(slots);
             
             var rectTransform = (RectTransform)ButtonConfig.transform;

@@ -58,6 +58,7 @@ MonoBehaviour:
   - potions:advanced
   - potions:dalriata
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 7b8892cd69dfb44439b9d0ff6f2524f5
@@ -75,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_DecreaseStatPercForDuration
       ID: Template/description_locString_2543871262668956605_2d31869c20844ce45ae28dbe09ba16f9
-  EDITOR_bakedDescription: Decreases Incoming Damage by 15% for 15s.
+  EDITOR_bakedDescription: "Decreases Incoming Damage by 15\_% for 15s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.MVC;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -28,10 +29,14 @@ namespace Awaken.TG.Main.Utility.Patchers {
 
         public virtual void StartGamePatch() { }
 
+        public virtual void AfterGameLoadedPatch() { }
         public virtual void BeforeDeserializedModel(Model model) { }
         public virtual bool AfterDeserializedModel(Model model) => true;
-        
+        public virtual void AfterDeserializedService(SerializedService service) { }
+
         public virtual void AfterRestorePatch() { }
+
+        public virtual async UniTask CheckAllSaveSlots(IProgress<float> progress) { }
 
         [UnityEngine.Scripting.Preserve]
         protected JObject RemovePropertyFromJObject(JObject jObject, string propName) {

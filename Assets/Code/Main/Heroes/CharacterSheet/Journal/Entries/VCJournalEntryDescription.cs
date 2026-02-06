@@ -1,10 +1,8 @@
 ﻿using Awaken.TG.Assets;
 using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Content;
-using Awaken.TG.Main.Heroes.CharacterSheet.Journal.JournalRecipe;
 using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
-using Awaken.Utility.GameObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,12 +25,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Entries {
             PreviewImageRoot.gameObject.SetActive(false);
 
             World.EventSystem.ListenTo(EventSelector.AnySource, IJournalCategoryUI.Events.EntrySelected, this, Refresh);
-            World.EventSystem.ListenTo(EventSelector.AnySource, JournalRecipeUI.Events.CategoryChanged, this, Hide);
-        }
-
-        void Hide() {
-            DescriptionRoot.gameObject.TrySetActiveOptimized(false);
-            PreviewImageRoot.gameObject.TrySetActiveOptimized(false);
         }
 
         void Refresh(IJournalEntryData entryData) {

@@ -12,10 +12,10 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
         }
 
         protected override void Refresh(Item item, View view, ItemDescriptorType itemDescriptorType) {
-            SetInternalVisibility(item.IsPlainFood && item.Level > 0);
+            SetInternalVisibility(item.IsPlainFood && item.ModifiedLevelWithoutNewGamePlus > 0);
             
             if (levelText) {
-                levelText.text = $"+{item.Level.ModifiedInt}";
+                levelText.text = $"+{item.ModifiedLevelWithoutNewGamePlus}";
             }
         }
     }

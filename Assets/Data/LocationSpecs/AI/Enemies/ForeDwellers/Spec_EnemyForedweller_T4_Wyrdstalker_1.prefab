@@ -62,6 +62,7 @@ MonoBehaviour:
   tags: []
   startInteractabilityReference:
     _enumRef: 
+  conditionalPrefabReferences: []
   prefabReference:
     address: addc2314b6363ff43bd3d5649fd8e8b4
     subObjectName: 
@@ -106,7 +107,8 @@ MonoBehaviour:
   actor:
     guid: 
   storyOnDeath:
-    _guid: 
+    _guid: a5e46f9e875206b489962535b3c9e06f
+  conditionalVisualPrefabs: []
   visualPrefab:
     address: 6c08b57fa85c2fa478374c6d963bb70c
     subObjectName: 
@@ -244,6 +246,89 @@ MonoBehaviour:
   aliveAudioContainerWrapper:
     assetType: 0
     dataAsset: {fileID: 11400000, guid: 14393302ff0b6494eae379ef95a98fa4, type: 2}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+  usesExplicitWyrdConvertedAudio: 0
+  wyrdConvertedAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
     data:
       audioType: 0
       idle:

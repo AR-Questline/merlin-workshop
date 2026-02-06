@@ -70,6 +70,7 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 2
+  BackToSpawnPointDistanceMultiplier: 1
   maxHealth: 60
   healthRegen: 0
   maxStamina: 100
@@ -84,7 +85,7 @@ MonoBehaviour:
   armorMultiplier: 1
   damageReceivedMultipliers:
   - subType: 21
-    takenDamagePercentageMultiplier: 25
+    takenDamagePercentageMultiplier: 50
   - subType: 10
     takenDamagePercentageMultiplier: 100
   statusResistance: 0
@@ -154,6 +155,10 @@ MonoBehaviour:
       buildupThreshold: 1
       effectStrength: 1
       buildupName: Full
+    _petrification:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Petrification
   crimeNpcValue: 4
   crimeReactionArchetype: 0
   npcType: 2
@@ -206,6 +211,10 @@ MonoBehaviour:
       address: 
       subObjectName: 
   tattooType: 0
+  corpseVFX:
+    arReference:
+      address: 
+      subObjectName: 
   dummyDeathClipTransition:
     address: 
     subObjectName: 

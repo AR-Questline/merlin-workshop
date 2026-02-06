@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.HeroLevelUp;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.LocationDiscovery;
-using Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.WyrdInfo;
 using Awaken.TG.Main.UIToolkit.PresenterData;
 using Awaken.TG.MVC;
 using Awaken.Utility;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Journal {
-    public partial class JournalUnlockNotificationBuffer : AdvancedNotificationBuffer<JournalUnlockNotification> {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class JournalUnlockNotificationBuffer : AdvancedNotificationBufferPresenter<JournalUnlockNotification> {
         public override bool SuspendPushingNotifications => PlatformUtils.IsJournalDisabled || base.SuspendPushingNotifications;
 
         protected override VisualElement NotificationsParent => ParentModel.NotificationsContainerUI.JournalUnlockNotificationParent;

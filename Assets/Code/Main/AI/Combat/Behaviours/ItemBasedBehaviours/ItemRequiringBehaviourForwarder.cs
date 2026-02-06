@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Awaken.TG.Main.AI.Combat.Behaviours.Abstracts;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.LootTables;
 using Awaken.TG.Main.Saving;
@@ -45,7 +46,13 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.ItemBasedBehaviours {
         }
         
         void OnEquipmentChanged() {
-            if (_cachedItem is { HasBeenDiscarded: false } && _cachedItem.Owner == Npc) {
+            if (HasBeenDiscarded) {
+                return;
+            }
+            if (!ParentModel.ParentModel.TryGetElement<NpcElement>(out var npc)) {
+                return;
+            }
+            if (_cachedItem is { HasBeenDiscarded: false } && _cachedItem.Owner == npc) {
                 return;
             }
             _cachedItem = GetItem();

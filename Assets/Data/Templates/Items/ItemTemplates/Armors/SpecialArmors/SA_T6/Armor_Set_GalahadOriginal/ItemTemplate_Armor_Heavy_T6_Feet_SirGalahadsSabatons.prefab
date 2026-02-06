@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 'description_increasestatatthreshold_percent_double_increasepercent '
       ID: Template/description_locString_2543871262668956605_50d2da64ae81ccc4096023ca2ed18c79
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: "Increases Dash Counter by 100\_% when your Health is
+    below 10\_%.\nIncreases Melee Retaliation by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -102,7 +103,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_50d2da64ae81ccc4096023ca2ed18c79
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +128,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_50d2da64ae81ccc4096023ca2ed18c79
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &118123093870856227
 MonoBehaviour:
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3200170693479506177
 MonoBehaviour:
@@ -310,6 +318,8 @@ MonoBehaviour:
       value: 0.1
     - name: GainValue
       value: 0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

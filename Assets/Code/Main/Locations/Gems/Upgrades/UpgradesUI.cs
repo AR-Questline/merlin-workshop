@@ -34,6 +34,10 @@ namespace Awaken.TG.Main.Locations.Gems.Upgrades {
         public Model WeightReduction() {
             return GemsUI.OpenGemsUI(GemsUITabType.WeightReduction);
         }
+        
+        public Model Transmogrify() {
+            return GemsUI.OpenGemsUI(GemsUITabType.Transmogrify);
+        }
 
         public void Close() {
             Discard();

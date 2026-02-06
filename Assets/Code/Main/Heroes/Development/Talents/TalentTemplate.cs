@@ -25,7 +25,7 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
         string INamed.DebugName => name;
 
         [SerializeField, LocStringCategory(Category.Skill)] 
-        LocString talentName;
+        public LocString talentName;
         
         [RichEnumExtends(typeof(Keyword)), SerializeField] 
         List<RichEnumReference> keywords = new();

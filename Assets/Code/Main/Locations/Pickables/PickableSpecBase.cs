@@ -100,8 +100,8 @@ If you need any of these, use PickItemAttachment instead."
                     return true;
                 }
                 if (itemReference.itemTemplateReference is { IsSet: true } reference) {
-                    var dropPrefab = reference.Get<ItemTemplate>(this).DropPrefab;
-                    _obtainedAssetReference = dropPrefab.Get();
+                    var pickablePrefab = reference.Get<ItemTemplate>(this).PickablePrefab;
+                    _obtainedAssetReference = pickablePrefab.Get();
                     prefab = _obtainedAssetReference;
                     if (prefab is { IsSet: true }) {
                         #if UNITY_EDITOR
@@ -126,6 +126,15 @@ If you need any of these, use PickItemAttachment instead."
             return false;
         }
 
+        public bool TryGetObtainedPrefab(out ARAssetReference prefab) {
+            prefab = _obtainedAssetReference;
+            return prefab != null;
+        }
+        
+        public void ClearObtainedPrefab() {
+            _obtainedAssetReference = null;
+        }
+        
         public bool TryLoadPrefab(out ARAsyncOperationHandle<GameObject> handle) {
             if (TryGetValidPrefab(out var prefab)) {
                 try {
@@ -163,7 +172,7 @@ If you need any of these, use PickItemAttachment instead."
         void ConvertToPickItemAttachment() {
             var locationSpec = gameObject.AddComponent<LocationSpec>();
             if (TryGetValidPrefab(out var prefab)) {
-                locationSpec.prefabReference = prefab;
+                locationSpec.PrefabReference = prefab;
             }
             locationSpec.snapToGround = false;
             

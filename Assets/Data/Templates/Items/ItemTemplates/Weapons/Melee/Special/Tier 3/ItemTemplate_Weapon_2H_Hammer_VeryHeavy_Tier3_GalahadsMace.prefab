@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_2d5489a9e05d6f245935062a8a94d1a9
-  EDITOR_bakedDescription: Inflicts 50 Burn on hit.
+  EDITOR_bakedDescription: Inflicts 70 <color=#04959A>Burn</color> on hit.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a381886d64d973d48ad039d852d6142b
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -249,8 +253,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &2250481005308889846
 MonoBehaviour:
@@ -572,6 +579,10 @@ MonoBehaviour:
     variables:
     - name: Buildup
       value: 70
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
+      value: 0
     - name: Duration
       value: 0
     - name: ChanceToApply

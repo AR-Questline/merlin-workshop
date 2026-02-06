@@ -1,6 +1,10 @@
 ﻿using System;
+using Awaken.TG.Assets;
+using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Settings.FirstTime;
 using Awaken.TG.MVC;
+using Awaken.TG.MVC.UI.Handlers.Tooltips;
+using UnityEngine;
 
 namespace Awaken.TG.Main.Settings.Options {
     /// <summary>
@@ -10,14 +14,16 @@ namespace Awaken.TG.Main.Settings.Options {
     public abstract class PrefOption {
         Func<bool> _isInteractable = static () => true;
         Func<string> _tooltipConstructor;
+        public Func<ShareableSpriteReference> GetPreview { get; private set; }
+        public Func<string> GetPreviewText { get; private set; }
         public abstract Type ViewType { get; }
         
         public Func<string> TooltipConstructor => World.Any<FirstTimeSettings>() ? null : _tooltipConstructor;
+        
         public string ID { get; }
         public string DisplayName { get; }
         public bool Synchronize { get; }
         public bool Interactable => _isInteractable();
-
         protected string PrefKey => ID;
 
         protected PrefOption(string id, string displayName, bool synchronize) {
@@ -34,6 +40,11 @@ namespace Awaken.TG.Main.Settings.Options {
 
         public void AddTooltip(Func<string> constructor) {
             _tooltipConstructor = constructor;
+        }
+
+        public void AddPreview(Func<ShareableSpriteReference> preview, Func<string> previewText) {
+            GetPreview = preview;
+            GetPreviewText = previewText;
         }
 
         public void SetInteractabilityFunction(Func<bool> interactabilityFunction) {

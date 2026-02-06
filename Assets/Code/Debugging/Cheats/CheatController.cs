@@ -31,7 +31,10 @@ namespace Awaken.TG.Debugging.Cheats {
 #endif
         }
 
-        public static bool CheatShortcutsEnabled { get; set; } = true;
+        public static bool CheatShortcutsEnabled {
+            get => PlayerPrefs.GetInt("cheat_shortcuts", 1) == 1;
+            set => PlayerPrefs.SetInt("cheat_shortcuts", value ? 1 : 0);
+        }
 
         protected override void OnInitialize() {
             var constants = Services.Get<DebugReferences>();

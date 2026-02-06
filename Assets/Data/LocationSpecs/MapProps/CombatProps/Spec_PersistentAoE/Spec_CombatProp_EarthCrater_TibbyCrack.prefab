@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5545430941669151807}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.67, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,6 +116,11 @@ MonoBehaviour:
     arReference:
       address: 
       subObjectName: 
+  storyOnDeath:
+    story:
+      _guid: 
+    chapterName: 
+  damageReceivedMultipliers: []
 --- !u!114 &-448262263550211503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,8 +139,8 @@ MonoBehaviour:
   isRemovingOther: 0
   isRemovable: 0
   canApplyToSelf: 0
-  discardParentOnEnd: 1
   discardOnOwnerDeath: 1
+  discardParentOnEnd: 1
   tickInterval: 0.5
   statusTemplateRef:
     _guid: 

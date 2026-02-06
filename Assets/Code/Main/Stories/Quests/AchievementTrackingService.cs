@@ -97,7 +97,7 @@ namespace Awaken.TG.Main.Stories.Quests {
         }
 
         void OnKill(DamageOutcome damageOutcome) {
-            if (damageOutcome.Attacker is not Hero || damageOutcome.Target is not NpcElement) {
+            if (damageOutcome.AttackerPure is not Hero || damageOutcome.TargetPure is not NpcElement) {
                 return;
             }
             

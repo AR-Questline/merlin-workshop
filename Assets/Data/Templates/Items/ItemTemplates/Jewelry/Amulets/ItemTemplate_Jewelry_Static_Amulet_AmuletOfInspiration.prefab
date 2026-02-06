@@ -59,7 +59,7 @@ MonoBehaviour:
   tags:
   - item:important
   - item:amulet
-  - amulets:t1
+  - amulets:t5
   iconReference:
     arSpriteReference:
       address: 40eacde2fefdb3c478ab80ee26061d9f
@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_onkill_restore
       ID: Template/description_locString_2543871262668956605_9c757e72e8c955548b74e25434eafd06
-  EDITOR_bakedDescription: Increases Weak Spot Damage by 20%.
+  EDITOR_bakedDescription: Restores 50 Mana after killing an enemy.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -102,7 +102,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_9c757e72e8c955548b74e25434eafd06
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,11 +127,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_9c757e72e8c955548b74e25434eafd06
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 200
+  basePrice: 1000
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 2
@@ -152,7 +152,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: fd33dc5da49acd34481165e3463f8315
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -270,7 +277,7 @@ MonoBehaviour:
       _guid: a49e606000b474b45846031cc36ea581
     variables:
     - name: ModifyValue
-      value: 30
+      value: 50
     - name: ValueGain
       value: 0
     - name: ValueCalculated

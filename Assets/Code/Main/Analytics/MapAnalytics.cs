@@ -40,7 +40,7 @@ namespace Awaken.TG.Main.Analytics {
         }
 
         void OnHeroDeath(DamageOutcome outcome) {
-            if (outcome.Target is not Hero hero) {
+            if (outcome.TargetPure is not Hero hero) {
                 return;
             }
             Vector3 heroPos = hero.CharacterView.transform.position;

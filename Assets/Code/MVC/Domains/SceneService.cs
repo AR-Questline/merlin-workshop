@@ -11,6 +11,7 @@ using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Scenes.SceneConstructors.SubdividedScenes;
 using Awaken.TG.Main.Settings.Graphics;
 using Awaken.TG.Main.Timing;
+using Awaken.TG.MVC.Utils;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.GameObjects;
 using Awaken.Utility.Times;
@@ -53,11 +54,12 @@ namespace Awaken.TG.MVC.Domains {
         public IMapScene MainSceneBehaviour { get; private set; }
         public IMapScene AdditiveSceneBehaviour { get; private set; }
         public Domain ActiveDomain { get; private set; }
+        public Domain MainDomain { get; private set; }
         public ARTimeSpan ActiveSceneLoadTime { get; private set; }
 
         public bool IsOpenWorld { get; private set; }
+        public bool AllowsWyrdnight { get; private set; }
         public bool IsTestArena => ActiveSceneRef.Name.Contains(TestArenaSceneSuffix);
-        public Domain MainDomain => Domain.Scene(MainSceneRef);
         public SceneReference ActiveSceneRef => AdditiveSceneRef ?? MainSceneRef;
         public IMapScene ActiveSceneBehaviour => AdditiveSceneBehaviour ?? MainSceneBehaviour;
         public string ActiveSceneDisplayName => LocTerms.GetSceneName(ActiveSceneRef);
@@ -157,6 +159,7 @@ namespace Awaken.TG.MVC.Domains {
                 bool mainSceneChangeOccured = sceneReference != MainSceneRef;
                 if (mainSceneChangeOccured) {
                     MainSceneRef = sceneReference;
+                    MainDomain = Domain.Scene(sceneReference);
                     _mainSceneExistenceTokenSource?.Cancel();
                     _mainSceneExistenceTokenSource = new CancellationTokenSource();
                 }
@@ -168,11 +171,19 @@ namespace Awaken.TG.MVC.Domains {
                 _additiveSceneExistenceTokenSource = null;
             }
 
-            bool isOpenWorld = CommonReferences.Get.SceneConfigs.IsOpenWorld(ActiveSceneRef);
-            bool openWorldChanged = isOpenWorld != IsOpenWorld;
-
+            var data = CommonReferences.Get.SceneConfigs.GetSceneData(ActiveSceneRef);
+            
+            if (data.openWorld) {
+                LastOpenWorldUtils.SetLastVisitedWorld(ActiveSceneRef);
+            }
+            
+            bool openWorldChanged = data.openWorld != IsOpenWorld;
             if (openWorldChanged) {
-                IsOpenWorld = isOpenWorld;
+                IsOpenWorld = data.openWorld;
+            }
+            
+            if (data.allowWyrdNight != AllowsWyrdnight) {
+                AllowsWyrdnight = data.allowWyrdNight;
             }
 
             IsPrologue = CommonReferences.Get.SceneConfigs.IsPrologue(ActiveSceneRef);

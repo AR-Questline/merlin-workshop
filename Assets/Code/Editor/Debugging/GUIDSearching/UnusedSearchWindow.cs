@@ -12,12 +12,14 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Editor.Debugging.GUIDSearching {
-    public class UnusedSearchWindow : OdinEditorWindow {
+    public class UnusedSearchWindow : GUIDSearchWindowBase {
         const string OtherGUIDToolsGroup = "Other GUID Tools";
         const string OtherGUIDToolsButtonsGroup = OtherGUIDToolsGroup+"/Buttons";
         
         [ShowInInspector, PropertyOrder(-10)]
         public string LastBake => GUIDCache.Instance?.LastBake;
+        
+        protected override bool ShowUnusedSearchButton => false;
         
         public static void OpenWindow() {
             var window = GetWindow<UnusedSearchWindow>(GUIDSearchWindow.DesiredDockTypes);

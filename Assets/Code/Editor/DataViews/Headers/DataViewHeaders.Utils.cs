@@ -227,7 +227,7 @@ namespace Awaken.TG.Editor.DataViews.Headers {
         }
 
         static GameObject RetrievePrefabFromItemEquipSpec(ItemEquipSpec itemEquipSpec, Gender gender) {
-            return itemEquipSpec.RetrieveMobItemsInstance().FirstOrDefault(i => i.Gender == gender || i.Gender == Gender.None).itemPrefab?.EditorLoad<GameObject>();
+            return itemEquipSpec.RetrieveMobItemsInstance().FirstOrDefault(i => i.Gender == gender || i.Gender == Gender.None).ItemPrefabUnsafeToLoad?.EditorLoad<GameObject>();
         }
         
         static Mesh RetrieveMeshFromItemEquipSpec(ItemEquipSpec itemEquipSpec, Gender gender) {

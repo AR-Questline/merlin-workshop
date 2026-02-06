@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Memories;
@@ -19,6 +19,7 @@ using Log = Awaken.Utility.Debugging.Log;
 namespace Awaken.TG.Main.Settings.Controls {
     public partial class GameControls : Setting, IRewiredSetting {
         static Player Player => RewiredHelper.Player;
+        static Guid CurrentHardwareTypeGuid => RewiredHelper.CurrentHardwareTypeGuid;
         
         public ControlScheme ControlScheme { get; }
         public Guid controllerIdentifier;
@@ -78,8 +79,8 @@ namespace Awaken.TG.Main.Settings.Controls {
             //             if (controllerMap.enabled == false) continue;
             //             foreach (var actionMap in controllerMap.AllMaps) {
             //                 var action = ReInput.mapping.GetAction(actionMap.actionId);
-            //                 if (action.userAssignable && !OverlappingControlsUtil.IsElementOfMergeGroup(action.name) && ActionHasAnyIcon(actionMap, action)) {
-            //                     var option = new KeyBindingOption(controller, action, actionMap);
+            //                 if (action.userAssignable && !OverlappingControlsUtil.IsElementOfMergeGroup(action.name)) {
+            //                     var option = new KeyBindingOption(controller, action, actionMap, controllerIdentifier);
             //                     option.onChange += () => Services.Get<UIKeyMapping>().RefreshMapping();
             //                     _options.Add(option);
             //                 }
@@ -97,24 +98,15 @@ namespace Awaken.TG.Main.Settings.Controls {
             // LoadAll();
         }
 
-        // bool ActionHasAnyIcon(ActionElementMap element, InputAction action) {
-        //     KeyIcon.Data data = new(UIKeyMapping.FindBindingFor(element, action), false);
-        //     var icon = data.GetIcons()[ControlScheme];
-        //     bool shouldAdd = false;
-        //     if (icon is SpriteIcon spriteIcon) {
-        //         shouldAdd = spriteIcon.Sprite.IsSet;
-        //     } else if (icon is TextIcon textIcon) {
-        //         shouldAdd = !string.IsNullOrEmpty(textIcon.Text);
-        //     }
-        //
-        //     return shouldAdd;
-        // }
-
         protected override void OnApply() {
             SaveAll();
         }
 
         void SaveAll() {
+            if (!BelongsToCurrentController) {
+                return;
+            }
+            
             SaveBehaviours();
             SaveOverrides();
         }
@@ -128,20 +120,20 @@ namespace Awaken.TG.Main.Settings.Controls {
         
         void SaveOverrides() {
             var overrides = _options
-                .Where(option => !option.IsOriginal)
+                .Where(option => !option.IsOriginal && option.ControllerIdentifier == controllerIdentifier)
                 .Select(option => new BindingOverride(option))
                 .ToList();
             var json = JsonConvert.SerializeObject(overrides, LoadSave.Settings);
-            PrefMemory.Set(ControlSchemeKey(Player, ControlScheme), json, true);
+            PrefMemory.Set(ControlSchemeKey(Player, ControlScheme, controllerIdentifier), json, true);
         }
 
-        void LoadAll() {
+        public void LoadAll() {
             LoadBehaviours();
             LoadBindingOverrides();
         }
         
         void LoadBehaviours() {
-            // // all players have an instance of each input behavior so it can be modified
+            // all players have an instance of each input behavior so it can be modified
             // IList<InputBehavior> behaviors = ReInput.mapping.GetInputBehaviors(Player.id); // get all behaviors from player
             // for (int i = 0; i < behaviors.Count; i++) {
             //     string json = PrefMemory.GetString(InputBehaviourKey(Player, behaviors[i])); // try to the behavior for this id
@@ -151,20 +143,23 @@ namespace Awaken.TG.Main.Settings.Controls {
         }
         
         void LoadBindingOverrides() {
-            string data = PrefMemory.GetString(ControlSchemeKey(Player, ControlScheme));
+            string data = PrefMemory.GetString(ControlSchemeKey(Player, ControlScheme, controllerIdentifier));
             if (data.IsNullOrWhitespace()) return;
             var overrides = JsonConvert.DeserializeObject<List<BindingOverride>>(data, LoadSave.Settings);
             if (overrides == null) return;
             foreach (var bindingOverride in overrides) {
-                var option = _options.FirstOrDefault(bindingOverride.IsMine);
+                var option = _options.FirstOrDefault(keyBindingOption => bindingOverride.IsMine(keyBindingOption, ControlScheme));
                 if (option == null) continue;
-                option.ChangeBinding(bindingOverride.Binding);
+                option.ChangeBinding(bindingOverride);
                 option.Apply();
             }
         }
 
         // static string InputBehaviourKey(Player player, InputBehavior behaviour) => $"rewiredBeh:{player.id}:{behaviour.id}";
-        static string ControlSchemeKey(Player player, ControlScheme scheme) => $"rewired:Player_{player.id}:{scheme}";
+
+        static string ControlSchemeKey(Player player, ControlScheme scheme, Guid guid) {
+            return scheme == ControlScheme.KeyboardAndMouse ? $"rewired:Player_{player.id}:{scheme}" : $"rewired:Player_{player.id}:{scheme}:{guid}";
+        }
     }
 
     public partial struct BindingOverride {
@@ -172,16 +167,20 @@ namespace Awaken.TG.Main.Settings.Controls {
 
         [Saved] int _actionId;
         [Saved] BindingData _binding;
+        [Saved] Guid _controllerIdentifier;
 
+        public Guid ControllerIdentifier => _controllerIdentifier;
         public BindingData Binding => _binding;
 
         public BindingOverride(KeyBindingOption option) {
             _actionId = option.Action.id;
             _binding = option.CurrentBinding;
+            _controllerIdentifier = option.ControllerIdentifier;
         }
 
-        public bool IsMine(KeyBindingOption option) {
-            return option.Action.id == _actionId && option.AxisContribution == _binding.axisContribution;
+        public bool IsMine(KeyBindingOption option, ControlScheme controlScheme) {
+            bool correctDevice = _controllerIdentifier == option.ControllerIdentifier || controlScheme == ControlScheme.KeyboardAndMouse;
+            return option.Action.id == _actionId && option.AxisContribution == _binding.axisContribution && correctDevice;
         }
     }
 }

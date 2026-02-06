@@ -22,7 +22,7 @@ namespace Awaken.TG.Main.Fights.Finishers {
         }
         
         public bool CheckGlobalConditions(DamageOutcome damageOutcome) {
-            if (damageOutcome.Target is not NpcElement { HasBeenDiscarded: false, IsAlive: true, CanUseExternalCustomDeath: true }) {
+            if (damageOutcome.TargetPure is not NpcElement { HasBeenDiscarded: false, IsAlive: true, CanUseExternalCustomDeath: true }) {
                 return false;
             }
             
@@ -35,7 +35,7 @@ namespace Awaken.TG.Main.Fights.Finishers {
         }
         
         public bool CheckDefaultHpCondition(DamageOutcome damageOutcome, float predictedDmg) {
-            return defaultHealthCondition.IsFulfilled(predictedDmg, damageOutcome.FinalAmount, damageOutcome.Target as NpcElement);
+            return defaultHealthCondition.IsFulfilled(predictedDmg, damageOutcome.FinalAmount, damageOutcome.TargetPure as NpcElement);
         }
 
         public bool TryFindRandomValidFinisher(DamageOutcome damageOutcome, float predictedDmg, out FinisherData foundFinisher) {

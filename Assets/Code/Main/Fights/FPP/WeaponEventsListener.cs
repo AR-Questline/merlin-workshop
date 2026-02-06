@@ -99,6 +99,10 @@ namespace Awaken.TG.Main.Fights.FPP {
                         animationEvent.appearType == ARAnimationEvent.AppearType.Character
                             ? ICharacter.Events.SwitchCharacterVisibility
                             : ICharacter.Events.SwitchCharacterWeaponVisibility, false);
+                } else if (animationEvent.actionType == ARAnimationEvent.ActionType.ExposeWeakspot) {
+                    HandOwner.SetActiveWeakspot(true);
+                } else if (animationEvent.actionType == ARAnimationEvent.ActionType.HideWeakspot) {
+                    HandOwner.SetActiveWeakspot(false);
                 }
 
                 // --- Visual Scripting Unity Events

@@ -40,6 +40,11 @@ namespace Awaken.TG.Main.Tutorials {
         [FoldoutGroup("Horse/Console"), SerializeField] GraphicTutorial horseConsole;
         [FoldoutGroup("Horse/DLC"), SerializeField] public GraphicTutorial horseArmorDlc;
 
+        [FoldoutGroup("Sarras")]
+        [FoldoutGroup("Sarras/Sickle"), SerializeField] public VideoTutorial sarrasSickle;
+        [FoldoutGroup("Sarras/TalentTree"), SerializeField] public VideoTutorial sarrasTalentTree;
+        [FoldoutGroup("Sarras/Blessing"), SerializeField] public VideoTutorial sarrasBlessing;
+
         public GraphicTutorial Horse => RewiredHelper.IsGamepad ? horseConsole : horsePC;
 
         public IEnumerable<VideoTutorial> AllVideoTutorials() {
@@ -53,6 +58,9 @@ namespace Awaken.TG.Main.Tutorials {
             yield return fishingRod;
             yield return fishing;
             yield return sketchbook;
+            yield return sarrasSickle;
+            yield return sarrasTalentTree;
+            yield return sarrasBlessing;
         }
         
         public IEnumerable<GraphicTutorial> AllGraphicTutorials() {
@@ -70,13 +78,16 @@ namespace Awaken.TG.Main.Tutorials {
             public LocString title;
             [LocStringCategory(Category.Tutorial)]
             public LocString text;
+            
+            public string GetTranslatedTitleText() => title.ToString();
+            public string GetTranslatedContentText() => text.ToString();
 
-            public bool Equals(TextTutorial other) => Equals(title, other.title) && Equals(text, other.text);
+            public bool Equals(TextTutorial other) => title.Equals(other.title) && text.Equals(other.text);
             public override bool Equals(object obj) => obj is TextTutorial other && Equals(other);
 
             public override int GetHashCode() {
                 unchecked {
-                    return ((title != null ? title.GetHashCode() : 0) * 397) ^ (text != null ? text.GetHashCode() : 0);
+                    return (title.GetHashCode() * 397) ^ text.GetHashCode();
                 }
             }
 
@@ -85,7 +96,7 @@ namespace Awaken.TG.Main.Tutorials {
         }
         
         [Serializable, HideLabel]
-        public struct GraphicTutorial  : ITutorialDataOwner, IEquatable<GraphicTutorial> {
+        public struct GraphicTutorial : ITutorialDataOwner, IEquatable<GraphicTutorial> {
             public SequenceKey sequenceKey;
             [LocStringCategory(Category.Tutorial)]
             public LocString title;
@@ -97,8 +108,10 @@ namespace Awaken.TG.Main.Tutorials {
             public ShareableSpriteReference graphic;
             [RichEnumExtends(typeof(KeyBindings))]
             public List<RichEnumReference> keyBinding;
-
-            public string GetTranslatedText() {
+            
+            public string GetTranslatedTitleText() => title.ToString();
+            
+            public string GetTranslatedContentText() {
                 if (keyBinding == null || keyBinding.Count == 0) {
                     return text.Translate();
                 } else {
@@ -145,16 +158,18 @@ namespace Awaken.TG.Main.Tutorials {
             [RichEnumExtends(typeof(KeyBindings))]
             public List<RichEnumReference> keyBinding;
             
-            public string GetTranslatedText() {
+            public string GetTranslatedTitleText() => title.ToString();
+            
+            public string GetTranslatedContentText() {
                 if (keyBinding == null || keyBinding.Count == 0) {
                     return text.Translate();
-                } else {
-                    var keys = new object[keyBinding.Count];
-                    for (int i = 0; i < keyBinding.Count; i++) {
-                        keys[i] = UIUtils.Key(keyBinding[i].EnumAs<KeyBindings>());
-                    }
-                    return text.Translate(keys);
                 }
+
+                var keys = new object[keyBinding.Count];
+                for (int i = 0; i < keyBinding.Count; i++) {
+                    keys[i] = UIUtils.Key(keyBinding[i].EnumAs<KeyBindings>());
+                }
+                return text.Translate(keys);
             }
 
             public bool Equals(VideoTutorial other) {
@@ -180,5 +195,8 @@ namespace Awaken.TG.Main.Tutorials {
         }
     }
 
-    public interface ITutorialDataOwner { }
+    public interface ITutorialDataOwner {
+        string GetTranslatedTitleText();
+        string GetTranslatedContentText();
+    }
 }

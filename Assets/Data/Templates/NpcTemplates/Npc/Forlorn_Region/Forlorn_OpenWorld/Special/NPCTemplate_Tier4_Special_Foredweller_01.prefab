@@ -60,7 +60,7 @@ MonoBehaviour:
   defaultCrimeOwner:
     _guid: 
   level: 1
-  npcData: {fileID: 11400000, guid: e739b131a0e7afa40baeed6d365c3daf, type: 2}
+  npcData: {fileID: 11400000, guid: 931dd663e8270da4cb1cdc03ccf91a0e, type: 2}
   fightingStyle:
     _guid: 2f21564215c633e49b683196324533dc
   isNotGrounded: 0
@@ -163,11 +163,16 @@ MonoBehaviour:
     lootReference:
       _guid: 
     table:
-      rid: 383214509789544450
+      rid: 8991340406728556638
   lootTables:
   - lootType: 0
     lootReference:
       _guid: d583e4e5d3b31504381b8ff06b2fe837
+    table:
+      rid: -2
+  - lootType: 0
+    lootReference:
+      _guid: f294f22c3d001c74e8d8a090bf4360ef
     table:
       rid: -2
   corpseLootTables: []
@@ -193,7 +198,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 383214509789544450
+    - rid: 8991340406728556638
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
         array: []

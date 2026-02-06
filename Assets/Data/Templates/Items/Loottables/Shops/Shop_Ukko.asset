@@ -131,6 +131,25 @@ MonoBehaviour:
         itemLvl:
           low: 0
           high: 0
+    - rid: 7087171632785260546
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 20
+        randomizedAmount: 10
+        generateOnlyOnce: 0
+        loot:
+          rid: 7087171632785260547
+    - rid: 7087171632785260547
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 85d546032a972e04b80384bbd5d61212
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
     - rid: 7661416378953629711
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
@@ -173,3 +192,4 @@ MonoBehaviour:
         - rid: 7661416378953629711
         - rid: 7661416378953629723
         - rid: 1901780326296323018
+        - rid: 7087171632785260546

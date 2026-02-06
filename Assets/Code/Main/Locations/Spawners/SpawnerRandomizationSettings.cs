@@ -9,25 +9,34 @@ using UnityEngine;
 namespace Awaken.TG.Main.Locations.Spawners {
     [Serializable]
     public class SpawnerRandomizationSettings {
-        [MinValue(nameof(groupSpawnCap))]
-        public int totalSpawnCap = 6;
-        [Min(1)]
-        public int groupSpawnCap = 3;
+        [MinValue(nameof(Editor_ValidTotalSpawnCap))]
+        public byte totalSpawnCap = 6;
+        [MinValue(0), Indent(2)]
+        public byte randomSpawnCapIncreaseAtInstantiation = 0;
+        [MinValue(1)]
+        public byte groupSpawnCap = 3;
         [Min(1), GUIColor(0, 1, 1)]
         public float spawnRadius = 5;
-        [MaxValue("@-1+" + nameof(spawnRadius)), GUIColor(1, 0.92f, 0.016f)]
-        public float groupSpawnRadius = 5;
+        [MaxValue(nameof(spawnRadius)), GUIColor(1, 0.92f, 0.016f), SerializeField, ShowIf(nameof(GroupSettingsMatter))]
+        float groupSpawnRadius = 5;
 
-        [LabelText("Spawn Interval [s]"), Min(0.1f)]
+        [LabelText("Spawn Interval [s]"), Min(0.1f), ShowIf(nameof(GroupSettingsMatter))]
         public float spawnInterval = 5;
 
-        [Indent, SuffixLabel("interval * (1 +- variance)", Overlay = true), Min(0)]
+        [Indent, SuffixLabel("interval * (1 +- variance)", Overlay = true), Min(0), ShowIf(nameof(GroupSettingsMatter))]
         public float spawnIntervalVariance = 0.25f;
 
         [Space] [SerializeField] List<LocationTemplateRandomSpawn> locationsToSpawn = new();
         public bool shouldAlwaysSpawnSuccessfully = true;
+        public Vector3 spawnOffsetFromSpawner = Vector3.zero;
+        public bool skipSnapToGround = false;
 
         public IEnumerable<LocationTemplateRandomSpawn> RandomLocationsToSpawn => locationsToSpawn;
+        
+        int Editor_ValidTotalSpawnCap => groupSpawnCap - randomSpawnCapIncreaseAtInstantiation;
+        public bool GroupSettingsMatter => groupSpawnCap < totalSpawnCap + randomSpawnCapIncreaseAtInstantiation;
+
+        public float GroupSpawnRadius => GroupSettingsMatter ? groupSpawnRadius : spawnRadius;
 
         [Serializable]
         public class LocationTemplateRandomSpawn {

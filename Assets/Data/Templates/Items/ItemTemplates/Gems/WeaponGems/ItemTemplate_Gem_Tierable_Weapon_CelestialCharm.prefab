@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_2e151c6f2c449e14d92cb014cfd397dd
-  EDITOR_bakedDescription: Increases Spell Power by 2%.
+  EDITOR_bakedDescription: "Increases Spell Power by 7\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 1d861e7b969aa8a4a8662daaecf37750
       subObjectName: 
 --- !u!114 &2171448430345750879
@@ -169,8 +173,10 @@ MonoBehaviour:
       _guid: e699a32c4d76b8b48aa933b6586a5bca
     variables:
     - name: ModifyValue
-      value: 0.02
+      value: 0.07
     - name: GainValue
+      value: 0.007
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

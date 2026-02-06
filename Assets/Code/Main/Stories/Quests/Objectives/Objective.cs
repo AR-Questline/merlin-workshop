@@ -19,6 +19,7 @@ using Awaken.TG.Main.Stories.Quests.Objectives.Effectors;
 using Awaken.TG.Main.Stories.Quests.Objectives.Specs;
 using Awaken.TG.Main.Stories.Quests.Objectives.Trackers;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.Main.Utility.Tags;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
@@ -29,9 +30,11 @@ using Awaken.TG.Utility;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Collections;
+using Awaken.Utility.Debugging;
 using Awaken.Utility.Extensions;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using NUnit.Framework;
 
 namespace Awaken.TG.Main.Stories.Quests.Objectives {
     public partial class Objective : Element<Quest>, IRefreshedByAttachment<ObjectiveSpecBase> {
@@ -135,7 +138,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
             if (State == ObjectiveState.Active) {
                 TryAttachPresenceTracker(false);
             }
-            ExperiencePoints = QuestUtils.CalculateXp(TargetLevel, _specForInit.ExperienceGainRange, _specForInit.ExperiencePoints);
+            ExperiencePoints = QuestUtils.CalculateXp(TargetLevel, _specForInit.ExperienceGainRange, _specForInit.ExperiencePoints, true);
             ParentModel.ListenTo(QuestUtils.Events.ObjectiveChanged, OnObjectiveChange, this);
             
             World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.SafeAfterSceneChanged, this, OnSceneChanged);
@@ -162,6 +165,9 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
             var loading = World.Any<LoadingScreenUI>();
             if (loading) {
                 await AsyncUtil.WaitForDiscard(loading);
+                if (HasBeenDiscarded) {
+                    return;
+                }
                 if (State == ObjectiveState.Active) {
                     TryAttachPresenceTracker();
                 }
@@ -268,7 +274,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
         }
 
         void UpdateMapMarkers() {
-            if (!ParentModel.ShowQuestMarkers) {
+            if (HasBeenDiscarded || !ParentModel.ShowQuestMarkers) {
                 return;
             }
 
@@ -285,6 +291,10 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
                 
                 var targets = GetTargets(MarkersData[i], Hero.Current, currentScene);
                 foreach (var target in targets) {
+                    if (target is not { HasBeenDiscarded: false, IsFullyInitialized: true }) {
+                        Log.Important?.Error($"Target {target} for objective {LogUtils.GetDebugName(this)} is not valid: discarded={target?.HasBeenDiscarded}, initialized={target?.IsFullyInitialized}");
+                        return;
+                    }
                     int order = ParentModel.IsTracked ? MapMarkerOrder.TrackedQuest.ToInt() : MapMarkerOrder.Quest.ToInt();
                     var icon = QuestMarker.GetCompassMarkerIcon(target, ParentModel.IsTracked, ParentModel.QuestType);
                     if (target.TryGetElement(out LocationArea area)) {
@@ -499,7 +509,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
             public bool MarkerVisible => !IsMarkerRelatedToStory || RelatedStoryFlag.Get();
             public bool HasSetupMarker => LocationReference is { IsSet: true } && TargetScene is { IsSet: true };
 
-            public SceneReference OpenWorldScene => ScenesCache.Get.GetOpenWorldRegion(TargetScene);
+            public SceneReference OpenWorldScene => TargetScene is { IsSet: true } target ? ScenesCache.Get.GetOpenWorldRegion(target) : null;
             
             public MarkerData(bool isMarkerRelatedToStory, FlagLogic relatedStoryFlag, LocationReference locationReference, SceneReference targetScene) {
                 IsMarkerRelatedToStory = isMarkerRelatedToStory;

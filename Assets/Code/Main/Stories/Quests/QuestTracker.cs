@@ -8,6 +8,7 @@ using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Maps.Markers;
 using Awaken.TG.Main.Stories.Quests.Objectives;
 using Awaken.TG.Main.Stories.Quests.UI;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
@@ -21,12 +22,12 @@ using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.LowLevel.Collections;
-using Unity.Collections;
 
 namespace Awaken.TG.Main.Stories.Quests {
     [SpawnsView(typeof(VQuestTracker))]
     public partial class QuestTracker : Element<Hero>, IUIPlayerInput {
         public override ushort TypeForSerialization => SavedModels.QuestTracker;
+        public bool IsValid => this.IsValidForUIHandle();
 
         readonly List<Quest3DMarker> _3dMarkersBuffer = new();
         readonly List<QuestMarker> _markersBuffer = new();
@@ -45,11 +46,7 @@ namespace Awaken.TG.Main.Stories.Quests {
         }
         
         // === Initialization
-        protected override void OnInitialize() {
-            this.ListenTo(Model.Events.AfterFullyInitialized, Init, this);
-        }
-
-        void Init() {
+        protected override void OnFullyInitialized() {
             World.Only<PlayerInput>().RegisterPlayerInput(this, this);
             World.EventSystem.ListenTo(EventSelector.AnySource, QuestUtils.Events.QuestStateChanged, this, QuestStateChanged);
             World.EventSystem.ListenTo(EventSelector.AnySource, QuestUtils.Events.ObjectiveChanged, this, OnObjectiveStateChanged);
@@ -90,6 +87,7 @@ namespace Awaken.TG.Main.Stories.Quests {
                 if (viableQuest != null) {
                     ToggleActiveQuest(viableQuest);
                 }
+                UpdateMarkers(ActiveQuest);
             }
         }
         
@@ -143,7 +141,7 @@ namespace Awaken.TG.Main.Stories.Quests {
                 }
             }
 
-            foreach (var index in usedMask.EnumerateOnes()) {
+            foreach (var index in usedMask.EnumerateOnesReversed()) {
                 currentTrackers.At(index).TryToDiscard();
             }
         }

@@ -22,9 +22,5 @@ namespace Awaken.TG.Main.Stories.Quests {
             this.isNumberVisible = isNumberVisible;
             this.questIcon = questIcon.Get();
         }
-
-        protected override void OnDiscard(bool fromDomainDrop) {
-            questIcon.Release();
-        }
     }
 }

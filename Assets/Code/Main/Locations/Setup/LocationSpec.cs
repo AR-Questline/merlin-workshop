@@ -13,16 +13,17 @@ using Awaken.TG.MVC;
 using Awaken.TG.Utility.Attributes.Tags;
 using Awaken.Utility.GameObjects;
 using Awaken.TG.Main.Fights.NPCs;
-using Awaken.TG.Main.Heroes.CharacterSheet;
 using Awaken.TG.Main.Locations.Views;
+using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Templates.Attachments;
 using Awaken.TG.Main.Utility.RichEnums;
+using Awaken.TG.MVC.Utils;
 using Awaken.Utility;
 using Awaken.Utility.Collections;
+using Awaken.Utility.Debugging;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Pool;
 #if UNITY_EDITOR
 using UnityEditor;
 using Awaken.TG.Main.Locations.Setup.Editor;
@@ -40,9 +41,61 @@ namespace Awaken.TG.Main.Locations.Setup {
         [FoldoutGroup("Design"), RichEnumExtends(typeof(LocationInteractability))]
         public RichEnumReference startInteractabilityReference;
 
-        [FoldoutGroup("Prefab"), HideIf("@gameObject.isStatic || " + nameof(_hidableStatic)),
+        [SerializeField, FoldoutGroup("Prefab"), HideIf("@gameObject.isStatic || " + nameof(_hidableStatic))]
+        List<ConditionalPrefab> conditionalPrefabReferences;
+        
+        [Serializable]
+        public struct ConditionalPrefab {
+            [Tags(TagsCategory.Flag)] 
+            public string requiredFlag;
+            public LastOpenWorldUtils.Worlds onlyOnSpecificWorlds;
+            [ARAssetReferenceSettings(new[] { typeof(GameObject) }, true, AddressableGroup.Locations)]
+            public ARAssetReference location;
+
+            public bool ConditionsSecured() {
+                bool anyCondition = false;
+                if (!string.IsNullOrWhiteSpace(requiredFlag)) {
+                    anyCondition = true;
+                    if (!StoryFlags.Get(requiredFlag)) {
+                        return false;
+                    }
+                }
+                if (onlyOnSpecificWorlds != LastOpenWorldUtils.Worlds.None) {
+                    anyCondition = true;
+                    if (!LastOpenWorldUtils.WasLastOne(onlyOnSpecificWorlds)) {
+                        return false;
+                    }
+                }
+                if (anyCondition) {
+                    return true;
+                } else {
+                    Log.Important?.Error($"No conditions for conditional visual prefab in {this}");
+                    return false;
+                }
+            }
+        }
+
+        [SerializeField, FoldoutGroup("Prefab"), HideIf("@gameObject.isStatic || " + nameof(_hidableStatic)),
          ARAssetReferenceSettings(new[] { typeof(GameObject) }, true, AddressableGroup.Locations)]
-        public ARAssetReference prefabReference;
+        ARAssetReference prefabReference;
+        
+        public ARAssetReference PrefabReference {
+            get {
+                if (conditionalPrefabReferences.IsNullOrEmpty()) {
+                    return prefabReference;
+                }
+                
+                foreach (var conditionalLocation in conditionalPrefabReferences) {
+                    if (conditionalLocation.ConditionsSecured()) {
+                        return conditionalLocation.location;
+                    }
+                }
+                
+                return prefabReference;
+            }
+            
+            set => prefabReference = value;
+        }
 
         [FoldoutGroup("Prefab"), LabelText("Snap To Ground On Spawn")]
         public bool snapToGround = true;
@@ -187,7 +240,7 @@ namespace Awaken.TG.Main.Locations.Setup {
         }
 
         void ValidateStaticState() {
-            if (prefabReference is not { IsSet: true }) {
+            if (PrefabReference is not { IsSet: true }) {
                 if (IsHidableStatic) {
                     UpdateStaticState(false);
                     autoConvertToStatic = false;
@@ -209,8 +262,15 @@ namespace Awaken.TG.Main.Locations.Setup {
         }
 
         void ValidatePrefabReference() {
-            if ((gameObject.isStatic || IsHidableStatic) && prefabReference is { IsSet: true }) {
-                prefabReference = null;
+            bool isStaticOrHidableStatic = gameObject.isStatic || IsHidableStatic;
+            
+            if (isStaticOrHidableStatic) {
+                conditionalPrefabReferences?.Clear();
+                EditorUtility.SetDirty(gameObject);
+            }
+
+            if (isStaticOrHidableStatic && PrefabReference is { IsSet: true }) {
+                PrefabReference = null;
                 EditorUtility.SetDirty(gameObject);
             }
         }
@@ -247,15 +307,15 @@ namespace Awaken.TG.Main.Locations.Setup {
         public bool TryGetGuid(out string guid) {
             var npcAttachment = GetComponentInChildren<NpcAttachment>();
             if (npcAttachment != null) {
-                return TryGetGuidFrom(npcAttachment.VisualPrefab, out guid);
+                return TryGetGuidFrom(npcAttachment.VisualPrefab(), out guid);
             }
 
             var npcPresenceAttachment = GetComponentInChildren<NpcPresenceAttachment>();
             if (npcPresenceAttachment != null) {
-                return TryGetGuidFrom(npcPresenceAttachment.Template?.GetComponentInChildren<NpcAttachment>()?.VisualPrefab, out guid);
+                return TryGetGuidFrom(npcPresenceAttachment.Template?.GetComponentInChildren<NpcAttachment>()?.VisualPrefab(), out guid);
             }
 
-            return TryGetGuidFrom(prefabReference, out guid);
+            return TryGetGuidFrom(PrefabReference, out guid);
 
             static bool TryGetGuidFrom(ARAssetReference reference, out string guid) {
                 var result = reference is { IsSet: true };

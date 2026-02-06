@@ -15,8 +15,10 @@ using Awaken.TG.Main.Heroes.Items.Gems;
 using Awaken.TG.Main.Heroes.Items.Tooltips;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Setup;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Skills;
+using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Tags;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Templates.Attachments;
@@ -44,7 +46,8 @@ namespace Awaken.TG.Main.Heroes.Items {
         // === Unity editor fields
         [Tags(TagsCategory.Item), PropertyOrder(0), HideLabel, Space]
         public string[] tags = Array.Empty<string>();
-
+        [SerializeField]
+        public List<ConditionalIcon> conditionalIconReference;
         [IconRenderingSettings, ShowAssetPreview, ARAssetReferenceSettings(new[] {typeof(Texture2D), typeof(Sprite)}, true, AddressableGroup.ItemsIcons), PropertyOrder(0)]
         public ShareableSpriteReference iconReference;
         [LocStringCategory(Category.Item), PropertyOrder(0), HideLabel]
@@ -116,7 +119,11 @@ namespace Awaken.TG.Main.Heroes.Items {
         [SerializeField, PropertyOrder(10), HideIf(nameof(IsAbstract)), PropertySpace(0, 15)]
         [ARAssetReferenceSettings(new[] {typeof(GameObject)}, true, AddressableGroup.DroppableItems), ValidateInput(nameof(ValidDropPrefab), "Drop prefab must have a collider")]
         ShareableARAssetReference shareableDropPrefab;
-
+        [SerializeField, PropertyOrder(10), HideIf(nameof(IsAbstract)), PropertySpace(0, 15)]
+        [ARAssetReferenceSettings(new[] {typeof(GameObject)}, true, AddressableGroup.DroppableItems), ValidateInput(nameof(ValidPickablePrefab), "Pickable prefab must have a collider")]
+        ShareableARAssetReference overridenPickablePrefab;
+        
+        
         Cached<ItemTemplate, List<string>> _tags = new(static template => template.WithAbstractTags(template.tags ?? Enumerable.Empty<string>()));
         public ICollection<string> Tags => _tags.Get(this);
         public ICollection<string> EditorTagsNoRefresh => _tags.GetNoRefresh(this);
@@ -135,8 +142,8 @@ namespace Awaken.TG.Main.Heroes.Items {
         public ItemQuality Quality => quality.EnumAs<ItemQuality>() ?? ItemQuality.Normal;
         public IEnumerable<Keyword> Keywords => keywords.Select(k => k.EnumAs<Keyword>());
         public bool CanStack => canStack;
-        public bool CanHaveItemLevel => IsEquippable && !IsArrow && !IsThrowable;
-        public int LevelBonus => CanHaveItemLevel ? levelBonus : 0;
+        public bool CanHaveItemLevel => IsGem || IsEquippable && !IsArrow && !IsThrowable && (!IsConsumable || IsDish || IsPotion);
+        public int LevelBonus => CanHaveItemLevel ? levelBonus + NewGamePlusSystem.CalculatedBonusItemLevel : 0;
         public int BasePrice => basePrice;
         public float BuyPrice => (overrideBuyPrice ? buyPrice : basePrice) * BuyPriceMultiplier;
         public float PriceLevelMultiplier => priceLevelMultiplier;
@@ -147,7 +154,7 @@ namespace Awaken.TG.Main.Heroes.Items {
 
         public bool CannotBeDropped => cannotBeDropped;
         public bool HiddenOnUI => hiddenOnUI;
-        public bool VisibleOnUIForLoadout => !hiddenOnUI || visibleOnUIForLoadout;
+        public bool VisibleOnUIForLoadout => visibleOnUIForLoadout;
         public CrimeItemValue CrimeValue => crimeItemValue;
         public bool IsArmor => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractArmor);
         public bool IsLightArmor => IsArmor && this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractLightWeight);
@@ -168,6 +175,9 @@ namespace Awaken.TG.Main.Heroes.Items {
         public bool IsShield => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractShield);
         public bool IsRod => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractRod);
         public bool IsRanged => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractWeaponRanged);
+        public bool IsShortBow => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractShortBow);
+        public bool IsMediumBow => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractMediumBow);
+        public bool IsHeavyBow => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractHeavyBow);
         public bool IsArrow => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractArrow);
         public bool IsThrowable => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractThrowable);
         public bool IsSpectralWeapon => TagUtils.HasRequiredTag(Tags, "weapons:spectral");
@@ -223,7 +233,27 @@ namespace Awaken.TG.Main.Heroes.Items {
         
         public PooledList<ItemTemplate> AbstractTypes => this.Abstracts<ItemTemplate>();
         public ShareableARAssetReference DropPrefab => shareableDropPrefab;
-        public ShareableSpriteReference IconReference => iconReference;
+        public ShareableARAssetReference PickablePrefab => overridenPickablePrefab is { IsSet: true } ? overridenPickablePrefab : shareableDropPrefab;
+        public bool CanParryMagicProjectiles => TagUtils.HasRequiredTag(Tags, "item:parriesMagicProjectiles");
+        
+        public ShareableSpriteReference IconReference() {
+            if (conditionalIconReference.IsNullOrEmpty()) {
+                return iconReference;
+            }
+            
+            foreach (var conditionalIcon in conditionalIconReference) {
+                if (string.IsNullOrEmpty(conditionalIcon.requiredFlag)) {
+                    Log.Important?.Error($"No flag for conditional icon in {this}");
+                    continue;
+                }
+                
+                if (StoryFlags.Get(conditionalIcon.requiredFlag)) {
+                    return conditionalIcon.icon;
+                }
+            }
+
+            return iconReference;
+        }
 
         public T GetAttachment<T>() {
             return GetComponent<T>();
@@ -290,6 +320,14 @@ namespace Awaken.TG.Main.Heroes.Items {
             } 
             
             return new ItemUpgradeConfigData(ingredients, currencyPerLevel);
+        }
+
+        [Serializable]
+        public struct ConditionalIcon {
+            [Tags(TagsCategory.Flag)] 
+            public string requiredFlag;
+            [IconRenderingSettings, ShowAssetPreview, ARAssetReferenceSettings(new[] { typeof(Texture2D), typeof(Sprite) }, true, AddressableGroup.ItemsIcons), PropertyOrder(0)]
+            public ShareableSpriteReference icon;
         }
         
         float ResolveBuyPriceMultiplier() {
@@ -369,10 +407,19 @@ namespace Awaken.TG.Main.Heroes.Items {
         bool ValidDropPrefab() {
             bool validDropPrefab = shareableDropPrefab is {IsSet: true};
             if (IsAbstract) return !validDropPrefab;
-            
-#if UNITY_EDITOR
             if (!validDropPrefab) return false;
-            var reference = shareableDropPrefab.Get();
+            return ValidatePrefab(shareableDropPrefab);
+        }
+
+        bool ValidPickablePrefab() {
+            bool validPickablePrefab = overridenPickablePrefab is {IsSet: true};
+            if (!validPickablePrefab) return true; // No pickable prefab set, so we can use the drop prefab
+            return ValidatePrefab(overridenPickablePrefab);
+        }
+
+        static bool ValidatePrefab(ShareableARAssetReference arAssetReference) {
+#if UNITY_EDITOR
+            var reference = arAssetReference.Get();
             var instance = reference.EditorLoad<GameObject>();
             if (instance == null) {
                 return false;
@@ -384,7 +431,7 @@ namespace Awaken.TG.Main.Heroes.Items {
             }
 #endif
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            return validDropPrefab;
+            return true;
         }
 
         // === Possible Attachments (EDITOR)
@@ -415,7 +462,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         }
 
         // === Icon renderer (EDITOR)
-        ShareableSpriteReference IIconized.GetIconReference() => IconReference;
+        ShareableSpriteReference IIconized.GetIconReference() => IconReference();
         void  IIconized.SetIconReference(ShareableSpriteReference iconRef) => this.iconReference = iconRef;
         
         GameObject IIconized.InstantiateProp(Transform parent) {

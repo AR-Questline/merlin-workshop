@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_restorepercentofmaxstat
       ID: Template/description_locString_2543871262668956605_f9c36d379b9b9bc4fa6a5df6a5afdcea
-  EDITOR_bakedDescription: Restores 80% Mana.
+  EDITOR_bakedDescription: "Restores 80\_% Mana."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,13 +193,6 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:MaxMana
-    datums: []
-    templates: []
-    assetReferences: []
-  - skillGraphRef:
-      _guid: 044ae51b997dbfd4daa7ec3c4051d2a0
-    variables: []
-    enums: []
     datums: []
     templates: []
     assetReferences: []

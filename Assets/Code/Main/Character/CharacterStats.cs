@@ -1,14 +1,13 @@
-﻿using Awaken.TG.Main.General.Configs;
+﻿using System.Collections.Generic;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Stats;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
-using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Character {
     /// <summary>
@@ -48,6 +47,10 @@ namespace Awaken.TG.Main.Character {
 
         public Stat Level { get; private set; }
         public Stat TalentPoints { get; private set; }
+        public Stat CatalystTalentPoints { get; private set; }
+        public Stat SarrasMageTalentPoints { get; private set; }
+        public Stat SarrasRogueTalentPoints { get; private set; }
+        public Stat SarrasWarriorTalentPoints { get; private set; }
         public Stat BaseStatPoints { get; private set; }
         
         public LimitedStat Stamina { get; private set; }
@@ -75,7 +78,6 @@ namespace Awaken.TG.Main.Character {
         public Stat ConsumableHealingBonus { get; private set; }
         public Stat PotionHealingBonus { get; private set; }
 
-        public LimitedStat Evasion { get; private set; }
         public Stat Resistance { get; private set; }
         public Stat LifeSteal { get; private set; }
         
@@ -115,14 +117,70 @@ namespace Awaken.TG.Main.Character {
         //spell
         public LimitedStat SpellChargeSpeed { get; private set; }
         public LimitedStat DeflectPrecision { get; private set; }
-        
+
+        IEnumerable<Stat> AllStats() {
+            yield return Level;
+            yield return TalentPoints;
+            yield return CatalystTalentPoints;
+            yield return SarrasMageTalentPoints;
+            yield return SarrasRogueTalentPoints;
+            yield return SarrasWarriorTalentPoints;
+            yield return BaseStatPoints;
+            yield return MaxStamina;
+            yield return Stamina;
+            yield return StaminaRegen;
+            yield return StaminaUsageMultiplier;
+            yield return SprintCostMultiplier;
+            yield return MaxMana;
+            yield return Mana;
+            yield return ManaUsageMultiplier;
+            yield return ManaRegen;
+            yield return ManaRegenPercentage;
+            yield return ManaShield;
+            yield return ManaShieldRetaliation;
+            yield return MeleeRetaliation;
+            yield return MovementSpeedMultiplier;
+            yield return Strength;
+            yield return StrengthLinear;
+            yield return IncomingDamage;
+            yield return IncomingHealing;
+            yield return ConsumableHealingBonus;
+            yield return PotionHealingBonus;
+            yield return Resistance;
+            yield return LifeSteal;
+            yield return BuffStrength;
+            yield return BuffDuration;
+            yield return DebuffStrength;
+            yield return DebuffDuration;
+            yield return MeleeDamageMultiplier;
+            yield return OneHandedMeleeDamageMultiplier;
+            yield return TwoHandedMeleeDamageMultiplier;
+            yield return UnarmedMeleeDamageMultiplier;
+            yield return RangedDamageMultiplier;
+            yield return MagicStrength;
+            yield return HoldBlockCostReduction;
+            yield return AttackSpeed;
+            yield return BowDrawSpeed;
+            yield return OneHandedLightAttackSpeed;
+            yield return OneHandedHeavyAttackSpeed;
+            yield return TwoHandedLightAttackSpeed;
+            yield return TwoHandedHeavyAttackSpeed;
+            yield return DualHandedLightAttackSpeed;
+            yield return DualHandedHeavyAttackSpeed;
+            yield return FistLightAttackSpeed;
+            yield return FistHeavyAttackSpeed;
+            yield return BlockPrepareSpeed;
+            yield return SpellChargeSpeed;
+            yield return DeflectPrecision;
+        }
+
         // === Events
         public new static class Events {
             public static readonly Event<ICharacter, CharacterStats> FightStatsAdded = new(nameof(FightStatsAdded));
         }
 
         protected override void OnInitialize() {
-            _wrapper.Initialize(this);
+            _wrapper.Initialize(this, ParentModel.HeroLevelAtInitialization);
             ParentModel.ListenTo(Stat.Events.ChangingStat(CharacterStatType.Stamina), OnStaminaChangeHook, this);
             ParentModel.Trigger(Events.FightStatsAdded, this);
         }
@@ -138,6 +196,16 @@ namespace Awaken.TG.Main.Character {
         public static void Create(ICharacter character) {
             CharacterStats stats = new();
             character.AddElement(stats);
+        }
+        
+        public void RecalculateAllStats(int previousHereLevel, int newHeroLevel, bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this, previousHereLevel);
+            }
+            _wrapper.Initialize(this, newHeroLevel);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
         }
 
         public LimitedStat SelectAttackSpeed(Item item, bool isHeavyAttack) =>
@@ -155,12 +223,16 @@ namespace Awaken.TG.Main.Character {
         // === Persistence
 
         void OnBeforeWorldSerialize() {
-            _wrapper.PrepareForSave(this);
+            _wrapper.PrepareForSave(this, ParentModel.HeroLevelAtInitialization);
         }
         
         public interface ITemplate {
             int Level { get; }
             int TalentPoints { get; }
+            int CatalystTalentPoints { get; }
+            int SarrasMageTalentPoints { get; }
+            int SarrasRogueTalentPoints { get; }
+            int SarrasWarriorTalentPoints { get; }
             int BaseStatPoints { get; }
             
             int MaxStamina { get; }
@@ -175,7 +247,6 @@ namespace Awaken.TG.Main.Character {
             float Strength { get; }
             float StrengthLinear { get; }
 
-            float Evasion { get; }
             float Resistance { get; }
         }
         
@@ -189,6 +260,10 @@ namespace Awaken.TG.Main.Character {
 
             [Saved(0f)] float LevelDif;
             [Saved(0f)] float TalentPointsDif;
+            [Saved(0f)] float CatalystTalentPointsDif;
+            [Saved(0f)] float SarrasMageTalentPointsDif;
+            [Saved(0f)] float SarrasRogueTalentPointsDif;
+            [Saved(0f)] float SarrasWarriorTalentPointsDif;
             [Saved(0f)] float BaseStatPointsDif;
             
             [Saved(0f)] float StaminaDif;
@@ -217,7 +292,6 @@ namespace Awaken.TG.Main.Character {
             [Saved(0f)] float ConsumableHealingBonusDif;
             [Saved(0f)] float PotionHealingBonusDif;
 
-            [Saved(0f)] float EvasionDif;
             [Saved(0f)] float ResistanceDif;
             [Saved(0f)] float LifeStealDif;
 
@@ -259,15 +333,22 @@ namespace Awaken.TG.Main.Character {
             //deflect
             [Saved(0f)] float DeflectPrecisionDif;
 
-            public void Initialize(CharacterStats stats) {
+            public void Initialize(CharacterStats stats, int heroLevel) {
                 ICharacter character = stats.ParentModel;
                 ITemplate template = character.CharacterStatsTemplate;
+
+                int ngLevel = character.NewGamePlusLevel;
+                NewGamePlusSystem.GetAllCharacterStats(template, ngLevel, heroLevel, out var stamina);
                 
                 stats.Level = new Stat(character, CharacterStatType.Level, template.Level + LevelDif);
                 stats.TalentPoints = new Stat(character, CharacterStatType.TalentPoints, template.TalentPoints + TalentPointsDif);
+                stats.CatalystTalentPoints = new Stat(character, CharacterStatType.CatalystTalentPoints, template.CatalystTalentPoints + CatalystTalentPointsDif);
+                stats.SarrasMageTalentPoints = new Stat(character, CharacterStatType.SarrasMageTalentPoints, template.SarrasMageTalentPoints + SarrasMageTalentPointsDif);
+                stats.SarrasRogueTalentPoints = new Stat(character, CharacterStatType.SarrasRogueTalentPoints, template.SarrasRogueTalentPoints + SarrasRogueTalentPointsDif);
+                stats.SarrasWarriorTalentPoints = new Stat(character, CharacterStatType.SarrasWarriorTalentPoints, template.SarrasWarriorTalentPoints + SarrasWarriorTalentPointsDif);
                 stats.BaseStatPoints = new Stat(character, CharacterStatType.BaseStatPoints, template.BaseStatPoints + BaseStatPointsDif);
 
-                stats.MaxStamina = new Stat(character, CharacterStatType.MaxStamina, template.MaxStamina + MaxStaminaDif);
+                stats.MaxStamina = new Stat(character, CharacterStatType.MaxStamina, stamina + MaxStaminaDif);
                 stats.Stamina = new LimitedStat(character, CharacterStatType.Stamina, stats.MaxStamina + StaminaDif, 0, CharacterStatType.MaxStamina);
                 stats.StaminaRegen = new Stat(character, CharacterStatType.StaminaRegen, template.StaminaRegen + StaminaRegenDif);
                 stats.StaminaUsageMultiplier = new Stat(character, CharacterStatType.StaminaUsageMultiplier, template.StaminaUsageMultiplier + StaminaUsageMultiplierDif);
@@ -293,7 +374,6 @@ namespace Awaken.TG.Main.Character {
                 stats.PotionHealingBonus = new Stat(character, CharacterStatType.PotionHealingBonus, DefaultMultiplier + PotionHealingBonusDif);
 
                 stats.Resistance = new Stat(character, CharacterStatType.Resistance, template.Resistance + ResistanceDif);
-                stats.Evasion = new LimitedStat(character, CharacterStatType.Evasion, template.Evasion + EvasionDif, 0, World.Services.Get<GameConstants>().evasionCap);
                 stats.LifeSteal = new Stat(character, CharacterStatType.LifeSteal, LifeStealDif);
                 
                 stats.BuffStrength = new LimitedStat(character, CharacterStatType.BuffStrength, DefaultMultiplier + BuffStrengthDif, 0, MaxLimitStatMax);
@@ -325,14 +405,22 @@ namespace Awaken.TG.Main.Character {
                 stats.HoldBlockCostReduction = new LimitedStat(character, CharacterStatType.HoldBlockCostReduction, DefaultMultiplier + HoldBlockCostReductionDif, 0, 1);
             }
 
-            public void PrepareForSave(CharacterStats characterStats) {
-                ITemplate template = characterStats.ParentModel.CharacterStatsTemplate;
+            public void PrepareForSave(CharacterStats characterStats, int heroLevel) {
+                ICharacter character = characterStats.ParentModel;
+                ITemplate template = character.CharacterStatsTemplate;
+                
+                int ngLevel = character.NewGamePlusLevel;
+                NewGamePlusSystem.GetAllCharacterStats(template, ngLevel, heroLevel, out var stamina);
                 
                 LevelDif = characterStats.Level.ValueForSave - template.Level;
                 TalentPointsDif = characterStats.TalentPoints.ValueForSave - template.TalentPoints;
+                CatalystTalentPointsDif = characterStats.CatalystTalentPoints.ValueForSave - template.CatalystTalentPoints;
+                SarrasMageTalentPointsDif = characterStats.SarrasMageTalentPoints.ValueForSave - template.SarrasMageTalentPoints;
+                SarrasRogueTalentPointsDif = characterStats.SarrasRogueTalentPoints.ValueForSave - template.SarrasRogueTalentPoints;
+                SarrasWarriorTalentPointsDif = characterStats.SarrasWarriorTalentPoints.ValueForSave - template.SarrasWarriorTalentPoints;
                 BaseStatPointsDif = characterStats.BaseStatPoints.ValueForSave - template.BaseStatPoints;
                 
-                MaxStaminaDif = characterStats.MaxStamina.ValueForSave - template.MaxStamina;
+                MaxStaminaDif = characterStats.MaxStamina.ValueForSave - stamina;
                 StaminaDif = characterStats.Stamina.ValueForSave - characterStats.MaxStamina.ValueForSave;
                 StaminaRegenDif = characterStats.StaminaRegen.ValueForSave - template.StaminaRegen;
                 StaminaUsageMultiplierDif = characterStats.StaminaUsageMultiplier.ValueForSave - template.StaminaUsageMultiplier;
@@ -358,7 +446,6 @@ namespace Awaken.TG.Main.Character {
                 ConsumableHealingBonusDif = characterStats.ConsumableHealingBonus.ValueForSave - DefaultMultiplier;
                 PotionHealingBonusDif = characterStats.PotionHealingBonus.ValueForSave - DefaultMultiplier;
 
-                EvasionDif = characterStats.Evasion.ValueForSave - template.Evasion;
                 ResistanceDif = characterStats.Resistance.ValueForSave - template.Resistance;
                 LifeStealDif = characterStats.LifeSteal.ValueForSave;
                 

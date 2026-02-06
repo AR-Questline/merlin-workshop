@@ -1,6 +1,7 @@
 ﻿using Awaken.Utility;
 using System;
 using Awaken.TG.Utility.Attributes;
+using Awaken.Utility.Extensions;
 
 namespace Awaken.TG.MVC.Utils {
     /// <summary>
@@ -23,7 +24,7 @@ namespace Awaken.TG.MVC.Utils {
         [Saved] public string id;
         public string ID => id;
 
-        public bool IsSet => ID != null; 
+        public bool IsSet => ID.IsNullOrWhitespace() == false; 
 
         // === Constructors
 

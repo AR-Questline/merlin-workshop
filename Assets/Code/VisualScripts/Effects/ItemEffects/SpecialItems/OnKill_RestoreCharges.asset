@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: OnKill_RestoreCharges
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":34.12881,"y":-554.3195},"zoom":0.5999999,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-998.0,"y":-938.0},"guid":"cf376b13-a93f-48e1-8071-dbb660701374","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"defaultValues":{},"position":{"x":-22.0,"y":-687.0},"guid":"6bfa4264-227c-4c25-94c8-3ace3757b453","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Getters.GetManualItemCharges","$id":"11"},{"Type":"Equip","defaultValues":{},"position":{"x":-372.0,"y":-839.0},"guid":"947100fe-ed8b-4fdf-88e2-85d470e87a15","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.OnKillUnit","$id":"13"},{"chainable":false,"parameterNames":[],"member":{"name":"RestoreCharges","parameterTypes":[],"targetType":"Awaken.TG.Main.Heroes.Items.Attachments.ManualItemCharges","targetTypeName":"Awaken.TG.Main.Heroes.Items.Attachments.ManualItemCharges","$version":"A"},"defaultValues":{},"position":{"x":312.0,"y":-836.0},"guid":"11acb284-79f0-407b-bb41-73e86259bdcc","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"15"},{"sourceUnit":{"$ref":"13"},"sourceKey":"trigger","destinationUnit":{"$ref":"15"},"destinationKey":"enter","guid":"591a7169-056e-40ae-b395-19ae3aece9ca","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"manualItemCharges","destinationUnit":{"$ref":"15"},"destinationKey":"target","guid":"d0ab3455-3005-40eb-bcfd-b1dd1b06f882","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

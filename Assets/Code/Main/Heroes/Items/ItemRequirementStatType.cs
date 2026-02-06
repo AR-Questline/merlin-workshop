@@ -14,12 +14,12 @@ namespace Awaken.TG.Main.Heroes.Items {
         }
         
         public static readonly ItemRequirementStatType
-            StrengthRequired = new(nameof(StrengthRequired), LocTerms.RPGStrength, LocTerms.RPGStrengthDescription, static i => i.StatsRequirements.StrengthRequired, static () => CommonReferences.Get.strengthIcon),
-            DexterityRequired = new(nameof(DexterityRequired), LocTerms.RPGDexterity, LocTerms.RPGDexterityDescription, static i => i.StatsRequirements.DexterityRequired, static () => CommonReferences.Get.dexterityIcon),
-            SpiritualityRequired = new(nameof(SpiritualityRequired), LocTerms.RPGSpirituality, LocTerms.RPGSpiritualityDescription, static i => i.StatsRequirements.SpiritualityRequired, static () => CommonReferences.Get.spiritualityIcon),
+            StrengthRequired = new(nameof(StrengthRequired), LocTerms.RPGStrength, LocTerms.RPGStrengthDescription, static i => i.StatsRequirements?.StrengthRequired, static () => CommonReferences.Get.strengthIcon),
+            DexterityRequired = new(nameof(DexterityRequired), LocTerms.RPGDexterity, LocTerms.RPGDexterityDescription, static i => i.StatsRequirements?.DexterityRequired, static () => CommonReferences.Get.dexterityIcon),
+            SpiritualityRequired = new(nameof(SpiritualityRequired), LocTerms.RPGSpirituality, LocTerms.RPGSpiritualityDescription, static i => i.StatsRequirements?.SpiritualityRequired, static () => CommonReferences.Get.spiritualityIcon),
             
-            PerceptionRequired = new(nameof(PerceptionRequired), LocTerms.RPGPerception, LocTerms.RPGPerceptionDescription, static i => i.StatsRequirements.PerceptionRequired, static () => CommonReferences.Get.perceptionIcon),
-            EnduranceRequired = new(nameof(EnduranceRequired), LocTerms.RPGEndurance, LocTerms.RPGEnduranceDescription, static i => i.StatsRequirements.EnduranceRequired, static () => CommonReferences.Get.enduranceIcon),
-            PracticalityRequired = new(nameof(PracticalityRequired), LocTerms.RPGPracticality, LocTerms.RPGPracticalityDescription, static i => i.StatsRequirements.PracticalityRequired, static () => CommonReferences.Get.practicalityIcon);
+            PerceptionRequired = new(nameof(PerceptionRequired), LocTerms.RPGPerception, LocTerms.RPGPerceptionDescription, static i => i.StatsRequirements?.PerceptionRequired, static () => CommonReferences.Get.perceptionIcon),
+            EnduranceRequired = new(nameof(EnduranceRequired), LocTerms.RPGEndurance, LocTerms.RPGEnduranceDescription, static i => i.StatsRequirements?.EnduranceRequired, static () => CommonReferences.Get.enduranceIcon),
+            PracticalityRequired = new(nameof(PracticalityRequired), LocTerms.RPGPracticality, LocTerms.RPGPracticalityDescription, static i => i.StatsRequirements?.PracticalityRequired, static () => CommonReferences.Get.practicalityIcon);
     }
 }

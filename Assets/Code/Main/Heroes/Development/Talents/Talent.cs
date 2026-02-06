@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Linq;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights.Utils;
+using Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Subtree;
 using Awaken.TG.Main.Heroes.Skills;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Memories.FilePrefs;
 using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
@@ -13,16 +17,21 @@ using Awaken.TG.MVC.UI.Handlers.Tooltips;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Heroes.Development.Talents {
     public sealed partial class Talent : Element<TalentTable>, ISkillOwner {
         public override ushort TypeForSerialization => SavedModels.Talent;
 
+        public static ShareableSpriteReference DefaultIconReference => CommonReferences.Get.DefaultStatusFromTalentIcon;
+
         [Saved] public TalentTemplate Template { get; private set; }
         [Saved] public TalentTemplate Parent { get; private set; }
         [Saved(0)] public int Level { get; private set; }
-        
+        [Saved] public TalentSubtreeType TalentTreeBranchType { get; private set; }
+        [Saved] StatType OverrideCurrencyStat { get; set; }
+
         public int EstimatedLevel => Level + _levelToAdd;
         public string CurrentLevelDescription => Template.GetLevel(EstimatedLevel).Description(this, EstimatedLevel);
         public string NextLevelDescription => Template.GetLevel(NextLevel).Description(this, NextLevel);
@@ -43,12 +52,16 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
         
         TalentTable Table => ParentModel;
         Hero Hero => Table.Hero;
-        Stat CurrencyStat => Hero.Current.Stat(Table.TreeTemplate.CurrencyStatType);
+
+        public Stat CurrencyStat => OverrideCurrencyStat != null
+            ? Hero.Current.Stat(OverrideCurrencyStat)
+            : Hero.Current.Stat(Table.TreeTemplate.CurrencyStatType);
         
         ICharacter ISkillOwner.Character => Hero;
         int NextLevel => EstimatedLevel + 1 <= MaxLevel ? EstimatedLevel + 1 : MaxLevel;
         
         int _levelToAdd;
+        bool _markedForDiscard;
 
         public new static class Events {
             /// <summary> Internal change of Talent </summary>
@@ -58,17 +71,20 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
         
         [JsonConstructor, UnityEngine.Scripting.Preserve] Talent() { }
         
-        public Talent(TalentTemplate template) {
-            Template = template;
-        }
-        
-        public Talent(TalentTemplate template, TalentTemplate parent) {
-            Template = template;
-            Parent = parent;
+        public Talent(TalentTreeTemplate.TalentTreeNode node, TalentSubtreeType branchType, StatType currencyStat = null) {
+            Template = node.Talent;
+            Parent = node.Parent;
+            OverrideCurrencyStat = currencyStat;
+            TalentTreeBranchType = branchType;
         }
 
         protected override void OnRestore() {
             SkillInitialization.MarkForManualCustomRestore(this);
+            
+            if (_markedForDiscard) {
+                return;
+            }
+            
             LoadSave.Get.LoadSystem.AfterGameRestored(() => {
                 int diff = Level - Template.MaxLevel;
                 for (int i = 0; i < diff; i++) {
@@ -78,16 +94,40 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
                 var references = Template.GetLevel(Level).Skills;
                 SkillInitialization.ManualCustomRestore(this, references, SkillState.Learned);
             });
+
+            if (TalentTreeBranchType == null || OverrideCurrencyStat == null) {
+                var subtree = Table.TreeTemplate.TreeSubTrees
+                    .FirstOrDefault(subtree => subtree.TreeNodes
+                        .Any(node => node.Talent == Template));
+
+                if (TalentTreeBranchType == null && subtree != null) {
+                    TalentTreeBranchType = subtree.SubtreeType;
+                }
+                
+                if (OverrideCurrencyStat == null && subtree != null) {
+                    OverrideCurrencyStat = subtree.CurrencyStatType;
+                }
+            }
+            
             base.OnRestore();
         }
 
-        public void CheckTalentTree() {
-            bool found = ParentModel.TreeTemplate.Pattern.TalentNodes.Any(talentNode => talentNode.Talent == Template);
-
-            if (!found) {
-                Log.Important?.Error("Talent is not present in its saved ParentTable (see talent)", Template);
-                Log.Important?.Error("Talent is not present in its saved ParentTable (see table)", Table.TreeTemplate);
+        protected override void OnFullyInitialized() {
+            base.OnFullyInitialized();
+            if (_markedForDiscard) {
+                DiscardAfterOneFrame().Forget();
             }
+        }
+
+        public bool CheckTalentTree() {
+            bool found = ParentModel.TreeTemplate.TalentNodes.Any(talentNode => talentNode.Talent == Template);
+#if UNITY_EDITOR
+            if (!found) {
+                Log.Important?.Error($"Talent is not present in its saved ParentTable (see talent {Template.GUID} {Template.Name})", Template);
+                Log.Important?.Error($"Talent is not present in its saved ParentTable (see table {Table.TreeTemplate.GUID} {Table.TreeTemplate.Name})", Table.TreeTemplate);
+            }
+#endif
+            return found;
         }
 
         public bool CanAcquireNextLevel(out AcquiringProblem problem) {
@@ -137,11 +177,9 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
             return true;
         }
 
-        void RefreshSkills() {
+        public void RefreshSkills() {
             RemoveCurrentSkills();
-            foreach (var reference in Template.GetLevel(Level).Skills) {
-                AddElement(reference.CreateSkill()).Learn();
-            }
+            ApplyCurrentSkills();
         }
 
         public void ApplyTemporaryLevels() {
@@ -175,10 +213,12 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
             this.Trigger(Events.TalentChanged, this);
         }
         
-        public void Reset() {
+        public void Reset(bool withRefund = true) {
             if (Level <= 0) return;
-            
-            CurrencyStat.IncreaseBy(Level);
+
+            if (withRefund) {
+                CurrencyStat.IncreaseBy(Level);
+            }
             Table.PointsSpent -= Level;
             Level = 0;
             
@@ -186,8 +226,36 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
             this.Trigger(Events.TalentChanged, this);
         }
 
-        void RemoveCurrentSkills() {
+        public void MarkForDiscard() {
+            if (IsFullyInitialized) {
+                RemoveTalentAndReturnResources();
+                return;
+            }
+            _markedForDiscard = true;
+        }
+
+        public void RemoveCurrentSkills() {
             RemoveElementsOfType<Skill>();
+        }
+        
+        void ApplyCurrentSkills() {
+            foreach (var reference in Template.GetLevel(Level).Skills) {
+                AddElement(reference.CreateSkill()).Learn();
+            }
+        }
+
+        void RemoveTalentAndReturnResources() {
+            // We cannot assume that Talent field exists here
+            Log.Important?.Error($"Talent ({ID}) is discarding and returning points to hero");
+            CurrencyStat.IncreaseBy(Level);
+            Discard();
+        }
+
+        async UniTaskVoid DiscardAfterOneFrame() {
+            if (!await AsyncUtil.DelayFrame(this)) {
+                return;    
+            }
+            RemoveTalentAndReturnResources();
         }
 
         public enum AcquiringProblem {

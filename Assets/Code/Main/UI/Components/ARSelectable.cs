@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ namespace Awaken.TG.Main.UI.Components {
     public class ARSelectable : Selectable, IUIAwareContainer {
         List<IUIAware> _listeners = new List<IUIAware>();
         public IReadOnlyList<IUIAware> UIAwares => _listeners;
+        public bool IsValid => this.IsValidForUIHandle();
         
         public void RegisterUIAware(IUIAware aware) {
             _listeners.Add(aware);

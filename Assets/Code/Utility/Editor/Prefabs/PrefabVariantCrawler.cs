@@ -129,17 +129,18 @@ namespace Awaken.Utility.Editor.Prefabs {
         
         [Serializable]
         public struct PrefabNodeData : INodeData {
-            public string Path { get; }
+            public string Path => _path;
             public GameObject Prefab {
                 get => _prefab;
                 set => _prefab = value;
             }
 
             [SerializeField] GameObject _prefab;
+            [SerializeField] string _path;
 
             public PrefabNodeData(string path) {
-                Path = path;
-                _prefab = AssetDatabase.LoadAssetAtPath<GameObject>(Path);
+                _path = path;
+                _prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
             }
         }
         

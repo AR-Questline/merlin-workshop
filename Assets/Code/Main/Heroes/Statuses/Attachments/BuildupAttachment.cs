@@ -15,8 +15,12 @@ namespace Awaken.TG.Main.Heroes.Statuses.Attachments {
         [FoldoutGroup("Advanced"), SerializeField, ShowIf(nameof(buildupDurationOverride))] float buildupDuration = BuildupStatus.DefaultDecayRateDuration;
         [FoldoutGroup("Advanced"), SerializeField] bool buildupGainOverride;
         [FoldoutGroup("Advanced"), SerializeField, ShowIf(nameof(buildupGainOverride))] float buildupGainMultiplier = 1f;
+        [InfoBox("Is Buff/DebuffStrength stat of Owner/Applier applied with Effect Modifier")]
+        [FoldoutGroup("Advanced"), SerializeField] bool isEffectModifierUsingStatusStrengthModifier = true;
         [InfoBox("Effect Modifier should be used to modify power of effects in VS of status,\nbut buildup decay can use it to modify it's speed if no other modification is valid.\nWorks only when status is active (to modify buildup use buildup resistance not effect modifier).")]
         [FoldoutGroup("Advanced"), SerializeField] bool isDecayUsingEffectModifier = true;
+        [InfoBox("Is Buff/DebuffDuration stat of Owner/Applier changing the decay rate of buildup")]
+        [FoldoutGroup("Advanced"), SerializeField] bool isDecayUsingStatusDurationModifier = true;
         
         public bool StartActivated => startActivated;
         public BuildupType BuildupType => buildupType;
@@ -26,7 +30,9 @@ namespace Awaken.TG.Main.Heroes.Statuses.Attachments {
         
         public float BuildupDuration => buildupDurationOverride ? buildupDuration : BuildupStatus.DefaultDecayRateDuration;
         public float BuildupGainMultiplier => buildupGainOverride ? buildupGainMultiplier : 1f;
+        public bool IsEffectModifierUsingStatusStrengthModifier => isEffectModifierUsingStatusStrengthModifier;
         public bool IsDecayUsingEffectModifier => isDecayUsingEffectModifier;
+        public bool IsDecayUsingStatusDurationModifier => isDecayUsingStatusDurationModifier;
 
         bool ShowNextStatus => buildupType == BuildupType.ChangeStatusToDifferent;
     }

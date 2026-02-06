@@ -64,13 +64,17 @@ namespace Awaken.TG.Main.Heroes.Items.Loadouts {
         public void Activate() {
             if (IsEquipped) return;
 
-            foreach (var loadout in ParentModel.Elements<HeroLoadout>()) {
-                loadout.IsEquipped = false;
-            }
+            UnequipAll();
 
             IsEquipped = true;
             using (new PostponeEquipmentChange(ParentModel)) {
                 this.EquipLoadoutItems();
+            }
+        }
+
+        public void UnequipAll() {
+            foreach (var loadout in ParentModel.Elements<HeroLoadout>()) {
+                loadout.IsEquipped = false;
             }
         }
 
@@ -93,7 +97,7 @@ namespace Awaken.TG.Main.Heroes.Items.Loadouts {
                 }
             } else {
                 ParentModel.Equip(item, slot, this);
-                if (!IsEquipped) {
+                if (!IsEquipped && !Hero.MuteEquips) {
                     item.TryGetElement<ItemEquip>()?.PlayEquipToggleSound(Hero, true);
                 }
             }

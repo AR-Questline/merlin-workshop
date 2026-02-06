@@ -6,7 +6,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorFancyPanel))]
     public class SFancyPanelEditor : ElementEditor {
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             SEditorFancyPanel sEditorFancyPanel = Target<SEditorFancyPanel>();
             DrawProperties("type");
             if (sEditorFancyPanel.type?.EnumAs<FancyPanelType>()?.UsesText ?? false) {

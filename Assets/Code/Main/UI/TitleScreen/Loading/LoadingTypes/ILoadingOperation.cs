@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Scenes.SceneConstructors;
@@ -9,6 +10,7 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
         LoadingType Type { get; }
 
         SceneReference SceneToLoad { get; }
+        IEnumerator BeforeDroppingPreviousDomains();
         /// <summary>
         /// Should be called before load
         /// </summary>

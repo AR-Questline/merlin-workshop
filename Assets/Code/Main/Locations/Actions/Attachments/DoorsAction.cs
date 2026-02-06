@@ -28,7 +28,7 @@ namespace Awaken.TG.Main.Locations.Actions.Attachments {
         Vector3 _doorsForward;
         EventReference _openSound, _closeSound;
         TemplateReference _storyOnInteract;
-        public override InfoFrame ActionFrame => new(_isClosed ? LocTerms.Open.Translate() : LocTerms.Close.Translate(), HeroHasRequiredItem());
+        protected override InfoFrame ActionFrameInternal => new(_isClosed ? LocTerms.Open.Translate() : LocTerms.Close.Translate(), HeroHasRequiredItem());
 
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         public DoorsAction() {}

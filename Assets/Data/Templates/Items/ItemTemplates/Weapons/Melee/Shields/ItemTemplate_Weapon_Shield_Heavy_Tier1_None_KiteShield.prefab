@@ -154,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: c561ac5d0fc994345a58b1d213b5a4a1
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-6662733840142004395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,8 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 20
-  heavyAttackStaminaCost: 26
+  lightAttackStaminaCost: 8
+  heavyAttackStaminaCost: 12
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 1
   parryStaminaCost: 40
@@ -210,7 +214,7 @@ MonoBehaviour:
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
   minDamage: 4
-  maxDamage: 7
+  maxDamage: 6
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-315405172239993355
 MonoBehaviour:

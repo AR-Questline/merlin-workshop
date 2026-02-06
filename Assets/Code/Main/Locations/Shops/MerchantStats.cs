@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.General.StatTypes;
+﻿using System.Collections.Generic;
+using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.MVC.Elements;
@@ -27,6 +28,13 @@ namespace Awaken.TG.Main.Locations.Shops {
         
         public CurrencyStat Wealth { get; private set; }
         public CurrencyStat Cobweb {get; private set; }
+        
+        IEnumerable<Stat> AllStats() {
+            yield return BuyModifier;
+            yield return SellModifier;
+            yield return Wealth;
+            yield return Cobweb;
+        }
 
         // === Creation
         
@@ -37,6 +45,16 @@ namespace Awaken.TG.Main.Locations.Shops {
         public static void Create(IMerchant merchant) {
             var economyStats = new MerchantStats();
             merchant.AddElement(economyStats);
+        }
+        
+        public void RecalculateAllStats(bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this);
+            }
+            _wrapper.Initialize(this);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
         }
 
         // === Persistence

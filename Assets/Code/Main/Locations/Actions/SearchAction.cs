@@ -51,7 +51,12 @@ namespace Awaken.TG.Main.Locations.Actions {
             }
         }
         
-        public override bool IsIllegal => Crime.Theft(_itemsInsideContainer[0], ParentModel).IsCrime();
+        public override bool IsIllegal {
+            get {
+                using var crime = Crime.Theft(_itemsInsideContainer[0], ParentModel);
+                return crime.IsCrime();
+            }
+        }
 
         public override InfoFrame ActionFrame => IsEmpty()
             ? new InfoFrame($"{LocTerms.Search.Translate()} ({LocTerms.Empty.Translate()})", false)
@@ -165,17 +170,11 @@ namespace Awaken.TG.Main.Locations.Actions {
                 _corpseLoot = npcElement.Template.CorpseLoot;
                 _wyrdConvertedLoot = npcElement.Template.WyrdConvertedLoot;
                 SearchAvailable = false;
-                npcElement.ListenTo(IAlive.Events.BeforeDeath, _ => {
-                    EnableSearchAfterDelay().Forget();
-                }, this);
+                npcElement.ListenTo(IAlive.Events.BeforeDeath, OnNpcDeath, this);
             }
         }
 
-        async UniTaskVoid EnableSearchAfterDelay() {
-            if (!await AsyncUtil.DelayTime(this, 0.75f)) {
-                return;
-            }
-
+        void OnNpcDeath() {
             if (_corpseLoot != null) {
                 foreach (var lootTable in _corpseLoot.WhereNotNull()) {
                     AddItemsFromLootTable(lootTable);
@@ -186,6 +185,14 @@ namespace Awaken.TG.Main.Locations.Actions {
                 foreach (var lootTable in _wyrdConvertedLoot.WhereNotNull()) {
                     AddItemsFromLootTable(lootTable);
                 }
+            }
+            
+            EnableSearchAfterDelay().Forget();
+        }
+
+        async UniTaskVoid EnableSearchAfterDelay() {
+            if (!await AsyncUtil.DelayTime(this, 0.75f)) {
+                return;
             }
             
             SetSearchAvailable(true);
@@ -279,7 +286,7 @@ namespace Awaken.TG.Main.Locations.Actions {
                     continue;
                 }
                 DroppedItemSpawner.SpawnDroppedItemPrefab(ParentModel.Coords + Vector3.up * 0.25f, itemSpawningDataRuntime.ItemTemplate, 
-                    itemSpawningDataRuntime.quantity, itemSpawningDataRuntime.itemLvl, itemSpawningDataRuntime.weightLvl, Random.rotation);
+                    itemSpawningDataRuntime.quantity, itemSpawningDataRuntime.itemLvl, itemSpawningDataRuntime.weightLvl, itemSpawningDataRuntime.newGamePlusLvl, Random.rotation);
             }
             Discard();
         }

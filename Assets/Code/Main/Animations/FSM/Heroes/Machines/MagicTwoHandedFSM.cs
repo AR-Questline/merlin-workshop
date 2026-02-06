@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         public override string ParentLayerName => LayerName;
         public override CastingHand CastingHand => CastingHand.BothHands;
         public override HeroLayerType LayerType => HeroLayerType.BothHands;
-        public override HeroStateType DefaultState => HeroStateType.EquipWeapon;
+        public override HeroStateType DefaultState => DefaultEquipState;
         public override float LightAttackCost => StatsItemStats?.LightAttackCost.ModifiedValue ?? 0;
         public override float HeavyAttackCost => StatsItemStats?.HeavyAttackCost.ModifiedValue ?? 0;
         public override float PushCost => StatsItemStats?.PushStaminaCost.ModifiedValue ?? 0;

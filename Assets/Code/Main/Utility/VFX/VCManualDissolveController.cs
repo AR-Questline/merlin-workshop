@@ -9,6 +9,7 @@ using Awaken.Utility.Extensions;
 using Awaken.Utility.Maths;
 using Awaken.Utility.SerializableTypeReference;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Utility.VFX {
@@ -19,10 +20,20 @@ namespace Awaken.TG.Main.Utility.VFX {
         public ShareableARAssetReference appearVFX;
         [ARAssetReferenceSettings(new []{typeof(GameObject)}, group: AddressableGroup.VFX)]
         public ShareableARAssetReference disappearVFX;
+        [SerializeField] bool setOnDeath = true;
+        [SerializeField, ShowIf(nameof(setOnDeath))] bool visibleOnDeath = true;
+        
+        [BoxGroup("Initial Visibility"), SerializeField] bool setInitialVisibility;
+        [BoxGroup("Initial Visibility"), SerializeField, ShowIf(nameof(setInitialVisibility))]
+        bool initialVisibility = true;
         
         protected bool _visible = true;
 
         protected override void OnAttach() {
+            if (setInitialVisibility) {
+                _visible = initialVisibility;
+            }
+            
             foreach (var dissolveAbleRenderer in renderers) {
                 if (dissolveAbleRenderer) {
                     AddRenderer(dissolveAbleRenderer);
@@ -38,6 +49,9 @@ namespace Awaken.TG.Main.Utility.VFX {
                 return;
             }
             character.ListenTo(ICharacter.Events.SwitchCharacterVisibility, SwitchVisibility, this);
+            if (setOnDeath) {
+                character.ListenTo(IAlive.Events.BeforeDeath, _ => SwitchVisibility(visibleOnDeath), this);
+            }
             if (character is NpcElement npc) {
                 npc.ListenTo(NpcElement.Events.AnimatorExitedAttackState, _ => SwitchVisibility(true), this);
             }

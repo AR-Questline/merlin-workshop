@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_DecreaseStatPercForDuration
       ID: Template/description_locString_2543871262668956605_1f3bc2d6162840e46b540e4b7eaf9561
-  EDITOR_bakedDescription: Decreases Fall Damage by 25% for 45s.
+  EDITOR_bakedDescription: "Decreases Fall Damage by 50\_% for 45s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

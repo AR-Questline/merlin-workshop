@@ -16,7 +16,8 @@ namespace Awaken.Utility.Debugging {
         static FormattedDebug s_majorFormattedDebug;
         static FormattedDebugWarning s_markingLogFormattedDebugWarning;
         static FormattedDebugCritical s_criticalFormattedDebug;
-        
+
+        public static bool disableLogs; 
         static LogType s_enabledLogs = 
 #if UNITY_EDITOR
             ~LogType.Debug;
@@ -25,7 +26,7 @@ namespace Awaken.Utility.Debugging {
 #endif
 
         static LogType LogTypeInternal {
-            get => s_enabledLogs | LogType.Critical;
+            get => disableLogs ? LogType.Never : (s_enabledLogs | LogType.Critical);
             set {
                 if (value == s_enabledLogs) return;
                 s_enabledLogs = value;
@@ -115,6 +116,8 @@ namespace Awaken.Utility.Debugging {
             public const byte GroupPatrol = 3;
             public const byte HeroMovementInvalid = 4;
             public const byte MagicaWrongRootSetup = 5;
+            public const byte DebugVFXNameSuggestor = 6;
+            public const byte ClipStateInvalid = 7;
         }
     }
 }

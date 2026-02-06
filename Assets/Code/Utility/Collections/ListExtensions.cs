@@ -17,7 +17,11 @@ namespace Awaken.Utility.Collections {
 
             return i;
         }
-        
+
+        public static bool Contains<T, TList>(this TList list, T obj) where TList : IList<T> where T : IEquatable<T> {
+            return FastIndexOf(list, obj) != -1;
+        }
+
         public static int ReverseFastIndexOf<T, TList>(this TList list, T obj) where TList : IList<T> {
             var equalityComparer = EqualityComparer<T>.Default;
             int i = list.Count-1;

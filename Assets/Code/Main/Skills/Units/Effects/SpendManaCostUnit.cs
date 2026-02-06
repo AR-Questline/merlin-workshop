@@ -56,6 +56,10 @@ namespace Awaken.TG.Main.Skills.Units.Effects {
         }
         
         protected virtual bool SpendMana(Skill skill, Stat stat, ICharacter owner, float manaCost, bool perSecond) {
+            return TrySpendMana(skill, stat, owner, manaCost, perSecond);
+        }
+
+        public static bool TrySpendMana(Skill skill, Stat stat, ICharacter owner, float manaCost, bool perSecond) {
             if (stat == null || !(stat.ModifiedValue >= manaCost)) {
                 if (owner is Hero h) {
                     h.Trigger(Hero.Events.StatUseFail, CharacterStatType.Mana);

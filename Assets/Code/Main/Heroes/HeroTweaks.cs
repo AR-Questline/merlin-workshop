@@ -83,9 +83,11 @@ namespace Awaken.TG.Main.Heroes {
                 if (valueAfterDecrease < 0) {
                     float duration = Mathf.Lerp(maxPrevent, mediumPrevent, valueAfterDecrease.Remap(maxStaminaConsumed, -1, 0, 1)) *
                                      ParentModel.Stat(HeroStatType.StaminaDepletedTimeMultiplier);
-                    PreventStaminaRegenDuration.PreventWithStatus(ParentModel, new TimeDuration(duration), new TimeDuration(duration));
+                    PreventStaminaRegenDuration.PreventWithStatus(ParentModel, StaminaRegenBlockType.Overexertion, 
+                        new TimeDuration(duration), new TimeDuration(duration));
                 } else {
-                    PreventStaminaRegenDuration.Prevent(ParentModel, new TimeDuration(value > mediumPreventAfter ? shortPrevent : mediumPrevent));
+                    PreventStaminaRegenDuration.Prevent(ParentModel, StaminaRegenBlockType.OnStaminaChange,  
+                        new TimeDuration(value > mediumPreventAfter ? shortPrevent : mediumPrevent));
                 }
             }
         }

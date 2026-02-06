@@ -18,17 +18,16 @@ namespace Awaken.TG.Main.Heroes.HUD.Bars {
 
         [SerializeField] Bar filled;
         [SerializeField] Bar glow;
-
         [SerializeField] bool unscaledTime;
-
+        
         State _state;
         float _changeTime;
-        
         DelayedValue _fillPercent;
         DelayedValue _glowPercent;
         float _glowAlpha;
-
         Hero _hero;
+
+        public RectTransform Indicator => indicator;
         Hero Hero => _hero ??= Hero.Current;
         bool IsStable => _fillPercent.IsStable && _glowPercent.IsStable;
         bool GlowHidden => _state is State.NoChange or State.ChangeNoGlow;

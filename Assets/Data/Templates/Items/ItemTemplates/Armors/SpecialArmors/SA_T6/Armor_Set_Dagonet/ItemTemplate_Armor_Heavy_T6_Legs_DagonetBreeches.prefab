@@ -77,7 +77,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_267c3b1a106a349418d9bf95e96c1d51
-  EDITOR_bakedDescription: Increases Sneak Damage by 100%.
+  EDITOR_bakedDescription: 'Stamina Regeneration is 1.
+
+    Attacks restore 50 Stamina.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &7419740545042073915
 MonoBehaviour:
@@ -243,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5117576088540074555
 MonoBehaviour:

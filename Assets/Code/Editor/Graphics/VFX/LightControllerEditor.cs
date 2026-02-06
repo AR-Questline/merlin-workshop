@@ -1,8 +1,8 @@
 using Awaken.TG.Graphics.VFX;
 using UnityEditor;
-using UnityEngine;
 
-namespace Awaken.TG.Graphics.VFX {
+namespace Awaken.TG.Editor.Graphics.VFX {
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(LightController), true)]
     public class LightControllerEditor : Sirenix.OdinInspector.Editor.OdinEditor {
         protected override void OnEnable() {
@@ -16,7 +16,11 @@ namespace Awaken.TG.Graphics.VFX {
         }
         
         void OnSelectionChanged() {
-            ((LightController)target).OnValidate();
+            foreach (var t in targets) {
+                if (t is LightController controller) {
+                    controller.OnValidate();
+                }
+            }
         }
     }
 }

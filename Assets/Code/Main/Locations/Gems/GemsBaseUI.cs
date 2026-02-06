@@ -19,6 +19,7 @@ using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.Item;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
@@ -30,6 +31,7 @@ namespace Awaken.TG.Main.Locations.Gems {
         Transform _itemsHost;
         
         protected Prompt _relicPrompt;
+        protected Prompt _selectPrompt;
         protected ItemTooltipUI _ingredientTooltipUI;
         protected ItemTooltipUI _itemTooltipUI;
         
@@ -46,7 +48,7 @@ namespace Awaken.TG.Main.Locations.Gems {
         protected Transform TooltipParent => GemsUI.TooltipParent;
         protected Transform TooltipParentStatic => GemsUI.TooltipParentStatic;
         protected Hero Hero => Hero.Current;
-        [UnityEngine.Scripting.Preserve] protected Item HoveredItem => ItemsUI?.HoveredItem;
+        protected Item HoveredItem => ItemsUI?.HoveredItem;
 
         protected virtual bool TooltipComparerActive => false;
         protected virtual int CostMultiplier => 1;
@@ -58,28 +60,35 @@ namespace Awaken.TG.Main.Locations.Gems {
         protected abstract Func<Item, bool> ItemFilter { get; }
         protected abstract void GemAction();
         
-        public IEnumerable<Item> Items => AllHeroItems.Where(ItemFilter);
+        public IEnumerable<Item> Items => HeroInventoryItems.Where(ItemFilter);
+        public IEnumerable<Item> HeroInventoryItems => Hero.HeroItems.Items;
         public IEnumerable<Item> AllHeroItems => Hero.HeroItems.Items.Concat(Hero.Storage.Items);
         public List<SimilarItemsData> SimilarItemsData { get; } = new();
         public virtual IEnumerable<CountedItem> Ingredients => null;
 
         public virtual bool UseDefaultTab => false;
-        public virtual bool UseCategoryList => false;
+        public virtual bool UseCategoryList => true;
         public virtual bool UseFilter => false;
         public virtual ItemTooltipUI ItemTooltipUI => _itemTooltipUI;
         public virtual ItemTooltipUI IngredientTooltipUI => _ingredientTooltipUI;
         public virtual Type ItemsListUIView => typeof(VItemsListDefaultUI);
         public virtual Type ItemsListElementView => typeof(VItemUpgradesElement);
+        public virtual Type ItemsCategoryListHostView => typeof(VHostItemsListWithCategory);
         public virtual int ServiceCost => ServiceBaseCost * CostMultiplier;
         public virtual int CobwebServiceCost => CobwebServiceBaseCost * CostMultiplier;
         public virtual IEnumerable<ItemsTabType> Tabs => ItemsTabType.Relics;
         public virtual string ContextTitle => LocTerms.UIItemsEmptyGemSlot.Translate();
         public Prompts Prompts => GemsUI.Prompts;
         public bool AllowMultipleClickEventsOnTheSameItem => false;
-        bool IsEmpty => !Items.Any();
+        protected bool IsEmpty => !Items.Any();
 
         readonly EventReference _audioButtonClick = CommonReferences.Get.AudioConfig.ButtonClickedSound;
-        
+
+        protected override void OnInitialize() {
+            base.OnInitialize();
+            Hero.Storage.RequestItems();
+        }
+
         public bool CanAfford(CurrencyType currencyType) {
             return currencyType == CurrencyType.Money ? HeroWealth >= ServiceCost : HeroCobweb >= CobwebServiceCost;
         }
@@ -90,17 +99,31 @@ namespace Awaken.TG.Main.Locations.Gems {
         
         protected virtual void OnItemClicked(Item item) {
             if (HasBeenDiscarded) return;
-
+            
             FMODManager.PlayOneShot(_audioButtonClick);
             RefreshPrompt(item);
             RefreshItemTooltip();
             this.Trigger(IGemBase.Events.ClickedItemChanged, item);
+        }
+        
+        protected virtual void OnItemHovered(Item item) {
+            if (HasBeenDiscarded) return;
+
+            OnGamepadSlotSelect(item);
+            this.Trigger(IGemBase.Events.HoveredItemChanged, item);
         }
 
         protected virtual void OnSelectedItemClickedAgain(Item item) { }
 
         protected virtual bool CheckIngredients() {
             return Ingredients.CheckSimilarItemsPossession(SimilarItemsData);
+        }
+        
+        protected virtual void InitPrompts() {
+            GemsUI.Prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Cancel, LocTerms.UIGenericBack.Translate(), Close, Prompt.Position.Last), this);
+            _selectPrompt = GemsUI.Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad), this, !IsEmpty);
+            _relicPrompt = GemsUI.Prompts.BindPrompt(Prompt.Tap(KeyBindings.UI.Crafting.CraftOne, GemActionName, GemAction), this, View.GemPrompt, false);
+            _relicPrompt.AddListener(this);
         }
 
         protected virtual void SpawnItemTooltip() {
@@ -118,8 +141,7 @@ namespace Awaken.TG.Main.Locations.Gems {
             ItemsUI.ListenTo(ItemsUI.Events.ClickedItemsChanged, OnItemClicked, this);
             ItemsUI.ListenTo(ItemsUI.Events.ClickedItemTriggered, OnSelectedItemClickedAgain, this);
             ItemsUI.ListenTo(ItemsUI.Events.HoveredItemsChanged, OnGamepadSlotSelect, this);
-            _relicPrompt = GemsUI.Prompts.BindPrompt(Prompt.Tap(KeyBindings.UI.Crafting.CraftOne, GemActionName, GemAction), this, View.GemPrompt, false);
-            _relicPrompt.AddListener(this);
+            InitPrompts();
             SpawnItemTooltip();
             SpawnIngredientTooltip();
             View.HideRightSide();
@@ -154,6 +176,7 @@ namespace Awaken.TG.Main.Locations.Gems {
 
         void RefreshPrompt(Item item) {
             _relicPrompt.SetActive(CanAffordAll() && CanRunAction(item));
+            _selectPrompt.SetActive(!IsEmpty);
         }
 
         protected virtual void OnGamepadSlotSelect(Item item) {
@@ -166,7 +189,7 @@ namespace Awaken.TG.Main.Locations.Gems {
         protected virtual void OnTabChanged(ItemsListUI itemsListUI) { }
         
         bool TryToDiscardListElement() {
-            if (!ItemFilter(ClickedItem)) {
+            if (ClickedItem != null && !ItemFilter(ClickedItem)) {
                 var element = ItemsUI.GetItemsListElementWithItem(ClickedItem);
                 element?.Discard(); 
                 return true;
@@ -180,7 +203,6 @@ namespace Awaken.TG.Main.Locations.Gems {
             HeroCobweb.DecreaseBy(CobwebServiceCost);
             DropIngredients();
             SimilarItemsData.FillSimilarItemsDataList(AllHeroItems);
-            this.Trigger(IGemBase.Events.GemActionPerformed, true);
         }
 
         void DropIngredients() {
@@ -206,8 +228,15 @@ namespace Awaken.TG.Main.Locations.Gems {
                 RewiredHelper.VibrateHighFreq(VibrationStrength.Medium, VibrationDuration.Short);
             }
         }
+        
+        protected virtual void Close() {
+            GemsUI.Discard();
+        }
 
         protected override void OnDiscard(bool fromDomainDrop) {
+            if (!fromDomainDrop) {
+                Hero.Storage.ReleaseItems();
+            }
             World.Only<ItemNotificationBuffer>().SuspendPushingNotifications = false;
         }
     }

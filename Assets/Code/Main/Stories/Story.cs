@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Awaken.TG.Assets;
-using Awaken.TG.Main.Character.Features;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.CharacterSheet;
@@ -22,6 +21,7 @@ using Awaken.TG.Main.Stories.Runtime.Nodes;
 using Awaken.TG.Main.Stories.Steps;
 using Awaken.TG.Main.Stories.Steps.Helpers;
 using Awaken.TG.Main.Stories.Tags;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.Popup.PopupContents;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.Animations.Gestures;
@@ -35,7 +35,6 @@ using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.MVC.UI.Sources;
 using Awaken.TG.MVC.UI.Universal;
 using Awaken.TG.MVC.Utils;
-using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Cysharp.Threading.Tasks;
 using FMOD.Studio;
@@ -51,8 +50,9 @@ namespace Awaken.TG.Main.Stories {
         public const int MaxFramesToWaitForVOBanksLoad = 30;
 
         public override Domain DefaultDomain => Domain.Gameplay;
-        public sealed override bool IsNotSaved => true;  
-        
+        public sealed override bool IsNotSaved => true;
+        public bool IsValid => this.IsValidForUIHandle();
+
         // === State
         public bool InvolveAI { get; private set; }
         public bool ManualInterruptRequested { get; set; }
@@ -144,6 +144,11 @@ namespace Awaken.TG.Main.Stories {
         }
 
         public static bool IsStorySubMenuEmpty(StoryConfig config) {
+            bool isValid = config != null && config.bookmark != null && config.bookmark.IsValid; 
+            if (!isValid) {
+                return true;
+            }
+            
             var story = new Story(config.hero);
             var guid = config.bookmark.story.GUID;
             var graph = StoryGraphRuntime.Get(guid);
@@ -156,7 +161,6 @@ namespace Awaken.TG.Main.Stories {
             if (story._graph.TryGetStart(config.bookmark, out _, out var chapter)) {
                 startingChapter = chapter.continuation;
             }
-            //story._runner.ChangeChapter(chapter);
             
             var subMenu = startingChapter?.steps?.FirstOrDefault() as SChoiceSubmenu;
             if (subMenu == null) {
@@ -271,7 +275,8 @@ namespace Awaken.TG.Main.Stories {
                     World.SpawnView(story, typeof(VModalBlocker));
                 }
 
-                story._view = World.SpawnView(story, viewType, true) as IVStoryPanel;
+                var spawnedView = World.SpawnView(story, viewType, true);
+                story._view = spawnedView as IVStoryPanel;
             }
         }
 

@@ -66,7 +66,7 @@ namespace Awaken.TG.Main.Stories.Steps {
                 actorRef = actorRef,
                 targetActorRef = targetActorRef,
                 lookAtOnlyWithHead = lookAtOnlyWithHead,
-                text = text,
+                text = parser.GetLightLocString(text),
                 gestureKey = gestureKey,
                 audioClip = audioClip,
                 hasVoice = hasVoice,
@@ -82,7 +82,7 @@ namespace Awaken.TG.Main.Stories.Steps {
         public ActorRef targetActorRef = DefinedActor.Hero.ActorRef;
         public bool lookAtOnlyWithHead;
 
-        public LocString text;
+        public LightLocString text;
         public string gestureKey;
         public EventReference audioClip;
         public bool hasVoice = true;
@@ -155,7 +155,7 @@ namespace Awaken.TG.Main.Stories.Steps {
             // Gesticulate
             string gesture = gestureKey;
             if (string.IsNullOrWhiteSpace(gesture)) {
-                gesture = text.GetSharedMetadata<GestureMetadata>()?.GestureKey ?? string.Empty;
+                gesture = text.GetGestureMetadata();
             }
             StoryAnimationData storyAnimationData = lookAtOnlyWithHead ? null : SPlayGesture.TryGetGesture(speaker, gesture, arNpcAnimancer);
             if (api is Story story) {

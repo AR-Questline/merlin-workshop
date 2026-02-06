@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Awaken.TG.Main.Fights.Utils;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
@@ -11,6 +12,7 @@ using Cysharp.Threading.Tasks;
 namespace Awaken.TG.Main.Stories.Steps.Helpers {
     public partial class HeroInvolvedInputListener : Element<Story>, IUIAware {
         public sealed override bool IsNotSaved => true;
+        public bool IsValid => this.IsValidForUIHandle();
 
         readonly CancellationTokenSource _source;
         

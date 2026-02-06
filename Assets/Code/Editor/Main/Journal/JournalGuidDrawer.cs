@@ -160,7 +160,7 @@ namespace Awaken.TG.Editor.Main.Journal {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.TextField(guid.GUID.ToString(), EditorStyles.miniLabel);
                 if (Application.isPlaying && GUILayout.Button("Unlock", GUILayout.Width(50))) {
-                    World.Any<PlayerJournal>().UnlockEntry(guid.GUID, JournalSubTabType.Characters);
+                    World.Any<PlayerJournal>().UnlockEntry(guid.GUID);
                 }
                 EditorGUILayout.EndHorizontal();
                 GUI.color = color;

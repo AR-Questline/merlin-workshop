@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_0d6bfd6f6e5a27e47ba811571a3035a5
-  EDITOR_bakedDescription: Reduces the stamina consumption of Dashing by 10%.
+  EDITOR_bakedDescription: "Reduces the stamina consumption of Dashing by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3443842606788812044
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-904871263847367215
 MonoBehaviour:
@@ -272,7 +279,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: ValueGain
-      value: 0
+      value: 0.01
     - name: ValueCalculated
       value: 0
     enums:

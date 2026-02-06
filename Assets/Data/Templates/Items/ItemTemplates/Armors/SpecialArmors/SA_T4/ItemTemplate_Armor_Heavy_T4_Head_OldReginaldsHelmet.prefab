@@ -77,7 +77,10 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_double
       ID: Template/description_locString_2543871262668956605_5fcac097ba40343428d9031211379747
-  EDITOR_bakedDescription: Reduces Stamina Cost by 20%.
+  EDITOR_bakedDescription: 'Increases Max Stamina by 10.
+
+    Increases Max Health
+    by 20.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -243,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -272,7 +282,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 10
     - name: GainValue
-      value: 0
+      value: 1
     - name: ValueCalculated
       value: 0
     enums:
@@ -289,7 +299,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 20
     - name: GainValue
-      value: 1
+      value: 2
     - name: ValueCalculated
       value: 0
     enums:

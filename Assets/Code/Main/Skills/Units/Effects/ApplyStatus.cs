@@ -1,10 +1,13 @@
-﻿using Awaken.TG.Main.Character;
+﻿using System;
+using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Heroes.Statuses;
 using Awaken.TG.Main.Heroes.Statuses.Duration;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.TG.VisualScripts.Units;
 using Awaken.TG.VisualScripts.Units.Typing;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Awaken.TG.Main.Skills.Units.Effects {
     [UnitCategory("AR/Skills/Effects")]
@@ -23,15 +26,17 @@ namespace Awaken.TG.Main.Skills.Units.Effects {
             var newStatus = ValueOutput<Status>("newStatus");
             
             DefineSimpleAction(flow => {
-                StatusTemplate template = statusTemplate.Value(flow).Template;
-                IAlive targetAlive = character.Value(flow);
+                StatusTemplate template = statusTemplate.Value(flow)?.Template;
+                if (template == null) {
+                    Debug.LogException(new Exception($"StatusTemplate is null in ApplyStatus unit for {LogUtils.GetDebugName(this.Skill(flow))}"));
+                    return;
+                }
                 
-                if (targetAlive is not ICharacter targetCharacter) {
+                IAlive targetAlive = character.Value(flow);
+                if (targetAlive is not ICharacter targetCharacter || targetCharacter.HasBeenDiscarded) {
                     return;
                 }
-                if (template == null || targetCharacter.HasBeenDiscarded) {
-                    return;
-                }
+                
                 CharacterStatuses characterStatuses = targetCharacter.Statuses;
 
                 Skill skill = this.Skill(flow);

@@ -6,7 +6,6 @@ using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.AudioSystem.Biomes;
 using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs;
 using Awaken.TG.Main.Heroes.Combat;
-using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Memories.Journal;
@@ -198,7 +197,7 @@ namespace Awaken.TG.Main.Heroes.Fishing {
             }
 
             var data = new FishCaughtData(_fish.ItemTemplate, _fish.FishTemplate, _fish.isFish, firstTimeCatch, isRecord, _fish.weight, _fish.length, _fish.itemsCount, prevRecord);
-            AdvancedNotificationBuffer.Push<MiddleScreenNotificationBuffer>(new FishCaughtNotification(data));
+            NotificationUtils.PushExplicitly<MiddleScreenNotificationBuffer, FishCaughtNotification>(new FishCaughtNotification(data));
             
             _fishPopupListener = World.Only<FishCaughtNotification>().ListenTo(Model.Events.AfterDiscarded, () => AcceptFishNotification(firstTimeCatch, caughtFishCollection, hero), this);
             _isCurrentlyFishing = false;
@@ -241,7 +240,7 @@ namespace Awaken.TG.Main.Heroes.Fishing {
 
             if (firstTimeCatch) {
                 caughtFishCollection.AddToCaughtFishCollection(new FishEntry(_fish.FishTemplate, _fish.length, _fish.weight));
-                World.Only<PlayerJournal>().SendNotification(_fish.FishTemplate.itemName, JournalSubTabType.Fish);
+                World.Only<PlayerJournal>().UnlockEntry(_fish.FishTemplate.itemName, JournalSubTabType.Fish);
             }
         }
 
@@ -265,7 +264,7 @@ namespace Awaken.TG.Main.Heroes.Fishing {
                 }
 
                 var notification = new LowerFancyPanelNotification(LocTerms.FishingFail.Translate(), typeof(VLowerFancyPanelNotification));
-                AdvancedNotificationBuffer.Push<LowerMiddleScreenNotificationBuffer>(notification);
+                NotificationUtils.PushExplicitly<LowerMiddleScreenNotificationBuffer, LowerFancyPanelNotification>(notification);
                 
                 WaterFishingAction.fishingAvailable = true;
                 FMODManager.PlayOneShot(Audio.rodCatch);

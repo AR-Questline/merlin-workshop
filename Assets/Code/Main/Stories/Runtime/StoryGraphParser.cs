@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Awaken.Babel;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Stories.Conditions;
 using Awaken.TG.Main.Stories.Conditions.Core;
 using Awaken.TG.Main.Stories.Conditions.GameModes;
@@ -18,14 +20,20 @@ namespace Awaken.TG.Main.Stories.Runtime {
     public class StoryGraphParser {
         readonly Dictionary<ChapterEditorNode, StoryChapter> _chapterMap = new();
         readonly Dictionary<ConditionsEditorNode, StoryConditions> _conditionMap = new();
-        
+
+        readonly IBabelIdBaker _babelIdBaker;
+
         StructList<StoryChapter> _chapters = new(0);
         StructList<StoryConditions> _conditions = new(0);
 
-        public static StoryGraphRuntime Parse(StoryGraph graph) {
+        StoryGraphParser(IBabelIdBaker babelIdBaker) {
+            _babelIdBaker = babelIdBaker;
+        }
+
+        public static StoryGraphRuntime Parse(StoryGraph graph, IBabelIdBaker babelIdBaker) {
             StartNode startNode = null;
             
-            var parser = new StoryGraphParser();
+            var parser = new StoryGraphParser(babelIdBaker);
             foreach (var node in graph.nodes) {
                 if (node is StoryStartEditorNode editorStartNode) {
                     startNode = new StartNode {
@@ -66,8 +74,8 @@ namespace Awaken.TG.Main.Stories.Runtime {
             };
         }
 
-        public static void Serialize(StoryGraph graph) {
-            var runtimeGraph = Parse(graph);
+        public static void Serialize(StoryGraph graph, IBabelIdBaker babelIdBaker) {
+            var runtimeGraph = Parse(graph, babelIdBaker);
             var path = Path.Combine(StoryGraphRuntime.BakingDirectoryPath, $"{graph.GUID}.story");
             StoryWriter.Write(runtimeGraph, path);
             runtimeGraph.Dispose();
@@ -146,6 +154,10 @@ namespace Awaken.TG.Main.Stories.Runtime {
             conditions.conditions = steps.ToArray();
             
             return conditions;
+        }
+
+        public LightLocString GetLightLocString(LocString locString) {
+            return new LightLocString(_babelIdBaker.ConvertToLocalizationEntry(locString.FinalId));
         }
         
         static string[] CreateCopyWithGraphNameAdded(string[] banksNames, string graphName) {

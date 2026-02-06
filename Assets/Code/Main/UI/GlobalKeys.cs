@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Awaken.TG.Debugging;
 using Awaken.TG.Debugging.Cheats;
 using Awaken.TG.Debugging.Cheats.QuantumConsoleTools;
@@ -8,8 +9,12 @@ using Awaken.TG.Graphics.Transitions;
 using Awaken.TG.Main.Cameras;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
+using Awaken.TG.Main.Fights.Duels;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs;
 using Awaken.TG.Main.Heroes.Combat;
+using Awaken.TG.Main.Heroes.Fishing;
 using Awaken.TG.Main.Locations.Discovery;
 using Awaken.TG.Main.Memories.Journal;
 using Awaken.TG.Main.Saving;
@@ -29,6 +34,7 @@ using Awaken.Utility;
 using Awaken.Utility.PhysicUtils;
 using Cysharp.Threading.Tasks;
 using QFSW.QC;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,6 +45,8 @@ namespace Awaken.TG.Main.UI {
     /// </summary>
     public class GlobalKeys : IService, IUIAware {
         public static bool secondaryDebugActions = false;
+        public bool IsValid => true;
+        
         // === Key handling
 
         public UIResult Handle(UIEvent evt) {
@@ -195,6 +203,7 @@ namespace Awaken.TG.Main.UI {
                     hero.Cobweb.SetTo(9999);
 
                     World.Only<PlayerJournal>().TreatAllEntriesAsUnlocked();
+                    UnlockFishEntries();
 
                     foreach (var discovery in World.All<LocationDiscovery>()) {
                         if (discovery.IsFastTravel) {
@@ -231,6 +240,22 @@ namespace Awaken.TG.Main.UI {
             return UIResult.Ignore;
         }
 
+        static void UnlockFishEntries() {
+#if UNITY_EDITOR
+            string[] guids = AssetDatabase.FindAssets("t:FishData");
+            HeroCaughtFish caughtFish = World.Any<HeroCaughtFish>();
+            foreach (string guid in guids) {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                var fishData = AssetDatabase.LoadAssetAtPath<FishData>(path);
+                if (fishData is { IsFish: true } && caughtFish != null) {
+                    FishData.FightingFish fish = fishData.ToFightingFish();
+                    caughtFish.AddToCaughtFishCollection(new FishEntry(fish.FishTemplate, fish.length, fish.weight));
+                    World.Any<PlayerJournal>()?.UnlockEntry(fish.FishTemplate.itemName, JournalSubTabType.Fish);
+                }
+            }
+#endif
+        }
+
         static UIResult SecondaryDebugActions(string name) {
             if (name == KeyBindings.Debug.DebugHeroSkillSuperJump) {
                 DebugSimulateSpike().Forget();
@@ -264,18 +289,29 @@ namespace Awaken.TG.Main.UI {
 
         void KillEveryoneNearHero() {
             Hero hero = Hero.Current;
+            HashSet<IAlive> aliveHit = new();
             foreach (var colliderHit in PhysicsQueries.OverlapSphere(hero.Coords, 10f, RenderLayers.Mask.Hitboxes, QueryTriggerInteraction.Collide)) {
                 Damage.DetermineTargetHit(colliderHit, out IAlive receiver, out HealthElement healthElement);
+                if (!aliveHit.Add(receiver)) {
+                    continue;
+                }
                 if (receiver != null && healthElement != null && healthElement != hero.HealthElement) {
-                    DamageParameters parameters = DamageParameters.Default;
-                    parameters.Position = colliderHit.bounds.center;
-                    parameters.Direction = Vector3.up;
-                    parameters.ForceDirection = parameters.Direction;
-                    parameters.ForceDamage = 0;
-                    parameters.Inevitable = true;
-                    parameters.DamageTypeData = new RuntimeDamageTypeData(DamageType.PhysicalHitSource);
-                    Damage damage = new Damage(parameters, hero, receiver, new RawDamageData(float.MaxValue)).WithHitCollider(colliderHit);
-                    healthElement.TakeDamage(damage);
+                    if (receiver is not NpcElement npc || !npc.TryGetElement<NpcDuelistElement>(out var element) || element.Settings.fightToDeath) {
+                        healthElement.Kill(hero, allowPrevention: true);
+                    }
+                    if (!healthElement.IsDead) {
+                        healthElement.Health.SetTo(1f);
+                        
+                        DamageParameters parameters = DamageParameters.Default;
+                        parameters.Position = colliderHit.bounds.center;
+                        parameters.Direction = Vector3.up;
+                        parameters.ForceDirection = parameters.Direction;
+                        parameters.ForceDamage = 0;
+                        parameters.Inevitable = true;
+                        parameters.DamageTypeData = new RuntimeDamageTypeData(DamageType.PhysicalHitSource);
+                        Damage damage = new Damage(parameters, hero, receiver, new RawDamageData(2)).WithHitCollider(colliderHit);
+                        healthElement.TakeDamage(damage);
+                    }
                 }
             }
         }

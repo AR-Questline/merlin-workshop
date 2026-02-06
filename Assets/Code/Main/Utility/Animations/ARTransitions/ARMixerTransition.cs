@@ -53,6 +53,13 @@ namespace Awaken.TG.Main.Utility.Animations.ARTransitions {
         }
         
 #if UNITY_EDITOR
+        
+        public void EDITOR_ResampleHorizontalRootRotation() {
+            foreach (var turningOverride in turningOverrides.entries) {
+                turningOverride.clip.SampleRootHorizontalRotation();
+            }
+        }
+        
         [UnityEditor.CustomPropertyDrawer(typeof(ARMixerTransition), true)]
         public new class Drawer : MixerTransitionDrawer {
             public Drawer() : base(StandardThresholdWidth * 2 + 20) { }
@@ -68,12 +75,12 @@ namespace Awaken.TG.Main.Utility.Animations.ARTransitions {
                     UnityEditor.EditorPrefs.SetBool("UseSimplifiedTransitionDrawer", false);
                 }
 
-                if (GUILayout.Button("Resample Root Rotation Deltas")) {
-                    ResampleOverridesRootRotationDeltas(property);
+                if (GUILayout.Button("Resample Horizontal Root Rotation")) {
+                    ResampleOverridesHorizontalRootRotation(property);
                 }
             }
             
-            static void ResampleOverridesRootRotationDeltas(UnityEditor.SerializedProperty property) {
+            static void ResampleOverridesHorizontalRootRotation(UnityEditor.SerializedProperty property) {
                 if (property.serializedObject.targetObject is not MixerTransition2DAsset asset) {
                     return;
                 }
@@ -82,10 +89,7 @@ namespace Awaken.TG.Main.Utility.Animations.ARTransitions {
                     return;
                 }
                 
-                foreach (var turningOverride in transition.turningOverrides.entries) {
-                    turningOverride.clip.SampleRootRotationDelta();
-                }
-                
+                transition.EDITOR_ResampleHorizontalRootRotation();
                 UnityEditor.EditorUtility.SetDirty(asset);
             }
         }

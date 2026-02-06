@@ -7,9 +7,11 @@ using Awaken.TG.Main.General.Costs;
 using Awaken.TG.Main.Heroes.Development.Talents;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
+using Awaken.TG.Main.Heroes.Items.Gems;
 using Awaken.TG.Main.Heroes.Skills;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Heroes.Statuses;
+using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Skills.Cooldowns;
 using Awaken.TG.Main.Skills.Passives;
 using Awaken.TG.Main.Skills.Units.Masters;
@@ -67,6 +69,9 @@ namespace Awaken.TG.Main.Skills {
         [Saved] List<SkillRichEnum> _enumOverrides;
         [Saved] List<SkillDatum> _datumOverrides;
         
+        [Saved] List<SkillAssetReference> _assetReferenceOverrides;
+        [Saved] List<SkillTemplate> _templateOverrides;
+        
         [Saved(false)] bool _isLearned;
         [Saved(false)] bool _isEquipped;
         [Saved(false)] bool _isSubmitted;
@@ -88,9 +93,18 @@ namespace Awaken.TG.Main.Skills {
 
         public string DisplayName => ParentModel switch {
             Status status => status.DisplayName,
-            ItemEffects itemEquip => itemEquip.Item.Template.ItemName,
+            ItemEffects itemEffects => itemEffects.Item.Template.ItemName,
             Talent talent => talent.TalentName,
+            GemAttached gemAttached => gemAttached.Template.ItemName,
             _ => string.Empty
+        };
+        
+        public LocString DisplayNameLoc => ParentModel switch {
+            Status status => status.Template.displayName,
+            ItemEffects itemEffects => itemEffects.Item.Template.itemName,
+            Talent talent => talent.Template.talentName,
+            GemAttached gemAttached => gemAttached.Template.itemName,
+            _ => null
         };
 
         public string DebugName => "Skill of Graph: " + (Graph != null ? Graph.DebugName : "Null");
@@ -98,20 +112,24 @@ namespace Awaken.TG.Main.Skills {
 
         public string SourceDescription => ParentModel switch {
             Status status => status.Description,
-            ItemEffects itemEquip => itemEquip.Item.DescriptionFor(Owner),
+            ItemEffects itemEffects => itemEffects.Item.DescriptionFor(Owner),
             Talent talent => talent.Template.GetLevel(talent.Level).Description(talent, talent.Level),
+            GemAttached gemAttached => gemAttached.Item.DescriptionFor(Owner),
             _ => Description
         };
         public IEnumerable<Keyword> Keywords => Graph.Keywords;
         public ShareableSpriteReference Icon => ParentModel switch {
             Status status => status.Icon,
-            ItemEffects itemEquip => itemEquip.Item.Template.IconReference,
+            ItemEffects itemEffects => itemEffects.Item.Template.IconReference(),
+            Talent _ => Talent.DefaultIconReference,
+            GemAttached gemAttached => gemAttached.Template.IconReference(),
             _ => Graph.Icon
         };
         public bool HiddenOnUI => ParentModel switch {
             Status status => status.HiddenOnUI,
-            ItemEffects itemEquip => itemEquip.Item.HiddenOnUI,
-            Talent talent => false,
+            ItemEffects itemEffects => itemEffects.Item.HiddenOnUI,
+            Talent _ => false,
+            GemAttached gemAttached => gemAttached.Template.HiddenOnUI,
             _ => true
         };
 
@@ -151,34 +169,32 @@ namespace Awaken.TG.Main.Skills {
             _templates ??= new();
         }
 
-        protected override void OnRestore() {
-            if (!_customRestore) {
-                this.ListenToLimited(Model.Events.BeforeFullyInitialized, _ => {
-                    Refresh();
-                    
-                    if (IsSubmitted) {
-                        OnCancelRepetitive();
-                    }
-                    if (IsEquipped) {
-                        OnUnequipRepetitive();
-                    }
-                    if (IsLearned) {
-                        OnForgetRepetitive();
-                    }
-                    if (IsLearned) {
-                        OnLearnRepetitive();
-                    }
-                    if (IsEquipped) {
-                        OnEquipRepetitive();
-                    }
-                    if (IsSubmitted) {
-                        OnSubmitRepetitive();
-                    }
-                }, this);
-            }
-        }
+        protected override void OnRestore() { }
 
         protected override void OnFullyInitialized() {
+            if (!_customRestore) {
+                Refresh();
+
+                if (IsSubmitted) {
+                    OnCancelRepetitive();
+                }
+                if (IsEquipped) {
+                    OnUnequipRepetitive();
+                }
+                if (IsLearned) {
+                    OnForgetRepetitive();
+                }
+                if (IsLearned) {
+                    OnLearnRepetitive();
+                }
+                if (IsEquipped) {
+                    OnEquipRepetitive();
+                }
+                if (IsSubmitted) {
+                    OnSubmitRepetitive();
+                }
+            }
+
             if (_description == null) {
                 Refresh();
             }
@@ -661,8 +677,20 @@ namespace Awaken.TG.Main.Skills {
         }
         
         // === Assets
+        public void OverrideAssetReference(string name, ShareableARAssetReference assetReference) {
+            _assetReferenceOverrides ??= new List<SkillAssetReference>();
+            for (int i = 0; i < _assetReferenceOverrides.Count; i++) {
+                if (_assetReferenceOverrides[i].name == name) {
+                    _assetReferenceOverrides[i].assetReference = assetReference;
+                    return;
+                }
+            }
+            _assetReferenceOverrides.Add(new SkillAssetReference(name, assetReference));
+        }
+        
         SkillAssetReference GetAssetReferenceOverride(string name) {
-            return _assetReferences.FirstOrDefault(e => e.name == name) 
+            return _assetReferenceOverrides?.FirstOrDefault(e => e.name == name) 
+                   ?? _assetReferences.FirstOrDefault(e => e.name == name) 
                    ?? Graph.SkillAssetReferences.FirstOrDefault(e => e.name == name);
         }
 
@@ -675,8 +703,21 @@ namespace Awaken.TG.Main.Skills {
         }
         
         // === Templates
+        public void OverrideTemplate(string name, TemplateReference template) {
+            _templateOverrides ??= new List<SkillTemplate>();
+            for (int i = 0; i < _templateOverrides.Count; i++) {
+                if (_templateOverrides[i].name == name) {
+                    _templateOverrides[i].templateReference = template;
+                    return;
+                }
+            }
+            _templateOverrides.Add(new SkillTemplate(name, template));
+        }
+        
         SkillTemplate GetTemplateOverride(string name) {
-            return _templates.FirstOrDefault(e => e.name == name) ?? Graph.SkillTemplates.FirstOrDefault(e => e.name == name);
+            return _templateOverrides?.FirstOrDefault(e => e.name == name) 
+                   ?? _templates.FirstOrDefault(e => e.name == name) 
+                   ?? Graph.SkillTemplates.FirstOrDefault(e => e.name == name);
         }
         
         public TemplateWrapper<T> GetTemplate<T>(string name) where T : class, ITemplate {

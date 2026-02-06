@@ -3,6 +3,7 @@ using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Domains;
@@ -45,7 +46,7 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.Difficulty {
         }
 
         void InitPrompts() {
-            _selectPrompt = Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First);
+            _selectPrompt = Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad);
             _confirm = Prompt.Tap(KeyBindings.UI.Settings.ApplyChanges, LocTerms.Confirm.Translate(), TryConfirm);
             _storyModePrompt = Prompt.Tap(KeyBindings.UI.Settings.RestoreDefaults, LocTerms.DifficultyStory.Translate(), ToggleMode);
             _survivalModePrompt = Prompt.Tap(KeyBindings.UI.Settings.RestoreDefaults, LocTerms.DifficultySurvival.Translate(), ToggleMode);

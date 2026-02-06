@@ -396,27 +396,27 @@ namespace Awaken.TG.Main.Fights {
         
         static bool IsPossibleTarget(this NpcElement npc, Hero hero) {
             return hero.IsAlive && npc.WantToFight(hero) 
-                                && IsHeroVisible(hero, npc)
+                                && IsHeroVisible(hero, npc) && (!npc.NpcAI.CanLoseTargetBasedOnVisibility || IsHeroSeenByAnyone(hero, npc))
                                 && hero.Coords.SquaredDistanceTo(npc.Coords) < npc.NpcAI.Data.perception.RadarRangeSq
                                 && (AstarPath.active != null && (npc.RequiresPathToTarget == false || PathPossibleCondition(npc, AstarPath.active.GetNearest(npc.Coords).node, hero.ClosestPointOnNavmesh.node)));
         }
         
         static bool IsPossibleTargetNoRangeCheck(NpcElement npc, Hero hero) {
             return hero.IsAlive && npc.WantToFight(hero) 
-                                && IsHeroVisible(hero, npc)
+                                && IsHeroVisible(hero, npc) && (!npc.NpcAI.CanLoseTargetBasedOnVisibility || IsHeroSeenByAnyone(hero, npc))
                                 && (AstarPath.active != null && (npc.RequiresPathToTarget == false || PathPossibleCondition(npc, AstarPath.active.GetNearest(npc.Coords).node, hero.ClosestPointOnNavmesh.node)));
         }
         
         static bool IsPossibleTarget(NpcElement npc, NpcElement targetNpc) {
-            return !targetNpc.HasElement<Invisibility>() && npc.WantToFight(targetNpc) 
-                                                         && targetNpc is {HasPerception: true, IsAlive: true, IsUnconscious: false}
+            return targetNpc is { HasCompletelyInitialized: true, HasBeenDiscarded: false, HasPerception: true, IsAlive: true, IsUnconscious: false, NpcAI: {Working: true} } 
+                                                         && !targetNpc.HasElement<Invisibility>() && npc.WantToFight(targetNpc) 
                                                          && targetNpc.Coords.SquaredDistanceTo(npc.Coords) < npc.NpcAI.Data.perception.RadarRangeSq
                                                          && (AstarPath.active != null && PathPossibleCondition(npc, npc.Coords, targetNpc.Coords));
         }
         
         static bool IsPossibleTargetNoRangeCheck(this NpcElement npc, NpcElement targetNpc) {
-            return !targetNpc.HasElement<Invisibility>() && npc.WantToFight(targetNpc)
-                                                      && targetNpc is { HasPerception: true, IsAlive: true, IsUnconscious: false }
+            return targetNpc is { HasCompletelyInitialized: true, HasBeenDiscarded: false, HasPerception: true, IsAlive: true, IsUnconscious: false, NpcAI: {Working: true} } 
+                                                      && !targetNpc.HasElement<Invisibility>() && npc.WantToFight(targetNpc)
                                                       && (AstarPath.active != null && PathPossibleCondition(npc, npc.Coords, targetNpc.Coords));
         }
         
@@ -442,7 +442,8 @@ namespace Awaken.TG.Main.Fights {
         }
         
         static bool IsStillValid(NpcElement npc, NpcElement targetNpc) {
-            return npc.WantToFight(targetNpc) && targetNpc is {HasPerception: true, IsAlive: true, IsUnconscious: false, NpcAI: {Working: true} } 
+            return targetNpc is { HasCompletelyInitialized: true, HasBeenDiscarded: false, HasPerception: true, IsAlive: true, IsUnconscious: false, NpcAI: {Working: true} }
+                                              && npc.WantToFight(targetNpc)
                                               && targetNpc.Coords.SquaredDistanceTo(npc.Coords) < ForceEndCombatDistanceSqr
                                               && (AstarPath.active == null || PathPossibleCondition(npc, npc.Coords, targetNpc.Coords));
         }
@@ -450,7 +451,7 @@ namespace Awaken.TG.Main.Fights {
         static bool IsStillValid(NpcElement npc, Hero hero) {
             return npc.WantToFight(hero) && hero.IsAlive
                                          && hero.Coords.SquaredDistanceTo(npc.Coords) < ForceEndCombatDistanceSqr
-                                         && (!npc.NpcAI.CanLoseTargetBasedOnVisibility || npc.NpcAI.HeroVisible || hero.PossibleAttackers.Any(i => i is NpcElement { NpcAI: { HeroVisible: true } }));
+                                         && (!npc.NpcAI.CanLoseTargetBasedOnVisibility || IsHeroSeenByAnyone(hero, npc));
             // TODO: This condition should have some sort of delay to don't stop fights immediately after hero is out of navmesh.
             //&& (AstarPath.active == null || PathPossibleCondition(npc, npc.Coords, hero.Coords));
         }
@@ -462,6 +463,9 @@ namespace Awaken.TG.Main.Fights {
         /// </summary>
         /// <param name="minimumDifference">What is the needed difference in fit value to qualify new target as better.</param>
         public static bool IsBetterFitThanTarget(this NpcElement npc, ICharacter oldTarget, ICharacter newTarget, float minimumDifference = NormalFitDifference) {
+            if (oldTarget != null && TargetOverrideElement.GetTarget(npc) == oldTarget) {
+                return false;
+            }
             return npc.TargetFit(newTarget) - npc.TargetFit(oldTarget) > minimumDifference;
         }
 
@@ -524,6 +528,19 @@ namespace Awaken.TG.Main.Fights {
                 }
             }
             return true;
+        }
+        
+        public static bool IsHeroSeenByAnyone(Hero hero, NpcElement npc) {
+            if (npc.NpcAI.HeroVisible) {
+                return true;
+            }
+
+            foreach (var possibleAttacker in hero.PossibleAttackers) {
+                if (possibleAttacker is NpcElement { NpcAI: { HeroVisible: true }}) {
+                    return true;
+                }
+            }
+            return false;
         }
         
         static int GetTargetLimit(this ICharacter character) {

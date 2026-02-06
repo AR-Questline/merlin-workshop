@@ -41,6 +41,7 @@ namespace Awaken.TG.Graphics.VFX.Binders {
         [SerializeField] int _samples = 256;
 
         Transform _weaponTransform;
+        Mode _runtimeMode;
 
         ARRuntimeUniformBaker _runtimeUniformBaker;
 
@@ -137,12 +138,12 @@ namespace Awaken.TG.Graphics.VFX.Binders {
             {
                 var weaponSourceValue = 0u;
 
-                if (mode.HasFlagFast(Mode.DrakeMesh) && _runtimeUniformBaker?.IsBaked == true) {
+                if (_runtimeMode.HasFlagFast(Mode.DrakeMesh) && _runtimeUniformBaker?.IsBaked == true) {
                     _runtimeUniformBaker.Progress();
                     component.SetFloat(maxSphereSize, _runtimeUniformBaker.MeshBounds.size.magnitude);
                     component.SetGraphicsBuffer(bakedMeshSampling, _runtimeUniformBaker.SamplesBuffer);
                     weaponSourceValue = (uint)Mode.DrakeMesh;
-                } else if (mode.HasFlagFast(Mode.KandraMesh) && _kandraRenderer && KandraRendererManager.Instance.TryGetInstanceData(_kandraRenderer, out var instanceData)) {
+                } else if (_runtimeMode.HasFlagFast(Mode.KandraMesh) && _kandraRenderer && KandraRendererManager.Instance.TryGetInstanceData(_kandraRenderer, out var instanceData)) {
                     var vertexCount = _kandraRenderer.rendererData.mesh.vertexCount;
                     var indicesCounts = _kandraRenderer.rendererData.mesh.indicesCount;
                     var trianglesCount = indicesCounts / 3;
@@ -175,6 +176,11 @@ namespace Awaken.TG.Graphics.VFX.Binders {
         }
 
         void UpdateSubProperties() {
+            if (GetComponentInParent<IVfxWeaponMeshBinderModeDisabler>() is { } modeDisabler) {
+                _runtimeMode = mode & ~modeDisabler.ModesToDisable;
+            } else {
+                _runtimeMode = mode;
+            }
             var mainProperty = _kandraProperty.ToString();
             _vertexStart = mainProperty + "_vertexStart";
             _additionalDataStart = mainProperty + "_additionalDataStart";
@@ -258,9 +264,13 @@ namespace Awaken.TG.Graphics.VFX.Binders {
         }
 
         [Flags]
-        enum Mode : byte {
+        public enum Mode : byte {
             DrakeMesh = 1 << 0,
             KandraMesh = 1 << 1,
         }
+    }
+    
+    public interface IVfxWeaponMeshBinderModeDisabler {
+        public VFXWeaponMeshBinder.Mode ModesToDisable { get; }
     }
 }

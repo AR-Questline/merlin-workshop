@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Utility;
@@ -8,10 +10,10 @@ using UnityEngine;
 
 namespace Awaken.TG.MVC.UI.Handlers.Tooltips {
     public class TooltipConstructor {
-        static Dictionary<string, TooltipConstructor> s_convertedTexts = new Dictionary<string, TooltipConstructor>();
+        static Dictionary<string, TooltipConstructor> s_convertedTexts = new();
         
         // === Queries 
-        public List<TooltipValue> ElementsToSpawn { get; } = new List<TooltipValue>();
+        public List<TooltipValue> ElementsToSpawn { get; } = new();
         public bool WithDelay { get; set; }
         public bool PlayHoverSound { get; set; } = true;
         public bool AttachToParent { get; set; }
@@ -217,9 +219,8 @@ namespace Awaken.TG.MVC.UI.Handlers.Tooltips {
         public string PrefabName => $"UI/Tooltip/{EnumName}Tooltip";
         public int Order { get; }
         public bool AutoBackground { get; }
-        
-        [UnityEngine.Scripting.Preserve]
-        public static readonly TooltipElement Title = new TooltipElement(nameof(Title), TitleOrder, true),
+
+        [UnityEngine.Scripting.Preserve] public static readonly TooltipElement Title = new TooltipElement(nameof(Title), TitleOrder, true),
             MainText = new TooltipElement(nameof(MainText), MainTextOrder, true),
             Text = new TooltipElement(nameof(Text), TextOrder, false),
             Icon = new TooltipElement(nameof(Icon), IconOrder, true),

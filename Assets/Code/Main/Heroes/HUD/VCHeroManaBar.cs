@@ -7,5 +7,10 @@ namespace Awaken.TG.Main.Heroes.HUD {
         protected override StatType StatType => CharacterStatType.Mana;
         protected override float Percentage => math.clamp(Target.Mana?.ModifiedValue / Target.MaxManaWithReservation ?? 1f, 0f, 1f);
         protected override float PredictionPercentage => (Target.Mana?.ModifiedValue + Target.PredictedManaRegen) / Target.MaxManaWithReservation ?? 1f;
+        
+        protected override void HandlePlayAnimationRestriction(out bool canPlayAnimation) {
+            HandleHoldAnimationRestriction();
+            base.HandlePlayAnimationRestriction(out canPlayAnimation);
+        }
     }
 }   

@@ -3,6 +3,7 @@ using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
 using Newtonsoft.Json;
+using Unity.Mathematics;
 
 namespace Awaken.TG.Main.Fights.DamageInfo {
     public partial class RawDamageData {
@@ -39,7 +40,9 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             _linearModifier = linearModifier;
             _addedMultModifier = 1f;
 
-            CreateLog($"Created: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier}");
+            if (showCalculationLogs) {
+                CreateLog($"Created: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier}");
+            }
         }
         
         public RawDamageData(RawDamageData other) {
@@ -47,8 +50,10 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             _multModifier = other._multModifier;
             _linearModifier = other._linearModifier;
             _addedMultModifier = other._addedMultModifier;
-            
-            CreateLog($"Created: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier}");
+
+            if (showCalculationLogs) {
+                CreateLog($"Created: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier}");
+            }
         }
         
         public void MultiplyMultModifier(float multModifier) {
@@ -58,7 +63,11 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
                 }
                 return;
             }
-            AddToLog($"Multiplied MultModifier: ({_multModifier} * {multModifier}) = {_multModifier * multModifier}");
+
+            if (showCalculationLogs) {
+                AddToLog($"Multiplied MultModifier: ({_multModifier} * {multModifier}) = {_multModifier * multModifier}");
+            }
+
             _multModifier *= multModifier;
         }
 
@@ -69,7 +78,9 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
                 }
                 return;
             }
-            AddToLog($"Added to AddedMultModifier: ({_addedMultModifier} + {multModifier}) = {_addedMultModifier + multModifier}");
+            if (showCalculationLogs) {
+                AddToLog($"Added to AddedMultModifier: ({_addedMultModifier} + {multModifier}) = {_addedMultModifier + multModifier}");
+            }
             _addedMultModifier += multModifier;
         }
         
@@ -80,7 +91,11 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
                 }
                 return;
             }
-            AddToLog($"Added to LinearModifier: ({_linearModifier} + {linearModifier}) = {_linearModifier + linearModifier}");
+
+            if (showCalculationLogs) {
+                AddToLog($"Added to LinearModifier: ({_linearModifier} + {linearModifier}) = {_linearModifier + linearModifier}");
+            }
+
             _linearModifier += linearModifier;
         }
 
@@ -89,25 +104,35 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
                 return;
             }
             _calculatedValue = 0;
-            ShowLog($"Negated whole damage: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier} = {_calculatedValue}");
+            if (showCalculationLogs) {
+                ShowLog($"Negated whole damage: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier} = {_calculatedValue}");
+            }
+
             _finalCalculated = true;
         }
 
-        public void FinalCalculation() {
+        public void FinalCalculation(bool damageOverTime) {
             if (_finalCalculated) {
                 return;
             }
+
             _calculatedValue = (_uncalculatedValue + _linearModifier) * _multModifier * _addedMultModifier;
-            ShowLog($"Final calculation: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier} = {_calculatedValue}");
+            if (!damageOverTime && _calculatedValue is > 0f and < 1f) {
+                _calculatedValue = 1f;
+                if (showCalculationLogs) {
+                    ShowLog($"Final calculation: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier} = {_calculatedValue} (celled)");
+                }
+            } else {
+                if (showCalculationLogs) {
+                    ShowLog($"Final calculation: ({_uncalculatedValue} + {_linearModifier}) * {_multModifier} * {_addedMultModifier} = {_calculatedValue}");
+                }
+            }
             _finalCalculated = true;
         }
 
         // --- Logs
         
         void CreateLog(string message) {
-            if (!showCalculationLogs) {
-                return;
-            }
             _log = new StringBuilder();
             _log.Append("Raw DMG Calculations:\n");
             _log.Append("(WeaponDmg + LinearModifier) * MultModifier * AddedMultModifier:\n");
@@ -116,7 +141,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
         }
         
         void AddToLog(string message) {
-            if (!showCalculationLogs || _log == null) {
+            if (_log == null) {
                 return;
             }
             _log.Append(message);
@@ -124,7 +149,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
         }
         
         void ShowLog(string message) {
-            if (!showCalculationLogs || _log == null) {
+            if (_log == null) {
                 return;
             }
             _log.Append(message);

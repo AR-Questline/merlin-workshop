@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.Localization;
+﻿using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
@@ -14,6 +15,7 @@ namespace Awaken.TG.Main.Settings.GammaSettingScreen {
     [UsesPrefab("Settings/GammaScreen/" + nameof(VGammaScreen))]
     public class VGammaScreen : View<GammaScreen>, IAutoFocusBase {
         [SerializeField] CanvasGroup canvasGroup;
+        [SerializeField] GameObject uiGammaContainer;
         [SerializeField] Transform sliderParent;
         [SerializeField] VGenericPromptUI confirmPrompt;
         [SerializeField] TextMeshProUGUI message;
@@ -22,7 +24,9 @@ namespace Awaken.TG.Main.Settings.GammaSettingScreen {
         public override Transform DetermineHost() => World.Services.Get<ViewHosting>().OnMainCanvas();
 
         protected override void OnInitialize() {
+            uiGammaContainer.SetActive(Hero.Current == null);
             message.text = LocTerms.SettingsGammaMessage.Translate();
+            message.enabled = Hero.Current == null;
             SetupPrompt();
             FadeInOut(1);
         }

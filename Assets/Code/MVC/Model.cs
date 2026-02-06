@@ -14,6 +14,7 @@ using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.SerializableTypeReference;
 using Awaken.Utility.Threads;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -134,6 +135,12 @@ namespace Awaken.TG.MVC {
             IsBeingInitialized = false;
         }
 
+        public void AfterAddedToWorld() {
+            if (DiscardAfterInit) {
+                Discard();
+            }
+        }
+
         public void AfterWorldRestored() {
             if (DiscardAfterInit) {
                 Discard();
@@ -145,7 +152,7 @@ namespace Awaken.TG.MVC {
             this.Trigger(Events.BeforeFullyInitialized, this);
             OnFullyInitialized();
             this.Trigger(Events.AfterFullyInitialized, this);
-            
+
             var implementedTypes = ModelUtils.ModelHierarchyTypes(this);
             // Trigger generic fully initialized events
             foreach (Type implementedType in implementedTypes) {
@@ -197,8 +204,9 @@ namespace Awaken.TG.MVC {
             // unbind events
             World.EventSystem.RemoveAllListenersOwnedBy(this, true);
             // unbind all tweaks
-            Services.Get<TweakSystem>().RemoveAllTweaksAttachedTo(this);
-            Services.Get<TweakSystem>().RemoveAllTweakedBy(this);
+            var tweakSystem = Services.Get<TweakSystem>();
+            tweakSystem.RemoveAllTweaksAttachedTo(this);
+            tweakSystem.RemoveAllTweakedBy(this);
             // dispose bound references
             if (_disposableReferences != null) {
                 _disposableReferences.ForEach(d => d.Dispose());

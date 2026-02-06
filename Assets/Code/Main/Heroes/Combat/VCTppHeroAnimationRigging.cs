@@ -75,6 +75,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
 
         protected override void OnDiscard() {
             Target.GetTimeDependent()?.WithoutLateUpdate(OnUpdate);
+            _magicMainHandFSM = null;
+            _magicOffHandFSM = null;
         }
     }
 }

@@ -4,15 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Assets;
 using Awaken.TG.Code.Utility;
+using Awaken.TG.Debugging;
+using Awaken.TG.Graphics.Animations;
 using Awaken.TG.Graphics.Transitions;
 using Awaken.TG.Main.Fights.Utils;
+using Awaken.TG.Main.General.Caches;
+using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Saving.Models;
+using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Utility.Video;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Domains;
+using Awaken.TG.MVC.Utils;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
@@ -36,6 +43,7 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
         [SerializeField, FoldoutGroup("Backgrounds")] Image background;
         [SerializeField, FoldoutGroup("Backgrounds")] Image blurBackground;
         [SerializeField, FoldoutGroup("Backgrounds")] List<LoadingImageAsset> backgrounds;
+        [SerializeField, FoldoutGroup("Backgrounds")] List<LoadingImageAsset> sarrasBackgrounds;
 
         Sequence _sequence;
         bool _sequenceAccepted;
@@ -52,8 +60,12 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
             Random.InitState(Environment.TickCount);
 #endif
             if (Target.UseFastTransition == false) {
-                int index = Random.Range(0, backgrounds.Count);
-                var backgroundAsset = backgrounds[index];
+                var backgroundsToChoose = IsSarrasRegion() 
+                    ? sarrasBackgrounds 
+                    : backgrounds;
+                
+                int index = Random.Range(0, backgroundsToChoose.Count);
+                var backgroundAsset = backgroundsToChoose[index];
                 
                 backgroundAsset.Background.RegisterAndSetup(this, background);
                 backgroundAsset.BlurredBackground.RegisterAndSetup(this, blurBackground);
@@ -62,6 +74,26 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
             await FadeIn();
             Target.InitHeavy();
             StartCoroutine(LoadSceneAsync());
+            return;
+
+            bool IsSarrasRegion() {
+                var commonReferences = CommonReferences.Get;
+                if (commonReferences == null) {
+                    return false;
+                }
+                
+                if (Target.LoadingOperation.SceneToLoad == commonReferences.SarrasFirstSceneReference) {
+                    return true;
+                }
+                
+                var sceneCache = ScenesCache.Get;
+                if (sceneCache == null) {
+                    return false;
+                }
+                
+                var sceneRegionReference = sceneCache.GetOpenWorldRegion(Target.LoadingOperation.SceneToLoad);
+                return sceneRegionReference == commonReferences.SarrasCampaignSceneReference;
+            }
         }
 
         async UniTask FadeIn() {
@@ -86,8 +118,8 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
             }
 
             Target.DisableLeshy();
-
-            yield return new WaitForEndOfFrame();
+            
+            yield return Target.BeforeDroppingPreviousDomains();
             Target.Trigger(LoadingScreenUI.Events.BeforeDroppedPreviousDomain, Target);
             Target.DropPreviousDomains();
             Target.Trigger(LoadingScreenUI.Events.AfterDroppedPreviousDomain, Target);
@@ -142,6 +174,45 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
                 Log.Marking?.Warning("All templates loaded");
             }
 
+            // Unload Hero Body Prefab to free memory
+            var vHeroController = Hero.Current?.View<VHeroController>();
+            if (vHeroController != null) {
+                vHeroController.BlockHeroBodyLoading();
+                vHeroController.TryReloadBodyWithEquips().Forget();
+            }
+            
+            // Wait for batch of assets unloading
+            yield return null;
+            yield return null;
+
+            DOTween.Clear();
+            AnimatorUtils.ResetCache();
+            if (Target.ShouldUnloadUnused) {
+                GC.Collect();
+                yield return Resources.UnloadUnusedAssets();
+                GC.Collect();
+            }
+
+            // Wait for batch of assets unloading
+            yield return null;
+            yield return null;
+
+            // Ensure unloaded assets
+            if (Target.ShouldUnloadUnused) {
+                GC.Collect();
+                yield return Resources.UnloadUnusedAssets();
+                GC.Collect();
+            }
+
+            // Wait for batch of assets unloading
+            yield return null;
+            yield return new WaitForEndOfFrame();
+
+            // Load Hero Body back
+            if (vHeroController != null) {
+                vHeroController.UnlockHeroBodyLoading();
+            }
+            
             // wait for scene to load
             ISceneLoadOperation loadOperation = Target.Load();
             if (Target.UseFastTransition) {

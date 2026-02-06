@@ -81,6 +81,8 @@ namespace Awaken.TG.Main.Stories.Steps {
             [Saved] bool _awaitForPerformStart;
             [Saved] bool _interactionShouldSkipStartAnimation;
             
+            public override bool RequireVisualLoaded => true;
+            
             public override bool ShouldPerformAndWait => _type is InteractionType.UntilStoryEnd or InteractionType.UntilNpcInvolvementEnd;
             
             [JsonConstructor, Preserve]

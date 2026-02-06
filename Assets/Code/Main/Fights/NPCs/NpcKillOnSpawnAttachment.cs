@@ -11,6 +11,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
     [RequireComponent(typeof(NpcPresenceAttachment))]
     [AttachesTo(typeof(LocationSpec), AttachmentCategory.ExtraCustom, "Kills the NPC on spawn.")]
     public class NpcKillOnSpawnAttachment : MonoBehaviour, IAttachmentSpec {
+        public bool disableCustomDeathEffects;
         public bool disableCorpseAlert = true;
         public bool useCustomAnimation;
         [ShowIf(nameof(useCustomAnimation))] public CustomDeathAnimation customDeathAnimation;

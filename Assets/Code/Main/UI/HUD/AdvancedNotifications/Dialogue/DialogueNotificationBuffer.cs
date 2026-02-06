@@ -4,9 +4,7 @@ using Awaken.TG.MVC.Attributes;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.Dialogue {
     [SpawnsView(typeof(VDialogueNotificationBuffer))]
-    public partial class DialogueNotificationBuffer : AdvancedNotificationBuffer {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class DialogueNotificationBuffer : AdvancedNotificationBuffer<DialogueNotification> {
         protected override int MaxVisibleNotifications => 2;
         protected override bool StrictMaxVisibleNotifications => true;
 

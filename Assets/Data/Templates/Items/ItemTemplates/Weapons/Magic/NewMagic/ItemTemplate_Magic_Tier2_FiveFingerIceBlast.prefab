@@ -55,6 +55,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: fe3ad82b2b929a84cb2045f086d89a9d
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 4e1fddd5b7d0e324e99692b46e9e21d6
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -63,6 +65,7 @@ MonoBehaviour:
   - item:important
   - item:spell
   - item:tier2
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: de5d78e3b773de04c8e6fd139f22af7f
@@ -159,6 +162,10 @@ MonoBehaviour:
     arReference:
       address: 104ef72f44a3f3e49a7eed7db0a90941
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +183,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: e8232497a1a94404289342f48bed8af1
       subObjectName: 
@@ -264,7 +272,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 15
   maxDamage: 20
-  damageGain: 0
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -297,8 +305,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 12
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 18
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-8418636394755517277
 MonoBehaviour:
@@ -624,10 +635,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 7
+      - name: NGBuildup
+        value: 25
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -672,10 +689,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 7
+      - name: NGBuildup
+        value: 25
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -720,10 +743,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 100
+      - name: NGBuildup
+        value: 350
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -849,6 +878,10 @@ MonoBehaviour:
         useHandSlotOrientation: 0
         handSlotOrientationLocalDirection: {x: 0, y: 1, z: 0}
         predictPlayerMovement: 1
+        overrideFireAngleRange: 0
+        fireAngleRange:
+          min: -60
+          max: 60
         maxFireBallVelocity: 80
         aimAtTargetHeight: 0.85
         inaccuracyOffset: 4

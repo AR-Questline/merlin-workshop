@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5889926959808939690
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -440286882116366613, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_2909026519623403585_bf178418d0cbd0f4da0953590368e351
+      objectReference: {fileID: 0}
+    - target: {fileID: 3771896303918913128, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_SoS_EnemyMonster_T6_DrownedKnight_ArenaVariant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011187036458090350, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 4b5d941e8bfc3c34aad1bc90e1b50e98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011187036458090350, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: visualPrefab.address
+      value: 81dab5a3c51fd39428641fe73dfc8459
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011187036458090350, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: simplifiedDeadBodyPrefab.arReference.address
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312814543175335931, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3771896303918913128, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6615335102254492974}
+  m_SourcePrefab: {fileID: 100100000, guid: 1aa9c02f06e33f140ba8dcdfd8969f65, type: 3}
+--- !u!1 &7342361530615894210 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3771896303918913128, guid: 1aa9c02f06e33f140ba8dcdfd8969f65,
+    type: 3}
+  m_PrefabInstance: {fileID: 5889926959808939690}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6615335102254492974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7342361530615894210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b850f5a307d54fe3985c71c81271575f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxEffect:
+    arReference:
+      address: 005188beead1ea3498eae742d38cc48f
+      subObjectName: 
+  vfxLifetime: 5
+  spawnOnInitialize: 1
+  spawnOnLogicEnable: 1
+  spawnOnLogicDisable: 0

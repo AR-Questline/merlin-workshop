@@ -141,7 +141,7 @@ MonoBehaviour:
   keywords: []
   levelBonus: 0
   weight: 3
-  weightLoss: 0.5
+  weightLoss: 0.3
   upgradeChance: 0.5
   crimeItemValue: 8
   canStack: 0
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:

@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_701be68f87d977742a83f07558c8f8ca
-  EDITOR_bakedDescription: Increases Bow Draw Speed by 15%.
+  EDITOR_bakedDescription: "Increases Bow Draw Speed by 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 2a5351f69e0aa284ab8bb5f939865a7a
       subObjectName: 
 --- !u!114 &2171448430345750879
@@ -171,6 +175,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.15
     - name: GainValue
+      value: 0.015
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

@@ -19,14 +19,10 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
             base.InitFromAttachment(spec, isRestored);
             _itemTemplates = spec.ItemTemplates;
         }
-        
-        protected override void OnInitialize() { 
-            InitListeners();
-            ParentModel.ParentModel.AfterFullyInitialized(InitItems);
-        }
 
-        protected override void OnRestore() {
+        protected override void StartTracking() {
             InitListeners();
+            Refresh(true);
         }
 
         void InitListeners() {
@@ -34,10 +30,6 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
             Hero.Current.ListenTo(IItemOwner.Relations.Owns.Events.Changed, OnRelationChange, this);
             Hero.Current.ListenTo(IItemOwner.Relations.Owns.Events.AfterDisestablished, OnRelationChange, this);
             World.EventSystem.ListenTo(EventSelector.AnySource, Item.Events.QuantityChanged, this, OnQuantityChange);
-        }
-        
-        void InitItems() {
-            Refresh();
         }
 
         protected override string ConstructDesc() {
@@ -67,12 +59,12 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
 
         void RefreshFor(Item item) {
             if (_itemTemplates.Any(t => item.Template == t)) {
-                Refresh();
+                Refresh(false);
             }
         }
         
-        void Refresh() {
-            SetTo(GetCurrentItemQuantity());
+        void Refresh(bool fromInitialCheck) {
+            SetTo(GetCurrentItemQuantity(), fromInitialCheck);
         }
         
         int GetCurrentItemQuantity() {

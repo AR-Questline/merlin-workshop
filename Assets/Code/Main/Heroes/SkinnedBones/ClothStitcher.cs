@@ -204,8 +204,7 @@ namespace Awaken.TG.Main.Heroes.SkinnedBones {
 
             foreach (MagicaCloth cloth in createdCloth) {
                 cloth.SerializeData.colliderCollisionConstraint.colliderList = magicaColliders;
-                cloth.Initialize();
-                cloth.BuildAndRun();
+                // cloth.TryBuildAndRun();
             }
         }
 
@@ -243,8 +242,7 @@ namespace Awaken.TG.Main.Heroes.SkinnedBones {
                 var magicaCloth = AddMagicaCloth(foundCloth[index], transformsMap, rigTransforms, targetClothGameObject);
                 if (magicaCloth != null) {
                     magicaCloth.SerializeData.colliderCollisionConstraint.colliderList = magicaColliders;
-                    magicaCloth.Initialize();
-                    magicaCloth.BuildAndRun();
+                    // magicaCloth.TryBuildAndRun();
                 }
             }
         }

@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_cffb8bac2980a884ab81a69a946f42d6
-  EDITOR_bakedDescription: 'Increases Mana Shield by 5%.
-
-    Increases Mana Regeneration
-    by 0.5.'
+  EDITOR_bakedDescription: "Decreases Mana Cost by 25\_% when your Health is below
+    15\_%.\nIncreases Magic Critical Chance by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2498079568710489046
 MonoBehaviour:
@@ -246,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4968555461651015134
 MonoBehaviour:
@@ -302,7 +307,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: GainValue
-      value: 0.01
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

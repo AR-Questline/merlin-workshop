@@ -10,7 +10,7 @@ namespace Awaken.TG.MVC.Serialization {
         BinaryWriter _writer;
         readonly SaveWriterContext _context;
 
-        public SaveWriter(Stream stream, in SaveWriterContext context) {
+        public SaveWriter(IARStream stream, in SaveWriterContext context) {
             _writer = new BinaryWriter(stream);
             _context = context;
         }

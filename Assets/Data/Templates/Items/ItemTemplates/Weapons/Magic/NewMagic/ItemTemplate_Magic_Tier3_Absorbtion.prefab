@@ -115,7 +115,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_effectOverridenToken_locString_2543871262668956605_fb21b3a7edc5c5944a7e7227684c0252
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -155,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +177,7 @@ MonoBehaviour:
     gender: 0
     hand: 0
     itemPrefab:
-      address: 689b0d45239ebef428e9d0e6d6116077
+      address: 686ee739fdc6e22449b64faa3154d444
       subObjectName: 
   equipmentType:
     _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentType, TG.Main, Version=0.0.0.0,
@@ -271,7 +275,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 0
   maxDamage: 0
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -304,8 +308,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 30
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 5
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

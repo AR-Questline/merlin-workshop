@@ -21,11 +21,11 @@ namespace Awaken.TG.Main.Locations.Gems {
         ItemsUI ItemsUI { get; }
         
         public static class Events {
-            public static readonly Event<IGemBase, bool> GemActionPerformed = new(nameof(GemActionPerformed));
             public static readonly Event<IGemBase, bool> AfterRefreshed = new(nameof(AfterRefreshed));
-            [UnityEngine.Scripting.Preserve] public static readonly Event<IGemBase, bool> HoveredItemChanged = new(nameof(HoveredItemChanged));
+            public static readonly Event<IGemBase, bool> HoveredItemChanged = new(nameof(HoveredItemChanged));
             public static readonly Event<IGemBase, Item> ClickedItemChanged = new(nameof(ClickedItemChanged));
             public static readonly Event<IGemBase, bool> CostRefreshed = new(nameof(CostRefreshed));
+            public static readonly Event<IGemBase, string> AfterUpgraded = new(nameof(AfterUpgraded));
         }
     }
 }

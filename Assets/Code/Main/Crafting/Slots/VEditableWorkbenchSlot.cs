@@ -69,8 +69,16 @@ namespace Awaken.TG.Main.Crafting.Slots {
 
             quantityText.SetText($"{item.inventoryQuantity.ToString().ColoredText(canCraft ? ARColor.MainGrey : ARColor.MainRed)}/{newQuantity}");
             
-            buttonIncrease.button.Interactable = newQuantity < Target.UpperBound && Target.CanChangeQuantity;
-            buttonDecrease.button.Interactable = newQuantity > Target.LowerBound && Target.CanChangeQuantity;
+            bool canIncrease = newQuantity < Target.UpperBound && Target.CanChangeQuantity;
+            bool canDecrease = newQuantity > Target.LowerBound && Target.CanChangeQuantity;
+            buttonIncrease.button.Interactable = canIncrease;
+            buttonDecrease.button.Interactable = canDecrease;
+
+            if (!canIncrease && !canDecrease) {
+                buttonIncrease.TrySetActiveOptimized(false);
+                buttonDecrease.TrySetActiveOptimized(false);
+            }
+            
             Target.ParentModel.TriggerChange();
         }
 

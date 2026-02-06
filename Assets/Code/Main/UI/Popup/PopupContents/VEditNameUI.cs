@@ -23,6 +23,7 @@ namespace Awaken.TG.Main.UI.Popup.PopupContents {
 
         protected override void OnInitialize() {
             inputField.text = Target.Value;
+            inputField.onTouchScreenKeyboardStatusChanged.AddListener(OnTouchScreenKeyboardStatusChanged);
             inputField.onValueChanged.AddListener(OnValueUpdated);
             validationText.SetText(string.Empty);
 
@@ -31,11 +32,7 @@ namespace Awaken.TG.Main.UI.Popup.PopupContents {
                 SpawnGamepadKeyboard();
             }
 
-            if (Target.IsInputFieldFocused) {
-                inputField.ActivateInputField();
-            } else {
-                inputField.DeactivateInputField();
-            }
+            inputField.ActivateInputField();
         }
         
         void Update() {
@@ -47,9 +44,20 @@ namespace Awaken.TG.Main.UI.Popup.PopupContents {
             Target.Trigger(EditNameUI.Events.InputFieldFocusChanged, Target.IsInputFieldFocused);
         }
 
+        void OnTouchScreenKeyboardStatusChanged(TouchScreenKeyboard.Status status) {
+            switch (status) {
+                case TouchScreenKeyboard.Status.Visible:
+                    inputField.DeactivateInputField();
+                    break;
+                case TouchScreenKeyboard.Status.Canceled:
+                    inputField.ActivateInputField();
+                    break;
+            }
+        }
+
         void SpawnGamepadKeyboard() {
             if (PlatformUtils.IsSteamDeck) {
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
                 // var mode = Steamworks.EFloatingGamepadTextInputMode.k_EFloatingGamepadTextInputModeModeSingleLine;
                 // HeathenEngineering.SteamworksIntegration.API.Utilities.Client.ShowVirtualKeyboard(mode, float2.zero, float2.zero);
 #endif

@@ -48,17 +48,21 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 return;
             }
 
-            Item.ListenTo(Item.Events.Unequipped, _ => {
+            Item.ListenTo(Item.Events.Unequipped, _ => { RemoveSelf(); }, this);
+            Item.ListenTo(Item.Events.PerspectiveChangeUnequip, _ => { RemoveSelf(); }, this);
+            
+            // We need to make sure that gameObject was enabled at least once so that we will get OnDestroy callback.
+            EnsureOnEnableEvent();
+            Initialize();
+            return;
+
+            void RemoveSelf() {
                 if (!this) return;
                 if (!gameObject.activeSelf) {
                     World.EventSystem.RemoveAllListenersOwnedBy(this, true);
                 }
                 Destroy(gameObject);
-            }, this);
-            
-            // We need to make sure that gameObject was enabled at least once so that we will get OnDestroy callback.
-            EnsureOnEnableEvent();
-            Initialize();
+            }
         }
 
         protected virtual void EnsureOnEnableEvent() {
@@ -120,6 +124,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         
         void CastingCanceled(CastSpellData data) {
             if (_castingHand != data.CastingHand && data.CastingHand != CastingHand.BothHands) return;
+            if (this == null || gameObject == null) return;
             OnCastingCanceled();
             if (_visualEffect != null) {
                 _visualEffect.SendEvent("Canceled");
@@ -128,6 +133,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         
         void CastingFailed(CastSpellData data) {
             if (_castingHand != data.CastingHand && data.CastingHand != CastingHand.BothHands) return;
+            if (this == null || gameObject == null) return;
             OnCastingFailed();
             if (_visualEffect != null) {
                 _visualEffect.SendEvent("Failed");
@@ -136,6 +142,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
 
         void CastingEnded(CastSpellData data) {
             if (_castingHand != data.CastingHand && data.CastingHand != CastingHand.BothHands) return;
+            if (this == null || gameObject == null) return;
             OnCastingEnded();
             if (_visualEffect != null) {
                 _visualEffect.SendEvent("Ended");

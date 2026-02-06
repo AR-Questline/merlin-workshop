@@ -20,6 +20,7 @@ namespace Awaken.TG.MVC.Domains {
         public string Name { get; }
         public string ParentName { get; }
         public string FullName { get; }
+        public string FileFullName { get; }
         public bool Modal { get; }
         public int Hash { get; }
         
@@ -80,6 +81,7 @@ namespace Awaken.TG.MVC.Domains {
             Name = name;
             ParentName = parentName;
             FullName = ParentName != null ? $"{ParentName}.{Name}" : Name;
+            FileFullName = FullName + ".data";
             Modal = isModal;
             Hash = FullName.GetHashCode();
 #if UNITY_EDITOR || AR_DEBUG

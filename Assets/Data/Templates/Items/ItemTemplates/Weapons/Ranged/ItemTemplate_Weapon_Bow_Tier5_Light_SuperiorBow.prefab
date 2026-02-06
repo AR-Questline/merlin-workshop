@@ -51,7 +51,7 @@ MonoBehaviour:
   templateType: 0
   _isAbstract: 0
   _abstractTypes:
-  - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - _guid: 3de257638f67f2c4ca48f4c9cb515946
   - _guid: dcd64189d3cdf7044a4c6f44477ad9cd
   metadata:
     verifiedArt: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_03d044d2841bf634598cfe4f1700bd55
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +127,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_03d044d2841bf634598cfe4f1700bd55
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Normal
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 5729462cc89ab844cb730f350b801b35
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -203,8 +207,8 @@ MonoBehaviour:
   drawBowStaminaCostPerTick: 17
   holdItemStaminaCostPerTick: 11
   pushStaminaCost: 15
-  minDamage: 39
-  maxDamage: 45
+  minDamage: 65
+  maxDamage: 75
   damageGain: 2
   heavyAttackDamageMultiplier: 1
   pushDamageMultiplier: 0.1
@@ -238,8 +242,11 @@ MonoBehaviour:
   rangedZoomModifier: 0.9
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &4362647714469841634
 MonoBehaviour:

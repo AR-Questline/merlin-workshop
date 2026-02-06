@@ -7,7 +7,6 @@ using Awaken.TG.Main.AI.Movement.Controllers;
 using Awaken.TG.Main.AI.Movement.States;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.AudioSystem;
-using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Combat;
@@ -18,6 +17,7 @@ using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.Main.Settings.Controls;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.Main.Utility.UI;
@@ -29,9 +29,9 @@ using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.Utility;
 using Awaken.Utility;
 using Awaken.Utility.Animations;
-using Awaken.Utility.GameObjects;
 using Awaken.Utility.Maths;
 using FMODUnity;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Fights.Mounts {
@@ -44,29 +44,23 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
         static PlayerInput Input => World.Any<PlayerInput>();
         public int InputPriority => 1;
-        public Transform Saddle => _saddle;
-        public DismountPoint[] dismountLocations = Array.Empty<DismountPoint>();
+        public Transform MountingParent => _components.MountingParent;
         public MountData.Data Data => Target.MountData.GameplayData;
         public MountData.InputData InputData => Target.MountData.GetInputData(RewiredHelper.IsGamepad);
         Hero MountedHero => Target.MountedHero;
-        GameControls GameControls => _gameControls ??= World.Only<SettingsMaster>().ControlsSettings.First();
+        GameControls GameControls => _gameControls ??= World.Only<SettingsMaster>().KeyboardControlsSettings.First();
+        public bool IsValid => this.IsValidForUIHandle();
 
         GameControls _gameControls;
         CharacterController _controller;
-        BoxCollider _interactionCollider;
         ARFmodEventEmitter _emitter;
-
-        GameObject _walkThroughCollider;
-        GameObject _dismountLocationParent;
-        Transform _saddle;
-        Transform _spine;
-        Transform _aheadWallDetectionPoint;
-        Transform _transform;
-        VHeroController _mountedHeroController;
-
+        MountComponents _components;
         VMountAnimator _animator;
         MountHeroSeeker _heroSeeker;
         VCMountHorseArmor _armor;
+        
+        Transform _transform;
+        VHeroController _mountedHeroController;
 
         bool _initialized;
         bool _mounted;
@@ -85,6 +79,8 @@ namespace Awaken.TG.Main.Fights.Mounts {
         float _turningVelocity;
         float _verticalVelocity;
 
+        bool _isFlying;
+        
         bool _inWater;
         float _currentWaterDepth;
 
@@ -96,11 +92,14 @@ namespace Awaken.TG.Main.Fights.Mounts {
         bool _previousGrounded;
         Vector3 _previousPosition;
 
+        Vector3 _previousForward;
+        Vector3 _tppMountedHeroCameraForward;
+        float _tppMaxTurningVelocityScale;
+
         Queue<ControllerColliderHit> _accumulatedHits = new();
         Queue<int> _accumulatedHitsCountPerFrame = new();
         int _accumulatedHitsCountThisFrame;
 
-        Vector3 _initialSaddleToSpineOffset;
         float _neighState;
         
         float _currentFovMultiplier = 1.0f;
@@ -108,15 +107,16 @@ namespace Awaken.TG.Main.Fights.Mounts {
         Action _afterInitialized;
         ScreenShakesProactiveSetting _screenShakesSetting;
 
+        Vector2 _animatorParams;
+        
         public bool Grounded => _grounded;
         public bool InWater => _inWater;
+        public bool IsFlying => _isFlying;
         public float RunningVelocity => _runningVelocity;
         public float TurningVelocity => _turningVelocity;
         
         public bool BreakingAheadOfWall => _aheadWallHit && _runningVelocity >= Data.runningSpeed;
-        public Vector2 AnimatorParams =>
-            new(RunningVelocity * VMountAnimator.ForwardMovementAnimatorScalar,
-                TurningVelocity * VMountAnimator.TurningMovementAnimatorScalar);
+        public Vector2 AnimatorParams => _animatorParams;
         public bool CanUseArmor => _armor != null;
 
         public static class Events {
@@ -125,30 +125,13 @@ namespace Awaken.TG.Main.Fights.Mounts {
         
         protected override void OnInitialize() {
             _transform = transform;
-            _dismountLocationParent = _transform.GrabChild<Transform>("Saddle/DismountLocations").gameObject;
 
-            dismountLocations = _dismountLocationParent.GetComponentsInChildren<DismountPoint>();
-            _dismountLocationParent.SetActive(false);
-
-            _interactionCollider = _transform.GrabChild<BoxCollider>("Interaction Collider");
-            _aheadWallDetectionPoint = _transform.GrabChild<Transform>("AheadWallDetectionPoint");
-            
-            _saddle = _transform.GrabChild<Transform>("Saddle/VMountParent");
-            _spine = _transform.GrabChild<Transform>("CG/Pelvis/Spine/Spine1");
-            _initialSaddleToSpineOffset = _saddle.InverseTransformPoint(_spine.position) * -1.0f;
+            _components = GetComponent<MountComponents>();
             
             _controller = GetComponentInChildren<CharacterController>();
             _emitter = GetComponent<ARFmodEventEmitter>();
 
-            Transform walkThroughTransform = gameObject.FindChildRecursively("WalkThroughCollider", true);
-            if (walkThroughTransform) {
-                _walkThroughCollider = walkThroughTransform.gameObject;
-            }
-
             _armor = gameObject.GetComponentInChildren<VCMountHorseArmor>();
-
-            _initialized = true;
-            _afterInitialized?.Invoke();
 
             Target.ParentModel.ListenTo(MovingPlatform.Events.MovingPlatformAdded, OnMovingPlatformAdded, this);
             
@@ -160,6 +143,9 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
             _heroSeeker = new MountHeroSeeker(this);
             _animator = new VMountAnimator(this);
+            
+            _initialized = true;
+            _afterInitialized?.Invoke();
         }
 
         public void ToggleMountState(bool mounted) {
@@ -168,8 +154,7 @@ namespace Awaken.TG.Main.Fights.Mounts {
                 return;
             }
 
-            _interactionCollider.enabled = !mounted;
-            _dismountLocationParent.SetActive(mounted);
+            _components.InteractionCollider.enabled = !mounted;
             _mounted = mounted;
             if (mounted) {
                 _heroSeeker.EndSeeking();
@@ -204,6 +189,14 @@ namespace Awaken.TG.Main.Fights.Mounts {
             PlayAudioClip(AliveAudioType.Roar, true);
         }
 
+        public void PlayTransformAnimation() {
+            _animator.TriggerAnimation(VMountAnimator.Trigger.Transition);
+        }
+        
+        public void PlayPetAnimation() {
+            _animator.TriggerAnimation(VMountAnimator.Trigger.Pet);
+        }
+        
         public bool IsMostlyStill() {
             const float Epsilon = 0.001f;
             return Mathf.Abs(_runningVelocity) < Epsilon && Mathf.Abs(_turningVelocity) < Epsilon;
@@ -232,17 +225,13 @@ namespace Awaken.TG.Main.Fights.Mounts {
             Physics.IgnoreCollision(_mountedHeroController.Controller, _controller, state);
         }
 
-        void OnAnimatorMove() {
-            // For now, we don't want animator to apply any kind of movement to mount.
-            // This function existing stops all root motion from being applied by animator.
-            // See: https://docs.unity3d.com/ScriptReference/Animator-applyRootMotion.html
-        }
-
         void ProcessUpdate(float deltaTime) {
             if (!_initialized) {
                 return;
             }
 
+            UpdateAnimatorParams(deltaTime);
+            
             if (_controller.enabled && _controller.gameObject.activeInHierarchy) {
                 HandleMovement(deltaTime);
             }
@@ -253,6 +242,20 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
             TiltMountToSlope(deltaTime);
             MakeMovementSound();
+        }
+
+        void UpdateAnimatorParams(float deltaTime) {
+            float desiredRunningVelocity = RunningVelocity * VMountAnimator.ForwardMovementAnimatorScalar;
+            _animatorParams.x = mathExt.MoveTowards(_animatorParams.x, desiredRunningVelocity, deltaTime * Data.horseVerticalAnimatorUpdateSpeed);
+
+            float multiplier = math.lerp(1, 3f, RunningVelocity.Remap(5, 10, 0, 1, true));
+            float desiredTurningVelocity = TurningVelocity * VMountAnimator.TurningMovementAnimatorScalar;
+            _animatorParams.y = mathExt.MoveTowards(_animatorParams.y, desiredTurningVelocity,
+                deltaTime 
+                * (IsAccelerating(_animatorParams.y, desiredTurningVelocity)
+                    ? Data.horseHorizontalAccelerationAnimatorUpdateSpeed
+                    : Data.horseHorizontalDecelerationAnimatorUpdateSpeed) 
+                * multiplier);
         }
 
         void ProcessLateUpdate(float deltaTime) {
@@ -267,6 +270,7 @@ namespace Awaken.TG.Main.Fights.Mounts {
             }
 
             ClampMountedHeroRotation();
+            CancelMountRotationOnHero();
         }
 
         void HandleMovement(float deltaTime) {
@@ -274,20 +278,21 @@ namespace Awaken.TG.Main.Fights.Mounts {
             HandleJumping(deltaTime);
             ApplyGravity(deltaTime);
             HandleWaterMovement(deltaTime);
+            HandleFlyingMovement(deltaTime);
             DetectAheadWallState();
 
+            FetchMountedHeroForward(deltaTime);
             var desiredMovement = GetDesiredMovement(deltaTime);
 
             HandleRunning(deltaTime, desiredMovement.y);
             HandleTurning(deltaTime, desiredMovement.x);
-
             LimitForwardMovementAgainstAheadWall(deltaTime);
             
             PerformVerifiedMovement(deltaTime);
         }
 
         void HandleJumping(float deltaTime) {
-            if (_grounded) _jumped = false;
+            if (_grounded || _inWater) _jumped = false;
 
             if (_mounted && Input.GetButtonDown(KeyBindings.Gameplay.Jump)) {
                 TryPerformJump();
@@ -303,6 +308,11 @@ namespace Awaken.TG.Main.Fights.Mounts {
         }
 
         void TryPerformJump() {
+            if (Data.canFly) {
+                StartFlying();
+                return;
+            }
+            
             if (_grounded && !_jumpInProgress && _runningVelocity >= Data.minimumSpeedForJump && !_inWater) {
                 PerformJump();
             }
@@ -323,8 +333,22 @@ namespace Awaken.TG.Main.Fights.Mounts {
             _animator.UpdateState(VMountAnimator.State.Jump);
         }
 
+        void StartFlying() {
+            if (_isFlying) {
+                return;
+            }
+            
+            _grounded = false;
+            _isFlying = true;
+            _groundNormal = Vector3.zero;
+            _hitNormal = Vector3.zero;
+            _verticalVelocity = Mathf.Sqrt(2 * Data.jumpHeight * -Data.gravity);
+            _animator.UpdateState(VMountAnimator.State.Fly);
+        }
+
         void ApplyGravity(float deltaTime) {
             if (_inWater) return;
+            if (_isFlying) return;
 
             if (_grounded) {
                 _verticalVelocity = Data.groundingSnapForce;
@@ -356,6 +380,33 @@ namespace Awaken.TG.Main.Fights.Mounts {
                 _verticalVelocity = Mathf.Max(_verticalVelocity, -maxDivingDelta / deltaTime);
             }
         }
+        
+        void HandleFlyingMovement(float deltaTime) {
+            if (!_isFlying) {
+                return;
+            }
+            
+            if (_grounded) {
+                _isFlying = false;
+                return;
+            }
+
+            if (!_mounted) {
+                _verticalVelocity = Data.maxDescendSpeed;
+                return;
+            }
+            
+            // -- Vertical
+            float verticalChangeSpeed = Data.verticalSpeedChange;
+            if (Input.GetButtonHeld(KeyBindings.Gameplay.Jump)) {
+                _verticalVelocity += verticalChangeSpeed * deltaTime;
+            } else if (Input.GetButtonHeld(KeyBindings.Gameplay.Crouch)) {
+                _verticalVelocity -= verticalChangeSpeed * deltaTime;
+            } else {
+                _verticalVelocity = mathExt.MoveTowards(_verticalVelocity, 0.0f, verticalChangeSpeed * deltaTime);
+            }
+            _verticalVelocity = math.clamp(_verticalVelocity, Data.maxDescendSpeed, Data.maxAscendSpeed);
+        }
 
         float GetVerticalVelocityMultiplier() {
             if (_verticalVelocity <= Data.terminalVelocity) {
@@ -369,6 +420,7 @@ namespace Awaken.TG.Main.Fights.Mounts {
         }
 
         float GetTargetForwardSpeed() {
+            if (IsFlying) return Data.flyingSpeed;
             if (IsSprinting()) return Data.sprintingSpeed;
             if (IsWalking()) return Data.walkingSpeed;
             return Data.runningSpeed;
@@ -379,8 +431,16 @@ namespace Awaken.TG.Main.Fights.Mounts {
             bool acceleratesOppositeWay = input * _runningVelocity < 0.0f;
             bool movingForward = input > 0;
 
-            float acceleration = _inWater ? Data.swimmingAcceleration : Data.runningAcceleration;
-            float deceleration = _inWater ? Data.swimmingDeceleration : Data.runningDeceleration;
+            float acceleration = _isFlying 
+                ? Data.flyingAcceleration 
+                : _inWater 
+                    ? Data.swimmingAcceleration 
+                    : Data.runningAcceleration;
+            float deceleration = _isFlying 
+                ? Data.flyingDeceleration
+                : _inWater 
+                    ? Data.swimmingDeceleration 
+                    : Data.runningDeceleration;
             float oppositeWayAcceleration = acceleration + deceleration;
             float directionalAcceleration = acceleratesOppositeWay ? oppositeWayAcceleration : acceleration;
             
@@ -399,7 +459,8 @@ namespace Awaken.TG.Main.Fights.Mounts {
             float movementDelta = _runningVelocity / Data.runningSpeed;
             float targetGroundSpeed = Mathf.Lerp(Data.turningStationarySpeed, Data.turningGallopSpeed, movementDelta);
             float targetSpeed = _inWater ? Data.turningSwimmingSpeed : targetGroundSpeed;
-            float targetVelocity = input * targetSpeed;
+            float tppTurningSpeedScale = Hero.TppActive ? Data.tppTurningSpeedScale : 1.0f;
+            float targetVelocity = input * targetSpeed * tppTurningSpeedScale;
 
             float desiredGroundAcceleration =
                 Mathf.Lerp(Data.turningStationaryAccel, Data.turningGallopAccel, movementDelta);
@@ -407,17 +468,31 @@ namespace Awaken.TG.Main.Fights.Mounts {
                 Mathf.Lerp(Data.turningStationaryDecel, Data.turningGallopDecel, movementDelta);
             float acceleration = _inWater ? Data.turningSwimmingAccel : desiredGroundAcceleration;
             float deceleration = _inWater ? Data.turningSwimmingDecel : desiredGroundDeceleration;
+
+            if (Hero.TppActive) {
+                acceleration *= Data.tppTurningAccelScale;
+                deceleration *= Data.tppTurningDecelScale;
+            }
+            
             float oppositeWayAcceleration = acceleration + deceleration;
             float directionalAcceleration = acceleratesOppositeWay ? oppositeWayAcceleration : acceleration;
             float changeSpeed = shouldDecelerate ? deceleration : directionalAcceleration;
+            
+            float changeStep = changeSpeed * deltaTime;
+            
+            _turningVelocity = Mathf.MoveTowards(_turningVelocity, targetVelocity, changeStep);
 
-            _turningVelocity = Mathf.MoveTowards(_turningVelocity, targetVelocity, changeSpeed * deltaTime);
+            if (Hero.TppActive) {
+                var maxTurning = targetSpeed * tppTurningSpeedScale * _tppMaxTurningVelocityScale;
+                _turningVelocity = Mathf.Clamp(_turningVelocity, -maxTurning, maxTurning);
+            }
 
             float rotationDelta = _turningVelocity * UnitTurningDegreesPerSecond * deltaTime;
             ApplyNewRotation(_transform.rotation * Quaternion.Euler(new Vector3(0, rotationDelta, 0)));
         }
 
         void ApplyNewRotation(Quaternion rotation) {
+
             Vector3 positionPreRotation = _transform.TransformPoint(_controller.center);
             _transform.rotation = rotation;
             Vector3 positionPostRotation = _transform.TransformPoint(_controller.center);
@@ -425,8 +500,12 @@ namespace Awaken.TG.Main.Fights.Mounts {
         }
 
         Vector2 GetDesiredMovement(float deltaTime) {
+            _tppMaxTurningVelocityScale = 1.0f;
+            
             var desiredMovement = Vector2.zero;
-            if (!_grounded && !_inWater) {
+            if (_isFlying) {
+                desiredMovement = GetPlayerDesiredMovement();
+            } else if (!_grounded && !_inWater) {
                 desiredMovement = GetMidairMovement();
             } else if (_mounted) {
                 desiredMovement = GetPlayerDesiredMovement();
@@ -449,6 +528,13 @@ namespace Awaken.TG.Main.Fights.Mounts {
         }
 
         Vector2 GetPlayerDesiredMovement() {
+            if (Hero.TppActive) {
+                return GetThirdPersonPlayerDesiredMovement();
+            }
+            return GetFirstPersonPlayerDesiredMovement();
+        }
+        
+        Vector2 GetFirstPersonPlayerDesiredMovement() {
             Vector2 rawInput = Input.MountMoveInput;
             Vector2 processedInput = Vector2.zero;
 
@@ -464,6 +550,31 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
             return processedInput;
         }
+        
+        Vector2 GetThirdPersonPlayerDesiredMovement() {
+            var cameraHorizontalForward = _tppMountedHeroCameraForward;
+            var cameraHorizontalRight = Vector3.Cross(Vector3.up, cameraHorizontalForward).normalized;
+            
+            Vector3 worldInput = 
+                Input.MountMoveInput.x * cameraHorizontalRight +
+                Input.MountMoveInput.y * cameraHorizontalForward;
+            
+            Vector3 currentDirection = _transform.forward.ToHorizontal3().normalized;
+            Vector3 targetDirection = worldInput.normalized;
+            float inputMagnitude = worldInput.magnitude;
+
+            float forwardness = Vector3.Dot(targetDirection, currentDirection);
+
+            float forwardMovement = Mathf.InverseLerp(Data.tppMinForwardnessToStartMoving, 1f, forwardness);
+
+            float sideMovementDegrees = Vector3.SignedAngle(currentDirection, targetDirection, Vector3.up);
+            float sideMovementClamped = Mathf.Clamp(sideMovementDegrees / 90.0f, -1f, 1f);
+
+            float dampeningRangeFactor = Mathf.Min(Mathf.Abs(sideMovementDegrees / Data.tppTurningDampeningRange), 1f);
+            _tppMaxTurningVelocityScale = Mathf.Lerp(1.0f, dampeningRangeFactor, inputMagnitude);
+
+            return new Vector2(sideMovementClamped, forwardMovement) * inputMagnitude;
+        }
 
         Vector2 GetClampedInputVector(Vector2 input) {
             if (InputData.clampInputMagnitude) {
@@ -474,8 +585,8 @@ namespace Awaken.TG.Main.Fights.Mounts {
         }
 
         void DetectAheadWallState() {
-            Vector3 start = _aheadWallDetectionPoint.position;
-            Vector3 direction = _aheadWallDetectionPoint.forward;
+            Vector3 start = _components.AheadWallDetectionPoint.position;
+            Vector3 direction = _components.AheadWallDetectionPoint.forward;
             float maxDistance = Data.aheadWallDetectionDistance;
 
             _aheadWallHit = Physics.Raycast(start, direction, out RaycastHit hit, maxDistance, Data.groundLayers);
@@ -490,14 +601,38 @@ namespace Awaken.TG.Main.Fights.Mounts {
                 _runningVelocity = Mathf.Min(_runningVelocity, newRunningVelocity);
             }
         }
+
+        void FetchMountedHeroForward(float deltaTime) {
+            if (MountedHero == null) {
+                _tppMountedHeroCameraForward = Vector3.zero;
+                return;
+            }
+            
+            var forward = MountedHero.VHeroController.LookDirection.ToHorizontal3().normalized;
+
+            if (Hero.TppActive) {
+                _tppMountedHeroCameraForward = Vector3.MoveTowards(
+                    _tppMountedHeroCameraForward, 
+                    forward, 
+                    Data.tppCameraMovementForce * deltaTime);
+            } else {
+                _tppMountedHeroCameraForward = forward;
+            }
+        }
         
         void PerformVerifiedMovement(float deltaTime) {
+            RefreshStepOffsetToScale();
             PerformMovement(deltaTime);
 
             if (ShouldRedoMovementIntoStep()) {
                 RevertToLastMovementState();
                 PerformMovementNoStep(deltaTime);
             }
+        }
+
+        void RefreshStepOffsetToScale() {
+            float maxStepOffset = _transform.lossyScale.y * _controller.height;
+            _controller.stepOffset = Mathf.Min(maxStepOffset, Data.stepOffset);
         }
 
         void PerformMovement(float deltaTime) {
@@ -738,15 +873,15 @@ namespace Awaken.TG.Main.Fights.Mounts {
         }
 
         void UpdateSaddlePosition(float deltaTime) {
-            Transform saddle = Saddle;
+            Transform saddle = MountingParent;
             
             _screenShakesSetting ??= World.Only<ScreenShakesProactiveSetting>();
             
-            if (_screenShakesSetting.Enabled) {
+            if (_screenShakesSetting.Enabled || Hero.TppActive) {
                 saddle.position = 
-                    _spine.position
-                    + Vector3.up * _initialSaddleToSpineOffset.y
-                    + transform.forward * _initialSaddleToSpineOffset.z;
+                    _components.DynamicSaddlePosition.position
+                    + _transform.up * _components.InitialSaddleToSpineOffset.y
+                    + _transform.forward *  _components.InitialSaddleToSpineOffset.z;
             } else {
                 const float MinimumSlopeFactor = -0.4f;
                 const float MaximumSlopeFactor = 0.75f;
@@ -762,13 +897,13 @@ namespace Awaken.TG.Main.Fights.Mounts {
             
             if (_neighState > 0.0f) {
                 const float NeighSquashFactor = 0.4f;
-                const float NeighHorizontalOffset = -0.8f;
-                const float NeighVerticalOffset = 0.5f;
                 const float NeighLength = 1.2f;
+                float neighHorizontalOffset = Hero.TppActive ? -0.4f : -0.8f;
+                float neighVerticalOffset = Hero.TppActive ? 0.05f : 0.5f;
                 
                 float neighStateMappedToSine = Mathf.Clamp01(0.5f - Mathf.Cos(_neighState * Mathf.PI * 2.0f) * 0.5f);
                 float offsetScale = Mathf.Pow(neighStateMappedToSine, NeighSquashFactor);
-                saddle.localPosition += new Vector3(0.0f, NeighVerticalOffset, NeighHorizontalOffset) * offsetScale;
+                saddle.localPosition += new Vector3(0.0f, neighVerticalOffset, neighHorizontalOffset) * offsetScale;
                 _neighState -= deltaTime / NeighLength;
             }
         }
@@ -779,6 +914,10 @@ namespace Awaken.TG.Main.Fights.Mounts {
             MountedHero.MoveTo(_transform.position);
             UpdateMountedHeroFOV();
 
+            if (Hero.TppActive) {
+                MountedHero.VHeroController.Transform.localRotation = Quaternion.identity;
+            }
+            
             if (RewiredHelper.IsGamepad) {
                 MakeHeroFollowHorseRotation(deltaTime);
             }
@@ -815,17 +954,37 @@ namespace Awaken.TG.Main.Fights.Mounts {
             });
         }
 
+        void CancelMountRotationOnHero() {
+            if (!Hero.TppActive) {
+                return;
+            }
+            
+            var heroAngles = MountedHero.VHeroController.HeroCamera.GetAngles();
+            
+            var rotationDelta = Vector3.SignedAngle(
+                _previousForward.ToHorizontal3(), 
+                _transform.forward.ToHorizontal3(), 
+                Vector3.up
+            );
+            
+            heroAngles.y -= rotationDelta;
+            
+            MountedHero.VHeroController.HeroCamera.SetAngles(heroAngles);
+            _previousForward = _transform.forward;
+        }
+
         void UpdateWalkThroughCollider() {
             // prevents the collider on moving mount from intersecting NPCs and other mounts,
             // which in turn would cause them to be unnaturally pushed away.
-            _walkThroughCollider.SetActive(IsMostlyStill());
+            _components.WalkThroughCollider.enabled = IsMostlyStill();
         }
 
         void MakeHeroFollowHorseRotation(float deltaTime) {
             if (Input.LookInput != Vector2.zero) {
                 _remainingTimeToFollowHorseRotation = TimeToCorrectCameraRotation;
             } else if (_remainingTimeToFollowHorseRotation < 0) {
-                _mountedHeroController.HeroCamera.FollowRotation(_transform.rotation.eulerAngles, deltaTime);
+                float force = Hero.TppActive ? Data.tppCameraCorrectionForce : 1.0f;
+                _mountedHeroController.HeroCamera.FollowRotation(_transform.rotation.eulerAngles, deltaTime, force);
             } else {
                 _remainingTimeToFollowHorseRotation -= deltaTime;
             }
@@ -872,6 +1031,10 @@ namespace Awaken.TG.Main.Fights.Mounts {
                 .WithoutLateUpdate(ProcessLateUpdate)
                 .WithoutTimeComponentsOf(gameObject);
             return base.OnDiscard();
+        }
+        
+        public Transform GetAvailableDismountLocation() {
+            return _components.GetAvailableDismountLocation();
         }
 
         // === Audio 
@@ -924,6 +1087,13 @@ namespace Awaken.TG.Main.Fights.Mounts {
             }
 
             return UIResult.Ignore;
+        }
+
+        bool IsAccelerating(float previousValue, float desiredValue) {
+            if (previousValue < 0) {
+                return desiredValue < previousValue;
+            }
+            return desiredValue > previousValue;
         }
     }
 }

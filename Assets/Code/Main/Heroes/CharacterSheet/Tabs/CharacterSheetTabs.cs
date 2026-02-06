@@ -75,15 +75,13 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Tabs {
         }
 
         protected override void ChangeTab(CharacterSheetTabType type) {
-            if (ParentModel.HeroRenderer.IsLoading) {
+            if (!type.IsVisible(ParentModel) || ParentModel.HeroRenderer.IsLoading) {
                 return;
             }
             //handle click on tab with subtabs
             if (ParentModel.CurrentType == CharacterSheetTabType.Character && type == CharacterSheetTabType.Character) {
                 TryHandleUnsavedTabChanges(() =>
                     ParentModel.Element<CharacterUI>().Element<CharacterSubTabs>().SetNone());
-            } else if (ParentModel.CurrentType == CharacterSheetTabType.Journal && type == CharacterSheetTabType.Journal) {
-                ParentModel.Element<JournalUI>().BackToMainTab();
             } else {
                 base.ChangeTab(type);
             }
@@ -95,7 +93,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Tabs {
             Character = new(nameof(Character), _ => new CharacterUI(), LocTerms.CharacterTabCharacter),
             Inventory = new(nameof(Inventory), _ => new InventoryUI(), LocTerms.CharacterTabInventory),
             Map = new(nameof(Map), _ => new MapUI(), LocTerms.CharacterTabMap),
-            Quests = new(nameof(Quests), _ => new QuestLogUI(), LocTerms.CharacterTabQuests),
+            Quests = new(nameof(Quests), _ => new QuestLogRootUI(), LocTerms.CharacterTabQuests),
             Journal = new(nameof(Journal), _ => new JournalUI(), LocTerms.CharacterTabJournal);
         
         CharacterSheetTabType(string enumName, SpawnDelegate spawn, string titleID) : base(enumName, titleID, spawn, Always) { }

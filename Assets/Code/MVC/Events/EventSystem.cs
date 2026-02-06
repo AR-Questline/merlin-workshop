@@ -13,15 +13,15 @@ using Unity.Collections;
 
 namespace Awaken.TG.MVC.Events {
     public sealed class EventSystem : IService {
-        const int ByOwnerPrealloc = 25_000;
-        const int BySelectorPrealloc = 49_500;
-        const int ByTargetPrealloc = 14_500;
+        const int ByOwnerPrealloc = 35_000;
+        const int BySelectorPrealloc = 75_500;
+        const int ByTargetPrealloc = 25_500;
 
         // === Fields
 
-        readonly Dictionary<string, StructList<IEventListener>> _byTarget = new(ByOwnerPrealloc);
+        readonly Dictionary<string, StructList<IEventListener>> _byTarget = new(ByTargetPrealloc);
         readonly Dictionary<EventSelector, StructList<IEventListener>> _bySelector = new(BySelectorPrealloc);
-        readonly Dictionary<IListenerOwner, StructList<IEventListener>> _byOwner = new(ByTargetPrealloc);
+        readonly Dictionary<IListenerOwner, StructList<IEventListener>> _byOwner = new(ByOwnerPrealloc);
         readonly Queue<TriggerData> _queuedEvents = new();
 
         readonly List<IEventListener> _removedListenersCache = new List<IEventListener>(16);
@@ -131,7 +131,7 @@ namespace Awaken.TG.MVC.Events {
             if (QueuingEnabled && evt.CanBeQueued) {
                 _queuedEvents.Enqueue(new TriggerData(source, evt, payload));
             } else {
-                InvokeEvent(source, evt, payload);
+                InvokeEvent<TPayload>(source, evt, payload);
             }
         }
         
@@ -144,6 +144,7 @@ namespace Awaken.TG.MVC.Events {
             }
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void InvokeEvent(IEventSource source, IEvent evt, object payload) {
             ProfilerValues.EventsCalled.Value += 1;
             
@@ -168,7 +169,46 @@ namespace Awaken.TG.MVC.Events {
                     try {
                         IncreaseCallsDepth();
                         listener.InvokeWith(payload);
-                        if (listener is IDisposableEventListener { ShouldBeDisposed: true }) {
+                        if (listener is { ShouldBeDisposed: true }) {
+                            RemoveListener(listener);
+                        }
+                    } catch (Exception e) {
+                        LogUtils.LogEventException(e, evt, source, listener);
+                    } finally {
+                        DecreaseCallsDepth();
+                    }
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        void InvokeEvent<T>(IEventSource source, IEvent evt, T payload) {
+            ProfilerValues.EventsCalled.Value += 1;
+
+            // selector for "only from selected source" listeners
+            var namedSourceEventSelector = new EventSelector(source.ID, evt);
+            InvokeEvent(source, evt, payload, namedSourceEventSelector);
+            // selector for "all objects" listeners
+            var anySourceEventSelector = new EventSelector(EventSelector.AnySource, evt);
+            InvokeEvent(source, evt, payload, anySourceEventSelector);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        void InvokeEvent<T>(IEventSource source, IEvent evt, T payload, EventSelector eventSelector) {
+            ProfilerValues.EventsSelectorsCalled.Value += 1;
+            if (_bySelector.TryGetValue(eventSelector, out var listeners)) {
+                using var stableListeners = RentedArray<IEventListener>.Borrow(listeners);
+                foreach (IEventListener listener in stableListeners) {
+                    if (listener.Owner?.CanReceiveEvents == false) {
+                        continue;
+                    }
+
+                    var typedListener = (IEventListener<T>)listener;
+                    ProfilerValues.EventsCallbacksCount.Value += 1;
+                    try {
+                        IncreaseCallsDepth();
+                        typedListener.InvokeWith(payload);
+                        if (typedListener is { ShouldBeDisposed: true }) {
                             RemoveListener(listener);
                         }
                     } catch (Exception e) {

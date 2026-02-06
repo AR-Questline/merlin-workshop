@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Awaken.TG.Code.Utility;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Core;
 using Awaken.TG.Main.Templates;
@@ -89,12 +89,13 @@ namespace Awaken.TG.Main.Crafting.Recipes {
 
         public Item Create(ICrafting crafting = null, int? overridenLevel = null) {
             int itemLvl = overridenLevel ?? Mathf.FloorToInt(CraftingUtils.GetItemLevelForCrafted(this));
+            itemLvl = CraftingUtils.CorrectNewGamePlusCraftedItemLevel(itemLvl);
             int additionalItems = CalculateAdditionalItems(ref itemLvl) + 1;
             return CreateItem(itemLvl, quantity * additionalItems);
         }
 
         Item CreateItem(int itemLvl, int finalQuantity) {
-            bool willCreateGarbage = GarbageItem != null && itemLvl <= GarbageItemThreshold;
+            bool willCreateGarbage = CanHaveItemLevel && GarbageItem != null && itemLvl <= GarbageItemThreshold + NewGamePlusSystem.CalculatedBonusItemLevel;
             return willCreateGarbage ? new(GarbageItem) : new(Outcome, finalQuantity, itemLvl);
         }
 
@@ -116,12 +117,12 @@ namespace Awaken.TG.Main.Crafting.Recipes {
             int additionalItems = 0;
             
             if (disableItemLevels) {
-                itemLvl = 0;
+                itemLvl = NewGamePlusSystem.CalculatedBonusItemLevel;
             } else if (!CanHaveItemLevel) {
                 if(Outcome.canStack && itemLvl > 0) {
                     additionalItems = RandomUtil.UniformInt(0, itemLvl);
                 }
-                itemLvl = 0;
+                itemLvl = NewGamePlusSystem.CalculatedBonusItemLevel;
             }
             return additionalItems;
         }

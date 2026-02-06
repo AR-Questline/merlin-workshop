@@ -13,8 +13,10 @@ using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Utility.Animations;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.TG.Utility;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -113,9 +115,19 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.RangedBehaviours {
 
             _cancellationToken = new CancellationTokenSource();
             if (ParentModel.ItemProjectile is { } itemProjectile) {
-                _arrowPrefab = await itemProjectile.GetInHandProjectile(ParentModel.NpcElement.MainHand, _cancellationToken);
+                if (itemProjectile.IsSetUp) {
+                    _arrowPrefab = await itemProjectile.GetInHandProjectile(ParentModel.NpcElement.MainHand, _cancellationToken);
+                    return;
+                } else {
+                    Debug.LogException(new Exception($"Trying to shoot a projectile {LogUtils.GetDebugName(itemProjectile.ParentModel)} that is not set up: Npc: {LogUtils.GetDebugName(Npc)}"));
+                }
+            }
+
+            if (ParentModel.CustomProjectileData.visualPrefab is { IsSet: true } visualPrefab) {
+                _arrowPrefab = await ItemProjectile.GetCustomInHandProjectile(visualPrefab, ParentModel.NpcElement.MainHand, _cancellationToken);
+                return;
             } else {
-                _arrowPrefab = await ItemProjectile.GetCustomInHandProjectile(ParentModel.CustomProjectileData.visualPrefab, ParentModel.NpcElement.MainHand, _cancellationToken);
+                Debug.LogException(new Exception($"Trying to shoot a custom projectile that is not set up: Npc: {LogUtils.GetDebugName(Npc)}"));
             }
         }
         

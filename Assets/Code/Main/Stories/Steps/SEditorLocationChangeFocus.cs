@@ -1,5 +1,6 @@
 ﻿using Awaken.TG.Main.AI.Idle.Interactions;
 using Awaken.TG.Main.Locations;
+using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Stories.Core.Attributes;
 using Awaken.TG.Main.Stories.Execution;
@@ -40,7 +41,9 @@ namespace Awaken.TG.Main.Stories.Steps {
 
                 if (focusType == FocusOverrideType.Force) {
                     var focusOverride = story.TryGetElement<StoryInteractionFocusOverride>();
-                    var focusTransform = location.TryGetElement<IWithLookAt>()?.LookAtTarget ?? location.ViewParent; 
+                    var focusTransform = location.TryGetElement<IWithLookAt>()?.LookAtTarget ??
+                                         location.TryGetElement<DialogueAction>()?.ViewFocus ?? 
+                                         location.ViewParent; 
                     if (focusOverride != null) {
                         focusOverride.SetFocus(focusTransform);
                     } else {

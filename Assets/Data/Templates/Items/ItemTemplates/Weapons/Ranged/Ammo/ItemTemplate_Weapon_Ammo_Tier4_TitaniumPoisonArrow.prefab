@@ -75,7 +75,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_56b26439640e2694aba697d96b92fde5
-  EDITOR_bakedDescription: Inflicts Poison on hit.
+  EDITOR_bakedDescription: Inflicts a large amount of <color=#04959A>Poison</color>
+    on hit.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: e5d313403aee8834b93c3806fd9ce1f5
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &4573730755203723746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +209,8 @@ MonoBehaviour:
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 10
   pushStaminaCost: 0
-  minDamage: 15
-  maxDamage: 15
+  minDamage: 30
+  maxDamage: 30
   damageGain: 0
   heavyAttackDamageMultiplier: 2
   pushDamageMultiplier: 0.1
@@ -242,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &3716150357415095985
 MonoBehaviour:
@@ -272,10 +280,14 @@ MonoBehaviour:
       variables:
       - name: Buildup
         value: 125
-      - name: Stacks
-        value: 1
+      - name: NGBuildup
+        value: 180
       - name: Duration
         value: 0
+      - name: Stacks
+        value: 1
+      - name: NGStacks
+        value: 1
       enums: []
       datums: []
       templates:

@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Heroes.Fishing {
         [Saved] public float weight;
         [Saved] public float length;
         
-        public ShareableSpriteReference Graphic => _fishTemplate.IconReference;
+        public ShareableSpriteReference Graphic => _fishTemplate.IconReference();
         public string Id => _fishTemplate.GUID;
         public string Name => _fishTemplate.ItemName;
 
@@ -26,12 +26,10 @@ namespace Awaken.TG.Main.Heroes.Fishing {
         }
         
         public string DescriptionToDisplay() {
-            string description = ItemUtils.GetTemplateDescription(_fishTemplate, Hero.Current);
-            string l = length.ToString("0.0").Bold();
-            string w = weight.ToString("0.0").Bold();
-            string currentRecord = $"{LocTerms.FishCurrentRecordJournal.Translate($"{l}")} {w} {LocTerms.KilogramAbbreviation.Translate()}";
-            
-            return $"{description}\n\n{currentRecord}";
+            string l = length.ToString("0.0").Bold().WithSprite("fish", ARColor.MainGrey);
+            string w = weight.ToString("0.0").Bold().WithSprite("weight", ARColor.MainGrey);
+            string pipe = string.Empty.WithSprite("pipe", ARColor.MainGrey);
+            return $"{LocTerms.FishCurrentRecordJournal.Translate($"{l}")} {pipe} {w} {LocTerms.KilogramAbbreviation.Translate()}";
         }
     }
 }

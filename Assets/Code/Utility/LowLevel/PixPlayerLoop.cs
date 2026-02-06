@@ -27,7 +27,7 @@ namespace Awaken.Utility.LowLevel {
         LogPoint<PostLateUpdate> _postLateUpdate;
 
         PixPlayerLoop() {
-            if (Configuration.GetBool("pix_full_player_loop")) {
+            if (Configuration.GetBoolExact("pix_full_player_loop")) {
                 CreateFull();
             } else {
                 CreateEssential();

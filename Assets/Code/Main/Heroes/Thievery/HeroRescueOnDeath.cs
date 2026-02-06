@@ -42,11 +42,11 @@ namespace Awaken.TG.Main.Heroes.Thievery {
         }
 
         bool TryTeleportToPrison(HookResult<HealthElement, Damage> result) {
-            ICharacter valueDamageDealer = result.Value.DamageDealer;
+            ICharacter valueDamageDealer = result.Value.DamageDealerPure;
             var faction = valueDamageDealer?.DefaultCrimeOwner;
-            CrimeOwnerUtils.GetCrimeOwnersOfRegion(CrimeType.Combat, Hero.Current.Coords, out var owners);
-            if (!owners.IsEmpty) {
-                faction = owners.PrimaryOwner;
+            var overrideCrimeOwner = CrimeOwnerUtils.GetCrimePrimaryOwnerOfRegion(CrimeType.Combat, Hero.Current.Coords);
+            if (overrideCrimeOwner != null) {
+                faction = overrideCrimeOwner;
             }
 
             if (CrimePenalties.GoToPrisonFromCombat(faction)) {
@@ -57,7 +57,7 @@ namespace Awaken.TG.Main.Heroes.Thievery {
         }
 
         bool TryRescueFromAttachments(HookResult<HealthElement, Damage> result) {
-            var damageDealer = result.Value.DamageDealer;
+            var damageDealer = result.Value.DamageDealerPure;
             if (damageDealer is NpcElement npc) {
                 if (npc.ParentModel.TryGetElement<TeleportHeroOnHeroKill>(out var teleportHeroOnHeroKill)) {
                     PreventDeath(result);

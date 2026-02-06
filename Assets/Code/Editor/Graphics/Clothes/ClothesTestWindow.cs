@@ -10,7 +10,6 @@ using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.SkinnedBones;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
 using Awaken.TG.Main.Utility.RichEnums;
-using Awaken.Utility.Animations;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Extensions;
@@ -168,8 +167,6 @@ namespace Awaken.TG.Editor.Graphics.Clothes {
         [Button(ButtonSizes.Small, ButtonStyle.FoldoutButton, Expanded = true)]
         void SpawnWithCustomRig(GameObject prefab) {
             CommonSpawn(prefab);
-            
-            _previewInstance.AddComponent<RagdollUtilities>().RemoveRagdollFromChild();
         }
 
         [BoxGroup("PlayOnly/Animations", Order = AnimationsOrder)]
@@ -292,9 +289,6 @@ namespace Awaken.TG.Editor.Graphics.Clothes {
             }
             _previewInstance = Instantiate(prefab);
             _previewInstance.hideFlags = HideFlags.DontSaveInEditor;
-            
-            RagdollUtilities ragdollUtilities = _previewInstance.AddComponent<RagdollUtilities>() ?? prefab.GetComponent<RagdollUtilities>();
-            ragdollUtilities.RemoveRagdollFromChild();
             
             _animator = _previewInstance.GetComponentInChildren<Animator>();
             _animator.applyRootMotion = false;

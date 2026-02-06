@@ -1,6 +1,9 @@
 ﻿using Awaken.CommonInterfaces.Animations;
+using Awaken.TG.Main.Fights.Factions.Markers;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.NPCs.Providers;
+using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.MovementSystems;
 using Awaken.TG.Main.Heroes.Statuses;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours;
@@ -17,6 +20,8 @@ namespace Awaken.TG.Main.Character {
         public override ushort TypeForSerialization => SavedModels.StunnedCharacterElement;
 
         AnimatorBridge _npcAnimator;
+        PacifistMarker _pacifistMarker;
+        
         public bool CanMove => false;
         public bool ForceAnimationCulling => true;
         
@@ -36,12 +41,16 @@ namespace Awaken.TG.Main.Character {
                     npc.ListenTo(DeathElement.Events.RagdollToggled, OnRagdollToggled, this);
                     OnRagdollToggled(npc.IsInRagdoll);
                 });
+            } else if (ParentModel is Hero h) {
+                _pacifistMarker = h.AddElement(new PacifistMarker());
+                AddElement(new HeroStunnedInvolvement());
+                h.TrySetMovementType<CutsceneMovement>();
             }
         }
 
         void OnRagdollToggled(bool ragdollEnabled) {
             if (ragdollEnabled) {
-                ParentModel.Element<DeathElement>().GetBehaviour<DeathRagdollBehaviour>().SetActiveRagdollConstraints(false);
+                ParentModel.Element<DeathElement>().GetBehaviour<DeathRagdollNpcBehaviour>().SetActiveRagdollConstraints(false).Forget();
             }
         }
 
@@ -55,11 +64,15 @@ namespace Awaken.TG.Main.Character {
                 _npcAnimator = null;
             }
             
+            _pacifistMarker?.Discard();
+            
             if (ParentModel is NpcElement npc) {
                 NpcCanMoveHandler.RemoveCanMoveProvider(npc, this);
                 if (!npc.HasBeenDiscarded && npc.IsInRagdoll) {
-                    npc.Element<DeathElement>().GetBehaviour<DeathRagdollBehaviour>().SetActiveRagdollConstraints(true);
+                    npc.Element<DeathElement>().GetBehaviour<DeathRagdollNpcBehaviour>().SetActiveRagdollConstraints(true).Forget();
                 }
+            } else if (ParentModel is Hero h) {
+                h.ReturnToDefaultMovement();
             }
         }
     }

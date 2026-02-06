@@ -61,11 +61,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet {
         }
 
         void Announce(Status status) {
-            if (_isAnnouncing) {
+            if (_isAnnouncing || status.SourceInfo == null) {
                 return;
             }
             
-            statusText.SetText(status.Template.displayName.ToString());
+            statusText.SetText(status.SourceInfo.DisplayNameString);
             _sequence?.Kill(true);
             _sequence = status.Type.IsPositive ? ShowSequence() : BlinkSequence();
 

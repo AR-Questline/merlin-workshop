@@ -32,12 +32,12 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.CharacterInfo.Acti
         static bool ValidStatus(Status s) {
             if (s.HiddenOnUI) return false;
             if (s is BuildupStatus { Active: false }) return false;
-            return s is {
-                SourceInfo: {
-                    Icon: { IsSet: true },
-                    DisplayNameString: not null and not "",
-                    HiddenOnUI: false
-                }
+            if (s.SourceInfo == null || s.SourceInfo.HiddenOnUI) {
+                return false;
+            }
+            return s.SourceInfo is {
+                Icon: { IsSet: true },
+                DisplayNameString: not null and not "",
             };
         }
     }

@@ -11,6 +11,7 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.Factions;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes.Items.Attachments.Interfaces;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Setup;
@@ -51,6 +52,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
         TemplateReference allyToSpawn;
         [SerializeField] NpcStateType animatorStateType = NpcStateType.MagicProjectile;
         [SerializeField] bool rotateTowardsTarget = true;
+        [SerializeField] bool spawnNextToCurrentTarget = false;
 
         // === Properties & Fields
         public override int Weight => weight;
@@ -107,10 +109,17 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
         }
         
         void GetSpawnPosition(out Vector3 spawnPosition, out Quaternion spawnRotation) {
+            const float AdditionalDistance = 3.5f;
+            
             Transform parentViewTransform = ParentModel.NpcElement.CharacterView.transform;
-            Vector3 rightVector = parentViewTransform.transform.right * 3.5f;
-            spawnPosition = _spawnRight ? ParentModel.Coords + rightVector : ParentModel.Coords - rightVector;
-            _spawnRight = !_spawnRight;
+            var currentTarget = Npc.GetCurrentTarget();
+            if (spawnNextToCurrentTarget && currentTarget != null) {
+                spawnPosition = currentTarget.Coords + currentTarget.Forward() * AdditionalDistance;
+            } else {
+                Vector3 rightVector = parentViewTransform.transform.right * AdditionalDistance;
+                spawnPosition = _spawnRight ? ParentModel.Coords + rightVector : ParentModel.Coords - rightVector;
+                _spawnRight = !_spawnRight;
+            }
             spawnRotation = parentViewTransform.rotation;
             
             // --- Find closest position on navmesh

@@ -3,19 +3,21 @@ using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
+using Awaken.TG.MVC.UI.Handlers.Focuses;
 using Awaken.Utility.Animations;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Awaken.TG.Graphics.Cutscenes {
-    [UsesPrefab("UI/Credits/VCredits")]
-    public class VCredits : View<Credits>, IPromptHost {
+    [UsesPrefab("UI/Credits/" + nameof(VCredits))]
+    public class VCredits : View<Credits>, IPromptHost, IAutoFocusBase {
         [SerializeField] RectTransform contentParent;
         [SerializeField] float scrollSpeed = 50f;
         [SerializeField] RectTransform creditsSize;
         [SerializeField] ARFmodEventEmitter musicEmitter;
         [SerializeField] ARFmodEventEmitter snapshotEmitter;
         [SerializeField] Transform promptHost;
+        [SerializeField] VGenericPromptUI skipPrompt;
 
         bool _started;
         float _endY;
@@ -23,8 +25,10 @@ namespace Awaken.TG.Graphics.Cutscenes {
         
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
         public Transform PromptsHost => promptHost;
+        public VGenericPromptUI SkipPrompt => skipPrompt;
 
         protected override void OnMount() {
+            Target.InitPrompts(this);
             PlayAudio();
             StartCredits().Forget();
         }

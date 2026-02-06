@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -24,6 +25,7 @@ namespace Awaken.TG.Main.UI.Popup.PopupContents {
         
         public bool ForceFocus => true;
         public Component DefaultFocus => this;
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             if (Target.WithAlwaysPresentHandlers) {
@@ -91,10 +93,6 @@ namespace Awaken.TG.Main.UI.Popup.PopupContents {
         
 
         public virtual UIResult Handle(UIEvent evt) {
-            if (Target == null || Target.HasBeenDiscarded) {
-                return UIResult.Ignore;
-            }
-            
             switch (evt) {
                 case UIKeyDownAction action when action.Name == KeyBindings.UI.Generic.IncreaseValue:
                 case UIKeyLongHeldAction holdAction when holdAction.Name == KeyBindings.UI.Generic.IncreaseValue:

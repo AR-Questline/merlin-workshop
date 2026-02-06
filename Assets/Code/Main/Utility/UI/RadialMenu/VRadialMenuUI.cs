@@ -5,6 +5,7 @@ using Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -63,7 +64,8 @@ namespace Awaken.TG.Main.Utility.UI.RadialMenu {
 
         bool IFocusSource.ForceFocus => true;
         Component IFocusSource.DefaultFocus => this;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         /// <summary> Appear UI logic. Called OnInitialize </summary>
         protected abstract void Appear();
         
@@ -184,20 +186,27 @@ namespace Awaken.TG.Main.Utility.UI.RadialMenu {
             
             _hovered?.OnHoverEnd();
             _hovered = option;
-            VCRadialMenuOption<T>.OptionDescription description;
+
             if (_hovered != null) {
                 _hovered.OnHoverStart();
-                description = _hovered.Description;
                 RewiredHelper.VibrateUIHover(VibrationStrength.VeryLow, VibrationDuration.VeryShort);
-
-                bool isQuickSlot = _hovered is VCQuickSlot;
-                _promptUse.SetupState(isQuickSlot, isQuickSlot);
-            } else {
-                description = VCRadialMenuOption<T>.OptionDescription.Empty;
             }
+            
+            UpdatePrompts(option);
+        }
 
-            _promptSelect.SetActive(description.active);
-            _promptSelect.ChangeName(description.name);
+        public void UpdatePrompts(VCRadialMenuOption<T> option) {
+            if (option != null) {
+                bool isUsable = option is VCQuickItemBase;
+                var description = option.Description;
+                _promptSelect.ChangeName(description.name);
+                _promptSelect.SetupState(!isUsable, description.active);
+                _promptUse.ChangeName(description.name);
+                _promptUse.SetupState(isUsable, description.active);
+            } else {
+                _promptUse.SetActive(false);
+                _promptSelect.SetActive(false);
+            }
         }
 
         public void Close() {

@@ -46,7 +46,7 @@ namespace Awaken.TG.Main.Memories.Journal.Conditions.Models {
         }
 
         public void OnNpcDeath(DamageOutcome damageOutcome) {
-            if (damageOutcome.Target is not NpcElement { WasLastDamageFromHero: true } npc || npc.Template == null) {
+            if (damageOutcome.TargetPure is not NpcElement { WasLastDamageFromHero: true } npc || npc.Template == null) {
                 return;
             }
 

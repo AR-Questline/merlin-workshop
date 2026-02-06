@@ -109,7 +109,7 @@ namespace Awaken.TG.Editor.Utility.StoryGraphs.Converter {
             }
 
             var stringTable = stringTableCollection.GetTable(LocalizationSettings.ProjectLocale.Identifier) as StringTable;
-            var locEntry = LocalizationHelper.GetTableEntry(sEditorText.text.ID).entry;
+            var locEntry = LocalizationHelper.EditorOnly_GetTableEntry(sEditorText.text.ID).entry;
             if (!string.IsNullOrWhiteSpace(oldGesture)) {
                 string cleanText = locEntry.LocalizedValue
                     .Replace($" {oldGesture} ", " ")

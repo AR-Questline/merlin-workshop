@@ -21,6 +21,10 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
         ARValueInput<float>[] _modifiers;
         
         protected override void Definition() {
+            var refresh = ControlInput("Refresh", flow => {
+                Refresh(this.Skill(flow), flow);
+                return null;
+            });
             _filter = RequiredARValueInput<Func<Item, bool>>("filter");
             _stats = new ARValueInput<StatType>[count];
             _types = new ARValueInput<TweakPriority>[count];
@@ -32,7 +36,28 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
             }
         }
 
+        protected override bool IsModified(IPassiveEffect currentPassive, Flow flow, out IPassiveEffect newPassive) {
+            if (currentPassive is not PassiveItemTypeTweak itemTypeTweak) {
+                newPassive = null;
+                return false;
+            }
+            for (int i = 0; i < count; i++) {
+                if (itemTypeTweak.Datas[i].value != _modifiers[i].Value(flow) 
+                    || itemTypeTweak.Datas[i].type != _types[i].Value(flow) 
+                    || itemTypeTweak.Datas[i].statType != _stats[i].Value(flow)){
+                    newPassive = GetPassive(flow);
+                    return true;
+                }
+            }
+            newPassive = null;
+            return false;
+        }
+
         protected override IPassiveEffect Passive(Skill skill, Flow flow) {
+            return GetPassive(flow);
+        }
+
+        IPassiveEffect GetPassive(Flow flow) {
             var filter = _filter.Value(flow);
             var datas = new List<PassiveItemTypeTweak.TweakData>(count);
             for (int i = 0; i < count; i++) {

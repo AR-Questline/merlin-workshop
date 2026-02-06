@@ -28,7 +28,10 @@ namespace Awaken.TG.Main.Stories.Steps {
                 TableEntryReference = "Generic/Leave"
             };
             if (story.StoryEndRequiresInteraction) {
-                story.OfferChoice(ChoiceConfig.WithData(new RuntimeChoice {text = (LocString) text.ToString(), targetChapter = null}));
+                story.OfferChoice(ChoiceConfig.WithData(new RuntimeChoice {
+                    alreadyTranslatedText = text.ToString(),
+                    targetChapter = null
+                }));
             } else {
                 StoryUtils.EndStory(story);
             }

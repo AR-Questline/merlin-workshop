@@ -1,5 +1,6 @@
 ﻿using Awaken.Utility;
 using System;
+using Awaken.TG.Main.AI.States;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.Utils;
@@ -12,9 +13,12 @@ namespace Awaken.TG.Main.Heroes.Statuses.Duration {
 
         public override bool Elapsed => false;
         public override string DisplayText => string.Empty;
+
+        static bool IsInCombat => Hero.Current.IsInCombat() || NpcDangerTracker.FleeingFromHeroTimer > 0;
         
         protected override void OnFullyInitialized() {
-            Hero.Current.ListenTo(ICharacter.Events.CombatExited, Discard, this);
+            Hero.Current.ListenTo(ICharacter.Events.CombatExited, TryDiscard, this);
+            Hero.Current.ListenTo(NpcDangerTracker.Events.FleeingFromHeroChanged, TryDiscard, this);
             CheckIfOutOfCombat().Forget();
         }
         
@@ -24,7 +28,11 @@ namespace Awaken.TG.Main.Heroes.Statuses.Duration {
                 return;
             }
             
-            if (!Hero.Current.IsInCombat()) {
+            TryDiscard();
+        }
+
+        void TryDiscard() {
+            if (!IsInCombat) {
                 Discard();
             }
         }

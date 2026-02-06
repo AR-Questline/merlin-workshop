@@ -194,8 +194,9 @@ namespace Awaken.Utility.Graphics.Mipmaps {
         public void RemoveProvider(IMipmapsFactorProvider provider) {
             _providers.Remove(provider);
         }
-
-        public JobHandle Feed(in MipmapsStreamingMasterTextures.ParallelWriter writer) {
+        
+        public JobHandle DumpMaterialFactors(in MipmapsStreamingMasterTextures.ParallelWriter writer, 
+            out DumpMaterialFactorsJobResourcesToDispose resourcesToDispose) {
             DumpMarker.Begin();
 
             _writersHandle.Complete();
@@ -210,17 +211,19 @@ namespace Awaken.Utility.Graphics.Mipmaps {
             }
             _dumpSemaphore.Take();
 #endif
-            _occupied.ToIndicesOfOneArray(ARAlloc.TempJob, out var occupiedIndices);
+            _occupied.ToIndicesOfOneArray(ARAlloc.TempJob, out UnsafeArray<uint> occupiedIndices);
             var jobHandle = new DumpMaterialFactorsJob {
                     occupiedIndices = occupiedIndices,
                     deferredMipFactors = _deferredMipFactors,
                     texturesPerMaterial = _texturesPerMaterial,
                     writer = writer,
                 }.ScheduleParallel(occupiedIndices.LengthInt, 64, default);
-            jobHandle = occupiedIndices.Dispose(jobHandle);
+
+            resourcesToDispose = new DumpMaterialFactorsJobResourcesToDispose(occupiedIndices
 #if UNITY_EDITOR
-            jobHandle = _dumpSemaphore.Release(jobHandle);
+                , _dumpSemaphore
 #endif
+            );
 
             DumpMarker.End();
 
@@ -390,6 +393,34 @@ namespace Awaken.Utility.Graphics.Mipmaps {
                     writer.UpdateMipFactor(textures[j], mipFactor);
                 }
                 mipFactor = float.MaxValue;
+            }
+        }
+        
+        public struct DumpMaterialFactorsJobResourcesToDispose {
+            UnsafeArray<uint> _occupiedIndices;
+#if UNITY_EDITOR
+            UnsafeAtomicSemaphore _dumpSemaphore;
+#endif
+            public DumpMaterialFactorsJobResourcesToDispose(UnsafeArray<uint> occupiedIndices
+#if UNITY_EDITOR  
+                ,UnsafeAtomicSemaphore dumpSemaphore
+#endif
+            ) {
+                _occupiedIndices = occupiedIndices;
+#if UNITY_EDITOR
+                _dumpSemaphore = dumpSemaphore;
+#endif
+            }
+
+            public void Dispose() {
+                if (_occupiedIndices.IsCreated) {
+                    _occupiedIndices.Dispose();
+                }
+#if UNITY_EDITOR
+                if (_dumpSemaphore.IsCreated) {
+                    _dumpSemaphore.Release();
+                }
+#endif
             }
         }
     }

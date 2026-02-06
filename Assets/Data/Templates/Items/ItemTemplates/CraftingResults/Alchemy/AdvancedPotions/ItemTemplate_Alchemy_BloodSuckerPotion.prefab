@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_StatIncreasePercForDurationDesc
       ID: Template/description_locString_2543871262668956605_590758b136a36284cb09c6b2a745124c
-  EDITOR_bakedDescription: Increases Lifesteal by 10% for 20s.
+  EDITOR_bakedDescription: "Increases Lifesteal by 10\_% for 20s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

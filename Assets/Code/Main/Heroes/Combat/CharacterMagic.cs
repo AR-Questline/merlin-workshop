@@ -67,6 +67,10 @@ namespace Awaken.TG.Main.Heroes.Combat {
         bool _attachedToOffHand;
 
         protected override void OnInitialize() {
+            if (Owner?.Character is Hero h) {
+                _attachedToOffHand = transform.parent == h.OffHand;
+            }
+            
             base.OnInitialize();
             if (Owner?.Character != null) {
                 AttachWeaponEventsListener();
@@ -76,8 +80,6 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
         
         protected override void OnAttachedToHero(Hero hero) {
-            _attachedToOffHand = transform.parent == hero.OffHand;
-            
             EquipMagicGloveToHero(hero, !_attachedToOffHand).Forget();
             if (Item is { IsTwoHanded: true }) {
                 EquipMagicGloveToHero(hero, _attachedToOffHand).Forget();
@@ -291,8 +293,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         void PlayIdleAudioEvent(EventReference eventRef) {
-            //_idleAudioEmitter.ChangeEvent(eventRef, false);
-            // if (gameObject.activeInHierarchy) {
+            // _idleAudioEmitter.ChangeEvent(eventRef, false);
+            // if (gameObject != null && gameObject.activeInHierarchy) {
             //     _idleAudioEmitter.Play();
             // }
         }

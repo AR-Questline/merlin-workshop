@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace Awaken.TG.MVC.Serialization {
     public unsafe struct BinaryWriter {
@@ -9,16 +7,10 @@ namespace Awaken.TG.MVC.Serialization {
         public const byte SpecialSeparator = 0x7C;
         public const byte SpecialEnd = 0x7D;
 
-        const int BufferSize = 64;
-
-        readonly Stream _stream;
-        readonly byte[] _buffer;
-        int _bufferHead;
+        readonly IARStream _stream;
         
-        public BinaryWriter(Stream stream) {
+        public BinaryWriter(IARStream stream) {
             _stream = stream;
-            _buffer = new byte[BufferSize];
-            _bufferHead = 0;
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -46,23 +38,17 @@ namespace Awaken.TG.MVC.Serialization {
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Write(byte* ptr, int length) {
+            _stream.AboutToWrite(length);
             for (int i = 0; i < length; i++) {
                 Write(ptr[i]);
             }
         }
 
         void WriteByte(byte b) {
-            _buffer[_bufferHead++] = b;
-            if (_bufferHead == BufferSize) {
-                _stream.Write(_buffer, 0, BufferSize);
-                _bufferHead = 0;
-            }
+            _stream.WriteByte(b);
         }
 
         public void Flush() {
-            if (_bufferHead != 0) {
-                _stream.Write(_buffer, 0, _bufferHead);
-            }
             _stream.Flush();
         }
     }

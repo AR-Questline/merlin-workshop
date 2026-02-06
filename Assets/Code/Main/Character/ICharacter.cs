@@ -9,6 +9,8 @@ using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments.Interfaces;
 using Awaken.TG.Main.Heroes.Statuses;
+using Awaken.TG.Main.NewGamePlus;
+using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Stories.Tags;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.MVC;
@@ -119,6 +121,7 @@ namespace Awaken.TG.Main.Character {
             public static readonly Event<ICharacter, AttackParameters> OnSuccessfulAttackEnd = new(nameof(OnSuccessfulAttackEnd));
             public static readonly Event<ICharacter, ICharacter> OnRangedWeaponFullyDrawn = new(nameof(OnRangedWeaponFullyDrawn));
             public static readonly Event<ICharacter, DamageDealingProjectile> OnFiredProjectile = new(nameof(OnFiredProjectile));
+            public static readonly Event<ICharacter, ProjectileContactParams> OnProjectileContact = new(nameof(OnProjectileContact));
             public static readonly Event<ICharacter, ICharacter> OnBowZoomStart = new(nameof(OnBowZoomStart));
             public static readonly Event<ICharacter, ICharacter> OnBowZoomEnd = new(nameof(OnBowZoomEnd));
             public static readonly Event<ICharacter, ICharacter> OnBowDrawStart = new(nameof(OnBowDrawStart));
@@ -144,7 +147,7 @@ namespace Awaken.TG.Main.Character {
             public static readonly Event<ICharacter, bool> SwitchCharacterVisibility = new(nameof(SwitchCharacterVisibility));
             public static readonly Event<ICharacter, bool> SwitchCharacterWeaponVisibility = new(nameof(SwitchCharacterWeaponVisibility));
             public static readonly Event<ICharacter, TrialBuildupData> TriedToDealBuildupStatus = new(nameof(TriedToDealBuildupStatus));
-            public static readonly Event<ICharacter, ICharacter> TriedToApplyInvulnerableStatus = new(nameof(TriedToApplyInvulnerableStatus));
+            public static readonly Event<ICharacter, StatusSourceInfo> TriedToApplyInvulnerableStatus = new(nameof(TriedToApplyInvulnerableStatus));
         }
     }
 }

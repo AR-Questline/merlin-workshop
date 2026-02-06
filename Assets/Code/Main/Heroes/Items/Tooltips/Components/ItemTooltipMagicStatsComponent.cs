@@ -61,7 +61,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
                 costLabel.SetActiveAndText(visibilityConfig.CostEnabled, cost);
                 
                 if (costAndEffectSeparator) {
-                    costAndEffectSeparator.SetActiveOptimized(visibilityConfig.EffectEnabled && visibilityConfig.CostEnabled);
+                    costAndEffectSeparator.SetActiveOptimized(visibilityConfig.EffectEnabled || visibilityConfig.CostEnabled);
                 }
             }
         }

@@ -18,7 +18,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
     public partial class ScreenResolution : Setting {
         const string PrefIdResolution = "Resolution";
         const string PrefIdRefreshRate = "RefreshRate";
-        const string PrefIdVSync = "VSync";
+        public const string PrefIdVSync = "VSync";
         
         const string MaxResolutionHeightConfigKey = "max-resolution-height";
 
@@ -261,8 +261,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
             }
 
             { // VSync
-                bool defaultValue = PlatformUtils.IsPS5;
-                VSyncOption = new ToggleOption(PrefIdVSync, LocTerms.SettingsVSync.Translate(), defaultValue, false);
+                VSyncOption = new ToggleOption(PrefIdVSync, LocTerms.SettingsVSync.Translate(), false, false);
             }
         }
 
@@ -289,7 +288,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
             var refreshRate = _refreshRates[RefreshRateOption.Option];
             var vSync = VSyncOption.Enabled;
 
-            Application.targetFrameRate = refreshRate.refreshRate.numerator == 0 ? -1 : (int) refreshRate.refreshRate.value;
+            Application.targetFrameRate = refreshRate.refreshRate.numerator == 0 ? -1 : (int) (refreshRate.refreshRate.value / refreshRate.vSyncCount);
             Screen.fullScreenMode = mode;
             Screen.SetResolution(resolution.width, resolution.height, mode, refreshRate.refreshRate);
             QualitySettings.vSyncCount = vSync ? refreshRate.vSyncCount : 0;
@@ -318,7 +317,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
             var uniqueResolutions = new HashSet<int2>();
             var uniqueRefreshRates = new HashSet<uint2>();
             
-            var maxAllowedResolutionHeight = Configuration.GetInt(MaxResolutionHeightConfigKey, GetMaxResolution());
+            var maxAllowedResolutionHeight = Configuration.GetIntExact(MaxResolutionHeightConfigKey, GetMaxResolution());
             
             foreach (var resolution in Screen.resolutions) {
                 AddResolution(resolution.width, resolution.height);

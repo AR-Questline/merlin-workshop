@@ -86,7 +86,7 @@ MonoBehaviour:
   npcTemplate:
     _guid: e4482ca37ccdbd744a489b5d499483ae
   actor:
-    guid: None
+    guid: b81504dd-1d85-4ba6-ab8c-977feed011da
   storyOnDeath:
     _guid: 
   visualPrefab:
@@ -161,8 +161,6 @@ MonoBehaviour:
       _guid: e0b3b73e4c7ee364894d7ef85e5f2fad
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 0}
@@ -271,6 +269,89 @@ MonoBehaviour:
   aliveAudioContainerWrapper:
     assetType: 0
     dataAsset: {fileID: 11400000, guid: 05f852980fac5264cbc878948de387eb, type: 2}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+  usesExplicitWyrdConvertedAudio: 0
+  wyrdConvertedAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
     data:
       audioType: 0
       idle:

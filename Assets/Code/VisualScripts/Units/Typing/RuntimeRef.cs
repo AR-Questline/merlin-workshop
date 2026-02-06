@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.Locations.Attachments.Elements;
+﻿using Awaken.TG.Main.Locations;
+using Awaken.TG.Main.Locations.Attachments.Elements;
 using Unity.VisualScripting;
 
 namespace Awaken.TG.VisualScripts.Units.Typing {
@@ -51,8 +52,25 @@ namespace Awaken.TG.VisualScripts.Units.Typing {
         }
     }
     
+    // Toggleable Kill Prevention Element
+    
+    [UnityEngine.Scripting.Preserve]
     public class ToggleableKillPreventionElementRuntimeRef : RuntimeRef<ToggleableKillPreventionElement> { }
+    [UnityEngine.Scripting.Preserve]
     public class CreateToggleableKillPreventionElementRuntimeRef : CreateRuntimeRef<ToggleableKillPreventionElementRuntimeRef, ToggleableKillPreventionElement> { }
+    [UnityEngine.Scripting.Preserve]
     public class TryGetToggleableKillPreventionElementRuntimeRef : TryGetRuntimeRef<ToggleableKillPreventionElementRuntimeRef, ToggleableKillPreventionElement> { }
+    [UnityEngine.Scripting.Preserve]
     public class GetToggleableKillPreventionElementRuntimeRef : GetRuntimeRef<ToggleableKillPreventionElementRuntimeRef, ToggleableKillPreventionElement> { }
+    
+    // Location
+    
+    [UnityEngine.Scripting.Preserve]
+    public class LocationRuntimeRef : RuntimeRef<Location> { }
+    [UnityEngine.Scripting.Preserve]
+    public class CreateLocationRuntimeRef : CreateRuntimeRef<LocationRuntimeRef, Location> { }
+    [UnityEngine.Scripting.Preserve]
+    public class TryGetLocationRuntimeRef : TryGetRuntimeRef<LocationRuntimeRef, Location> { }
+    [UnityEngine.Scripting.Preserve]
+    public class GetLocationRuntimeRef : GetRuntimeRef<LocationRuntimeRef, Location> { }
 }

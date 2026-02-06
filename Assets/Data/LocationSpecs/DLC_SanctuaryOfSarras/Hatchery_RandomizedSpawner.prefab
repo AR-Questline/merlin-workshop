@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3090940735578803486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7353359403981623691}
+  - component: {fileID: 1129733675557678940}
+  - component: {fileID: -5668733272606931332}
+  - component: {fileID: 6010981428767215148}
+  m_Layer: 6
+  m_Name: Hatchery_RandomizedSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &7353359403981623691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3090940735578803486}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -39.967934, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1129733675557678940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3090940735578803486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_1129733675557678940_ee5445ea85fd21842b6f3cdc798c2f9b
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  prefabReference:
+    address: 
+    subObjectName: 
+  snapToGround: 1
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 1
+--- !u!114 &-5668733272606931332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3090940735578803486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &6010981428767215148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3090940735578803486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46352190a8140f6be7db908b6675774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manualSpawner: 1
+  spawnOnlyOnAmbush: 0
+  discardSpawnedLocationsOnDiscard: 1
+  spawnOnlyAtNight: 0
+  useFlagAvailability: 0
+  availability:
+    flag: 
+    resultProcessing: 0
+    resultShouldBeInversed: 0
+    resultIfNoFlag: 0
+    resultIfFlagTrue: 0
+    resultIfFlagFalse: 0
+  storyOnAllKilled:
+    story:
+      _guid: 
+    chapterName: 
+  statusToApply:
+    _guid: be520c4bc7581da439f7dc9d73e171d9
+  durationOverride: -1
+  buildupStrength: 1
+  discardAfterAllKilled: 1
+  discardAfterSpawn: 0
+  overrideSpawnerCooldown: 0
+  cooldownAfterAllKilled: 7200
+  mustFullClearToRespawn: 0
+  spawnMode: 1
+  locationsWithPositions: []
+  randomizationSettings:
+    totalSpawnCap: 2
+    randomSpawnCapIncreaseAtInstantiation: 1
+    groupSpawnCap: 3
+    spawnRadius: 4
+    groupSpawnRadius: 4
+    spawnInterval: 5
+    spawnIntervalVariance: 0.25
+    locationsToSpawn:
+    - locationToSpawn:
+        _guid: cea93c44977ce3940be214156db7a0e1
+      spawnChancePerInterval: 0.3
+      spawnCap: Infinity
+      id: 0
+    shouldAlwaysSpawnSuccessfully: 1
+  currentIndex: 0

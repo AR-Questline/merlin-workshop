@@ -16,7 +16,7 @@ namespace Awaken.TG.Graphics.Cutscenes {
     public abstract class VCutsceneBase : View<Cutscene> {
         [SerializeField] protected bool pauseGame = true;
         [SerializeField, FoldoutGroup("Start")] protected bool useStartTransition = true;
-        [SerializeField, Range(0f, 10f), FoldoutGroup("Start"), Tooltip("How long wait in black before starting ToCameraDuration is used")]
+        [SerializeField, Range(0f, 25f), FoldoutGroup("Start"), Tooltip("How long wait in black before starting ToCameraDuration is used")]
         protected float blackWaitDuration = 1f;
         [SerializeField, Range(0f, 10f), FoldoutGroup("End"), Tooltip("How long is transition to black at end of cutscene"), ShowIf(nameof(ShowToBlackAtEndDuration))]
         protected float toBlackAtEndDuration = 0.5f;
@@ -47,6 +47,7 @@ namespace Awaken.TG.Graphics.Cutscenes {
             ? positionToTeleportOnSkip
             : TeleportHeroTo;
         public override Transform DetermineHost() => Services.Get<ViewHosting>().LocationsHost(Target.CurrentDomain);
+        public float TimeElapsed => _timeElapsed;
         protected virtual float ToCameraAwaitDuration => toCameraDuration;
         protected abstract Transform TeleportHeroTo { get; }
         
@@ -72,6 +73,7 @@ namespace Awaken.TG.Graphics.Cutscenes {
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             
+            InitAttachments();
             var transitionService = World.Services.Get<TransitionService>();
             if (!useStartTransition) {
                 transitionService.ToCamera(0, 0, true, null).Forget();
@@ -89,6 +91,7 @@ namespace Awaken.TG.Graphics.Cutscenes {
                 return;
             }
             _isPlaying = true;
+            StartAttachments();
         }
 
         protected async UniTask<bool> StopTransition(bool skipCutscene = false) {
@@ -96,6 +99,7 @@ namespace Awaken.TG.Graphics.Cutscenes {
             _cancellationTokenSource = null;
             
             _isPlaying = false;
+            StopAttachments();
             
             var transitionService = World.Services.Get<TransitionService>();
             if (skipCutscene || Target.IsTriggeringPortalOnExit) {
@@ -142,6 +146,46 @@ namespace Awaken.TG.Graphics.Cutscenes {
             // --- Fail means Target was discarded so we shouldn't invoke discard on it again
             Target.Discard();
             return true;
+        }
+        
+        // === Pause
+        public void Paused() {
+            PauseAttachments();
+        }
+
+        public void Unpaused() {
+            UnpauseAttachments();
+        }
+        
+        // === Attachments
+        void InitAttachments() {
+            foreach (var attachment in GetComponents<ICutsceneAttachment>()) {
+                attachment.OnCutsceneInit(this);
+            }
+        }
+        
+        void StartAttachments() {
+            foreach (var attachment in GetComponents<ICutsceneAttachment>()) {
+                attachment.OnCutsceneStart(this);
+            }
+        }
+        
+        void StopAttachments() {
+            foreach (var attachment in GetComponents<ICutsceneAttachment>()) {
+                attachment.OnCutsceneEnd(this);
+            }
+        }
+        
+        void PauseAttachments() {
+            foreach (var attachment in GetComponents<ICutsceneAttachment>()) {
+                attachment.OnCutscenePaused();
+            }
+        }
+        
+        void UnpauseAttachments() {
+            foreach (var attachment in GetComponents<ICutsceneAttachment>()) {
+                attachment.OnCutsceneUnpaused();
+            }
         }
 
         // === Skipping

@@ -21,6 +21,11 @@ namespace Awaken.TG.Main.Locations.Containers {
                         : Crime.Theft(Item, owner);
         }
 
+        protected override void OnDiscard(bool fromDomainDrop) {
+            Crime.Dispose();
+            base.OnDiscard(fromDomainDrop);
+        }
+
         public void Select() {
             Selected = true;
         }

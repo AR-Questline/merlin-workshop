@@ -76,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_multiply_percent
       ID: Template/description_locString_2543871262668956605_710ac029a96a86a44958f18bc31c8681
-  EDITOR_bakedDescription: Increases Max Health by 10.
+  EDITOR_bakedDescription: "Increases Max Stamina by 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -88,7 +88,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_710ac029a96a86a44958f18bc31c8681
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -150,6 +150,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -271,7 +278,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.15
     - name: GainValue
-      value: 0
+      value: 0.01
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated

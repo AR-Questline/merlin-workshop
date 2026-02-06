@@ -1,5 +1,6 @@
 ﻿using Awaken.TG.Main.Fights.Factions;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Templates;
 using Unity.VisualScripting;
 
@@ -23,5 +24,10 @@ namespace Awaken.TG.VisualScripts.Units.Typing {
     [UnityEngine.Scripting.Preserve]
     public class HasEqualFactionTemplate : HasEqualTemplate<FactionTemplate, NpcElement> {
         protected override FactionTemplate RetrieveTemplate(NpcElement templated) => templated.Faction.Template;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class HasEqualItemTemplate : HasEqualTemplate<ItemTemplate, Item> {
+        protected override ItemTemplate RetrieveTemplate(Item templated) => templated.Template;
     }
 }

@@ -19,6 +19,7 @@ using UnityEngine;
 using ModMgr = Awaken.Utility.Assets.Modding.ModManager;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Templates;
+using Awaken.TG.Main.UI.EmptyContent;
 
 namespace Awaken.TG.Main.UI.Menu.ModManager {
     [SpawnsView(typeof(VModalBlocker), false)]
@@ -50,7 +51,10 @@ namespace Awaken.TG.Main.UI.Menu.ModManager {
         }
 
         void InitializeModEntries() {
-            for (int i = 0; i < ModManager.OrderedMods.Length; i++) {
+            int modsCount = ModManager.OrderedMods.Length;
+            this.Trigger(IEmptyInfo.Events.OnEmptyStateChanged, modsCount > 0);
+            
+            for (int i = 0; i < modsCount; i++) {
                 ModHandle modHandle = ModManager.OrderedMods[i];
                 var modEntry = new ModEntryUI(i, modHandle);
                 AddElement(modEntry);

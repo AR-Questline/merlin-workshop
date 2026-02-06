@@ -32,6 +32,8 @@ namespace Awaken.TG.Editor.Assets.Templates {
         }
         
         public static List<T> FindAllOfType<T>(List<T> results = null, TemplateTypeFlag templateType = TemplateTypeFlag.All) {
+            EnsureInit();
+            
             List<ITemplate> allTemplates = s_templatesCache.Instance.Templates;
             results ??= new();
             foreach (ITemplate template in allTemplates) {

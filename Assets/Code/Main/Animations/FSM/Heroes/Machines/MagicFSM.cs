@@ -98,6 +98,11 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         protected MagicFSM(Animator animator, ARHeroAnimancer animancer) : base(animator, animancer) { }
         
         // === Lifecycle
+        protected override void OnFullyInitialized() {
+            base.OnFullyInitialized();
+            ParentModel.VHeroController.CastingCanceled(CastingHand, GeneralStateType != HeroGeneralStateType.MagicCastHeavy);
+        }
+
         protected override void OnEnable() {
             _item = null;
             _cancelCastingListener = Item.ListenTo(Events.CancelCasting, CancelCasting, this);
@@ -113,7 +118,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         protected override void OnDisable(bool fromDiscard) {
             HeadLayerIndex?.SetEnable(false);
 
-            ParentModel.VHeroController?.CastingCanceled(CastingHand, _item, IsCasting);
+            ParentModel.VHeroController?.CastingCanceled(CastingHand, _item, IsCasting, GeneralStateType != HeroGeneralStateType.MagicCastHeavy);
             EndSlowModifier();
             
             World.EventSystem.TryDisposeListener(ref _endCastingListener);
@@ -163,7 +168,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
 
         public virtual void CancelCasting() {
             ResetProlong();
-            ParentModel.VHeroController.CastingCanceled(CastingHand);
+            ParentModel.VHeroController.CastingCanceled(CastingHand, GeneralStateType != HeroGeneralStateType.MagicCastHeavy);
 
             WasCanceledWhenInMagicLoop = CurrentAnimatorState?.Type == HeroStateType.MagicHeavyLoop;
             SetCurrentState(CurrentAnimatorState?.GeneralType == HeroGeneralStateType.MagicCastHeavy
@@ -221,8 +226,8 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         }
         
         // === Helpers
-        public void OnPerformCast() {
-            ParentModel.VHeroController?.CastingEnded(CastingHand);
+        public void OnPerformCast(bool lightCast) {
+            ParentModel.VHeroController?.CastingEnded(CastingHand, lightCast);
             Hero.Current.Trigger(GamepadEffects.Events.TriggerVibrations, new TriggersVibrationData {effects = GameConstants.Get.magicPerformXboxVibrations, handsAffected = CastingHand});
             EndSlowModifier();
         }
@@ -235,11 +240,11 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
                 return true;
             }
 
-            InformCastUseFail();
+            InformCastUseFail(lightCast);
             return false;
         }
         
-        void InformCastUseFail() {
+        void InformCastUseFail(bool lightCast) {
             if (CurrentStateType == HeroStateType.MagicFailedCast) {
                 return;
             }
@@ -250,7 +255,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
 
             _lastFailedCastInform = Time.time;
             SetCurrentState(HeroStateType.MagicFailedCast);
-            ParentModel.Trigger(ICharacter.Events.CastingFailed, new CastSpellData { CastingHand = CastingHand, Item = Item });
+            ParentModel.Trigger(ICharacter.Events.CastingFailed, new CastSpellData { CastingHand = CastingHand, Item = Item, HeavyCast = !lightCast });
 
             if (Skill.HasCost && !Skill.Cost.CanAfford()) {
                 ParentModel.Trigger(Hero.Events.StatUseFail, CharacterStatType.Mana);

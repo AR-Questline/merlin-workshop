@@ -73,13 +73,13 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             if (reason == InteractionStopReason.Death) return; 
             npc?.Movement?.ResetMainState(_patrol);
         }
-        
+
         public SavedInteractionData SaveData(NpcElement npc) {
             return new RoamInteractionSavedData() {
-                    position = _patrol.CurrentRandomPlace
-                };
+                position = _patrol.CurrentRandomPlace
+            };
         }
-        
+
         public bool IsStopping(NpcElement npc) => false;
 
         public event Action OnInternalEnd { add { } remove { } }

@@ -133,17 +133,17 @@ namespace Awaken.TG.Main.Heroes.Stats.Observers {
 #if UNITY_EDITOR
             if (DebugMode && dmgOutcome.FinalAmount < 999999) {
                 foreach (var subType in dmgOutcome.Damage.SubTypes) {
-                    float armor = dmgOutcome.Target.HasBeenDiscarded ? -1 : dmgOutcome.Target.TotalArmor(subType.SubType);
+                    float armor = dmgOutcome.TargetPure.HasBeenDiscarded ? -1 : dmgOutcome.TargetPure.TotalArmor(subType.SubType);
                     Log.Minor?.Info(
-                        $"{ProficiencyPrefix}DamageOutcomeTarget: {damage.Target} damageDealer: {dmgOutcome.Attacker} Armor Hit: {armor} Damage dealt: {dmgOutcome.FinalAmount} DamageType: {damage.Type}",
+                        $"{ProficiencyPrefix}DamageOutcomeTarget: {damage.TargetPure} damageDealer: {dmgOutcome.AttackerPure} Armor Hit: {armor} Damage dealt: {dmgOutcome.FinalAmount} DamageType: {damage.Type}",
                         dmgOutcome.HitCollider?.gameObject,
                         LogOption.NoStacktrace);
                 }
             }
 #endif
             
-            if (dmgOutcome.Attacker == ParentModel) { //Attacker is hero
-                if (dmgOutcome.Attacker != damage.Target) {
+            if (dmgOutcome.AttackerPure == ParentModel) { //Attacker is hero
+                if (dmgOutcome.AttackerPure != damage.TargetPure) {
                     //Receiver is not hero / Attacker is not receiver
                     var heldItem = damage.Item;
                     if (heldItem == null || heldItem.IsThrowable || damage.Type == DamageType.Status || !damage.IsPrimary) return;
@@ -155,14 +155,14 @@ namespace Awaken.TG.Main.Heroes.Stats.Observers {
                 }
             }
             // Not else to allow for any source of fall damage against player to register
-            if (damage.Target == ParentModel) {
+            if (damage.TargetPure == ParentModel) {
                 // Attacker is not hero, but hero is receiver
                 if (damage.Type == DamageType.Fall) {
                     XPGainEvent(ProfStatType.Acrobatics, BaseXPType.FallDmg, dmgOutcome.FinalAmount);
                     return;
                 }
 
-                if (dmgOutcome.Attacker == ParentModel) return;
+                if (dmgOutcome.AttackerPure == ParentModel) return;
                 
                 if (damage.CanBeReducedByArmor && _currentArmorProf != null) {
                     XPGainEvent(_currentArmorProf, BaseXPType.DmgReceived, damage.Amount);

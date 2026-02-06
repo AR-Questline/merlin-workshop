@@ -54,7 +54,7 @@ MonoBehaviour:
     verifiedDesign: 0
     notes: 
   faction:
-    _guid: 93e4b60a008c9804cbc22a82727c8d07
+    _guid: 4c90d92d219d54a4f8918310ba9998a7
   defaultCrimeOwner:
     _guid: 
   level: 20
@@ -67,6 +67,7 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 0
+  BackToSpawnPointDistanceMultiplier: 1
   maxHealth: 3000
   healthRegen: 0
   maxStamina: 100
@@ -147,6 +148,10 @@ MonoBehaviour:
       buildupThreshold: 1
       effectStrength: 1
       buildupName: Full
+    _petrification:
+      buildupThreshold: 3
+      effectStrength: 1
+      buildupName: Petrification
   crimeNpcValue: 4
   crimeReactionArchetype: 0
   npcType: 2
@@ -156,7 +161,7 @@ MonoBehaviour:
   isPickpocketable: 1
   isDeadBodyLootable: 1
   fistsTemplate:
-    _guid: 
+    _guid: 69cd836b17253944c9ae6d90eff04057
   inventoryItems:
     lootType: 1
     lootReference:
@@ -194,6 +199,10 @@ MonoBehaviour:
       address: 
       subObjectName: 
   tattooType: 0
+  corpseVFX:
+    arReference:
+      address: 
+      subObjectName: 
   dummyDeathClipTransition:
     address: 
     subObjectName: 
@@ -202,18 +211,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5862765788853436418
-      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
-        asm: TG.Main}
-      data:
-        itemTemplateReference:
-          _guid: 69cd836b17253944c9ae6d90eff04057
-        quantity: 1
-        itemLvl:
-          low: 0
-          high: 0
     - rid: 7766364717777944588
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
-        array:
-        - rid: 5862765788853436418
+        array: []

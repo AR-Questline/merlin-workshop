@@ -3,6 +3,7 @@ using System.Linq;
 using Awaken.TG.Main.Fights.Factions.Crimes;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UIToolkit;
 using Awaken.TG.Main.UIToolkit.CustomControls;
@@ -10,6 +11,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
 using EnhydraGames.BetterTextOutline;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -50,6 +52,8 @@ namespace Awaken.TG.Main.Locations.Containers {
 
         protected override void DiscardInternal() {
             Deselect();
+            _crime.Dispose();
+            _crime = Crime.Disposed;
         }
         
         public void SetData(int index, Item item, Prompt theftTakePrompt) {
@@ -61,6 +65,7 @@ namespace Awaken.TG.Main.Locations.Containers {
                 Location ownerLocation = TargetModel.ParentModel;
                 NpcTemplate npcTemplate = NpcTemplate.FromNpcOrDummy(ownerLocation);
 
+                _crime.Dispose();
                 _crime = npcTemplate != null
                              ? Crime.Pickpocket(item, npcTemplate.CrimeValue, ownerLocation)
                              : Crime.Theft(item, ownerLocation);
@@ -70,11 +75,16 @@ namespace Awaken.TG.Main.Locations.Containers {
             _nameLabel.SetTextColor(item.Quality.NameColor);
             _betterIcon.SetActiveOptimized(item.IsGearBetterThanEquipped() > 0);
 
-            bool moreThanOne = item.Quantity > 1;
-            _quantityLabel.SetActiveOptimized(moreThanOne);
-            _quantityLabel.text = moreThanOne ? $"{item.Quantity}" : string.Empty;
+            int quantity = item.Quantity;
+            if (item.TryGetElement<ItemToCurrency>(out var itemToCurrency) && itemToCurrency.ShowMultipliedByCurrencyStatMultiplier) {
+                quantity = (int) (quantity * itemToCurrency.CurrencyMultiplier);
+            }
+            bool moreThanOne = quantity > 1;
             
-            var iconReference = item.Template?.IconReference;
+            _quantityLabel.SetActiveOptimized(moreThanOne);
+            _quantityLabel.text = moreThanOne ? $"{quantity}" : string.Empty;
+            
+            var iconReference = item.Template?.IconReference();
 
             if (iconReference?.IsSet ?? false) {
                 _icon.Set(iconReference, this, item.Quality.BgColor.Color, WillBeIllegal);

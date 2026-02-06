@@ -7,15 +7,23 @@ using Awaken.TG.Editor.Debugging.GUIDSearching;
 using Awaken.TG.Editor.Validation;
 using Awaken.TG.Graphics.Scene;
 using Awaken.TG.Graphics.VFX;
+using Awaken.TG.Main.Fights.Utils;
+using Awaken.TG.Main.Grounds;
+using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.Scenes.SceneConstructors.AdditiveScenes;
 using Awaken.TG.Main.Settings.Graphics;
 using Awaken.TG.Main.UI.RoguePreloader;
 using Awaken.TG.Main.UI.TitleScreen;
+using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Editor;
+using Awaken.Utility.Maths;
+using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Localization.Addressables;
 using UnityEditor.SceneManagement;
@@ -31,6 +39,8 @@ namespace Awaken.TG.Editor.Assets {
 
         // same key is used in NewGameLoading.Load
         const string IntendedScene = TitleScreenUtils.IntendedScene;
+        const string IntendedAdditiveScene = "PlaymodeEnter: AdditiveSceneToLoad";
+        const string SpawnPositionOverride = "PlaymodeEnter: SpawnPositionOverride";
         const string SceneConfigsGuid = "02a758c4b41df8e4294f4fddcb9adf19";
         
         public static SceneValidator SceneValidator { get; private set; }
@@ -104,6 +114,8 @@ namespace Awaken.TG.Editor.Assets {
                     PrepareScenesOnExitEditMode();
                 } else {
                     EditorApplication.isPlaying = false;
+                    ResetIntendedScene();
+                    EditorPrefs.DeleteKey(SpawnPositionOverride);
                 }
 
             } else if (newPlayMode == PlayModeStateChange.EnteredPlayMode) {
@@ -122,11 +134,11 @@ namespace Awaken.TG.Editor.Assets {
         }
 
         static void PrepareScenesOnExitEditMode() {
+            ResetIntendedScene();
             if (SceneGlobals.Scene != null) {
                 SaveIntendedScene();
                 SetPlayModeStartScene($"Assets/Scenes/{nameof(ApplicationScene)}.unity");
             } else {
-                ResetIntendedScene();
                 bool isTitleScreen = Object.FindAnyObjectByType<TitleScreen>() != null; 
                 if (isTitleScreen) {
                     SetPlayModeStartScene("Assets/Scenes/BuildInitialScene.unity");
@@ -155,8 +167,44 @@ namespace Awaken.TG.Editor.Assets {
                         .WithLabel(SceneService.ScenesLabel)
                         .Build());
                 }
-                // TODO: Maybe load additive scene here instead of inside of loading
                 ScenePreloader.EditorLoad(sceneRef);
+                
+                ModelUtils.DoForFirstModelOfType<Hero>(() => HeroDependentInit().Forget(), null);
+            }
+        }
+        
+        static async UniTaskVoid HeroDependentInit() {
+            bool teleporting = true;
+            Hero.Current.ListenToLimited(GroundedEvents.AfterTeleported, _ => teleporting = false, null);
+            
+            if (EditorPrefs.HasKey(IntendedAdditiveScene)) {
+                if (!await AsyncUtil.WaitWhile(Hero.Current, () => teleporting || World.HasAny<LoadingScreenUI>())) {
+                    Abort();
+                    return;
+                }
+                string intendedAdditiveScene = EditorPrefs.GetString(IntendedAdditiveScene);
+                SceneReference additiveSceneRef = SceneReference.ByName(intendedAdditiveScene);
+                Portal.MapChangeTo(Hero.Current, additiveSceneRef, World.Services.Get<SceneService>().ActiveSceneRef, null);
+            }
+
+            if (EditorPrefs.HasKey(SpawnPositionOverride)) {
+                if (!teleporting) {
+                    teleporting = true;
+                    Hero.Current.ListenToLimited(GroundedEvents.AfterTeleported, _ => teleporting = false, null);
+                }
+                if (!await AsyncUtil.WaitWhile(Hero.Current, () => teleporting)) {
+                    Abort();
+                    return;
+                }
+
+                Vector3 targetPosition = Vector3Util.FromString(EditorPrefs.GetString(SpawnPositionOverride));
+                Log.Marking?.Warning("Editor overriding teleport to " + targetPosition);
+                Hero.Current.TeleportTo(targetPosition);
+                EditorPrefs.DeleteKey(SpawnPositionOverride);
+            }
+
+            void Abort() {
+                EditorPrefs.DeleteKey(SpawnPositionOverride);
             }
         }
 
@@ -173,12 +221,23 @@ namespace Awaken.TG.Editor.Assets {
             }
         }
 
+        public static void SaveSpawnCoordsOverride(Vector3 spawnCoords) {
+            EditorPrefs.SetString(SpawnPositionOverride, spawnCoords.ToString());
+        }
+
         static void SaveIntendedScene() {
-            EditorPrefs.SetString(IntendedScene, SceneManager.GetActiveScene().name);
+            if (Object.FindAnyObjectByType<AdditiveScene>() == null) {
+                EditorPrefs.SetString(IntendedScene, SceneManager.GetActiveScene().name);
+                EditorPrefs.DeleteKey(IntendedAdditiveScene);
+            } else {
+                EditorPrefs.SetString(IntendedScene, "AdditiveSceneStarterArena");
+                EditorPrefs.SetString(IntendedAdditiveScene, SceneManager.GetActiveScene().name);
+            }
         }
 
         static void ResetIntendedScene() {
             EditorPrefs.DeleteKey(IntendedScene);
+            EditorPrefs.DeleteKey(IntendedAdditiveScene);
             EditorSceneManager.playModeStartScene = null;
         }
 

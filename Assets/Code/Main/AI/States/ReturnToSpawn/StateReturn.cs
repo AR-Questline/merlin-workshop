@@ -52,7 +52,11 @@ namespace Awaken.TG.Main.AI.States.ReturnToSpawn {
                 Npc.HealthElement.ListenTo(HealthElement.Events.BeforeDamageTaken, OnDamageTaken, this);
             }
 
-            _returned = false;
+            if (Npc.IsSummonOrAlly) {
+                _returned = true;
+            } else {
+                _returned = false;
+            }
         }
 
         protected override void OnExit() {
@@ -72,7 +76,7 @@ namespace Awaken.TG.Main.AI.States.ReturnToSpawn {
         }
 
         void OnDamageTaken(Damage damage) {
-            if (damage.DamageDealer != null) {
+            if (damage.DamageDealerPure != null) {
                 Npc.LastOutOfCombatPosition = Npc.Coords;
                 AI.UpdateDistanceToLastIdlePoint();
             }

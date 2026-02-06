@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -8112371180503768819}
   - component: {fileID: -2781288591572324813}
   - component: {fileID: 1243226334389482028}
-  - component: {fileID: -4989272666239571366}
+  - component: {fileID: 3787978030729019744}
   m_Layer: 0
   m_Name: Spec_NPC_HoS_Tiernan
   m_TagString: Untagged
@@ -111,8 +111,6 @@ MonoBehaviour:
       _guid: 2fbfd430c2cdcf540b9ecc92f68e6e03
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 0}
@@ -160,6 +158,10 @@ MonoBehaviour:
       address: 
       subObjectName: 
   npcIcon:
+    arSpriteReference:
+      address: 
+      subObjectName: 
+  renderIcon:
     arSpriteReference:
       address: 
       subObjectName: 
@@ -265,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c7f98ff5f17be4f9dc7dcad0bf8ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-4989272666239571366
+--- !u!114 &3787978030729019744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,4 +280,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopDefinition:
-    _guid: e957eb3cef1b7c04ba742ace1200a691
+    _guid: d66270a4c34d1584f827c9278a072d96

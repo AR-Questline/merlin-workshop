@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.Main.Locations.Shops.UI;
+using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Tags;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Proficiency;
 using Awaken.TG.Main.UIToolkit.PresenterData;
@@ -10,10 +11,13 @@ using Awaken.TG.MVC;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.SpecialItem {
-    public partial class SpecialItemNotificationBuffer : AdvancedNotificationBuffer<SpecialItemNotification> {
-        public sealed override bool IsNotSaved => true;
+    public partial class SpecialItemNotificationBuffer : AdvancedNotificationBufferPresenter<SpecialItemNotification> {
+        protected override bool HideWhenMapNotInteractive => !World.HasAny<Story>() || World.HasAny<ShopUI>();
 
-        static Func<Heroes.Items.Item, bool> IsKeyItem => item => TagUtils.HasRequiredTag(item.Tags, "item:quest") || TagUtils.HasRequiredTag(item.Tags, "item:important");
+        static Func<Heroes.Items.Item, bool> IsKeyItem => item => TagUtils.HasRequiredTag(item.Tags, "item:quest") ||
+                                                                  item.Quality == ItemQuality.Quest ||
+                                                                  TagUtils.HasRequiredTag(item.Tags, "item:important") ||
+                                                                  (item.Quality == ItemQuality.Magic && !Hero.Current.HeroItems.IsKnownItem(item.Template));
         static HeroReadables ReadByHero => Hero.Current.Element<HeroReadables>();
         static bool ReadableShouldBeNotified(Heroes.Items.Item item) => item.IsReadable && !ReadByHero.WasTemplateRead(item.Template);
         static Func<Heroes.Items.Item, bool> IsItemInTemporaryStash => item => World.Any<HeroItemsTemporaryStash>()?.ContainsItem(item) ?? false;
@@ -25,9 +29,14 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.SpecialItem {
             }
         }
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
-            ModelUtils.DoForFirstModelOfType<Hero>(AddListeners,this);
+        public void TryToPush(Heroes.Items.Item item) {
+            if (item.HiddenOnUI || IsItemInTemporaryStash(item)) {
+                return;
+            }
+
+            if (ReadableShouldBeNotified(item) || IsKeyItem(item)) {
+                NotificationUtils.Push(new SpecialItemNotification(item));
+            }
         }
 
         protected override PBaseData RetrieveNotificationBaseData() {
@@ -38,18 +47,17 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.SpecialItem {
             PSpecialItemNotification pSpecialItemNotification = new(prototype.Instantiate());
             return World.BindPresenter(this, pSpecialItemNotification);
         }
-        
-        void AddListeners(Hero h) {
-            h.Inventory.ListenTo(ICharacterInventory.Events.PickedUpNewItem, OnItemAcquired, this);
-        }
-        
-        void OnItemAcquired(Heroes.Items.Item item) {
-            if (item.HiddenOnUI || IsItemInTemporaryStash(item)) {
-                return;
-            }
 
-            if (ReadableShouldBeNotified(item) || IsKeyItem(item)) {
-                AdvancedNotificationBuffer.Push<SpecialItemNotificationBuffer>(new SpecialItemNotification(item));
+        protected override void MergeSimilarNotifications(SpecialItemNotification notification) {
+            ItemTemplate template = notification.item.Template;
+            int queueCount = notificationQueue.Count;
+            for (int i = 0; i < queueCount; i++) {
+                var queuedItemNotification = notificationQueue.Dequeue();
+                if (queuedItemNotification.item.Template == template) {
+                    queuedItemNotification.Discard();
+                } else {
+                    notificationQueue.Enqueue(queuedItemNotification);
+                }
             }
         }
     }

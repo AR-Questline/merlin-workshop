@@ -32,6 +32,7 @@ using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Mobs;
 using Awaken.TG.Main.Saving.Models;
 using Awaken.TG.Main.Settings.Accessibility;
+using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
@@ -185,6 +186,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         RotationConstraint _tppPivotRotationConstraint;
         
         // --- Body Instance Components
+        bool _bodyLoadingBlocked;
         ARAsyncOperationHandle<GameObject> _heroBodyHandle;
         GameObject _heroBodyInstance;
         CancellationTokenSource _showHideTokenSource;
@@ -216,12 +218,6 @@ namespace Awaken.TG.Main.Heroes.Combat {
         public bool IsSwimming => Controller != null && isSwimming;
         public float HorizontalSpeed => HorizontalVelocity.magnitude;
         public bool IsSprinting => MovementSystem is HumanoidMovementBase {IsSprinting: true} && !IsPerformingAction && Grounded;
-        public IEnumerable<Animator> HeroAnimators {
-            get {
-                yield return audioAnimator;
-                yield return HeroAnimator;
-            }
-        }
         public bool CanStandUp => IsCrouching && !headCollided;
         public Vector2 ForcedInputFromCode => Target.TryGetElement<ForcedInputFromCode>()?.InputAcceleration ?? Vector2.zero;
         
@@ -244,6 +240,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
         
         // --- Body Instance Data
         public bool PerspectiveChangeInProgress { get; private set; }
+        public bool InBodyLoading { get; private set; }
+        public bool CanChangeHeroPerspective => !PerspectiveChangeInProgress && !Target.HasElement<HeroKnockdown>();
         public HeroBodyData BodyData { get; private set; }
         public VCHeroRaycaster Raycaster { get; private set; }
         public Animator HeroAnimator { get; private set; }
@@ -296,7 +294,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             _currentCameraHeight = currentHeightData.defaultCameraHeight;
             _needUpdateHeightOneMoreTime = true;
 
-            await LoadBodyPrefab();
+            await ReloadBodyPrefab();
             await UniTask.WaitUntil(() => Input != null);
             InitListeners();
             
@@ -318,6 +316,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             _cinemachine3RdPerson = tppVirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
             _original3rdPersonVerticalDamping = _cinemachine3RdPerson.Damping.y;
             
+            HeroCamera.ChangeHeroPerspective(Hero.TppActive);
             SetHeroPerspective(Hero.TppActive);
             Target.FoV.UpdateFoV();
         }
@@ -852,7 +851,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             Character.Trigger(ICharacter.Events.OnAttackStart, attackParameters);
         }
 
-        public void CastingBegun(CastingHand hand) {
+        public void CastingBegun(CastingHand hand, bool lightCast) {
             var equipmentType = hand switch {
                 CastingHand.MainHand => EquipmentSlotType.MainHand,
                 CastingHand.OffHand => EquipmentSlotType.OffHand,
@@ -861,10 +860,10 @@ namespace Awaken.TG.Main.Heroes.Combat {
             };
             Item castingItem = Target.HeroItems.EquippedItem(equipmentType);
             castingItem?.StartPerforming(ItemActionType.CastSpell);
-            Target.Trigger(ICharacter.Events.CastingBegun, new CastSpellData { CastingHand = hand, Item = castingItem });
+            Target.Trigger(ICharacter.Events.CastingBegun, new CastSpellData { CastingHand = hand, Item = castingItem, HeavyCast = !lightCast});
         }
 
-        public void CastingCanceled(CastingHand hand) {
+        public void CastingCanceled(CastingHand hand, bool lightCast) {
             var equipmentType = hand switch {
                 CastingHand.MainHand => EquipmentSlotType.MainHand,
                 CastingHand.OffHand => EquipmentSlotType.OffHand,
@@ -872,17 +871,20 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 _ => throw new ArgumentOutOfRangeException(nameof(hand), hand, null),
             };
             Item castingItem = Target.HeroItems.EquippedItem(equipmentType);
-            CastingCanceled(hand, castingItem);
+            CastingCanceled(hand, castingItem, true, lightCast);
         }
 
-        public void CastingCanceled(CastingHand hand, Item castingItem, bool triggerEvents = true) {
-            castingItem?.CancelPerforming(ItemActionType.CastSpell);
+        public void CastingCanceled(CastingHand hand, Item castingItem, bool triggerEvents, bool lightCast) {
+            if (castingItem is { HasBeenDiscarded: false }) {
+                castingItem.CancelPerforming(ItemActionType.CastSpell);
+            }
+
             if (triggerEvents) {
-                Target.Trigger(ICharacter.Events.CastingCanceled, new CastSpellData { CastingHand = hand, Item = castingItem });
+                Target.Trigger(ICharacter.Events.CastingCanceled, new CastSpellData { CastingHand = hand, Item = castingItem, HeavyCast = !lightCast});
             }
         }
 
-        public void CastingEnded(CastingHand hand) {
+        public void CastingEnded(CastingHand hand, bool lightCast) {
             var equipmentType = hand switch {
                 CastingHand.MainHand => EquipmentSlotType.MainHand,
                 CastingHand.OffHand => EquipmentSlotType.OffHand,
@@ -891,7 +893,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             };
             Item castingItem = Target.HeroItems.EquippedItem(equipmentType);
             castingItem?.EndPerforming(ItemActionType.CastSpell);
-            Target.Trigger(ICharacter.Events.CastingEnded, new CastSpellData { CastingHand = hand, Item = castingItem });
+            Target.Trigger(ICharacter.Events.CastingEnded, new CastSpellData { CastingHand = hand, Item = castingItem, HeavyCast = !lightCast});
         }
 
         public void PerformMoveStep(Vector3 moveDelta) {
@@ -996,9 +998,9 @@ namespace Awaken.TG.Main.Heroes.Combat {
             _controller.excludeLayers = newLayerMaskOverride;
         }
         
-        public async UniTaskVoid ChangeHeroPerspective(bool tppActive) {
-            if (PerspectiveChangeInProgress) {
-                return;
+        public async UniTask<bool> ChangeHeroPerspective(bool tppActive) {
+            if (!CanChangeHeroPerspective) {
+                return false;
             }
             PerspectiveChangeInProgress = true;
             
@@ -1009,21 +1011,30 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 if (!await AsyncUtil.WaitUntil(this, () => Time.timeScale > 0)) {
                     PerspectiveChangeInProgress = false;
                     saveBlocker?.Discard();
-                    return;
+                    return false;
                 }
             }
             
             // Ensure settings are updated
             Hero.TppActive = tppActive;
-            var perspectiveSetting = World.Any<PerspectiveSetting>();
-            if (perspectiveSetting != null) {
-                perspectiveSetting.IsTPP = tppActive;
+            if (Target.MovementSystem is MountedMovement { HasBeenDiscarded: false }) {
+                var horsePerspectiveSetting = World.Any<HorsePerspectiveSetting>();
+                if (horsePerspectiveSetting != null) {
+                    horsePerspectiveSetting.IsTPP = tppActive;
+                }
+            } else {
+                var perspectiveSetting = World.Any<PerspectiveSetting>();
+                if (perspectiveSetting != null) {
+                    perspectiveSetting.IsTPP = tppActive;
+                }
             }
+            
+            HeroCamera.ChangeHeroPerspective(tppActive);
             
             if (!await TryReloadBodyWithEquips()) {
                 PerspectiveChangeInProgress = false;
                 saveBlocker?.Discard();
-                return;
+                return false;
             }
             
             SetHeroPerspective(tppActive);
@@ -1031,19 +1042,39 @@ namespace Awaken.TG.Main.Heroes.Combat {
             saveBlocker?.Discard();
             Target.Trigger(Hero.Events.HeroPerspectiveChanged, tppActive);
             
-            await AsyncUtil.DelayFrameOrTime(this, 60, 2000);
+            await AsyncUtil.DelayFrameOrTime(this, 5, 50);
             Target.FoV.UpdateFoV();
             PerspectiveChangeInProgress = false;
+            return true;
         }
 
         void SetHeroPerspective(bool tppActive) {
-            HeroCamera.ChangeHeroPerspective(tppActive);
             Target.Element<HeroCrosshair>().HeroPerspectiveChanged(tppActive);
             Target.TryGetElement<HeroOffHandCutOff>()?.HeroPerspectiveChanged(tppActive);
         }
+
+        public void BlockHeroBodyLoading() {
+            _bodyLoadingBlocked = true;
+        }
+        
+        public void UnlockHeroBodyLoading() {
+            _bodyLoadingBlocked = false;
+        }
         
         // === Helpers
-        public async UniTask LoadBodyPrefab() {
+        async UniTask ReloadBodyPrefab() {
+            UnloadBodyPrefab();
+            
+            if (_bodyLoadingBlocked) {
+                if (await AsyncUtil.WaitUntil(this, () => _bodyLoadingBlocked) == false) {
+                    return;
+                }
+            }
+            
+            await LoadBodyPrefab();
+        }
+        
+        void UnloadBodyPrefab() {
             BodyData = null;
             
             foreach (var fsm in Target.Elements<HeroAnimatorSubstateMachine>().Reverse()) {
@@ -1057,7 +1088,9 @@ namespace Awaken.TG.Main.Heroes.Combat {
             bodyFeatures?.Hide();
 
             ReleaseBodyInstance();
-            
+        }
+        
+        async UniTask LoadBodyPrefab() {
             bool isFemale = Target.GetGender() == Gender.Female;
             if (Hero.TppActive) {
                 _heroBodyHandle = isFemale ? femaleHeroBodyTPP.LoadAsset<GameObject>() : maleHeroBodyTPP.LoadAsset<GameObject>();
@@ -1089,7 +1122,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             Target.InitializeAnimatorElements(HeroAnimator, Animancer);
 
             BodyFeatures features = Target.TryGetElement<BodyFeatures>();
-            if (features && _heroBodyInstance.TryGetComponent(out clothes)) {
+            if (features && _heroBodyInstance.TryGetComponent(out CharacterDefaultClothes clothes)) {
                 clothes.AddTo(features, true).Forget();
             }
 
@@ -1114,46 +1147,71 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
         
         public async UniTask<bool> TryReloadBodyWithEquips() {
+            InBodyLoading = true;
             // Weapon UnEquip Toggles Fist Equip and that needs to wait for new body to load.
             // That is why we set BodyData to null before unEquipping any item.
             BodyData = null;
+            bool hideWeapons = !Target.IsWeaponEquipped;
             
             // Armor UnEquip
-            List<(Item, EquipmentSlotType)> unEquippedItems = new();
+            List<ItemEquip> unEquippedItems = new();
             foreach (var slotType in EquipmentSlotType.Armors) {
-                var item = Target.HeroItems.Unequip(slotType);
-                if (item != null) {
-                    unEquippedItems.Add((item, slotType));
+                var item = Target.HeroItems.EquippedItem(slotType);
+                if (item == null) {
+                    continue;
+                }
+                
+                if (item.TryGetElement(out ItemEquip itemEquip) && itemEquip.IsEquipped) {
+                    itemEquip.PerspectiveChangeHeroUnEquip(slotType);
+                    unEquippedItems.Add(itemEquip);
                 }
             }
 
             // Weapons UnEquip
             foreach (var slotType in EquipmentSlotType.Loadouts) {
                 var item = Target.HeroItems.EquippedItem(slotType);
-                if (item == null || item.HasElement<LockItemSlot>()) {
+                if (item == null || (item.TryGetElement<LockItemSlot>(out var lockItemSlot) && !lockItemSlot.AllowPerspectiveChangeReequip)) {
                     continue;
                 }
-                Target.HeroItems.Unequip(item);
-                if (!item.IsFists) {
-                    unEquippedItems.Add((item, slotType));
+
+                if (item.TryGetElement(out ItemEquip itemEquip) && itemEquip.IsEquipped) {
+                    itemEquip.PerspectiveChangeHeroUnEquip(slotType);
+                    unEquippedItems.Add(itemEquip);
                 }
             }
             
             Target.HeroItems.LockEquipping(true);
             // Destroy old body and load new one
-            await LoadBodyPrefab();
+            await ReloadBodyPrefab();
+            
+            List<KandraRenderer> hiddenBodyRenderers = new();
+            foreach (var renderer in _heroBodyInstance.GetComponentsInChildren<KandraRenderer>()) {
+                if(renderer.enabled) {
+                    renderer.enabled = false;
+                    hiddenBodyRenderers.Add(renderer);
+                }
+            }
             
             if (!await AsyncUtil.DelayFrame(this)) {
+                InBodyLoading = false;
                 return false;
             }
-            
+
             // Weapon Equip
             Target.HeroItems.LockEquipping(false);
-            foreach ((Item item, EquipmentSlotType slotType) in unEquippedItems) {
-                Target.HeroItems.Equip(item, slotType);
+            List<UniTask> tasks = new(unEquippedItems.Count);
+            foreach (ItemEquip itemEquip in unEquippedItems) {
+                tasks.Add(itemEquip.PerspectiveChangeHeroEquip(Target, hideWeapons));
             }
+            await UniTask.WhenAll(tasks);
 
-            return true;
+            foreach (var renderer in hiddenBodyRenderers) {
+                renderer.enabled = true;
+            }
+            hiddenBodyRenderers.Clear();
+
+            InBodyLoading = false;
+            return !HasBeenDiscarded;
         }
 
         void SetupFppBodyData() {
@@ -1174,7 +1232,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
             positionConstraint.weight = 1;
             positionConstraint.constraintActive = true;
             positionConstraint.translationAxis = Axis.Y;
-            
+
+            baseVirtualCamera.Follow = null;
             dialogueVirtualCamera.Follow = tppDialogueOffset.transform;
             finisherVirtualCamera.Follow = tppShoulderOffset.transform;
         }
@@ -1230,7 +1289,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         async UniTaskVoid PerformActionAfterBodyLoad(Action action, CancellationToken cancellationToken) {
-            while (BodyData == null) {
+            while (InBodyLoading) {
                 if (!await AsyncUtil.DelayFrame(this, cancellationToken: cancellationToken)) {
                     return;
                 }

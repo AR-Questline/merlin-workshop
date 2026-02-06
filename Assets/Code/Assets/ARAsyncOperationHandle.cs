@@ -1,5 +1,6 @@
 ﻿using System;
 using Awaken.TG.MVC;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -47,6 +48,8 @@ namespace Awaken.TG.Assets {
                 } else {
                     _completion?.Cancel();
                 }
+            } else {
+                Log.Critical?.Error("Releasing not valid ARAsyncOperationHandle");
             }
         }
 

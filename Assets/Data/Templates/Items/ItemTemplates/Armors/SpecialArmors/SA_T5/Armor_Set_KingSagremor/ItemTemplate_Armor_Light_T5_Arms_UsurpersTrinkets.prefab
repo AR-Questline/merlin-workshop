@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_5c9a197f71938aa408430a7296f600b7
-  EDITOR_bakedDescription: 'Restores 25 Mana when killing an enemy.
-
-    Increases
-    Spell Power by 5%.'
+  EDITOR_bakedDescription: "Restores 25 Mana after killing an enemy.\nIncreases Spell
+    Power by 5\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2498079568710489046
 MonoBehaviour:
@@ -253,8 +255,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4968555461651015134
 MonoBehaviour:
@@ -282,7 +287,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 25
     - name: ValueGain
-      value: 1
+      value: 2
     - name: ValueCalculated
       value: 0
     enums:

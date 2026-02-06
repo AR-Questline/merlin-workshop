@@ -70,6 +70,7 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 2
+  BackToSpawnPointDistanceMultiplier: 1
   maxHealth: 12000
   healthRegen: 0
   maxStamina: 300
@@ -150,6 +151,10 @@ MonoBehaviour:
       buildupThreshold: 1
       effectStrength: 1
       buildupName: Full
+    _petrification:
+      buildupThreshold: 3
+      effectStrength: 1
+      buildupName: Petrification
   crimeNpcValue: 0
   crimeReactionArchetype: 0
   npcType: 5
@@ -167,7 +172,12 @@ MonoBehaviour:
     table:
       rid: 1282951455478644935
   lootTables: []
-  corpseLootTables: []
+  corpseLootTables:
+  - lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 6720257270644998216
   wyrdConvertedLootTables:
   - lootType: 0
     lootReference:
@@ -192,6 +202,10 @@ MonoBehaviour:
       address: a3827a59fc2d5a744bbdda2bf6478dcb
       subObjectName: 
   tattooType: 0
+  corpseVFX:
+    arReference:
+      address: 
+      subObjectName: 
   dummyDeathClipTransition:
     address: 
     subObjectName: 
@@ -204,3 +218,22 @@ MonoBehaviour:
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
         array: []
+    - rid: 6720257270644998216
+      type: {class: LootTableNewGamePlusConditional, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        minimumNewGamePlusLevel: 1
+        ifTrue:
+          rid: 6720257270644998218
+        ifFalse:
+          rid: -2
+    - rid: 6720257270644998218
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 39cdd3ed936bf9f4e8a8be94c12b7dfc
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0

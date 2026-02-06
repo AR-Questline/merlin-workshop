@@ -52,6 +52,9 @@ namespace Awaken.TG.Main.UI.HeroRendering {
 
         async UniTaskVoid InitBody() {
             await RefreshGender();
+            if (HasBeenDiscarded) {
+                return;
+            }
             ShowBody();
         }
         

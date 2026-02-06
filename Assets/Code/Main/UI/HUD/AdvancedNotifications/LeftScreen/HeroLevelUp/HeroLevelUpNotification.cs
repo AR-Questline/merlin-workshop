@@ -1,9 +1,5 @@
-using Awaken.TG.MVC.Elements;
-
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.HeroLevelUp {
-    public partial class HeroLevelUpNotification : Element<HeroLevelUpNotificationBuffer>, IAdvancedNotification {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class HeroLevelUpNotification : AdvancedNotification {
         public readonly int heroLevel;
 
         public HeroLevelUpNotification(int heroLevel) {

@@ -28,7 +28,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
         public string ItemType => ItemUtils.ItemTypeTranslation(Item);
         public IItemTypeSpecificDescriptor TypeSpecificDescriptor => IItemTypeSpecificDescriptor.ItemTypeSpecificDescriptor(Item);
 
-        public SpriteReference Icon => Item.Template.IconReference.Get();
+        public SpriteReference Icon => Item.Template.IconReference().Get();
 
         public string ItemFlavor => Item.Flavor;
         public string ItemDescription => Item.DescriptionFor(Hero.Current);
@@ -53,8 +53,12 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
             get {
                 var tokenText = new TooltipConstructorTokenText();
                 bool hasAny = false;
+                
+                string desc = Item.IsMagic 
+                    ? string.Join("\n", Item.Template.Description, Item.LightCastInfo.MagicDescription, Item.HeavyCastInfo.MagicDescription) 
+                    : Item.Template.Description;
  
-                foreach (var keyword in SkillsUtils.KeywordDescriptions(Item.Template.Description, Item.Keywords)) {
+                foreach (var keyword in SkillsUtils.KeywordDescriptions(desc, Item.Keywords)) {
                     hasAny = true;
                     tokenText.AddToken(new TokenText(TokenType.TooltipText, keyword));
                 }

@@ -7,7 +7,7 @@ using XNodeEditor;
 namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorStatDependantChoice))]
     public class SStatDependantChoiceEditor : ElementEditor {
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             GUIUtils.PushLabelWidth(150);
 
             const string OverrideLabel = nameof(SEditorStatDependantChoice.overrideLabel);

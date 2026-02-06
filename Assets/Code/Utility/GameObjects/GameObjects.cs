@@ -351,6 +351,7 @@ namespace Awaken.Utility.GameObjects {
         /// <summary>
         /// Sets the active state of the game object if it is not already in that state.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SetActiveOptimized(this GameObject go, bool active) {
             if (go.activeSelf != active) {
                 go.SetActive(active);
@@ -360,6 +361,7 @@ namespace Awaken.Utility.GameObjects {
         /// <summary>
         /// Sets the active state of the game object if it is not null.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void TrySetActiveOptimized(this GameObject go, bool active) {
             if (go == null) return;
             go.SetActiveOptimized(active);
@@ -368,9 +370,12 @@ namespace Awaken.Utility.GameObjects {
         /// <summary>
         /// Sets the active state of the component's game object if it is not null.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void TrySetActiveOptimized(this Component mb, bool active) {
-            if (mb == null || mb.gameObject == null) return;
-            mb.gameObject.SetActiveOptimized(active);
+            if (mb == null) return;
+            var go = mb.gameObject;
+            if (go == null) return;
+            go.SetActiveOptimized(active);
         }
 
         public static T GrabChild<T>(this Component mb, params string[] path) where T : Component {

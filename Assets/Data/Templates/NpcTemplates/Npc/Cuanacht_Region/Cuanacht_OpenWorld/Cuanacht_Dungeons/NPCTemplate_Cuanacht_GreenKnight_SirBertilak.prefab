@@ -62,7 +62,7 @@ MonoBehaviour:
   level: 50
   npcData: {fileID: 11400000, guid: e739b131a0e7afa40baeed6d365c3daf, type: 2}
   fightingStyle:
-    _guid: 764eef6f729cac947a1382f8b76f1f5e
+    _guid: 2d0355521dd68e843b04eca32227c578
   isNotGrounded: 0
   useRichAISlowdownTime: 1
   requiresPathToTarget: 1
@@ -211,11 +211,22 @@ MonoBehaviour:
         itemLvl:
           low: 0
           high: 0
+    - rid: 5213948191925338113
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 253d74d1eb2762c4fbe284be8c9a2164
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
     - rid: 7766364333048594468
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
         array:
         - rid: 7855908944372301860
+        - rid: 5213948191925338113
         - rid: 223797347991158880
     - rid: 7855908944372301860
       type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,

@@ -44,7 +44,8 @@ namespace Awaken.TG.Main.AI.Combat.Utils {
         }
 
         public static bool ShouldReact(NpcElement npc) {
-            CrimeOwnerTemplate crimeOwner = npc.GetCurrentCrimeOwnersFor(CrimeArchetype.None).PrimaryOwner;
+            using var crimeOwners = npc.GetCurrentCrimeOwnersFor(CrimeArchetype.None);
+            CrimeOwnerTemplate crimeOwner = crimeOwners.PrimaryOwner;
             return CrimeUtils.HasCommittedUnforgivableCrime(crimeOwner) || (ReactsToBounty(npc) && CrimeUtils.HasBounty(crimeOwner));
         }
 
@@ -172,7 +173,8 @@ namespace Awaken.TG.Main.AI.Combat.Utils {
         }
 
         public static bool NPCContainsOwnerFaction(CrimeOwnerTemplate crimeOwner, NpcCrimeReactions reactions, CrimeArchetype archetype) {
-            return reactions.ParentModel.GetCurrentCrimeOwnersFor(archetype).Contains(crimeOwner);
+            using var crimeOwners = reactions.ParentModel.GetCurrentCrimeOwnersFor(archetype);
+            return crimeOwners.Contains(crimeOwner);
         }
     }
 }

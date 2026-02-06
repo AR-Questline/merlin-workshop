@@ -1,5 +1,4 @@
-﻿using Awaken.Utility;
-using System;
+﻿using System;
 using Awaken.TG.Utility.Attributes;
 
 namespace Awaken.Utility.Times {
@@ -17,10 +16,10 @@ namespace Awaken.Utility.Times {
         [Saved] DateTime _dateTime;
 
         public DateTime Date => _dateTime;
-        public int Day => _dateTime.DayOfYear;
-        [UnityEngine.Scripting.Preserve] public int DayOfTheWeek => GameTimeUtil.DayOfTheWeek(Day);
+        [UnityEngine.Scripting.Preserve] public int DayOfTheYear => _dateTime.DayOfYear;
+        [UnityEngine.Scripting.Preserve] public int DayOfTheWeek => GameTimeUtil.DayOfTheWeek(DayOfTheYear);
         public int DayOfTheMonth => _dateTime.Day;
-        public int Week => GameTimeUtil.Week(Day);
+        public int Week => GameTimeUtil.Week(DayOfTheYear);
         public int Month => _dateTime.Month;
         public int Year => _dateTime.Year;
         public float DayTime => (float) _dateTime.TimeOfDay.TotalMinutes / 1440f;

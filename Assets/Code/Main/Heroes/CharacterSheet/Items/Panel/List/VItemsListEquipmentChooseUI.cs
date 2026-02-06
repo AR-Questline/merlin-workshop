@@ -2,6 +2,7 @@
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Locations.Gems.GemManagement;
+using Awaken.TG.Main.Transmogrify;
 using Awaken.TG.MVC.Attributes;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
@@ -13,11 +14,12 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
             if (Target.ParentModel.Config is EquipmentChooseUI chooseUI) {
                 var slotType = chooseUI.EquipmentSlotType;
                 MaxRowCount = EquipmentSlotType.Armors.Contains(slotType) ? 5 : 6;
-            }
-            else if (Target.ParentModel.Config is GemChooseUI) {
+            } else if (Target.ParentModel.Config is GemChooseUI) {
                 MaxRowCount = 5;
-            }
-            else {
+            } else if (Target.ParentModel.Config is TransmogrifyChooseUI) {
+                MaxColumnCount = 7;
+                MaxRowCount = 6;
+            } else {
                 MaxRowCount = 6;
             }
             

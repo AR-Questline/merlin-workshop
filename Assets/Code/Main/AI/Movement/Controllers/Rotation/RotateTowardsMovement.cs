@@ -6,7 +6,7 @@ namespace Awaken.TG.Main.AI.Movement.Controllers.Rotation {
         public bool UseRichAIRotation => true;
         public void Enter() { }
         public void Update(float deltaTime) {
-            if (!Controller.UseRichAIRotation) {
+            if (Controller is {HasBeenDiscarded: false, RichAI: not null, UseRichAIRotation: false }) {
                 Controller.SteeringDirection = (Controller.RichAI.steeringTarget - Controller.Position).ToHorizontal2();
             }
         }

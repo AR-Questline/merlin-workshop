@@ -13,7 +13,9 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         InstantReport = 1 << 2,
     }
     
-    public struct Crime {
+    public struct Crime : IDisposable {
+        public static Crime Disposed = new Crime(in CrimeArchetype.None, CrimeOwners.None, 0);
+        
         float _bountyMultiplier;
         public CrimeArchetype Archetype { get; }
         public CrimeOwners Owners { get; }
@@ -25,6 +27,13 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
             _bountyMultiplier = bountyMultiplier;
             Archetype = source.OverrideArchetype(archetype);
             Owners = source.GetCurrentCrimeOwnersFor(Archetype);
+            Situation = situation;
+        }
+        
+        Crime(in CrimeArchetype archetype, CrimeOwners owners, float bountyMultiplier, CrimeSituation situation = CrimeSituation.None) {
+            _bountyMultiplier = bountyMultiplier;
+            Archetype = archetype;
+            Owners = owners;
             Situation = situation;
         }
         
@@ -105,7 +114,12 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
             Situation = Situation.Append(situationAppend);
             return CrimeUtils.TryCommitCrime(this);
         }
+
         public readonly bool TryCommitCrime() => CrimeUtils.TryCommitCrime(this);
+
+        public void Dispose() {
+            Owners.Dispose();
+        }
 
         [UnityEngine.Scripting.Preserve] public readonly bool IsPickpocketing => Archetype.SimpleCrimeType == SimpleCrimeType.Pickpocket;
         [UnityEngine.Scripting.Preserve] public readonly bool IsLockpicking => Archetype.SimpleCrimeType == SimpleCrimeType.Lockpicking;

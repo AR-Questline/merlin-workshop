@@ -31,7 +31,7 @@ using UnityEngine;
 namespace Awaken.TG.Main.AI.Fights.Projectiles {
     [RequireComponent(typeof(Rigidbody))]
     public class Arrow : DamageDealingProjectile {
-        [SerializeField] bool discardOnHit;
+        [SerializeField] protected bool discardOnHit;
 
         protected virtual ItemTemplate BrokenItemTemplate => Services.Get<CommonReferences>().BrokenArrowItemTemplate;
         protected ItemTemplate _itemTemplate;
@@ -39,7 +39,7 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
         ShareableARAssetReference EnvironmentArrowVisualPrefabWithCollisions => Services.Get<CommonReferences>().EnvironmentArrowVisualPrefabWithCollisions;
         LocationTemplate EnvironmentArrowLocationTemplate => Services.Get<CommonReferences>().EnvironmentArrowLocationTemplate;
 
-        Transform _originalParent;
+        protected Transform _originalParent;
         LocationAttachedProjectiles _locationAttachedProjectiles;
         
         public override ItemTemplate ItemTemplate => _itemTemplate;
@@ -114,7 +114,8 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
                 return;
             }
             SendVSEvent(VSCustomEvent.OnContact, FireStrength, owner, hitCollider, _rb.position, aliveHit);
-
+            Owner?.Trigger(ICharacter.Events.OnProjectileContact, new ProjectileContactParams(this, hitCollider, aliveHit));
+            
             if (aliveHit is NpcElement { IsAlwaysPiercedByArrows: true }) {
                 PenetrateTarget(aliveHit);
                 return;
@@ -167,7 +168,7 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             }
         }
 
-        void ReflectArrowFromHitbox(HitResult hitResult) {
+        protected void ReflectArrowFromHitbox(HitResult hitResult) {
             const float RandomAngleOffset = 30;
             const float ReflectForceMultiplier = 0.33f;
             const float ReflectForceCap = 8f;
@@ -227,7 +228,7 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             ReleaseSelf(false);
         }
 
-        async UniTaskVoid ReleaseSelf(float time) {
+        protected async UniTaskVoid ReleaseSelf(float time) {
             if (await AsyncUtil.DelayTime(this, time)) {
                 ReleaseSelf(false);
             }

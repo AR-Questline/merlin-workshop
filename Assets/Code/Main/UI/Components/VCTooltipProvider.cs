@@ -1,6 +1,5 @@
-﻿using System;
-using Awaken.TG.Main.Heroes.Stats;
-using Awaken.TG.Main.Localization;
+﻿using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.MVC.UI.Handlers.Tooltips;
@@ -17,6 +16,7 @@ namespace Awaken.TG.Main.UI.Components {
         public RectTransform tooltipHost;
         
         public UIResult Handle(UIEvent evt) => UIResult.Ignore;
+        public bool IsValid => this.IsValidForUIHandle();
 
         TooltipConstructor GetTooltipConstructor(string text) {
             TooltipConstructor constructor = text;

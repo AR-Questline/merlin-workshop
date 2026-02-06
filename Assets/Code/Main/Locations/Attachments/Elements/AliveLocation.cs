@@ -9,12 +9,14 @@ using Awaken.TG.Main.Heroes.Items.Attachments.Audio;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Locations.Attachments.Attachment;
 using Awaken.TG.Main.Locations.Views;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.Main.Utility.VFX;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
+using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Cysharp.Threading.Tasks;
 using FMODUnity;
@@ -26,6 +28,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
 
         // === Fields & Properties
         AliveLocationAttachment _spec;
+        [Saved] bool _discarding;
 
         public NpcChunk NpcChunk { get; set; }
         public SurfaceType AudioSurfaceType { get; private set; }
@@ -40,6 +43,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         public AliveStats.ITemplate AliveStatsTemplate => Spec;
         public LimitedStat Health => AliveStats.Health;
         public Stat MaxHealth => AliveStats.MaxHealth;
+        public int NewGamePlusLevel => NewGamePlusSystem.Level;
         public Transform ParentTransform { get; private set; }
         public AliveAudio AliveAudio => ParentModel.TryGetElement<AliveAudio>();
         public AliveLocationAttachment Spec => _spec;
@@ -70,6 +74,10 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         }
 
         protected override void OnRestore() {
+            if (_discarding) {
+                ParentModel.Discard();
+                return;
+            }
             CommonInit();
         }
 
@@ -92,7 +100,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
                 }
 
                 if (_spec.StoryOnDeath is { IsValid: true }) {
-                    Story.StartStory(StoryConfig.Base(_spec.StoryOnDeath, null));
+                    Story.StartStory(StoryConfig.Base(_spec.StoryOnDeath, null).WithLocation(ParentModel));
                 }
 
                 if (_spec.discardOnDeath) {
@@ -111,6 +119,10 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         
         // === Helpers
         async UniTaskVoid DiscardOnDeath() {
+            _discarding = true;
+            if (_spec.makeInactiveOnDeath) {
+                ParentModel.SetInteractability(LocationInteractability.Inactive);
+            }
             if (_spec.discardDelayInSeconds > 0 && !await AsyncUtil.DelayTime(this, _spec.discardDelayInSeconds)) {
                 return;
             }

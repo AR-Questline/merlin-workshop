@@ -14,6 +14,12 @@ namespace Awaken.Utility.Archives {
                 return false;
             }
 
+            var alreadyMounted = ArchiveFileInterface.GetMountedArchives(contentNamespace);
+            if (alreadyMounted.Length > 0) {
+                basePath = alreadyMounted[0].GetMountPath();
+                return true;
+            }
+
             ArchiveHandle contentHandle = ArchiveFileInterface.MountAsync(contentNamespace, archivePath, string.Empty);
             contentHandle.JobHandle.Complete();
             if (contentHandle.Status != ArchiveStatus.Complete) {

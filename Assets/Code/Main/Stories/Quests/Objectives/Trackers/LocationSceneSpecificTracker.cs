@@ -50,7 +50,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
                     AddLocation(location);
                 }
             }
-            _modelAddedListener = World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelAdded<Location>(), this, OnModelAdded);
+            _modelAddedListener = World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelFullyInitialized<Location>(), this, OnModelAdded);
         }
 
         protected override void OnCorrectSceneLeft() {
@@ -80,7 +80,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
         }
 
         void OnLocationKilled(DamageOutcome outcome) {
-            Location location = outcome.Target is Element<Location> element ? element.ParentModel : null;
+            Location location = outcome.TargetPure is Element<Location> element ? element.ParentModel : null;
             if (location == null) {
                 return;
             }

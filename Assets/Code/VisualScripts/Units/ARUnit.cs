@@ -9,7 +9,6 @@ using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using Unity.VisualScripting;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.VisualScripts.Units {
     [UnityEngine.Scripting.RequireDerived]

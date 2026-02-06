@@ -13,6 +13,7 @@ using Awaken.TG.Main.UI.Popup.PopupContents;
 using Awaken.TG.Main.UI.Stickers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
+using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.Utility;
 using Awaken.Utility.Animations;
 using Awaken.Utility.GameObjects;
@@ -51,6 +52,11 @@ namespace Awaken.TG.Main.Stories {
             SubtitlesSetting subtitlesSetting = World.Only<SubtitlesSetting>();
             subtitlesSetting.ListenTo(Setting.Events.SettingChanged, SubtitlesSettingChanged, this);
             SubtitlesSettingChanged(subtitlesSetting);
+            UIStateStack.Instance.ListenTo(UIStateStack.Events.UIStateChanged, OnUIStateChanged, this);
+        }
+
+        void OnUIStateChanged(UIState state) {
+            parent.TrySetActiveOptimized(state.IsMapInteractive);
         }
 
         void SubtitlesSettingChanged(Model model) {

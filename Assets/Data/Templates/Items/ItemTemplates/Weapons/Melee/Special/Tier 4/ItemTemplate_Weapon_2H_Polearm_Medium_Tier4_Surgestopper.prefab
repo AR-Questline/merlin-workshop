@@ -55,6 +55,7 @@ MonoBehaviour:
   - _guid: fb3f705c21071314b8d3a9fa554e0ed3
   - _guid: daf158c6dbc15944abe6500fb253bae7
   - _guid: 00e2ecb9a87647c42b02d08d71fc9c48
+  - _guid: 2ec1f2b91c4b91540a3d9d5544f2ad41
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -78,8 +79,7 @@ MonoBehaviour:
     locString:
       IdOverride: item_weapon_2h_Surgestopper_Desc
       ID: Template/description_locString_2543871262668956605_6d158e5c1729fde498cf5d59dfeb45bf
-  EDITOR_bakedDescription: Attacks have a 10% chance to Stun. Each nearby enemy increases
-    this chance by 5%.
+  EDITOR_bakedDescription: "Attacks have a 10\_% chance to <color=#04959A>Stun</color>."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: c4aff7436e9f9d94ea1551b6c49822ba
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -241,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-11953570963775665
 MonoBehaviour:
@@ -674,3 +681,10 @@ MonoBehaviour:
         arReference:
           address: 1b50771a83d66f742860f9184e36b5a7
           subObjectName: 
+  - skillGraphRef:
+      _guid: 
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences: []

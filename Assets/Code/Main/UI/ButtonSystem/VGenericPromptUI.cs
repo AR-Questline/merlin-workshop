@@ -1,4 +1,5 @@
-﻿using Awaken.TG.MVC;
+﻿using Awaken.TG.Main.UI.Helpers;
+using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -19,6 +20,7 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
         Tween _alphaTween;
         
         protected override bool CanNestInside(View view) => false;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public void OnTap(Prompt source) { }
 

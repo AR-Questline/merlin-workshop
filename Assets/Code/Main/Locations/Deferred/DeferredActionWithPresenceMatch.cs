@@ -7,12 +7,15 @@ using Awaken.TG.Utility.Attributes;
 using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Locations.Deferred {
-    public partial class DeferredActionWithPresenceMatch : DeferredAction {
+    public partial class DeferredActionWithPresenceMatch : DeferredActionRequiringVisualLoaded {
         public override ushort TypeForSerialization => SavedTypes.DeferredActionWithPresenceMatch;
 
         [Saved] PresenceData _presenceData;
         [Saved] DeferredLocationExecution _execution;
         static readonly List<Location> ReusableLocations = new();
+        
+        public PresenceData PresenceData => _presenceData;
+        public DeferredLocationExecution Execution => _execution;
         
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         DeferredActionWithPresenceMatch() {}
@@ -23,20 +26,29 @@ namespace Awaken.TG.Main.Locations.Deferred {
         }
 
         public override DeferredSystem.Result TryExecute() {
-            return TryExecute(_presenceData, _execution);
+            return TryExecute(_presenceData, _execution, this);
         }
         
-        public static DeferredSystem.Result TryExecute(PresenceData presenceData, DeferredLocationExecution execution) {
+        public static DeferredSystem.Result TryExecute(PresenceData presenceData, DeferredLocationExecution execution, DeferredActionWithPresenceMatch action) {
             ReusableLocations.Clear();
             foreach (var location in FindAllMatchingLocations(presenceData)) {
-                if (!location.IsVisualLoaded) {
-                    ReusableLocations.Clear();
-                    return DeferredSystem.Result.RepeatNextFrame;
+                if (RequireWait(execution, location)) {
+                    if (action != null) {
+                        action.WaitForVisualLoaded(location);
+                    } else {
+                        ReusableLocations.Clear();
+                        return DeferredSystem.Result.Fail;
+                    }
                 }
 
                 ReusableLocations.Add(location);
             }
 
+            if (action is { ListenersCount: > 0 }) {
+                ReusableLocations.Clear();
+                return DeferredSystem.Result.Ignore;
+            }
+            
             if (ReusableLocations.Count == 0) {
                 return DeferredSystem.Result.Fail;
             }
@@ -54,6 +66,16 @@ namespace Awaken.TG.Main.Locations.Deferred {
                    yield return presence.ParentModel;
                }
            }
+        }
+       
+        public override bool HasSimilarConditions(DeferredAction other) {
+            if (other is not DeferredActionWithPresenceMatch otherAction) {
+                return false;
+            }
+            if (!_presenceData.Equals(otherAction._presenceData)) {
+                return false;
+            }
+            return base.HasSimilarConditions(other);
         }
     }
 }

@@ -1,30 +1,20 @@
-﻿using Awaken.TG.Main.Heroes.CharacterCreators;
-using Awaken.TG.Main.Heroes.CharacterSheet;
-using Awaken.TG.Main.Settings.GammaSettingScreen;
-using Awaken.TG.Main.Settings.Graphics;
+﻿using Awaken.TG.Main.Settings.Graphics;
 using Awaken.TG.MVC;
-using Awaken.TG.MVC.Events;
-using Awaken.Utility.Animations;
 using Awaken.Utility.Debugging;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
 namespace Awaken.TG.Main.Settings.Controllers {
-    /// <summary>
-    /// Takes care of switching AntiAliasing options in camera, based on graphics settings.
-    /// </summary>
     [RequireComponent(typeof(HDAdditionalCameraData))]
     public class UpScalingController : StartDependentView<UpScaling> {
         const float DefaultScaling = 100;
 
         HDAdditionalCameraData _camera;
-        float _dlssScaling;
         
         protected override void OnInitialize() {
             _camera = GetComponent<HDAdditionalCameraData>();
             _camera.deepLearningSuperSamplingUseOptimalSettings = false;
-            _dlssScaling = DefaultScaling;
             Target.ListenTo(Setting.Events.SettingRefresh, OnSettingChanged, this);
             
             OnSettingChanged(Target);
@@ -32,11 +22,11 @@ namespace Awaken.TG.Main.Settings.Controllers {
         
         // === Public API
         public void EnableUpScaling() {
-            DisableUpScaling(true);
             var upScalingType = Target.ActiveUpScalingType;
 
             switch (upScalingType) {
                 case UpScalingType.None:
+                    DisableUpScaling();
                     break;
 #if !UNITY_GAMECORE && !UNITY_PS5
                 case UpScalingType.DLSS:
@@ -47,18 +37,15 @@ namespace Awaken.TG.Main.Settings.Controllers {
                     EnableSTP();
                     break;
                 default:
-                    Log.Important?.Error(
-                        $"UpScaling enabling is not implemented for type {Target.ActiveUpScalingType}. Disabling UpScaling");
+                    Log.Important?.Error($"UpScaling enabling is not implemented for type {Target.ActiveUpScalingType}. Disabling UpScaling");
+                    DisableUpScaling();
                     break;
             }
         }
 
-        public void DisableUpScaling(bool temporaryDisable = false) {
+        public void DisableUpScaling() {
             DynamicResolutionHandler.SetDynamicResScaler(() => DefaultScaling, DynamicResScalePolicyType.ReturnsPercentage);
             DynamicResolutionHandler.SetActiveDynamicScalerSlot(DynamicResScalerSlot.User);
-            if ((temporaryDisable && Target.ActiveUpScalingType == UpScalingType.STP) == false) {
-                DisableForceUpScalingResolution();
-            }
            
             _camera.allowDeepLearningSuperSampling = false;
             _camera.deepLearningSuperSamplingUseCustomQualitySettings = false;
@@ -76,52 +63,36 @@ namespace Awaken.TG.Main.Settings.Controllers {
         
         void EnableSTP() {
             if (UpScaling.IsSTPAvailable == false) {
+                DisableUpScaling();
                 return;
             }
+            
             _camera.allowDynamicResolution = true;
+            _camera.allowDeepLearningSuperSampling = false;
+            _camera.deepLearningSuperSamplingUseCustomQualitySettings = false;
+            
             float stpScaling = Target.IsSTPEnabled ? Target.QualityScaling : 100;
-            EnableForceFixedMaxUpScalingResolution(stpScaling);
+            DynamicResolutionHandler.SetDynamicResScaler(() => stpScaling, DynamicResScalePolicyType.ReturnsPercentage);
+            DynamicResolutionHandler.SetActiveDynamicScalerSlot(DynamicResScalerSlot.User);
         }
         
 #if !UNITY_GAMECORE && !UNITY_PS5
         void EnableDLSS() {
             if (UpScaling.IsDLSSAvailable == false) {
+                DisableUpScaling();
                 return;
             }
 
             _camera.deepLearningSuperSamplingQuality = (uint)Target.DLSSQuality;
-            _dlssScaling = Target.IsDLSSEnabled ? Target.QualityScaling : 100;
             _camera.allowDynamicResolution = true;
             _camera.allowDeepLearningSuperSampling = true;
             _camera.deepLearningSuperSamplingUseCustomQualitySettings = true;
-            DynamicResolutionHandler.SetDynamicResScaler(() => _dlssScaling,
-                DynamicResScalePolicyType.ReturnsPercentage);
+            
+            float dlssScaling = Target.IsDLSSEnabled ? Target.QualityScaling : 100;
+            DynamicResolutionHandler.SetDynamicResScaler(() => dlssScaling, DynamicResScalePolicyType.ReturnsPercentage);
             DynamicResolutionHandler.SetActiveDynamicScalerSlot(DynamicResScalerSlot.User);
         }
 
 #endif
-        static void DisableForceUpScalingResolution() {
-            var currentHDRenderPipelineAsset = QualitySettings.GetRenderPipelineAssetAt(QualitySettings.GetQualityLevel()) as HDRenderPipelineAsset;
-            if (currentHDRenderPipelineAsset != null) {
-                var settings = currentHDRenderPipelineAsset.currentPlatformRenderPipelineSettings;
-                if (settings.dynamicResolutionSettings.forceResolution) {
-                    settings.dynamicResolutionSettings.forceResolution = false;
-                    currentHDRenderPipelineAsset.currentPlatformRenderPipelineSettings = settings;
-                }
-            }
-        }
-
-        static void EnableForceFixedMaxUpScalingResolution(float forcedPercentage) {
-            var currentHDRenderPipelineAsset = QualitySettings.GetRenderPipelineAssetAt(QualitySettings.GetQualityLevel()) as HDRenderPipelineAsset;
-            if (currentHDRenderPipelineAsset == null) {
-                return;
-            }
-            var settings = currentHDRenderPipelineAsset.currentPlatformRenderPipelineSettings;
-            if (settings.dynamicResolutionSettings.forceResolution == false || settings.dynamicResolutionSettings.forcedPercentage != forcedPercentage) {
-                settings.dynamicResolutionSettings.forceResolution = true;
-                settings.dynamicResolutionSettings.forcedPercentage = forcedPercentage;
-                currentHDRenderPipelineAsset.currentPlatformRenderPipelineSettings = settings;
-            }
-        }
     }
 }

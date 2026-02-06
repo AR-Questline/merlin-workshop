@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.LowLevel.Collections;
 using Object = UnityEngine.Object;
 
 namespace Awaken.Utility.Collections {
@@ -19,6 +20,15 @@ namespace Awaken.Utility.Collections {
                 return;
             }
             RemoveAt(ref array, index);
+        }
+        
+        public static bool TryRemove<T>(ref T[] array, T item) {
+            var index = Array.IndexOf(array, item);
+            if (index == -1) {
+                return false;
+            }
+            RemoveAt(ref array, index);
+            return true;
         }
         
         public static void RemoveAt<T>(ref T[] array, int index) {
@@ -42,6 +52,8 @@ namespace Awaken.Utility.Collections {
             }
             return false;
         }
+        
+
 
         public static void Append<T>(ref T[] array, T[] toAppend, int count) {
             var newArray = new T[array.Length + count];
@@ -127,6 +139,12 @@ namespace Awaken.Utility.Collections {
         public static T[] CreateCopy<T>(this T[] array) {
             var newArray = new T[array.Length];
             Array.Copy(array, newArray, array.Length);
+            return newArray;
+        }
+        
+        public static T[] CreateCopyWithNewEmptyItemsAtStart<T>(this T[] array, int itemsAtStartCount) {
+            var newArray = new T[array.Length + itemsAtStartCount];
+            Array.Copy(array, 0, newArray, itemsAtStartCount, array.Length);
             return newArray;
         }
         
@@ -245,6 +263,27 @@ namespace Awaken.Utility.Collections {
             return arr;
         }
 
+        public static bool Contains<T>(this T[] array, T obj) where T : class {
+            return Array.IndexOf(array, obj) != -1;
+        }
+
+        public static T[] CreateCopyRemovingNulls<T>(this T[] array, Func<T, bool> hasNull) {
+            var notNullElementsBitmask = new UnsafeBitmask((uint)array.Length, ARAlloc.Temp);
+            notNullElementsBitmask.All();
+            for (uint i = 0; i < array.Length; i++) {
+                if (hasNull(array[i])) {
+                    notNullElementsBitmask[i] = false;
+                }
+            }
+            var notNullCount = notNullElementsBitmask.CountOnes();
+            var arrayCopy = new T[notNullCount];
+            int counter = 0;
+            foreach (var validElementIndex in notNullElementsBitmask.EnumerateOnes()) {
+                arrayCopy[counter++] = array[validElementIndex];
+            }
+            notNullElementsBitmask.Dispose();
+            return arrayCopy;
+        }
         public static ArrayRefIterator<T> RefIterator<T>(this T[] array) => new(array);
         
         public static T[] GetSubArray<T>(this T[] array, int startIndex, int length) {

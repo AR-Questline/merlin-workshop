@@ -12,7 +12,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         
         public override string ParentLayerName => LayerName;
         public override HeroLayerType LayerType => HeroLayerType.BothHands;
-        public override HeroStateType DefaultState => HeroStateType.EquipWeapon;
+        public override HeroStateType DefaultState => DefaultEquipState;
         protected override SynchronizedHeroSubstateMachine HeadLayerIndex => _head;
 
         // === Constructor

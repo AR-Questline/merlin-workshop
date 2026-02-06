@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Awaken.TG.Main.Heroes.HUD.Bars {
@@ -10,7 +10,7 @@ namespace Awaken.TG.Main.Heroes.HUD.Bars {
 
         public override void SetPercent(float percent) {
             mask.fillAmount = percent;
-            
+
             if (invertIndicator) {
                 percent = 1 - percent;
             }

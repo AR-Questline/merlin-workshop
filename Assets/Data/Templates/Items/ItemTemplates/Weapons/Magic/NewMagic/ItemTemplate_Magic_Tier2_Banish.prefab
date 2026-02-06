@@ -155,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,16 +212,24 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: 38e09be0c8d08a549a7f546c62655cec
     variables:
-    - name: Range
-      value: 20
-    - name: Duration
-      value: 4
-    - name: StatusDuration
-      value: 4
     - name: AutoTargetAngle
       value: 40
+    - name: Range
+      value: 20
+    - name: MinDuration
+      value: 4
     - name: MaxDuration
       value: 8
+    - name: MaxDurationGain
+      value: 0.4
+    - name: MaxDurationCalculated
+      value: 0
+    - name: StatusDuration
+      value: 4
+    - name: StatusDurationGain
+      value: 0.2
+    - name: StatusDurationCalculated
+      value: 0
     enums: []
     datums: []
     templates:
@@ -272,7 +284,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 0
   maxDamage: 0
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -305,8 +317,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 20
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 30
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-7863126784321866877
 MonoBehaviour:

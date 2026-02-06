@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs;
 using Awaken.TG.MVC;
 using Awaken.Utility;
@@ -14,8 +15,12 @@ namespace Awaken.TG.Main.Memories.Journal.Conditions {
     public abstract class ConditionData {
         public abstract bool IsMet();
         public abstract void Initialize(Model owner);
+        public virtual bool Validate(bool validateSelf = false) => true;
         
         public virtual bool InvalidSetup() => false;
+        public virtual IEnumerable<ConditionData> GetAllConditions() {
+            yield return this;
+        }
 
         public static string ConditionInfo(ConditionData condition) {
 #if UNITY_EDITOR
@@ -39,7 +44,7 @@ namespace Awaken.TG.Main.Memories.Journal.Conditions {
         public JournalGuid Guid => guid;
         public sealed override bool IsMet() => World.Only<PlayerJournal>().WasEntryUnlocked(guid.GUID);
         protected void ConditionsMet() {
-            World.Only<PlayerJournal>().UnlockEntry(guid.GUID, JournalSubTabType.Bestiary);
+            World.Only<PlayerJournal>().UnlockEntry(guid.GUID);
 #if UNITY_EDITOR
             Log.Debug?.Info($"Conditions met: {EDITOR_PreviewInfo()}");
 #endif

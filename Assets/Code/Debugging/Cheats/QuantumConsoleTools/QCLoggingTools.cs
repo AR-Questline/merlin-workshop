@@ -4,9 +4,18 @@ using Log = Awaken.Utility.Debugging.Log;
 
 namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
     public static class QCLoggingTools {
-        [Command("logging.set", "Sets the logging filter")][UnityEngine.Scripting.Preserve]
-        static void SetLogging(LogType type, LogType filter2 = LogType.Never, LogType filter3 = LogType.Never, LogType filter4 = LogType.Never, LogType filter5 = LogType.Never, LogType filter6 = LogType.Never) {
-            Log.Utils.LogType = type | filter2 | filter3 | filter4 | filter5 | filter6;
+        [Command("logging.set", "Sets the logging filter. Provide one or more log types separated by spaces.")][UnityEngine.Scripting.Preserve]
+        static void SetLogging(params LogType[] types) {
+            if (types.Length == 0) {
+                Log.Utils.LogType = LogType.Never;
+                return;
+            }
+            
+            LogType result = LogType.Never;
+            foreach (LogType type in types) {
+                result |= type;
+            }
+            Log.Utils.LogType = result;
         }
         
         [Command("logging.get", "Gets the logging filter")][UnityEngine.Scripting.Preserve]

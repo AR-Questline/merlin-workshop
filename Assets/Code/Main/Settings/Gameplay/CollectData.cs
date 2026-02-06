@@ -5,7 +5,7 @@ using Awaken.TG.Utility;
 using Awaken.Utility;
 using Awaken.Utility.Collections;
 
-namespace Awaken.TG.Main.Settings.Gameplay {
+namespace Awaken.TG.Main.Settings.Other {
     public partial class CollectData : Setting {
         
         ToggleOption _toggle;

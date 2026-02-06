@@ -30,8 +30,6 @@ namespace Awaken.TG.Main.Stories.Core {
         public StoryGraph Graph => (StoryGraph) graph;
 
         public abstract Type GenericType { get; }
-        
-        public bool Folded { get; set; }
 
         public override object GetValue(NodePort port) {
             return this;

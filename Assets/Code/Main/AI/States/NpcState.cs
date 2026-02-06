@@ -21,7 +21,7 @@ namespace Awaken.TG.Main.AI.States {
         public NpcElement Npc => Parent.Npc;
         public NpcAI AI => Parent.AI;
         public NpcData Data => AI.Data;
-        public NpcMovement Movement => Npc.Element<NpcMovement>();
+        public NpcMovement Movement => Npc.Movement;
 
         protected override void OnEnter() {
             NpcHistorian.NotifyStates(Npc, $"Npc Enter State: {GetType().Name}");
@@ -39,7 +39,7 @@ namespace Awaken.TG.Main.AI.States {
         public NpcAI AI => Parent.AI;
         public NpcData Data => AI.Data;
 
-        public NpcMovement Movement => Npc.Element<NpcMovement>();
+        public NpcMovement Movement => Npc.Movement;
 
         protected override void OnEnter() {
             NpcHistorian.NotifyStates(Npc, $"Npc Enter SuperState: {GetType().Name}");

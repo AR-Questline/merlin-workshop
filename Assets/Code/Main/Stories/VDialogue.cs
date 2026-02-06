@@ -100,6 +100,9 @@ namespace Awaken.TG.Main.Stories {
         }
 
         void DiscardPreviousDialogues() {
+            if (Target.FocusedLocation == null) {
+                return;
+            }
             bool ShouldDiscard(Story s) =>
                 s != Target && s.FocusedLocation == Target.FocusedLocation && s.View<VDialogue>() != null && !Target.IsAnyParent(s);
             foreach (var story in World.All<Story>().Where(ShouldDiscard).ToList()) {
@@ -169,7 +172,7 @@ namespace Awaken.TG.Main.Stories {
 
                 dialogueNotificationBuffer.RemoveOldNotification(Target, textConfig.Actor);
                 var dialogueData = new DialogueData(Target, textConfig.Actor, textToDisplay);
-                AdvancedNotificationBuffer.Push<DialogueNotificationBuffer>(new DialogueNotification(dialogueData));
+                NotificationUtils.Push(new DialogueNotification(dialogueData));
             }
         }
 

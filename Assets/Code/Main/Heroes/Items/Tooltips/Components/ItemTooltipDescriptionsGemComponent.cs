@@ -8,18 +8,12 @@ using Awaken.TG.MVC;
 namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
     [Serializable]
     public class ItemTooltipDescriptionsGemComponent : ItemTooltipDescriptionsBaseComponent<GemAttached> {
-        bool _hasContent;
-        
-        public ItemTooltipDescriptionsGemComponent(DescriptionComponentConfig config) : base(config) { }
-        
         public override void ToggleSectionActive(bool active) {
-            if (_hasContent) {
-                SetParentSectionVisibility(active);
-            }
+            SetParentSectionVisibility(active);
         }
 
         protected override void Setup(IItemDescriptor descriptor, View view) {
-            _hasContent = descriptor.Gems.Any() || descriptor.GemsSlot.Any();
+            bool hasContent = descriptor.Gems.Any() || descriptor.GemsSlot.Any();
             PrepareDescription(descriptor.Gems, view);
             
             foreach (var slot in descriptor.GemsSlot) {
@@ -27,11 +21,11 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
                 PrepareDescription(slot, element);
             }
 
-            SetParentSectionVisibility(_hasContent);
+            Visibility.SetInternal(hasContent);
         }
 
         protected override void PrepareItemDescription(GemAttached item, ItemDescriptionElement descriptionElement, View view) {
-            var gemItem = descriptionElement.AddItemIcon(item.Template, view);
+            var gemItem = descriptionElement.AddItemIcon(item.Template, view, item.GemLevel, item.GemNgPlusLevel);
             descriptionElement.Setup(ParentSection, item.Description(gemItem), ItemSlotUI.VisibilityConfig.OnlyIcon, item.DisplayName);        
         }
         

@@ -19,7 +19,8 @@ namespace Awaken.TG.Main.General.StatTypes {
             RangedDamage = new(nameof(RangedDamage), "", npc => npc.NpcStats.RangedDamage, "Combat"),
             MagicDamage = new(nameof(MagicDamage), "", npc => npc.NpcStats.MagicDamage, "Combat"),
             ForceDamageMultiplier = new(nameof(ForceDamageMultiplier), "", npc => npc.NpcStats.ForceDamageMultiplier, "Combat"),
-            HeroKnockBack = new(nameof(HeroKnockBack), "", npc => npc.NpcStats.HeroKnockBack, "Combat");
+            HeroKnockBack = new(nameof(HeroKnockBack), "", npc => npc.NpcStats.HeroKnockBack, "Combat"),
+            BackToSpawnPointDistanceMultiplier = new(nameof(BackToSpawnPointDistanceMultiplier), "", npc => npc.NpcStats.BackToSpawnPointDistanceMultiplier, "AI");
         
         protected NpcStatType(string id, string displayName, Func<NpcElement, Stat> getter, string inspectorCategory = "", Param param = null) : base(id, displayName, getter, inspectorCategory, param) { }
     }

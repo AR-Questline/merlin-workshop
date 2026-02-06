@@ -3,6 +3,7 @@ using Awaken.TG.Assets;
 using Awaken.TG.Debugging.Cheats;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.PhotoMode;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
@@ -55,7 +56,8 @@ namespace Awaken.TG.Main.UI.HeroRendering {
         
         public int AnimationPosesCount => _customAnimations?.Count ?? 0;
         protected override int BodyInstanceLayer => RenderLayers.Default;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         // === LifeCycle
         protected override void OnInitialize() {
             base.OnInitialize();

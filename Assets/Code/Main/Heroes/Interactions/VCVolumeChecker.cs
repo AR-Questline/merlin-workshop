@@ -24,6 +24,9 @@ namespace Awaken.TG.Main.Heroes.Interactions {
 
         protected override void OnAttach() {
             Target.ListenTo(GroundedEvents.AfterTeleported, Clear, this);
+            if (Target is not Hero) {
+                Hero.Current.ListenTo(GroundedEvents.AfterTeleported, Clear, this);
+            } 
         }
 
         void OnTriggerEnter(Collider other) {
@@ -90,7 +93,7 @@ namespace Awaken.TG.Main.Heroes.Interactions {
             }
         }
 
-        protected void Clear() {
+        void Clear() {
             if (_volumes.AnyNonAlloc()) {
                 _volumes.ForEach(collider => OnExit(collider));
                 ExitedAllVolumes();

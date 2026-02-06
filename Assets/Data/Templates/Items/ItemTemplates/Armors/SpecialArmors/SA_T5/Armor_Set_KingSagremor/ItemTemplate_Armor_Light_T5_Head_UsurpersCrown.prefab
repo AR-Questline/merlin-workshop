@@ -60,6 +60,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:tier5
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 3f7af82add8c5294fb859d4d9ba9058e
@@ -77,10 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_double_onewithpercent
       ID: Template/description_locString_2543871262668956605_c9958a7abc4d8a141852ebd1797d605c
-  EDITOR_bakedDescription: 'Increases Summon Limit by 1.
-
-    Increases Magic Critical
-    Chance by 15%.'
+  EDITOR_bakedDescription: "Increases Summon Limit by 1.\nIncreases Magic Critical
+    Chance by 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +177,7 @@ MonoBehaviour:
     - _guid: 12ba664a8c270634694a159ecf2d83f5
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: 071ba1cacbd53a24096a64c4398099f9
       subObjectName: 
@@ -181,6 +185,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: cb50e2255b5cb7d43b655fb91d49a144
       subObjectName: 
@@ -188,6 +193,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: 1978c19de24d5f749bf4a844c27571ef
       subObjectName: 
@@ -253,8 +259,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -283,6 +292,8 @@ MonoBehaviour:
       value: 1
     - name: GainValue
       value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -290,7 +301,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:SummonLimit
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:
@@ -299,7 +320,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.15
     - name: GainValue
-      value: 0.01
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -307,7 +330,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:MagicCriticalChance
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
 --- !u!114 &8870703578973688213

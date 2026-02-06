@@ -18,7 +18,6 @@ namespace Awaken.TG.Main.Locations.Gems {
         public override string ContextTitle => LocTerms.IdentifyTab.Translate();
         public override Type ItemsListElementView => typeof(VItemGemChooseElement);
         public override IEnumerable<ItemsTabType> Tabs => ItemsTabType.Identify;
-        public override bool UseCategoryList => false;
         
         Item _previousClickedItem;
         VIdentifyUI CurrentView => View<VIdentifyUI>();

@@ -44,6 +44,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         public float? MinAngleToTalk => null;
         public int Priority => 99;
         public bool FullyEntered => true;
+        TemporaryDeathElement TemporaryDeath(NpcElement npc) => npc.ParentModel.Element<TemporaryDeathElement>(); 
 
         public FakeDeathInteraction(Vector3 lastPosition, float startDuration, float endDuration, ARAssetReference animations, bool changeIntoGhost, bool ifChangedIntoGhostStayInGhost) {
             _lastPosition = lastPosition;
@@ -76,7 +77,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
 
         public void StartInteraction(NpcElement npc, InteractionStartReason reason) {
             bool instant = false;
-            var temporaryDeathElement = npc.ParentModel.Element<TemporaryDeathElement>();
+            var temporaryDeathElement = TemporaryDeath(npc);
             _endInteractionListener = temporaryDeathElement.ListenTo(TemporaryDeathElement.Events.TemporaryDeathStateChanged, OnUpdatedTemporaryDeath, npc);
             if (temporaryDeathElement.RestoredWhileDead || NpcPresence.InAbyss(npc.Coords)) {
                 instant = true;
@@ -94,13 +95,12 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             _arInteractionAnimations.LoadOverride();
             
             if (instant) {
-                if (_changeIntoGhost && npc.TryGetElement<NpcGhostElement>(out var npcGhostElement) && npcGhostElement.Revertable) {
+                if (_changeIntoGhost && temporaryDeathElement.TryGetGhostElement() is { Revertable: true }) {
                     _revertGhost = true;
                 }
-                npc.Movement.Controller.MoveToAbyss();
+                npc.MoveToAbyss();
             } else {
-                if (_changeIntoGhost && !npc.HasElement<NpcGhostElement>()) {
-                    npc.AddElement(new NpcGhostElement(_startDuration / 2f, true));
+                if (_changeIntoGhost && temporaryDeathElement.TryGetOrCreateGhostElement() != null) {
                     if (!_ifChangedIntoGhostStayInGhost) {
                         _revertGhost = true;
                     }
@@ -125,7 +125,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             if (!await AsyncUtil.DelayTime(npc, _startDuration)) {
                 return;
             }
-            npc.Movement.Controller.MoveToAbyss();
+            npc.MoveToAbyss();
         }
 
         public void StopInteraction(NpcElement npc, InteractionStopReason reason) {
@@ -143,7 +143,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
                 return;
             }
             if (reason == InteractionStopReason.Death) {
-                npc.Movement?.Controller.AbortMoveToAbyss();
+                npc.AbortMoveToAbyss();
                 _arInteractionAnimations?.UnloadOverride();
                 _arInteractionAnimations = null;
                 return;
@@ -161,7 +161,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         public void PauseInteraction(NpcElement npc, InteractionStopReason reason) { }
 
         async UniTaskVoid Stopping(NpcElement npc) {
-            npc.Movement?.Controller.AbortMoveToAbyss();
+            npc.AbortMoveToAbyss();
             npc.ParentModel.SafelyMoveTo(_lastPosition, true);
             npc.ParentModel.SetInteractability(LocationInteractability.Active);
             
@@ -174,7 +174,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             npc.SetAnimatorState(NpcFSMType.CustomActionsFSM, NpcStateType.CustomExit);
             
             if (_revertGhost) {
-                npc.TryGetElement<NpcGhostElement>()?.RevertChanges(_endDuration);
+                TemporaryDeath(npc).TryGetGhostElement()?.RevertChanges(_endDuration);
             }
             
             if (!await AsyncUtil.DelayTime(npc, _endDuration)) {
@@ -184,7 +184,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             }
 
             if (_revertGhost) {
-                npc.TryGetElement<NpcGhostElement>()?.FinishRevertChanges();
+                TemporaryDeath(npc).TryGetGhostElement()?.FinishRevertChanges();
             }
 
             npc.TryGetElement<BlockEnterCombatMarker>()?.Discard();

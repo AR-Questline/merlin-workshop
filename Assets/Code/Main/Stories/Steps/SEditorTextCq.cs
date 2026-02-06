@@ -21,7 +21,7 @@ namespace Awaken.TG.Main.Stories.Steps {
                 actorRef = actorRef,
                 targetActorRef = targetActorRef,
                 lookAtOnlyWithHead = lookAtOnlyWithHead,
-                text = text,
+                text = parser.GetLightLocString(text),
                 gestureKey = gestureKey,
                 audioClip = audioClip,
                 hasVoice = hasVoice,

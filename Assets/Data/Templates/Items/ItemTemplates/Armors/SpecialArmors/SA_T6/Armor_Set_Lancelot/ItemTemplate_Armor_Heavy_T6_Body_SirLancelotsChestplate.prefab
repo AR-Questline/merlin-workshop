@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 'description_increasestatatthreshold_percent_double_increasepercent '
       ID: Template/description_locString_2543871262668956605_60595632b768c2b47a7b6f501129e908
-  EDITOR_bakedDescription: 'Increases Max Stamina by 50 when your Health is below
-    25%.
-
-    Increases Attack Speed by 10%.'
+  EDITOR_bakedDescription: "Increases Melee Critical Chance by 25\_% when your Health
+    is below 20\_%.\nIncreases Physical Damage by 30\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -260,8 +262,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -373,7 +378,7 @@ MonoBehaviour:
         id: 0
       value:
         simpleValue:
-          rawValue: 0
+          rawValue: 1
         stringValue: 
         assetValue:
           address: 
@@ -383,7 +388,7 @@ MonoBehaviour:
         id: 0
       value:
         simpleValue:
-          rawValue: 0
+          rawValue: 1
         stringValue: 
         assetValue:
           address: 
@@ -1166,6 +1171,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.3
     - name: GainValue
+      value: 0.03
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

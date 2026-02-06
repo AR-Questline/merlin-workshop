@@ -43,13 +43,6 @@ namespace Awaken.TG.Editor.Main.Stories {
             _config = RichLabelEditorUtilities.GetOrCreateRichLabelConfig(Target.RichLabelConfigType);
         }
 
-        protected override void BeforeElements() {
-            bool isFolded = Node.Folded;
-            if (GUILayout.Button(isFolded ? UnfoldString : FoldString)) {
-                Node.Folded = !isFolded;
-            }
-        }
-
         protected override void DrawElements() {
             GUIUtils.PushContextWidth(GetWidth());
             //ObjectTree.Draw();

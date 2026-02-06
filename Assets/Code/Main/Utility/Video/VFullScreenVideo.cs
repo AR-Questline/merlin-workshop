@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.UI.Keys.Components;
 using Awaken.TG.MVC;
@@ -35,6 +36,7 @@ namespace Awaken.TG.Main.Utility.Video {
 
         public bool ForceFocus => true;
         public Component DefaultFocus => this;
+        public bool IsValid => this.IsValidForUIHandle();
 
         IUIAware _listener;
 

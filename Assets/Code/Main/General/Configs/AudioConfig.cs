@@ -9,6 +9,7 @@ using Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Quest;
 using FMODUnity;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Awaken.TG.Main.General.Configs
 {
@@ -41,7 +42,14 @@ namespace Awaken.TG.Main.General.Configs
         
         [Space]
         [FoldoutGroup("UI"), SerializeField] PromptAudio defaultPromptAudio;
+        [FoldoutGroup("UI"), SerializeField] PromptAudio defaultHoldPromptAudio;
         [FoldoutGroup("UI"), SerializeField] CraftingAudio craftingAudio;
+        
+        [Space]
+        [FoldoutGroup("UI Sarras"), SerializeField] EventReference sarrasSkillTreeTrinketChargeSound;
+        [FoldoutGroup("UI Sarras"), SerializeField] EventReference sarrasSkillTreeTrinketActiveSound;
+        [FoldoutGroup("UI Sarras"), SerializeField] EventReference sarrasSkillTreeBranchSelectedSound;
+        [FoldoutGroup("UI Sarras"), SerializeField] EventReference sarrasSickleChargedSound;
         
         [FoldoutGroup("Notifications"), SerializeField] NotificationSoundEvent expAudio;
         [FoldoutGroup("Notifications"), SerializeField] NotificationSoundEvent itemAudio;
@@ -89,7 +97,13 @@ namespace Awaken.TG.Main.General.Configs
         public EventReference SwitchSlotSound => switchSlotSound;
         
         public PromptAudio DefaultPromptAudio => defaultPromptAudio;
+        public PromptAudio DefaultHoldPromptAudio => defaultHoldPromptAudio;
         public CraftingAudio CraftingAudio => craftingAudio;
+        
+        public EventReference SarrasSkillTreeTrinketChargeSound => sarrasSkillTreeTrinketChargeSound;
+        public EventReference SarrasSkillTreeTrinketActiveSound => sarrasSkillTreeTrinketActiveSound;
+        public EventReference SarrasSkillTreeBranchSelectedSound => sarrasSkillTreeBranchSelectedSound;
+        public EventReference SarrasSickleChargedSound => sarrasSickleChargedSound;
         
         public NotificationSoundEvent ExpAudio => expAudio;
         public NotificationSoundEvent ItemAudio => itemAudio;

@@ -32,7 +32,9 @@ namespace Awaken.TG.Main.Heroes.FootSteps {
         LayerMask GroundMask => RenderLayers.Mask.CharacterGround;
         
         protected override void OnInitialize() {
-            TryInitializeFmodParams();
+            if (TryInitializeFmodParams() == false) {
+                Log.Important?.Error($"Failed to initialize fmod parameters for {footStepEventPath}!", this);
+            }
             _footstepProvider = new(splatmapsSampleShader);
             _initialized = true;
             Target.ListenTo(VCFeetWaterChecker.Events.FeetWaterCollisionChanged, value => _walkOnWater = value, this);
@@ -68,9 +70,10 @@ namespace Awaken.TG.Main.Heroes.FootSteps {
         }
 
         async UniTaskVoid PlayFootStep(int isCrouching) {
-            if (_fmodParameters == null || TryInitializeFmodParams() == false) {
+            if (_fmodParameters == null) {
                 return;
             }
+
             bool groundHit = Physics.Raycast(transform.position + Vector3.up * 0.2f, Vector3.down, out var ground, 0.5f, GroundMask, QueryTriggerInteraction.Ignore);
             if (!groundHit) {
                 return;
@@ -78,12 +81,11 @@ namespace Awaken.TG.Main.Heroes.FootSteps {
 
             _ongoingRequest = true;
 
-            float noisiness = Target.HeroStats.FootstepsNoisiness;
             var source = ground.collider.GetComponentInParent<IFootstepSource>();
             if (source != null) {
                 source.GetSampleData(ground, out var splatmaps, out var layers, out var uv);
                 FootStepsUtils.ClearParameters(_fmodParameters);
-                await _footstepProvider.FillFootsteps(splatmaps, layers, uv, noisiness, _fmodParameters, SurfaceType.TerrainGround.FModParameterName);
+                await _footstepProvider.FillFootsteps(splatmaps, layers, uv, _fmodParameters, SurfaceType.TerrainGround.FModParameterName);
             } else {
                 var surfaceFmodParamName = SurfaceType.TerrainGround.FModParameterName;
                 if (ground.collider.TryGetComponentInParent(out MeshSurfaceType meshSurfaceType)) {
@@ -93,7 +95,7 @@ namespace Awaken.TG.Main.Heroes.FootSteps {
                         surfaceFmodParamName = meshSurfaceType.SurfaceType.FModParameterName;
                     }
                 }
-                FootStepsUtils.ClearAllAndSet(_fmodParameters, surfaceFmodParamName, noisiness);
+                FootStepsUtils.ClearAllAndSet(_fmodParameters, surfaceFmodParamName, 1);
             } 
             
             _fmodParameters![IsCrouchingParamIndex] = new FMODParameter(IsCrouchingParameterName, isCrouching);

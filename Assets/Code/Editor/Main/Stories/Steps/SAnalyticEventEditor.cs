@@ -4,7 +4,7 @@ using Awaken.TG.Main.Stories.Steps;
 namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorAnalyticEvent))]
     public class SAnalyticEventEditor : ElementEditor {
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawPropertiesExcept("progressionType");
             
             SEditorAnalyticEvent step = Target<SEditorAnalyticEvent>();

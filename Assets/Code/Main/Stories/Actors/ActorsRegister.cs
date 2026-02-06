@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Memories;
@@ -9,13 +8,18 @@ using Awaken.Utility.Enums;
 using Awaken.Utility.GameObjects;
 using Awaken.Utility.Sessions;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Stories.Actors {
     public class ActorsRegister : MonoBehaviour, IService {
         public const string Path = "Assets/Data/Settings/Actors.prefab";
         const string CommonLocIDPrefix = "Template/displayName_";
         const string CommonLocIDSuffix = "_7909eee15dd99b04f8e84647e3c04a73";
+        
+#if UNITY_EDITOR
+        static readonly Dictionary<string, ActorSpec> ActorSpecCache = new();
+        static readonly Dictionary<string, string> SpecPathCache = new();
+        static readonly HashSet<string> GuidsErrorLogged = new();
+#endif
         
         static ActorsRegister s_instance;
 
@@ -36,7 +40,11 @@ namespace Awaken.TG.Main.Stories.Actors {
         public IEnumerable<ActorSpec> AllActors => GetComponentsInChildren<ActorSpec>();
         static Cached<Dictionary<string, Actor>> s_actorCache = new(() => new Dictionary<string, Actor>());
 
-        public static string StateOf(string actorGuid) => World.Services.Get<GameplayMemory>().Context("actors").Get<string>(actorGuid);
+        public static void ClearCache() => s_actorCache.Get().Clear();
+        
+        public static string StateOf(string actorGuid) =>
+            World.Services.Get<GameplayMemory>().Context("actors").Get<string>(actorGuid);
+
         public void SetState(string actorGuid, string state) {
             World.Services.Get<GameplayMemory>().Context("actors").Set(actorGuid, state);
             s_actorCache.Get().Remove(actorGuid);
@@ -69,10 +77,21 @@ namespace Awaken.TG.Main.Stories.Actors {
                 return spec.Create(StateOf(actorGuid));
             }
         }
-        
-        public ActorRef Editor_AddActorToTheRegistry(string actorName) {
+
+        public string Editor_GetActorName(string actorGuid) {
 #if UNITY_EDITOR
-            ActorRef resultActorRef = new ();
+            string path = Editor_GetPathFromGUID(actorGuid);
+            return path.Split('/').Last();
+#else
+            Log.Important?.Error($"Tried to use the 'Editor_GetActorName' - an Editor-only method at runtime for actor guid '{actorGuid}'. This is not allowed.");
+            return string.Empty;
+#endif
+        }
+
+#if UNITY_EDITOR
+        public ActorRef Editor_AddActorToTheRegistry(string actorName) {
+
+            ActorRef resultActorRef = new();
             UnityEditor.Undo.RecordObject(this, "Add actor to the registry");
             GameObject thisSceneObject = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(this.gameObject);
             var newActor = new GameObject(actorName).AddComponent<ActorSpec>();
@@ -87,13 +106,6 @@ namespace Awaken.TG.Main.Stories.Actors {
             DestroyImmediate(thisSceneObject);
             UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
             return resultActorRef;
-#endif 
-            throw new Exception("Editor_AddActorToTheRegistry method cannot be used outside of the editor!");
-        }
-
-        public string Editor_GetActorName(string actorGuid) {
-            string path = Editor_GetPathFromGUID(actorGuid);
-            return path.Split('/').Last();
         }
 
         public string Editor_GetGuidFromActorPath(string actorPath) {
@@ -108,7 +120,6 @@ namespace Awaken.TG.Main.Stories.Actors {
                 Log.Important?.Error($"Actor with path {actorPath} has not been found in Actors Registry. Please fix it.");
                 return string.Empty;
             }
-
             return spec.Guid;
         }
 
@@ -122,13 +133,44 @@ namespace Awaken.TG.Main.Stories.Actors {
                 return actorGuid;
             }
 
-            var spec = AllActors.FirstOrDefault(a => a.Guid == actorGuid);
-            if (spec == null) {
-                Log.Important?.Error($"Actor with guid {actorGuid} has not been found in Actors Registry.");
-                return string.Empty;
+            if (SpecPathCache.TryGetValue(actorGuid, out string cachedPath)) {
+                return cachedPath;
+            }
+            
+            if (Editor_TryGetSpecFromCache(actorGuid, out ActorSpec spec)) {
+                var path = spec.GetPath();
+                SpecPathCache[actorGuid]  = path;
+                return spec.GetPath();
+            }
+            
+            return string.Empty;
+        }
+        
+        static bool Editor_TryGetSpecFromCache(string actorGuid, out ActorSpec actorSpec) {
+            if (ActorSpecCache.Count == 0) {
+                Editor_RefreshActorSpecCache();
             }
 
-            return spec.GetPath();
+            if (ActorSpecCache.TryGetValue(actorGuid, out actorSpec)) {
+                return true;
+            }
+
+            if (!GuidsErrorLogged.Contains(actorGuid)) {
+                Log.Important?.Error($"Actor with guid {actorGuid} has not been found in Actors Registry.");
+                GuidsErrorLogged.Add(actorGuid);
+            }
+            
+            return false;
         }
+        
+        [UnityEditor.MenuItem("TG/Actors/Refresh Actors Cache")]
+        public static void Editor_RefreshActorSpecCache() {
+            SpecPathCache.Clear();
+            ActorSpecCache.Clear();
+            foreach (var actor in Get.AllActors) {
+                ActorSpecCache[actor.Guid] = actor;
+            }
+        }
+#endif
     }
 }

@@ -15,6 +15,7 @@ using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Newtonsoft.Json;
 using Unity.IL2CPP.CompilerServices;
+using Unity.Mathematics;
 using UnityEngine;
 using LogType = Awaken.Utility.Debugging.LogType;
 
@@ -112,22 +113,31 @@ namespace Awaken.TG.Main.Heroes.Stats {
 
         protected virtual void WriteAdditionalSavables(JsonWriter writer, JsonSerializer serializer) {}
 
+        public float RecalculateTweaks(out float previousValue, bool triggerOwner = true, ContractContext context = null) {
+            previousValue = _previousValue;
+            return RecalculateTweaks(triggerOwner, context);
+        }
+        
         public float RecalculateTweaks(bool triggerOwner = true, ContractContext context = null) {
             float newValue = World.Services.Get<TweakSystem>().Recalculate(this);
             CachedModifiedValue = newValue;
             
             if (triggerOwner) {
                 CallStatChangedEvents();
-                if (!Mathf.Approximately(_previousValue, newValue)) {
-                    StatChange change = new(this, newValue - _previousValue, context);
-                    Owner.Trigger(Events.StatChangedBy(Type), change);
-                    Owner.Trigger(Events.AnyStatChangedBy, change);
-                    StatType.Events.TriggerStatOfTypeChanged(Owner, this);
-                }
+                TryTriggerStatChangedBy(newValue - _previousValue, context);
             }
 
             _previousValue = newValue;
             return CachedModifiedValue.Value;
+        }
+
+        public void TryTriggerStatChangedBy(float valueChange, ContractContext context = null) {
+            if (math.abs(valueChange) > M.Epsilon) {
+                StatChange change = new(this, valueChange, context);
+                Owner.Trigger(Events.StatChangedBy(Type), change);
+                Owner.Trigger(Events.AnyStatChangedBy, change);
+                StatType.Events.TriggerStatOfTypeChanged(Owner, this);
+            }
         }
 
         // === Operations on value

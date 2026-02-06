@@ -1,4 +1,5 @@
-﻿using Awaken.TG.MVC.Elements;
+﻿using Awaken.TG.Main.Utility.UI;
+using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.UI;
 using Awaken.Utility.Assets.Modding;
 
@@ -41,6 +42,10 @@ namespace Awaken.TG.Main.UI.Menu.ModManager {
         }
 
         public void ToggleActive() {
+            if (RewiredHelper.IsGamepad && !IsSelected) {
+                return;
+            }
+            
             Active = !Active;
             var handle = ModHandle;
             handle.active = Active;

@@ -2,25 +2,33 @@
 using Awaken.TG.Main.Heroes.Items.Tooltips.Base;
 using Awaken.TG.Main.Utility.Semaphores;
 using Awaken.TG.MVC;
+using ChocDino.UIFX;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Items.Tooltips.Views {
     public class VFloatingTooltipSystemUI : View<FloatingTooltipUI>, ISemaphoreObserver {
         [SerializeField] LeftRightTooltipPositioning positioning;
         [SerializeField] CanvasGroup allGroup;
+        [SerializeField, FoldoutGroup("Highlight")] bool useHighlight;
+        [SerializeField, FoldoutGroup("Highlight"), ShowIf(nameof(useHighlight))] TextMeshProUGUI highlightInfoText;
+        [SerializeField, FoldoutGroup("Highlight"), ShowIf(nameof(useHighlight))] OutlineFilter highlightBlurOutlineFilter;
+        [SerializeField, FoldoutGroup("Highlight"), ShowIf(nameof(useHighlight))] float highlightSize = 32f;
+        [SerializeField, FoldoutGroup("Highlight"), ShowIf(nameof(useHighlight))] float highlightDuration = 0.5f;
 
         public CanvasGroup MainCanvasGroup => allGroup;
         
-        TooltipPosition _position;
+        Sequence _highlightSequence;
         Sequence _allAppearanceSequence;
-        Sequence _toCompareAppearanceSequence;
         protected FragileSemaphore _isVisible;
         
         protected override void OnInitialize() {
             _isVisible = new FragileSemaphore(false, this, Target.AppearDelay, Target.HideDelay, true);
             allGroup.alpha = 0;
+            HideHighlight();
         }
 
         void Update() {
@@ -50,6 +58,43 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Views {
         
         protected Tween FadeGroup(CanvasGroup group, float alpha) {
             return DOTween.To(() => group.alpha, a => group.alpha = a, alpha, Target.AlphaTweenTime);
+        }
+
+        protected void HighlightTooltip(string highlightText = "") {
+            if (!useHighlight) {
+                return;
+            }
+
+            if (highlightInfoText) {
+                highlightInfoText.SetText(highlightText);
+            }
+            
+            _highlightSequence.Kill(true);
+            _highlightSequence = DOTween.Sequence().SetUpdate(true)
+                .Append(DOVirtual.Float(0f, highlightSize, highlightDuration, x => highlightBlurOutlineFilter.Size = x).SetEase(Ease.OutCubic))
+                .Join(FadeInHighlightText())
+                .Append(DOVirtual.Float(highlightSize, 0f, highlightDuration, x => highlightBlurOutlineFilter.Size = x).SetEase(Ease.OutSine))
+                .Join(FadeOutHighlightText())
+                .OnComplete(HideHighlight);
+        }
+        
+        protected void HideHighlight() {
+            _highlightSequence.Kill();
+            if (highlightBlurOutlineFilter) {
+                highlightBlurOutlineFilter.Size = 0f;
+            }
+            
+            if (highlightInfoText) {
+                highlightInfoText.alpha = 0f;
+            }
+        }
+
+        Tween FadeInHighlightText() {
+            return !highlightInfoText ? null : highlightInfoText.DOFade(1f, highlightDuration);
+        }
+
+        Tween FadeOutHighlightText() {
+            return !highlightInfoText ? null : highlightInfoText.DOFade(0f, highlightDuration * 2f).SetDelay(highlightDuration / 3f);
         }
         
         async UniTaskVoid Appear() {

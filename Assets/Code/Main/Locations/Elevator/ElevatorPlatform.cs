@@ -13,7 +13,8 @@ namespace Awaken.TG.Main.Locations.Elevator {
         public override ushort TypeForSerialization => SavedModels.ElevatorPlatform;
 
         [Saved] Vector3 _savedPosition;
-        
+
+        bool _allowMoveWhenMoving;
         float _speed;
         float _customDownwardsSpeed;
         Vector3 _targetPosition;
@@ -34,6 +35,7 @@ namespace Awaken.TG.Main.Locations.Elevator {
         }
 
         public void InitFromAttachment(ElevatorPlatformAttachment attachment, bool isRestored) {
+            _allowMoveWhenMoving = attachment.allowMoveWhenMoving;
             _speed = attachment.speed;
             _customDownwardsSpeed = attachment.useCustomDownwardsSpeed ? attachment.customDownwardsSpeed : attachment.speed;
             PlatformParentTransform = attachment.platformTransform;
@@ -86,7 +88,7 @@ namespace Awaken.TG.Main.Locations.Elevator {
         }
 
         void StartMoving(ElevatorData data) {
-            if (IsMoving || _targetPosition == data.targetPoint) {
+            if ((!_allowMoveWhenMoving && IsMoving) || _targetPosition == data.targetPoint) {
                 return;
             }
             
@@ -98,11 +100,15 @@ namespace Awaken.TG.Main.Locations.Elevator {
                 return;
             }
 
-            IsMoving = true;
-            this.Trigger(Events.MovingStateChanged, true);
-            TryToSetActiveNavMeshAddObject(true);
-            SetActiveAudioEmitters(true);
-            UnityUpdateProvider.GetOrCreate().RegisterElevatorPlatform(this);
+            if (IsMoving) {
+                this.Trigger(Events.MovingStateChanged, true);
+            } else {
+                IsMoving = true;
+                this.Trigger(Events.MovingStateChanged, true);
+                TryToSetActiveNavMeshAddObject(true);
+                SetActiveAudioEmitters(true);
+                UnityUpdateProvider.GetOrCreate().RegisterElevatorPlatform(this);
+            }
         }
         
         void TryToSetActiveNavMeshAddObject(bool active) {

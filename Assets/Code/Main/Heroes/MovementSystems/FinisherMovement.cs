@@ -56,7 +56,6 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             Controller.Controller.enabled = true;
             Controller.Controller.SimpleMove(Vector3.zero);
             Controller.SetVerticalVelocity(0);
-            UIStateStack.Instance.ReleaseAllOwnedBy(this);
             base.OnDiscard(fromDomainDrop);
         }
     }

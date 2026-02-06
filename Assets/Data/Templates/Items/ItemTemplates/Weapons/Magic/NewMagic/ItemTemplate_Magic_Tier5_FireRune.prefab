@@ -53,6 +53,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 215fdd7c20cb19346a75b841bdfec939
+  - _guid: 5b8ff4dba6b2cce4595892af72058db8
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -78,8 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_ddf7eed9f1def9b4886bfa6580afe78d
-  EDITOR_bakedDescription: Creates a fire rune that explodes when someone walks over
-    it.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -91,7 +92,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_ddf7eed9f1def9b4886bfa6580afe78d
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -155,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -231,7 +236,7 @@ MonoBehaviour:
         _guid: 95c8c6279a4c94c4daf2aa90c9813bdb
     - name: HeavyCastSpec
       templateReference:
-        _guid: c4ad9230df4ef7c459fdbc889e97a292
+        _guid: 01539c0f47854be408746b8891e400e2
     - name: MarkerVFXTemplate
       templateReference:
         _guid: b82134fe6984844468c69bcaa1cd7d1c
@@ -266,7 +271,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 66
   maxDamage: 72
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -299,8 +304,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 110
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 220
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3133018332611667374
 MonoBehaviour:
@@ -319,7 +327,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:ArmorFabric
   itemAudioContainerWrapper:
     assetType: 0
-    dataAsset: {fileID: 11400000, guid: f5b5ffb5c2ea34a459dce9b692a1fb2e, type: 2}
+    dataAsset: {fileID: 11400000, guid: 023c18660097d3a4fb0ee578438431ce, type: 2}
     data:
       audioType: 0
       armorHitType:

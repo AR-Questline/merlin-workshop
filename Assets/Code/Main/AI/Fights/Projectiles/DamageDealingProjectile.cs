@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Awaken.TG.Assets;
 using Awaken.TG.Graphics.VFX;
+using Awaken.TG.Main.AI.Combat.Behaviours.Abstracts;
 using Awaken.TG.Main.AI.Grid;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
@@ -54,6 +55,8 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
         protected float _forceDamage;
         protected float _ragdollForce;
         protected float _poiseDamage;
+        protected KnockdownType _knockdownType = KnockdownType.None; 
+        protected float _knockdownStrength;
         protected RuntimeDamageTypeData _damageTypeData;
         protected int _piercedCount;
         protected List<IAlive> _alivesHit = new();
@@ -154,6 +157,11 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             _poiseDamage = (weapon?.ItemStats?.PoiseDamage.ModifiedValue ?? 0) + (projectile?.ItemStats?.PoiseDamage.ModifiedValue ?? 0);
             _poiseDamage *= fireStrength;
         }
+        
+        public void SetKnockdownData(KnockdownType type, float strength) {
+            _knockdownType = type;
+            _knockdownStrength = strength;
+        }
 
         public override void SetVelocityAndForward(Vector3 velocity, ProjectileOffsetData? offsetData = null) {
             if (offsetData.HasValue) {
@@ -175,6 +183,10 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             }
             _rb.linearVelocity = velocity;
             _transform.rotation = Quaternion.LookRotation(velocity, _transform.up);
+        }
+        
+        public void SetAngularVelocity(Vector3 angularVelocity) {
+            _rb.angularVelocity = angularVelocity;
         }
 
         public override void DeflectProjectile(DeflectedProjectileParameters parameters) {
@@ -203,7 +215,7 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
         }
 
         // === Initialization
-        void Awake() {
+        protected virtual void Awake() {
             _transform = transform;
         }
 
@@ -421,7 +433,8 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
                 return;
             }
 
-            if (hitCollider.GetComponentInParent<ICharacterView>() != CharacterView) {
+            ICharacterView characterView = CharacterView;
+            if (characterView == null || hitCollider.GetComponentInParent<ICharacterView>() != characterView) {
                 OnRaycastHit(hitResult);
             }
         }
@@ -436,8 +449,8 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
                 OnPrevent();
                 return;
             }
-            
-            if (collider.GetComponentInParent<ICharacterView>() != CharacterView) {
+            ICharacterView characterView = CharacterView;
+            if (characterView == null || collider.GetComponentInParent<ICharacterView>() != characterView) {
                 OnRaycastHit(new HitResult(collider, collider.ClosestPoint(_rb.position), Vector3.zero));
             }
         }

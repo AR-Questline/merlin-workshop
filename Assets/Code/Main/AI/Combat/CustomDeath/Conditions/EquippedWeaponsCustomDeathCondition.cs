@@ -22,7 +22,7 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath.Conditions {
         TemplateReference[] offHandAbstracts;
 
         public bool Check(DamageOutcome damageOutcome, bool isValidationCheck) {
-            var inventory = damageOutcome.Attacker.Inventory;
+            var inventory = damageOutcome.AttackerPure.Inventory;
             var mainHandItem = inventory.EquippedItem(EquipmentSlotType.MainHand);
             var offHandItem = inventory.EquippedItem(EquipmentSlotType.OffHand);
             if (requireSpecificMainHand) {

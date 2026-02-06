@@ -2,6 +2,7 @@
 using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.UI;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Components.Tabs;
 using Awaken.TG.Main.Utility;
@@ -38,6 +39,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
             }
             
             InitPrompts();
+            AddElement(new DynamicBackground((RectTransform)ParentModel.PromptsHost.parent));
         }
 
         public void AllowFastTravel() {
@@ -61,7 +63,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
 
         void InitPrompts() {
             var prompts = ParentModel.Prompts;
-            ParentModel.Prompts.BindPrompt(Prompt.VisualOnlyTap(null, LocTerms.UIMapMove.Translate()), this, VMapUI.MapTranslateCustomPrompt);
+            prompts.BindPrompt(Prompt.VisualOnlyTap(null, LocTerms.UIMapMove.Translate()), this, VMapUI.MapTranslateCustomPrompt);
             VMapUI.MapTranslateCustomPrompt.transform.SetParent(ParentModel.PromptsHost);
             prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Map.MapZoom, LocTerms.UIMapZoom.Translate()), this);
             _markerActionPrompt = prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Map.PlaceCustomMarker, LocTerms.UIMapPlaceCustomMarker.Translate()), this);

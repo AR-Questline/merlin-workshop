@@ -12,7 +12,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
     public partial class DealDamageInSphereOverTime : DealDamageInAreaOverTimeBase {
         public sealed override bool IsNotSaved => true;
 
-        readonly SphereDamageParameters _sphereDamageParameters;
+        protected readonly SphereDamageParameters _sphereDamageParameters;
         
         protected override float Duration => _sphereDamageParameters.duration;
         

@@ -6,8 +6,10 @@ using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.Main.Settings.Controls;
 using Awaken.TG.Main.Settings.FirstTime;
+using Awaken.TG.Main.Settings.FontChooseStartup;
 using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.Settings.Graphics;
+using Awaken.TG.Main.UI.PhotoMode;
 using Awaken.TG.Main.UI.TitleScreen;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -33,33 +35,36 @@ namespace Awaken.TG.Main.Analytics {
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelDiscarded<ChooseDifficulty>(), this,
                 OnFirstTimeDifficultySelected);
             World.Only<DifficultySetting>().ListenTo(Setting.Events.SettingChanged, SendDifficultySettingEvent, this);
-            World.Only<FOVSetting>().ListenTo(Setting.Events.SettingChanged, SendFOVSettingEvent, this);
-            World.Only<ShowUIHUD>().ListenTo(Setting.Events.SettingChanged, SendShowHUDSettingEvent, this);
-            World.Only<ScreenShakesProactiveSetting>().ListenTo(Setting.Events.SettingChanged, SendCameraShakesProactiveSettingEvent, this);
-            World.Only<ScreenShakesReactiveSetting>().ListenTo(Setting.Events.SettingChanged, SendCameraShakesReactiveSettingEvent, this);
-            World.Only<HeadBobbingSetting>().ListenTo(Setting.Events.SettingChanged, SendHeadBobbingSettingEvent, this);
-            World.Only<SubtitlesSetting>().ListenTo(Setting.Events.SettingChanged, SendDialogueSubtitleSettingsEvent, this);
-            World.Only<FontSizeSetting>().ListenTo(Setting.Events.SettingChanged, SendFontSizeSettingsEvent, this);
-            World.Only<DialogueAutoAdvance>().ListenTo(Setting.Events.SettingChanged, SendDialogueAutoAdvanceSettingsEvent, this);
-            World.Only<PerspectiveSetting>().ListenTo(Setting.Events.SettingChanged, SendPerspectiveSettingEvent, this);
-            World.Only<TppCameraDistanceSetting>().ListenTo(Setting.Events.SettingChanged, SendTppDistanceEvent, this);
-            World.Only<AimAssistSetting>().ListenTo(Setting.Events.SettingChanged, SendAimAssistSettingsEvent, this);
-            World.Only<ConsoleUISetting>().ListenTo(Setting.Events.SettingChanged, SendConsoleUISettingsEvent, this);
+            World.Only<FontChooseSetting>().ListenTo(Setting.Events.SettingChanged, SendFontTypeSettingEvent, this);
+            // World.Only<FOVSetting>().ListenTo(Setting.Events.SettingChanged, SendFOVSettingEvent, this);
+            // World.Only<ShowUIHUD>().ListenTo(Setting.Events.SettingChanged, SendShowHUDSettingEvent, this);
+            // World.Only<ScreenShakesProactiveSetting>().ListenTo(Setting.Events.SettingChanged, SendCameraShakesProactiveSettingEvent, this);
+            // World.Only<ScreenShakesReactiveSetting>().ListenTo(Setting.Events.SettingChanged, SendCameraShakesReactiveSettingEvent, this);
+            // World.Only<HeadBobbingSetting>().ListenTo(Setting.Events.SettingChanged, SendHeadBobbingSettingEvent, this);
+            // World.Only<SubtitlesSetting>().ListenTo(Setting.Events.SettingChanged, SendDialogueSubtitleSettingsEvent, this);
+            // World.Only<FontSizeSetting>().ListenTo(Setting.Events.SettingChanged, SendFontSizeSettingsEvent, this);
+            // World.Only<DialogueAutoAdvance>().ListenTo(Setting.Events.SettingChanged, SendDialogueAutoAdvanceSettingsEvent, this);
+            // World.Only<PerspectiveSetting>().ListenTo(Setting.Events.SettingChanged, SendPerspectiveSettingEvent, this);
+            // World.Only<TppCameraDistanceSetting>().ListenTo(Setting.Events.SettingChanged, SendTppDistanceEvent, this);
+            // World.Only<AimAssistSetting>().ListenTo(Setting.Events.SettingChanged, SendAimAssistSettingsEvent, this);
+            // World.Only<ConsoleUISetting>().ListenTo(Setting.Events.SettingChanged, SendConsoleUISettingsEvent, this);
             //Graphics
-            World.Only<GraphicPresets>().ListenTo(Setting.Events.SettingChanged, SendGraphicsPresetSettingsEvent, this);
-            World.Only<AntiAliasing>().ListenTo(Setting.Events.SettingChanged, SendAntiAliasingSettingsEvent, this);
-            World.Only<GeneralGraphics>().ListenTo(Setting.Events.SettingChanged, SendGeneralQualitySettingsEvent, this);
-            World.Only<TextureQuality>().ListenTo(Setting.Events.SettingChanged, SendTextureQualitySettingsEvent, this);
-            World.Only<Vegetation>().ListenTo(Setting.Events.SettingChanged, SendVegetationQualitySettingsEvent, this);
-            World.Only<VfxQuality>().ListenTo(Setting.Events.SettingChanged, SendVFXQualitySettingsEvent, this);
-            World.Only<FogQuality>().ListenTo(Setting.Events.SettingChanged, SendFogQualitySettingsEvent, this);
-            World.Only<SSAO>().ListenTo(Setting.Events.SettingChanged, SendSSAOSettingsEvent, this);
-            World.Only<MotionBlurSetting>().ListenTo(Setting.Events.SettingChanged, SendMotionBlurSettingsEvent, this);
-            World.Only<ChromaticAberrationSetting>().ListenTo(Setting.Events.SettingChanged, SendChromaticAberrationSettingsEvent, this);
-            World.Only<Shadows>().ListenTo(Setting.Events.SettingChanged, SendShadowsSettingsEvent, this);
-            World.Only<Reflections>().ListenTo(Setting.Events.SettingChanged, SendReflectionsSettingsEvent, this);
-            World.Only<SSS>().ListenTo(Setting.Events.SettingChanged, SendSSSSettingsEvent, this);
-            World.Only<UpScaling>().ListenTo(Setting.Events.SettingChanged, SendUpScalingSettingsEvent, this);
+            // World.Only<GraphicPresets>().ListenTo(Setting.Events.SettingChanged, SendGraphicsPresetSettingsEvent, this);
+            // World.Only<AntiAliasing>().ListenTo(Setting.Events.SettingChanged, SendAntiAliasingSettingsEvent, this);
+            // World.Only<GeneralGraphics>().ListenTo(Setting.Events.SettingChanged, SendGeneralQualitySettingsEvent, this);
+            // World.Only<TextureQuality>().ListenTo(Setting.Events.SettingChanged, SendTextureQualitySettingsEvent, this);
+            // World.Only<Vegetation>().ListenTo(Setting.Events.SettingChanged, SendVegetationQualitySettingsEvent, this);
+            // World.Only<VfxQuality>().ListenTo(Setting.Events.SettingChanged, SendVFXQualitySettingsEvent, this);
+            // World.Only<FogQuality>().ListenTo(Setting.Events.SettingChanged, SendFogQualitySettingsEvent, this);
+            // World.Only<SSAO>().ListenTo(Setting.Events.SettingChanged, SendSSAOSettingsEvent, this);
+            // World.Only<MotionBlurSetting>().ListenTo(Setting.Events.SettingChanged, SendMotionBlurSettingsEvent, this);
+            // World.Only<ChromaticAberrationSetting>().ListenTo(Setting.Events.SettingChanged, SendChromaticAberrationSettingsEvent, this);
+            // World.Only<Shadows>().ListenTo(Setting.Events.SettingChanged, SendShadowsSettingsEvent, this);
+            // World.Only<Reflections>().ListenTo(Setting.Events.SettingChanged, SendReflectionsSettingsEvent, this);
+            // World.Only<SSS>().ListenTo(Setting.Events.SettingChanged, SendSSSSettingsEvent, this);
+            // World.Only<UpScaling>().ListenTo(Setting.Events.SettingChanged, SendUpScalingSettingsEvent, this);
+            //PhotoMode
+            World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelAdded<PhotoModeUI>(), this, SendPhotoModeStartedEvent);
         }
 
         async UniTaskVoid SendGamepadEvent() {
@@ -80,6 +85,14 @@ namespace Awaken.TG.Main.Analytics {
             string newDifficulty = difficultySetting.Difficulty.EnumName;
             string evt = $"Difficulty";
             AnalyticsUtils.SendDesignEvent($"General:{prefix}:{evt}:{newDifficulty}");
+        }
+        
+        void SendFontTypeSettingEvent(Setting setting) => SendFontTypeSettingEvent(setting, DefaultSettingsPrefix);
+        void SendFontTypeSettingEvent(Setting setting, string prefix) {
+            FontChooseSetting fontTypeSetting = (FontChooseSetting) setting;
+            string value = fontTypeSetting.ActiveFont.EnumName;
+            string evt = $"FontType";
+            AnalyticsUtils.SendDesignEvent($"General:{prefix}:{evt}:{value}");
         }
         
         void SendFOVSettingEvent(Setting setting) {
@@ -400,6 +413,36 @@ namespace Awaken.TG.Main.Analytics {
             if (difficultySetting != null) {
                 SendDifficultySettingEvent(difficultySetting, FirstTimeSettingsPrefix);
             }
+        }
+
+        public static void TrySetFirstTimeFontType() {
+            if (World.Any<GeneralAnalytics>() is { } ga) {
+                ga.OnFirstTimeFontTypeSelected();
+                return;
+            }
+            World.EventSystem.LimitedListenTo(EventSelector.AnySource, World.Events.ModelAdded<GeneralAnalytics>(),
+                model => {
+                    ((GeneralAnalytics)model).OnFirstTimeFontTypeSelected();
+                }, 1);
+
+        }
+
+        void OnFirstTimeFontTypeSelected() {
+            var fontTypeSetting = World.Any<FontChooseSetting>();
+            if (fontTypeSetting != null) {
+                SendFontTypeSettingEvent(fontTypeSetting, FirstTimeSettingsPrefix);
+            }
+        }
+
+        void SendPhotoModeStartedEvent(Model model) {
+            AnalyticsUtils.SendDesignEvent($"General:PhotoMode:Opened");
+            float creationTime = Time.unscaledTime;
+            model.ListenTo(Model.Events.BeforeDiscarded, _ => SendPhotoModeClosedEvent(creationTime), this);
+        }
+
+        void SendPhotoModeClosedEvent(float creationTime) {
+            float openTime = Time.unscaledTime - creationTime;
+            AnalyticsUtils.SendDesignEvent($"General:PhotoMode:Closed", openTime);
         }
     }
 }

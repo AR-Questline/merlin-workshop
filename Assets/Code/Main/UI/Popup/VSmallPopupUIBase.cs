@@ -7,6 +7,7 @@ using Awaken.TG.Main.UI.Popup.PopupContents;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
+using Awaken.Utility.GameObjects;
 using TMPro;
 using UnityEngine;
 
@@ -14,9 +15,9 @@ namespace Awaken.TG.Main.UI.Popup {
     public class VSmallPopupUIBase<TParent> : View<TParent>, IVPopupUI, IAutoFocusBase, IPromptHost where TParent : IModel {
         [SerializeField] TextMeshProUGUI titleText;
         [SerializeField] TextMeshProUGUI contentText;
+        [SerializeField] GameObject titleParent;
         [SerializeField] Transform promptsHost;
         [SerializeField] Transform mainContent;
-        [SerializeField] GameObject bg;
         
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
         public Transform PromptsHost => promptsHost;
@@ -36,7 +37,9 @@ namespace Awaken.TG.Main.UI.Popup {
         public void SetArt(SpriteReference art) { }
 
         public void SetTitle(string title) {
-            titleText.SetActiveAndText(string.IsNullOrEmpty(title) == false, title);
+            bool hasTitle = !string.IsNullOrEmpty(title);
+            titleText.SetActiveAndText(hasTitle, title);
+            titleParent.SetActiveOptimized(hasTitle);
         }
 
         public void ShowText(TextConfig textConfig) {
@@ -58,7 +61,7 @@ namespace Awaken.TG.Main.UI.Popup {
         }
 
         public void ToggleBg(bool bgEnabled) {
-            bg.SetActive(bgEnabled);
+            World.Only<BlurBackground>().HideBackground();
         }
 
         public void ToggleViewBackground(bool enabled) {

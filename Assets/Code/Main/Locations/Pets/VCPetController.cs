@@ -3,6 +3,7 @@ using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility;
@@ -65,14 +66,13 @@ namespace Awaken.TG.Main.Locations.Pets {
         Vector2 _facingDirLastFrame;
         float _measuredAngularVelocity;
         float _visualRootMaxAngleCos;
-
-        bool IsTaunting => _animancer.CurrentState == ARPetAnimancer.State.Taunt;
-        bool IsPetting => _animancer.CurrentState == ARPetAnimancer.State.Pet;
+        
         public Vector3 DirectionToTarget => (_targetPosition - _transform.position).normalized;
         public Vector3 WalkingVelocity => _richAI.velocity;
         public float WalkingSpeed => _richAI.velocity.magnitude;
         public float AngularVelocity => _measuredAngularVelocity;
-        public bool CanInteractWith => !IsTaunting;
+        public bool CanInteractWith => Animancer.CanMove;
+        public ARPetAnimancer Animancer => _animancer;
         
         public void Initialize() {
             if (_initialized) {
@@ -137,13 +137,17 @@ namespace Awaken.TG.Main.Locations.Pets {
         }
 
         void Update() {
-            if (!_initialized || _pet is not { HasBeenDiscarded: false } || _pet.ParentModel.Interactability != LocationInteractability.Active) {
+            if (!_initialized || _pet is not { HasBeenDiscarded: false }) {
+                return;
+            }
+
+            if (_pet.ParentModel.Interactability != LocationInteractability.Active) {
                 return;
             }
             
             float deltaTime = _timeDependent.DeltaTime;
 
-            if (IsTaunting) {
+            if (!Animancer.CanMove) {
                 _richAI.maxSpeed = 0f;
                 _richAI.enableRotation = false;
             } else {
@@ -211,7 +215,7 @@ namespace Awaken.TG.Main.Locations.Pets {
                 if (_stationaryRotateToTarget && angleToTarget <= 0.01f) {
                     _stationaryRotateToTarget = false;
                 }
-                if (_stationaryRotateToTarget && !IsPetting) {
+                if (_stationaryRotateToTarget && Animancer.CanRotate) {
                     rotateToTarget = true;
                 }
             }
@@ -259,7 +263,7 @@ namespace Awaken.TG.Main.Locations.Pets {
         }
 
         public void TryTeleportNearTarget() {
-            if (_distanceToTarget == 0f || _pet.TargetToFollow == null) {
+            if (_distanceToTarget == 0f || _pet.TargetToFollow == null || AstarPath.active == null) {
                 return;
             }
             
@@ -294,15 +298,7 @@ namespace Awaken.TG.Main.Locations.Pets {
         }
 
         public bool IsMoving() {
-            return !IsTaunting && (WalkingSpeed >= 0.1f || math.abs(AngularVelocity) >= 0.01f);
-        }
-        
-        public void StartTaunt() {
-            _animancer.PlayTauntAnimation();
-        }
-
-        public void StartPet() {
-            _animancer.PlayPetAnimation();
+            return Animancer.CanMove && (WalkingSpeed >= 0.1f || math.abs(AngularVelocity) >= 0.01f);
         }
         
         protected override void OnDestroy() {
@@ -311,7 +307,9 @@ namespace Awaken.TG.Main.Locations.Pets {
                 _idleAudioEmitter = null;
             }
             
-            _animancer.UnloadAnimations();
+            if (_animancer != null) {
+                _animancer.UnloadAnimations();
+            }
             base.OnDestroy();
         }
     }

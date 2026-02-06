@@ -8,6 +8,7 @@ using Awaken.TG.Main.Saving.Models;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
+using Awaken.TG.MVC.Utils;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using JetBrains.Annotations;
@@ -51,7 +52,11 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
                 _crimes.Add(owner, crimeContainer);
             }
             _crime.Add(crimeContainer);
-            Log.Debug?.Info($"[Thievery] Temp Bounty: {crime.Bounty(owners[0].GetCurrentCrimeOwnersFor(crime.Archetype).PrimaryOwner)} from crime: {crime.Archetype} for {owners.Count} owners");
+            if (LastOpenWorldUtils.WasLastOne(LastOpenWorldUtils.Worlds.Sarras)) {
+                Log.Important?.Error($"[Thievery] Temp Bounty: {crime.Bounty(owners[0].GetCurrentCrimeOwnersFor(crime.Archetype).PrimaryOwner)} from crime: {crime.Archetype} for {owners.Count} owners");
+            } else {
+                Log.Debug?.Info($"[Thievery] Temp Bounty: {crime.Bounty(owners[0].GetCurrentCrimeOwnersFor(crime.Archetype).PrimaryOwner)} from crime: {crime.Archetype} for {owners.Count} owners");
+            }
         }
 
         void OnOwnerDiscarded(Model obj) {
@@ -69,7 +74,11 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
                     _crime.Remove(container);
                     if (_crime.Count == 0) {
                         Discard();
-                        Log.Debug?.Info("[Thievery] Temp Bounty: All owners discarded");
+                        if (LastOpenWorldUtils.WasLastOne(LastOpenWorldUtils.Worlds.Sarras)) {
+                            Log.Important?.Error("[Thievery] Temp Bounty: All owners discarded");
+                        } else {
+                            Log.Debug?.Info("[Thievery] Temp Bounty: All owners discarded");
+                        }
                     }
                 }
             }

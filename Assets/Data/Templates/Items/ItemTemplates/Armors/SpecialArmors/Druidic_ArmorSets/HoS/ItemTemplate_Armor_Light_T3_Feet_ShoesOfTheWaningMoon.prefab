@@ -59,6 +59,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:tier3
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 24d6af91a6ff9644ca29668ac51e055d
@@ -76,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 'description_increasestatatthreshold_percent_double_increasepercent '
       ID: Template/description_locString_2543871262668956605_9adbace7cd7033c4da210723526fcd35
-  EDITOR_bakedDescription: 'Increases Mana Shield by 5%.
-
-    Increases Mana Regeneration
-    by 0.25.'
+  EDITOR_bakedDescription: "Increases Movement Speed Multiplier by 25\_% when your
+    Mana is below 25\_%.\nIncreases Spell Power by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &3443842606788812044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +176,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: d070c14ab3ee6ae4fb86a29aeac0bede
       subObjectName: 
@@ -180,6 +184,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: 1e9d192a5385d9249bdf023227d926bb
       subObjectName: 
@@ -245,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8750549245986953995
 MonoBehaviour:
@@ -312,6 +320,8 @@ MonoBehaviour:
       value: 0.1
     - name: GainValue
       value: 0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -319,7 +329,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:MagicStrength
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
 --- !u!114 &8438036191577397455

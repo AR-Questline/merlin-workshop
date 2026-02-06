@@ -80,8 +80,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_onhitenablestumble
       ID: Template/description_locString_2543871262668956605_dfed842fae5e7f8488f1e82b1e53fae8
-  EDITOR_bakedDescription: Hitting a target has a 20% chance to <color=#04959A>Stun</color>
-    it.
+  EDITOR_bakedDescription: "Hitting a target has a 20\_% chance to <color=#04959A>Stun</color>
+    it."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: b51cc503b5886674d927f3f7684c9a91
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8304069443737590365
 MonoBehaviour:

@@ -47,6 +47,8 @@ namespace Awaken.TG.Main.Stories.Steps {
             [Saved] bool _markDeathAsNonCriminal;
             [Saved] bool _allowPrevention;
             [Saved] bool _keepBodyForever;
+
+            public override bool RequireVisualLoaded => true;
             
             [JsonConstructor, Preserve]
             StepExecution() { }

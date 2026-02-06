@@ -81,8 +81,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_e54629aeaf5ab394e9d30b0e35f07598
-  EDITOR_bakedDescription: Odd attacks <color=#04959A>Poison</color> enemies, while
-    even attacks <color=#04959A>Bleed</color> them.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -158,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: ed7ec16779eb69e46aa9b49e8359efc3
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -253,8 +256,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-690347261252870806
 MonoBehaviour:
@@ -591,17 +597,21 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: bb6d026ac4b23a144a2edfa026a363f9
     variables:
-    - name: Buildup
-      value: 0
-    - name: Duration
-      value: 0
     - name: ChanceToApply
       value: 1
-    - name: StackCount
-      value: 5
-    - name: ValuePreCalculated
+    - name: Buildup
+      value: 0
+    - name: NGBuildup
+      value: 80
+    - name: Duration
       value: 0
     - name: DurationGainValue
+      value: 0
+    - name: StackCount
+      value: 5
+    - name: NGStackCount
+      value: 10
+    - name: ValuePreCalculated
       value: 0
     enums: []
     datums:
@@ -703,17 +713,21 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: bb6d026ac4b23a144a2edfa026a363f9
     variables:
-    - name: Buildup
-      value: 0
-    - name: Duration
-      value: 0
     - name: ChanceToApply
       value: 1
-    - name: StackCount
-      value: 5
-    - name: ValuePreCalculated
+    - name: Buildup
+      value: 10
+    - name: NGBuildup
+      value: 80
+    - name: Duration
       value: 0
     - name: DurationGainValue
+      value: 0
+    - name: StackCount
+      value: 5
+    - name: NGStackCount
+      value: 10
+    - name: ValuePreCalculated
       value: 0
     enums: []
     datums:
@@ -815,17 +829,21 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: bb6d026ac4b23a144a2edfa026a363f9
     variables:
-    - name: Buildup
-      value: 0
-    - name: Duration
-      value: 0
     - name: ChanceToApply
       value: 1
-    - name: StackCount
-      value: 5
-    - name: ValuePreCalculated
+    - name: Buildup
+      value: 0
+    - name: NGBuildup
+      value: 80
+    - name: Duration
       value: 0
     - name: DurationGainValue
+      value: 0
+    - name: StackCount
+      value: 5
+    - name: NGStackCount
+      value: 1
+    - name: ValuePreCalculated
       value: 0
     enums: []
     datums:
@@ -927,17 +945,21 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: bb6d026ac4b23a144a2edfa026a363f9
     variables:
-    - name: Buildup
-      value: 0
-    - name: Duration
-      value: 0
     - name: ChanceToApply
       value: 1
-    - name: StackCount
-      value: 5
-    - name: ValuePreCalculated
+    - name: Buildup
+      value: 0
+    - name: NGBuildup
+      value: 80
+    - name: Duration
       value: 0
     - name: DurationGainValue
+      value: 0
+    - name: StackCount
+      value: 5
+    - name: NGStackCount
+      value: 1
+    - name: ValuePreCalculated
       value: 0
     enums: []
     datums:

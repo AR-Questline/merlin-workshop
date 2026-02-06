@@ -56,6 +56,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: dd122a8dd7c19c247b4f23e65ee5b8f8
@@ -140,7 +141,7 @@ MonoBehaviour:
   upgradeChance: 0
   crimeItemValue: 4
   canStack: 1
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
@@ -149,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4838591279151652239
 MonoBehaviour:

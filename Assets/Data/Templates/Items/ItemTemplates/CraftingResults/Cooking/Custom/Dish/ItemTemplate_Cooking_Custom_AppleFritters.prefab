@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_FoodHealForDurationDesc
       ID: Template/description_locString_2543871262668956605_bf3c273aaa1a3ab4da932ebf62d87eed
-  EDITOR_bakedDescription: Restores 60 health over 60s.
+  EDITOR_bakedDescription: Restores 72 health over 60s.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: f501940bbe0486340b2b21161f7f54a5
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6723473617950232950
 MonoBehaviour:

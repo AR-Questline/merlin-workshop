@@ -80,8 +80,11 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         [FoldoutGroup("Misc"), ShowIf(nameof(IsRanged))] public float bowDrawSpeedModifier = 1;
         // --- Magic
         [FoldoutGroup("Magic"), ShowIf(nameof(IsMagicOrWeapon))] public float lightCastManaCost = 0f;
+        [FoldoutGroup("Magic"), ShowIf(nameof(IsMagicOrWeapon))] public float lightCastManaCostGain = 0f;
         [FoldoutGroup("Magic"), ShowIf(nameof(IsMagicOrWeapon))] public float heavyCastManaCost = 0f;
+        [FoldoutGroup("Magic"), ShowIf(nameof(IsMagicOrWeapon))] public float heavyCastManaCostGain = 0f;
         [FoldoutGroup("Magic"), ShowIf(nameof(IsMagicOrWeapon))] public float heavyCastManaCostPerSecond = 0f;
+        [FoldoutGroup("Magic"), ShowIf(nameof(IsMagicOrWeapon))] public float heavyCastManaCostPerSecondGain = 0f;
         [FoldoutGroup("Magic"), ShowIf(nameof(IsMagicOrWeapon)), Range(0f, 1f)] public float magicHeldSpeedMultiplier = 0.3f;
         
         public Element SpawnElement() {

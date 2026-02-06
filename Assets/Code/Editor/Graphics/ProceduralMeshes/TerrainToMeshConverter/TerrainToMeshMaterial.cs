@@ -7,6 +7,7 @@ using Awaken.Utility.Debugging;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
     [CreateAssetMenu(fileName = "TerrainToMeshMaterial", menuName = "TG/Terrain/TerrainToMesh Material")]
@@ -14,11 +15,13 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
         [SerializeField] Shader shader;
         [SerializeField] string[] keywords = Array.Empty<string>();
         [SerializeField] float heightTransition = 0.1f;
-        [SerializeField] Layer[] customLayers = Array.Empty<Layer>();
+        [SerializeField] MaterialId materialType;
 
-        public (Material material, Texture2D[] splatmaps) Create(List<TerrainToMesh.AssetToCreate> toCreate, TerrainData data, in TerrainToMesh.PersistenceInfo persistenceInfo) {
+        public (Material material, Texture2D[] splatmaps) Create(List<TerrainToMesh.AssetToCreate> toCreate, TerrainData data, in TerrainToMesh.PersistenceInfo persistenceInfo, bool forBuild) {
             var material = new Material(shader);
 
+            material.SetMaterialType(materialType);
+            
             material.SetFloat(Id.SplatResolution, data.size.x);
             material.SetFloat(Id.HeightTransition, heightTransition);
 
@@ -32,7 +35,9 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
 
             var alphamaps = data.alphamapTextures.CreateCopy();
             for (var i = 0; i < math.min(alphamaps.Length, 2); i++) {
-                alphamaps[i] = EditorAssetUtil.Create(alphamaps[i], persistenceInfo.folder, $"{persistenceInfo.name}_Splat{i}");
+                if (forBuild) {
+                    alphamaps[i] = EditorAssetUtil.Create(alphamaps[i], persistenceInfo.folder, $"{persistenceInfo.name}_Splat{i}");
+                }
                 material.SetTexture(Id.Splatmap[i], alphamaps[i]);
             }
 
@@ -50,7 +55,10 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
                 material.SetFloat(Id.Tiling[i], terrainLayer.tileSize.x);
             }
 
-            persistenceInfo.RequestMaterialAssetCreation(toCreate, material);
+            if (forBuild) {
+                persistenceInfo.RequestMaterialAssetCreation(toCreate, material);
+            }
+
             return (material, alphamaps);
         }
 

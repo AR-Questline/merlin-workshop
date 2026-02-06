@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.UI;
@@ -52,6 +51,7 @@ namespace Awaken.TG.VisualScripts.Units.Events {
 
         public partial class RewiredInputUnitHandler : Element<GameUI>, IUIHandlerSource, IUIAware {
             public sealed override bool IsNotSaved => true;
+            public bool IsValid => this.IsValidForUIHandle();
 
             public UIContext Context => UIContext.All;
             public int Priority => 0;
@@ -79,6 +79,11 @@ namespace Awaken.TG.VisualScripts.Units.Events {
                 }
                 
                 return UIResult.Ignore;
+            }
+            
+            protected override void OnDiscard(bool fromDomainDrop) {
+                ParentModel.OnSourceReset(this);            
+                base.OnDiscard(fromDomainDrop);
             }
         }
     }

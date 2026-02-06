@@ -57,6 +57,7 @@ MonoBehaviour:
   tags:
   - alchemy:AnimalComp
   - ingredients:advancedalchemy
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 8afffb1e7a7d1ad44a845a24d7e13fa3
@@ -150,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e11d5e4fbd0191e42a8328ce4e100960
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &5128635444738983869
 MonoBehaviour:

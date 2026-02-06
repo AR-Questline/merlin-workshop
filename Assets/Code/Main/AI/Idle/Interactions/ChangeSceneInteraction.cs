@@ -11,7 +11,6 @@ using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Maps.Compasses;
 using Awaken.TG.Main.Stories;
-using Awaken.TG.Main.Stories.Api;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
@@ -43,7 +42,11 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         public Vector3 GetInteractionForward(NpcElement npc) => Vector3.zero;
         
         public Vector3 GetPortalPosition(NpcElement npc) {
-            var portal = Portal.FindClosest(Scene, npc, searchForNPC: true);
+            var position = npc.Coords;
+            if (NpcPresence.InAbyss(position) && npc.NpcPresence != null) {
+                position = npc.NpcPresence.DesiredPosition;
+            }
+            var portal = Portal.FindClosest(Scene, position, searchForNPC: true);
             if (portal == null) {
                 Log.Minor?.Warning($"Npc ({npc}) cannot find portal to {Scene.Name}. It will teleport instantly. This behaviour is normal when hero changing scene", npc.ParentModel.Spec);
                 return npc.Coords;
@@ -62,7 +65,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             if (NpcPresence.InAbyss(npc.Coords)) {
                 return;
             }
-            npc.Movement.Controller.MoveToAbyss();
+            npc.MoveToAbyss();
             npc.AddElement<ChangeSceneHideCompassMarker>();
         }
 
@@ -74,7 +77,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             }
             if (reason == InteractionStopReason.Death) {
                 npc.RemoveElementsOfType<ChangeSceneHideCompassMarker>();
-                npc.Movement?.Controller.AbortMoveToAbyss();
+                npc.AbortMoveToAbyss();
                 return;
             }
             if (npc.HasBeenDiscarded) {
@@ -88,9 +91,9 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             Portal portal;
             if (npc.NpcPresence != null) {
                 comebackPosition = npc.NpcPresence.DesiredPosition;
-                portal = Portal.FindClosest(Scene, comebackPosition);
+                portal = Portal.FindClosest(Scene, comebackPosition, searchForNPC: true);
             } else {
-                portal = Portal.FindAnyFromScene(Scene);
+                portal = Portal.FindAnyFromScene(Scene, searchForNPC: true);
                 comebackPosition = portal != null ? portal.ParentModel.Coords : Vector3.zero;
             }
             Vector3 position;
@@ -135,7 +138,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             }
             npc.Movement?.Controller.SetRotationInstant(rotation);
             npc.ParentModel.SetInteractability(LocationInteractability.Active);
-            npc.Movement?.Controller.AbortMoveToAbyss();
+            npc.AbortMoveToAbyss();
             npc.RemoveElementsOfType<ChangeSceneHideCompassMarker>();
             _isStopping = false;
         }

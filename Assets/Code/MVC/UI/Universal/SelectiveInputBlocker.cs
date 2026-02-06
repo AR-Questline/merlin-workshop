@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Elements;
@@ -19,6 +20,7 @@ namespace Awaken.TG.MVC.UI.Universal {
         AlwaysPresentHandlers _alwaysPresentHandler;
 
         public InputBlockerConfig Config { get; }
+        public bool IsValid => this.IsValidForUIHandle();
 
         public SelectiveInputBlocker(InputBlockerConfig inputBlockerConfig) {
             Config = inputBlockerConfig;

@@ -22,7 +22,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         public override Item StatsItem => IsUsingMainHand ? MainHandItem : OffHandItem;
         public override string ParentLayerName => MainHandLayerName;
         public override HeroLayerType LayerType => HeroLayerType.DualMainHand;
-        public override HeroStateType DefaultState => HeroStateType.EquipWeapon;
+        public override HeroStateType DefaultState => DefaultEquipState;
         public bool IsInDualHandedAttack => CurrentAnimatorState is HeavyAttackEnd or LightAttackForward && !OffHandItem.IsFists;
         public bool IsUsingMainHand {
             get {

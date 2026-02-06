@@ -7,7 +7,7 @@ namespace Awaken.TG.Main.Animations.IK {
         public float weightY;
         public float weightZ;
         public SpineIKConstraint constraint;
-        public bool isActive;
+        public float baseWeight;
     }
     
     public enum SpineIKConstraint {

@@ -76,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_219d0334cf60d9242951f8c9fbbd29fc
-  EDITOR_bakedDescription: Increases Max Health by 20.
+  EDITOR_bakedDescription: "Increases Spell Power by 5\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
 --- !u!114 &1382325995290807351
@@ -216,6 +220,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.05
     - name: GainValue
+      value: 0.01
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

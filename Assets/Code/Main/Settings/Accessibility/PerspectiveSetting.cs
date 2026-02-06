@@ -43,16 +43,13 @@ namespace Awaken.TG.Main.Settings.Accessibility {
             EnumOption = new EnumArrowsOption("Perspective_Setting", SettingName, _toggleOptions[0], true, _toggleOptions);
             EnumOption.SetInteractabilityFunction(static () => {
                 var vHeroController = Hero.Current?.VHeroController;
-                if (vHeroController == null) {
-                    return true;
-                }
-                return !vHeroController.PerspectiveChangeInProgress;
+                return vHeroController == null || vHeroController.CanChangeHeroPerspective;
             });
         }
 
         protected override void OnApply() { 
             if (Hero.TppActive != IsTPP) {
-                Hero.Current?.VHeroController.ChangeHeroPerspective(IsTPP).Forget();
+                Hero.Current?.VHeroController.ChangeHeroPerspective(IsTPP);
                 TryShowTppExcusePopup();
             }
         }

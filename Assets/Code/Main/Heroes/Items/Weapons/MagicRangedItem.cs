@@ -70,7 +70,7 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
             _isSpawning = true;
             
             Item magicArrow = CharacterInventory.Add(new Item(_magicArrowTemplate, DefaultArrowsRegen));
-            magicArrow.AddElement<LockItemSlot>();
+            magicArrow.AddElement(new LockItemSlot(true, LockItemSlot.LockSource.TemporaryItem));
             magicArrow.ListenTo(Item.Events.QuantityDecreased, _ => SpawnMagicArrow(), magicArrow);
             _spawnedMagicArrow = magicArrow;
 

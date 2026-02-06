@@ -6,6 +6,7 @@ using Awaken.TG.Main.FastTravel;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -52,6 +53,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map {
         public Rect MinMaxRect { get; private set; }
         SceneReference Scene => Target.Scene;
         MapSceneData Data => Target.Data;
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             _pointerEventData = new PointerEventData(EventSystem.current);

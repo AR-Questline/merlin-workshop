@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_increasestatatthreshold
       ID: Template/description_locString_2543871262668956605_c5733d4589f882f4291b8ee813b31d69
-  EDITOR_bakedDescription: Increases Mana Regeneration by 25 when below 13% Max Health.
+  EDITOR_bakedDescription: "Increases Mana Regeneration by 25 when below 13\_% Max
+    Health."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -134,7 +135,7 @@ MonoBehaviour:
   basePrice: 60
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 3
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3443842606788812044
 MonoBehaviour:
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8054079048784367801
 MonoBehaviour:
@@ -569,7 +577,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 25
     - name: ValueGain
-      value: 0
+      value: 0.5
     - name: ValueCalculated
       value: 0
     enums:

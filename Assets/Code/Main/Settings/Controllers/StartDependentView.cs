@@ -19,14 +19,18 @@ namespace Awaken.TG.Main.Settings.Controllers {
                 return;
             }
             await AsyncUtil.CheckAndWaitUntil(() => World.EventSystem != null);
-            ModelUtils.DoForFirstModelOfType<T>(m => World.BindView(m, this, removeAutomatically: true), this);
+            if (this != null && gameObject != null) {
+                ModelUtils.DoForFirstModelOfType<T>(m => World.BindView(m, this, removeAutomatically: true), this);
+            }
         }
 
         protected virtual void OnAwake() {}
 
         protected virtual void OnDestroy() {
-            if (Application.isPlaying && GenericTarget != null) {
-                Discard();
+            if (Application.isPlaying) {
+                if (GenericTarget != null) {
+                    Discard();
+                }
             }
         }
     }

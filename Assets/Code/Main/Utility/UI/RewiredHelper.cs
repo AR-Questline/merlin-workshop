@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Linq;
 using Awaken.TG.Main.Settings.Controls;
 using Awaken.TG.Main.Utility.UI.Keys;
@@ -38,11 +38,13 @@ namespace Awaken.TG.Main.Utility.UI {
         public static bool IsXboxOneOrSeries => IsXboxOne || IsXboxSeries;
         public static bool IsCurrentControllerConnected => IsGamepad && s_currentController.isConnected;
         public static Player Player => null; //ReInput.players.GetPlayer(0);
+        public static Guid CurrentHardwareTypeGuid => Guid.Empty; //Player.controllers?.GetLastActiveController()?.hardwareTypeGuid ?? Guid.Empty;
         public static int DefaultKeyboardLayoutId => 0; //ReInput.mapping.GetKeyboardLayoutId("Default");
         public static int AzertyKeyboardLayoutId => 0; //ReInput.mapping.GetKeyboardLayoutId("azertyKeyboard");
         
         [UnityEngine.Scripting.Preserve]
-        public static string KeyIdentifierFor(string actionName, Pole pole = Pole.Positive) {
+        public static string KeyIdentifierFor(string actionName, Pole pole = Pole.Positive)
+        {
             return "None";
             // return Player.controllers.maps.GetAllMaps(ControllerType.Keyboard)
             //     .SelectMany(m => m.GetElementMapsWithAction(actionName))
@@ -84,7 +86,8 @@ namespace Awaken.TG.Main.Utility.UI {
         /// <summary>
         /// Check if two input actions have the same key binding
         /// </summary>
-        public static bool IsEqualElementMapKey(int actionA, string actionB) {
+        public static bool IsEqualElementMapKey(int actionA, string actionB)
+        {
             return false;
             // var currentController = ActiveController();
             // var mapsHelper = Player.controllers.maps;
@@ -106,17 +109,17 @@ namespace Awaken.TG.Main.Utility.UI {
 
             switch (s_gamepadManufacturer) {
                 case GamepadManufacturer.MS:
-                    //Player.SetVibration(0, strengthValue, durationValue, reset);
+                    TryApplyVibrationsToLastController(0, strengthValue, durationValue, reset);
                     break;
                 case GamepadManufacturer.Sony:
                     if (TryVibratePS5Controller(1, strengthValue, durationValue, reset)) {
                         break;
                     }
 
-                    //Player.SetVibration(1, strengthValue * UiSonyVibrationStrengthModifier, durationValue * UiSonyVibrationLengthModifier, reset);
+                    TryApplyVibrationsToLastController(1, strengthValue * UiSonyVibrationStrengthModifier, durationValue * UiSonyVibrationLengthModifier, reset);
                     break;
                 default:
-                    //Player.SetVibration(0, strengthValue * UiOtherVibrationStrengthModifier, durationValue * UiOtherVibrationLengthModifier, reset);
+                    TryApplyVibrationsToLastController(0, strengthValue * UiOtherVibrationStrengthModifier, durationValue * UiOtherVibrationLengthModifier, reset);
                     break;
             }
         }
@@ -169,7 +172,13 @@ namespace Awaken.TG.Main.Utility.UI {
                 return;
             }
 
-            //Player.SetVibration(motor, strength, duration, reset);
+            TryApplyVibrationsToLastController(motor, strength, duration, reset);
+        }
+
+        static void TryApplyVibrationsToLastController(int motor, float strength, float duration, bool reset) {
+            // if (RewiredHelper.Player.controllers.GetLastActiveController() is Joystick joystick) {
+            //     joystick.SetVibration(motor, strength, duration, reset);
+            // }
         }
         
         public static void EDITOR_RuntimeReset() {
@@ -188,7 +197,7 @@ namespace Awaken.TG.Main.Utility.UI {
             //     s_gamepadManufacturer = RetrieveGamepadManufacturer(controller);
             //     World.Services?.TryGet<UIKeyMapping>()?.RefreshMapping();
             // }
-            //s_controllerType = RetrieveControllerType(controller);
+            // s_controllerType = RetrieveControllerType(controller);
             
             s_lastFrameGamepadCheck = Time.frameCount;
             return s_controllerType;
@@ -227,14 +236,20 @@ namespace Awaken.TG.Main.Utility.UI {
             //     return GamepadManufacturer.Other;
             // }
             //
-            // if (controller.name.Contains("XInput") || controller.name.Contains("Microsoft") || controller.name.Contains("XBox")) {
+            // bool isXboxController = controller.hardwareTypeGuid == ControllerKey.Xbox360Guid ||
+            //                         controller.hardwareTypeGuid == ControllerKey.XboxOneGuid ||
+            //                         controller.hardwareTypeGuid == ControllerKey.XboxSeriesGuid;
+            //
+            // if (isXboxController) {
             //     return GamepadManufacturer.MS;
             // }
             //
-            // if (controller.name.Contains("Sony") || controller.name.Contains("PS") ||
-            //     controller.name.Contains("DualSense")) {
+            // bool isPlaystationController = controller.hardwareTypeGuid == ControllerKey.DualShock4Guid || 
+            //                                controller.hardwareTypeGuid == ControllerKey.DualSenseGuid;
+            //
+            // if (isPlaystationController) {
             //     return GamepadManufacturer.Sony;
-            // } 
+            // }
             
             return GamepadManufacturer.Other;
         }

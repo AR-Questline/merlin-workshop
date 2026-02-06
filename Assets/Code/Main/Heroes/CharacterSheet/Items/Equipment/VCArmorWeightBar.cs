@@ -1,6 +1,7 @@
 ﻿using Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.UI.Components.Navigation;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -10,6 +11,8 @@ using UnityEngine;
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment {
     public class VCArmorWeightBar : ViewComponent<LoadoutsUI>, IWithTooltip {
         [SerializeField] ExplicitComponentNavigation navigation;
+        
+        public bool IsValid => this.IsValidForUIHandle();
         
         public TooltipConstructor TooltipConstructor {
             get {

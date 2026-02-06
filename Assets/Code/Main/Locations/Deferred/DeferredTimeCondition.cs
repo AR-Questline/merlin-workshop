@@ -13,13 +13,23 @@ namespace Awaken.TG.Main.Locations.Deferred {
         
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         DeferredTimeCondition() {}
-        
+
         public DeferredTimeCondition(ARDateTime time) {
             _targetTime = time;
         }
 
         public override bool Fulfilled() {
             return World.Only<GameRealTime>().WeatherTime >= _targetTime;
+        }
+        
+        public override bool Equals(System.Object other) {
+            if (other is not DeferredTimeCondition otherCondition) {
+                return false;
+            }
+            if (!_targetTime.Equals(otherCondition._targetTime)) {
+                return false;
+            }
+            return true;
         }
     }
 }

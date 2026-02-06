@@ -144,9 +144,12 @@ namespace Awaken.Utility.Graphics.Mipmaps {
             var texture = _textures[index];
             if (texture) {
                 texture.requestedMipmapLevel = (byte)QualitySettings.streamingMipmapsMaxLevelReduction;
-            } else {
+            }
+#if UNITY_EDITOR && !SIMULATE_BUILD
+            else {
                 Log.Critical?.Error($"RemoveTexture, Texture at index {index} is null");
             }
+#endif
             _textureToId.Remove(texture.GetHashCode());
             _occupied.Down((uint)index);
             _textures[index] = null;
@@ -177,7 +180,8 @@ namespace Awaken.Utility.Graphics.Mipmaps {
                 currentMipmapsLevels = _currentMipmapsLevels
             };
 
-            JobHandle handle = _mipmapsStreamingMaterialsMaster?.Feed(writer) ?? default;
+            MipmapsStreamingMasterMaterials.DumpMaterialFactorsJobResourcesToDispose resourcesToDispose = default;
+            JobHandle handle = _mipmapsStreamingMaterialsMaster?.DumpMaterialFactors(writer, out resourcesToDispose) ?? default;
 
             var maxMipmapsLevel = (byte)QualitySettings.streamingMipmapsMaxLevelReduction;
 
@@ -186,7 +190,8 @@ namespace Awaken.Utility.Graphics.Mipmaps {
             _mipmapsUpdateIndex = _mipmapsUpdateIndex >= _textures.Count ? firstIndex : _mipmapsUpdateIndex;
 
             handle.Complete();
-
+            resourcesToDispose.Dispose();
+            
             for (var i = 0; (_mipmapsUpdateIndex < _textures.Count) & (i < MaxTexturesPerFrame); i++, _mipmapsUpdateIndex++) {
                 if (!_occupied[(uint)_mipmapsUpdateIndex]) {
                     continue;

@@ -1,13 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Combat;
+using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Saving.Cloud.Services;
 using Awaken.TG.Main.Saving.CustomSerializers;
@@ -15,13 +17,17 @@ using Awaken.TG.Main.Saving.LargeFiles;
 using Awaken.TG.Main.Saving.Models;
 using Awaken.TG.Main.Saving.SaveSlots;
 using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.UI.RoguePreloader;
 using Awaken.TG.Main.UI.TitleScreen;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.Main.Wyrdnessing;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Events;
+using Awaken.TG.MVC.Serialization;
 using Awaken.TG.MVC.UI.Handlers.States;
+using Awaken.TG.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.CustomSerializers;
 using Cysharp.Threading.Tasks;
@@ -34,6 +40,9 @@ using UnityEngine;
 using UniversalProfiling;
 using ColorConverter = Awaken.TG.Main.Saving.CustomSerializers.ColorConverter;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
+// #if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
+// using HeathenEngineering.SteamworksIntegration.API;
+// #endif
 
 namespace Awaken.TG.Main.Saving {
     public class LoadSave {
@@ -47,7 +56,7 @@ namespace Awaken.TG.Main.Saving {
 
         // strings used in save file
         public const int BufferSize = 8192;
-        const int MetaDataPreAllocSize = 8192;
+        public const int MetaDataPreAllocSize = 8192;
 
         public static readonly Color LoadSaveProfilerColor = new(0.75f, 0.35f, 0.6f, 1f);
         static readonly UniversalProfilerMarker SaveMarker = new(LoadSaveProfilerColor, "LoadSave.Save");
@@ -79,6 +88,7 @@ namespace Awaken.TG.Main.Saving {
         readonly LoadSystem _loadSystem;
         readonly LoadSaveDomainsCache _domainsCache;
 
+        public SaveSystem SaveSystem => _saveSystem;
         public LoadSystem LoadSystem => _loadSystem;
         public LoadSaveDomainsCache DomainsCache => _domainsCache;
 
@@ -108,10 +118,11 @@ namespace Awaken.TG.Main.Saving {
 
         public bool CanCacheDomainForSceneChange() => !World.HasAny<SavingWorldMarker>();
 
-        public bool CanPlayerSave(bool checkSavingMarker = true) => CanSystemSave(checkSavingMarker) && !DifficultyRestrictsSave();
+        public bool CanPlayerSave(bool checkSavingMarker = true) => CanSystemSave(checkSavingMarker) && !DifficultyRestrictsSave() && !SavePostpone.AnySavePostponed();
 
         public bool CanQuickSave(bool checkSavingMarker = true) => CanPlayerSave(checkSavingMarker) && UIStateStack.Instance.State.IsMapInteractive;
         public bool CanAutoSave(bool checkSavingMarker = true) => World.Only<AutoSaveSetting>().Enabled && CanPlayerSave(checkSavingMarker) && UIStateStack.Instance.State.IsMapInteractive;
+        public bool CanForceAutoSave(bool checkSavingMarker = true) => !World.HasAny<SaveBlocker>() && (!checkSavingMarker || !World.HasAny<SavingWorldMarker>());
         public bool LoadAllowedInGame() => LoadAllowedInMenu() && UIStateStack.Instance.State.IsMapInteractive;
         public bool LoadAllowedInMenu() => !World.HasAny<SavingWorldMarker>() && !World.HasAny<LoadBlocker>();
         public bool CanContinue() => World.HasAny<SaveSlot>();
@@ -129,7 +140,7 @@ namespace Awaken.TG.Main.Saving {
                 return;
             }
 
-            Save(SaveSlot.GetQuickSave(getNewest: false));
+            Save(SaveSlot.GetQuickSave(out bool createdNew, getNewest: false), deleteSaveSlotIfSavingFailed: createdNew);
         }
 
         bool TrySerializeMetaDomain(Domain domain, out byte[] serializedData) {
@@ -137,11 +148,10 @@ namespace Awaken.TG.Main.Saving {
             bool serializationSuccessful;
 
             using (var domainWriteStream = new MemoryStream(MetaDataPreAllocSize)) {
-                using (var compressionStream = new DeflateStream(domainWriteStream, System.IO.Compression.CompressionLevel.Optimal, leaveOpen: true)) {
-                    serializationSuccessful = _saveSystem.Serialize(domain, compressionStream);
+                using (var compressionStream = new ARDeflateStream(domainWriteStream, System.IO.Compression.CompressionLevel.Optimal, leaveOpen: true)) {
+                    serializationSuccessful = _saveSystem.Serialize(World.AllInOrder(), domain, compressionStream);
                 }
 
-                domainWriteStream.Flush();
                 domainFileLength = domainWriteStream.Length;
 
                 var success = serializationSuccessful && domainFileLength > 0;
@@ -164,8 +174,8 @@ namespace Awaken.TG.Main.Saving {
             bool serializationSuccessful;
 
             using (var domainWriteStream = _domainsCache.GetCachedDomainFileWriteStream(domain)) {
-                using (var compressionStream = new DeflateStream(domainWriteStream, System.IO.Compression.CompressionLevel.Optimal, leaveOpen: true)) {
-                    serializationSuccessful = _saveSystem.Serialize(domain, compressionStream);
+                using (var compressionStream = new ARDeflateStream(domainWriteStream, System.IO.Compression.CompressionLevel.Optimal, leaveOpen: true)) {
+                    serializationSuccessful = _saveSystem.Serialize(World.AllInOrder(), domain, compressionStream);
                 }
                 domainWriteStream.Flush(true);
                 domainFileLength = domainWriteStream.Length;
@@ -184,73 +194,115 @@ namespace Awaken.TG.Main.Saving {
             return success;
         }
 
-        public void Save(SaveSlot saveSlot) {
+        /// <summary>
+        /// Remember to handle exceptions when calling this method, as it can throw if saving fails.
+        /// </summary>
+        public void Save(SaveSlot saveSlot, bool deleteSaveSlotIfSavingFailed) {
             using var marker = SaveMarker.Auto();
 
-            if (SavePostpone.ShouldPostpone(saveSlot)) {
+            if (SavePostpone.ShouldPostpone(saveSlot, deleteSaveSlotIfSavingFailed)) {
                 return;
             }
-            
-            // Delete save slot first, so we don't leave any unnecessary files inside
-            var deleteTask = Task.Run(() => {
+
+            SetSteamCallbacks(false);
+
+            var prepareSaveSlotTask = Task.Run(() => {
                 CloudService.Get.PrepareSaveSlotForSave(saveSlot.GetDirectory());
             });
 
             // Make sure Saving World Marker exists
             SavingWorldMarker.Add(UniTask.DelayFrame(1), true);
-            var tasks = new List<UniTask>(8);
+            var tasks = new List<UniTask<bool>>(8);
 
             foreach (var domain in DomainUtils.SaveSlotDomainsInUse()) {
-                TrySerialize(domain);
+                if (TrySerialize(domain) == false) {
+                    FailSaving(saveSlot, deleteSaveSlotIfSavingFailed);
+                    SetSteamCallbacks(true);
+                    return;
+                }
             }
 
             long dataSize = _domainsCache.CalculateDataSize();
-            
-            try {
-                deleteTask.GetAwaiter().GetResult();
-                _saveSystem.BeginSaving(saveSlot, dataSize);
+            dataSize += 50_000; // Reserve some space for metadata
 
-                var metadataTask = saveSlot.CaptureSlotInfo(_domainsCache.CachedDomainsCount);
-                tasks.Add(metadataTask);
-                
-                var usedLargeFilesIndices = new UnsafeBitmask(1, ARAlloc.Persistent);
-                var lfs = World.Services.Get<LargeFilesStorage>();
-                
-                // Save cached domains that are currently not used but are part of this Game session (think about scenes that were visited long time ago)
-                foreach (var domain in _domainsCache.CachedDomains) {
-                    if (domain.IsChildOf(Domain.SaveSlot) == false) {
-                        continue;
-                    }
-
-                    var task = _saveSystem.SaveDomainAsync(domain, saveSlot);
-                    UnsafeBitmask.OrWithChangeSize(ref usedLargeFilesIndices, lfs.GetUsedLargeFilesForDomain(domain));
-                    tasks.Add(task);
-                }
-
-                World.Services.Get<LargeFilesStorage>().SetSaveSlotUsedFilesData(saveSlot.SlotIndex, in usedLargeFilesIndices);
-                saveSlot.SetUsedLargeFilesIndices(ref usedLargeFilesIndices);
-
-                Log.Marking?.Warning($"Save {saveSlot}");
-            } catch {
-                _saveSystem.EndSaving(saveSlot, true).Forget();
-                throw;
+            prepareSaveSlotTask.GetAwaiter().GetResult();
+            if (_saveSystem.BeginSaving(saveSlot, dataSize) == false) {
+                FailSaving(saveSlot, deleteSaveSlotIfSavingFailed);
+                SetSteamCallbacks(true);
+                return;
             }
-            
-            var endSavingTask = EndSavingTask(tasks, saveSlot);
+
+            var saveSlotCachedDomains = _domainsCache.CachedDomains
+                .Where(d => d.IsChildOf(Domain.SaveSlot))
+                .ToArray();
+
+            var domainNames = saveSlotCachedDomains.Select(d => d.FullName).ToArray();
+
+            var metadataTask = saveSlot.CaptureSlotInfo(domainNames.Length, domainNames);
+            tasks.Add(metadataTask);
+
+            var usedLargeFilesIndices = new UnsafeBitmask(1, ARAlloc.Persistent);
+            var lfs = World.Services.Get<LargeFilesStorage>();
+
+            foreach (var domain in saveSlotCachedDomains) {
+                var task = _saveSystem.SaveDomainAsync(domain, saveSlot);
+                UnsafeBitmask.OrWithChangeSize(ref usedLargeFilesIndices, lfs.GetUsedLargeFilesForDomain(domain));
+                tasks.Add(task);
+            }
+
+            World.Services.Get<LargeFilesStorage>().SetSaveSlotUsedFilesData(saveSlot.SlotIndex, in usedLargeFilesIndices);
+            saveSlot.SetUsedLargeFilesIndices(ref usedLargeFilesIndices);
+
+            Log.Marking?.Warning($"Save {saveSlot}");
+
+            var endSavingTask = EndSavingTask(tasks, saveSlot, deleteSaveSlotIfSavingFailed);
             SavingWorldMarker.Add(endSavingTask, true);
         }
 
-        async UniTask EndSavingTask(List<UniTask> tasks, SaveSlot saveSlot) {
-            await UniTask.WhenAll(tasks);
+        async UniTask EndSavingTask(List<UniTask<bool>> tasks, SaveSlot saveSlot, bool deleteSaveSlotIfSavingFailed) {
+            var results = await UniTask.WhenAll(tasks);
+            var saveSummary = CloudService.Get.SummarizeSavingResult(saveSlot.GetDirectory());
+            var anyTaskFailed = results.Any(r => r == false);
+            var validationFailed = !saveSlot.ValidateDomainAmount(saveSummary, DomainAmountValidationType.Strict, out var errorMessage);
+            if (anyTaskFailed || validationFailed) {
+                if (validationFailed) {
+                    Log.Critical?.Error(errorMessage, null, LogOption.NoStacktrace);
+                }
 
-            var saveSummary = await _saveSystem.EndSaving(saveSlot, false);
-            
-            var cachedDomainsVerificationService = World.Services.Get<CachedDomainsVerificationService>();
-            if (!saveSlot.ValidateDomainAmount(saveSummary, out var errorMessage)) {
-                cachedDomainsVerificationService.InformThatSavingCachedDomainFailed(Domain.Gameplay, errorMessage, DomainDataSource.Invalid);
+                await CloudService.Get.RollbackSaving(saveSlot.GetDirectory());
+                FailSaving(saveSlot, deleteSaveSlotIfSavingFailed);
+                SetSteamCallbacks(true);
+                return;
             }
-            
-            cachedDomainsVerificationService.DiscardSaveIfCorrupted(saveSlot);
+
+            if (await CloudService.Get.EndSaveDirectory(saveSlot.GetDirectory())) {
+                if (World.Only<DifficultySetting>().Difficulty.SaveRestriction.HasFlagFast(SaveRestriction.OneSaveSlot)) {
+                    World.All<SaveSlot>()
+                        .Where(s => s.HeroId == saveSlot.HeroId && s != saveSlot)
+                        .ToArray()
+                        .ForEach(s => s.Discard());
+                }
+            } else {
+                FailSaving(saveSlot, deleteSaveSlotIfSavingFailed);
+            }
+
+            SetSteamCallbacks(true);
+            UniversalProfiler.SetMarker(new Color(0, 1, 1), "SaveSystem.EndSaving");
+        }
+
+        static void SetSteamCallbacks(bool value) {
+// #if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
+//             App.canRunCallbacks = value;
+// #endif
+        }
+
+        static void FailSaving(SaveSlot saveSlot, bool deleteSaveSlotIfSavingFailed, [CallerMemberName] string callerName = "", [CallerLineNumber] int lineNumber = 0) {
+            Log.Critical?.Error($"Saving failed at {callerName} line {lineNumber}. Save slot: {saveSlot}");
+            SaveSystem.DispatchSpawnSavingFailedPopup();
+            if (deleteSaveSlotIfSavingFailed) {
+                Log.Marking?.Warning($"Save {LogUtils.GetDebugName(saveSlot)} failed. Discarding save slot.");
+                saveSlot.Discard();
+            }
         }
 
         public void SaveMetadataDomainSynchronous(Domain domain) {
@@ -261,11 +313,15 @@ namespace Awaken.TG.Main.Saving {
             Log.Marking?.Warning($"Save {domain.Name}");
         }
 
-        public async UniTask SaveMetadataDomainAsync(Domain domain) {
+        public async UniTask<bool> SaveMetadataDomainAsync(Domain domain) {
             if (TrySerializeMetaDomain(domain, out var data)) {
-                await _saveSystem.SaveMetaDataDomainAsync(domain, null, data);
+                var result = await _saveSystem.SaveMetaDataDomainAsync(domain, null, data);
+                Log.Marking?.Warning($"Save {domain.Name}");
+                return result;
             }
-            Log.Marking?.Warning($"Save {domain.Name}");
+
+            Log.Critical?.Error($"Failed to serialize metadata domain: {domain.Name}");
+            return false;
         }
 
         public void Load(SaveSlot saveSlot, string sourceInfo) {
@@ -280,13 +336,13 @@ namespace Awaken.TG.Main.Saving {
         }
 
         public void QuickLoad() {
-            Load(SaveSlot.GetQuickSave(allowCreate: false), "Quick Load");
+            Load(SaveSlot.GetQuickSave(out _, allowCreate: false), "Quick Load");
         }
 
         public void LoadSaveSlotToCache(SaveSlot saveSlot) {
-            string relativePath = saveSlot.CurrentDomain.ConstructSavePath(saveSlot);
+            string relativePath = saveSlot.GetDirectory();
             var saveSummary = CloudService.Get.BeginLoadDirectory(relativePath);
-            if (!saveSlot.ValidateDomainAmount(saveSummary, out string errorMessage)) {
+            if (!saveSlot.ValidateDomainAmount(saveSummary, DomainAmountValidationType.AllowMoreFiles, out string errorMessage)) {
                 throw new Exception(errorMessage);
             }
             
@@ -312,11 +368,31 @@ namespace Awaken.TG.Main.Saving {
                 CloudService.Get.EndLoadDirectory(relativePath);
             }
         }
+        
+        public void LoadOnlyGameplayToCache(SaveSlot saveSlot) {
+            string relativePath = saveSlot.GetDirectory();
+            if (CloudService.Get.TryLoadSingleFile(relativePath, Domain.Gameplay.SaveName, out var compressedBytes)) {
+                long dataWrittenLength;
+                using (Stream cacheStream = _domainsCache.GetCachedDomainFileWriteStream(Domain.Gameplay)) {
+                    var bytesRemainingToWrite = compressedBytes.Length;
+                    var offset = 0;
+                    while (bytesRemainingToWrite > 0) {
+                        var bytesToWriteInThisLoopCount = math.min(bytesRemainingToWrite, BufferSize);
+                        cacheStream.Write(compressedBytes, offset, bytesToWriteInThisLoopCount);
+                        offset += bytesToWriteInThisLoopCount;
+                        bytesRemainingToWrite -= bytesToWriteInThisLoopCount;
+                    }
+                    dataWrittenLength = cacheStream.Length;
+                }
+                _domainsCache.SaveDomainFileSizeAndStartVerification(Domain.Gameplay, dataWrittenLength, DomainDataSource.FromSaveFile);
+            }
+        }
 
         public bool LoadFromCache(Domain domain) {
             if (_domainsCache.TryGetCachedUncompressedSaveData(domain, out var stream)) {
-                _loadSystem.Deserialize(domain, stream);
-                stream.Dispose();
+                using (stream) {
+                    _loadSystem.Deserialize(domain, stream, out _);
+                }
                 return true;
             }
             return false;
@@ -325,7 +401,7 @@ namespace Awaken.TG.Main.Saving {
         public void LoadSaveSlotMetadata(Domain domain) {
             if (LoadSystem.TryLoadSingleMetaDataFromFile(domain.ConstructSavePath(null), domain.SaveName, out var stream)) {
                 using EventSystem.QueuingHandle eventQueuing = World.EventSystem.EventsQueuing();
-                _loadSystem.Deserialize(domain, stream);
+                _loadSystem.Deserialize(domain, stream, out _);
                 stream.Dispose();
             }
         }
@@ -360,7 +436,13 @@ namespace Awaken.TG.Main.Saving {
         public void DeleteSlotFiles(string slotID) {
             Domain slotMetaDomain = Domain.SaveSlotMetaData(slotID);
             ClearCache(slotMetaDomain);
-            CloudService.Get.DeleteSaveSlot(slotMetaDomain.ConstructSavePath(slotID));
+            try {
+                CloudService.Get.DeleteSaveSlot(slotMetaDomain.ConstructSavePath(slotID));
+            } catch (Exception ex) {
+                Log.Critical?.Error($"Failed to delete save slot {slotID}", null, LogOption.NoStacktrace);
+                Debug.LogException(ex);
+            }
+
             PrefMemory.Save();
         }
 

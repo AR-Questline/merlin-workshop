@@ -1,9 +1,15 @@
-﻿using Awaken.TG.Assets;
+﻿using System;
+using System.Collections.Generic;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Locations.Attachments;
+using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Actors;
 using Awaken.TG.Main.Stories.Core;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.MVC.Elements;
+using Awaken.TG.Utility.Attributes.Tags;
+using Awaken.Utility.Collections;
+using Awaken.Utility.Debugging;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,6 +18,8 @@ namespace Awaken.TG.Main.Fights.NPCs {
         [SerializeField, TemplateType(typeof(NpcTemplate))] TemplateReference npcTemplate;
         [SerializeField, FoldoutGroup("Story"), ShowIf(nameof(ShowActorProperty)), PropertyOrder(-2)] public ActorRef actor;
         [SerializeField, FoldoutGroup("Story"), TemplateType(typeof(StoryGraph))] TemplateReference storyOnDeath;
+        [SerializeField, FoldoutGroup("Visuals"), BoxGroup("Visuals/Mesh")]
+        List<ConditionalVisualPrefab> conditionalVisualPrefabs;
         [SerializeField, FoldoutGroup("Visuals"), BoxGroup("Visuals/Mesh"), PrefabAssetReference(AddressableGroup.NPCs)]
         ARAssetReference visualPrefab;
         [SerializeField, FoldoutGroup("Visuals"), BoxGroup("Visuals/Mesh"), PrefabAssetReference(AddressableGroup.NPCs)]
@@ -39,9 +47,9 @@ namespace Awaken.TG.Main.Fights.NPCs {
         [field: Tooltip("Toggling this will make the NPC appear in the \"New\" section of the NPC spawner")]
         [field: SerializeField] public bool IsNew { get; private set; }
         public abstract bool IsUnique { get; }
+        public List<ConditionalVisualPrefab> GetConditionalVisualPrefabs => conditionalVisualPrefabs;
         public NpcTemplate NpcTemplate => npcTemplate.Get<NpcTemplate>();
         public TemplateReference StoryOnDeath => storyOnDeath;
-        public ARAssetReference VisualPrefab => visualPrefab;
         public ShareableARAssetReference SimplifiedDeadBodyPrefab => simplifiedDeadBodyPrefab;
         public ShareableARAssetReference HitVFXReference => hitVFXReference;
         public ShareableARAssetReference CriticalHitVFXReference => criticalHitVFXReference;
@@ -60,6 +68,33 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public void Setup(NpcTemplate template, ARAssetReference prefab) {
             npcTemplate = new TemplateReference(template);
             visualPrefab = prefab;
+        }
+        
+        public ARAssetReference VisualPrefab() {
+            if (conditionalVisualPrefabs.IsNullOrEmpty()) {
+                return visualPrefab;
+            }
+            
+            foreach (var conditionalVisualPrefab in conditionalVisualPrefabs) {
+                if (string.IsNullOrEmpty(conditionalVisualPrefab.requiredFlag)) {
+                    Log.Important?.Error($"No flag for conditional visual prefab in {gameObject.name}");
+                    continue;
+                }
+                
+                if (StoryFlags.Get(conditionalVisualPrefab.requiredFlag)) {
+                    return conditionalVisualPrefab.visualPrefab;
+                }
+            }
+
+            return visualPrefab;
+        }
+
+        [Serializable]
+        public struct ConditionalVisualPrefab {
+            [SerializeField, Tags(TagsCategory.Flag)] 
+            public string requiredFlag;
+            [SerializeField, PrefabAssetReference(AddressableGroup.NPCs)]
+            public ARAssetReference visualPrefab;
         }
         
         

@@ -51,6 +51,11 @@ namespace Awaken.TG.Main.AudioSystem.Biomes {
         }
 
         void OnDisable() {
+#if UNITY_EDITOR
+            if (!UnityEditor.EditorApplication.isPlaying) {
+                return;
+            }
+#endif
             _wasPlayerWithinZone = false;
             PlayerWithinZoneChanged();
         }

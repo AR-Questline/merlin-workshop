@@ -3,7 +3,6 @@ using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Shops;
 using Awaken.TG.Main.Utility.RichEnums;
-using UnityEngine;
 
 namespace Awaken.TG.Main.General.StatTypes {
     [RichEnumDisplayCategory("Shops")]

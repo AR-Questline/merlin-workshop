@@ -12,10 +12,13 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Awaken.TG.Main.Templates {
     public class TemplatesLoader {
-        const int TemplatesPreallocate = 11000;
+        const int TemplatesPreallocate = 13500;
 
 #if UNITY_EDITOR
         public static bool EDITOR_LoadFromAddressables { get; private set; } = false;
@@ -153,6 +156,16 @@ namespace Awaken.TG.Main.Templates {
         }
 
 #if UNITY_EDITOR
+        [MenuItem("TG/Addressables/Editor Loading Templates From Addressables/Enable Editor Loading Templates From Addressables")]
+        public static void EnableEditorLoadingTemplatesFromAddressables() {
+            EDITOR_LoadFromAddressables = true;
+        }
+        
+        [MenuItem("TG/Addressables/Editor Loading Templates From Addressables/Disable Editor Loading Templates From Addressables")]
+        public static void DisableEditorLoadingTemplatesFromAddressables() {
+            EDITOR_LoadFromAddressables = false;
+        }
+        
         void LoadAssetsInEditor() {
             var templates = TemplatesProvider.EditorGetAllOfType<ITemplate>();
 
@@ -166,9 +179,9 @@ namespace Awaken.TG.Main.Templates {
 
             FinishedLoading = true;
 
-            if (guidMap.Count > TemplatesPreallocate) {
+            if (guidMap.Count * 1.15f > TemplatesPreallocate) {
                 Log.Important?.Error(
-                    $"Increase {nameof(TemplatesPreallocate)} in {nameof(TemplatesLoader)}!!! Current number of templates: {guidMap.Count}");
+                    $"Increase {nameof(TemplatesPreallocate)} in {nameof(TemplatesLoader)}!!! Current number of templates: {guidMap.Count}; increase value to ({guidMap.Count * 1.15f} - {guidMap.Count * 1.2f}>");
             }
         }
 #endif

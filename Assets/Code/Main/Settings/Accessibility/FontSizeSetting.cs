@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Settings.Options;
-using Awaken.TG.MVC;
 using Awaken.TG.Utility;
-using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Enums;
 

@@ -30,6 +30,8 @@ namespace Awaken.TG.Main.AI.Barks {
         const float LocalNotImportantCooldown = 14f;
         const float LocalIdleCooldown = 24f;
 
+        public sealed override bool IsNotSaved => true;
+
         // === State
         BarkConfig _config;
         BarkConfig _wyrdConvertedConfig;
@@ -39,11 +41,11 @@ namespace Awaken.TG.Main.AI.Barks {
         float _lastNotImportantBark = float.MinValue;
         float _lastIdleBark = float.MinValue;
         Story _currentBark;
+        Action _passiveBarkAction;
 
         BarkConfig Config => _wyrdConvertedConfig != null && (Npc?.WyrdConverted ?? false) ? _wyrdConvertedConfig : _config;
         NpcElement Npc => ParentModel;
         Hero Hero => Hero.Current;
-        public sealed override bool IsNotSaved => true;
 
         protected override void OnInitialize() {
             _config = ParentModel.Actor.BarkConfig;
@@ -55,6 +57,8 @@ namespace Awaken.TG.Main.AI.Barks {
             if (HasBeenDiscarded || NpcElement.DEBUG_DoNotSpawnAI) {
                 return;
             }
+
+            _passiveBarkAction = PassiveBark;
             
             ParentModel.GetOrCreateTimeDependent().WithUpdate(UpdateBarks);
             Npc.ListenTo(NpcAI.Events.NpcStateChanged, OnStateChanged, this);
@@ -92,7 +96,7 @@ namespace Awaken.TG.Main.AI.Barks {
                 return;
             }
             _lastCheck = 0f;
-            Services.Get<MitigatedExecution>().Register(PassiveBark, this, MitigatedExecution.Cost.Light, MitigatedExecution.Priority.Low, RefreshDelay, true);
+            Services.Get<MitigatedExecution>().Register(_passiveBarkAction, this, MitigatedExecution.Cost.Light, MitigatedExecution.Priority.Low, RefreshDelay, true);
         }
 
         void PassiveBark() {
@@ -152,7 +156,7 @@ namespace Awaken.TG.Main.AI.Barks {
         }
         
         void OnDamageTaken(DamageOutcome outcome) {
-            if (outcome.Target is {IsDying: false} && outcome.Target is not NpcElement {IsUnconscious: true}) {
+            if (outcome.TargetPure is {IsDying: false} && outcome.TargetPure is not NpcElement {IsUnconscious: true}) {
                 TryBark(BarkBookmarks.CombatOnGetHit, BarkType.Important, RangeLong);
             }
         }

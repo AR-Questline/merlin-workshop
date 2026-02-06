@@ -27,8 +27,14 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
         
         protected override IEnumerable<IEventListener> Listeners(Skill skill, Flow flow) {
             var self = this.Skill(flow).Owner;
-            var pointer = flow.stack;
-            return Events.Select(evt => World.EventSystem.ListenTo(EventSelector.AnySource, evt, this.Skill(flow), status => TryPreformAction(status, self, pointer)));
+            var pointer = flow.stack.AsReference();
+            var events = Events.ToArray();
+            
+            for (uint i = 0; i < events.Length; i++) {
+                uint index = i;
+                yield return World.EventSystem.ListenTo(EventSelector.AnySource, events[i], this.Skill(flow),
+                    status => TryPreformAction(status, self, pointer, index));
+            }
         }
 
         IEnumerable<Event<CharacterStatuses, Status>> Events {
@@ -48,9 +54,9 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
             }
         }
          
-        void TryPreformAction(Status status, ICharacter self, GraphPointer pointer) {
+        void TryPreformAction(Status status, ICharacter self, GraphPointer pointer, uint id) {
             if (statusTemplate.GUID == status.Template.GUID && CorrectTarget(status, self)) {
-                Trigger(pointer);
+                Trigger(pointer, id);
             }
         }
 

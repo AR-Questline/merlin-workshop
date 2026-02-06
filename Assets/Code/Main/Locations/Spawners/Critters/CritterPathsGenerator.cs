@@ -54,7 +54,12 @@ namespace Awaken.TG.Main.Locations.Spawners.Critters {
                 var vectorPath = path.vectorPath;
                 if (vectorPath.Count > 0) {
                     vectorPath.RemoveAt(vectorPath.Count - 1);
-                    combinedPath.AddRange(vectorPath.Select(v => Ground.SnapToGround(v)));
+                    foreach (var v in vectorPath) {
+                        var point = Ground.SnapToGround(v);
+                        if (combinedPath.Count <= 0 || combinedPath[^1] != point) {
+                            combinedPath.Add(point);
+                        }
+                    }
                 }
             }
             return combinedPath.ToArray();

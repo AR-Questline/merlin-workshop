@@ -34,6 +34,10 @@ namespace Awaken.TG.Main.Heroes.Setup {
         public List<DamageReceivedMultiplierDataConfig> damageReceivedMultipliers = new ();
         public int baseStatusResistance;
         public int startTalentPoints;
+        public int startCatalystTalentPoints;
+        public int startSarrasMageTalentPoints;
+        public int startSarrasRogueTalentPoints;
+        public int startSarrasWarriorTalentPoints;
         public int startBaseStatPoints;
         [UnityEngine.Scripting.Preserve] public float trapDamageMultiplier = 0.5f;
         
@@ -118,6 +122,10 @@ namespace Awaken.TG.Main.Heroes.Setup {
 
         public int Level => startLevel;
         public int TalentPoints => startTalentPoints;
+        public int CatalystTalentPoints => startCatalystTalentPoints;
+        public int SarrasMageTalentPoints => startSarrasMageTalentPoints;
+        public int SarrasRogueTalentPoints => startSarrasRogueTalentPoints;
+        public int SarrasWarriorTalentPoints => startSarrasWarriorTalentPoints;
         public int BaseStatPoints => startBaseStatPoints;
         public int MaxStamina => maxStamina;
         public float StaminaRegen => heroControllerData.staminaRegenPerTick;

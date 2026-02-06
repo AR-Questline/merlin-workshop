@@ -66,7 +66,7 @@ namespace Awaken.TG.Main.Fights.Mounts {
         bool TryGetValidPrefab(out ARAssetReference prefab) {
             try {
                 if (templateRef?.IsSet ?? false) {
-                    prefab = Template.GetComponent<LocationSpec>().prefabReference;
+                    prefab = Template.GetComponent<LocationSpec>().PrefabReference;
                     if (prefab is { IsSet: true }) {
                         return true;
                     }

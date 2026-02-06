@@ -20,7 +20,7 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
 
         public int CollisionLod => collisionLod;
         
-        public LodOutput[] Create(List<TerrainToMesh.AssetToCreate> toCreate, TerrainData data, in TerrainToMesh.PersistenceInfo persistenceInfo) {
+        public LodOutput[] Create(List<TerrainToMesh.AssetToCreate> toCreate, TerrainData data, in TerrainToMesh.PersistenceInfo persistenceInfo, bool forBuild) {
             var size = data.size;
             var quadResolution = 1 << quadTreeDepth;
             var vertResolution = 2 * quadResolution + 1;
@@ -42,14 +42,21 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
 
             var horizontalPositionScale = size.x / (vertResolution - 1);
             var horizontalInterpolatedNormalScale = 1f / (vertResolution - 1);
-            var outputs = new LodOutput[lods.Length];
-            for (int i = 0; i < lods.Length; i++) {
-                var lodInput = lods[i];
-                var meshes = CreateMesh(quads, deviations, interpolatedHoles, quadResolution, horizontalPositionScale, horizontalInterpolatedNormalScale, data, lodInput);
-                for (int j = 0; j < meshes.Length; j++) {
-                    persistenceInfo.RequestMeshAssetCreation(toCreate, meshes[j], i, j);
+            LodOutput[] outputs;
+            if (forBuild) {
+                outputs = new LodOutput[lods.Length];
+                for (int i = 0; i < lods.Length; i++) {
+                    var lodInput = lods[i];
+                    var meshes = CreateMesh(quads, deviations, interpolatedHoles, quadResolution, horizontalPositionScale, horizontalInterpolatedNormalScale, data, lodInput);
+                    for (int j = 0; j < meshes.Length; j++) {
+                        persistenceInfo.RequestMeshAssetCreation(toCreate, meshes[j], i, j);
+                    }
+                    
+                    outputs[i] = new LodOutput(meshes, lodInput.screenRelativeTransitionHeight);
                 }
-                outputs[i] = new LodOutput(meshes, lodInput.screenRelativeTransitionHeight);
+            } else {
+                var meshes = CreateMesh(quads, deviations, interpolatedHoles, quadResolution, horizontalPositionScale, horizontalInterpolatedNormalScale, data, lods[0]);
+                outputs = new[] { new LodOutput(meshes, lods[0].screenRelativeTransitionHeight) };
             }
 
             quads.Dispose();
@@ -138,15 +145,17 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
             var rootQuadEnd = GetQuadCountByDepth(lodInput.finalSubdivision);
 
             var count = rootQuadEnd - rootQuadStart;
-            var meshes = new Mesh[count];
+            var meshes = new List<Mesh>((int) count);
             for (var i = rootQuadStart; i < rootQuadEnd; i++) {
                 var meshData = new MeshData(quadResolution);
                 FillMeshData(quads, deviations, holes, quadCount, lodInput.deviation, i, ref meshData);
-                meshes[i - rootQuadStart] = meshData.CreateMesh(data, horizontalVerticalScale, interpolatedScale);
+                if (meshData.IsValid) {
+                    meshes.Add(meshData.CreateMesh(data, horizontalVerticalScale, interpolatedScale));
+                }
                 meshData.Dispose();
             }
 
-            return meshes;
+            return meshes.ToArray();
         }
 
         [BurstCompile]
@@ -464,6 +473,8 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
             NativeList<VertexIndex> _meshVertices;
             
             NativeList<Triangle> _triangles;
+            
+            public bool IsValid => _meshVertices.Length >= 3 && _triangles.Length >= 1;
 
             public MeshData(int quadResolution) {
                 _spatialVertexResolution = quadResolution * 2 + 1;

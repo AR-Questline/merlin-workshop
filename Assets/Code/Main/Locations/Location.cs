@@ -24,7 +24,7 @@ using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Locations.Views;
 using Awaken.TG.Main.Memories;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Quests;
 using Awaken.TG.Main.Stories.Tags;
@@ -43,6 +43,7 @@ using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Maths;
 using JetBrains.Annotations;
+using MagicaCloth2;
 using Newtonsoft.Json;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace Awaken.TG.Main.Locations {
     /// Model that represents locations that can be entered and taken over by heroes.
     /// </summary>
     [Il2CppEagerStaticClassConstruction]
-    public sealed partial class Location : Model, ITagged, INamed, ICrimeSource, IInteractableWithHero, ICullingSystemRegistreeModel, IItemOwner, IQuest3DMarkerLocationTarget, IWithStats, IWithDomainMovedCallback, ITimeDependentDisabler {
+    public sealed partial class Location : Model, ITagged, INamed, ICrimeSource, IInteractableWithHero, ICullingSystemRegistreeModel, IItemOwner, IQuest3DMarkerLocationTarget, IWithStats, IWithDomainMovedCallback, ITimeDependentDisabler, IWithNewGamePlusLevel {
         public override ushort TypeForSerialization => SavedModels.Location;
 
         public static readonly Vector3 VectorZero = Vector3.zero;
@@ -87,6 +88,7 @@ namespace Awaken.TG.Main.Locations {
         public Vector3 SpecInitialPosition => _initializer.SpecInitialPosition;
         public Quaternion SpecInitialRotation => _initializer.SpecInitialRotation;
         [UnityEngine.Scripting.Preserve] public Vector3 SpecInitialScale => _initializer.SpecInitialScale;
+        public int NewGamePlusLevel => _initializer.OverridenNewGamePlusLevel != -1 ? _initializer.OverridenNewGamePlusLevel : NewGamePlusSystem.Level;
 
         public ARAssetReference OverridenLocationPrefab => _initializer.OverridenLocationPrefab;
 
@@ -97,6 +99,7 @@ namespace Awaken.TG.Main.Locations {
         Action<Transform> _afterVisualLoadedVS;
         Transform _visual;
         bool _isLoading;
+        bool _isLoadingSuspended;
         VLocation _locationView;
 
         // === Properties
@@ -131,7 +134,7 @@ namespace Awaken.TG.Main.Locations {
         LocString _specDisplayName;
         string _overridenName;
 
-        public ARAssetReference CurrentPrefab => OverridenLocationPrefab?.IsSet ?? false ? OverridenLocationPrefab : Spec.prefabReference;
+        public ARAssetReference CurrentPrefab => OverridenLocationPrefab?.IsSet ?? false ? OverridenLocationPrefab : Spec.PrefabReference;
 
         public bool IsStatic => CurrentPrefab is not { IsSet: true };
         public bool IsNonMovable => IsStatic || Spec.IsNonMovable || Spec.IsHidableStatic;
@@ -414,6 +417,26 @@ namespace Awaken.TG.Main.Locations {
                 Log.Critical?.Error($"Location {ID} visual failed to load without being in loading state!");
             }
         }
+        
+        public void ContinueVisualLoading() {
+            if (_isLoadingSuspended) {
+                _isLoadingSuspended = false;
+                LoadingStates.LoadingLocations++;
+                _isLoading = true;
+            } else {
+                Log.Critical?.Error($"Location {ID} visual loading continued without being suspended!");
+            }
+        }
+        
+        public void VisualLoadingSuspended() {
+            if (_isLoading) {
+                LoadingStates.LoadingLocations--;
+                _isLoading = false;
+                _isLoadingSuspended = true;
+            } else {
+                Log.Critical?.Error($"Location {ID} visual loading suspended without being in loading state!");
+            }
+        }
 
         public void DomainMoved(Domain newDomain) {
             ViewParent.SetParent(Services.Get<ViewHosting>().LocationsHost(newDomain));
@@ -532,26 +555,70 @@ namespace Awaken.TG.Main.Locations {
                 locationViewWithState.UpdateState();
             }
         }
+        
+        public void SetTemporaryScaleBasedInvisibility(bool state) {
+            if (state) {
+                // ViewParent.gameObject.AddComponent<MagicaClothPostopneInit>();
+                ViewParent.localScale = Vector3.one * 0.0001f;
+            } else {
+                ViewParent.localScale = SpecInitialScale;
+                // Object.Destroy(ViewParent.GetComponent<MagicaClothPostopneInit>());
+            }
+        }
 
         // === Attachment Groups
+        public bool TryDisableGroup(string groupName) {
+            if (!TryGetGroup(groupName, out _)) {
+                return false;
+            }
+            _attachmentTracker.DisableGroup(groupName);
+            return true;
+        }
+        
         public void DisableGroup(string groupName) {
             _attachmentTracker.DisableGroup(groupName);
         }
 
+        public bool TryEnableGroup(string groupName) {
+            if (!TryGetGroup(groupName, out var group)) {
+                return false;
+            }
+            _attachmentTracker.EnableGroup(group, group.GetAttachments());
+            return true;
+        }
+        
         public void EnableGroup(string groupName) {
-            IAttachmentGroup group = Spec.GetAttachmentGroups().FirstOrDefault(g => g.AttachGroupId == groupName);
-            if (group == null) {
+            if (!TryGetGroup(groupName, out var group)) {
                 Log.Important?.Error($"Invalid group name: {groupName}, it doesn't exist in Location {LogUtils.GetDebugName(this)}", Spec.gameObject);
                 return;
             }
             _attachmentTracker.EnableGroup(group, group.GetAttachments());
         }
 
+        bool TryGetGroup(string groupName, out IAttachmentGroup group) {
+            group = Spec.GetAttachmentGroups().FirstOrDefault(g => g.AttachGroupId == groupName);
+            return group != null;
+        }
+        
         // === Overridable variables
         public string GetOverridableName(string original) {
-            return Elements<ILocationNameModifier>().GetManagedEnumerator()
-                .OrderBy(mod => mod.ModificationOrder)
-                .Aggregate(original, (t, mod) => mod.ModifyName(t));
+            var result = original;
+            PooledList<ILocationNameModifier>.Get(out var pooledList);
+            using (pooledList) {
+                var modifiers = pooledList.value;
+
+                foreach (var modifier in Elements<ILocationNameModifier>().GetManagedEnumerator()) {
+                    modifiers.Add(modifier);
+                }
+
+                modifiers.Sort(static (a, b) => a.ModificationOrder.CompareTo(b.ModificationOrder));
+
+                for (var i = 0; i < modifiers.Count; i++) {
+                    result = modifiers[i].ModifyName(result);
+                }
+
+                return result;
+            }
         }
 
         // === ICullingSystem Registree

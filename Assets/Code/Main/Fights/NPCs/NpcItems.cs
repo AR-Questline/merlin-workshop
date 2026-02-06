@@ -6,14 +6,11 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Loadouts;
 using Awaken.TG.Main.Locations;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
-using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.Relations;
 using Awaken.TG.Utility.Attributes;
-using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Fights.NPCs {
     public sealed partial class NpcItems : Element<Location>, ICharacterInventory, ILoadout, IWithDomainMovedCallback {
@@ -44,8 +41,6 @@ namespace Awaken.TG.Main.Fights.NPCs {
             foreach (var slot in EquipmentSlotType.Loadouts) {
                 _loadoutCache[slot] = null;
             }
-
-            this.ListenTo(Events.AfterFullyInitialized, AfterInit, this);
         }
 
         protected override void OnRestore() {
@@ -55,12 +50,9 @@ namespace Awaken.TG.Main.Fights.NPCs {
             foreach (var slot in EquipmentSlotType.Loadouts) {
                 _loadoutCache[slot] = this.EquippedItem(slot);
             }
-            
-            this.ListenTo(Events.AfterFullyInitialized, AfterInit, this);
         }
 
-        void AfterInit() {
-            World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelDiscarded<Item>(), this, model => RemoveFromInventory((Item)model));
+        protected override void OnFullyInitialized() {
             this.ListenTo(ICharacterInventory.Relations.Contains.Events.Changed, TriggerChange, this);
             Owner.ListenTo(IItemOwner.Relations.Owns.Events.AfterDetached, OnItemDropped, this);
             Owner.ListenTo(Events.BeforeDiscarded, _ => DiscardAllOwnedItems(), this);

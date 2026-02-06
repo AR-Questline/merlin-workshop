@@ -8,12 +8,9 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.Factions;
-using Awaken.TG.Main.Fights.Factions.Markers;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Items;
-using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Views;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.Utility.Collections;
@@ -43,7 +40,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 return;
             }
             
-            if (receiver != null && healthElement != HealthElement && !AlreadyDealtDamageWithItem(item, healthElement)) {
+            if (receiver != null && healthElement != HealthElement) {
                 ref readonly var hitbox = ref healthElement.GetHitbox(colliderHit, out var hitboxExists);
 
                 if (hitboxExists && !hitbox.CanBeHit(item)) {
@@ -92,12 +89,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 return;
             }
             
-            // --- Real Target Hit
-            if (AlreadyDealtDamageWithItem(item, healthElement)) {
-                return;
-            }
             AddDamageDealtTo(item, healthElement);
-
             var eventData = new MagicGauntletData(ParentModel, receiver, item, attackParameters);
             ParentModel?.Trigger(ICharacter.Events.OnMagicGauntletHit, eventData);
         }
@@ -110,12 +102,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             location = Damage.DetermineTargetHit(colliderHit, out IAlive receiver, out HealthElement healthElement);
             returnHealthElement = healthElement;
             returnReceiver = receiver;
-            ICharacter hostileCheck = ParentModel.HasElement<NpcHeroSummon>() ? Hero.Current : ParentModel;
-            if (!ParentModel.CanDealDamageToFriendlies && ParentModel is NpcElement npc && receiver is ICharacter character &&
-                (!hostileCheck.IsHostileTo(character) || !npc.IsTargetedOrIsTargeting(character))) {
-                return false;
-            }
-            
+
             // --- Environment Hit
             if (healthElement == null) {
                 if (inEnviroHitRange) {
@@ -123,7 +110,17 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 }
                 return false;
             }
-
+            
+            if (AlreadyDealtDamageWithItem(item, healthElement)) {
+                return false;
+            }
+            
+            ICharacter hostileCheck = ParentModel.HasElement<NpcHeroSummon>() ? Hero.Current : ParentModel;
+            if (!ParentModel.CanDealDamageToFriendlies && ParentModel is NpcElement npc && receiver is ICharacter character &&
+                (!hostileCheck.IsHostileTo(character) || !npc.IsTargetedOrIsTargeting(character))) {
+                return false;
+            }
+            
             return true;
         }
 
@@ -142,14 +139,14 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 : SoundRange;
             if (receiver is IWithFaction withFaction) {
                 if (!attacker.IsBlinded && !withFaction.IsHostileTo(attacker)) {
-                    withFaction.TurnHostileTo(AntagonismLayer.Default, attacker);
+                    withFaction.ApplyCombatHostility(attacker);
                 }
                 AINoises.MakeNoise(noiseRange, NoiseStrength.VeryStrong, true, position, withFaction, attacker);
             } else {
                 AINoises.MakeNoise(noiseRange, NoiseStrength.VeryStrong, true, position, attacker);
             }
         }
-
+        
         void EnvironmentHit(bool calculateHitPoint, Collider colliderHit, RaycastHit hit, VLocation location, Item item, Vector3 direction, float ragdollForce) {
             Vector3 hitPoint = calculateHitPoint && colliderHit != null ? colliderHit.ClosestPointOnBounds(hit.point) : hit.point;
             Rigidbody rbHit = colliderHit != null ? colliderHit.GetComponentInParent<Rigidbody>() : null;

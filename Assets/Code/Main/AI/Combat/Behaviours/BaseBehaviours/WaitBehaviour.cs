@@ -41,6 +41,10 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
             }
             
             _waitDuration = waitTimeRange.RandomPick();
+            if (_waitDuration <= 0) {
+                return false;
+            }
+            
             ParentModel.NpcMovement.ChangeMainState(new NoMoveAndRotateTowardsTarget());
             ParentModel.SetAnimatorState(NpcStateType.Wait);
             return true;

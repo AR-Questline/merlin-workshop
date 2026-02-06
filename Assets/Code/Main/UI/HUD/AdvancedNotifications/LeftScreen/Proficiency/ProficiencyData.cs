@@ -6,6 +6,12 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Proficiency {
         public readonly string skillName;
         public readonly int newSkillLevel;
         public readonly ShareableSpriteReference proficiencyIcon;
+
+        public ProficiencyData(string skillName, int newSkillLevel, ShareableSpriteReference proficiencyIcon) {
+            this.skillName = skillName;
+            this.newSkillLevel = newSkillLevel;
+            this.proficiencyIcon = proficiencyIcon;
+        }
         
         public ProficiencyData(ProfStatType profStatType, int newSkillLevel) {
             this.skillName = profStatType.DisplayName;

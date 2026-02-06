@@ -79,7 +79,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_4df9154d2495193429c3d57513ec6a48
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: "Increases Physical Damage by 1\_% per missing Mana point."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 677d64fbde5de404ba9405fb76c07305
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -241,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-8815180424820680459
 MonoBehaviour:

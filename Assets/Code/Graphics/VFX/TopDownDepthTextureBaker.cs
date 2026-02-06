@@ -20,7 +20,6 @@ using UnityEngine.Rendering.HighDefinition;
 using Awaken.ECS.DrakeRenderer.Systems;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 #endif
 
 namespace Awaken.TG.Graphics.VFX {
@@ -39,7 +38,8 @@ namespace Awaken.TG.Graphics.VFX {
         [SerializeField, Required] GroundBounds groundBounds;
         [SerializeField] LayerMask cullingMask;
         [SerializeField] ComputeShader postProcessingShader;
-        [ShowInInspector] bool previewChunks;
+        [ShowInInspector] bool showDebugOptions;
+        [ShowInInspector, ShowIf(nameof(showDebugOptions))] bool previewChunks;
         [ShowInInspector, ShowIf(nameof(previewChunks))] int fontSize = 10;
 
         DepthCustomPass _depthCustomPass;
@@ -78,6 +78,7 @@ namespace Awaken.TG.Graphics.VFX {
                 _depthTexture.Create();
 
                 _customPassVolume = gameObject.AddComponent<CustomPassVolume>();
+                _customPassVolume.hideFlags = HideFlags.HideInInspector;
                 _depthCustomPass = _customPassVolume.AddPassOfType<DepthCustomPass>();
                 _depthCustomPass.depthTexture = _depthTexture;
                 _customPassVolume.runInEditMode = true;
@@ -97,8 +98,8 @@ namespace Awaken.TG.Graphics.VFX {
             TrySetGroundBounds();
         }
 
-        [Button]
-        unsafe void CreateTexture(int x, int y) {
+        [Button, ShowIf(nameof(showDebugOptions))]
+        unsafe void CreatePreviewTexture(int x, int y) {
             var path = TopDownDepthTexturesLoadingManager.GetTextureFullPath(gameObject.scene.name, new int2(x, y));
             var buffer = FileRead.ToNewBuffer<byte>(path, ARAlloc.Temp);
             var parameters = GameConstants.Get.depthTextureStreamingParams;
@@ -106,7 +107,7 @@ namespace Awaken.TG.Graphics.VFX {
             var texture = new Texture2D(textureSize, textureSize, TextureFormat.RFloat, 1, false, true);
             texture.LoadRawTextureData((IntPtr)buffer.Ptr, buffer.LengthInt);
             texture.Apply(false, false);
-            var textureDirectoryInAssets = Path.Combine(TopDownDepthTexturesLoadingManager.TexturesDirectoryInStreamingAssets, gameObject.scene.name);
+            var textureDirectoryInAssets = Path.Combine($"Preview_{TopDownDepthTexturesLoadingManager.TexturesDirectoryInStreamingAssets}", gameObject.scene.name);
             var textureDirectoryFull = Path.Combine(Application.dataPath, textureDirectoryInAssets);
             if (Directory.Exists(textureDirectoryFull) == false) {
                 Directory.CreateDirectory(textureDirectoryFull);
@@ -117,12 +118,12 @@ namespace Awaken.TG.Graphics.VFX {
             AssetDatabase.Refresh();
         }
 
-        [Button]
+        [Button, ShowIf(nameof(showDebugOptions))]
         void BakeLoadedScenes() {
             Bake(false, false).Forget();
         }
 
-        [Button]
+        [Button, ShowIf(nameof(showDebugOptions))]
         void LoadAndBake() {
             Bake(true, false).Forget();
         }
@@ -185,7 +186,7 @@ namespace Awaken.TG.Graphics.VFX {
             }
 
             AssetDatabase.SaveAssets();
-
+            AssetDatabase.Refresh();
             foreach (var lodGroup in FindObjectsByType<LODGroup>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)) {
                 lodGroup.ForceLOD(-1);
             }
@@ -195,7 +196,6 @@ namespace Awaken.TG.Graphics.VFX {
             if (prevMainCam != null) {
                 prevMainCam.enabled = true;
             }
-            
             Log.Debug?.Info("Completed wetness textures baking");
         }
 
@@ -330,7 +330,7 @@ namespace Awaken.TG.Graphics.VFX {
         static void SaveTextureToFile(Texture2D texture, string path) {
             var textureBytes = texture.GetRawTextureData<byte>();
             var fileStream = new FileStream(path, FileMode.OpenOrCreate);
-            fileStream.Write(textureBytes);
+            // fileStream.Write(textureBytes);
             fileStream.Dispose();
         }
 

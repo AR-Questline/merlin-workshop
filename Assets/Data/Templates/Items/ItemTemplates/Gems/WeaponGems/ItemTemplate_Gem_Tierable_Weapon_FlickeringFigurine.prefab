@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_8ef00e6eb51e3334b823cd8faf49e40a
-  EDITOR_bakedDescription: On Hit has a 20% chance to apply Haste.
+  EDITOR_bakedDescription: "On Hit has a 20\_% chance to apply Haste."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -86,7 +86,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_8ef00e6eb51e3334b823cd8faf49e40a
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -151,6 +151,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 06d55c9b967c25a49bfcc742dad79b68
       subObjectName: 
 --- !u!114 &2171448430345750879
@@ -170,6 +174,10 @@ MonoBehaviour:
       _guid: b9c6539825e72e047886d566b7b5b372
     variables:
     - name: Buildup
+      value: 0
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
       value: 0
     - name: Duration
       value: 0

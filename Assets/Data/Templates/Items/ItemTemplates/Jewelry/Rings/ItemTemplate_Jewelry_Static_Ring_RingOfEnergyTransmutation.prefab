@@ -155,6 +155,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 07a44180f330e5d4cbf448f7e40a4bc6
       subObjectName: 
 --- !u!114 &1382325995290807351
@@ -246,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -275,6 +282,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 30
     - name: GainValue
+      value: 3
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -292,7 +301,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 30
     - name: ValueGain
-      value: 0
+      value: 3
     - name: ValueCalculated
       value: 0
     enums:

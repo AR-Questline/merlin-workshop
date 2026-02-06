@@ -99,7 +99,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
             }
 
             var parentState = ParentModel.CurrentAnimatorState.CurrentState;
-            if (parentState != null && _currentState != null && (_currentState.Clip != null || _mixerState != null)) {
+            if (parentState is { IsValid: true } && _currentState is { IsValid: true } && (_currentState.Clip != null || _mixerState != null)) {
                 float synchronizeNormalizedTime = AnimancerUtils.SynchronizeNormalizedTime(parentState, deltaTime);
                 _currentState.SetNormalizedTimeWithEventsInvoke(synchronizeNormalizedTime);
             }
@@ -148,6 +148,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
             if (_isActive != isActive) {
                 _isActive = isActive;
                 if (!_isActive) {
+                    _overridenDesiredWeight = null;
                     SetDesiredLayerWeight(0, transitionSpeed);
                 } else {
                     _currentStateType = HeroStateType.Empty;
@@ -223,7 +224,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
             }
 
             float fadeDuration = overrideCrossFadeTime ?? ParentModel.CurrentAnimatorState.EntryTransitionDuration;
-            bool isMixer = node is MixerTransition2D;
+            bool isMixer = node is ManualMixerState.ITransition2D;
             _currentState = AnimancerLayer.Play(node, fadeDuration, isMixer ? default : FadeMode.FromStart);
             if (_currentState.HasEvents && _removeEvents) {
                 _currentState.Events = new AnimancerEvent.Sequence();

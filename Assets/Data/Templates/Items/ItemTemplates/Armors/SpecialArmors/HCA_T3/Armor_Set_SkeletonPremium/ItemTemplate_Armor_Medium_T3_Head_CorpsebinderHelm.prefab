@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_e0286ed67fc39354aa85569ee19418db
-  EDITOR_bakedDescription: Increases Ranged Damage by 10%.
+  EDITOR_bakedDescription: "Increases Ranged Damage by 15\_%.\nIncreases Ranged Critical
+    Chance by 15\_%.\nIncreases Max Stamina by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -273,6 +281,8 @@ MonoBehaviour:
       value: 0.15
     - name: GainValue
       value: 0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -289,7 +299,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.15
     - name: GainValue
-      value: 0.01
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -306,7 +318,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: GainValue
-      value: 0
+      value: 0.01
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated

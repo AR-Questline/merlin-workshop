@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6049495708473799734}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &376670009076176037
 MonoBehaviour:
@@ -44,12 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3242c537e42f44f68bfedca1553ca56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  templateType: 3
   _isAbstract: 0
   _abstractTypes: []
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
     notes: 
+  disableItemLevels: 0
+  itemCraftingDifficulty: 0
+  statRequirement:
+    _enumRef: 
+  statRequirementValue: 0
   ingredients:
   - templateReference:
       _guid: 75ad4bd4baf20274db98214f1cf6c0c8

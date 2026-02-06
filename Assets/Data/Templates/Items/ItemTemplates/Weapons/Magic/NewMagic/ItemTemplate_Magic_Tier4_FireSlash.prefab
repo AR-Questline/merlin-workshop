@@ -55,6 +55,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: fe3ad82b2b929a84cb2045f086d89a9d
+  - _guid: 5b8ff4dba6b2cce4595892af72058db8
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -158,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -263,10 +269,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 110
+      - name: NGBuildup
+        value: 160
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -311,10 +323,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 170
+      - name: NGBuildup
+        value: 240
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -359,10 +377,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 180
+      - name: NGBuildup
+        value: 250
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -411,6 +435,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 190
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 260
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -459,6 +487,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 220
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 300
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -524,7 +556,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 28
   maxDamage: 28
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -557,8 +589,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 56
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 84
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

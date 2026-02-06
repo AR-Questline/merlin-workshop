@@ -3,6 +3,7 @@ using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
+using Awaken.Utility.GameObjects;
 using UnityEngine;
 
 namespace Awaken.TG.Main.AI.Combat.CustomDeath {
@@ -22,14 +23,16 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath {
             if (_updated) {
                 return;
             }
-            UpdateDeathBehaviours(visualGO, GetOrCreateDeathController(visualGO));
+
+            var customDeathController = GetOrCreateDeathController(visualGO);
+            UpdateDeathBehaviours(customDeathController.gameObject, customDeathController);
             _updated = true;
         }
 
         protected abstract void UpdateDeathBehaviours(GameObject visualGO, CustomDeathController customDeathController);
         
         protected CustomDeathController GetOrCreateDeathController(GameObject visualGO) {
-            if (!visualGO.TryGetComponent(out CustomDeathController customDeathController) && RequireCustomDeathController) {
+            if (!visualGO.TryGetComponentInChildren(true, out CustomDeathController customDeathController) && RequireCustomDeathController) {
                 customDeathController = visualGO.AddComponent<CustomDeathController>();
             }
             return customDeathController;

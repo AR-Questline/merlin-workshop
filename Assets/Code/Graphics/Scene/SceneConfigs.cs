@@ -68,6 +68,23 @@ namespace Awaken.TG.Graphics.Scene {
         /// </summary>
         public bool IsOpenWorld(SceneReference sceneRef) => configs.FirstOrDefault(c => c.sceneName == sceneRef.Name)?.openWorld ?? false;
         public bool IsPrologue(SceneReference sceneRef) => configs.FirstOrDefault(c => c.sceneName == sceneRef.Name)?.prologue ?? false;
+        public SceneData GetSceneData(SceneReference sceneRef) {
+            var config = configs.FirstOrDefault(c => c.sceneName == sceneRef.Name);
+            if (config == null) {
+                Log.Important?.Error($"{sceneRef.Name} scene config not found!");
+                return default;
+            }
+            return new SceneData(config);
+        }
+        
+        public SceneConfig GetSceneConfig(SceneReference sceneRef) {
+            var config = configs.FirstOrDefault(c => c.sceneName == sceneRef.Name);
+            if (config == null) {
+                Log.Important?.Error($"{sceneRef.Name} scene config not found!");
+                return null;
+            }
+            return config;
+        }
         
 #if UNITY_EDITOR
         [Button, PropertyOrder(-1)]

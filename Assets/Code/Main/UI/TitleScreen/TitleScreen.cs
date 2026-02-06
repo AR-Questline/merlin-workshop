@@ -9,6 +9,7 @@ using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.UI.Bugs;
 using Awaken.TG.Main.UI.Popup;
+using Awaken.TG.Main.UI.TitleScreen.Expansion;
 using Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes;
 using Awaken.TG.Main.Utility.Patchers;
 using Awaken.TG.MVC;

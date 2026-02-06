@@ -55,6 +55,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 70542f872371398478d541b176cd91a2
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 4e1fddd5b7d0e324e99692b46e9e21d6
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -158,6 +160,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +220,10 @@ MonoBehaviour:
     - name: ProjectileCount
       value: 1
     - name: StatCost
+      value: 0
+    - name: StatCostGain
+      value: 0
+    - name: StatCostCalculated
       value: 0
     - name: Range
       value: 10
@@ -290,9 +300,15 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
+        value: 0
+      - name: NGBuildup
+        value: 80
+      - name: RangeForDescription
         value: 0
       enums: []
       datums:
@@ -359,7 +375,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 3
   maxDamage: 4
-  damageGain: 0
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -392,8 +408,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 5
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 7
+  heavyCastManaCostPerSecondGain: 1.5
   magicHeldSpeedMultiplier: 0.6
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

@@ -19,12 +19,12 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath.Conditions {
         }
         
         public bool Check(DamageOutcome damageOutcome, bool isValidationCheck) {
-            var target = damageOutcome.Target;
+            var target = damageOutcome.TargetPure;
             if (target is not NpcElement npc) return false;
             
             var forward = npc.Forward();
             if (checkAngleFromAttackerToTarget) {
-                var attacker = damageOutcome.Attacker;
+                var attacker = damageOutcome.AttackerPure;
                 if (attacker == null) return false;
                 float angleFromAttacker = Vector3.SignedAngle(forward, (npc.Coords - attacker.Coords).X0Z(), Vector3.up);
                 if (!IsValidAngle(angleFromAttacker)) return false;

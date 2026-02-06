@@ -77,8 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_e7512b95f88f94148988f04a463fab30
-  EDITOR_bakedDescription: On Block, deals 20% of your Armor as damage to attacking
-    enemies, and 75% on a successful Parry.
+  EDITOR_bakedDescription: "On Block, deals 20\_% of your Armor as damage to attacking
+    enemies, and 75\_% on a successful Parry."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -103,7 +103,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_e7512b95f88f94148988f04a463fab30
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,7 +128,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_e7512b95f88f94148988f04a463fab30
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fe8c0af7e2078eb4b97174bc93bae076
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -246,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5142660982929892319
 MonoBehaviour:
@@ -570,7 +577,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated

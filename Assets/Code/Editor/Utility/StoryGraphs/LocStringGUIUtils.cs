@@ -26,7 +26,7 @@ namespace Awaken.TG.Editor.Utility.StoryGraphs {
                 return valueData;
             }
             
-            data.textString = LocalizationHelper.Translate(text.ID, LocalizationHelper.SelectedLocale, true);
+            data.textString = LocalizationHelper.Translate(text.ID, true);
             
             // get correct string table
             data.stringCollection = LocalizationUtils.DetermineStringTable(serializedProperty, false);

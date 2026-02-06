@@ -6,9 +6,7 @@ using Awaken.TG.MVC;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.WyrdInfo {
-    public partial class WyrdInfoNotificationBuffer : AdvancedNotificationBuffer<WyrdInfoNotification> {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class WyrdInfoNotificationBuffer : AdvancedNotificationBufferPresenter<WyrdInfoNotification> {
         protected override VisualElement NotificationsParent => ParentModel.NotificationsContainerUI.WyrdInfoNotificationParent;
         protected override IEnumerable<Type> DependentBuffers {
             get {

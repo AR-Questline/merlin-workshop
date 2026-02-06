@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -14,6 +15,8 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.Parts {
         
         AlwaysPresentHandlers _alwaysPresentHandlers;
         
+        public bool IsValid => this.IsValidForUIHandle();
+
         protected override void OnInitialize() {
             multiOptions.Initialize(Target.NameOfValue(Target.SavedValue), Target.Decrease, Target.Increase);
             Target.CharacterCreator.ListenTo(CharacterCreator.Events.AppearanceChanged, _ => Refresh(), this);

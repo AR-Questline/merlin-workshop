@@ -25,14 +25,8 @@ namespace Awaken.TG.Main.UI.Components {
         
         AssetLoadingGate _loadingGate;
 
-        void OnEnable() {
-            _loadingGate = gameObject.GetOrAddComponent<AssetLoadingGate>();
-            _loadingGate.gateOnlyOnCreation = false;
-
-            if (_loadingGate.gate == null) {
-                _loadingGate.gate = gameObject.AddComponent<CanvasGroup>();
-            }
-            
+        void Start() {
+            SetupLoadingGate();
             _loadingGate.TryLock();
         }
 
@@ -43,6 +37,10 @@ namespace Awaken.TG.Main.UI.Components {
         }        
         
         public async UniTaskVoid FullAdjustWithCollectionRefresh(int maxRowCount, int maxColumnCount) {
+            if (_loadingGate == null) {
+                SetupLoadingGate();
+            }
+            
             if (_loadingGate.IsLocked == false) {
                 _loadingGate.TryLock();
             }
@@ -72,6 +70,15 @@ namespace Awaken.TG.Main.UI.Components {
             }
             
             SetupBackgroundSize();
+        }
+        
+        void SetupLoadingGate() {
+            _loadingGate = gameObject.GetOrAddComponent<AssetLoadingGate>();
+            _loadingGate.gateOnlyOnCreation = false;
+
+            if (_loadingGate.gate == null) {
+                _loadingGate.gate = gameObject.AddComponent<CanvasGroup>();
+            }
         }
 
         void CalculateDynamicSize(int maxRowCount, int maxColumnCount) {

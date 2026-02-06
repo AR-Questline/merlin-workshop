@@ -1,72 +1,119 @@
 using System.Linq;
 using Awaken.Utility.GameObjects;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
 namespace Awaken.TG.Graphics.DayNightSystem {
     public class WyrdNightCustomPassController : WyrdNightControllerBase {
-        [SerializeField]
-        string materialProperty = "_Alpha";
-        [SerializeField]
-        CustomPassType customPassType = CustomPassType.FullScreen;
-        
+        [SerializeField] string materialProperty = "_Intensity";
+        [SerializeField] CustomPassType customPassType = CustomPassType.WyrdEdge;
+        bool _createdLocalInstance;
+
         CustomPassVolume _customPassVolume;
-        Material _customPassMaterial;
         int _propertyID;
-        
+        Material _targetMaterialInstance;
+
         protected override void OnAwake() {
-            _customPassVolume = gameObject.GetComponent<CustomPassVolume>();
+            base.OnAwake();
+            _customPassVolume = GetComponent<CustomPassVolume>();
 
             if (_customPassVolume == null) {
-                Debug.LogError("No CustomPassVolume component found on " + gameObject.HierarchyPath());
+                Debug.LogError($"No CustomPassVolume component found on {gameObject.name}" + gameObject.HierarchyPath());
                 enabled = false;
                 return;
             }
-
-            switch (customPassType) {
-                case CustomPassType.FullScreen: {
-                    var fullScreenCustomPass = _customPassVolume.customPasses.OfType<FullScreenCustomPass>().FirstOrDefault();
-                    if (fullScreenCustomPass != null) {
-                        _customPassMaterial = fullScreenCustomPass.fullscreenPassMaterial;
-                    } else {
-                        Debug.LogError("FullScreenCustomPass not found in CustomPassVolume custom passes.");
-                    }
-                    break;
-                }
-                case CustomPassType.WyrdEdge: {
-                    var wyrdNightEdgeCustomPass = _customPassVolume.customPasses.OfType<HeroWyrdNightEdge>().FirstOrDefault();
-                    if (wyrdNightEdgeCustomPass != null) {
-                        _customPassMaterial = wyrdNightEdgeCustomPass.fullScreenMaterial;
-                    } else {
-                        Debug.LogError("HeroWyrdNightEdge not found in CustomPassVolume custom passes.");
-                    }
-                    break;
-                }
-            }
-
-            if (_customPassMaterial == null) {
-                Debug.LogError("No material found for custom pass on " + gameObject.HierarchyPath());
-                enabled = false;
-                return;
-            }
-            _propertyID = Shader.PropertyToID(materialProperty);
             
-            if (!_customPassMaterial.HasProperty(_propertyID)) {
-                Debug.LogError("Material does not have property " + materialProperty + " on " + gameObject.HierarchyPath());
+            if (!TryGetTargetMaterial())
+                return;
+
+            ApplyEffect(EnabledValue);
+        }
+
+        bool TryGetTargetMaterial() {
+            switch (customPassType) {
+                case CustomPassType.FullScreen:
+                    HandleFullScreenPass();
+                    break;
+
+                case CustomPassType.WyrdEdge:
+                    HandleWyrdEdgePass();
+                    break;
+            }
+            
+            if (_targetMaterialInstance is null) {
+                Debug.LogError($"Failed to initialize material instance on {gameObject.name}." + gameObject.HierarchyPath());
                 enabled = false;
+                return false;
+            }
+
+            _propertyID = Shader.PropertyToID(materialProperty);
+
+            if (!_targetMaterialInstance.HasProperty(_propertyID)) {
+                Debug.LogError($"Material instance does not have property '{materialProperty}' on {gameObject.name}.");
+                enabled = false;
+                return false;
+            }
+            return true;
+        }
+
+        protected override void OnEnable() {
+            base.OnEnable();
+            if (_customPassVolume != null && _targetMaterialInstance == null) {
+                if (TryGetTargetMaterial()) {
+                    ApplyEffect(CurrentValue);
+                }
+            }
+        }
+
+        protected override void OnDestroy() {
+            if (_createdLocalInstance && _targetMaterialInstance != null) {
+                CoreUtils.Destroy(_targetMaterialInstance);
+            }
+            base.OnDestroy();
+        }
+
+        void HandleFullScreenPass() {
+            FullScreenCustomPass fullScreenPass =
+                _customPassVolume.customPasses.OfType<FullScreenCustomPass>().FirstOrDefault();
+
+            if (fullScreenPass == null || fullScreenPass.fullscreenPassMaterial == null) {
+                Debug.LogError("FullScreenCustomPass or its material not found." + gameObject.HierarchyPath());
                 return;
             }
-            ApplyEffect(EnabledValue);
+            
+            _targetMaterialInstance = new Material(fullScreenPass.fullscreenPassMaterial);
+            _targetMaterialInstance.name = $"{fullScreenPass.fullscreenPassMaterial.name}_Instance";
+
+            fullScreenPass.fullscreenPassMaterial = _targetMaterialInstance;
+            _createdLocalInstance = true;
+        }
+
+        void HandleWyrdEdgePass() {
+            HeroWyrdNightEdge wyrdPass = _customPassVolume.customPasses.OfType<HeroWyrdNightEdge>().FirstOrDefault();
+
+            if (wyrdPass == null) {
+                Debug.LogError("HeroWyrdNightEdge pass not found in CustomPassVolume." + gameObject.HierarchyPath());
+                return;
+            }
+
+            if (wyrdPass.sourceMaterial == null) {
+                Debug.LogError("HeroWyrdNightEdge: 'sourceMaterial' is not assigned in Custom Pass Inspector!" + gameObject.HierarchyPath());
+                return;
+            }
+            
+            _targetMaterialInstance = wyrdPass.GetRuntimeMaterial();
+            _createdLocalInstance = false; 
         }
 
         protected override void ApplyEffect(float value) {
             if (!Application.isPlaying) return;
-            _customPassMaterial.SetFloat(_propertyID, value);
+            _targetMaterialInstance.SetFloat(_propertyID, value);
         }
-
-        enum CustomPassType : byte {
-            FullScreen,
-            WyrdEdge,
-        }
+    }
+    
+    public enum CustomPassType : byte {
+        FullScreen,
+        WyrdEdge
     }
 }

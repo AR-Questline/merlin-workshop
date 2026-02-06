@@ -6,20 +6,25 @@ namespace Awaken.TG.Main.Skills.Units {
     [UnitCategory("AR/Skills")]
     [TypeIcon(typeof(FlowGraph))]
     public class GetSkillItemUnit : Unit, ISkillUnit {
+        [Serialize, Inspectable, UnitHeaderInspectable]
+        public GetterType type;
+        
         protected override void Definition() {
             ValueOutput("item", Item);
         }
 
         Item Item(Flow flow) {
-            return GetSkillItem(flow, this);
+            return GetSkillItem(flow, this, type == GetterType.Required);
         }
         
-        public static Item GetSkillItem(Flow flow, ISkillUnit skillUnit) {
+        public static Item GetSkillItem(Flow flow, ISkillUnit skillUnit, bool logIfNull = true) {
             var skill = skillUnit.Skill(flow);
             if (skill?.ParentModel is IItemSkillOwner itemSkillOwner) {
                 return itemSkillOwner.Item;
             } else {
-                Log.Important?.Error($"{skill} is not item's skill", skill.Graph);
+                if (logIfNull) {
+                    Log.Important?.Error($"{skill} is not item's skill", skill?.Graph);
+                }
                 return null;
             }
         }

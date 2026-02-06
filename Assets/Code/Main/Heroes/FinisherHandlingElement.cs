@@ -143,7 +143,7 @@ namespace Awaken.TG.Main.Heroes {
         }
 
         public DamageOutcome FakeDmgOutcome(Damage damage, float enemyHp) {
-            return new DamageOutcome(damage, ParentModel.Coords, new DamageModifiersInfo(0, 0, 0, 0, true), enemyHp);
+            return new DamageOutcome(damage, ParentModel.Coords, new DamageModifiersInfo(false, 0, false, 0, false, 0, false, 0, true), enemyHp);
         }
         
         public enum FinisherTrigger {

@@ -62,6 +62,7 @@ MonoBehaviour:
   tags: []
   startInteractabilityReference:
     _enumRef: 
+  conditionalPrefabReferences: []
   prefabReference:
     address: d820785f7c7fec643bbb3a6ed5a08685
     subObjectName: 
@@ -107,6 +108,7 @@ MonoBehaviour:
     guid: 
   storyOnDeath:
     _guid: 
+  conditionalVisualPrefabs: []
   visualPrefab:
     address: f6a7846ed8a93f644887a70df3f4e468
     subObjectName: 
@@ -133,7 +135,7 @@ MonoBehaviour:
       subObjectName: 
   npcIcon:
     arSpriteReference:
-      address: f1db039257cc592439f834e27fc81ba4
+      address: 4971df261d3adc1409423bdb488063b2
       subObjectName: 
   renderIcon:
     arSpriteReference:
@@ -188,6 +190,12 @@ MonoBehaviour:
     oneShots: []
   template:
     _guid: 
+  fallbackInteractionData:
+    type: 0
+    range: 0
+    waitTime:
+      min: 0.5
+      max: 1.5
 --- !u!114 &8935895907442220753
 MonoBehaviour:
   m_ObjectHideFlags: 0

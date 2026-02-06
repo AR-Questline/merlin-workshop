@@ -23,10 +23,15 @@ namespace Awaken.TG.Main.Animations.IK {
             }
             
             for (uint index = 0; index < _spineTransforms.Length; index++) {
-                if (!_spineData[index].isActive) {
+                float baseWeight = _spineData[index].baseWeight * _generalData->ikStrength;
+                if (baseWeight <= 0) {
                     continue;
                 }
-                Solve(stream, _spineTransforms[index], _spineData[index].weightX, _spineData[index].weightY, _spineData[index].weightZ);
+
+                Solve(stream, _spineTransforms[index],
+                    _spineData[index].weightX * baseWeight,
+                    _spineData[index].weightY * baseWeight,
+                    _spineData[index].weightZ * baseWeight);
             }
         }
         

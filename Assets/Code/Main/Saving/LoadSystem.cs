@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
+using System.Text;
 using Awaken.TG.Main.Saving.Cloud.Services;
 using Awaken.TG.Main.Saving.SaveSlots;
 using Awaken.TG.Main.UI.Bugs;
@@ -22,6 +23,8 @@ using Debug = UnityEngine.Debug;
 
 namespace Awaken.TG.Main.Saving {
     public class LoadSystem {
+        public const string UncompressedFileSuffix = "_uncompressed";
+        
         public static bool IsLoadingDifferentVersion => LoadSave.Get.LoadSystem._versionString != Application.version;
         static readonly UniversalProfilerMarker LoadToWorldMarker = new UniversalProfilerMarker(LoadSave.LoadSaveProfilerColor, "LoadSystem.LoadToWorld");
         static readonly UniversalProfilerMarker LoadModelDefinitionsMarker = new UniversalProfilerMarker(LoadSave.LoadSaveProfilerColor, "LoadSystem.LoadModelDefinitions");
@@ -46,7 +49,7 @@ namespace Awaken.TG.Main.Saving {
             }
         }
 
-        public void Deserialize(Domain domain, Stream stream) {
+        public void Deserialize(Domain domain, Stream stream, out List<Model> models) {
             using var restoringScope = new RestoringScope(this);
             using var loadToWorldMarker = LoadToWorldMarker.Auto();
             
@@ -61,8 +64,73 @@ namespace Awaken.TG.Main.Saving {
                 Log.Marking?.Warning($"Loading save '{domain.Name}' from version '{_versionString}'");
             }
 
-            var models = new List<Model>(1024);
+            models = new List<Model>(1024);
+            
+            LoadModelDefinitions(saveReader, models, context);
+            LoadServices(saveReader, Patcher, version);
+            LoadModelContents(saveReader, models, Patcher, version, context);
+            RestoreWorld(models, domain);
 
+            Patcher.AfterRestorePatch(version);
+            restoringScope.MarkProperlyRestored();
+        }
+
+        public void DeserializeNewGamePlusCache(Stream stream, Domain domain) {
+            using var restoringScope = new RestoringScope(this);
+            using var loadToWorldMarker = LoadToWorldMarker.Auto();
+            
+            var context = new SaveReaderContext {
+                deserializedModels = new Dictionary<string, Model>(1024),
+            };
+            using var saveReader = new SaveReader(stream, context);
+
+            var models = new List<Model>(1024);
+            
+            LoadModelDefinitions(saveReader, models, context);
+            LoadServices(saveReader, null, null);
+            LoadModelContents(saveReader, models, null, null, context);
+            RestoreWorld(models, domain);
+            
+            restoringScope.MarkProperlyRestored();
+        }
+        
+        public void DeserializeWithoutRestore(Domain domain, Stream stream, Action<Model> modelAction, Action<SerializedService> serviceAction) {
+            using var restoringScope = new RestoringScope(this);
+            using var loadToWorldMarker = LoadToWorldMarker.Auto();
+            
+            var context = new SaveReaderContext {
+                deserializedModels = new Dictionary<string, Model>(1024),
+            };
+            using var saveReader = new SaveReader(stream, context);
+            
+            saveReader.ReadAscii(out _versionString);
+            var version = new Version(_versionString);
+            if (_versionString != Application.version) {
+                Log.Marking?.Warning($"Loading save '{domain.Name}' from version '{_versionString}'");
+            }
+            
+            var models = new List<Model>(1024);
+            var services = new List<SerializedService>(64);
+            
+            LoadModelDefinitions(saveReader, models, context);
+            LoadAndGetServices(saveReader, services, Patcher, version);
+            foreach (var service in services) {
+                serviceAction?.Invoke(service);
+            }
+            LoadModelContents(saveReader, models, Patcher, version, context);
+            foreach (var model in models) {
+                modelAction?.Invoke(model);
+            }
+
+            foreach (var model in models) {
+                World.EventSystem.RemoveAllListenersOwnedBy(model, true);
+                World.EventSystem.RemoveAllListenersTiedTo(model, true);
+            }
+            
+            restoringScope.MarkProperlyRestored();
+        }
+
+        static void LoadModelDefinitions(SaveReader saveReader, List<Model> models, SaveReaderContext context) {
             using (LoadModelDefinitionsMarker.Auto()) {
                 while (saveReader.TryReadValidType(out var type)) {
                     saveReader.ReadAscii(out var id);
@@ -76,23 +144,48 @@ namespace Awaken.TG.Main.Saving {
                     context.deserializedModels[id] = model;
                 }
             }
+        }
 
+        static void LoadServices(SaveReader saveReader, [CanBeNull] PatcherService patcher, [CanBeNull] Version version) {
             using (LoadServicesMarker.Auto()) {
                 while (saveReader.TryReadValidType(out var type)) {
                     var service = ServiceTyper.CreateForDeserialization(type);
                     if (service == null) {
-                       saveReader.ReadToEnd();
-                       continue;
+                        saveReader.ReadToEnd();
+                        continue;
                     }
                     saveReader.ReadStart();
                     while (saveReader.TryReadName(out var name)) {
                         service.Deserialize(name, saveReader);
                         saveReader.ReadToSeparator();
                     }
+                    patcher?.AfterDeserializedService(version, service);
                     service.OnAfterDeserialize();
                 }
             }
+        }
+        
+        static void LoadAndGetServices(SaveReader saveReader, List<SerializedService> services, [CanBeNull] PatcherService patcher, [CanBeNull] Version version) {
+            using (LoadServicesMarker.Auto()) {
+                while (saveReader.TryReadValidType(out var type)) {
+                    var service = ServiceTyper.CreateForDeserialization(type);
+                    if (service == null) {
+                        saveReader.ReadToEnd();
+                        continue;
+                    }
+                    services.Add(service);
+                    saveReader.ReadStart();
+                    while (saveReader.TryReadName(out var name)) {
+                        service.Deserialize(name, saveReader);
+                        saveReader.ReadToSeparator();
+                    }
+                    patcher?.AfterDeserializedService(version, service);
+                    service.OnAfterDeserialize();
+                }
+            }
+        }
 
+        static void LoadModelContents(SaveReader saveReader, List<Model> models, [CanBeNull] PatcherService patcher, [CanBeNull] Version version, SaveReaderContext context) {
             using (LoadModelContentsMarker.Auto()) {
                 for (int i = 0; i < models.Count; i++) {
                     var model = models[i];
@@ -102,13 +195,13 @@ namespace Awaken.TG.Main.Saving {
                         models.RemoveAt(i--);
                         continue;
                     }
-                    Patcher.BeforeDeserializedModel(version, model);
+                    patcher?.BeforeDeserializedModel(version, model);
                     while (saveReader.TryReadName(out var name)) {
                         model.Deserialize(name, saveReader);
                         saveReader.ReadToSeparator();
                     }
                     
-                    if (Patcher.AfterDeserializedModel(version, model) == false) {
+                    if (patcher?.AfterDeserializedModel(version, model) == false) {
                         model.DeserializationFailed();
                         models.RemoveAt(i--);
                         context.deserializedModels.Remove(model.ID);
@@ -128,7 +221,9 @@ namespace Awaken.TG.Main.Saving {
                 
                 RemoveInvalidModels(models);
             }
+        }
 
+        static void RestoreWorld(List<Model> models, Domain domain) {
             using (RestoreWorldMarker.Auto()) {
                 try {
                     foreach (var model in models) {
@@ -200,23 +295,21 @@ namespace Awaken.TG.Main.Saving {
                     throw;
                 }
             }
-            
-            Patcher.AfterRestorePatch(version);
-            restoringScope.MarkProperlyRestored();
         }
 
         static void RemoveInvalidModels(List<Model> models) {
             bool anyRemoved = true;
+            var sb = new StringBuilder();
             while (anyRemoved) {
                 anyRemoved = false;
                 for (int i = 0; i < models.Count; i++) {
                     var model = models[i];
                     bool isValid = true;
                     if (model.IsValidAfterLoad() == false) {
-                        Log.Important?.Error($"Disposed mutilated model {LogUtils.GetDebugName(model)}");
+                        sb.Append($"Disposed mutilated model ").AppendLine(LogUtils.GetDebugName(model));
                         isValid = false;
                     } else if (model is Element { GenericParentModel: null or { WasDiscarded: true } }) {
-                        Log.Important?.Error($"Disposed orphaned element {LogUtils.GetDebugName(model)}");
+                        sb.Append("Disposed orphaned element ").AppendLine(LogUtils.GetDebugName(model));
                         isValid = false;
                     }
 
@@ -227,13 +320,16 @@ namespace Awaken.TG.Main.Saving {
                     }
                 }
             }
+            if (sb.Length > 0) {
+                Log.Important?.Error(sb.ToString(), logOption: LogOption.NoStacktrace);
+            }
         }
 
         // === Helpers
         public static bool TryLoadSingleMetaDataFromFile(string path, string fileName, out Stream stream) {
 #if UNITY_EDITOR
             try {
-                var uncompressedName = fileName + "_uncompressed";
+                var uncompressedName = fileName + UncompressedFileSuffix;
                 byte[] uncompressedData;
                 bool resultUncompressed = CloudService.Get.TryLoadSingleFile(path, uncompressedName, out uncompressedData);
                 if (resultUncompressed) {
@@ -251,10 +347,10 @@ namespace Awaken.TG.Main.Saving {
             return result;
         }
 
-        public static bool TryLoadCompressedSaveDataFromFile(string path, string fileName, out byte[] compressedSaveData) {
+        static bool TryLoadCompressedSaveDataFromFile(string path, string fileName, out byte[] compressedSaveData) {
 #if UNITY_EDITOR
             try {
-                var uncompressedName = fileName + "_uncompressed";
+                var uncompressedName = fileName + UncompressedFileSuffix;
                 byte[] uncompressedData;
                 bool resultUncompressed = CloudService.Get.TryLoadSaveSlotFile(path, uncompressedName, out uncompressedData);
 
@@ -282,7 +378,7 @@ namespace Awaken.TG.Main.Saving {
             string fileName = domain.SaveName;
             return TryLoadCompressedSaveDataFromFile(path, fileName, out compressedData);
         }
-
+        
         struct RestoringScope : IDisposable {
             readonly LoadSystem _loadSystem;
             bool _properlyRestored;
@@ -306,5 +402,11 @@ namespace Awaken.TG.Main.Saving {
                 _loadSystem._afterGameRestored = null;
             }
         }
+        
+#if UNITY_EDITOR
+        public static bool EDITOR_TryLoadCompressedSaveDataFromFile(string path, string fileName, out byte[] compressedSaveData) {
+            return TryLoadCompressedSaveDataFromFile(path, fileName, out compressedSaveData);
+        }
+#endif
     }
 }

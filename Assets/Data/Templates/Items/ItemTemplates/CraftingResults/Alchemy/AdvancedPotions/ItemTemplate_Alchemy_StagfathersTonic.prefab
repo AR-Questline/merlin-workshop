@@ -74,8 +74,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_eebf3b56fa783d44398471d9a64b31bb
-  EDITOR_bakedDescription: Decreases stamina usage when drawing a Bow by 90% for
-    60s.
+  EDITOR_bakedDescription: "Decreases stamina usage when drawing a Bow by 90\_% for
+    60s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

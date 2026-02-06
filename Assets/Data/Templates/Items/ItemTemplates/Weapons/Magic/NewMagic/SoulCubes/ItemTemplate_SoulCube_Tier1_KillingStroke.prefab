@@ -81,10 +81,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_9af59beb6382e6e44885715b054c121e
-  EDITOR_bakedDescription: 'Charged by killing.
-
-    Increases the damage of the
-    next attack by 100%.'
+  EDITOR_bakedDescription: "Charged by killing 0/5.\nIncreases the Damage of the
+    next attack by 100\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 0985c443200ab8a49868fa3143c196c6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -312,8 +314,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

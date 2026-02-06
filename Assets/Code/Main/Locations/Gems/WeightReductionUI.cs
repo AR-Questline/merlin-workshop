@@ -25,6 +25,8 @@ namespace Awaken.TG.Main.Locations.Gems {
                 return (int)((1 - Hero.HeroStats.UpgradeDiscount.ModifiedValue) * price);
             }
         }
+
+        protected override string UpgradedInfo => LocTerms.ItemWeightReducedInfo.Translate();
         protected override ItemUpgradeConfigData ItemUpgradeConfigConfig => ClickedItem != null ? GetWeightReductionConfig(ClickedItem) : null;
         protected override int CostMultiplier => Mathf.Max(_upgradedItem?.WeightLevel.ModifiedInt ?? 1, 1);
         protected override Type TooltipType => typeof(VWeightReductionTooltipSystemUI);
@@ -52,11 +54,12 @@ namespace Awaken.TG.Main.Locations.Gems {
             
             ReequipIfNecessary();
             Refresh();
+            TriggerAfterUpgradedEvent();
         }
 
         protected override void CreateUpgradedItemPreview(Item item) {
             _upgradedItem?.Discard();
-            _upgradedItem = World.Add(new Item(item.Template, 1, item.Level.ModifiedInt));
+            _upgradedItem = World.Add(new Item(item.Template, 1, item.Level.ModifiedInt, item.WeightLevel.ModifiedInt, item.NewGamePlusLevel));
             ItemUtils.CopyItemStats(item, _upgradedItem);
             _upgradedItem.WeightLevel.IncreaseBy(1);
         }

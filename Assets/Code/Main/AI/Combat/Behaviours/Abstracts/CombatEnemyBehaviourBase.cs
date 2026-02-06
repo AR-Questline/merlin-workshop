@@ -1,7 +1,10 @@
 ﻿using System;
+using Awaken.TG.Main.AI.Combat.Attachments;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes.Combat;
+using Awaken.TG.MVC;
+using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -52,6 +55,10 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
         public virtual float MaxDistance => maxDistance;
         public bool InRange => (IgnoreBaseConditions || ParentModel.DistanceToTarget >= MinDistance) && ParentModel.DistanceToTarget <= MaxDistance;
 
+        public new static class Events {
+            public static readonly Event<EnemyBaseClass, CombatEnemyBehaviourBase> CombatBehaviourExited = new(nameof(CombatBehaviourExited));
+        }
+        
         public override bool UseConditionsEnsured() {
             var target = ParentModel.NpcElement.GetCurrentTarget();
             if (target == null) {
@@ -73,6 +80,10 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
             }
 
             return CanBeUsed;
+        }
+
+        protected override void BehaviourExit() {
+            ParentModel.Trigger(Events.CombatBehaviourExited, this);
         }
         
         // Editor

@@ -1,10 +1,11 @@
 ﻿using System;
 
 namespace Awaken.TG.MVC.Events {
-    public class EventListener<T> : IEventListener {
+    public class EventListener<T> : IEventListener<T> {
         public IListenerOwner Owner { get; }
         public EventSelector Selector { get; }
         public bool IsModal { get; }
+        public bool ShouldBeDisposed => false;
 
         readonly Action<T> _callback;
 
@@ -17,6 +18,10 @@ namespace Awaken.TG.MVC.Events {
 
         public void InvokeWith(object payload) {
             _callback((T) payload);
+        }
+
+        public void InvokeWith(T payload) {
+            _callback(payload);
         }
     }
 }

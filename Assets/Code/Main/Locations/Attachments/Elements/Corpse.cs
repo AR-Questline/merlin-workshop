@@ -123,7 +123,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             ICharacter killer = _killer.Get();
             // If player killed someone and he was by default NOT Hostile to hero, then it's a crime
             if (killer is Hero && !Faction.IsHostileTo(killer.Faction)) {
-                Crime crime = Crime.Murder(this);
+                using var crime = Crime.Murder(this);
                 if (!crime.TryCommitCrime()) {
                     HeroCrimeWithProlong.ProlongHeroMurder(crime, this, new TimeDuration(120));
                 }

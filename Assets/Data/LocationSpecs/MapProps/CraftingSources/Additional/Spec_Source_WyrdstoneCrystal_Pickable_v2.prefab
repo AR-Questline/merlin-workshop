@@ -82,8 +82,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   healthRegen: 0
-  discardOnDeath: 0
-  discardDelayInSeconds: 0
+  discardOnDeath: 1
+  discardDelayInSeconds: 0.1
   armorMultiplier: 1
   armor: 0
   forceModifier: 1
@@ -98,6 +98,11 @@ MonoBehaviour:
     arReference:
       address: 6c5826996632d364ca37b34b531ff1e7
       subObjectName: 
+  storyOnDeath:
+    story:
+      _guid: 
+    chapterName: 
+  damageReceivedMultipliers: []
 --- !u!114 &8287704918991770089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +175,89 @@ MonoBehaviour:
           Data3: -1416922209
           Data4: 147564301
         Path: event:/SFX/Weapon/SFX_Mining_Stone_Destroy
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+  usesExplicitWyrdConvertedAudio: 0
+  wyrdConvertedAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
       attack:
         Guid:
           Data1: 0

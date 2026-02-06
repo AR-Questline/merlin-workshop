@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.Utility.Maths {
@@ -7,6 +8,10 @@ namespace Awaken.Utility.Maths {
         public static Color WithAlpha(this Color color, float alpha) {
             color.a = alpha;
             return color;
+        }
+        
+        public static Color WithAlpha(this ARColor arColor, float alpha) {
+            return arColor.Color.WithAlpha(alpha);
         }
 
         public static Color MoveTowards(this Color color, Color other, float t) {
@@ -42,6 +47,14 @@ namespace Awaken.Utility.Maths {
 
         public static string ToHex(this Color color) {
             return $"#{(int)(color.r*255):X2}{(int)(color.g*255):X2}{(int)(color.b*255):X2}";
+        }
+        
+        public static float4 ToFloat4(this Color color) {
+            return new float4(color.r, color.g, color.b, color.a);
+        }
+
+        public static Color FromFloat4(float4 value) {
+            return new Color(value.x, value.y, value.z, value.w);
         }
     }
 }

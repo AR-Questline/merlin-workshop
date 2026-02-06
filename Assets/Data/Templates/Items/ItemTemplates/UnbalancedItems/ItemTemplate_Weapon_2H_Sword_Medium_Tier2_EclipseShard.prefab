@@ -55,6 +55,7 @@ MonoBehaviour:
   - _guid: fb3f705c21071314b8d3a9fa554e0ed3
   - _guid: ac284bdd722762346b747bef5ac29b16
   - _guid: a578a70e36e9f944ebf3ade0c0c3db69
+  - _guid: aa2bc01c92b5e4b44ad9343f0c682e70
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -158,6 +159,10 @@ MonoBehaviour:
     arReference:
       address: 16f448fb20397834085db59a2e22c52c
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3928066138883821743
 MonoBehaviour:
@@ -568,7 +576,12 @@ MonoBehaviour:
     enums: []
     datums: []
     templates: []
-    assetReferences: []
+    assetReferences:
+    - name: WeaponVFX
+      assetReference:
+        arReference:
+          address: 60f471b1f4b4b8e4c95e7adf9284b493
+          subObjectName: 
 --- !u!114 &-244761309814951603
 MonoBehaviour:
   m_ObjectHideFlags: 0

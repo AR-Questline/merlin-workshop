@@ -42,6 +42,7 @@ namespace Awaken.TG.Editor.Utility {
             PlayerSettingsPS5.psvr2DetailedGazeTrackingStatusEnabled = false;
             PlayerSettingsPS5.psvr2SeeThroughEnabled = false;
             PlayerSettingsPS5.psvr2HandTrackingEnabled = false;
+            PlayerSettingsPS5.highCPUFrequency = true;
             
             //Build Options
             PlayerSettingsPS5.buildSubtarget = PS5BuildSubtarget.GP5Project;
@@ -91,7 +92,7 @@ namespace Awaken.TG.Editor.Utility {
             } else {
                 PlayerSettingsPS5.passcode = "LqZZmaSAak81uFlUKlpxtv9yfx0n9P1H";
                 PlayerSettingsPS5.paramFilePath = "ProjectSettings/param.json";
-                PlayerSettingsPS5.npConfigZipPath = "ProjectSettings/npconfig_PPSA19411_00_Cert_20250424133401.zip";
+                PlayerSettingsPS5.npConfigZipPath = "ProjectSettings/npconfig_PPSA19411_00_sarras_20251126194226.zip";
             }
 #endif
         }
@@ -104,10 +105,10 @@ namespace Awaken.TG.Editor.Utility {
         }
 
         [MenuItem("TG/Build/Create PS5 Package/For submission")]
-        static void CreatePS5PackageForSubmission() => CreatePackage(BuildPaths[BuildTarget.PS5].BuildPath, null, true);
+        static void CreatePS5PackageForSubmission() => CreatePackage(GetBuildPathOption(BuildTarget.PS5).BuildPath, null, true);
 
         [MenuItem("TG/Build/Create PS5 Package/Development")]
-        static void CreatePS5PackageForDevelopment() => CreatePackage(BuildPaths[BuildTarget.PS5].BuildPath, null, false);
+        static void CreatePS5PackageForDevelopment() => CreatePackage(GetBuildPathOption(BuildTarget.PS5).BuildPath, null, false);
 
         public static bool CreatePackage(string buildPath, BuildReport report, bool forSubmission) {
 #if UNITY_PS5
@@ -150,7 +151,7 @@ namespace Awaken.TG.Editor.Utility {
                 return true;
             }
 
-            BuildPathOption buildPath = BuildPaths[BuildTarget.PS5];
+            BuildPathOption buildPath = GetBuildPathOption(BuildTarget.PS5);
             string packagePath = Directory
                 .EnumerateFiles($"{Application.dataPath}/../{buildPath.BuildPath}"
                     .Replace("/", @"\")

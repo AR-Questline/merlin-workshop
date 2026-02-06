@@ -43,6 +43,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel {
         public IEnumerable<Item> Items => Config.Items;
         public IEnumerable<ItemsTabType> Tabs => Config.Tabs;
         public ItemDescriptorType ItemDescriptorType => Config.ItemDescriptorType;
+        public IEnumerable<ItemsTabType> SubTabsInOrder => ItemsListUI.SubTabsInOrder?.Where(st => st != ItemsTabType.None && st != ItemsTabType.All);
         public Item HoveredItem => ItemsListUI?.HoveredItem;
         public Item ClickedItem => ItemsListUI?.ClickedItem;
         [UnityEngine.Scripting.Preserve] public ItemsListElementUI HoveredItemsListElement => ItemsListUI.HoveredItemsListElement;

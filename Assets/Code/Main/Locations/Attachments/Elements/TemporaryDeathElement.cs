@@ -1,4 +1,5 @@
 using Awaken.TG.Assets;
+using Awaken.TG.Main.AI.Idle.Data.Runtime;
 using Awaken.TG.Main.AI.Idle.Finders;
 using Awaken.TG.Main.AI.Idle.Interactions;
 using Awaken.TG.Main.Character;
@@ -14,6 +15,7 @@ using Awaken.TG.Main.Stories.Steps.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
+using Awaken.TG.MVC.Utils;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Cysharp.Threading.Tasks;
@@ -27,6 +29,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         
         TemporaryDeathAttachment _spec;
         [Saved] bool _fakeDeath;
+        [Saved] WeakModelRef<NpcGhostElement> _npcGhostRef;
         
         public bool RestoredWhileDead { get; private set; }
 
@@ -52,6 +55,37 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
                     WaitToResurrect(1).Forget();
                 }
             }
+
+            // Cleanup ghost if NPC was cached / saved with it
+            if (!_spec.ForceChangeIntoGhost || _spec.IfForcedStayInGhost || TryGetGhostElement() is not { Revertable: true } ghostElement) {
+                return;
+            }
+            foreach (var interactionOverride in ParentModel.Element<NpcElement>().Behaviours.Elements<InteractionOverride>()) {
+                if (interactionOverride.Finder is InteractionFakeDeathFinder) {
+                    return;
+                }
+            }
+            ghostElement.RevertChangesAndDiscard().Forget();
+            _npcGhostRef = null;
+        }
+
+        public NpcGhostElement TryGetOrCreateGhostElement() {
+            if (_npcGhostRef.TryGet(out var ghost)) {
+                return ghost;
+            }
+            var npc = ParentModel.Element<NpcElement>();
+            if (npc.TryGetElement<NpcGhostElement>()) {
+                return null;
+            }
+            _npcGhostRef = npc.AddElement(new NpcGhostElement(_spec.DeathStartDuration / 2f, true));
+            return _npcGhostRef;
+        }
+        
+        public NpcGhostElement TryGetGhostElement() {
+            if (_npcGhostRef.TryGet(out var ghost)) {
+                return ghost;
+            }
+            return null;
         }
 
         public bool OnBeforeTakingFinalDamage(HealthElement healthElement, Damage damage) {
@@ -74,7 +108,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             healthElement.TakeDamage(placeholderDamage);
             healthElement.Health.SetTo(1f);
             
-            FakeDeath(damage.DamageDealer is Hero).Forget();
+            FakeDeath(damage.DamageDealerPure is Hero).Forget();
             return true;
         }
 
@@ -92,20 +126,44 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
                 StoryUtils.TryStartLocationStory(_spec.StoryToRunOnTemporaryDeath, ParentModel);
             }
             
-            AddElement(new TimeDuration(killedByHero ? _spec.DeathDurationHero : _spec.DeathDurationOther))
-                .ListenTo(Model.Events.AfterDiscarded, _ => WaitToResurrect(0).Forget(), this);
-
-            npc.NpcAI.UpdateHeroVisibility(0, true);
-            npc.NpcAI.ForceStopCombatWithHero();
+            DisableCombat();
+            var ai = npc.NpcAI;
+            ai.AlertStack.AlertGainPaused = true;
+            
+            var interactor = npc.Interactor;
+            var behaviours = npc.Behaviours;
+            
+            if (!interactor.NpcInInteractState || !behaviours.CanBeInterrupted) {
+                if (!await AsyncUtil.WaitUntil(this, () => interactor.NpcInInteractState && behaviours.CanBeInterrupted)) {
+                    return;
+                }
+                DisableCombat();
+            }
+            
+            _fakeDeath = true;
             npc.Interactor.Stop(InteractionStopReason.StoppedIdlingInstant, false);
             npc.Behaviours.AddOverride(new InteractionFakeDeathFinder(npc.Coords, _spec.DeathStartDuration, _spec.DeathEndDuration, _spec.Animations, _spec.ForceChangeIntoGhost, _spec.IfForcedStayInGhost), null);
+            
+            if (!await AsyncUtil.WaitUntil(this, () => interactor.CurrentInteraction is FakeDeathInteraction && interactor.IsFullyInteracting)) {
+                return;
+            }
 
+            ai.AlertStack.AlertGainPaused = false;
+
+            AddElement(new TimeDuration(killedByHero ? _spec.DeathDurationHero : _spec.DeathDurationOther))
+                .ListenTo(Model.Events.AfterDiscarded, _ => WaitToResurrect(0).Forget(), this);
+            
             if (_spec.DeathVFX is { IsSet: true }) {
                 PrefabPool.InstantiateAndReturn(_spec.DeathVFX, npc.Coords, npc.Rotation).Forget();
             }
             
-            _fakeDeath = true;
             this.Trigger(Events.TemporaryDeathStateChanged, true);
+
+            void DisableCombat() {
+                npc.NpcAI.UpdateHeroVisibility(0, true);
+                npc.NpcAI.ForceStopCombatWithHero();
+                npc.NpcAI.AlertStack.Reset();
+            }
         }
 
         async UniTaskVoid WaitToResurrect(int delay = AfterCombatDelayTime) {
@@ -114,6 +172,10 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             }
             if (Hero.Current.IsInCombat()) {
                 Hero.Current.ListenTo(ICharacter.Events.CombatExited, () => WaitToResurrect().Forget(), ParentModel);
+                return;
+            }
+            var interactor = ParentModel.Element<NpcElement>().Interactor;
+            if (!await AsyncUtil.WaitUntil(this, () => interactor.CurrentInteraction is FakeDeathInteraction)) {
                 return;
             }
             

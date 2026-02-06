@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Heroes.Combat;
+using Awaken.TG.Main.Skills;
+using Awaken.TG.Main.Skills.Units.Effects;
 using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.Utility.Debugging;
 using UnityEngine;
@@ -15,6 +17,8 @@ namespace Awaken.TG.Main.AI.Fights.SolarBeam {
         VisualEffect _visualEffect;
         
         List<IAlive> _damagedTargets = new();
+        const string IsHit = "IsHit";
+        const string Range = "Range";
         
         public SolarBeam(SolarBeamData data, ICharacter owner, Transform startBeam) {
             _data = data;
@@ -25,7 +29,7 @@ namespace Awaken.TG.Main.AI.Fights.SolarBeam {
                 Log.Important?.Error($"SolarBeam: VisualEffect in {startBeam.gameObject.name} not found");
                 return;
             }
-            _visualEffect.SetFloat("Range", data.maxRange);
+            _visualEffect.SetFloat(Range, data.maxRange);
         }
 
         public void Update(float deltaTime) {
@@ -57,8 +61,8 @@ namespace Awaken.TG.Main.AI.Fights.SolarBeam {
                 }
             }
             
-            _visualEffect.SetBool("IsHit", hit);
-            _visualEffect.SetFloat("Range", hitRange);
+            _visualEffect.SetBool(IsHit, hit);
+            _visualEffect.SetFloat(Range, hitRange);
         }
 
         void CheckCastResult(HitResult hitResult, float deltaTime) {
@@ -93,6 +97,12 @@ namespace Awaken.TG.Main.AI.Fights.SolarBeam {
         void DealDamage(IAlive alive, Collider collider, RawDamageData rawDamageData) {
             Damage damage = new Damage(_data.damageData.Get(), _owner, alive, rawDamageData).WithHitCollider(collider);
             alive.HealthElement.TakeDamage(damage);
+
+            if (_data.statusToApplyOnHit != null && alive is ICharacter character) {
+                var statusTemplate = _data.statusToApplyOnHit;
+                VGUtils.ApplyStatus(character.Statuses, statusTemplate, StatusSourceInfo.FromStatus(statusTemplate),
+                    _data.statusBuildupStrengthIfPossible, _data.statusDurationOverride, null);
+            }
         }
     }
 }

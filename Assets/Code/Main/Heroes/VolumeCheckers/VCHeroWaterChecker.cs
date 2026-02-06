@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.AudioSystem.Biomes;
@@ -12,6 +13,7 @@ using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Events;
 using Awaken.Utility;
 using Awaken.Utility.Extensions;
+using Awaken.Utility.GameObjects;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -103,7 +105,7 @@ namespace Awaken.TG.Main.Heroes.VolumeCheckers {
         }
         
         void HandleVolume(WaterSurface foundSurface) {
-            VolumeProfile volumeOverride = foundSurface.GetComponent<WaterVolumeOverride>()?.profile;
+            VolumeProfile volumeOverride = foundSurface?.GetComponent<WaterVolumeOverride>()?.profile;
             if (volumeOverride) {
                 _usingOverrideVolume = true;
                 waterVolumeOverride.sharedProfile = volumeOverride;
@@ -193,7 +195,6 @@ namespace Awaken.TG.Main.Heroes.VolumeCheckers {
                     WaterSurface foundSurface = hit.transform != null 
                         ? hit.transform.GetComponent<WaterSurface>() 
                         : _inWaterCollider;
-                    
                     EnterWater(foundSurface);
                 }
             } else {

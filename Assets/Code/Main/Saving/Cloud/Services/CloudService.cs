@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Awaken.TG.Main.Saving.SaveSlots;
 using System.Linq;
 using Awaken.TG.MVC.Domains;
 using Cysharp.Threading.Tasks;
@@ -44,7 +45,35 @@ namespace Awaken.TG.Main.Saving.Cloud.Services {
         }
 
         static CloudService CreateCloudService() {
+#if UNITY_GAMECORE || MICROSOFT_GAME_CORE
+    #if UNITY_EDITOR
             return new DebugCloudService();
+    #else
+            return new Microsoft.XboxCloudService();
+#endif
+#elif UNITY_PS5
+    #if UNITY_EDITOR
+            return new DebugCloudService();
+    #else
+            return new Sony.SonyCloudService();
+    #endif
+#else //PC
+            // if (Application.isPlaying) {
+            //     if (Awaken.Utility.PlatformUtils.IsSteamInitialized) {
+            //         if (CloudAPI.IsEnabled || SteamSettings.current.ForceSteamCloudEnabled) {
+            //             return new SteamCloudService();
+            //         } else {
+            //             return new SteamNoCloudService();
+            //         }
+            //     }
+            //
+            //     if (GogGalaxyManager.IsInitialized()) {
+            //         return new GogCloudService();
+            //     }
+            // }
+
+            return new DebugCloudService();
+#endif
         }
         
         public virtual async UniTask WaitForManagerInitialization() {
@@ -108,12 +137,19 @@ namespace Awaken.TG.Main.Saving.Cloud.Services {
         /// <summary>
         ///  End batch mode for saving given save slot.
         /// </summary>
-        public virtual UniTask<EndSaveDirectoryResult> EndSaveDirectory(string directory, bool failed) {
-            return UniTask.FromResult(new EndSaveDirectoryResult {
-                Success = true,
-                SaveResult = SaveResult.Default,
-            });
+        public virtual UniTask<bool> EndSaveDirectory(string directory) {
+            return UniTask.FromResult(true);
         }
+
+        /// <summary>
+        /// Cleans up the save slot after saving failed.
+        /// </summary>
+        public virtual UniTask RollbackSaving(string directory) => EndSaveDirectory(directory);
+
+        /// <summary>
+        /// Collects info about saved files.
+        /// </summary>
+        public virtual SaveResult SummarizeSavingResult(string directory) => SaveResult.Default;
 
         /// <summary>
         /// Start batch mode for save slot loading.

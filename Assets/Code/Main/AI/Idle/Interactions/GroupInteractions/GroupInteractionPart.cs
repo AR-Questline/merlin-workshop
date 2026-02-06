@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Awaken.TG.Main.AI.Idle.Interactions {
     public class GroupInteractionPart : InteractionWrapper {
-        GroupInteraction ParentInteraction { get; }
+        protected GroupInteraction ParentInteraction { get; }
 
         public override bool AllowDialogueAction => ParentInteraction.AllowDialogueAction && base.AllowDialogueAction;
         public override bool CanBeInterrupted => CanInteractionBeInterrupted();

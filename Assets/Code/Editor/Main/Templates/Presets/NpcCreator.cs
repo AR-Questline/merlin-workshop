@@ -28,7 +28,7 @@ namespace Awaken.TG.Editor.Main.Templates.Presets {
             NpcCreator creator = GetWindow<NpcCreator>("NPC Creator", true);
             creator._spec = spec;
             creator.npcName = spec.displayName;
-            creator.gender = spec.GetComponent<NpcAttachment>()?.VisualPrefab?.Address == GetGenderPrefabReference(Gender.Female)?.Address ? Gender.Female : Gender.Male;
+            creator.gender = spec.GetComponent<NpcAttachment>()?.VisualPrefab()?.Address == GetGenderPrefabReference(Gender.Female)?.Address ? Gender.Female : Gender.Male;
             creator.story = spec.GetComponent<DialogueAttachment>()?.bookmark?.story?.Get<StoryGraph>();
             creator.baseNpcTemplate = AssetDatabase.LoadAssetAtPath<NpcTemplate>(NpcTemplatePath);
             creator.Show();
@@ -66,7 +66,7 @@ namespace Awaken.TG.Editor.Main.Templates.Presets {
             LocalizationUtils.ChangeTextTranslation(_spec.displayName.ID, npcName, stringTable);
 
             // Prefab
-            specInPrefab.prefabReference = new ARAssetReference(PrefabReferencesSettings.Instance.DefaultAI.Guid);
+            specInPrefab.PrefabReference = new ARAssetReference(PrefabReferencesSettings.Instance.DefaultAI.Guid);
 
             // NPC Template
             NpcAttachment npcAttach = go.GetOrAddComponent<NpcAttachment>();

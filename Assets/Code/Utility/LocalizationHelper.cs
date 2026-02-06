@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using Awaken.PackageUtilities.CommonInterfaces;
 using Awaken.TG.Utility;
 using Awaken.Utility.Debugging;
 using Sirenix.Utilities;
@@ -31,12 +32,28 @@ namespace Awaken.Utility {
         public static CultureInfo SelectedCulture => SelectedLocale?.Identifier.CultureInfo;
 
         public static readonly string DefaultTable = "Prefabs";
+        public static readonly string StoryTable = "Story";
         public static readonly string OverridesTable = "Overrides";
         public static readonly string TagsTable = "Tags";
         public static readonly string OldLoc = "OldLocalization";
-        public static readonly string[] StringTables = {"Story", DefaultTable, OverridesTable, "LocTerms", "KeyBindings", TagsTable};
+        public static readonly string[] StringTables = {StoryTable, DefaultTable, OverridesTable, "LocTerms", "KeyBindings", TagsTable};
 
         static bool DebugTranslations => SafeEditorPrefs.GetBool("debugTranslations");
+        
+        public static bool IsNonLatinaCharacters(Locale localeToCheck = null) {
+            var locale = localeToCheck ? localeToCheck : SelectedLocale;
+            if (locale == null) {
+                return false;
+            }
+
+            string code = locale.Identifier.Code;
+            return code.Length >= 2 && (
+                (code[0] == 'z' && code[1] == 'h') ||
+                (code[0] == 'j' && code[1] == 'a') ||
+                (code[0] == 'k' && code[1] == 'o') ||
+                (code[0] == 'r' && code[1] == 'u')
+            );
+        }
         
         public static void ForceLoadTables() {
             foreach (string tableID in StringTables) {
@@ -46,13 +63,17 @@ namespace Awaken.Utility {
         }
 
         // --- Localization Helpers
-        public static string Translate(string id, Locale locale = null, bool ignoreSmartStrings = false) {
+        public static string EditorOnly_Translate(string id, Locale locale = null, bool ignoreSmartStrings = false) {
             if (string.IsNullOrWhiteSpace(id)) {
                 return string.Empty;
             }
             locale ??= SelectedLocale;
-
-            TableEntryResult tableEntryResult = GetTableEntry(id, locale);
+        
+            TableEntryResult tableEntryResult = EditorOnly_GetTableEntry(id, locale);
+            return EditorOnly_Translate(id, locale, tableEntryResult, ignoreSmartStrings);
+        }
+        
+        public static string EditorOnly_Translate(string id, Locale locale, TableEntryResult tableEntryResult, bool ignoreSmartStrings = false) {
             if (tableEntryResult.code != TableResultCode.Success) {
 #if UNITY_EDITOR
                 if (DebugTranslations) {
@@ -63,6 +84,7 @@ namespace Awaken.Utility {
             }
 
             StringTableEntry tableEntry = tableEntryResult.entry;
+            
             string translation;
             if (!ignoreSmartStrings) {
                 try {
@@ -78,8 +100,53 @@ namespace Awaken.Utility {
 
             return translation ?? string.Empty;
         }
-
-        public static TableEntryResult GetTableEntry(string id, Locale locale = null) {
+        
+        public static string Translate(string id, bool ignoreSmartStrings = false) {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) {
+                return EditorOnly_Translate(id, SelectedLocale, ignoreSmartStrings);
+            }
+ #endif
+            if (ignoreSmartStrings) {
+                return ILocalizationManager.Current.Translate(id);
+            } else {
+                ILocalizationManager.Current.GetTranslationAndSmartFormatTag(id, out var translation, out bool smartFormatTag);
+                return smartFormatTag ? FormatSmartString(translation) : translation;
+            }
+        }
+        
+        public static string Translate(LocalizationEntryId id, bool ignoreSmartStrings = false) {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) {
+                Log.Important?.Error($"Translation with {nameof(LocalizationEntryId)} is not supported in edit mode!");
+                return string.Empty;
+            }
+#endif
+            if (ignoreSmartStrings) {
+                return ILocalizationManager.Current.Translate(id);
+            } else {
+                ILocalizationManager.Current.GetTranslationAndSmartFormatTag(id, out var translation, out bool smartFormatTag);
+                return smartFormatTag ? FormatSmartString(translation) : translation;
+            }
+        }
+        
+        public static string GetGestureMetadata(LocalizationEntryId id) {
+#if UNITY_EDITOR 
+            if (!Application.isPlaying) {
+                Log.Important?.Error($"Getting Gesture metadata with {nameof(LocalizationEntryId)} is not supported in edit mode!");
+                return string.Empty;
+            }
+#endif
+            return ILocalizationManager.Current.GetGesture(id);
+        }
+        
+       static string FormatSmartString(string value) {
+           var formatProvider = SelectedLocale.Formatter;
+           var translatedText = LocalizationSettings.StringDatabase.SmartFormatter.Format(formatProvider, value, null);
+           return translatedText;
+       }
+        
+        public static TableEntryResult EditorOnly_GetTableEntry(string id, Locale locale = null) {
             if (string.IsNullOrWhiteSpace(id)) {
                 return TableEntryResult.Failure(TableResultCode.WrongId);
             }

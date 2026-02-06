@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
@@ -17,6 +18,7 @@ namespace Awaken.TG.Main.Settings.Options.Views {
         PrefOption _option;
 
         public Selectable MainSelectable => selectable;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public void Setup(PrefOption option) {
             _option = option;

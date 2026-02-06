@@ -137,7 +137,7 @@ namespace Awaken.TG.Main.Fights.Duels {
 
         void OnBeforeDealingDamage(HookResult<ICharacter, Damage> hook) {
             // Don't deal damage to characters that are not duelists
-            if (hook.Value.Target is ICharacter character && !character.HasElement<DuelistElement>()) {
+            if (hook.Value.TargetPure is ICharacter character && !character.HasElement<DuelistElement>()) {
                 hook.Prevent();
                 return;
             }

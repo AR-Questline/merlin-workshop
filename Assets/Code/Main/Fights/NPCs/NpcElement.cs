@@ -51,8 +51,10 @@ using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Locations.Mobs;
+using Awaken.TG.Main.Locations.Views;
 using Awaken.TG.Main.Maps.Markers;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.Memories;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Stories;
@@ -73,7 +75,6 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
-using Awaken.TG.MVC.Serialization;
 using Awaken.TG.Utility;
 using Awaken.TG.Utility.Attributes;
 using Awaken.TG.VisualScripts.Units.Events;
@@ -84,6 +85,7 @@ using Awaken.Utility.Debugging;
 using Awaken.Utility.Maths;
 using Awaken.VendorWrappers.Salsa;
 using CrazyMinnow.SALSA;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FMODUnity;
 using JetBrains.Annotations;
@@ -108,6 +110,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         [Saved] FactionContainer _factionContainer = new();
         [Saved] List<Item> _equipmentCache = new(10);
         [Saved(false)] bool _itemsAddedToInventory;
+        [Saved(false)] bool _hasAnyRangedItem;
         [Saved] NpcFightingStyle _overridenFightingStyle;
         [Saved] public SavedInteractionData SavedInteractionData { get; set; }
         [Saved] public Vector3 LastIdlePosition { get; set; }
@@ -120,19 +123,25 @@ namespace Awaken.TG.Main.Fights.NPCs {
         ReferenceInstance<GameObject> _spawnedVisualPrefab;
         TemplateReference[] _predefinedClothes;
         IEnumerable<ItemSpawningDataRuntime> _inventoryItems;
+        List<NpcAttachment.ConditionalVisualPrefab> _conditionalVisualPrefabs;
+        ARAssetReference _baseVisualPrefab;
         TemporarySet<int> _temporaryDistanceBandOverrides = new(8, -1);
 
-        bool _isInDialogue;
         int _currentDistanceBand;
+        int? _heroLevelAtInitialization;
+        bool _isInDialogue;
         bool _shouldSpawnDeathVfx;
         bool _isAlive = true;
         bool _eyesClosed;
         bool _inNpcRegistry;
+        bool _preventCollectingLoot;
+        bool _movingToAbyss;
         bool? _isVisible;
         float _height = 1.8f;
         Tweener _eyesTween;
         GameObject _interactionCollider;
         NpcWyrdConversionMarker _wyrdConversionMarker;
+        ARAssetReference _visualPrefab;
         // -- Elements cache
         NpcStats _cachedNpcStats;
         CharacterStats _cachedCharacterStats;
@@ -143,6 +152,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         NpcIsGroundedHandler _cachedIsGroundedHandler;
         TimeDependent _timeDependent;
         NpcItems _cachedItems;
+        NpcMovement _cachedNpcMovement;
         
         public NpcAngularSpeedMultiplier AngularSpeedMultiplier { get; set; }
         
@@ -157,6 +167,14 @@ namespace Awaken.TG.Main.Fights.NPCs {
                 _isInDialogue = value;
                 this.Trigger(Events.NpcIsInDialogueChanged, value);
             } 
+        }
+        
+        ARAssetReference GetVisualPrefab() {
+            if (_visualPrefab is not { IsSet: true }) {
+                LateAssignVisualPrefab();
+            }
+            
+            return _visualPrefab;
         }
 
         public bool IsUnique { get; private set; }
@@ -186,11 +204,11 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public GameObject SpawnedVisualPrefab => _spawnedVisualPrefab.Instance;
         public VoiceOversEventEmitter VoiceOversEmitter { get; private set; }
         public SalsaFmodEventEmitter SalsaEmitter { get; private set; }
-        ARAssetReference VisualPrefab { get; set; }
+        
         ShareableARAssetReference SimplifiedDeadBodyPrefab { get; set; }
         Eyes Eyes { get; set; }
-        
         HeroDamageTimestamp HeroDamageTimestamp { get; set; }
+        
         public bool WasLastDamageFromHero => HeroDamageTimestamp?.CountAsHeroKill() ?? false;
         public bool DisableTargetRecalculation { get; set; }
         public int RecalculationFrameCooldown { get; set; }
@@ -199,6 +217,17 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public Actor Actor { get; private set; }
         public Transform ActorTransform => ParentTransform;
         public Transform LookAtTarget => Head;
+        
+        // Location Name
+        public int ModificationOrder => 1;
+        public string ModifyName(string original) {
+            if (!string.IsNullOrWhiteSpace(original)) {
+                return original;
+            }
+            // We need to update the Actor in case its name has changed
+            Actor = World.Services.Get<ActorsRegister>().GetActor(Actor.Id);
+            return Actor.NameOrDefault;
+        }
 
         public NpcChunk NpcChunk { get; set; }
         public CharacterHandBase MainHandWeapon { get; private set; }
@@ -225,14 +254,17 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public Faction Faction => _factionContainer.Faction;
         public FactionTemplate GetFactionTemplateForSummon() => _factionContainer.GetFactionTemplateForSummon();
         public CrimeOwners GetCurrentCrimeOwnersFor(CrimeArchetype crime) => ParentModel.GetCurrentCrimeOwnersFor(crime);
+        public bool HasCurrentCrimeOwnersFor(CrimeArchetype crime) => ParentModel.HasCurrentCrimeOwnersFor(crime);
         CrimeOwnerTemplate ICharacter.DefaultCrimeOwner => ParentModel.DefaultOwner;
         public Vector3 Coords => ParentModel.Coords;
         public Quaternion Rotation => ParentModel.Rotation;
         public CrimeNpcValue CrimeValue => Template.CrimeValue;
         public ICollection<string> Tags => Template.Tags;
+        public int NewGamePlusLevel => ParentModel.NewGamePlusLevel;
         public int Tier { get; private set; }
         public int MusicTier { get; private set; }
         public IBaseClothes<IItemOwner> Clothes => NpcClothes;
+        public int HeroLevelAtInitialization => _heroLevelAtInitialization ??= Hero.Current.Level.ModifiedInt;
         public CharacterStats CharacterStats => CachedElement(ref _cachedCharacterStats);
         public CharacterStats.ITemplate CharacterStatsTemplate => Template;
         public StatusStats StatusStats => Element<StatusStats>();
@@ -249,7 +281,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public ICharacterInventory Inventory => NpcItems;
         public NpcItems NpcItems => ParentModel.CachedElementWithChecks(ref _cachedItems);
         public IEnumerable<ItemTemplate> OwnedItemTemplates => _itemsAddedToInventory ? Inventory.Items.Select(i => i.Template) : InventoryItems.Select(i => i.ItemTemplate);
-        public NpcMovement Movement => TryGetElement<NpcMovement>();
+        public NpcMovement Movement => TryGetCachedElement(ref _cachedNpcMovement);
         public NpcAI NpcAI { get; private set; }
         public CharacterStatuses Statuses => Element<CharacterStatuses>();
         public ICharacterSkills Skills => Element<CharacterSkills>();
@@ -272,16 +304,17 @@ namespace Awaken.TG.Main.Fights.NPCs {
         [UnityEngine.Scripting.Preserve] public bool IsBlocking => HasElement<AIBlock>();
         public bool IsBlinded => HasElement<TargetBlindedElement>();
         public bool IsSummon => HasElement<INpcSummon>();
+        public bool IsSummonOrAlly => IsSummon || HasElement<NpcAlly>();
         public bool IsHeroSummon { get; set; }
         public bool IsMuted => HasElement<MutedMarker>();
         public bool IsStunned => HasElement<StunnedCharacterElement>();
         public bool CanRewardExp => !HasElement<PreventExpRewardMarker>() && !IsSummon;
-        public bool BlockLootingDeadBody => !Template.isDeadBodyLootable || IsSummon;
+        public bool BlockLootingDeadBody => !Template.isDeadBodyLootable || IsSummon || _preventCollectingLoot;
         public bool HasPerception => NpcAI?.Working ?? false;
         public float Radius => Movement.Controller.RichAI.radius;
         public bool UseRichAISlowdownTime => Template.UseRichAISlowdownTime;
-        public bool Staggered => EnemyBaseClass.CurrentBehaviour.TryGet(out var behaviourBase) && behaviourBase is StaggerBehaviour;
-        public bool IsVisualSet => VisualPrefab is {IsSet: true};
+        public bool Staggered => (EnemyBaseClass?.CurrentBehaviour.TryGet(out var behaviourBase) ?? false) && behaviourBase is StaggerBehaviour;
+        public bool IsVisualSet => _visualPrefab is { IsSet: true } || _baseVisualPrefab is { IsSet: true };
         public int CombatSlotsLimit => Template.CombatSlotsLimit;
         public bool CanEnterCombat(bool ignoreInvisibility) => Template.CanEnterCombat && !HasElement<BlockEnterCombatMarker>() && !IsUnconscious && !CrimeReactionUtils.IsFleeing(this) && (ignoreInvisibility || !HasElement<Invisibility>());
         public bool IgnoresEnviroDanger => HasElement<IgnoreEnviroDangerMarker>();
@@ -300,7 +333,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public float DefaultDesiredDistanceToTarget => FightingStyle == null ? VHeroCombatSlots.FirstLineCombatSlotOffset : FightingStyle.desiredDistanceToTarget;
         
         IEnumerable<ItemSpawningDataRuntime> InventoryItems => _inventoryItems ??= Template.InventoryItems(this);
-        public int CurrentDistanceBand { get; private set; }
+        public int CurrentDistanceBand { get; private set; } = LocationCullingGroup.LastBand;
 
         [UnityEngine.Scripting.Preserve] public bool HasVisualLoaded => _initializer.HasVisualLoaded;
         public bool HasCompletelyInitialized => _initializer.HasCompletelyInitialized;
@@ -309,11 +342,11 @@ namespace Awaken.TG.Main.Fights.NPCs {
         // === Fighting
         FightingPair.LeftStorage _possibleTargets;
         FightingPair.RightStorage _possibleAttackers;
+        StructList<Transform> _aimAssistTargets = StructList<Transform>.Empty;
 
         public ref FightingPair.LeftStorage PossibleTargets => ref _possibleTargets;
         public ref FightingPair.RightStorage PossibleAttackers => ref _possibleAttackers;
-        public bool RequiresPathToTarget => Template.requiresPathToTarget && 
-                                            !(Inventory?.Items?.Any(i => i.IsRanged) ?? false);
+        public bool RequiresPathToTarget => Template.requiresPathToTarget && !_hasAnyRangedItem;
         public NpcDangerTracker DangerTracker => NpcAI.Behaviour.DangerTracker;
 
         // === Animations
@@ -354,7 +387,6 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public void InitFromAttachment(NpcAttachment spec, bool isRestored) {
             IsUnique = spec.IsUnique;
             Template = spec.NpcTemplate;
-            VisualPrefab = spec.VisualPrefab.DeepCopy();
             SimplifiedDeadBodyPrefab = spec.SimplifiedDeadBodyPrefab;
             _predefinedClothes = Array.Empty<TemplateReference>();
             _hitVFX = spec.HitVFXReference;
@@ -367,11 +399,56 @@ namespace Awaken.TG.Main.Fights.NPCs {
                 StoryOnDeath = storyOnDeath;
             }
             NpcIcon = spec.NpcIcon.DeepCopy();
+
+            if (spec.GetConditionalVisualPrefabs.IsNullOrEmpty()) {
+                _visualPrefab = spec.VisualPrefab().DeepCopy();
+            } else {
+                _baseVisualPrefab = spec.VisualPrefab();
+                _conditionalVisualPrefabs = spec.GetConditionalVisualPrefabs;
+            }
+        }
+
+        void LateAssignVisualPrefab() {
+            foreach (var conditionalVisualPrefab in _conditionalVisualPrefabs) {
+                if (string.IsNullOrEmpty(conditionalVisualPrefab.requiredFlag)) {
+                    Log.Important?.Error($"No flag for conditional visual prefab in {Name}");
+                    continue;
+                }
+                
+                if (StoryFlags.Get(conditionalVisualPrefab.requiredFlag)) {
+                    _visualPrefab =  conditionalVisualPrefab.visualPrefab.DeepCopy();
+                    return;
+                }
+            }
+
+            _visualPrefab =  _baseVisualPrefab.DeepCopy();
+        }
+
+        public Transform GetAimAssistTarget(Transform aimAt) {
+            if (_aimAssistTargets.Count == 0) {
+                return Torso;
+            }
+
+            if (_aimAssistTargets.Count == 1) {
+                return _aimAssistTargets[0];
+            } 
+            
+            Vector3 aimAtPosition = aimAt.position;
+            Transform closestTarget = _aimAssistTargets[0];
+            
+            for (int i = 1; i < _aimAssistTargets.Count; i++) {
+                Transform currentTarget = _aimAssistTargets[i];
+                if (Vector3.SqrMagnitude(aimAtPosition - currentTarget.position) < Vector3.SqrMagnitude(aimAtPosition - closestTarget.position)){
+                    closestTarget = currentTarget;
+                }
+            }
+            
+            return closestTarget;
         }
 
         // === Initialization
         protected override void OnInitialize() {
-            Tier = TagUtils.TryFindTagValueAsInt(Tags, "Tier") ?? 0;
+            Tier = NewGamePlusSystem.GetEnemyTier(TagUtils.TryFindTagValueAsInt(Tags, "Tier") ?? 0);
             MusicTier = TagUtils.TryFindTagValueAsInt(Tags, "MusicTier") ?? 0;
             
             _factionContainer.SetDefaultFaction(Template.Faction);
@@ -389,7 +466,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         }
 
         protected override void OnRestore() {
-            Tier = TagUtils.TryFindTagValueAsInt(Tags, "Tier") ?? 0;
+            Tier = NewGamePlusSystem.GetEnemyTier(TagUtils.TryFindTagValueAsInt(Tags, "Tier") ?? 0);
             MusicTier = TagUtils.TryFindTagValueAsInt(Tags, "MusicTier") ?? 0;
             
             _factionContainer.SetDefaultFaction(Template.Faction);
@@ -433,11 +510,18 @@ namespace Awaken.TG.Main.Fights.NPCs {
             _spawnedVisualPrefab?.ReleaseInstance();
             _spawnedVisualPrefab = null;
             
-            _temporaryDistanceBandOverrides.changed -= RecalculateCurrentDistanceBand;
+            _temporaryDistanceBandOverrides.ClearChangedListeners();
 
             _cachedNpcStats = null;
             _cachedCharacterStats = null;
             _cachedAliveStats = null;
+            _cachedEnemyBaseClass = null;
+            _cachedDeathElement = null;
+            _cachedCanMoveHandler = null;
+            _cachedIsGroundedHandler = null;
+            _timeDependent = null;
+            _cachedItems = null;
+            _cachedNpcMovement = null;
             
             PossibleTargets.Clear();
             PossibleAttackers.Clear();
@@ -461,7 +545,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
             } else {
                 previous?.Detach(this, NpcPresenceDetachReason.Death);
             }
-
+            
             OnPresenceChanged(NpcPresence);
             this.Trigger(Events.PresenceChanged, NpcPresence);
         }
@@ -470,6 +554,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
             if (World.Services.TryGet(out CullingSystem cullingSystem) == false) {
                 return;
             }
+            
             if (World.Services.Get<SceneService>().IsAdditiveScene) {
                 var npcLocation = ParentModel;
                 bool pause;
@@ -599,11 +684,11 @@ namespace Awaken.TG.Main.Fights.NPCs {
         // === Callbacks
 
         void OnTakingDamage(HookResult<HealthElement, Damage> hook) {
-            if (hook.Value.DamageDealer is Hero hero) {
+            if (hook.Value.DamageDealerPure is Hero hero) {
                 HeroDamageTimestamp = new HeroDamageTimestamp(hero);
             }
             
-            else if (hook.Value.DamageDealer is NpcElement npc && npc.TryGetElement(out NpcHeroSummon summon)) {
+            else if (hook.Value.DamageDealerPure is NpcElement npc && npc.TryGetElement(out NpcHeroSummon summon)) {
                 HeroDamageTimestamp = new HeroDamageTimestamp((Hero)summon.Owner);
             }
         }
@@ -666,8 +751,8 @@ namespace Awaken.TG.Main.Fights.NPCs {
             ParentModel.AddElement(new NpcDummy(this, _spawnedVisualPrefab, SimplifiedDeadBodyPrefab, BlockLootingDeadBody, !KeepCorpseAfterDeath, DeathElement.KeepBody));
 
             _spawnedVisualPrefab = null;
-            if (!ParentModel.HasElement<NonCriminalDeathMarker>()) {
-                ParentModel.AddElement(new Corpse(this, damageOutcome.Attacker));
+            if (!ParentModel.HasElement<NonCriminalDeathMarker>() && !IsSummon) {
+                ParentModel.AddElement(new Corpse(this, damageOutcome.AttackerPure));
             }
             NavMeshCuttingSetActive(false);
             DisableEyes();
@@ -712,6 +797,12 @@ namespace Awaken.TG.Main.Fights.NPCs {
             if (Eyes != null) {
                 Eyes.enabled = false;
                 _eyesClosed = true;
+
+                if (Eyes.blinklids.Count <= 0 || Eyes.blinklids[0] == null) {
+                    _eyesTween?.Kill();
+                    return;
+                }
+                
                 var blendShape = Eyes.blinklids[0].expData.controllerVars[0].blendIndex;
                 var skinnedMeshRenderer = Eyes.blinklids[0].expData.controllerVars[0].smr;
                 if (skinnedMeshRenderer == null) {
@@ -727,6 +818,13 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public void OpenEyes(bool instant = false) {
             if (Eyes != null) {
                 _eyesClosed = false;
+                
+                if (Eyes.blinklids.Count <= 0 || Eyes.blinklids[0] == null) {
+                    _eyesTween?.Kill();
+                    Eyes.enabled = true;
+                    return;
+                }
+                
                 var blendShape = Eyes.blinklids[0].expData.controllerVars[0].blendIndex;
                 var skinnedMeshRenderer = Eyes.blinklids[0].expData.controllerVars[0].smr;
                 if (skinnedMeshRenderer == null) {
@@ -764,6 +862,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
             _itemsAddedToInventory = true;
             _inventoryItems = null;
             this.Trigger(Events.ItemsAddedToInventory, this);
+            _hasAnyRangedItem = Inventory.Items.Any(i => i.IsRanged);
 
             void AddItem(Item item) {
                 if (item is not {HasBeenDiscarded: false}) {
@@ -780,11 +879,13 @@ namespace Awaken.TG.Main.Fights.NPCs {
         }
 
         // === Visual loading
-        public ARAsyncOperationHandle<GameObject> LoadVisual(GameObject visualInstance) {
-            if (!IsVisualSet) return new ARAsyncOperationHandle<GameObject>();
+        public UniTask LoadVisual(GameObject visualInstance) {
+            if (!IsVisualSet) {
+                return UniTask.CompletedTask;
+            }
             _spawnedVisualPrefab?.ReleaseInstance();
 
-            _spawnedVisualPrefab = new ReferenceInstance<GameObject>(VisualPrefab);
+            _spawnedVisualPrefab = new ReferenceInstance<GameObject>(GetVisualPrefab());
             return _spawnedVisualPrefab.Instantiate(parent: visualInstance.transform.Find("Visuals"), ValidateLoadedGO);
         }
 
@@ -871,6 +972,24 @@ namespace Awaken.TG.Main.Fights.NPCs {
         void AssignReferencesFromTags() {
             RemovableSpan<(string, Action<NpcElement, Transform>)> tags = new(ref s_tagToFieldAssignment);
             AssignReferencesByTagsRecursively(ParentTransform, tags);
+            
+            AssignAimAssistTargetsRecursively(ParentTransform);
+        }
+
+        void AssignAimAssistTargetsRecursively(Transform parentTransform) {
+            if (parentTransform.childCount == 0) {
+                return;
+            }
+            
+            for (int i = 0; i < parentTransform.childCount; i++) {
+                Transform child = parentTransform.GetChild(i);
+                
+                if (child.gameObject.CompareTag("AimAssistTarget")) {
+                    _aimAssistTargets.Add(child);
+                }
+
+                AssignAimAssistTargetsRecursively(child);
+            }
         }
         
         bool AssignReferencesByTagsRecursively(Transform parentTransform, RemovableSpan<(string, Action<NpcElement, Transform>)> tags) {
@@ -944,6 +1063,12 @@ namespace Awaken.TG.Main.Fights.NPCs {
         
         public void SetTemporaryDistanceBand(int band, int frames) {
             _temporaryDistanceBandOverrides.Add(band, AsyncUtil.DelayFrame(this, frames));
+            RecalculateCurrentDistanceBand();
+        }
+        
+        public void SetTemporaryDistanceBand(int band, in UniTask duration) {
+            _temporaryDistanceBandOverrides.Add(band, duration);
+            RecalculateCurrentDistanceBand();
         }
 
         void RecalculateCurrentDistanceBand() {
@@ -973,9 +1098,16 @@ namespace Awaken.TG.Main.Fights.NPCs {
             } else {
                 DisableEyes();
             }
-            
-            Controller.enabled = inLogicBand;
+
+            if (Controller != null) {
+                Controller.enabled = inLogicBand;
+            }
             Element<BodyFeatures>().RefreshDistanceBand(band);
+            
+            VNpcLocation npcLocation = ParentModel.View<VNpcLocation>();
+            if (npcLocation != null) {
+                npcLocation.CheckInDistanceBand();
+            }
         }
 
         public void DisableKandra() {
@@ -1067,6 +1199,71 @@ namespace Awaken.TG.Main.Fights.NPCs {
 
         void HandleWyrdEmpowerment() {
             WyrdEmpowermentUtil.CheckEmpowermentNeed(this, WyrdConverted);
+        }
+        
+        public void MoveToAbyss() {
+            if (_movingToAbyss) {
+                return;
+            }
+            ParentModel.SetInteractability(LocationInteractability.Hidden);
+            if (!NpcPresence.InAbyss(Coords)) {
+                _movingToAbyss = true;
+                MoveToAbyssAfterOneFrame().Forget();
+            }
+        }
+        
+        async UniTaskVoid MoveToAbyssAfterOneFrame() {
+            NpcPresence oldPresence = NpcPresence;
+            if (await AsyncUtil.DelayFrame(this)
+                && (NpcPresence == null || NpcPresence == oldPresence) 
+                && _movingToAbyss) {
+                
+                ParentModel.SafelyMoveTo(NpcPresence.AbyssPosition, true);
+            }
+            _movingToAbyss = false;
+        }
+
+        public void AbortMoveToAbyss() {
+            _movingToAbyss = false;
+        }
+        
+        // === IWyrdnessReactor
+        public void OnWyrdNightRepellerChanged() {
+            if (IsSafeFromWyrdness && Template.IsWyrdnessBound && World.Services.Get<SceneService>().AllowsWyrdnight) {
+                HeroDamageTimestamp = null;
+                _preventCollectingLoot = true;
+                ParentModel.Kill(null, true, false);
+            }
+        }
+        
+        // === Template Based Initialization
+        public void TemplateBasedInitialization() {
+            if (Template is ScalingNpcTemplate) {
+                InitScalingNpc();
+            }
+        }
+        
+        void InitScalingNpc() {
+            Hero.Current.ListenTo(Hero.Events.LevelUp, () => RecalculateScalingStats(), this);
+            Hero.Current.ListenTo(Hero.Events.HeroLongTeleported, () => RecalculateScalingStats(), this);
+        }
+        
+        void RecalculateScalingStats() {
+            if (NpcAI == null) {
+                return;
+            }
+            if (NpcAI is { Working: true } and not { InIdle: true, InCombat: false }) {
+                return;
+            }
+            int previousLevel = HeroLevelAtInitialization;
+            int currentLevel = Hero.Current.Level.ModifiedInt;
+            if (previousLevel == currentLevel) {
+                return;
+            }
+            AliveStats.RecalculateAllStats(previousLevel, currentLevel);
+            CharacterStats.RecalculateAllStats(previousLevel, currentLevel);
+            NpcStats.RecalculateAllStats(previousLevel, currentLevel);
+            _heroLevelAtInitialization = currentLevel;
         }
         
         // === Helpers

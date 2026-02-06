@@ -179,6 +179,9 @@ namespace Awaken.TG.Main.Locations.Attachments {
         }
 
         void ElementDiscarded(string groupName, Element element) {
+            if (_owner.HasBeenDiscarded) {
+                return;
+            }
             if (_attachmentsByGroup.GetValues(groupName, true).Remove(element)) {
                 // If element was removed by ReplaceAll or Restore, this will not be triggered
                 // In all other cases of element removal, we will prevent elements of that type from spawning again

@@ -8,6 +8,10 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using GameAnalyticsSDK;
 
+#if !UNITY_GAMECORE && !UNITY_PS5
+using Awaken.TG.Main.Analytics;
+#endif
+
 namespace Awaken.TG.Main.Stories.Steps {
     [Element("Technical/Analytics: Send Event")]
     public class SEditorAnalyticEvent : EditorStep {
@@ -48,16 +52,17 @@ namespace Awaken.TG.Main.Stories.Steps {
                 return StepResult.Immediate;
             }
 
-            string eventName = string.Join(":", parts);
+            
             if (evtType == EventType.Design) {
-                //GameAnalytics.NewDesignEvent(eventName, value);
+                string eventName = string.Join(":", parts);
+                AnalyticsUtils.TrySendDesignEvent($"Custom:{eventName}", value);
             } else {
                 if (parts.Length == 1) {
-                    //GameAnalytics.NewProgressionEvent(progressionType, parts[0], (int)value);
+                    AnalyticsUtils.TrySendProgressionEvent(progressionType, parts[0], (int)value);
                 } else if (parts.Length == 2) {
-                    //GameAnalytics.NewProgressionEvent(progressionType, parts[0], parts[1], (int) value);
+                    AnalyticsUtils.TrySendProgressionEvent(progressionType, parts[0], parts[1], (int) value);
                 } else if (parts.Length == 3) {
-                    //GameAnalytics.NewProgressionEvent(progressionType, parts[0], parts[1], parts[2], (int) value);
+                    AnalyticsUtils.TrySendProgressionEvent(progressionType, parts[0], parts[1], parts[2], (int) value);
                 }
             }
 #endif

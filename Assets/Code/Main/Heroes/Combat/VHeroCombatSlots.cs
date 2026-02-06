@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.Utility.Animations;
 using Awaken.Utility.Collections;
 using Awaken.Utility.LowLevel.Collections;
+using Cysharp.Threading.Tasks;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -39,7 +41,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         Vector3 _heroBackwardsVelocity;
         bool _isUpdatingSlotsPositions, _slotsUpdatesCompleted;
         System.Action _updateSlotsPositionsAndStatusesDelegate;
-        Task _updateSlotsTask;
+        UniTask _updateSlotsTask;
 
         protected override void OnInitialize() {
             SecondLineSlotsStartIndex = AllSlotsCount - slotsInLastCircle;
@@ -47,6 +49,9 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         void Update() {
+            if (HasBeenDiscarded) {
+                return;
+            }
             transform.position = Target.ParentModel.Coords;
             if (!Target.CanUpdate) {
                 return;
@@ -80,7 +85,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                         _slotsNewHeroReachableStatuses = new UnsafeBitmask((uint)slotsCount, ARAlloc.Persistent);
                     }
 
-                    _updateSlotsTask = Task.Run(_updateSlotsPositionsAndStatusesDelegate);
+                    _updateSlotsTask = UniTask.RunOnThreadPool(_updateSlotsPositionsAndStatusesDelegate);
                 }
             }
         }
@@ -189,9 +194,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         protected override IBackgroundTask OnDiscard() {
-            if (_updateSlotsTask != null) {
-                _updateSlotsTask.Wait();
-                _updateSlotsTask.Dispose();
+            while (_isUpdatingSlotsPositions && !_slotsUpdatesCompleted) {
+                Thread.SpinWait(5);
             }
             
             if (_slotsNewPositions.IsCreated) {

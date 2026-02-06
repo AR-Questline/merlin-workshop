@@ -7,6 +7,7 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
     public partial class SaveLoadSlotUI : Element<ISaveLoadUI>, ISaveLoadSlotUI, IWithRecyclableView {
         public sealed override bool IsNotSaved => true;
         public readonly SaveSlot saveSlot;
+        
         public int Index { get; private set; }
 
         public SaveLoadSlotUI(SaveSlot saveSlot, int index) {

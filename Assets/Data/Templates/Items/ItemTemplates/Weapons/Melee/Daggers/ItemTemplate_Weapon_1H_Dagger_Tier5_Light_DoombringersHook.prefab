@@ -80,7 +80,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_increase_dependingonmissing
       ID: Template/description_locString_2543871262668956605_436954be0e4e51846ac4aa64e6adc929
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: "Increases Attack Speed by up to 100\_%, depending on
+    missing Health."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -105,7 +106,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_436954be0e4e51846ac4aa64e6adc929
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -130,7 +131,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_436954be0e4e51846ac4aa64e6adc929
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -156,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 02e4a1a8bba971b46986541dde3ef496
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -242,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5872891149054577755
 MonoBehaviour:
@@ -583,7 +591,7 @@ MonoBehaviour:
     - name: ModifyValueMax
       value: 1
     - name: ValueGain
-      value: 0.05
+      value: 0.1
     - name: ValueCalculated
       value: 0
     - name: ValuePreCalculated

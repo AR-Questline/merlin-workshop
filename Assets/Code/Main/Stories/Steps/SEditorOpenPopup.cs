@@ -3,6 +3,7 @@ using Awaken.TG.Main.Stories.Core.Attributes;
 using Awaken.TG.Main.Stories.Execution;
 using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
+using Awaken.TG.Main.UI;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.MVC;
@@ -33,8 +34,9 @@ namespace Awaken.TG.Main.Stories.Steps {
 
         public override StepResult Execute(Story story) {
             story.MainView?.Discard();
-            World.SpawnView(story, ViewType, true);
-
+            var view = World.SpawnView(story, ViewType, true);
+            World.Add(new BlurBackground(story, BlurConfig.WithBlurVolume)).ShowBackground(view);
+            
             var stack = UIStateStack.Instance;
             stack.ReleaseAllOwnedBy(story);
             stack.PushState(UIState.ModalState(HUDState.MiddlePanelShown), story);

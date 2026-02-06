@@ -41,6 +41,10 @@ namespace Awaken.TG.MVC.Serialization {
         }
         
         public void WriteStructList<T>(in StructList<T> value, NestedWriter<T> writer) {
+            if (value.IsCreated == false) {
+                Write(-1);
+                return;
+            }
             Write(value.Count);
             for (int i = 0; i < value.Count; i++) {
                 writer(this, value[i]);

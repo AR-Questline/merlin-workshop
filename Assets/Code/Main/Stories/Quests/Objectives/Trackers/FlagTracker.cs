@@ -15,17 +15,21 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
             _flags = spec.flags;
         }
 
-        protected override void OnInitialize() {
+
+        protected override void StartTracking() {
             World.EventSystem.ListenTo(EventSelector.AnySource, StoryFlags.Events.FlagChanged, this, OnFlagChange);
-            //First refresh should be after Quest is initialized in case of objective being instantly fulfilled
-            ParentModel.ParentModel.AfterFullyInitialized(OnFlagChange, this);  
+            OnFlagChange(true);
+        }
+
+        void OnFlagChange() {
+            OnFlagChange(false);
         }
         
-        void OnFlagChange() {
+        void OnFlagChange(bool fromInitialCheck) {
             GameplayMemory memory = Services.Get<GameplayMemory>();
             bool IsCompleted(string flag) => memory.Context().Get(flag, false);
             
-            SetTo(_flags.Count(IsCompleted));
+            SetTo(_flags.Count(IsCompleted), fromInitialCheck);
         }
     }
 }

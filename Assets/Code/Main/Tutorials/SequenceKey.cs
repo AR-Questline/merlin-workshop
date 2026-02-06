@@ -31,6 +31,9 @@
         [UnityEngine.Scripting.Preserve] FirstWyrdWhisperAcquire = 32, 
         [UnityEngine.Scripting.Preserve] ParryOnTrigger = 33,
         [UnityEngine.Scripting.Preserve] HorseArmorDlc = 34,
-        [UnityEngine.Scripting.Preserve] Fishing = 35
+        [UnityEngine.Scripting.Preserve] Fishing = 35,
+        [UnityEngine.Scripting.Preserve] SarrasSickle = 36,
+        [UnityEngine.Scripting.Preserve] SarrasTalentTree = 37,
+        [UnityEngine.Scripting.Preserve] SarrasBlessing = 38,
     }
 }

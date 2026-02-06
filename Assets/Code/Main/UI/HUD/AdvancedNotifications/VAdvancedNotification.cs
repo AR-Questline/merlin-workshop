@@ -6,7 +6,7 @@ using FMODUnity;
 using UnityEngine;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
-    public abstract class VAdvancedNotification<TNotification> : View<TNotification>, IAdvancedNotificationsView where TNotification : IAdvancedNotification {
+    public abstract class VAdvancedNotification<TNotification> : View<TNotification>, IAdvancedNotificationsView where TNotification : AdvancedNotification {
         [SerializeField] EventReference notificationSound;
         public EventReference NotificationSound => notificationSound;
 
@@ -28,6 +28,5 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
         public virtual void DiscardNotification() {
             Target.Discard();
         }
-
     }
 }

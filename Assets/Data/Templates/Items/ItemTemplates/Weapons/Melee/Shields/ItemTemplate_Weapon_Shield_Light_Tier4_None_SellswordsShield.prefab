@@ -97,7 +97,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_costOverridenToken_locString_2543871262668956605_506ed4a241dba144b95d5cbe90549d63
     magicDescription:
       toggled: 0
       locString:
@@ -127,11 +127,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_506ed4a241dba144b95d5cbe90549d63
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 500
+  basePrice: 1500
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 2
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: c54bf9339e59b0447ae33b10d167945f
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -202,16 +206,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 11
+  heavyAttackStaminaCost: 17
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 0.7
   parryStaminaCost: 15
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 4
-  maxDamage: 8
+  minDamage: 12
+  maxDamage: 18
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -228,7 +232,7 @@ MonoBehaviour:
     calculatedPercentage: 1
   armor: 15
   armorGain: 0
-  blockDamageReductionPercent: 85
+  blockDamageReductionPercent: 80
   blockAngle: 90
   blockGain: 1
   forceDamage: 3
@@ -245,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5142660982929892319
 MonoBehaviour:
@@ -592,8 +599,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c9a1b7550142df966ddef0ca491555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strengthRequired: 7
-  dexterityRequired: 0
+  strengthRequired: 4
+  dexterityRequired: 4
   spiritualityRequired: 0
   perceptionRequired: 0
   enduranceRequired: 9

@@ -53,6 +53,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 24ab22ae60216694cb5efd947c91de4d
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 4e1fddd5b7d0e324e99692b46e9e21d6
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -78,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_6665a09a8acdaab48b7e0d01e08047ef
-  EDITOR_bakedDescription: Shocks target with electricity.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -295,7 +301,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 17
   maxDamage: 25
-  damageGain: 0
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -328,8 +334,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 19
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 29
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-7863126784321866877
 MonoBehaviour:

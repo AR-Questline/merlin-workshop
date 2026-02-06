@@ -23,6 +23,11 @@ PrefabInstance:
       propertyPath: enduranceRequired
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -2030504492413747376, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: perceptionRequired
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1342416209863646601, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
       propertyPath: armor
@@ -99,6 +104,16 @@ PrefabInstance:
         type: 3}
       propertyPath: iconReference.arSpriteReference.address
       value: 0ca311620ee1969418dedb1a17128cda
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: heavyCastInfo.magicDescription.locString.ID
+      value: Template/heavyCastInfo_magicDescription_locString_9211682420203416995_1d643ed4d23cee9429a3ca678380d000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: lightCastInfo.magicDescription.locString.ID
+      value: Template/lightCastInfo_magicDescription_locString_9211682420203416995_1d643ed4d23cee9429a3ca678380d000
       objectReference: {fileID: 0}
     - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
@@ -197,7 +212,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 0.25
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValueCalculated
       value: 0
     enums:
@@ -233,6 +248,8 @@ MonoBehaviour:
       value: 10
     - name: GainValue
       value: 1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

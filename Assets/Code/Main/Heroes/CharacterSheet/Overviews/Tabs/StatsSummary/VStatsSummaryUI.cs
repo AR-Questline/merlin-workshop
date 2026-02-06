@@ -14,7 +14,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.StatsSummary {
     public class VStatsSummaryUI : View<StatsSummaryUI> {
         [SerializeField] VCStatsSummaryEntryUI armor;
         [SerializeField] VCStatsSummaryEntryUI weakSpotDamage;
-        [SerializeField] VCStatsSummaryEntryUI lifesteal;
 
         public override Transform DetermineHost() => Target.ParentModel.View<VCharacterStatsUI>().StatsSummaryParent;
         static Hero Hero => Hero.Current;
@@ -72,7 +71,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.StatsSummary {
 
         void SetupDisplayOnlyStats() {
             armor.Override(() => Hero.ArmorValue());
-            lifesteal.Override(() => Hero.Stat(CharacterStatType.LifeSteal));
             weakSpotDamage.Override(() => 1 + Hero.Stat(HeroStatType.WeakSpotDamageMultiplier).ModifiedValue);
         }
         

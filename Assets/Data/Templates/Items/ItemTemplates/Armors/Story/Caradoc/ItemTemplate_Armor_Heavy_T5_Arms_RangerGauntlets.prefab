@@ -60,6 +60,12 @@ MonoBehaviour:
     notes: 
   tags:
   - item:tier4
+  conditionalIconReference:
+  - requiredFlag: CaradocSkin:KnightOfTheRealm
+    icon:
+      arSpriteReference:
+        address: b9541d3c9bac2e94c94af5fe6bd71026
+        subObjectName: 
   iconReference:
     arSpriteReference:
       address: 49b4621600eb62842a50b8011a471e5a
@@ -102,7 +108,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_7f1df79c08d40ad4e88f230567fe00eb
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +133,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_7f1df79c08d40ad4e88f230567fe00eb
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Normal
@@ -154,6 +160,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-4741085733169175330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +181,15 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: CaradocSkin:KnightOfTheRealm
+    itemPrefab:
+      address: a2b6a63b36dc71f4290dd9181c1ee243
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 1
+    hand: 0
+    flag: 
     itemPrefab:
       address: 1dce6b4255e80564ca269d65180227ec
       subObjectName: 
@@ -178,6 +197,15 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: CaradocSkin:KnightOfTheRealm
+    itemPrefab:
+      address: 3150ca52b0e9c2549addfb25f4afec29
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 2
+    hand: 0
+    flag: 
     itemPrefab:
       address: 876ec5686cd7c2046a1b7b11de5b2d7c
       subObjectName: 
@@ -243,8 +271,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-1287303037634831573
 MonoBehaviour:

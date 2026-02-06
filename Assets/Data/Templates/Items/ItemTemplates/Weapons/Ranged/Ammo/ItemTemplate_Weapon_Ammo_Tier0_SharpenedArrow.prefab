@@ -75,7 +75,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_6f5e28bf79b8142429899ff2b51841c7
-  EDITOR_bakedDescription: Inflicts Bleed on hit.
+  EDITOR_bakedDescription: Inflicts a small amount of <color=#04959A>Bleed</color>
+    on hit.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: ce6fe3ff1bc44934bbbdfc9630644abb
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &4573730755203723746
 MonoBehaviour:
@@ -239,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &3716150357415095985
 MonoBehaviour:
@@ -269,10 +277,14 @@ MonoBehaviour:
       variables:
       - name: Buildup
         value: 0
-      - name: Stacks
-        value: 1
+      - name: NGBuildup
+        value: 80
       - name: Duration
         value: 0
+      - name: Stacks
+        value: 3
+      - name: NGStacks
+        value: 6
       enums: []
       datums: []
       templates:

@@ -12,5 +12,6 @@
         public const ushort FactionService = 10;
         public const ushort FactionRegionsService = 11;
         public const ushort SceneSpecCaches = 12;
+        public const ushort UniqueNpcStash = 13;
     }
 }

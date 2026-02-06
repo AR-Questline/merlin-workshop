@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -26,20 +27,23 @@ namespace Awaken.TG.EditorOnly.Utils {
             return rootBonePath;
         }
 
-        public static Vector3 MeasureRootEulerAnglesDelta(this AnimationClip clip, float samplingInterval = 0.016f) {
+        public static float[] SampleRootHorizontalRotation(this AnimationClip clip) {
             GameObject motionMeasurementRootObject = new("MotionMeasurementRoot");
             GameObject rootNodeObject = clip.PrepareObjectForRootMotionMeasurement(motionMeasurementRootObject, out bool keepOriginalRotation);
 
-            if (keepOriginalRotation) {
+            if (keepOriginalRotation || clip.length == 0f) {
                 Object.DestroyImmediate(motionMeasurementRootObject);
-                return Vector3.zero;
+                return Array.Empty<float>();
             }
             
             Quaternion previousRotation = Quaternion.identity;
             Vector3 eulerAnglesDelta = Vector3.zero;
-            int samplesCount = Mathf.FloorToInt(Mathf.Max(2, 1 + clip.length / samplingInterval));
-            for (int i = 0; i <= samplesCount; i++) {
-                float sampleTime = i * clip.length / samplesCount;
+            int samplesCount = Mathf.FloorToInt(Mathf.Max(2, 1 + clip.length * clip.frameRate));
+
+            float[] sampledRotations = new float[samplesCount];
+            
+            for (int i = 0; i < samplesCount; i++) {
+                float sampleTime = i * clip.length / (samplesCount - 1);
                 clip.SampleAnimation(motionMeasurementRootObject, sampleTime);
                 Quaternion newRotation = rootNodeObject.transform.rotation;
 
@@ -53,16 +57,17 @@ namespace Awaken.TG.EditorOnly.Utils {
                         Mathf.DeltaAngle(0f, absoluteDeltaEulerAngles.y),
                         Mathf.DeltaAngle(0f, absoluteDeltaEulerAngles.z)
                     );
-                    
                     eulerAnglesDelta += normalizedDeltaEulerAngles;
                 }
                 
                 previousRotation = newRotation;
+                
+                sampledRotations[i] = eulerAnglesDelta.y;
             }
             
             Object.DestroyImmediate(motionMeasurementRootObject);
 
-            return eulerAnglesDelta;
+            return sampledRotations;
         }
 
         static GameObject PrepareObjectForRootMotionMeasurement(this AnimationClip clip, GameObject motionMeasurementRoot, out bool keepOriginalRotation) {

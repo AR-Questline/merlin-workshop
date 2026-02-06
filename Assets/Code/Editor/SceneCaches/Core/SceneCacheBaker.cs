@@ -1,13 +1,12 @@
 ﻿using Awaken.TG.Assets;
+using Awaken.TG.Editor.QuestMapTool;
 using Awaken.TG.Editor.SceneCaches.Items;
 using Awaken.TG.Editor.SceneCaches.Locations;
 using Awaken.TG.Editor.SceneCaches.NPCs;
 using Awaken.TG.Editor.SceneCaches.Quests;
 using Awaken.TG.Editor.SceneCaches.Scenes;
 using Awaken.TG.Editor.Utility;
-using Awaken.TG.Main.General.Caches;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +19,8 @@ namespace Awaken.TG.Editor.SceneCaches.Core {
             new NpcCacheBaker(),
             new EncountersCacheBaker(),
             new QuestCacheBaker(),
-            new PresenceCacheBaker()
+            new PresenceCacheBaker(),
+            new QuestMapCacheBaker()
         };
 
         public static void Bake() {

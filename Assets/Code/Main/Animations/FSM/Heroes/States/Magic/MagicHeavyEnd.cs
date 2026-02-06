@@ -57,7 +57,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Magic {
             Performed = true;
             
             ParentModel.PlayAudioClip(ItemAudioType.CastHeavyRelease.RetrieveFrom(ParentModel.Item));
-            ParentModel.OnPerformCast();
+            ParentModel.OnPerformCast(false);
         }
     }
 

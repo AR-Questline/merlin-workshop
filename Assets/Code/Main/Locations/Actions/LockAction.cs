@@ -55,7 +55,15 @@ namespace Awaken.TG.Main.Locations.Actions {
         public IReadOnlyList<float> Angles => _angles;
         protected override InteractRunType RunInteraction => InteractRunType.DontRun;
 
-        public override bool IsIllegal => WillTryLockpicking && Crime.Lockpicking(ParentModel).IsCrime();
+        public override bool IsIllegal {
+            get {
+                if (WillTryLockpicking) {
+                    using var crime = Crime.Lockpicking(ParentModel);
+                    return crime.IsCrime();
+                }
+                return false;
+            }
+        }
 
         public override InfoFrame ActionFrame => new(string.Empty, false);
         public override InfoFrame InfoFrame1 {

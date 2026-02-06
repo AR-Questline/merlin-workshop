@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Awaken.TG.Main.Heroes.Items.Tools;
+using Awaken.TG.Main.NewGamePlus;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
     public class LootLevelOverride : ILootTable {
         [LabelWidth(60)]
         public int lvl = 0;
+        public bool grantBonusLevelFromNgPlus = true;
 
         [SerializeReference, InlineProperty, LabelWidth(60), BoxGroup("box", showLabel: false), HideLabel]
         public ILootTable loot;
@@ -19,8 +21,11 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
             }
             LootTableResult result = loot.PopLoot(debugTarget);
             
+            int targetLevel = grantBonusLevelFromNgPlus 
+                ? lvl + NewGamePlusSystem.CalculatedBonusItemLevel
+                : lvl;
             foreach (ItemSpawningDataRuntime item in result.items) {
-                item.itemLvl = lvl;
+                item.itemLvl = targetLevel;
             }
 
             return result;

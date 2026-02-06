@@ -42,28 +42,34 @@ namespace Awaken.TG.Utility {
         
         [UnityEngine.Scripting.Preserve]
         public static string FontExtraLight(this string text) {
-            return  text.FontWeight(200);
+            return text.FontWeight(200);
         }
         
         public static string FontLight(this string text) {
-            return  text.FontWeight(300);
+            return text.FontWeight(300);
         }
         
         public static string FontRegular(this string text) {
-            return  text.FontWeight(400);
+            return text.FontWeight(400);
         }
         
         [UnityEngine.Scripting.Preserve]
         public static string FontMedium(this string text) {
-            return  text.FontWeight(500);
+            //TODO: revert when Unity fix font styles
+            //return text.FontWeight(500);
+            return text.Bold();
         }
         
         public static string FontSemiBold(this string text) {
-            return  text.FontWeight(600);
+            //TODO: revert when Unity fix font styles
+            //return text.FontWeight(600);
+            return text.Bold();
         }
         
         public static string FontBold(this string text) {
-            return  text.FontWeight(700);
+            //TODO: revert when Unity fix font styles
+            //return text.FontWeight(700);
+            return text.Bold();
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -212,7 +218,7 @@ namespace Awaken.TG.Utility {
             }
 
             // nothing in cache, get it
-            string translation = LocalizationHelper.Translate(id, s_cacheLocale);
+            string translation = LocalizationHelper.Translate(id);
             if (string.IsNullOrWhiteSpace(translation)) {
                 return null;
             }

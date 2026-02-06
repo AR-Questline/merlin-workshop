@@ -47,8 +47,7 @@ namespace Awaken.PackageUtilities.Collections {
         
         public int Capacity {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get => AwakenCollectionHelper.AssumePositive(_capacity);
-            set => SetCapacity(value);
+            get => AwakenCollectionHelper.AssumePositive(_capacity);
         }
 
         public readonly bool IsCreated {
@@ -97,20 +96,24 @@ namespace Awaken.PackageUtilities.Collections {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Add(in T value) {
             var index = _length;
-            _length++;
-            if (_length > _capacity) {
-                EnsureCapacity(_length);
+            var requiredLength = _length + 1;
+            if (requiredLength > _capacity) {
+                EnsureCapacity(requiredLength);
             }
+
             *AllocationsTracker.Access(_ptr, index) = value;
+            _length++;
         }
         
         public void AddRange(void* ptr, int count) {
             var index = _length;
-            _length += count;
-            if (_length > _capacity) {
-                EnsureCapacity(_length);
+            var requiredLength = _length + count;
+            if (requiredLength > _capacity) {
+                EnsureCapacity(requiredLength);
             }
+
             UnsafeUtility.MemCpy(AllocationsTracker.Access(_ptr, index), ptr, count * sizeof(T));
+            _length += count;
         }
 
         [GenerateTestsForBurstCompatibility(GenericTypeArguments = new[] { typeof(int) })]
@@ -120,13 +123,14 @@ namespace Awaken.PackageUtilities.Collections {
 
         public void AddReplicate(in T value, int count) {
             var index = _length;
-            _length += count;
-            if (_length > Capacity) {
-                EnsureCapacity(_length);
+            var requiredLength = _length + count;
+            if (requiredLength > Capacity) {
+                EnsureCapacity(requiredLength);
             }
             fixed (void* ptr = &value) {
                 UnsafeUtility.MemCpyReplicate(AllocationsTracker.Access(_ptr, index), ptr, sizeof(T), count);
             }
+            _length += count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -206,18 +210,19 @@ namespace Awaken.PackageUtilities.Collections {
             begin = AwakenCollectionHelper.AssumePositive(begin);
             end = AwakenCollectionHelper.AssumePositive(end);
 
-            int items = end - begin;
-            if (items < 1) {
+            int itemsCount = end - begin;
+            if (itemsCount < 1) {
                 return;
             }
 
             var oldLength = _length;
 
-            if (_length + items > Capacity) {
-                Resize(_length + items);
-            } else {
-                _length += items;
+            var requiredLength = _length + itemsCount;
+            if (requiredLength > Capacity) {
+                EnsureCapacity(requiredLength);
             }
+
+            _length += itemsCount;
 
             var itemsToCopy = oldLength - begin;
 

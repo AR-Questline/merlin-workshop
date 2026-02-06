@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -99,6 +100,12 @@ namespace Awaken.TG.MVC.UI.Handlers.Drags {
         public UIResult BeforeHandlingBy(IUIAware handler, UIEvent evt) => UIResult.Ignore;
 
         public UIResult AfterHandlingBy(IUIAware handler, UIEvent evt) {
+            if (!handler.IsValid) return UIResult.Ignore;
+            
+#if DEBUG || AR_DEBUG
+            handler.LogInvalidUIAware(evt);
+#endif
+            
             if (RewiredHelper.IsGamepad) {
                 return TryStartGamepadDrag(handler, evt);
             } else {

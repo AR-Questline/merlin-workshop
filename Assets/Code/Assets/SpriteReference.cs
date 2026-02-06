@@ -1,8 +1,10 @@
 ﻿using Awaken.Utility;
 using System;
+using System.Collections.Generic;
 using Awaken.TG.Main.UIToolkit;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility.Attributes;
+using Awaken.Utility.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
@@ -21,6 +23,7 @@ namespace Awaken.TG.Assets {
         [Saved] public ARAssetReference arSpriteReference;
 
         static ImageSpriteLoader s_imageLoader = new();
+        // static UILineRenderSpriteLoader s_uilineRendererLoader = new();
         static SpriteRendererSpriteLoader s_spriteRendererLoader = new();
         static ImageElementSpriteLoader s_imageElementSpriteLoader = new();
         
@@ -54,6 +57,13 @@ namespace Awaken.TG.Assets {
         public void SetSprite(Image image, Action<Image, Sprite> afterAssign = null) {
             s_imageLoader.SetSprite(image, arSpriteReference, afterAssign);
         }
+        
+        /// <summary>
+        /// Set Sprite in UILineRenderer after sprite get loaded
+        /// </summary>
+        // public void SetSprite(UILineRenderer lineRenderer, Action<UILineRenderer, Sprite> afterAssign = null) {
+        //     s_uilineRendererLoader.SetSprite(lineRenderer, arSpriteReference, afterAssign);
+        // }
 
         /// <summary>
         /// Set Sprite in VisualElement background image after sprite get loaded
@@ -88,8 +98,11 @@ namespace Awaken.TG.Assets {
         }
         
         abstract class SpriteLoader<TComponent> where TComponent : Component {
+            HashSet<CanvasGroup> _parentIgnoredCanvasGroups;
+            
             public void SetSprite(TComponent component, ARAssetReference asset, Action<TComponent, Sprite> afterAssign = null) {
                 IAssetLoadingGate gate = GetLoadingGate(component);
+                TryToStoreIgnoredNestedCanvasGroups(gate);
 
                 var handle = asset.LoadAsset<Sprite>();
                 // loadOperation.OnComplete do the same but allocates because delegate captures\
@@ -98,6 +111,23 @@ namespace Awaken.TG.Assets {
                     OnSpriteLoaded(handle, component, asset, gate, afterAssign);
                 } else {
                     handle.OnComplete(_ => OnSpriteLoaded(handle, component, asset, gate, afterAssign), _ => gate?.Unlock());
+                }
+            }
+
+            void TryToStoreIgnoredNestedCanvasGroups(IAssetLoadingGate gate) {
+                if (gate == null) return;
+                
+                var canvasGroups = gate.OwnerView.GetComponentsInChildren<CanvasGroup>(true);
+                var ownerGameObject = gate.OwnerView.gameObject;
+                
+                foreach (var canvasGroup in canvasGroups) {
+                    if (canvasGroup.gameObject == ownerGameObject || !canvasGroup.ignoreParentGroups) {
+                        continue;
+                    }
+                    
+                    _parentIgnoredCanvasGroups ??= new HashSet<CanvasGroup>();
+                    _parentIgnoredCanvasGroups.Add(canvasGroup);
+                    canvasGroup.ignoreParentGroups = false;
                 }
             }
             
@@ -109,6 +139,21 @@ namespace Awaken.TG.Assets {
                     asset.ReleaseAsset();
                 }
                 gate?.Unlock();
+                RestoreIgnoredNestedCanvasGroups();
+            }
+
+            void RestoreIgnoredNestedCanvasGroups() {
+                if (_parentIgnoredCanvasGroups.IsNullOrEmpty()) {
+                    return;
+                }
+                
+                foreach (var canvasGroup in _parentIgnoredCanvasGroups) {
+                    if (canvasGroup == null) {
+                        continue;
+                    }
+                    canvasGroup.ignoreParentGroups = true;
+                }
+                _parentIgnoredCanvasGroups.Clear();
             }
             
             IAssetLoadingGate GetLoadingGate(TComponent component) {
@@ -149,6 +194,20 @@ namespace Awaken.TG.Assets {
                 return loadingGate;
             }
         }
+        
+        // class UILineRenderSpriteLoader : SpriteLoader<UILineRenderer> {
+        //     protected override void AssignSprite(UILineRenderer component, Sprite sprite) {
+        //         component.sprite = sprite;
+        //     }
+        //
+        //     protected override IAssetLoadingGate CreateDefaultGate(View view, UILineRenderer component) {
+        //         var viewCanvasGroup = view.gameObject.AddComponent<CanvasGroup>();
+        //         viewCanvasGroup.alpha = 1;
+        //         var loadingGate = view.gameObject.AddComponent<AssetLoadingGate>();
+        //         loadingGate.gate = viewCanvasGroup;
+        //         return loadingGate;
+        //     }
+        // }
 
         class SpriteRendererSpriteLoader : SpriteLoader<SpriteRenderer> {
             protected override void AssignSprite(SpriteRenderer component, Sprite sprite) {

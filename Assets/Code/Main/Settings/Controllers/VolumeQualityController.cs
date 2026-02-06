@@ -11,6 +11,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
             Add<FogController>();
             Add<SSAOController>();
             Add<ChromaticAberrationController>();
+            Add<VignetteController>();
             Add<OldGpuFixer>();
             Add<CloudsShadowsResolutionController>();
         }

@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Saving.Models;
-using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.VisualScripts.Units.Awaits {
     /// <summary>
@@ -16,7 +13,7 @@ namespace Awaken.TG.VisualScripts.Units.Awaits {
     [UnitTitle("AR Wait For Seconds")]
     [UnitOrder(4)]
     [UnityEngine.Scripting.Preserve]
-    public class ARWaitForSecondsUnit : WaitUnit {
+    public class ARWaitForSecondsUnit : ARWaitUnit {
         InlineValueInput<bool> _blockSave;
         InlineValueInput<float> _seconds;
         InlineValueInput<bool> _unscaled;
@@ -45,7 +42,7 @@ namespace Awaken.TG.VisualScripts.Units.Awaits {
 
             // HACK: Since execution of exit can throw exception we might not reach postpone discard so call it here but execute in next frame.
             DiscardPostpone(postpone).Forget();
-            yield return exit;
+            yield return TryExit(flow);
         }
         
         static async UniTaskVoid DiscardPostpone(SavePostpone postpone) {

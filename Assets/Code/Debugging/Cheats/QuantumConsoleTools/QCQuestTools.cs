@@ -70,5 +70,14 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             StoryFlags.Set(flagName, value);
             QuantumConsole.Instance.LogToConsoleAsync($"Set {flagName} to {value}");
         }
+        
+        [Command("quest.get-flag-value", "Logs a story flag value")]
+        static void QuestGetFlag([QuestFlagSuggestion] string flagName) {
+            if (World.Services.Get<GameplayMemory>().Context().HasValue<bool>(flagName)) {
+                QuantumConsole.Instance.LogToConsoleAsync($"{flagName} value: {StoryFlags.Get(flagName)}");
+                return;
+            }
+            QuantumConsole.Instance.LogToConsoleAsync($"{flagName} value: no value");
+        }
     }
 }

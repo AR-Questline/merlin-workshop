@@ -34,19 +34,20 @@ namespace Awaken.TG.Main.Locations.Views {
         public override Transform DetermineHost() => Target.ViewParent;
 
         protected override void OnInitialize() {
-            OnInitializedAsync().Forget();
+            OnInitializedAsync(false).Forget();
         }
 
-        async UniTaskVoid OnInitializedAsync() {
-            bool result = await AsyncUtil.DelayFrameOrTime(gameObject, 3, 150);
+        protected async UniTaskVoid OnInitializedAsync(bool ignoreInitializationDelay) {
+            bool result = ignoreInitializationDelay || await AsyncUtil.DelayFrameOrTime(gameObject, 3, 150);
             if (HasBeenDiscarded) {
                 return;
             }
+
             if (!result) {
                 Target.VisualLoadingFailed();
                 return;
             }
-            
+
             base.OnInitialize();
             //spawn prefab
             Target.AfterFullyInitialized(() => OnAfterFullyInitialized(Target.SavedCoords, Target.SavedRotation));
@@ -139,16 +140,18 @@ namespace Awaken.TG.Main.Locations.Views {
 
             NpcElement isNPC = Target.TryGetElement<NpcElement>();
             if (isNPC is { IsVisualSet: true }) {
-                var visual = await isNPC.LoadVisual(ModelInstance);
+                await isNPC.LoadVisual(ModelInstance);
                 if (this == null || Target == null) {
                     return;
                 }
+
+                var visual = isNPC.SpawnedVisualPrefab;
                 if (visual != null) {
                     visual.SetUnityRepresentation(new IWithUnityRepresentation.Options() {
                         linkedLifetime = true, movable = !Target.IsNonMovable,
                     });
                     foreach (MagicaCloth magicaChildren in visual.GetComponentsInChildren<MagicaCloth>(true)) {
-                        magicaChildren.Process.Init();
+                        // magicaChildren.TryInitialize();
                     }
                 }
             }

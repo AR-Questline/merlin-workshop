@@ -17,9 +17,11 @@ using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Utility.Animations;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
@@ -223,11 +225,21 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.RangedBehaviours {
             _cancellationToken = new CancellationTokenSource();
             _preloadedProjectile.Release();
             if (checkItemInInventory && _projectile != null) {
-                _itemPrefab = await _projectile.GetInHandProjectile(hand, _cancellationToken);
-                _preloadedProjectile = _projectile.PreloadProjectile();
-            } else {
+                if (_projectile.IsSetUp) {
+                    _itemPrefab = await _projectile.GetInHandProjectile(hand, _cancellationToken);
+                    _preloadedProjectile = _projectile.PreloadProjectile();
+                    return;
+                } else {
+                    Debug.LogException(new Exception($"Trying to throw a projectile {LogUtils.GetDebugName(_projectile.ParentModel)} that is not set up: Npc: {LogUtils.GetDebugName(Npc)}"));
+                }
+            } 
+            
+            if (customProjectile.visualPrefab is { IsSet: true } && customProjectile.logicPrefab is { IsSet: true }) {
                 _itemPrefab = await ItemProjectile.GetCustomInHandProjectile(customProjectile.visualPrefab, hand, _cancellationToken);
                 _preloadedProjectile = ItemProjectile.PreloadCustomProjectile(customProjectile.logicPrefab.Get(), customProjectile.visualPrefab);
+                return;
+            } else {
+                Debug.LogException(new Exception($"Trying to throw a custom projectile that is not set up: Npc: {LogUtils.GetDebugName(Npc)}"));
             }
         }
 

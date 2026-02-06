@@ -4,6 +4,8 @@ using Cysharp.Threading.Tasks;
 
 namespace Awaken.TG.Main.Locations.Deferred {
     public abstract partial class DeferredLocationExecution {
+        public virtual bool RequireVisualLoaded => false;
+
         public abstract ushort TypeForSerialization { get; }
         public abstract void Execute(Location location);
     }

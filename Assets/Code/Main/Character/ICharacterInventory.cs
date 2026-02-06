@@ -107,6 +107,16 @@ namespace Awaken.TG.Main.Character {
         public static ItemInSlots.EquippedItemsEnumerator EquippedItems(this ICharacterInventory inventory) {
             return inventory.ItemInSlots.EquippedItems();
         }
+        
+        [UnityEngine.Scripting.Preserve]
+        public static List<Item> GetEquippedItemsList(this ICharacterInventory inventory) {
+            var eqItems = inventory.EquippedItems();
+            List<Item> items = new List<Item>(eqItems.Count());
+            foreach (var item in eqItems) {
+                items.Add(item);
+            }
+            return items;
+        }
 
         public static ItemInSlots.DistinctEquippedItemsEnumerator DistinctEquippedItems(this ICharacterInventory inventory) {
             return inventory.ItemInSlots.DistinctEquippedItems();
@@ -128,7 +138,7 @@ namespace Awaken.TG.Main.Character {
         // --- Equipping
 
         public static bool Equip(this ICharacterInventory inventory, Item item, EquipmentSlotType slot = null, ILoadout loadout = null) {
-            if (!inventory.AllowEquipping) {
+            if (!inventory.AllowEquipping && slot != EquipmentSlotType.FoodQuickSlot) {
                 return false;
             }
             
@@ -197,7 +207,7 @@ namespace Awaken.TG.Main.Character {
             }
         }
 
-        static bool IsLoadoutItem(Item item) => item.EquipmentType.Category is EquipmentCategory.Weapon or EquipmentCategory.Ammo;
+        static bool IsLoadoutItem(Item item) => item.EquipmentType?.Category is EquipmentCategory.Weapon or EquipmentCategory.Ammo;
 
         public static bool IsDualWielding(this ICharacterInventory inventory) {
             EquipmentType mainHandItemEquipmentType = inventory.EquippedItem(EquipmentSlotType.MainHand)?.EquipmentType;

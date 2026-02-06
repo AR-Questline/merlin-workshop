@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_decrease_percent_double
       ID: Template/description_locString_2543871262668956605_6629da51193ceac43bf41bf2856ee5d7
-  EDITOR_bakedDescription: 'Decreases Incoming Damage by 25%.
-
-    Decreases Incoming
-    Healing by 75%.'
+  EDITOR_bakedDescription: "Decreases Incoming Damage by 20\_%.\nDecreases Incoming
+    Healing by 75\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +152,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
@@ -240,7 +242,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.75
     - name: ValueGain
-      value: 0
+      value: -0.025
     - name: ValueCalculated
       value: 0
     enums:

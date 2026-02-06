@@ -351,6 +351,7 @@ namespace Awaken.TG.Main.Character.Features {
             clothes.ListenTo(Locations.Mobs.BaseClothes.Events.ClothEquipped, AddCover, this);
             clothes.ListenTo(Locations.Mobs.BaseClothes.Events.ClothBeingUnequipped, RemoveCover, this);
             clothes.LoadedClothes.WhereNotNull().ForEach(AddCover);
+            clothes.ListenTo(Model.Events.BeforeDiscarded, RemoveAllCovers, this);
         }
 
         [UnityEngine.Scripting.Preserve]
@@ -694,6 +695,16 @@ namespace Awaken.TG.Main.Character.Features {
                 }
             }
             if (removed) {
+                RefreshCover();
+            }
+        }
+
+        void RemoveAllCovers() {
+            if (CheckNotValid()) {
+                return;
+            }
+            if (_covers is { Count: > 0 }) {
+                _covers.Clear();
                 RefreshCover();
             }
         }

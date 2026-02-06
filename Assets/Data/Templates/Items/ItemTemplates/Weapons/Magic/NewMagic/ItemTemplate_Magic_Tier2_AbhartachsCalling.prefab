@@ -16,13 +16,33 @@ PrefabInstance:
         type: 2}
     - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
+      propertyPath: damageGain
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
       propertyPath: lightCastManaCost
       value: 18
       objectReference: {fileID: 0}
     - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
+      propertyPath: heavyCastManaCostGain
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: lightCastManaCostGain
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
       propertyPath: heavyCastManaCostPerSecond
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2769171108556335023, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastManaCostPerSecondGain
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
@@ -56,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
+      propertyPath: _abstractTypes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
       propertyPath: heavyCastInfo.magicType._enumRef
       value: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Channeled
@@ -76,6 +101,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _abstractTypes.Array.data[0]._guid
       value: 70542f872371398478d541b176cd91a2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: _abstractTypes.Array.data[1]._guid
+      value: 5b8ff4dba6b2cce4595892af72058db8
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
@@ -101,6 +131,11 @@ PrefabInstance:
         type: 3}
       propertyPath: lightCastInfo.magicDescription.locString.ID
       value: Template/lightCastInfo_magicDescription_locString_900669011575156033_9a800b32b7a527b46a61ccec9a165776
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: heavyCastInfo.costOverridenToken.locString.ID
+      value: Template/heavyCastInfo_costOverridenToken_locString_900669011575156033_9a800b32b7a527b46a61ccec9a165776
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
@@ -175,7 +210,7 @@ PrefabInstance:
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.size
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
@@ -200,32 +235,32 @@ PrefabInstance:
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[4].name
-      value: ApplyStatToCasterModifier
+      value: StatHealPerSecondGain
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[5].name
-      value: ApplyStatToMinionsModifier
+      value: StatHealPerSecondCalculated
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[6].name
-      value: MaxHealDelay
+      value: ApplyStatToCasterModifier
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[7].name
-      value: MaxHealMultiplier
+      value: ApplyStatToMinionsModifier
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[8].name
-      value: StatusDuration
+      value: MaxHealDelay
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[9].name
-      value: StatusStacks
+      value: MaxHealMultiplier
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
@@ -236,6 +271,11 @@ PrefabInstance:
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[10].name
       value: StatusDuration
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[11].name
+      value: StatusStacks
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
@@ -255,7 +295,7 @@ PrefabInstance:
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[4].value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
@@ -265,26 +305,31 @@ PrefabInstance:
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[6].value
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[7].value
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
-        type: 3}
-      propertyPath: skills.Array.data[0].variables.Array.data[8].value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[8].value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[9].value
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[10].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[11].value
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7765184236265230154, guid: 9f5982999cefc124b83de6d59ec5b11e,

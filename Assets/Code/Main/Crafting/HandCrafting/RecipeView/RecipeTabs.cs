@@ -52,7 +52,6 @@ namespace Awaken.TG.Main.Crafting.HandCrafting.RecipeView {
             HPConsumable = new(nameof(HPConsumable), i => i.ConsumableModifiesHealth, LocTerms.Health),
             MPConsumable = new(nameof(MPConsumable), i => i.ConsumableModifiesMana, LocTerms.Mana),
             SPConsumable = new(nameof(SPConsumable), i => i.ConsumableStamina, LocTerms.Stamina),
-            StatConsumable = new(nameof(StatConsumable), i => i.ConsumableModifiesStat, LocTerms.CharacterStatsSummary),
             
             Armor = new(nameof(Armor), i => i.IsArmor, LocTerms.ItemsTabArmor),
             Jewelry = new (nameof(Jewelry), i => i.IsJewelry, LocTerms.ItemsTabJewelry);

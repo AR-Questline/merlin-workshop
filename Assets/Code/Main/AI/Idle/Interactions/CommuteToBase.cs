@@ -11,6 +11,7 @@ using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Api;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
@@ -194,7 +195,9 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
 
         protected class InactiveStrategy : Strategy {
             Vector3 _position;
+            float _positionRange;
             float _exitRadiusSq;
+            bool _constructingPath;
             
             List<Vector3> _path;
             int _index;
@@ -205,18 +208,17 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
 
             public void Setup(Vector3 position, float positionRange, float exitRadiusSq) {
                 _position = position;
+                _positionRange = positionRange;
                 _exitRadiusSq = exitRadiusSq;
             }
             
             public void UpdatePosition(Vector3 position) {
                 _position = position;
-                if (_path != null) {
-                    interaction._npc.Movement.Controller.GetComponent<Seeker>().StartPath(ABPath.Construct(interaction._npc.Coords, _position), OnAfterRepath);
-                }
+                TryConstructPath();
             }
             
             public void Start() {
-                interaction._npc.Movement.Controller.GetComponent<Seeker>().StartPath(ABPath.Construct(interaction._npc.Coords, _position), OnAfterRepath);
+                TryConstructPath();
             }
 
             public void Stop(InteractionStopReason reason) {
@@ -224,7 +226,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
                 if (reason == InteractionStopReason.Death) {
                     return;
                 }
-                interaction._npc?.Movement?.Controller.GetComponent<Seeker>().CancelCurrentPathRequest();
+                TryCancelConstructPath();
             }
 
             public void Update() {
@@ -246,8 +248,49 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
                     _index++;
                 }
             }
+
+            void TryConstructPath() {
+                if (_constructingPath) {
+                    return;
+                }
+                
+                if (ShouldConstructPath()) {
+                    _constructingPath = true;
+                    interaction._npc.Movement.Controller.GetComponent<Seeker>().StartPath(ABPath.Construct(interaction._npc.Coords, _position), OnAfterRepath);
+                } else {
+                    _path = null;
+                    _constructingPath = false;
+                }
+            }
+
+            void TryCancelConstructPath() {
+                if (!_constructingPath) {
+                    return;
+                }
+                
+                _constructingPath = false;
+                interaction._npc?.Movement?.Controller.GetComponent<Seeker>().CancelCurrentPathRequest();
+            }
+            
+            bool ShouldConstructPath() {
+                // We shouldn't bother in constructing a path if the NPC will reach the destination immediately after entering active state.
+                return interaction.StopOnReach && Vector3.SqrMagnitude(_position - interaction._npc.Coords) < _positionRange;
+            }
             
             void OnAfterRepath(Path path) {
+                if (_constructingPath) {
+                    // Path creation was internally cancelled;
+                    return;
+                }
+                _constructingPath = false;
+                
+                if (path.error && interaction?._npc is { HasBeenDiscarded: false, Interactor: { CurrentInteraction: { } currentInteraction} } npc && currentInteraction == interaction) {
+                    Log.Important?.Error($"InactiveCommuteTo: Failed to construct path for {LogUtils.GetDebugName(npc)} from {npc.Coords} to {_position}: {path.errorLog}");
+                    npc.ParentModel.SafelyMoveTo(_position);
+                    _path = null;
+                    return;
+                }
+                
                 _path = path.vectorPath;
                 _index = 1;
             }

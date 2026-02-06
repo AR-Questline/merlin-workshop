@@ -57,6 +57,7 @@ MonoBehaviour:
   tags:
   - alchemy:AnimalComp
   - ingredients:advancedalchemy
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: c278280d7470bc949b284c1dda0ca4fe
@@ -74,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_b4cca205728bc2e4399ff5b774fe964a
-  EDITOR_bakedDescription: Restores 10% of Max Mana.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &5128635444738983869
 MonoBehaviour:

@@ -30,7 +30,7 @@ MonoBehaviour:
         loots:
         - loot:
             rid: 2783761278352752855
-          weight: 15
+          weight: 14
         - loot:
             rid: 2783761278352752856
           weight: 4
@@ -60,9 +60,6 @@ MonoBehaviour:
           weight: 1
         - loot:
             rid: 2783761278352752867
-          weight: 1
-        - loot:
-            rid: 2783761278352752866
           weight: 1
         - loot:
             rid: 2783761278352752868
@@ -169,16 +166,6 @@ MonoBehaviour:
       data:
         itemTemplateReference:
           _guid: 662630dc4cfe5bc4ca7e3b2de23172bb
-        quantity: 1
-        itemLvl:
-          low: 0
-          high: 0
-    - rid: 2783761278352752866
-      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
-        asm: TG.Main}
-      data:
-        itemTemplateReference:
-          _guid: 88e089b7957a96b46a1f39e624756302
         quantity: 1
         itemLvl:
           low: 0

@@ -77,8 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_f2588c7580780ec44af3c5ad74ba14ca
-  EDITOR_bakedDescription: Increases Critical Chance by 20%, but also increases Incoming
-    Damage by 25%.
+  EDITOR_bakedDescription: "Increases Critical Chance by 20\_%, but also increases
+    Incoming Damage by 25\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -132,7 +132,7 @@ MonoBehaviour:
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 18
+  basePrice: 100
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 1.1
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &551714228796248067
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &3058276715517903245
 MonoBehaviour:
@@ -272,7 +279,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
-      value: 0.02
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -289,6 +298,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.25
     - name: GainValue
+      value: 0
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

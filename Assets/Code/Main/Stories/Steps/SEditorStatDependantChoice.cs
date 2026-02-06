@@ -2,7 +2,6 @@
 using Awaken.TG.Main.Stories.Api;
 using Awaken.TG.Main.Stories.Core.Attributes;
 using Awaken.TG.Main.Stories.Execution;
-using System.Collections.Generic;
 using Awaken.TG.Code.Utility;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Localization;
@@ -27,7 +26,7 @@ namespace Awaken.TG.Main.Stories.Steps {
 
         public SStatDependantChoice.RequirementType requirementType;
 
-        [LabelText("Stat")] [RichEnumExtends(typeof(StatType))] [Tooltip("The stat to check if this choice should be shown")]
+        [LabelText("Stat"), RichEnumExtends(typeof(StatType)), Tooltip("The stat to check if this choice should be shown")]
         public RichEnumReference affectedStat = AliveStatType.Health;
 
         [ShowIf(nameof(IsFlat)), LabelText("Required stat level"), Tooltip("Required value of stat for the option to be visible")]
@@ -71,7 +70,7 @@ namespace Awaken.TG.Main.Stories.Steps {
                 certainSuccessAtValue = certainSuccessAtValue,
                 isVisibleToPlayer = isVisibleToPlayer,
                 isChanceVisible = isChanceVisible,
-                overrideLabel = overrideLabel,
+                overrideLabel = parser.GetLightLocString(overrideLabel),
                 successChapter = parser.GetChapter(SuccessChapter),
             };
         }
@@ -87,7 +86,7 @@ namespace Awaken.TG.Main.Stories.Steps {
         public float certainSuccessAtValue;
         public bool isVisibleToPlayer = true;
         public bool isChanceVisible = true;
-        public LocString overrideLabel;
+        public LightLocString overrideLabel;
         public StoryChapter successChapter;
         
         public StatType AffectedStat => affectedStat.Enum as StatType;

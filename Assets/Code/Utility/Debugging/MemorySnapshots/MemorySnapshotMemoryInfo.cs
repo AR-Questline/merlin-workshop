@@ -15,7 +15,7 @@ namespace Awaken.Utility.Debugging.MemorySnapshots {
 
             Memory<MemorySnapshot> childrenMemory = memoryBuffer;
             var target = childrenMemory.Slice(0, 1);
-            mainMemorySnapshotProvider.GetMemorySnapshot(childrenMemory.Slice(1), target);
+            mainMemorySnapshotProvider.GetMemorySnapshot(childrenMemory[1..], target);
 
             GUILayout.BeginVertical("box");
             GUILayout.BeginHorizontal();

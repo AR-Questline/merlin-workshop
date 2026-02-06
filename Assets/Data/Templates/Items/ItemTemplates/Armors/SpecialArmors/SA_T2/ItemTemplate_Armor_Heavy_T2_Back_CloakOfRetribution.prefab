@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_OnDamageTaken_IncreaseStat_percent
       ID: Template/description_locString_2543871262668956605_02a06e3db9517fa42a818a9bac8b4d7e
-  EDITOR_bakedDescription: Taking damage increases Lifesteal by 1.5 for 2s.
+  EDITOR_bakedDescription: "Taking damage increases Lifesteal by 2\_% for 3s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -102,7 +102,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_02a06e3db9517fa42a818a9bac8b4d7e
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +127,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_02a06e3db9517fa42a818a9bac8b4d7e
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &551714228796248067
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5170670584440967936
 MonoBehaviour:
@@ -567,7 +574,7 @@ MonoBehaviour:
     - name: AddValue
       value: 0.02
     - name: Gain
-      value: 0.01
+      value: 0
     - name: Duration
       value: 3
     - name: AddValueCalculated

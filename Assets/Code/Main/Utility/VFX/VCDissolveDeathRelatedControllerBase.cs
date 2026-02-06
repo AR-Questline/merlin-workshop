@@ -11,6 +11,7 @@ using UnityEngine;
 namespace Awaken.TG.Main.Utility.VFX {
     public abstract class VCDissolveDeathRelatedControllerBase<T> : VCDissolveControllerBase<T> {
         IEventListener _appearEventListener;
+        protected virtual bool DiscardOnDisappeared => true;
 
         protected override void OnAttach() {
             Target.OnVisualLoaded(OnVisualLoaded);
@@ -25,7 +26,7 @@ namespace Awaken.TG.Main.Utility.VFX {
             }
             
             Target.TryGetElement<IAlive>()?.ListenTo(IAlive.Events.AfterDeath, _ => {
-                _discardOnDisappeared = true;
+                _discardOnDisappeared = DiscardOnDisappeared;
                 StartDisappear().Forget();
             }, this);
             

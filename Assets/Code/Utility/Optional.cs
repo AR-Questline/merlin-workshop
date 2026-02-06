@@ -22,27 +22,27 @@ namespace Awaken.Utility {
             value = _value;
         }
 
-        public bool TryGetValue(out T value) {
+        public readonly bool TryGetValue(out T value) {
             value = _value;
             return _hasValue;
         }
 
-        public T GetValueOrDefault(T defaultValue = default) {
+        public readonly T GetValueOrDefault(T defaultValue = default) {
             return _hasValue ? _value : defaultValue;
         }
 
-        public T GetValueOrThrow(string message = "Option does not have a value") {
+        public readonly T GetValueOrThrow(string message = "Option does not have a value") {
             if (!_hasValue) {
                 throw new InvalidOperationException(message);
             }
             return _value;
         }
 
-        public override string ToString() {
+        public readonly override string ToString() {
             return _hasValue ? $"Some({_value})" : "None";
         }
 
-        public override int GetHashCode() {
+        public readonly override int GetHashCode() {
             return _hasValue ? _value.GetHashCode() : 0;
         }
 

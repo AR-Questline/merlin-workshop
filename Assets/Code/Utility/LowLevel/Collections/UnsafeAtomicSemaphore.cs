@@ -13,7 +13,8 @@ namespace Awaken.Utility.LowLevel.Collections {
         readonly Allocator _allocator;
 
         public bool Taken => *AllocationsTracker.Access(_counter) > 0;
-
+        public bool IsCreated => _allocator != Allocator.None;
+        
         public UnsafeAtomicSemaphore(Allocator allocator) {
             _allocator = allocator;
             _counter = AllocationsTracker.Malloc<int>(1, _allocator);

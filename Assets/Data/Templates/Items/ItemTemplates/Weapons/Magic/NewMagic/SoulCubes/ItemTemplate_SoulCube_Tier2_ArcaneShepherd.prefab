@@ -81,10 +81,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_2d4b8d3d9a6311f4e9c334a5aebe9373
-  EDITOR_bakedDescription: 'Charged by Summoning.
-
-    Fully heal your Summons and
-    increase their damage by 50% for 10s.'
+  EDITOR_bakedDescription: "Charged by Summoning 0/4.\nFully heal your Summons and
+    increase their Damage by 50\_% for 10s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 7e95a7ee707054942bfd55bf1ddfa239
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -310,8 +312,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

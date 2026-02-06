@@ -81,7 +81,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_286c5414be87083499943e9e1f792bad
-  EDITOR_bakedDescription: Consumes 2 mana per second but deals additional 20  damage.
+  EDITOR_bakedDescription: Consumes 6 Mana per second but deals additional 20 Damage.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 3993be2b5c19c6a43b53ced0671a1611
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 6
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3703321390094364147
 MonoBehaviour:

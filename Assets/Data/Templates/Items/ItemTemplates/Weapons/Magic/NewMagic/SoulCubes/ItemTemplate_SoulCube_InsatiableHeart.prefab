@@ -80,14 +80,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_9703fd4846c86a646bb81586e0d69579
-  EDITOR_bakedDescription: 'Charged by nearby deaths and can only be used when fully
-    charged.
-
-    Light Cast uses all charges to increase Critical Chance by 100%
-    for 5s.
-
-    Heavy Cast uses all charges to make you impervious to damage for
-    5s.'
+  EDITOR_bakedDescription: "Charged by nearby deaths and can only be used when fully
+    charged.\nLight Cast uses all charges to increase Critical Chance by 100\_% for
+    5s.\nHeavy Cast uses all charges to make you impervious to damage for 5s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -165,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -342,8 +341,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

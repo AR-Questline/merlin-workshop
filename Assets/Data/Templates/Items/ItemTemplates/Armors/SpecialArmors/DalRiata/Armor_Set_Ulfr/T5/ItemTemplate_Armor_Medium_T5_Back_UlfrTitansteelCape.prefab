@@ -78,7 +78,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_fdb176e17447f744b87c12ed27abef3e
-  EDITOR_bakedDescription: Increases Buff Duration by 50%.
+  EDITOR_bakedDescription: "Increases Buff Duration by 50\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -103,7 +103,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_fdb176e17447f744b87c12ed27abef3e
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,11 +128,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_fdb176e17447f744b87c12ed27abef3e
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 18
+  basePrice: 200
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 1.1
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &551714228796248067
 MonoBehaviour:
@@ -258,8 +262,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &7557482755795788753
 MonoBehaviour:

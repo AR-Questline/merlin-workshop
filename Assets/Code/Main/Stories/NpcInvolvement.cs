@@ -4,6 +4,7 @@ using Awaken.TG.Main.AI.States;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Fights.NPCs.Presences;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Utility.StateMachines;
 using Awaken.TG.MVC;
@@ -38,6 +39,9 @@ namespace Awaken.TG.Main.Stories {
 
         protected override void OnInitialize() {
             Owner.IsInDialogue = true;
+            if (Owner.IsUnique) {
+                World.Services.Get<UniqueNpcStash>().MarkUsed(Owner);
+            }
         }
 
         public void MakeInvulnerable() {
@@ -139,6 +143,9 @@ namespace Awaken.TG.Main.Stories {
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
+            if (Owner is { HasBeenDiscarded: false, IsUnique: true}) {
+                World.Services.TryGet<UniqueNpcStash>()?.MarkUnused(Owner);
+            }
             if (fromDomainDrop) {
                 return;
             }
@@ -152,7 +159,7 @@ namespace Awaken.TG.Main.Stories {
                 return;
             }
             Damage dmg = obj.Value;
-            if (dmg.DamageDealer is null && dmg.HitCollider is null && dmg.Item is null && dmg.Skill is null) {
+            if (dmg.DamageDealerPure is null && dmg.HitCollider is null && dmg.Item is null && dmg.Skill is null) {
                 //if everything is null it's damage from story
                 return;
             }
@@ -160,7 +167,6 @@ namespace Awaken.TG.Main.Stories {
         }
         
         public static async UniTask<NpcInvolvement> GetOrCreateFor(Story api, NpcElement npc, bool invulnerable) {
-            
             if (api is not Story story) {
                 return null;
             }

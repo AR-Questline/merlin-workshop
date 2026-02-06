@@ -86,7 +86,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_037d430b700551c49924a38348ec0d6f
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -153,6 +153,10 @@ MonoBehaviour:
     arReference:
       address: fb95afc408ae0e74cb760f71b10c6eb4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +179,12 @@ MonoBehaviour:
       value: 0
     - name: ChanceToApply
       value: 1
+    - name: StackCount
+      value: 1
+    - name: ChancePerEnemy
+      value: 0
+    - name: Range
+      value: 0
     enums: []
     datums:
     - name: OnNormalAttack
@@ -248,6 +258,26 @@ MonoBehaviour:
           address: 
           subObjectName: 
     - name: ApplyToUser
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ArrowsRequired
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: HigherChancePerEnemy
       type:
         id: 0
       value:

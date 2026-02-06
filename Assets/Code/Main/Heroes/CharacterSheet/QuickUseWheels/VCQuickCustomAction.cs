@@ -23,7 +23,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
         readonly Dictionary<CustomAction, CustomActionData> _customActions = new() {
             { CustomAction.CallMount, new CustomActionData(CallMount, HeroHasMount) },
         };
-
+        
+        public override OptionDescription Description => new(true, string.IsNullOrEmpty(actionPromptName) ? LocTerms.Use.Translate() : actionPromptName);
+        
         bool RequirementMet => _customActions[action].requirementMet?.Invoke() ?? false;
 
         protected override void Start() {
@@ -62,8 +64,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
         protected override void OnHide() {
             VQuickUseWheel.Description.HideCustomAction(actionName);
         }
-
-        public override OptionDescription Description => new(true, string.IsNullOrEmpty(actionPromptName) ? LocTerms.Use.Translate() : actionPromptName);
         
         public override void OnSelect(bool onClose) {
             if (RequirementMet) {

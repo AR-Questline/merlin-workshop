@@ -65,7 +65,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 ParentModel.Trigger(Hero.Events.HeroParriedDamage, hook.Value.Amount);
                 ParentModel.HealthElement.Trigger(HealthElement.Events.OnDamageParried, hook.Value);
                 
-                ICharacter damageDealer = hook.Value.DamageDealer;
+                ICharacter damageDealer = hook.Value.DamageDealerPure;
                 damageDealer?.Trigger(HealthElement.Events.OnMyDamageBlocked, hook.Value);
                 
                 // --- Deal Stamina Damage

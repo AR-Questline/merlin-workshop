@@ -176,6 +176,11 @@ MonoBehaviour:
       _guid: 
     table:
       rid: 1901780604328607746
+  - lootType: 1
+    lootReference:
+      _guid: 
+    table:
+      rid: 6720257270644998186
   corpseLootTables: []
   wyrdConvertedLootTables: []
   tags:
@@ -197,6 +202,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1836363115045847050
       type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
         asm: TG.Main}
@@ -233,6 +240,25 @@ MonoBehaviour:
       data:
         itemTemplateReference:
           _guid: 62e0c13810d1be8459c3559876c55614
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6720257270644998186
+      type: {class: LootTableNewGamePlusConditional, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        minimumNewGamePlusLevel: 1
+        ifTrue:
+          rid: 6720257270644998187
+        ifFalse:
+          rid: -2
+    - rid: 6720257270644998187
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: d8baefc06e285794ead2d04a96495c2d
         quantity: 1
         itemLvl:
           low: 0

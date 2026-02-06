@@ -6,7 +6,6 @@ using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Heroes.Combat;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.MVC;
@@ -47,6 +46,11 @@ namespace Awaken.TG.Main.Heroes.Animations {
             if (!eventData.CanBeInvokedInHitStop && Hero.Current.IsInHitStop) {
                 return;
             }
+            
+            var handBase = _currentWeapons.FirstOrDefault(w => eventData.restriction.Match(w));
+            if (handBase == null && _currentWeapons.Count > 0) {
+                handBase = _currentWeapons[0];
+            }
 
             // --- Actions
             if (eventData.actionType == ARAnimationEvent.ActionType.AttackRelease) {
@@ -54,9 +58,14 @@ namespace Awaken.TG.Main.Heroes.Animations {
             } else if (eventData.actionType == ARAnimationEvent.ActionType.AttackRecovery) {
                 handOwner.OnAttackRecovery(eventData);
             } else if (eventData.actionType == ARAnimationEvent.ActionType.FinisherRelease) {
-                CharacterHandBase handBase = _currentWeapons.First();
-                Vector3 position = handBase is CharacterWeapon weapon ? weapon.ColliderPivot.position : handBase.transform.position;
-                handOwner.OnFinisherRelease(position);
+                if (handBase == null) {
+                    handOwner.OnFinisherRelease(handOwner.ParentModel.Coords);
+                } else {
+                    Vector3 position = handBase is CharacterWeapon weapon
+                        ? weapon.ColliderPivot.position
+                        : handBase.transform.position;
+                    handOwner.OnFinisherRelease(position);
+                }
             } else if (eventData.actionType == ARAnimationEvent.ActionType.BackStabRelease) {
                 handOwner.OnBackStabRelease();
             } else if (eventData.actionType == ARAnimationEvent.ActionType.ToolStartInteraction) {
@@ -79,11 +88,7 @@ namespace Awaken.TG.Main.Heroes.Animations {
             }
 
             // --- Audio
-            if (_currentWeapons.Count <= 0) {
-                return;
-            }
-
-            PlayItemAudio(eventData);
+            PlayItemAudio(handBase, eventData);
             PlayCharacterAudio(eventData, Hero.Current);
         }
 
@@ -91,8 +96,11 @@ namespace Awaken.TG.Main.Heroes.Animations {
             ParentModel.Trigger(FinisherState.Events.FinisherAnimationEvent, effectsData);
         }
         
-        void PlayItemAudio(ARAnimationEventData eventData) {
-            CharacterHandBase weapon = _currentWeapons[0];
+        void PlayItemAudio(CharacterHandBase weapon, ARAnimationEventData eventData) {
+            if (weapon == null) {
+                return;
+            }
+            
             foreach (ItemAudioType itemAudioType in eventData.ItemAudio) {
                 if (itemAudioType == ItemAudioType.MeleeSwing) {
                     weapon.PlayAudioClip(eventData.attackType switch {

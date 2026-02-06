@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc88cdec074e78e46bc67fe4e55b723d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  templateType: 0
+  templateType: 3
   _isAbstract: 0
   _abstractTypes:
   - _guid: 4319a0b2120ec3449acba688e047c5c4
@@ -74,7 +74,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_5da239904c0d26f49afb8c7a82d9392d
-  EDITOR_bakedDescription: Has a 20% chance to Stun on hit.
+  EDITOR_bakedDescription: "Has a 20\_% chance to <color=#04959A>Stun</color> on
+    hit."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -86,7 +87,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_5da239904c0d26f49afb8c7a82d9392d
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -99,7 +100,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_5da239904c0d26f49afb8c7a82d9392d
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -124,7 +125,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_5da239904c0d26f49afb8c7a82d9392d
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -152,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: b91789f1d275a844c969bd0f38fcde11
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
@@ -243,11 +248,26 @@ MonoBehaviour:
         assetValue:
           address: 
           subObjectName: 
+    - name: OnDashAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates:
     - name: Status
       templateReference:
         _guid: 4137c57b2f7ae8949848554e0763a6d0
-    assetReferences: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 1b50771a83d66f742860f9184e36b5a7
+          subObjectName: 
   type: 0
 --- !u!114 &-7920490294414129397
 MonoBehaviour:

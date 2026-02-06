@@ -60,6 +60,12 @@ MonoBehaviour:
     notes: 
   tags:
   - item:tier6
+  conditionalIconReference:
+  - requiredFlag: ArthurSkin:ConquerorOfAvalon
+    icon:
+      arSpriteReference:
+        address: da425d723fe0b3f44ab309ed035bf91b
+        subObjectName: 
   iconReference:
     arSpriteReference:
       address: d3108db8609b8494b88d84a7cf1acd01
@@ -77,7 +83,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_1182649580041735363_a99a07cce38a4fe4aa5bd0159c5ee9b5
-  EDITOR_bakedDescription: Reduces Mana Regeneration by 100%.
+  EDITOR_bakedDescription: 'Increases Strength, Dexterity, Perception, Practicality
+    and Spirituality by 5.
+
+    You deal increased Damage to Fore-Dweller enemies.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +163,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &5523518885580869615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +184,23 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: ced129a28904af94cb9db91f02357d24
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 2
+    hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: 6395a66fb6d42b24abbbc924ac706058
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 1
+    hand: 0
+    flag: 
     itemPrefab:
       address: 8f88b5d63d7ff724f9fe1503e7aaff8a
       subObjectName: 
@@ -178,6 +208,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: 0bb44f10e69deab44919345c6f71278f
       subObjectName: 
@@ -243,8 +274,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &4534189959889229691
 MonoBehaviour:
@@ -273,6 +307,8 @@ MonoBehaviour:
       value: 5
     - name: GainValue
       value: 0.1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -280,7 +316,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Strength
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:
@@ -290,6 +336,8 @@ MonoBehaviour:
       value: 5
     - name: GainValue
       value: 0.1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -297,7 +345,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Dexterity
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:
@@ -307,6 +365,8 @@ MonoBehaviour:
       value: 5
     - name: GainValue
       value: 0.1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -314,7 +374,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Perception
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:
@@ -324,6 +394,8 @@ MonoBehaviour:
       value: 5
     - name: GainValue
       value: 0.1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -331,7 +403,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Practicality
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:
@@ -341,6 +423,8 @@ MonoBehaviour:
       value: 5
     - name: GainValue
       value: 0.1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -348,7 +432,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroRPGStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Spirituality
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:

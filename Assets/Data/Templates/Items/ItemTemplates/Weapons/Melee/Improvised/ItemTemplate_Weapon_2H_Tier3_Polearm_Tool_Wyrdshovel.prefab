@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_tool_digging
       ID: Template/description_locString_2543871262668956605_89362b7cd8ee6054aaa67fed3ddeb683
-  EDITOR_bakedDescription: Allows digging.
+  EDITOR_bakedDescription: Allows <color=#04959A>Digging</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -158,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 79b9a96c0a76e4b4eaf62f6a2eee20f0
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4704836569250101899
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &3340715399762663728
 MonoBehaviour:

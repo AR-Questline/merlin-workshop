@@ -108,7 +108,6 @@ namespace Awaken.TG.Main.General.Configs {
         [FoldoutGroup("AI")] public float npcHealthRegenerationUnconscious = 0.05f;
         [FoldoutGroup("AI")] public float npcRegenerationDelay = 5f;
 
-        [FoldoutGroup("Combat")] public int evasionCap = 50;
         [FoldoutGroup("Combat"), Range(1f, 3f)] public float poiseCriticalDamageMultiplier = 1.5f;
         [FoldoutGroup("Combat")] public int maxEnemiesPerUnit = 5;
         [FoldoutGroup("Combat"), ARAssetReferenceSettings(new[] {typeof(ARHeroStateToAnimationMapping)}, group: AddressableGroup.AnimatorOverrides)]
@@ -146,6 +145,7 @@ namespace Awaken.TG.Main.General.Configs {
         [FoldoutGroup("Combat")] public float minDirectionalShakesStrength;
         [FoldoutGroup("Combat")] public float maxDirectionalShakesStrength;
         [FoldoutGroup("Combat"), Range(0f, 1f)] public float directionalShakesHealthCutoff;
+        [FoldoutGroup("Combat"), ARAssetReferenceSettings(new []{typeof(ComputeShader)}, group: AddressableGroup.VFX)] public ShareableARAssetReference waterWaveComputeShader;
 
         [CustomValueDrawer("@Awaken.TG.EditorOnly.OdinHelpers.Space(20)"), ShowInInspector] string _space_ODIN;
         [FoldoutGroup("Gems")] public int addGemSlotCost = 1000;
@@ -153,7 +153,8 @@ namespace Awaken.TG.Main.General.Configs {
         [FoldoutGroup("Gems")] public int retrieveGemSlotCost = 1000;
         [FoldoutGroup("Gems")] public int sharpeningBaseCost = 1000;
         [FoldoutGroup("Gems")] public int sharpeningHeroIngredientMultiplier = 2;
-        
+        [FoldoutGroup("Gems")] public int transmogCost = 1000;
+
         [FoldoutGroup("Bonfire")] public int bonfireUpgradeCost;
         [FoldoutGroup("Bonfire")] public int bonfireUpgradeCostReduced;
         [FoldoutGroup("Bonfire")] [UnityEngine.Scripting.Preserve] public int bonfirePrayCost;
@@ -178,6 +179,7 @@ namespace Awaken.TG.Main.General.Configs {
         [field: FoldoutGroup("HeroProgression/ItemRequirements"), SerializeField] public float BlockDamageReductionPerMissingPoint { get; private set; } = 0.04f;
         [field: FoldoutGroup("HeroProgression/ItemRequirements"), SerializeField] public float ArmorReductionPerMissingPoint { get; private set; } = 0.025f;
         
+        [FoldoutGroup("UI")] public string discordURL= "https://discord.gg/Hn5zJYV";
         [FoldoutGroup("UI")] public float questMarkerMaxDistance = 20f;
         [FoldoutGroup("UI")] public float questMarkerMinDistance = 5f;
         [FoldoutGroup("UI"), SerializeField] List<CompassMarkerData> mapMarkersList = new();
@@ -188,6 +190,7 @@ namespace Awaken.TG.Main.General.Configs {
         [FoldoutGroup("UI"), Min(0)] public float mapZoomIn = 0.15f;
         [FoldoutGroup("UI")] public float mapZoomOut = 0.4f;
         [FoldoutGroup("UI")] public float tooltipDelay = 1.2f;
+        [FoldoutGroup("UI")] public float journalLastEntryAvailabilityTime = 120f;
         [FoldoutGroup("Time")] public int gameStartYear, gameStartMonth, gameStartDay, gameStartHour, gameStartMinute;
         [FoldoutGroup("Time")] public float dayDurationInMinutes = 20f;
         

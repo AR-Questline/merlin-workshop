@@ -20,7 +20,7 @@ namespace Awaken.Utility.Editor {
                 var camera = cameraData.Value;
                 var cameraPos = camera.c0;
                 var cameraForward = camera.c1;
-                var toCamera = cameraPos - (float3)position;
+                var toCamera = (float3)position - cameraPos;
                 var dot = math.dot(toCamera, cameraForward);
                 if (dot < 0.1f) {
                     return false;

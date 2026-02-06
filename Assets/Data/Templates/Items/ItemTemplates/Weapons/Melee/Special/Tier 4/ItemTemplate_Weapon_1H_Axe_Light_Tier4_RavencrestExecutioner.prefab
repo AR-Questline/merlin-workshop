@@ -80,7 +80,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_5811ce0f9519d654f994dcc5be869150
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: 'Attacks against targets at full Health are always Critical.
+
+    Ignores
+    enemy blocks.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +159,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: f184e4c977fda3b4b910dc98f8745fc3
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -242,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-758967162914770704
 MonoBehaviour:

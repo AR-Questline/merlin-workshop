@@ -1,15 +1,14 @@
 ﻿using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Heroes;
-using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Interactions;
 using Awaken.TG.Main.Localization;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility;
 using Awaken.TG.Utility.Attributes;
-using Newtonsoft.Json;
+using JetBrains.Annotations;
 
 namespace Awaken.TG.Main.Locations.Actions {
     public abstract partial class AbstractHeroAction<T> : Element<T>, IHeroActionModel where T : class, IModel {
@@ -23,7 +22,12 @@ namespace Awaken.TG.Main.Locations.Actions {
         protected virtual InteractRunType RunInteraction => InteractRunType.AfterRun;
 
         public virtual bool IsIllegal => false;
-        public virtual InfoFrame ActionFrame => new(RequiresItemMessage, HeroHasRequiredItem());
+        protected virtual bool DisableInCombat => false;
+
+        public virtual InfoFrame ActionFrame => DisableInCombat && Hero.Current.IsInCombat()
+                                                    ? InfoFrame.DisabledByCombat
+                                                    : ActionFrameInternal;
+        protected virtual InfoFrame ActionFrameInternal => new(RequiresItemMessage, HeroHasRequiredItem());
         public virtual InfoFrame InfoFrame1 => InfoFrame.Empty;
         public virtual InfoFrame InfoFrame2 => InfoFrame.Empty;
         public virtual string DefaultActionName => LocTerms.Interact.Translate();
@@ -76,9 +80,14 @@ namespace Awaken.TG.Main.Locations.Actions {
         protected virtual void OnEnabled(){}
         protected virtual void OnDisabled(){}
 
-        public bool StartInteraction(Hero hero, IInteractableWithHero interactable) {
-            if (ItemRequirement != null && !ItemRequirement.ConsumeItem(hero)) {
-                return false;
+        public bool StartInteraction([CanBeNull] Hero hero, IInteractableWithHero interactable) {
+            if (hero != null) {
+                if (DisableInCombat && hero.IsInCombat()) {
+                    return false;
+                }
+                if (ItemRequirement != null && !ItemRequirement.ConsumeItem(hero)) {
+                    return false;
+                }
             }
 
             _isInteracting = true;
@@ -121,9 +130,9 @@ namespace Awaken.TG.Main.Locations.Actions {
             VGUtils.SendCustomEvent(interactable.InteractionVSGameObject, hero.ParentTransform.gameObject, VSCustomEvent.InteractEnd);
         }
 
-        protected virtual void OnStart(Hero hero, IInteractableWithHero interactable) { }
-        protected virtual void OnFinish(Hero hero, IInteractableWithHero interactable) { }
-        protected virtual void OnEnd(Hero hero, IInteractableWithHero interactable) { }
+        protected virtual void OnStart([CanBeNull] Hero hero, IInteractableWithHero interactable) { }
+        protected virtual void OnFinish([CanBeNull] Hero hero, IInteractableWithHero interactable) { }
+        protected virtual void OnEnd([CanBeNull] Hero hero, IInteractableWithHero interactable) { }
 
         protected static void Interact(ICharacter character, IInteractableWithHero interactable) {
             if (interactable is Location location) {

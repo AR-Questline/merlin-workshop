@@ -104,7 +104,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment {
             var itemInSlot = _targetSlot.ItemInSlot;
             
             if (IsEquippedInOtherSlot(hoveredItem, hoverItemSlot) && hoveredItem != itemInSlot) {
-                if (itemInSlot != null && _targetSlot is VCLoadoutSlot loadoutSlot) {
+                if (itemInSlot is { IsFists: false } && _targetSlot is VCLoadoutSlot loadoutSlot) {
                     SwapItemsInLoadouts(hoveredItem, hoverItemSlot, loadoutSlot.Loadout);
                     return;
                 }

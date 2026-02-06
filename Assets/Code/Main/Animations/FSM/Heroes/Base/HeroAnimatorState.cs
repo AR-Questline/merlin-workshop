@@ -92,7 +92,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
             }
 
             float fadeDuration = overrideCrossFadeTime ?? EntryTransitionDuration;
-            bool isMixer = node is MixerTransition2D;
+            bool isMixer = node is ManualMixerState.ITransition2D;
             CurrentState = ParentModel.AnimancerLayer.Play(node, fadeDuration, isMixer ? default : FadeMode.FromStart);
             CurrentState.SetNormalizedTimeWithEventsInvoke(OffsetNormalizedTime(previousStateNormalizedTime));
             HeroAnimancer.RebindAnimationRigging();
@@ -118,7 +118,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
         // === Helpers
         protected void PreventStaminaRegen() {
             if (_preventStaminaRegen == null || _preventStaminaRegen.HasBeenDiscarded) {
-                _preventStaminaRegen = Hero.AddElement(new PreventStaminaRegenMarker());
+                _preventStaminaRegen = Hero.AddElement(new PreventStaminaRegenMarker(StaminaRegenBlockType.AfterAction));
             }
         }
 

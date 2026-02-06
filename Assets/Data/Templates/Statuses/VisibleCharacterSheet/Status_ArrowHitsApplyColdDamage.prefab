@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5564201018591725748}
   - component: {fileID: -5198906558835360612}
+  - component: {fileID: 7656451700932222419}
   m_Layer: 0
   m_Name: Status_ArrowHitsApplyColdDamage
   m_TagString: Untagged
@@ -115,3 +116,17 @@ MonoBehaviour:
           subObjectName: 
     templates: []
     assetReferences: []
+--- !u!114 &7656451700932222419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333203697434323422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab6a699ed5945868a70c95e94432a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 10
+  unscaledTime: 1

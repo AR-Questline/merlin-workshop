@@ -5,6 +5,7 @@ using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
@@ -17,6 +18,7 @@ using Cysharp.Threading.Tasks;
 namespace Awaken.TG.Main.Heroes.Interactions {
     public partial class HeroToolAction : Element<Hero>, IUIPlayerInput {
         public sealed override bool IsNotSaved => true;
+        public bool IsValid => this.IsValidForUIHandle();
 
         ToolHeroActionSetting _heroActionSetting;
 
@@ -47,6 +49,10 @@ namespace Awaken.TG.Main.Heroes.Interactions {
         public async UniTaskVoid StartToolAction(Tool tool = null) {
             Hero current = Hero.Current;
             tool ??= ToolItem;
+            if (!tool.CanBeUsed) {
+                return;
+            }
+            
             var characterHandBase = tool.ParentModel.View<CharacterHandBase>();
             if (characterHandBase != null) {
                 if (characterHandBase.IsHidden && tool.Type != ToolType.Spyglassing) {

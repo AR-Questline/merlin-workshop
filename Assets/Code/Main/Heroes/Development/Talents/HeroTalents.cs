@@ -67,9 +67,9 @@ namespace Awaken.TG.Main.Heroes.Development.Talents {
             }
         }
         
-        public void Reset() {
+        public void Reset(bool withRefund = true) {
             foreach (var table in Elements<TalentTable>()) {
-                table.Reset();
+                table.Reset(withRefund);
             }
         }
     }

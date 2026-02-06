@@ -1,9 +1,11 @@
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Templates.Attachments;
 using Awaken.TG.MVC.Elements;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Fights.Mounts {
@@ -15,6 +17,9 @@ namespace Awaken.TG.Main.Fights.Mounts {
         public bool wildHorse;
         [SerializeField, TemplateType(typeof(MountData))]
         TemplateReference mountData;
+        
+        [FoldoutGroup("Animations"), HeroAnimancerAnimationsAssetReference]
+        public ARAssetReference mountedHeroOverridesRef;
 
         public MountData MountData => mountData.Get<MountData>();
         

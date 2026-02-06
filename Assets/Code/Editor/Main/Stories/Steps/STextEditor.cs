@@ -1,7 +1,9 @@
 ﻿using System.IO;
+using System.Reflection;
 using Awaken.TG.Editor.Localizations;
 using Awaken.TG.Editor.Main.Stories.Drawers;
 using Awaken.TG.Editor.Utility.Audio;
+using Awaken.TG.Editor.Utility;
 using Awaken.TG.Editor.Utility.StoryGraphs;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Stories.Actors;
@@ -16,6 +18,7 @@ using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
+using XNodeEditor;
 using EventReference = FMODUnity.EventReference;
 
 namespace Awaken.TG.Editor.Main.Stories.Steps {
@@ -23,7 +26,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     public class STextEditor : ElementEditor {
         SEditorText SEditorText => Target<SEditorText>();
         TableEntry TableEntry => TableEntryStatic(SEditorText);
-        static TableEntry TableEntryStatic(SEditorText sEditorText) => LocalizationHelper.GetTableEntry(sEditorText.text.ID, LocalizationSettings.ProjectLocale);
+        static LocalizationHelper.TableEntryResult TableEntryStatic(SEditorText sEditorText) => LocalizationHelper.EditorOnly_GetTableEntry(sEditorText.text.ID, LocalizationSettings.ProjectLocale);
         bool _actorChanged, _commentChanged, _foldout;
 
         protected override void OnStartGUI() {
@@ -34,7 +37,16 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
             }
         }
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
+            if (isEditMode) {
+                DrawEditModeGUI();
+                return;
+            }
+
+            DrawReadonlyGUI();
+        }
+
+        void DrawEditModeGUI() {
             int nodeWidth = NodeGUIUtil.GetNodeWidth(SEditorText.Parent);
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             float originalFieldWidth = EditorGUIUtility.fieldWidth;
@@ -141,6 +153,33 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
             }
         }
 
+        void DrawReadonlyGUI() {
+            if (NodeEditorWindow.FarView) {
+                return;
+            }
+            
+            int nodeWidth = NodeGUIUtil.GetNodeWidth(SEditorText.Parent);
+            
+            SerializedProperty serializedPActor = _serializedObject.FindProperty(nameof(SEditorText.actorRef));
+            SerializedProperty serializedPTarget = _serializedObject.FindProperty(nameof(SEditorText.targetActorRef));
+            SerializedProperty serializedPText = _serializedObject.FindProperty(nameof(SEditorText.text));
+
+            string actorGuid = serializedPActor.FindPropertyRelative(nameof(ActorRef.guid)).stringValue;
+            string targetGuid = serializedPTarget.FindPropertyRelative(nameof(ActorRef.guid)).stringValue;
+
+            string actorName = ActorsRegister.Get.Editor_GetActorName(actorGuid);
+            string targetName = ActorsRegister.Get.Editor_GetActorName(targetGuid);
+            
+            FieldInfo textField = SEditorText.GetType().GetField(nameof(SEditorText.text));
+            LocStringData textData = LocStringGUIUtils.GetData(serializedPText, textField, nodeWidth);
+            
+            string label = $"{textData.textString}\n<color=#808080>{actorName}  →  {targetName}</color>";
+
+            var style = TGEditorGUIStyles.ReadOnlyTextArea;
+            var height = style.CalcHeight(new GUIContent(label), nodeWidth - 100);
+            EditorGUILayout.LabelField(label, style, GUILayout.Height(height));
+        }
+        
         void UpdateComment(SEditorText sEditorText) {
             var tableEntryMetas = TableEntry.SharedEntry.Metadata;
             if (string.IsNullOrWhiteSpace(sEditorText.commentInfo)) {
@@ -201,8 +240,13 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
         }
 
         public static void SetupAudio(SEditorText sEditorText, bool forceGeneration, bool findEventReference = false, bool forceIdUpdate = false) {
-            bool emptyText = sEditorText.text == null || string.IsNullOrWhiteSpace(sEditorText.text.ID) || string.IsNullOrWhiteSpace(sEditorText.text.ToString());
-            if (emptyText) {
+            if (sEditorText.text == null || string.IsNullOrWhiteSpace(sEditorText.text.ID)) {
+                return;
+            }
+            
+            var tableEntryResult = TableEntryStatic(sEditorText);
+            string translation = LocalizationHelper.EditorOnly_Translate(sEditorText.text.ID, LocalizationSettings.ProjectLocale, tableEntryResult, ignoreSmartStrings: true);
+            if (string.IsNullOrWhiteSpace(translation)) {
                 return;
             }
 
@@ -216,7 +260,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
                 return;
             }
 
-            bool hasOverride = !string.IsNullOrWhiteSpace(TableEntryStatic(sEditorText).GetMetadata<AudioReplacementName>()?.AudioReplacement);
+            bool hasOverride = !string.IsNullOrWhiteSpace(tableEntryResult.entry.GetMetadata<AudioReplacementName>()?.AudioReplacement);
             if (!File.Exists(audioFilePath)) {
                 WaveFileGenerator.CreateAndSave(audioFilePath);
             } else if (forceGeneration && !hasOverride) {

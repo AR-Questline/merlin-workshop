@@ -26,7 +26,16 @@ namespace Awaken.TG.Main.Character {
         public Stat Perception { get; private set; }
         public Stat Endurance { get; private set; }
         public Stat Practicality { get; private set; }
-        
+
+        IEnumerable<Stat> AllStats() {
+            yield return Strength;
+            yield return Dexterity;
+            yield return Spirituality;
+            yield return Perception;
+            yield return Endurance;
+            yield return Practicality;
+        }
+
         public new static class Events {
             public static readonly Event<Hero, HeroRPGStats> HeroRpgStatsFullyInitialized = new(nameof(HeroRpgStatsFullyInitialized));
         }
@@ -49,6 +58,16 @@ namespace Awaken.TG.Main.Character {
         public static void CreateFromHero(Hero hero) {
             var heroStats = new HeroRPGStats();
             hero.AddElement(heroStats);
+        }
+        
+        public void RecalculateAllStats(bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this);
+            }
+            _wrapper.Initialize(this);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
         }
 
         public List<Stat> GetHeroRPGStats() => new()

@@ -6,6 +6,8 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Crafting.Recipes;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.General;
+using Awaken.TG.Main.General.Configs;
+using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.Items.Loadouts;
 using Awaken.TG.Main.Heroes.Items.LootTables;
 using Awaken.TG.Main.Heroes.Items.Weapons;
@@ -14,10 +16,13 @@ using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Locations.Shops;
+using Awaken.TG.Main.Locations.Shops.Stocks;
+using Awaken.TG.Main.Memories.FilePrefs;
 using Awaken.TG.Main.Stories.Tags;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.Item;
+using Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.SpecialItem;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Recipe;
 using Awaken.TG.Main.Utility.TokenTexts;
 using Awaken.TG.MVC;
@@ -344,15 +349,19 @@ namespace Awaken.TG.Main.Heroes.Items {
             return LocTerms.BaseDamage.Translate() + " " + Mathf.RoundToInt(minMax.min) + "-" + Mathf.RoundToInt(minMax.max);
         }
 
-        public static void AnnounceGettingItem(ItemTemplate itemTemplate, int quantity, IModel relatedModel) {
+        public static void AnnounceGettingItem(Item item, int quantity) {
+            World.Only<SpecialItemNotificationBuffer>().TryToPush(item);
+            AnnounceGettingItem(item.Template, quantity);
+        }
+        
+        public static void AnnounceGettingItem(ItemTemplate itemTemplate, int quantity) {
             if (!itemTemplate.IsQuestItem() && !itemTemplate.HiddenOnUI) {
-                var notificationColor = quantity > 0 ? ARColor.MainGrey : ARColor.MainRed;
-                var itemData = new ItemNotificationData(itemTemplate, Mathf.Abs(quantity), notificationColor);
-                AdvancedNotificationBuffer.Push<ItemNotificationBuffer>(new ItemNotification(itemData));
+                var itemData = new ItemNotificationData(itemTemplate, quantity);
+                NotificationUtils.PushWithFiltering(new ItemNotification(itemData));
             }
         }
 
-        public static void AnnounceGettingRecipe(IRecipe recipe, IModel relatedModel) {
+        public static void AnnounceGettingRecipe(IRecipe recipe) {
             if (recipe == null) {
                 Log.Minor?.Error("Null recipe in AnnounceGettingRecipe");
                 return;
@@ -364,7 +373,7 @@ namespace Awaken.TG.Main.Heroes.Items {
             }
             
             var recipeData = new RecipeData(recipe);
-            AdvancedNotificationBuffer.Push<RecipeNotificationBuffer>(new RecipeNotification(recipeData));
+            NotificationUtils.Push(new RecipeNotification(recipeData));
         }
 
         public static bool IsBetterThanEquipped(this Item item, Hero hero) {
@@ -451,6 +460,21 @@ namespace Awaken.TG.Main.Heroes.Items {
         public static string ItemTypeTranslation(Item item, ItemTemplate template) {
             if (template.IsTool) {
                 return LocTerms.ItemTypeTool.Translate();
+            }
+            
+            if (template.IsRanged) {
+                string eqType = template.EquipmentType.Name.Translate();
+                string weightType = string.Empty;
+                if (template.IsHeavyBow) {
+                    weightType = LocTerms.WeightHeavy.Translate();
+                }
+                if (template.IsShortBow) {
+                    weightType = LocTerms.WeightLight.Translate();
+                }
+                if (template.IsMediumBow) {
+                    weightType = LocTerms.WeightMedium.Translate();
+                }
+                return !string.IsNullOrEmpty(weightType) ? $"{eqType.ColoredText(ARColor.MainAccent)} - {weightType}" : eqType;
             }
 
             if (template.IsArmor || template.IsWeapon || template.IsArrow) {
@@ -660,17 +684,26 @@ namespace Awaken.TG.Main.Heroes.Items {
             
             var itemsToRemoveOnLoad = itemsToModifyOnLoad.Where(i => i.quantity < 0).Select(i => i.ItemTemplate(debugSource)).ToList();
 
+            // Handle stash
+            var stash = Hero.Current?.Storage;
+            if (stash != null) {
+                foreach (var itemToRemove in itemsToRemoveOnLoad) {
+                    stash.RemoveCompressedItemsOfTemplate(itemToRemove);
+                }
+            }
+
             // Handle chests
             foreach (var searchAction in World.All<SearchAction>()) {
                 itemsToRemoveOnLoad.ForEach(searchAction.RemoveItem);
             }
 
             // Handle shops
-            using var worldShops = World.All<Shop>().GetManagedEnumerator();
-
-            worldShops.SelectMany(s => s.Items.Where(i => itemsToRemoveOnLoad.Any(m => m == i.Template)))
-                      .ToArray()
-                      .ForEach(i => i.Discard());
+            using var worldShopStocks = World.All<Stock>().GetManagedEnumerator();
+            foreach (var stock in worldShopStocks) {
+                foreach (var itemToRemove in itemsToRemoveOnLoad) {
+                    stock.RemoveAllItemsOfTemplate(itemToRemove);
+                }
+            }
             
             // Cleanup
             itemsToModifyOnLoad.Clear();
@@ -698,6 +731,70 @@ namespace Awaken.TG.Main.Heroes.Items {
             }
 
             return ColorEqual;
+        }
+
+        
+        /// <summary>
+        /// Fake equip for visual purposes only even if Hero does not have this item.
+        /// </summary>
+        public static void VisualHeroEquip(this Item item) {
+            item.Element<ItemEquip>().HeroEquipProcess(Hero.Current);
+        }
+        
+        /// <summary>
+        /// Fake unequip for visual purposes only even if Hero does not have this item.
+        /// </summary>
+        public static void VisualHeroUnequip(this Item item) {
+            item.Element<ItemEquip>().HeroUnequipProcess(Hero.Current, item.EquippedInSlotOfType);
+        }
+        
+        /// <summary>
+        /// Fake equip for visual purposes only even if Hero does not have this item.
+        /// </summary>
+        public static void VisualHeroEquip(this ItemEquip itemEquip) {
+            itemEquip.HeroEquipProcess(Hero.Current);
+        }
+        
+        /// <summary>
+        /// Fake unequip for visual purposes only even if Hero does not have this item.
+        /// </summary>
+        public static void VisualHeroUnequip(this ItemEquip itemEquip) {
+            itemEquip.HeroUnequipProcess(Hero.Current, itemEquip.ParentModel.EquippedInSlotOfType);
+        }
+        
+        public static bool IsSameWeaponType(this Item item, Item otherItem) {
+            if (item.IsWeapon != otherItem.IsWeapon) {
+                return false;
+            }
+
+            return (item.IsSword && otherItem.IsSword) ||
+                   (item.IsAxe && otherItem.IsAxe) ||
+                   (item.IsPolearm && otherItem.IsPolearm) ||
+                   (item.IsBlunt && otherItem.IsBlunt) ||
+                   (item.IsDagger && otherItem.IsDagger) ||
+                   (item.IsShortBow && otherItem.IsShortBow) ||
+                   (item.IsMediumBow && otherItem.IsMediumBow) ||
+                   (item.IsHeavyBow && otherItem.IsHeavyBow);
+        }
+
+        public static string GetDisplayName(ItemTemplate template, int itemLevel) {
+            return GetDisplayName(template, itemLevel, template.ItemName);
+        }
+        
+        public static string GetDisplayName(ItemTemplate template, int itemLevel, string itemName) {
+            string displayName = DebugProjectNames.Basic ? template.name.Replace("ItemTemplate_", string.Empty) : itemName;
+
+            if (template.CanHaveItemLevel) {
+                if (GameConstants.Get.ItemLevelDatas.TryGetValue(itemLevel, out ItemLevelData data)) {
+                    return RichTextUtil.SmartFormatParams(data.itemNameAffix.ToString(), displayName);
+                }
+                
+                if (itemLevel != 0) {
+                    return $"{displayName} {itemLevel:+#;-#}";
+                }
+            }
+            
+            return displayName ?? "ItemName Null";
         }
     }
 }

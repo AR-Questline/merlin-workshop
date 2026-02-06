@@ -55,6 +55,7 @@ MonoBehaviour:
   - _guid: 939f8f626f06d9b4b93a76bb5071530b
   - _guid: dcd64189d3cdf7044a4c6f44477ad9cd
   - _guid: c8561d67520a02d4f9b02b43fa70df8f
+  - _guid: cb6647448adbf0644bac9bda0c891af7
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -78,7 +79,7 @@ MonoBehaviour:
     locString:
       IdOverride: weapon_SpineSplinter_description
       ID: Template/description_locString_2543871262668956605_57fbecf61e791434e98f20be96f418bf
-  EDITOR_bakedDescription: Each attack has a 0% chance of being applied one more
+  EDITOR_bakedDescription: Each attack has a 1% chance of being applied one more
     time.
   lightCastInfo:
     magicType:
@@ -155,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: f3095384970fb4f4a867505cb5fd0661
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -241,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3703321390094364147
 MonoBehaviour:

@@ -76,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_restorepercentofmaxstat
       ID: Template/description_locString_2543871262668956605_be9c83c0568b8444ca91a75bb46077f8
-  EDITOR_bakedDescription: Restores 25% Health.
+  EDITOR_bakedDescription: "Restores 25\_% Health."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

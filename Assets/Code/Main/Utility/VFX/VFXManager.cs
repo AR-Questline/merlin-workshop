@@ -66,8 +66,8 @@ namespace Awaken.TG.Main.Utility.VFX {
 
         [UnityEngine.Scripting.Preserve]
         public static SurfaceType GetHitSurfaceFromDamage(this Damage damage) {
-            SurfaceType surfaceType = damage.Target.AudioSurfaceType;
-            if (damage.Target is ICharacter character) {
+            SurfaceType surfaceType = damage.TargetPure.AudioSurfaceType;
+            if (damage.TargetPure is ICharacter character) {
                 Item item = character.Inventory?.EquippedItem(EquipmentSlotType.Cuirass);
                 ItemAudio targetItemAudio = item?.TryGetElement<ItemAudio>();
                 if (targetItemAudio != null) {

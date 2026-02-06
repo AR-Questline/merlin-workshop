@@ -151,6 +151,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 16e7de4d80afe964b8cadd669c0a1e24
       subObjectName: 
 --- !u!114 &2171448430345750879
@@ -172,7 +176,7 @@ MonoBehaviour:
     - name: ModifyValueMax
       value: 1
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValueCalculated
       value: 0
     - name: ValuePreCalculated

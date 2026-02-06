@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
@@ -10,6 +10,7 @@ using Awaken.TG.MVC.UI.Events;
 namespace Awaken.TG.Main.UI.Components.PadShortcuts {
     public partial class TapOrHoldShortcut : Element<GameUI>, IUIHandlerSource, IUIAware, IShortcut, IButtonTap, IButtonHold {
         public sealed override bool IsNotSaved => true;
+        public bool IsValid => this.IsValidForUIHandle();
 
         ButtonsHandler _handler = new();
 
@@ -57,5 +58,10 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
         void IButtonHold.OnKeyHeld(float percent) => this.Trigger(PadShortcuts.Events.HoldProceeded, percent);
         void IButtonHold.OnKeyUp(bool completed) => this.Trigger(PadShortcuts.Events.HoldFinished, this);
         void IButtonHold.Invoke() => HoldAction.Invoke();
+        
+        protected override void OnDiscard(bool fromDomainDrop) {
+            ParentModel.OnSourceReset(this);            
+            base.OnDiscard(fromDomainDrop);
+        }
     }
 }

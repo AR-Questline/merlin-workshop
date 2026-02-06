@@ -21,11 +21,11 @@ namespace Awaken.TG.Main.Locations.Actions.Attachments {
         protected T _attachment;
         protected Animator _animator;
         
-        Location[] _locations;
+        protected Location[] _locations;
         string _interactLabel;
 
         public override string DefaultActionName => !string.IsNullOrWhiteSpace(_interactLabel) ? _interactLabel : base.DefaultActionName;
-        protected IEnumerable<Location> Locations => _locations ??= _attachment.Locations.ToArray();
+        protected virtual IEnumerable<Location> Locations => _locations ??= _attachment.Locations.ToArray();
 
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         public LogicEmitterActionBase() {}

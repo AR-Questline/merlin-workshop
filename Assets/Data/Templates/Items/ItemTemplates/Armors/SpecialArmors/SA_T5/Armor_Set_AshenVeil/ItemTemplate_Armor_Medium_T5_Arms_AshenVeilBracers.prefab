@@ -77,8 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_8a1fc2873d22e8843a2f4e8c0032be1a
-  EDITOR_bakedDescription: Increases Attack Speed by 100% when your Stamina is below
-    50%
+  EDITOR_bakedDescription: "Increases Attack Speed by 100\_% when your Stamina is
+    below 50\_%"
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -275,7 +282,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 1
     - name: ValueGain
-      value: 0
+      value: 0.03
     - name: ValueCalculated
       value: 0
     enums:

@@ -8,14 +8,14 @@ using Awaken.Utility.Collections;
 
 namespace Awaken.TG.Main.Settings.Graphics {
     public partial class FogQuality : Setting, IGraphicSetting {
-        const string PrefId = "Fog";
+        public const string PrefId = "Fog";
     
         // === Options
         EnumArrowsOption Option { get; }
 
         static readonly ToggleOption[] OptionsArray = {
-            new($"{PrefId}_low", Preset.Low.DisplayName, false, false),
-            new($"{PrefId}_high", Preset.High.DisplayName, true, false)
+            new($"{PrefId}_low", Preset.Low.DisplayName, PlatformUtils.IsConsole, false),
+            new($"{PrefId}_high", Preset.High.DisplayName, !PlatformUtils.IsConsole, false)
         };
         
         readonly Dictionary<Preset, ToggleOption> _presetsMapping = new() {
@@ -42,7 +42,11 @@ namespace Awaken.TG.Main.Settings.Graphics {
 
         // === Logic
         public void SetValueForPreset(Preset preset) {
-            Option.Option = _presetsMapping[preset];
+            if (PlatformUtils.IsConsole) {
+                Option.Option = OptionsArray[0];
+            } else {
+                Option.Option = _presetsMapping[preset];
+            }
         }
     }
 }

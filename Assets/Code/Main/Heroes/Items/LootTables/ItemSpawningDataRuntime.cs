@@ -5,6 +5,7 @@ using System.ComponentModel;
 using Awaken.TG.Main.Heroes.Items.Gems;
 using Awaken.TG.Main.Heroes.Sketching;
 using Awaken.TG.Main.Heroes.Thievery;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Saving.LargeFiles;
 using Awaken.TG.Main.Skills;
@@ -20,6 +21,7 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
         [Saved(1), DefaultValue(1)] public int quantity = 1;
         [Saved(0)] public int itemLvl;
         [Saved(0)] public int weightLvl;
+        [Saved(0)] public int newGamePlusLvl;
         [Saved] public ItemElementsDataRuntime elementsData;
 
         [JsonConstructor, UnityEngine.Scripting.Preserve]
@@ -30,12 +32,14 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
         public ItemSpawningDataRuntime(ItemTemplate itemTemplate) {
             ItemTemplate = itemTemplate;
             itemLvl = itemTemplate.LevelBonus;
+            newGamePlusLvl = NewGamePlusSystem.Level;
         }
         
         public ItemSpawningDataRuntime(ItemTemplate itemTemplate, int quantity, int level) {
             ItemTemplate = itemTemplate;
             this.quantity = quantity;
             itemLvl = level;
+            newGamePlusLvl = NewGamePlusSystem.Level;
         }
         
         public ItemSpawningDataRuntime(Item item) {
@@ -43,6 +47,7 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
             quantity = item.Quantity;
             itemLvl = item.Level.ModifiedInt;
             weightLvl = item.WeightLevel.ModifiedInt;
+            newGamePlusLvl = item.NewGamePlusLevel;
             elementsData = item.TryGetRuntimeData();
         }
 
@@ -56,7 +61,7 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
             }
 
             foreach (var gem in elementsData.gemData) {
-                var gemAttached = new GemAttached(gem.gemTemplate, gem.skillReferences);
+                var gemAttached = new GemAttached(gem.gemTemplate, gem.gemLevel, gem.gemNgPlusLevel, gem.skillReferences);
                 item.AddElement(gemAttached);
                 foreach (SkillReference skillReference in gemAttached.SkillRefs) {
                     Skill s = skillReference.CreateSkill();
@@ -71,6 +76,10 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
             if (elementsData.sketchIndex != 0) {
                 item.AddElement(new Sketch(elementsData.sketchIndex));
             }
+            
+            if (elementsData.transmogrifiedTemplate != null) {
+                item.AddElement(new ItemTransmog(elementsData.transmogrifiedTemplate));
+            }
         }
         
         public void WriteSavables(JsonWriter jsonWriter, JsonSerializer serializer) {
@@ -79,6 +88,7 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
             JsonUtils.JsonWrite(jsonWriter, serializer, nameof(quantity), quantity, 1);
             JsonUtils.JsonWrite(jsonWriter, serializer, nameof(itemLvl), itemLvl);
             JsonUtils.JsonWrite(jsonWriter, serializer, nameof(weightLvl), weightLvl);
+            JsonUtils.JsonWrite(jsonWriter, serializer, nameof(newGamePlusLvl), newGamePlusLvl);
             JsonUtils.JsonWrite(jsonWriter, serializer, nameof(elementsData), elementsData);
             jsonWriter.WriteEndObject();
         }
@@ -100,6 +110,9 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
 
         // Sketch
         [Saved] public LargeFileIndex sketchIndex;
+        
+        // Transmogrified
+        [Saved] public ItemTemplate transmogrifiedTemplate;
     }
 
     [Serializable]
@@ -107,6 +120,8 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
         public ushort TypeForSerialization => SavedTypes.GemTemplateWithSkills;
 
         [Saved] public ItemTemplate gemTemplate;
+        [Saved] public int gemLevel;
+        [Saved] public int gemNgPlusLevel;
         [Saved] public List<SkillReference> skillReferences;
     }
 }

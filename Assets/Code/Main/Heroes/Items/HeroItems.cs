@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.AudioSystem;
@@ -31,12 +31,13 @@ namespace Awaken.TG.Main.Heroes.Items {
 
         // === Fields & Properties
         [Saved] public int CurrentLoadoutIndex { get; private set; } = -1;
+        [Saved] public HashSet<string> KnownItems { get; private set; } = new();
         [Saved] Item MainHandFist { get; set; }
         [Saved] Item OffHandFist { get; set; }
         [Saved(0)] int _selectedQuickSlot;
         [Saved] ItemInSlots _itemInSlots;
         bool _loadoutLocked;
-        bool _equippingLocked;
+        uint _equippingLocked;
         
         int ICharacterInventory.EquippingSemaphore { get; set; }
         public IItemOwner Owner => ParentModel;
@@ -60,7 +61,7 @@ namespace Awaken.TG.Main.Heroes.Items {
 
         public ModelsSet<HeroLoadout> Loadouts => Elements<HeroLoadout>();
         public ILoadout CurrentLoadout => LoadoutAt(CurrentLoadoutIndex);
-        public bool AllowEquipping => !_equippingLocked;
+        public bool AllowEquipping => _equippingLocked == 0;
         public ref readonly ItemInSlots ItemInSlots => ref _itemInSlots;
 
         // === Events
@@ -124,7 +125,11 @@ namespace Awaken.TG.Main.Heroes.Items {
         
         [UnityEngine.Scripting.Preserve]
         public void LockEquipping(bool locked) {
-            _equippingLocked = locked;
+            if (locked) {
+                _equippingLocked++;
+            } else if (_equippingLocked > 0) {
+                _equippingLocked--;
+            }
         }
 
         void EquipArrows(Item _) {
@@ -240,6 +245,8 @@ namespace Awaken.TG.Main.Heroes.Items {
                 }
 
                 this.Trigger(HeroLoadout.Events.LoadoutChanged, new Change<int>(previousLoadout, CurrentLoadoutIndex));
+            } else if (!ParentModel.IsWeaponEquipped) {
+                ParentModel.Trigger(Hero.Events.ShowWeapons, true);
             }
         }
 
@@ -304,7 +311,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         // === Operations
         [UnityEngine.Scripting.Preserve]
         public void AddWithoutNotification(Item item, bool allowStacking = true) {
-            using var suspendNotification = new AdvancedNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
+            using var suspendNotification = new ItemNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
             Add(item, allowStacking);
         }
         
@@ -325,8 +332,8 @@ namespace Awaken.TG.Main.Heroes.Items {
 
             // --- Play Audio
             EventReference eventReference = ItemAudioType.PickupItem.RetrieveFrom(item);
-            if (!eventReference.IsNull) {
-                //RuntimeManager.PlayOneShot(eventReference);
+            if (!eventReference.IsNull && !ParentModel.MuteEquips) {
+                // RuntimeManager.PlayOneShot(eventReference);
             }
             
             if (allowStacking && Items.TryStackItem(item, out var stackedTo)) {
@@ -341,7 +348,8 @@ namespace Awaken.TG.Main.Heroes.Items {
             if (!OwnedItems.Add(item)) {
                 return item;
             }
-            ItemUtils.AnnounceGettingItem(item.Template, item.Quantity, ParentModel);
+            ItemUtils.AnnounceGettingItem(item, item.Quantity);
+            AddToKnownItems(item.Template);
             AddNewItemToInventory(item);
 
             if (item.IsEquippable) {
@@ -351,7 +359,21 @@ namespace Awaken.TG.Main.Heroes.Items {
             return item;
         }
 
-        public void Remove(Item item, bool discard = true) {
+        public void AddToKnownItems(ItemTemplate itemTemplate) {
+            var templateGUID = itemTemplate.GUID;
+            var itemAdded = KnownItems.Add(templateGUID);
+            Log.Debug?.Info(itemAdded
+                ? $"Adding item {itemTemplate.DebugName} to known items of hero"
+                : $"Item {itemTemplate.DebugName} is already on known items of hero.");
+        }
+
+        public bool IsKnownItem(ItemTemplate itemTemplate) {
+            return KnownItems.Contains(itemTemplate.GUID);
+        }
+        
+        public void Remove(Item item, bool discard = true) => Remove(item, discard, true);
+
+        public void Remove(Item item, bool discard, bool announce) {
             if (!OwnedItems.Contains(item)) return;
 
             PostponeEquipmentChange? postponeEquipmentChange = item.IsUsedInLoadout() ? new PostponeEquipmentChange(this) : null;
@@ -362,7 +384,9 @@ namespace Awaken.TG.Main.Heroes.Items {
 
             RemoveFromInventory(item);
             OwnedItems.Remove(item);
-            ItemUtils.AnnounceGettingItem(item.Template, -item.Quantity, ParentModel);
+            if (announce) {
+                ItemUtils.AnnounceGettingItem(item.Template, -item.Quantity);
+            }
             if (discard) {
                 item.Discard();
             }
@@ -454,7 +478,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         Item ReturnToInventory(Item item) {
             if (Items.TryStackItem(item, out var stackedTo)) {
                 // successfully stacked item
-                this.Trigger(ICharacterInventory.Events.PickedUpItem, item);
+                this.Trigger(ICharacterInventory.Events.PickedUpItem, stackedTo);
                 return stackedTo;
             }
             AddItemToInventory(item);

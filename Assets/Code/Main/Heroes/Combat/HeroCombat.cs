@@ -62,7 +62,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             ParentModel.ListenTo(HealthElement.Events.OnDamageDealt, OnDamageDealt, this);
             ParentModel.ListenTo(ICharacter.Events.CombatExited, OnCombatEnded, this);
             // --- Toggling AudioCore
-            ParentModel.ListenTo(IAlive.Events.BeforeDeath, static _ => Services.TryGet<AudioCore>()?.Stop(), this);
+            ParentModel.ListenTo(Hero.Events.Died, static _ => Services.TryGet<AudioCore>()?.Stop(), this);
             Services.TryGet<AudioCore>()?.Play();
         }
 
@@ -133,14 +133,15 @@ namespace Awaken.TG.Main.Heroes.Combat {
         void OnTargetingChanged(RelationEventData relationData) {
             if (relationData.to is NpcElement npc && ShouldApplyAntagonism(npc)) {
                 if (relationData.newState) {
-                    if (npc.TryGetBehaviour(out var enemy, out var behaviour) && !behaviour.IsPeaceful && Crime.Combat(npc).IsCrime()) {
-                        Antagonism.ApplyCombatAntagonism(npc);
+                    if (npc.TryGetBehaviour(out var enemy, out var behaviour) && !behaviour.IsPeaceful) {
+                        using var crime = Crime.Combat(npc);
+                        if (crime.IsCrime()) {
+                            Antagonism.ApplyCombatAntagonism(npc);
+                        } else {
+                            AddPeacefulData(npc, enemy);
+                        }
                     } else {
-                        var data = new PeacefulNpcData {
-                            behaviourStartedListener = enemy.ListenTo(EnemyBaseClass.Events.BehaviourStarted, RefreshBehaviourAntagonism, this),
-                            antagonismChangedListener = npc.ListenTo(FactionService.Events.AntagonismChanged, OnPeacefulNpcAntagonismChanged, this)
-                        };
-                        _peacefulNpcData.Add(npc, data);
+                        AddPeacefulData(npc, enemy);
                     }
                 } else {
                     if (_peacefulNpcData.Remove(npc, out var data)) {
@@ -149,11 +150,20 @@ namespace Awaken.TG.Main.Heroes.Combat {
                     }
                 }
             }
+
+            void AddPeacefulData(NpcElement toNpc, EnemyBaseClass enemy) {
+                var data = new PeacefulNpcData {
+                    behaviourStartedListener = enemy.ListenTo(EnemyBaseClass.Events.BehaviourStarted, RefreshBehaviourAntagonism, this),
+                    antagonismChangedListener = toNpc.ListenTo(FactionService.Events.AntagonismChanged, OnPeacefulNpcAntagonismChanged, this)
+                };
+                _peacefulNpcData.Add(npc, data);
+            }
             
             static void RefreshBehaviourAntagonism(IBehaviourBase behaviour) {
                 if (!behaviour.IsPeaceful) {
                     var npc = behaviour.ParentModel.NpcElement;
-                    if (Crime.Combat(npc).IsCrime()) {
+                    using var crime = Crime.Combat(npc);
+                    if (crime.IsCrime()) {
                         var heroCombat = Hero.Current.HeroCombat;
                         if (heroCombat._peacefulNpcData.Remove(npc, out var data)) {
                             World.EventSystem.DisposeListener(ref data.behaviourStartedListener);
@@ -176,15 +186,20 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         void OnDamageDealt(DamageOutcome outcome) {
-            if (outcome.Target is NpcElement npc && ShouldApplyAntagonism(npc) && Crime.Combat(npc).IsCrime()) {
-                if (!_factionData[npc.Faction].combatBountyApplied.Contains(npc)) {
-                    CrimeSituation crimeSituation = CommitCrime.GetSituation(instantReport: npc.Template.CrimeReactionArchetype == CrimeReactionArchetype.Guard);
-                    if (CommitCrime.Combat(npc, crimeSituation)) {
-                        _factionData[npc.Faction].combatBountyApplied.Add(npc);
-                    }
-                }
-                Antagonism.ApplyCombatAntagonism(npc);
+            if (outcome.TargetPure is not NpcElement npc || !ShouldApplyAntagonism(npc)) {
+                return;
             }
+            using var crime = Crime.Combat(npc);
+            if (!crime.IsCrime()) {
+                return;
+            }
+            if (!_factionData[npc.Faction].combatBountyApplied.Contains(npc)) {
+                CrimeSituation crimeSituation = CommitCrime.GetSituation(instantReport: npc.Template.CrimeReactionArchetype == CrimeReactionArchetype.Guard);
+                if (CommitCrime.Combat(npc, crimeSituation)) {
+                    _factionData[npc.Faction].combatBountyApplied.Add(npc);
+                }
+            }
+            Antagonism.ApplyCombatAntagonism(npc);
         }
         
         void OnCombatEnded() {

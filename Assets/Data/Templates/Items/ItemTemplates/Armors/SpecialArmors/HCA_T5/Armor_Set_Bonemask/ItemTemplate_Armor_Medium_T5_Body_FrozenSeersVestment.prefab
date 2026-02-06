@@ -77,13 +77,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_208ba7aa246e116428765022b847628e
-  EDITOR_bakedDescription: 'Each missing point of Health increases Max Mana by 1.
-
-    Each
-    missing point of Mana increases Spell Power by 0.5%.
-
-    Increases Spell Power
-    by 15%.'
+  EDITOR_bakedDescription: "Each missing point of Health increases Max Mana by 1.\nEach
+    missing point of Mana increases Spell Power by 0.5%.\nIncreases Spell Power by
+    15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -108,7 +104,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_208ba7aa246e116428765022b847628e
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -133,7 +129,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_208ba7aa246e116428765022b847628e
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -159,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -249,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -489,13 +492,15 @@ MonoBehaviour:
       value: 0.15
     - name: GainValue
       value: 0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
     - name: StatEnum
       enumReference:
-        _enumRef: Awaken.TG.Main.General.StatTypes.NpcStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:MagicDamage
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MagicStrength
     datums:
     - name: OnNormalAttack
       type:

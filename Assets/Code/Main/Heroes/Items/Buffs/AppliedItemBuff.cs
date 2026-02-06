@@ -6,6 +6,7 @@ using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.Statuses;
 using Awaken.TG.Main.Heroes.Statuses.Duration;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
@@ -27,6 +28,8 @@ namespace Awaken.TG.Main.Heroes.Items.Buffs {
         
         [Saved] ItemTemplate _buffTemplate;
         [Saved] ShareableARAssetReference _vfx;
+        [Saved] int _level;
+        [Saved] int _ngPlusLevel;
         GameObject _vfxInstance;
         IEventListener _vfxListener;
         bool _vfxUpdateCompleted;
@@ -37,6 +40,9 @@ namespace Awaken.TG.Main.Heroes.Items.Buffs {
 
         public string DisplayName { get; private set; }
         public int SecondsLeft => (int)(TryGetElement<TimeDuration>()?.TimeLeft ?? 0);
+        public int BuffItemLevel => _level;
+        public int BuffNgPlusLevel => _ngPlusLevel;
+        public int ModifiedLevelWithoutNewGamePlus => _level - NewGamePlusSystem.CalculateBonusItemLevelValue(_ngPlusLevel);
         public ICharacter Character => Item.Owner?.Character;
         public ItemActionType Type => ItemActionType.Equip;
         public Item Item => ParentModel;
@@ -58,17 +64,21 @@ namespace Awaken.TG.Main.Heroes.Items.Buffs {
         public AppliedItemBuff(ItemBuffApplier applier) {
             _buffTemplate = applier.ParentModel.Template;
             _vfx = new ShareableARAssetReference(applier.VFX.Get());
+            _level = applier.ItemLevel;
+            _ngPlusLevel = applier.NewGamePlusLevel;
             AddElement(new TimeDuration(applier.Duration));
         }
         
-        public AppliedItemBuff(ItemTemplate template, ShareableARAssetReference vfx, int duration) {
+        public AppliedItemBuff(ItemTemplate template, ShareableARAssetReference vfx, int duration, int level, int ngPlusLevel) {
             _buffTemplate = template;
             _vfx = vfx;
+            _level = level;
+            _ngPlusLevel = ngPlusLevel;
             AddElement(new TimeDuration(duration));
         }
         
         protected override void OnInitialize() {
-            DisplayName = _buffTemplate.ItemName;
+            DisplayName = ItemUtils.GetDisplayName(Template, ModifiedLevelWithoutNewGamePlus);
             if (ParentModel.View<CharacterHandBase>() != null) {
                 ApplyVFX(false);
             }
@@ -80,7 +90,7 @@ namespace Awaken.TG.Main.Heroes.Items.Buffs {
         }
 
         protected override void OnRestore() {
-            DisplayName = _buffTemplate.ItemName;
+            DisplayName = ItemUtils.GetDisplayName(Template, ModifiedLevelWithoutNewGamePlus);
             if (Item.View<CharacterHandBase>() != null) {
                 ApplyVFX(true);
             }

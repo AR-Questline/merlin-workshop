@@ -51,6 +51,7 @@ namespace Awaken.Utility {
             SubtitlesYellow = new(nameof(SubtitlesYellow), new Color32(255, 214, 0, 255)),
             ChoiceDisableText = new(nameof(ChoiceDisableText), new Color32(0x70, 0x70, 0x70, 0xFF)),
             Transparent = new(nameof(Transparent), new Color32(0, 0, 0, 0)),
+            WhiteTransparent = new(nameof(Transparent), new Color32(0xFF, 0xFF, 0xFF, 0)),
 
             // --- Quality
             QualityGarbage = new(nameof(QualityGarbage), new Color32(0x4E, 0x4E, 0x4E, 0xFF)),

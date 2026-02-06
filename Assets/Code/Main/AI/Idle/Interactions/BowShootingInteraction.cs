@@ -120,7 +120,10 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             if (!_usedItem.IsEquipped) {
                 npc.Inventory.Equip(_usedItem);
             }
-            EquipWeaponBehaviour.AttachWeaponsToHands(combatBaseClass.MainHandItem, combatBaseClass.OffHandItem, npc);
+
+            EquipWeaponBehaviour.AttachWeaponsToHands(combatBaseClass.MainHandItem,
+                combatBaseClass.AdditionalMainHandItem, combatBaseClass.OffHandItem,
+                combatBaseClass.AdditionalOffHandItem, npc);
             SetBowBehaviour();
         }
 

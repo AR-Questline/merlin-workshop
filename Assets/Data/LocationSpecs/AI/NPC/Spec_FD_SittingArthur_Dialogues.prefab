@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1827016729629626801}
   - component: {fileID: -5726589135697497781}
   - component: {fileID: -2814361612036695996}
-  - component: {fileID: 5321605268131090231}
   m_Layer: 0
   m_Name: Spec_FD_SittingArthur_Dialogues
   m_TagString: Untagged
@@ -62,6 +61,7 @@ MonoBehaviour:
   startInteractabilityReference:
     _enumRef: Awaken.TG.Main.Locations.LocationInteractability, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Active
+  conditionalPrefabReferences: []
   prefabReference:
     address: 8b4b6d9f753e0624c9022bcd008b0009
     subObjectName: 
@@ -149,29 +149,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f78b030055d8425282016a982e103500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5321605268131090231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2265508820435123700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d37e3c32bf3340a4a89591352ed323a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customDialogueLabel:
-    IdOverride: 
-    ID: Template/customDialogueLabel_5321605268131090231_111cd15fc292a4f4a83ab9b45aa44877
-  bookmark:
-    story:
-      _guid: 1ac51724070db72489c6157565d032d6
-    chapterName: 
-  gesturesWrapper:
-    embedOverrides:
-      gestures: []
-    explicitOverrides:
-      _guid: 
-  viewFocus: {fileID: 0}
-  endStoryDistance: 1

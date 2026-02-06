@@ -34,6 +34,7 @@ namespace Awaken.TG.Main.Character {
         [HideInInspector, SerializeField] StatusStatValue _drunk = new (BuildupStatusType.Drunk);
         [HideInInspector, SerializeField] StatusStatValue _intoxicated = new (BuildupStatusType.Intoxicated);
         [HideInInspector, SerializeField] StatusStatValue _full = new (BuildupStatusType.Full);
+        [HideInInspector, SerializeField] StatusStatValue _petrification = new (BuildupStatusType.Petrification);
         
         public StatusStatValue Bleed => _bleed;
         public StatusStatValue Burn => _burn;
@@ -48,6 +49,7 @@ namespace Awaken.TG.Main.Character {
         public StatusStatValue Drunk => _drunk;
         public StatusStatValue Intoxicated => _intoxicated;
         public StatusStatValue Full => _full;
+        public StatusStatValue Petrification => _petrification;
 
         public TemplateReference[] InvulnerableToStatuses => invulnerableToStatuses;
         
@@ -64,11 +66,11 @@ namespace Awaken.TG.Main.Character {
         StatusStatValue[] GatherFilteredValues() {
             switch (displayType) {
                 case StatusStatDisplayType.NPC:
-                    return new[] { _burn, _confusion, _frenzy, _poison, _slow };
+                    return new[] { _burn, _confusion, _frenzy, _poison, _slow, _petrification };
                 case StatusStatDisplayType.Hero:
                 case StatusStatDisplayType.ShowAll:
                 default:
-                    return new[] { _bleed, _burn, _confusion, _corruption, _mute, _frenzy, _poison, _slow, _stun, _weak, _drunk, _intoxicated, _full };
+                    return new[] { _bleed, _burn, _confusion, _corruption, _mute, _frenzy, _poison, _slow, _stun, _weak, _drunk, _intoxicated, _full, _petrification };
             }
         }
 
@@ -97,6 +99,22 @@ namespace Awaken.TG.Main.Character {
                 StatusBuildupThreshold.CantGet => CantGetBuildupValue,
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+        
+        public static StatusBuildupThreshold GetThreshold(float currentValue, int tier) {
+            if (currentValue <= StatusStatsValues.GetThreshold(StatusBuildupThreshold.Weak, tier)) {
+                return StatusBuildupThreshold.Weak;
+            }
+            
+            if (currentValue <= StatusStatsValues.GetThreshold(StatusBuildupThreshold.Normal, tier)) {
+                return StatusBuildupThreshold.Normal;
+            }
+            
+            if (currentValue <= StatusStatsValues.GetThreshold(StatusBuildupThreshold.Resistant, tier)) {
+                return StatusBuildupThreshold.Resistant;
+            }
+            
+            return StatusBuildupThreshold.CantGet;
         }
 
         public static float GetModifier(StatusEffectModifier effectStrength) {

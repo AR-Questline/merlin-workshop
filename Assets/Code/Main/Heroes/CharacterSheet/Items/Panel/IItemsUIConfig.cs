@@ -4,12 +4,13 @@ using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs;
 using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel {
-    public interface IItemsUIConfig {
+    public interface IItemsUIConfig : IModel {
         IEnumerable<Item> Items { get; }
         IEnumerable<ItemsTabType> Tabs { get; }
         ItemsTabType SortingTab => null;

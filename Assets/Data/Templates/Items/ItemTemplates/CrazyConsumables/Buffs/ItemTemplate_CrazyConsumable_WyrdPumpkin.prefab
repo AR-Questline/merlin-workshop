@@ -73,7 +73,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_6385f41dfcef3c44a8427f64aaf307c7
-  EDITOR_bakedDescription: Decreases Max Health by 25 for 30s.
+  EDITOR_bakedDescription: "Increases Incoming Damage by 200\_% for 20s.\nIncreases
+    Incoming Healing by 200\_% for 20s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -149,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 9d748ec22196e6a44bc4b5554fb7274c
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &5128635444738983869
 MonoBehaviour:

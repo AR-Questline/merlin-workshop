@@ -61,5 +61,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts {
             select.SetSelection(change.to == LoadoutIndex);
             selectedOnButton.SetActive(change.to == LoadoutIndex);
         }
+
+        protected override void OnDiscard() {
+            select.button.OnClick -= OnSelect;
+            select.button.OnHover -= OnHover;
+            select.button.OnEvent -= HandleButtonNavi;
+        }
     }
 }

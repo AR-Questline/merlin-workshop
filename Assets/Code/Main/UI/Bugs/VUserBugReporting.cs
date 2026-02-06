@@ -4,6 +4,7 @@ using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Components;
 using Awaken.TG.Main.UI.Components.PadShortcuts;
 using Awaken.TG.Main.UI.GamepadKeyboard;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
@@ -43,6 +44,7 @@ namespace Awaken.TG.Main.UI.Bugs {
         public Transform PromptsHost => promptsHost;
         public bool ForceFocus => true;
         public Component DefaultFocus => keyboardTitleButton;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
 

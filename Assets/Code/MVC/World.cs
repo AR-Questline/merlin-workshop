@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours;
 using Awaken.TG.Main.Animations.FSM.Heroes.Base;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.Animations.FSM.Npc.States.Combat;
@@ -14,9 +15,14 @@ using Awaken.TG.Main.Animations.FSM.Shared;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.Main.Heroes.Items.Attachments;
+using Awaken.TG.Main.Heroes.Items.Attachments.Audio;
+using Awaken.TG.Main.Heroes.Items.Weapons;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Scenes;
+using Awaken.TG.Main.Stories.Quests.Objectives;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.Main.UI.Bugs;
 using Awaken.TG.Main.Utility.Debugging;
@@ -26,17 +32,16 @@ using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Extensions;
+using Awaken.Utility.LowLevel.Collections;
 using Awaken.Utility.Profiling;
 using Awaken.Utility.Threads;
 using JetBrains.Annotations;
 using Unity.Collections;
 using Unity.IL2CPP.CompilerServices;
-using Unity.Profiling;
 using UnityEditor;
 using UnityEngine;
 using UniversalProfiling;
 using Debug = UnityEngine.Debug;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.MVC {
     [Il2CppEagerStaticClassConstruction]
@@ -44,17 +49,19 @@ namespace Awaken.TG.MVC {
         const int ModelsCapacity = 80_550;
 
         // === Fields
-        static readonly List<Model> ModelsInOrder = new(ModelsCapacity);
+        static StructList<Model> ModelsInOrder = new(ModelsCapacity);
         static readonly Dictionary<string, Model> ModelsById = new(ModelsCapacity);
-        static readonly HierarchicalDictionary<Type, IModel> ModelsByType = new(920, 1, 1);
+        static readonly HierarchicalDictionary<Type, IModel> ModelsByType = new(1_200, 1, 1);
 
-        static readonly Dictionary<IModel, View> MainViewsByModel = new(3400);
-        static readonly MultiMap<IModel, View> ViewsByModel = new(3400, 1);
-        static readonly MultiMap<IModel, IPresenter> PresentersByModel = new(20, 2);
+        static readonly Dictionary<IModel, View> MainViewsByModel = new(3_800);
+        static readonly MultiMap<IModel, View> ViewsByModel = new(3_900, 1);
+        static readonly MultiMap<IModel, IPresenter> PresentersByModel = new(16, 2);
 
         static uint s_modelsInOrderToRemove;
+        static bool s_verifyInvalid;
 
         //  === Profiling
+        static readonly UniversalProfilerMarker MarkerDropDomain = new("World.DropDomain");
         static readonly UniversalProfilerMarker MarkerVerifyAllInOrder = new("World.VerifyAllInOrder");
         
         // === Events
@@ -130,25 +137,38 @@ namespace Awaken.TG.MVC {
         // === Domains Management
         public static void DropDomain(Domain domain) {
             Log.Marking?.Warning($"Dropping {domain.Name}");
-            
+
+            MarkerDropDomain.Begin();
             // Get all models that are not elements and belong to domain or any child-domain in reverse order (start discarding from latest models)
-            var models = AllInOrder()
-                .Where(m => m is not IElement && m.CurrentDomain.IsChildOf(domain, true))
-                .Reverse()
-                .ToList();
-            foreach (var model in models) {
+            s_verifyInvalid = true;
+            var allInOrder = ModelsInOrder.BackingArray;
+            var allInOrderCount = ModelsInOrder.Count;
+            var toDiscardIndices = new UnsafeBitmask((uint)allInOrderCount, ARAlloc.Temp);
+            for (var i = 0u; i < allInOrderCount; i++) {
+                var model = allInOrder[i];
+                if (!model.HasBeenDiscarded && model is not IElement && model.CurrentDomain.IsChildOf(domain, true)) {
+                    toDiscardIndices.Up(i);
+                }
+            }
+
+            foreach (var toDiscardIndex in toDiscardIndices.EnumerateOnesReverse()) {
+                var model = allInOrder[toDiscardIndex];
                 try {
                     model.DiscardFromDomainDrop();
                 } catch (Exception e) {
                     Log.Critical?.Error($"DOMAIN ERROR! Exception below happened while discarding model: {model.ID}");
                     Debug.LogException(e);
-                    
+
                     string summary = "DOMAIN ERROR! Model discard failed";
                     string description = $"Discard failed for: {model.ID} while dropping domain: {domain.FullName}";
                     AutoBugReporting.SendAutoReport(summary, description);
                     DomainErrorPopup.Display();
                 }
             }
+
+            toDiscardIndices.Dispose();
+            s_verifyInvalid = false;
+
             Services.UnregisterDomainBoundServices(domain);
 
             // --- Inform of scene domains being dropped
@@ -167,6 +187,10 @@ namespace Awaken.TG.MVC {
                     SceneLifetimeEvents.Events.AfterDomainDrop, 
                     new SceneLifetimeEventData(true, sceneService.MainSceneRef));
             }
+
+            VerifyAllInOrder();
+
+            MarkerDropDomain.End();
         }
 
         // === Tracking models
@@ -181,6 +205,7 @@ namespace Awaken.TG.MVC {
                 Initialize(model, modelTypeHierarchy);
             } catch (Exception e) {
                 Log.Critical?.Error($"Exception happened for Model {LogUtils.GetDebugName(model)}");
+                Debug.LogException(e);
                 AutoBugReporting.SendAutoReport("World.Add Exception",
                     $"Exception happened for Model {LogUtils.GetDebugName(model)} \n {e}");
                 throw;
@@ -195,6 +220,10 @@ namespace Awaken.TG.MVC {
                     }
                 }
                 model.Trigger(Events.ModelAddedAnyType, model);
+            }
+            // perform final checks
+            if (!model.WasDiscarded) {
+                model.AfterAddedToWorld();
             }
             // done
             return model;
@@ -303,14 +332,6 @@ namespace Awaken.TG.MVC {
             ProfilerValues.ModelsCounters.Remove();
         }
 
-        public static void NotifyIdChanged(string previousID, Model model) {
-            if (ModelsById[previousID] != model) {
-                throw new Exception("Model ID change failed, model was not found under previous ID");
-            }
-            ModelsById.Remove(previousID);
-            ModelsById[model.ID] = model;
-        }
-
         static void AllocateCommonByType() {
             // By hierarchy
             ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(NpcAnimatorState)), 110, 0);
@@ -318,21 +339,31 @@ namespace Awaken.TG.MVC {
             ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(HeroAnimatorState)), 95, 0);
             ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(ARAnimatorState<Hero, HeroAnimatorSubstateMachine>)), 95, 0);
             // By own size
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(AttackGeneric)), 1, 4_300);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(Location)), 1, 2_700);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(NpcNone)), 1, 1800);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(SearchAction)), 1, 1700);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(BlockHold)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakFront)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakBack)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakBackLeft)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakBackRight)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(WyrdConversion)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(GetHit)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(CustomGesticulate)), 1, 900);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(TimeDependent)), 1, 700);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(AliveStats)), 1, 650);
-            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(HealthElement)), 2, 650);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(Location)), 1, 3_100);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(AttackGeneric)), 1, 3_000);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(SearchAction)), 1, 1_700);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(Item)), 1, 1_700);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(ItemSkillsInvoker)), 1, 1_700);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(ItemAudio)), 1, 1_700);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(ItemEquip)), 1, 1_700);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(ItemStats)), 1, 1_500);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(NpcNone)), 1, 1_300);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(AliveStats)), 1, 1_200);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(HealthElement)), 2, 1_200);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(ItemStatsRequirements)), 2, 1_100);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(AliveAudio)), 2, 1_000);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(ItemEffects)), 2, 1_000);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(Objective)), 1, 900);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(MeleeAttackBehaviour)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(BlockHold)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakFront)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakBack)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakBackLeft)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(PoiseBreakBackRight)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(WyrdConversion)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(GetHit)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(CustomGesticulate)), 1, 800);
+            ModelsByType.InitCapacity(ModelUtils.ModelHierarchyTypes(typeof(TimeDependent)), 1, 800);
         }
 
         // === Querying models
@@ -408,15 +439,35 @@ namespace Awaken.TG.MVC {
         public static Model ByID(string id) {
             return ModelsById.GetValueOrDefault(id);
         }
-        
-        public static IEnumerable<T> AllInOrder<T>() where T : class {
-            ThreadSafeUtils.AssertMainThread();
-            return AllInOrder().OfType<T>();
-        }
 
-        public static List<Model> AllInOrder() {
+        public static StructList<Model> AllInOrder() {
             VerifyAllInOrder();
             return ModelsInOrder;
+        }
+
+        public static StructList<Model> AllInOrderReadonlyNotValidated() {
+            return ModelsInOrder;
+        }
+
+        public static T FirstOrNull<T>() where T : class, IModel {
+            ThreadSafeUtils.AssertMainThread();
+            var modelsEnumerator = ModelsByType.Enumerate(typeof(T));
+
+            if (!modelsEnumerator.MoveNext()) {
+                return null;
+            }
+            var firstModel = modelsEnumerator.Current as T;
+            if (!modelsEnumerator.MoveNext()) {
+                return firstModel;
+            }
+
+            var i = 0;
+            T model = null;
+            while (i < ModelsInOrder.Count && (model == null || model.HasBeenDiscarded)) {
+                model = ModelsInOrder[i] as T;
+                ++i;
+            }
+            return model;
         }
 
         public static T LastOrNull<T>() where T : class, IModel {
@@ -440,7 +491,31 @@ namespace Awaken.TG.MVC {
             return model;
         }
 
+        public static T LastOrNull<T>(Func<T, bool> predicate) where T : class, IModel {
+            ThreadSafeUtils.AssertMainThread();
+            var modelsEnumerator = ModelsByType.Enumerate(typeof(T));
+
+            if (!modelsEnumerator.MoveNext()) {
+                return null;
+            }
+            var firstModel = modelsEnumerator.Current as T;
+            if (!modelsEnumerator.MoveNext()) {
+                return predicate(firstModel) ? firstModel : null;
+            }
+
+            var i = ModelsInOrder.Count - 1;
+            T model = null;
+            while (i >= 0 && (model == null || model.HasBeenDiscarded || !predicate(model))) {
+                model = ModelsInOrder[i] as T;
+                --i;
+            }
+            return model;
+        }
+
         public static void VerifyAllInOrder() {
+            if (s_verifyInvalid) {
+                throw new InvalidOperationException($"VerifyAllInOrder during domain drop!!!");
+            }
             if (s_modelsInOrderToRemove == 0) {
                 return;
             }
@@ -801,7 +876,7 @@ namespace Awaken.TG.MVC {
 
         [MenuItem("TG/Optimization/Log Elements by type by outer count")]
         static void LogModelElementsByTypeByOuter() {
-            var modelsWithElements = ModelsInOrder.Where(m => ElementsByType(m) != ModelElements.EmptyElementsByType).ToArray();
+            var modelsWithElements = ModelsInOrder.BackingArray.Take(ModelsInOrder.Count).Where(m => ElementsByType(m) != ModelElements.EmptyElementsByType).ToArray();
             Debug.Log($"Models count: {ModelsInOrder.Count} with elements count: {modelsWithElements.Length}");
 
             var allModelElements = modelsWithElements.SelectMany(model => ElementsByType(model).Select((kvp) => (model.GetType(), kvp.Key, kvp.Value)));
@@ -817,7 +892,7 @@ namespace Awaken.TG.MVC {
 
         [MenuItem("TG/Optimization/Log Elements by type by own count")]
         static void LogModelElementsByTypeByOwn() {
-            var modelsWithElements = ModelsInOrder.Where(m => ElementsByType(m) != ModelElements.EmptyElementsByType).ToArray();
+            var modelsWithElements = ModelsInOrder.BackingArray.Take(ModelsInOrder.Count).Where(m => ElementsByType(m) != ModelElements.EmptyElementsByType).ToArray();
             Debug.Log($"Models count: {ModelsInOrder.Count} with elements count: {modelsWithElements.Length}");
 
             var allModelElements = modelsWithElements.SelectMany(model => ElementsByType(model).Select((kvp) => (model.GetType(), kvp.Key, kvp.Value)));
@@ -833,7 +908,7 @@ namespace Awaken.TG.MVC {
 
         [MenuItem("TG/Optimization/Log Elements count")]
         static void LogModelElementsCount() {
-            var modelsWithElements = ModelsInOrder.Where(m => Elements(m) != null).ToArray();
+            var modelsWithElements = ModelsInOrder.BackingArray.Take(ModelsInOrder.Count).Where(m => Elements(m) != null).ToArray();
             Debug.Log($"Models count: {ModelsInOrder.Count} with elements count: {modelsWithElements.Length}");
 
             foreach (var model in modelsWithElements.OrderByDescending(m => Elements(m).Count)) {

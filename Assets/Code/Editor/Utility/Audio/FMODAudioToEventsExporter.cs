@@ -177,7 +177,7 @@ namespace Awaken.TG.Editor.Utility.Audio {
             //     string graph = eventName.Split('=').FirstOrDefault() ?? string.Empty;
             //     // --- Actor
             //     string id = eventName.Replace(EditorAudioUtils.VoiceOverIdSeparator, '/');
-            //     TableEntry tableEntry = LocalizationHelper.GetTableEntry(id, LocalizationSettings.ProjectLocale);
+            //     TableEntry tableEntry = LocalizationHelper.EditorOnly_GetTableEntry(id, LocalizationSettings.ProjectLocale);
             //     string actor = tableEntry?.GetMetadata<ActorMetaData>()?.ActorName ?? "None";
             //
             //     groupedData.Add(new VoiceOverToExport

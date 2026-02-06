@@ -37,7 +37,7 @@ namespace Awaken.TG.Main.Analytics {
                 return;
             }
 
-            AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Start, "Quests", QuestName(change.quest), "Quest", HeroLevel);
+            // AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Start, "Quests", QuestName(change.quest), "Quest", HeroLevel);
         }
         
         void OnQuestCompleted(QuestUtils.QuestStateChange change) {
@@ -45,7 +45,7 @@ namespace Awaken.TG.Main.Analytics {
                 return;
             }
 
-            AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Complete, "Quests", QuestName(change.quest), "Quest", HeroLevel);
+            // AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Complete, "Quests", QuestName(change.quest), "Quest", HeroLevel);
         }
         
         void OnQuestFailed(QuestUtils.QuestStateChange change) {
@@ -53,7 +53,7 @@ namespace Awaken.TG.Main.Analytics {
                 return;
             }
 
-            AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Fail, "Quests", QuestName(change.quest), "Quest", HeroLevel);
+            // AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Fail, "Quests", QuestName(change.quest), "Quest", HeroLevel);
         }
         
         void OnObjectiveChanged(QuestUtils.ObjectiveStateChange change) {
@@ -65,13 +65,13 @@ namespace Awaken.TG.Main.Analytics {
 
             switch (change.newState) {
                 case ObjectiveState.Active:
-                    AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Start, "Quests", QuestName(quest), ObjectiveName(objective), HeroLevel);
+                    // AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Start, "Quests", QuestName(quest), ObjectiveName(objective), HeroLevel);
                     break;
                 case ObjectiveState.Completed:
-                    AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Complete, "Quests", QuestName(quest), ObjectiveName(objective), HeroLevel);
+                    // AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Complete, "Quests", QuestName(quest), ObjectiveName(objective), HeroLevel);
                     break;
                 case ObjectiveState.Failed:
-                    AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Fail, "Quests", QuestName(quest), ObjectiveName(objective), HeroLevel);
+                    // AnalyticsUtils.TrySendProgressionEvent(GAProgressionStatus.Fail, "Quests", QuestName(quest), ObjectiveName(objective), HeroLevel);
                     break;
             }
         }

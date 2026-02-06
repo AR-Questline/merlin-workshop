@@ -1,27 +1,23 @@
-﻿using System.Linq;
+﻿using Awaken.TG.Assets;
+using Awaken.TG.Main.Animations.FSM.Heroes.Machines;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.Factions.Crimes;
 using Awaken.TG.Main.Fights.FPP;
-using Awaken.TG.Main.Fights.NPCs.Presences;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Grounds.CullingGroupSystem;
 using Awaken.TG.Main.Grounds.CullingGroupSystem.CullingGroups;
 using Awaken.TG.Main.Heroes;
-using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items.Attachments.Audio;
 using Awaken.TG.Main.Heroes.MovementSystems;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Maps.Markers;
-using Awaken.TG.Main.Scenes;
 using Awaken.TG.Main.Tutorials;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.MVC;
-using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
-using Awaken.TG.MVC.Utils;
 using Awaken.TG.Utility;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
@@ -37,6 +33,9 @@ namespace Awaken.TG.Main.Fights.Mounts {
         public override ushort TypeForSerialization => SavedModels.MountElement;
 
         const int FramesMargin = 5;
+        
+        VMount _cachedMountView;
+        VMount MountView => CachedView(ref _cachedMountView);
 
         [Saved] Hero _mountedHero;
         public MountData MountData {get; private set; }
@@ -48,6 +47,9 @@ namespace Awaken.TG.Main.Fights.Mounts {
         bool _isWild;
         bool? _isVisible;
 
+        ARAssetReference _mountedHeroOverridesRef;
+        public ARAssetReference MountedHeroOverridesRef => _mountedHeroOverridesRef;
+        
         public Hero MountedHero {
             get => _mountedHero; 
             private set => _mountedHero = value;
@@ -55,7 +57,7 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
         public bool IsHeroMount => _isHeroMount;
         public bool IsIllegal => !_isWild && !_isHeroMount;
-        public bool CanUseArmor => View<VMount>()?.CanUseArmor ?? false;
+        public bool CanUseArmor => MountView?.CanUseArmor ?? false;
         
         // === Events
         [Il2CppEagerStaticClassConstruction]
@@ -69,17 +71,20 @@ namespace Awaken.TG.Main.Fights.Mounts {
             PlayAudioClip(audioType.RetrieveFrom(this), asOneShot, eventParams);
         }
         public void PlayAudioClip(EventReference eventReference, bool asOneShot = false, params FMODParameter[] eventParams) {
-            View<VMount>().PlayAudioClip(eventReference, asOneShot, eventParams);
+            MountView.PlayAudioClip(eventReference, asOneShot, eventParams);
         }
 
         public void InitFromAttachment(MountAttachment spec, bool isRestored) {
             MountData = spec.MountData;
             MountName = spec.mountName;
             _isWild = spec.wildHorse;
+            _mountedHeroOverridesRef = spec.mountedHeroOverridesRef;
         }
 
         protected override void OnInitialize() {
-            ParentModel.AddElement(new MountPetAction());
+            if (!ParentModel.HasElement<MountTalkAction>()) {
+                ParentModel.AddElement(new MountPetAction());
+            }
             ParentModel.AddElement(new MountAction());
             Init();
         }
@@ -114,10 +119,10 @@ namespace Awaken.TG.Main.Fights.Mounts {
             MountedHero = hero;
             MountedHero.OwnedMount = this;
             HeroTransform = hero.MainView.transform;
-            var vMount = View<VMount>();
+            var vMount = MountView;
             
             World.Only<PlayerInput>().RegisterPlayerInput(vMount);
-            HeroTransform.SetParent(vMount.Saddle);
+            HeroTransform.SetParent(vMount.MountingParent);
             vMount.ToggleMountState(true);
             
             ParentModel.TryGetElement<LocationMarker>()?.SetEnabled(false);
@@ -142,9 +147,8 @@ namespace Awaken.TG.Main.Fights.Mounts {
                 Hero.Current.FoV.UpdateCustomLocomotionFoVMultiplier(1f);
                 
                 if (!HasBeenDiscarded) {
-                    var vMount = View<VMount>();
-                    vMount.ToggleMountState(false);
-                    World.Only<PlayerInput>().UnregisterPlayerInput(vMount);
+                    MountView.ToggleMountState(false);
+                    World.Only<PlayerInput>().UnregisterPlayerInput(MountView);
                 }
                 
                 MountedHero = null;
@@ -162,18 +166,18 @@ namespace Awaken.TG.Main.Fights.Mounts {
             return dot > 0.8f;
         }
 
+        public void Pet() {
+            var hero = Hero.Current;
+            hero.Trigger(Hero.Events.HideWeapons, true);
+            int mountInteractionIndex = Random.Range(0, 2);
+            var mountInteractionEvent = mountInteractionIndex == 0 
+                ? ToolInteractionFSM.Events.PatMount 
+                : ToolInteractionFSM.Events.PetMount;
+            hero.Trigger(mountInteractionEvent, hero);
+        }
+
         void MoveMountedHero() {
-            DismountPoint[] dismountLocations = View<VMount>().dismountLocations;
-            Transform locationToDismount = null;
-            
-            foreach (var location in dismountLocations) {
-                if (location.isAvailable) {
-                    locationToDismount = location.transform;
-                    break;
-                }
-            }
-            
-            locationToDismount ??= dismountLocations.Last().transform;
+            Transform locationToDismount = MountView.GetAvailableDismountLocation();
             CharacterController characterController = MountedHero.VHeroController.Controller;
             
             characterController.enabled = false;
@@ -201,6 +205,8 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
         protected override void OnDiscard(bool fromDomainDrop) {
             HeroTransform = null;
+            _cachedMountView = null;
+            _mountedHeroOverridesRef = null;
         }
 
         async UniTaskVoid ResetHeroTransform() {

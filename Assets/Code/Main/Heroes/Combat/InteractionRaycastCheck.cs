@@ -71,9 +71,10 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         bool RayCheckFallback(Vector3 origin, Vector3 direction, float defaultDistance, int mask, ref HitResult hitInfo, ref Result result) {
-            var sphereCastOrigin = origin + direction.normalized * sphereCastRadius;
+            Vector3 directionNormalized = direction.normalized;
+            var sphereCastOrigin = origin + directionNormalized * sphereCastRadius;
             defaultDistance = Mathf.Max(defaultDistance - sphereCastRadius, RaycastCheck.MinPhysicsCastDistance);
-            int size = Physics.SphereCastNonAlloc(sphereCastOrigin, sphereCastRadius, direction, _hits, defaultDistance, mask);
+            int size = Physics.SphereCastNonAlloc(sphereCastOrigin, sphereCastRadius, directionNormalized, _hits, defaultDistance, mask);
 
             DebugCastData = new(DebugInteractionCastData.CastType.Sphere, sphereCastOrigin, direction, defaultDistance, sphereCastRadius);
 

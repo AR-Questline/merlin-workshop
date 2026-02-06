@@ -19,7 +19,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         public TemplateReference HeroTemplateOverride { get; set; }
 
         public DebugReferences Init() {
-            ImmediateStory = Configuration.GetBool("immediate_story");
+            ImmediateStory = Configuration.GetBoolExact("immediate_story");
             return this;
         }
 

@@ -35,7 +35,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             if (NpcPresence.InAbyss(npc.Coords)) {
                 return;
             }
-            npc.Movement.Controller.MoveToAbyss();
+            npc.MoveToAbyss();
         }
 
         public void StopInteraction(NpcElement npc, InteractionStopReason reason) {
@@ -43,7 +43,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
                 return;
             }
             if (reason == InteractionStopReason.Death) {
-                npc.Movement?.Controller.AbortMoveToAbyss();
+                npc.AbortMoveToAbyss();
                 return;
             }
             if (npc?.HasBeenDiscarded ?? true) {
@@ -51,7 +51,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             }
             
             npc.ParentModel.SetInteractability(LocationInteractability.Active);
-            npc.Movement?.Controller.AbortMoveToAbyss();
+            npc.AbortMoveToAbyss();
         }
 
         public event Action OnInternalEnd { add { } remove { } }

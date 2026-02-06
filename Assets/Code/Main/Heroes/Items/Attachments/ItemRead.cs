@@ -6,6 +6,7 @@ using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Steps;
+using Awaken.TG.Main.Stories.Steps.Helpers;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.MVC.Elements;
 
@@ -15,7 +16,8 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
 
         StoryBookmark _bookmark;
         StoryGraphRuntime _graph;
-        
+
+        public bool IsUnread => StoryUtils.IsStoryRead(_bookmark) == false;
         public ItemActionType Type => ItemActionType.Read;
 
         public string StoryText {
@@ -73,9 +75,14 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         public void Submit() {
             var config = StoryConfig.Base(_bookmark, typeof(VReadablePopupUI)).WithItem(ParentModel);
             Story.StartStory(config);
+            MarkAsRead();
         }
         public void AfterPerformed() {}
         public void Perform() {}
         public void Cancel() {}
+
+        public void MarkAsRead() {
+            StoryUtils.MarkStoryAsRead(_bookmark);
+        }
     }
 }

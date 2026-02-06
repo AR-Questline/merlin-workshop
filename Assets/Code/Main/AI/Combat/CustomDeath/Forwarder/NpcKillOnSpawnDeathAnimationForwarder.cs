@@ -25,7 +25,10 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath.Forwarder {
                 return;
             }
             
-            customDeathController.SetRagdollOnDeath(true, null, false);
+            bool? allowRagdoll = killOnSpawnElement.CustomDeathAnimation.UseCustomRagdollData 
+                                    ? killOnSpawnElement.CustomDeathAnimation.CustomRagdollData.enableRagdollAfterAnimation
+                                    : null;
+            customDeathController.SetRagdollOnDeath(allowRagdoll, null, false);
             
             if (!visualGO.TryGetComponent(out CustomDeathAnimations animations)) {
                 animations = visualGO.AddComponent<CustomDeathAnimations>();

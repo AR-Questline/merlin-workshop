@@ -2,6 +2,7 @@
 using System.Linq;
 using Awaken.TG.Main.Settings.Options.Views;
 using Awaken.TG.Main.Settings.Windows;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -15,6 +16,7 @@ using UnityEngine;
 namespace Awaken.TG.Main.UI.Menu {
     public partial class TabsSwitcher : Element<IModel>, IUIAware {
         public sealed override bool IsNotSaved => true;
+        public bool IsValid => this.IsValidForUIHandle();
 
         List<ITab> _tabs;
         bool _carousel;

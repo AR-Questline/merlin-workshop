@@ -164,6 +164,16 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
                 _consumedVFXInstance = null;
             }
             
+            if (_consumedVFXInstance != null) {
+                _consumedVFXInstance.Release();
+                _consumedVFXInstance = null;
+            }
+
+            if (_handVFXInstance != null) {
+                _handVFXInstance.Release();
+                _handVFXInstance = null;
+            }
+            
             base.OnDiscard(fromDomainDrop);
         }
         

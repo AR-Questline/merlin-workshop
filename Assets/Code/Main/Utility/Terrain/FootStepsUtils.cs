@@ -1,13 +1,8 @@
 ﻿using System;
-using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
-using Awaken.Utility.GameObjects;
-using FMOD.Studio;
 using FMODUnity;
-using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Utility.Terrain {
     public class FootStepsUtils {

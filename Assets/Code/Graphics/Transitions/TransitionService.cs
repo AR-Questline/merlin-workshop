@@ -181,7 +181,7 @@ namespace Awaken.TG.Graphics.Transitions {
                         TryUnblockInput();
                     }
                     if (!await AsyncUtil.DelayFrame(gameObject, cancellationToken: _toImageToken.Token)) {
-                        return false;
+                        return gameObject != null;
                     }
                 } while (currentFade < 1);
             }
@@ -213,7 +213,7 @@ namespace Awaken.TG.Graphics.Transitions {
                         TryUnblockInput();
                     }
                     if (!await AsyncUtil.DelayFrame(gameObject, cancellationToken: _fadeToBlackToken.Token)) {
-                        return false;
+                        return gameObject != null;
                     }
                 } while (toBlack ? currentColor.a < 1 : currentColor.a > 0);
             }

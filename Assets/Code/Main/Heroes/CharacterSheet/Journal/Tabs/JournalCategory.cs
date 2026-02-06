@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Content;
 using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Entries;
+using Awaken.TG.Main.Heroes.CharacterSheet.Journal.JournalFishing;
 using Awaken.TG.Main.Heroes.Fishing;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Memories.Journal;
@@ -10,7 +11,10 @@ using Awaken.TG.Main.Memories.Journal.Entries;
 using Awaken.TG.Main.Memories.Journal.Entries.Implementations;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Tutorials;
+using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Popup.PopupContents;
+using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
@@ -24,7 +28,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs {
         protected virtual bool ShowAllCounter => false;
         protected abstract IEnumerable<TData> GatherAllEntries();
         protected abstract IEnumerable<(string name, IEnumerable<TUIData> entries)> GatherCategories();
-        protected TView View => View<TView>();
+        TView View => View<TView>();
 
         protected override void AfterViewSpawned(TView view) {
             base.AfterViewSpawned(view);
@@ -35,7 +39,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs {
             this.Trigger(IJournalCategoryUI.Events.EntrySelected, entryData);
         }
 
-        protected void PopulateEntries() {
+        void PopulateEntries() {
             allEntries.AddRange(GatherAllEntries());
             
             foreach (var categories in GatherCategories()) {
@@ -47,34 +51,40 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs {
                     category.AddElement(new JournalButtonEntryUI(entry));
                 }
             }
-            
-            View.EntriesParent.gameObject.SetActive(_knownEntries.Count > 0);
-            View.ShowNoEntriesInfo(_knownEntries.Count == 0);
+
+            bool isEmpty = _knownEntries.Count <= 0;
+            View.EntriesParent.gameObject.SetActive(!isEmpty);
+            View.ShowNoEntriesInfo(isEmpty);
+            ParentModel.CharacterSheetUI.Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad), this, !isEmpty);
             
             if (_knownEntries.Count > 0) {
                 if (_categoriesDropdown.Count == 1) {
                     _categoriesDropdown[0].ToggleCategoryAsync().Forget();
                 }
 
-                var requestedEntry = !string.IsNullOrEmpty(ParentModel.RequestedEntryName) ? _knownEntries.FirstOrDefault(e => e.Name == ParentModel.RequestedEntryName) : default;
+                string recentEntryName = string.Empty;
+                PlayerJournal playerJournal = World.Only<PlayerJournal>();
+                var recentEntry = playerJournal.GetLastUnlockedEntry();
+                if (recentEntry.IsValid()) {
+                    recentEntryName = recentEntry.entryName;
+                }
+
+                var requestedEntry = !string.IsNullOrEmpty(recentEntryName) ? _knownEntries.FirstOrDefault(e => e.Name == recentEntryName) : default;
                 var entry = string.IsNullOrEmpty(requestedEntry?.Name) ? _knownEntries[0] : requestedEntry;
-                ParentModel.RequestedEntryName = null;
+                
+                playerJournal.ClearLastUnlockedEntry();
                 SelectEntry(entry);
             }
             
             ParentModel.UpdateEntriesCount(_knownEntries.Count, allEntries.Count, ShowAllCounter);
         }
-        
-        protected void ClearEntries() {
-            RemoveElementsOfType<JournalCategoryDropdownUI>();
-            RemoveElementsOfType<JournalButtonEntryUI>();
-            allEntries.Clear();
-            _knownEntries.Clear();
-            _categoriesDropdown.Clear();
-        }
-        
+
         protected static string[] GetUnlockedSubEntries(EntryData data) {
-            return data.GetEntries().Where(e => e.Condition.IsMet()).Select(e => e.TextToShow.Translate()).ToArray();
+            var entries = data.GetEntries();
+            foreach (var entry in entries) {
+                entry.Condition.Validate();
+            }
+            return entries.Where(e => e.Condition.IsMet()).Select(e => e.TextToShow.Translate()).ToArray();
         }
     }
     
@@ -94,6 +104,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs {
         }
         
         protected override IEnumerable<(string name, IEnumerable<JournalEntryData> entries)> GatherCategories() {
+            foreach (var entry in allEntries) {
+                entry.conditionForEntry.Validate();
+            }
             var knownEnemies = allEntries.Where(x => x.conditionForEntry.IsMet());
             yield return (LocTerms.JournalTabBestiary.Translate(), GatherKnownEntries(knownEnemies));
         }
@@ -111,6 +124,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs {
         }
         
         protected override IEnumerable<(string name, IEnumerable<JournalEntryData> entries)> GatherCategories() {
+            foreach (var entry in allEntries) {
+                entry.conditionForEntry.Validate();
+            }
             var knownCharacters = allEntries.Where(x => x.conditionForEntry.IsMet());
             yield return (LocTerms.JournalTabCharacters.Translate(), GatherKnownEntries(knownCharacters));
         }
@@ -128,6 +144,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs {
         }
         
         protected override IEnumerable<(string name, IEnumerable<JournalEntryData> entries)> GatherCategories() {
+            foreach (var entry in allEntries) {
+                entry.conditionForEntry.Validate();
+            }
             var knownPlaces = allEntries.Where(x => x.conditionForEntry.IsMet());
             yield return (LocTerms.JournalTabLore.Translate(), GatherKnownEntries(knownPlaces));
         }
@@ -137,7 +156,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs {
         }
     }
 
-    public partial class JournalFish : JournalCategoryUI<JournalEntryData, FishEntry, VJournalCategoryUI> {
+    public partial class JournalFish : JournalCategoryUI<JournalEntryData, FishEntry, VJournalFishingUI> {
         protected override IEnumerable<FishEntry> GatherAllEntries() {
             return Hero.Current.Element<HeroCaughtFish>().caughtFish;
         }

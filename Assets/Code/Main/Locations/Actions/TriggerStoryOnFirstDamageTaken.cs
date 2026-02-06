@@ -25,7 +25,7 @@ namespace Awaken.TG.Main.Locations.Actions {
         }
 
         void OnDamageTaken(DamageOutcome damageOutcome) {
-            if (damageOutcome.Damage.DamageDealer is Hero && (ParentModel.Character?.IsAlive ?? false)) {
+            if (damageOutcome.Damage.DamageDealerPure is Hero && (ParentModel.Character?.IsAlive ?? false)) {
                 Story.StartStory(StoryConfig.Location(ParentModel, _bookmark, null));
             }
             Discard();

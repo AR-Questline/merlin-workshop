@@ -1,24 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Awaken.Babel;
 using System.Reflection;
 using Awaken.TG.Editor.Localizations;
 using Awaken.TG.Editor.Main.Stories.Drawers;
+using Awaken.TG.Editor.Main.Stories.Steps;
 using Awaken.TG.Editor.Utility.StoryGraphs;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Core;
 using Awaken.TG.Main.Stories.Core.Attributes;
+using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Steps;
 using Awaken.TG.Main.Stories.Steps.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility.Reflections;
 using Awaken.Utility.Collections;
+using Awaken.Utility.Debugging;
 using Awaken.Utility.Editor.SearchableMenu;
 using Awaken.Utility.Extensions;
 using Awaken.Utility.UI;
+using FMODUnity;
 using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
+using Vendor.xNode.Scripts.Editor.GenericMenus;
 using XNode;
 using XNodeEditor;
 using Object = UnityEngine.Object;
@@ -26,15 +32,21 @@ using Object = UnityEngine.Object;
 namespace Awaken.TG.Editor.Main.Stories {
     [CustomNodeEditor(typeof(StoryNode))]
     public class StoryNodeEditor : NodeEditor {
-        protected const string FoldString = "↑", UnfoldString = "↓";
         static readonly GUIContent RemoveButton = new("x");
         static readonly GUIContent MoveUpButton = new("\u25b2", "move up");
         static readonly GUIContent MoveDownButton = new("\u25bc", "move down");
         static readonly GUIContent RefreshButton = new("\u21bb", "reset");
+        static readonly GUIContent EditModeButtonOn = new("🖊", "Edit mode: On");
+        static readonly GUIContent EditModeButtonOff = new("🖊", "Edit mode: Off");
+
+        // static readonly Texture CopyIcon = EditorUtils.LoadImage("CopyIcon.png");
 
         // === Fields & Properties
 
         static readonly GUIStyle HeaderStyle = new(EditorStyles.helpBox) { richText = true };
+        static readonly GUIStyle EditModeStyleOn = new(EditorStyles.miniButton);
+        static readonly GUIStyle EditModeStyleOff = new(EditorStyles.miniButton);
+        
         static readonly int MiniButtonSize = 23;
 
         // steps that can be added/removed only with their nodes
@@ -43,6 +55,10 @@ namespace Awaken.TG.Editor.Main.Stories {
         protected StoryNode Node => (StoryNode)target;
         protected bool _elementReserializeNeeded;
         bool _reserializeInNextFrame;
+        public bool isEditMode = true;
+        
+        GUIContent EditModeButtonContent => isEditMode ? EditModeButtonOn : EditModeButtonOff;
+        GUIStyle EditModeButtonStyle => isEditMode ?  EditModeStyleOn : EditModeStyleOff;
 
         List<Type> _continuableElements = new() {
             typeof(SEditorText),
@@ -55,6 +71,9 @@ namespace Awaken.TG.Editor.Main.Stories {
         static StoryNodeEditor() {
             HeaderStyle.fontStyle = FontStyle.Bold;
             HeaderStyle.fontSize = EditorStyles.helpBox.fontSize + 2;
+            
+            EditModeStyleOn.normal.textColor = Color.green;
+            EditModeStyleOff.normal.textColor = EditorStyles.label.normal.textColor;
         }
 
         // === Colors
@@ -100,10 +119,21 @@ namespace Awaken.TG.Editor.Main.Stories {
         }
 
         // === GUI
+        public override float PreNameHeaderWidth => 35;
         public override float PostNameHeaderWidth => 70;
-        
+
+        protected override void PreNameHeaderGUI() {
+            if (GUILayout.Button(EditModeButtonContent, EditModeButtonStyle, GUILayout.Width(MiniButtonSize), GUILayout.Height(MiniButtonSize))) {
+                isEditMode = !isEditMode;
+            }
+        }
+
         protected override void PostNameHeaderGUI() {
-            // HACK: Color picker blocks shortcuts like Ctrl+C and Ctrl+V, so we need this workaround
+            if (!isEditMode) {
+                return;
+            }
+            
+            //HACK: Color picker blocks shortcuts like Ctrl+C and Ctrl+V, so we need this workaround
             if (Event.current.type is EventType.KeyDown) {
                 return;
             }
@@ -121,7 +151,7 @@ namespace Awaken.TG.Editor.Main.Stories {
             if (change) {
                 Node.changedTint = true;
             }
-
+            
             if (GUILayout.Button(RefreshButton, new GUIStyle(EditorStyles.miniButton), GUILayout.Width(MiniButtonSize), GUILayout.Height(MiniButtonSize))) {
                 Node.changedTint = false;
                 Node.tint = new(0, 0, 0, 1);
@@ -134,11 +164,8 @@ namespace Awaken.TG.Editor.Main.Stories {
             _elementReserializeNeeded = false;
 
             BeforeElements();
-            DrawDebugExecuteButton();
-            if (!Node.Folded) {
-                DrawElements();
-            }
-
+            DrawDebugButtons();
+            DrawElements();
             AfterElements();
 
             // reserialize
@@ -164,18 +191,49 @@ namespace Awaken.TG.Editor.Main.Stories {
             serializedObject.ApplyModifiedProperties();
         }
 
+        public override void AddContextMenuItems(INodeGenericMenu menu) {
+            if (Selection.objects.All(SChoiceEditor.IsChoiceNode)) {
+                if (Selection.objects.Length > 1) {
+                    menu.AddItem(new GUIContent("Merge Choices"), false, () => {
+                        var nodesToMerge = Selection.objects.OfType<StoryNode>().ToArray();
+                        SChoiceEditor.MergeChoices(nodesToMerge);
+                    });
+                }
+
+                if (SChoiceEditor.IsChoiceHub(Selection.objects[0])) {
+                    menu.AddItem(new GUIContent("Split Choices"), false, () => {
+                        var storyNode = Selection.objects[0] as StoryNode;
+                        if (storyNode != null) {
+                           SChoiceEditor.SplitChoices(storyNode);
+                        }
+                    });
+                }
+            }
+            base.AddContextMenuItems(menu);
+        }
+
         protected virtual void BeforeElements() {
+            if (!isEditMode) {
+                return;
+            }
+            
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             Node.toReview = EditorGUILayout.Toggle("To review", Node.toReview);
             GUILayout.EndHorizontal();
-
-            bool isFolded = Node.Folded;
-            if (GUILayout.Button(isFolded ? UnfoldString : FoldString)) {
-                Node.Folded = !isFolded;
-            }
         }
 
+        void DrawDebugButtons() {
+            if (!isEditMode) {
+                return;
+            }
+            
+            GUILayout.BeginHorizontal();
+            DrawDebugExecuteButton();
+            DrawGetGoToCommandButton();
+            GUILayout.EndHorizontal();
+        }
+        
         void DrawDebugExecuteButton() {
             if (Application.isPlaying && Node is ChapterEditorNode editorChapter && GUILayout.Button("Go to")) {
                 foreach (var story in World.All<Story>()) {
@@ -190,7 +248,7 @@ namespace Awaken.TG.Editor.Main.Stories {
                         return;
                     }
                 }
-                var oldStory = World.AllInOrder<Story>().LastOrDefault(s => s.InvolveHero);
+                var oldStory = World.LastOrNull<Story>(s => s.InvolveHero);
                 if (oldStory != null) {
                     StoryUtils.EndStory(oldStory);
                 }
@@ -203,6 +261,29 @@ namespace Awaken.TG.Editor.Main.Stories {
                     }
                 }
             }
+        }
+        
+        void DrawGetGoToCommandButton() {
+            if (Node is not ChapterEditorNode editorChapter) {
+                return;
+            }
+            
+            var buttonPressed  = GUILayout.Button(new GUIContent(" Go to command", "Copy quantum console command to clipboard"));
+            if (!buttonPressed) {
+                return;
+            }
+            
+            var graphRuntime = StoryGraphParser.Parse(editorChapter.Graph, BabelManager.IdBaker);
+            for (var i = 0; i < graphRuntime.chapters.Length; i++) {
+                if (graphRuntime.chapters[i].EditorNode == editorChapter) {
+                    var guid = editorChapter.Graph.GUID;
+                    var command = $"story.start {guid} {i}";
+                    GUIUtility.systemCopyBuffer = command;
+                    Log.Important?.Info($"Command copied to clipboard for chapter index {i} in story '{editorChapter.Graph.name}, command: {command}'");
+                    break;
+                }
+            }
+            graphRuntime.Dispose();
         }
 
         protected virtual void DrawElements() {
@@ -231,6 +312,10 @@ namespace Awaken.TG.Editor.Main.Stories {
         }
 
         protected virtual void DrawAddElementButton(int index) {
+            if (!isEditMode) {
+                return;
+            }
+            
             GUILayout.Label("", GUILayout.Height(5));
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -290,7 +375,7 @@ namespace Awaken.TG.Editor.Main.Stories {
 
             if (!_elementReserializeNeeded && !_reserializeInNextFrame) {
                 // draw step body
-                ElementDrawer.DrawElement(element);
+                ElementDrawer.DrawElement(element, isEditMode);
             }
         }
 
@@ -299,11 +384,11 @@ namespace Awaken.TG.Editor.Main.Stories {
             GUI.Label(rect, ElementName(element.GetType()), HeaderStyle);
             if (element is EditorStep || element is SEditorStoryStartChoice) {
                 // condition button/port
-                Vector2 pos = new Vector2(rect.xMin - 14, rect.yMin + 6.5f);
+                Vector2 pos = new (rect.xMin - 14, rect.yMin + 6.5f);
                 NodeGUIUtil.SmallPortField(pos, element.ConditionPort(), !element.ConditionNodes().Any());
             }
-
-            if (!s_nodeBoundSteps.Any(st => st.IsInstanceOfType(element))) {
+            
+            if (isEditMode && !s_nodeBoundSteps.Any(st => st.IsInstanceOfType(element))) {
                 // deleting steps
                 rect = DrawRemoveStep(element, rect);
                 // moving steps

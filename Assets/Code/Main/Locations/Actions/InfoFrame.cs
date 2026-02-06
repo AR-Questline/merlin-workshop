@@ -1,3 +1,6 @@
+using Awaken.TG.Main.Localization;
+using Awaken.TG.Utility;
+
 namespace Awaken.TG.Main.Locations.Actions {
     public struct InfoFrame {
         public string displayName;
@@ -9,5 +12,7 @@ namespace Awaken.TG.Main.Locations.Actions {
             this.displayName = displayName;
             this.isButtonActive = isButtonActive;
         }
+        
+        public static InfoFrame DisabledByCombat => new(LocTerms.PortalBlockedByCombat.Translate(), false);
     }
 }

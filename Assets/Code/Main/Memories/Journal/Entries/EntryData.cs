@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Memories.Journal.Conditions;
 using Awaken.TG.MVC;
+using Awaken.Utility.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -20,6 +21,16 @@ namespace Awaken.TG.Main.Memories.Journal.Entries {
         public abstract EntryRuntimeBase GenericInitialize(Model owner);
 
         public abstract IEnumerable<SubEntryData> GetEntries();
+        public IEnumerable<ConditionData> GetAllConditions() {
+            foreach (var condition in conditionForEntry.GetAllConditions()) {
+                yield return condition;
+            }
+            foreach (var subEntry in GetEntries()) {
+                foreach (var condition in subEntry.Condition.GetAllConditions()) {
+                    yield return condition;
+                }
+            }
+        }
         
         string ConditionText() {
             return ConditionData.ConditionInfo(conditionForEntry);

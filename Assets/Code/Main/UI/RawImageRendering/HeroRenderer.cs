@@ -85,7 +85,7 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
             CCHead,
             HeroUIInventory,
             HeroUIStatus,
-            HeroUIStatsSummary,
+            HeroUITransmog,
             OutOfScreen
         }
     }

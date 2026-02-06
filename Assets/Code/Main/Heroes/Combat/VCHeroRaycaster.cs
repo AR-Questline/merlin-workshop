@@ -13,16 +13,22 @@ using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.MVC.Utils;
 using Awaken.Utility.GameObjects;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Combat {
     public class VCHeroRaycaster : ViewComponent<Hero> {
+        const int NpcDetectionIndexInBatch = 0;
+        const int WaterDetectionIndexInBatch = 1;
+        const int BatchRaycastsCount = 2;
+
         [SerializeField] RaycastCheck markerPlacementDetection;
         [SerializeField] RaycastCheck npcDetection;
         [SerializeField] InteractionRaycastCheck interactionDetection;
         [SerializeField] RaycastCheck waterDetection;
         [SerializeField] RaycastCheck debugNameDetection;
-        
+
+        RaycastBatchCheck _raycastBatchCheck;
         public RaycastCheck MarkerPlacementDetection => markerPlacementDetection;
         public float npcDetectionMaxDistance = 20f;
         public float waterDetectionMaxDistance = 20f;
@@ -53,6 +59,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             _transform = transform;
             _initialized = true;
             interactionDetection.Init();
+            _raycastBatchCheck.Init(BatchRaycastsCount);
             var stateStack = UIStateStack.Instance;
             stateStack.ListenTo(UIStateStack.Events.UIStateChanged, OnUIStateChanged, this);
             _isMapInteractive = stateStack.State.IsMapInteractive;
@@ -77,6 +84,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         protected override void OnDiscard() {
+            _raycastBatchCheck.Dispose();
             _interactable = null;
             _action = null;
         }
@@ -105,7 +113,11 @@ namespace Awaken.TG.Main.Heroes.Combat {
             GetViewRay(out var transformPosition, out var transformForward);
 
             // --- Npc logic
-            NpcCollider = npcDetection.Detected(transformPosition, transformForward, npcDetectionMaxDistance);
+            _raycastBatchCheck.Set(NpcDetectionIndexInBatch, npcDetection.accept, transformPosition, transformForward, npcDetectionMaxDistance);
+            _raycastBatchCheck.Set(WaterDetectionIndexInBatch, waterDetection.accept, transformPosition, transformForward, waterDetectionMaxDistance);
+            _raycastBatchCheck.ExecuteRaycasts();
+            
+            NpcCollider = _raycastBatchCheck.GetHitCollider(NpcDetectionIndexInBatch);
             VLocation npcView = NpcCollider != null ? NpcCollider.GetComponentInParent<LocationParent>()?.GetComponentInChildren<VLocation>() : null;
             bool hasNpcView = npcView is { HasBeenDiscarded: false };
             var npc = NPCRef.Get();
@@ -126,7 +138,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             // --- Water Interaction logic
             // Performed only if not interaction was found to allow picking up objects in shallow water etc.
             if (_interactable == null) {
-                var detected = waterDetection.Detected(transformPosition, transformForward, waterDetectionMaxDistance);
+                var detected = _raycastBatchCheck.GetHitCollider(WaterDetectionIndexInBatch);
                 if (detected) {
                     var provider = detected.GetComponentInParent<IInteractableWithHeroProvider>();
                     _interactable = provider?.InteractableWithHero(detected);

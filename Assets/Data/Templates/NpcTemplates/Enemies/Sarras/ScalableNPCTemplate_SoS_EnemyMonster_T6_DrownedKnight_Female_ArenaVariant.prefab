@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1424593090967609695
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: npcData
+      value: 
+      objectReference: {fileID: 11400000, guid: 883493559a975f742a8e62b445318c31,
+        type: 2}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: lootTables.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: corpseLootTables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: corpseLootTables.Array.data[0].table
+      value: 9191039322272301184
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: 'managedReferences[9191039322272301184]'
+      value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.ItemSpawningData
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: corpseLootTables.Array.data[0].lootType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[0].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[1].time
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[2].time
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[0].value
+      value: 4778.6934
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[1].value
+      value: 4778.6934
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[2].value
+      value: 6858.218
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[2].inSlope
+      value: 54.950233
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[3].inSlope
+      value: 21.272955
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: managedReferences[9191039322272301184].quantity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[2].outSlope
+      value: 54.950233
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: maxHealthScaling.m_Curve.Array.data[3].outSlope
+      value: 21.272955
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: managedReferences[9191039322272301184].itemLvl.low
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: managedReferences[9191039322272301184].itemLvl.high
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: managedReferences[9191039322272301184].itemTemplateReference._guid
+      value: 372ea54a09173364d8b4b27d7c0d3b16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060614182114357957, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4255101538292336513, guid: 985b27e2f3ca1e7408981356fd39a823,
+        type: 3}
+      propertyPath: m_Name
+      value: ScalableNPCTemplate_SoS_EnemyMonster_T6_DrownedKnight_Female_ArenaVariant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 985b27e2f3ca1e7408981356fd39a823, type: 3}

@@ -15,8 +15,13 @@ namespace Awaken.Utility.Editor.Prefabs {
             var prefabProp = dataProp.FindPropertyRelative("_prefab");
             var variantsProp = property.FindPropertyRelative("variants");
 
+            EditorGUI.BeginDisabledGroup(true);
             EditorGUI.PropertyField(position, prefabProp, true);
-            position.y += EditorGUIUtility.singleLineHeight;
+            EditorGUI.EndDisabledGroup();
+
+            var yOffset = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            position.y += yOffset;
+            position.height -= yOffset;
 
             if (variantsProp.arraySize > 0) {
                 EditorGUI.PropertyField(position, variantsProp, new GUIContent("Variants"), true);
@@ -26,24 +31,27 @@ namespace Awaken.Utility.Editor.Prefabs {
         }
 
         float GetPropertyHeight(SerializedProperty property) {
+            return CalculatePropertyHeight(property);
+        }
+
+        public static float CalculatePropertyHeight(SerializedProperty property) {
             var variantsProp = property.FindPropertyRelative("variants");
 
             var dataSize = EditorGUIUtility.singleLineHeight;
             var variantsSize = 0f;
             if (variantsProp.arraySize > 0) {
                 // Header
-                variantsSize += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                variantsSize += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 3;
                 if (variantsProp.isExpanded) {
                     // Footer
-                    variantsSize += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 2;
+                    variantsSize += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 3;
 
                     for (var i = 0; i < variantsProp.arraySize; i++) {
                         var variant = variantsProp.GetArrayElementAtIndex(i);
-                        variantsSize += GetPropertyHeight(variant);
+                        variantsSize += CalculatePropertyHeight(variant);
                     }
                 }
             }
-
 
             return dataSize + variantsSize + EditorGUIUtility.standardVerticalSpacing;
         }

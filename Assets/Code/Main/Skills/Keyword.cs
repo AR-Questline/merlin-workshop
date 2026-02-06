@@ -51,6 +51,10 @@ namespace Awaken.TG.Main.Skills {
             StatusWellRested = new(nameof(StatusWellRested), LocTerms.StatusWellRested, LocTerms.StatusWellRestedDesc),
             StatusResilienceRush = new(nameof(StatusResilienceRush), LocTerms.StatusResilienceRush, LocTerms.StatusResilienceRushDesc),
             StatusFrenzy = new(nameof(StatusFrenzy), LocTerms.StatusFrenzy, LocTerms.StatusFrenzyDesc),
+            StatusBrokenArmor = new(nameof(StatusBrokenArmor), LocTerms.StatusBrokenArmor, LocTerms.StatusBrokenArmorDesc),
+            StatusFrailty = new(nameof(StatusFrailty), LocTerms.StatusFrailty, LocTerms.StatusFrailtyDesc),
+            StatusPetrification = new(nameof(StatusPetrification), LocTerms.StatusPetrification, LocTerms.StatusPetrificationDesc),
+            StatusWet = new(nameof(StatusWet), LocTerms.StatusWet, LocTerms.StatusWetDesc),
 
             ManaShield = new(nameof(ManaShield), LocTerms.ManaShield, LocTerms.ManaShieldDesc),
             Lifesteal = new(nameof(Lifesteal), LocTerms.Lifesteal, LocTerms.LifestealDesc),
@@ -59,6 +63,7 @@ namespace Awaken.TG.Main.Skills {
             SneakDamage = new(nameof(SneakDamage), LocTerms.SneakDamage, LocTerms.SneakDamageDesc),
             Staggered = new(nameof(Staggered), LocTerms.Staggered, LocTerms.StaggeredDesc),
             ConsecutiveHit = new(nameof(ConsecutiveHit), LocTerms.ConsecutiveHit, LocTerms.ConsecutiveHitDesc),
+            KnockDown = new(nameof(KnockDown), LocTerms.KnockDown, LocTerms.KnockDownDesc),
 
             ToolMining = new(nameof(ToolMining), LocTerms.ToolMining, LocTerms.ToolMiningDesc),
             ToolDigging = new(nameof(ToolDigging), LocTerms.ToolDigging, LocTerms.ToolDiggingDesc),
@@ -66,7 +71,8 @@ namespace Awaken.TG.Main.Skills {
             ToolSketching = new(nameof(ToolSketching), LocTerms.ToolSketching, LocTerms.ToolSketchingDesc),
             ToolSpyglassing = new(nameof(ToolSpyglassing), LocTerms.ToolSpyglassing, LocTerms.ToolSpyglassingDesc),
             ToolGliding = new(nameof(ToolGliding), LocTerms.ToolGliding, LocTerms.ToolGlidingDesc),
-            ToolLumbering = new(nameof(ToolLumbering), LocTerms.ToolLumbering, LocTerms.ToolLumberingDesc);
+            ToolLumbering = new(nameof(ToolLumbering), LocTerms.ToolLumbering, LocTerms.ToolLumberingDesc),
+            ToolCutting = new(nameof(ToolCutting), LocTerms.ToolCutting, LocTerms.ToolCuttingDesc);
 
 
         public static Keyword KeywordFor(string keyword) {

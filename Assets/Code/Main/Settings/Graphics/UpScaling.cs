@@ -190,9 +190,9 @@ namespace Awaken.TG.Main.Settings.Graphics {
                 } else if (pixelsCount > PixelsCount2K) { // (2K - 4K>
                     return 0.35f;
                 } else if (pixelsCount > PixelsCount1K) { // (1K - 2K>
-                    return 0.75f;
+                    return 0.73f;
                 } else {
-                    return 0.9f;
+                    return 0.85f;
                 }
             } else {
                 if (pixelsCount > PixelsCount4K) { // (4K - 8K>
@@ -202,7 +202,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
                 } else if (pixelsCount > PixelsCount1K) { // (1K - 2K>
                     return 0.7f;
                 } else {
-                    return 0.9f;
+                    return 0.85f;
                 }
             }
 #elif UNITY_GAMECORE
@@ -215,9 +215,9 @@ namespace Awaken.TG.Main.Settings.Graphics {
                 } else if (pixelsCount > PixelsCount2K) { // (2K - 4K>
                     return 0.4f;
                 } else if (pixelsCount > PixelsCount1K) { // (1K - 2K>
-                    return 0.8f;
+                    return 0.75f;
                 } else {
-                    return 0.9f;
+                    return 0.85f;
                 }
             }
 #else
@@ -247,7 +247,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
         };
 
         float ModifiedQualityFactor(int index) {
-            var dpi = Configuration.GetFloat("upscaling.dpi.modifier", Screen.dpi);
+            var dpi = Configuration.GetFloatExact("upscaling.dpi.modifier", Screen.dpi);
             if (dpi <= 0f) {
                 return QualityFactors[index];
             }

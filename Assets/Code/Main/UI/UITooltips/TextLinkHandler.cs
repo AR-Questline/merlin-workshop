@@ -1,4 +1,5 @@
 ﻿using System;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI;
@@ -8,13 +9,13 @@ using Awaken.TG.Utility;
 using Awaken.Utility.Debugging;
 using TMPro;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.UI.UITooltips {
     public class TextLinkHandler : ViewComponent<Model>, IWithTechnicalTooltip {
         // === Editable properties
 
         public Color highlightedLinkColor = Color.white;
+        public bool IsValid => this.IsValidForUIHandle();
 
         // === Types
 

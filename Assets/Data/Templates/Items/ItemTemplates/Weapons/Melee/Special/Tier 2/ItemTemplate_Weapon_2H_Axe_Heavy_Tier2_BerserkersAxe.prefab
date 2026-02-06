@@ -82,7 +82,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_cc13f75f6eb56ff478d2ffbf43f1279c
-  EDITOR_bakedDescription: Deals double damage if used with less than 50% Health.
+  EDITOR_bakedDescription: "Deals double damage if used with less than 50\_% Health."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -158,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 873e5ccc88afe834092b5b64ec16a452
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-2984748174574186330
 MonoBehaviour:

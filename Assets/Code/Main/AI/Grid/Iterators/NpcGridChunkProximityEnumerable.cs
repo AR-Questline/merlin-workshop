@@ -48,7 +48,7 @@ namespace Awaken.TG.Main.AI.Grid.Iterators {
             }
             
             public bool MoveNext() {
-                while (_index < _offsets.Length) {
+                while (_index < _offsets.Length - 1) {
                     _index++;
                     if (_grid.TryGetChunk(_center + _offsets[_index], out var chunk)) {
                         Current = chunk;

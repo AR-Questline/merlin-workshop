@@ -6,6 +6,7 @@ using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.Items.Loadouts;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.Components.Navigation;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
@@ -26,10 +27,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts {
         VCLoadout _loadout;
 
         public bool Locked => Loadout.IsSlotLocked(Type);
-        public bool AllowUnequip => ItemInSlot != null;
+        public bool AllowUnequip => ItemInSlot != null && Target.HeroItems.AllowEquipping;
         public int LoadoutIndex => _loadout.LoadoutIndex;
         public EquipmentSlotType Type => main ? EquipmentSlotType.MainHand : _loadout.IsRanged ? EquipmentSlotType.Quiver : EquipmentSlotType.OffHand;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         public Item ItemInSlot => Loadout[Type];
         public HeroLoadout Loadout => Target.HeroItems.LoadoutAt(LoadoutIndex);
         public event Action onNewThingRefresh;
@@ -63,7 +65,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts {
 
         public void Unequip() {
             HeroLoadout loadout = Target.HeroItems.LoadoutAt(LoadoutIndex);
-            if (!loadout.IsEquipped && ItemInSlot.Owner is Hero hero) {
+            if (!loadout.IsEquipped && ItemInSlot.Owner is Hero { MuteEquips: false } hero) {
                 ItemInSlot.TryGetElement<ItemEquip>()?.PlayEquipToggleSound(hero, false);
             }
             loadout.EquipItem(Type, null);

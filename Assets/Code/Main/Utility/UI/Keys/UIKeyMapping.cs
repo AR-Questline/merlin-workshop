@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Assets;
@@ -14,6 +15,8 @@ using UnityEngine;
 namespace Awaken.TG.Main.Utility.UI.Keys {
     public class UIKeyMapping : ScriptableObject, IService {
 
+        const int NoBindingId = -1;
+        
         static readonly ByControlScheme<KeyIcons> EmptyKeyIconsByController = new();
         //static readonly List<ControllerTemplateElementTarget> Targets = new();
         
@@ -30,18 +33,6 @@ namespace Awaken.TG.Main.Utility.UI.Keys {
         public static void EDITOR_RuntimeReset() {
             //Targets.Clear();
         }
-        
-        public void Init() {
-            // ReInput.ControllerConnectedEvent -= OnConnectedControllersChanged;
-            // ReInput.ControllerConnectedEvent += OnConnectedControllersChanged;
-            // ReInput.ControllerDisconnectedEvent -= OnConnectedControllersChanged;
-            // ReInput.ControllerDisconnectedEvent += OnConnectedControllersChanged;
-            RefreshMapping();
-        }
-        
-        // void OnConnectedControllersChanged(ControllerStatusChangedEventArgs args) {
-        //     RefreshMapping();
-        // }
 
         public void RefreshMapping() {
             RefreshCache();
@@ -50,9 +41,27 @@ namespace Awaken.TG.Main.Utility.UI.Keys {
         
         public void RefreshCache() {
             _cache.Clear();
-
-            // var maps = RewiredHelper.Player.controllers.maps.GetAllMaps().Where(map => map.enabled).SelectMany(map => map.AllMaps);
-            // var lastActiveController = ReInput.players.GetPlayer(0).controllers.GetLastActiveController();
+            // var lastActiveController = RewiredHelper.Player.controllers.GetLastActiveController();
+            // IEnumerable<ActionElementMap> maps;
+            //
+            // if (lastActiveController == null) {
+            //     maps = RewiredHelper.Player.controllers.maps.GetAllMaps().Where(map => map.enabled).SelectMany(map => map.AllMaps);
+            // } else {
+            //     List<ActionElementMap> mapsAsList = new();
+            //     foreach (var controller in ControlSchemes.Get(lastActiveController.type).Controllers()) {
+            //         foreach (var category in ReInput.mapping.MapCategories) {
+            //             foreach (var controllerMap in RewiredHelper.Player.controllers.maps.GetMapsInCategory(controller, lastActiveController.id, category.id)) {
+            //                 if (controllerMap.enabled == false) continue;
+            //                 foreach (var actionMap in controllerMap.AllMaps) {
+            //                     mapsAsList.Add(actionMap);
+            //                 }
+            //             }
+            //         }
+            //     }
+            //
+            //     maps = mapsAsList;
+            // }
+            //
             // if (lastActiveController?.type != ControllerType.Joystick) {
             //     lastActiveController = null;
             // }
@@ -67,13 +76,17 @@ namespace Awaken.TG.Main.Utility.UI.Keys {
             //     if (!_cache.TryGetValue(binding, out var mappingByController)) {
             //         _cache[binding] = mappingByController = new ByControlScheme<KeyIcons>();
             //     }
-            //
-            //     mappingByController[ControlSchemes.Get(controllerType)] = controllerType switch {
-            //         ControllerType.Keyboard => GetIconOf(ControllerKey.GetKeyboard(element)),
-            //         ControllerType.Mouse => GetIconOf(ControllerKey.GetMouse(element)),
-            //         ControllerType.Joystick => GetIconOfJoystick(element, lastActiveController),
-            //         _ => throw new ArgumentOutOfRangeException(),
-            //     };
+            //     
+            //     if (element.elementIdentifierId == NoBindingId){
+            //         mappingByController[ControlSchemes.Get(controllerType)] = GetIconOf(ControllerKey.Keyboard.None);
+            //     } else {
+            //         mappingByController[ControlSchemes.Get(controllerType)] = controllerType switch {
+            //             ControllerType.Keyboard => GetIconOf(ControllerKey.GetKeyboard(element)),
+            //             ControllerType.Mouse => GetIconOf(ControllerKey.GetMouse(element)),
+            //             ControllerType.Joystick => GetIconOfJoystick(element, lastActiveController),
+            //             _ => throw new ArgumentOutOfRangeException(),
+            //         };
+            //     }
             // }
 
             TryAddManuallyMouseIcon(KeyBindings.Gameplay.Attack, ControllerKey.Mouse.LeftMouseButton);
@@ -91,20 +104,20 @@ namespace Awaken.TG.Main.Utility.UI.Keys {
 
         public static KeyBindings FindBindingFor(ActionElementMap element, InputAction action = null) {
             // we use actionDescriptiveName to handle axis defined as multiple keys on keyboard (eg. WASD)
-            string name = "";//element.actionDescriptiveName;
+            string name = ""; //element.actionDescriptiveName;
 
             // HACK for hard to track error causing actionDescriptiveName to be Action0 for InputActions with correct names
             // if (name is null or "" or "Action0") {
-            //     // action ??= ReInput.mapping.GetAction(element.actionId);
-            //     // name = (element.axisRange, element.axisContribution) switch {
-            //     //     (AxisRange.Full, _) => action.descriptiveName,
-            //     //     (_, Pole.Positive) => action.positiveDescriptiveName,
-            //     //     (_, Pole.Negative) => action.negativeDescriptiveName,
-            //     //     _ => action.name,
-            //     // };
-            //     // if (name is null or "" or "Action0") {
-            //     //     name = action.name;
-            //     // }
+            //     action ??= ReInput.mapping.GetAction(element.actionId);
+            //     name = (element.axisRange, element.axisContribution) switch {
+            //         (AxisRange.Full, _) => action.descriptiveName,
+            //         (_, Pole.Positive) => action.positiveDescriptiveName,
+            //         (_, Pole.Negative) => action.negativeDescriptiveName,
+            //         _ => action.name,
+            //     };
+            //     if (name is null or "" or "Action0") {
+            //         name = action.name;
+            //     }
             // }
             //
             // if (name.StartsWith("KeyBind/")) {
@@ -141,7 +154,7 @@ namespace Awaken.TG.Main.Utility.UI.Keys {
             //     Log.Important?.Warning("Unsupported controller, using xbox mapping");
             //     return GetIconOf(Mapped(ControllerKey.GetXbox(element)));
             // }
-            
+            //
             // if (controller.templateCount > 0) {
             //     var template = controller.Templates[0];
             //     if (template.GetElementTargets(element, Targets) > 0) {
@@ -150,7 +163,7 @@ namespace Awaken.TG.Main.Utility.UI.Keys {
             //         }
             //     }
             // }
-            
+            //
             // Log.Important?.Error($"Unsupported controller type {controller.hardwareName} {controller.hardwareTypeGuid}");
             return null;
         }

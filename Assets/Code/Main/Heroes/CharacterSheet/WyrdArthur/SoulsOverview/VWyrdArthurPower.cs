@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern;
 using Awaken.TG.Main.Heroes.Development.Talents;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -23,7 +25,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         [SerializeField, TemplateType(typeof(TalentTreeTemplate))] TemplateReference talentTree;
         [SerializeField] Transform treeParent;
         [SerializeField] Transform contentParent;
-
+        [SerializeField, ARAssetReferenceSettings(new []{typeof(Sprite), typeof(Texture2D)}, true)] 
+        ShareableSpriteReference lineSpriteReference;
+        
         [Title("Gamepad input")] 
         [SerializeField, Range(0, 2)] float directionWeight = 0.9f;
         [SerializeField, Range(0, 1)] float stickDirectionThreshold = 0.7f;
@@ -37,6 +41,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
 
         TalentTreeTemplate _tree;
         public TalentTreeTemplate Tree => _tree = _tree ? _tree : talentTree.Get<TalentTreeTemplate>();
+        public SpriteReference LineSpriteReference => _lineSpriteReferenceCache ?? lineSpriteReference.Get();
+        public bool IsValid => this.IsValidForUIHandle();
 
         Hero Hero => Hero.Current;
         VWyrdTalentTreePattern _spawnedPattern;
@@ -44,6 +50,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         NavigationData _currentSelected;
         float _lastInputTime;
         Vector2 _lastInputDir;
+        SpriteReference _lineSpriteReferenceCache;
         
         protected override void OnInitialize() {
             _tree = talentTree.Get<TalentTreeTemplate>();
@@ -51,16 +58,14 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         
         public void SetupPattern(VWyrdTalentTreePattern pattern) {
             _spawnedPattern = pattern;
-            _selectableElements = new NavigationData[_spawnedPattern.TalentNodes.Count + _spawnedPattern.WyrdTalentTree.Count];
+            _selectableElements = new NavigationData[Target.CurrentTable.TreeTemplate.TalentNodes.Count + _spawnedPattern.WyrdTalentTree.Count];
             PrepareSubtrees();
             UnityUpdateProvider.GetOrCreate().RegisterGeneric(this);
             World.Only<GameUI>().AddElement(new AlwaysPresentHandlers(UIContext.All, this, Target));
         }
         
-        public void SpawnSlot(WyrdTalentTreeSlotUI talentSlot, int index) {
-            var talentNode = _spawnedPattern.TalentNodes[index];
-            VWyrdTalentTreeSlotUI slot = World.SpawnView<VWyrdTalentTreeSlotUI>(talentSlot, true, true, talentNode.UISlot);
-            var slotNaviData = new NavigationData { focusTarget = slot.Button, naviTarget = slot.Button };
+        public void SetupSlot(VWyrdTalentTreeSlotUI slotView, int index) {
+            var slotNaviData = new NavigationData { focusTarget = slotView.Button, naviTarget = slotView.Button };
             _selectableElements[_spawnedPattern.WyrdTalentTree.Count + index] = slotNaviData;
         }
         
@@ -170,7 +175,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         }
         
         public UIResult Handle(UIEvent evt) {
-            if (Target is { HasBeenDiscarded: false } && !RewiredHelper.IsGamepad) return UIResult.Ignore;
+            if (!RewiredHelper.IsGamepad) return UIResult.Ignore;
             Vector2 input = Vector2.zero;
 
             if (evt is UIKeyDownAction action) {
@@ -201,6 +206,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         
         protected override IBackgroundTask OnDiscard() {
             UnityUpdateProvider.TryGet()?.UnregisterGeneric(this);
+            _lineSpriteReferenceCache?.Release();
+            _lineSpriteReferenceCache = null;
             return base.OnDiscard();
         }
 

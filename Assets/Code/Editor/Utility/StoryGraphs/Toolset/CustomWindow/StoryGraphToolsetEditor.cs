@@ -12,12 +12,14 @@ namespace Awaken.TG.Editor.Utility.StoryGraphs.Toolset.CustomWindow {
     //     PresenceChangeFinder _presenceChangeFinder = new();
     //     StepUsageFinder _stepUsageFinder = new();
     //     ActorUsageFinder _actorUsageFinder = new();
+    //     ItemUsageFinder _itemUsageFinder = new();
     //     STextActorChecker _sTextActorChecker = new();
     //     MissingVoiceOversFinder _missingVOFinder = new();
     //     BookmarkUsageFinder _bookmarkUsageFinder = new();
     //     StoryNodeTasksFinder _storyNodeTasksFinder = new();
     //     StoryTextSearchFinder _storyTextSearchFinder = new();
     //     MultiActorFinder _multiActorFinder = new();
+    //     UnhandledChoicesFinder _unhandledChoicesFinder = new();
     //     
     //     [MenuItem("TG/Graphs/Story Graph Toolset")]
     //     public static void OpenWindow() {
@@ -37,12 +39,14 @@ namespace Awaken.TG.Editor.Utility.StoryGraphs.Toolset.CustomWindow {
     //             { "Presence change", _presenceChangeFinder},
     //             { "Step usage", _stepUsageFinder },
     //             { "Actor usage", _actorUsageFinder },
+    //             { "Item usage", _itemUsageFinder },
     //             { "Check NONE Actor in SText", _sTextActorChecker },
     //             { "Missing voice overs finder", _missingVOFinder },
     //             { "Bookmark usage", _bookmarkUsageFinder },
     //             { "Find notes and tasks", _storyNodeTasksFinder },
     //             { "Search for text", _storyTextSearchFinder },
     //             { "Multi Actor usage", _multiActorFinder },
+    //             { "Unhandled choices", _unhandledChoicesFinder }
     //         };
     //     }
     // }

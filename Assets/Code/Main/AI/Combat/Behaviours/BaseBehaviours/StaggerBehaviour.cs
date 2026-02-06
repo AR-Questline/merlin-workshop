@@ -8,6 +8,7 @@ using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.MVC;
+using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
 using Awaken.Utility.Debugging;
 
@@ -28,6 +29,10 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
         bool _isExiting;
         float _duration, _durationRemaining;
 
+        public new static class Events {
+            public static readonly HookableEvent<EnemyBaseClass, StaggerBehaviour> BeforeStaggerExit = new(nameof(BeforeStaggerExit));
+        }
+        
         protected override bool StartBehaviour() {
             _duration = _durationRemaining;
             _isExiting = false;
@@ -61,6 +66,11 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
         }
         
         void ExitStagger() {
+            var hookResult = Events.BeforeStaggerExit.RunHooks(ParentModel, this);
+            if (hookResult.Prevented) {
+                return;
+            }
+            
             _isExiting = true;
             ParentModel.SetAnimatorState(NpcStateType.StaggerExit);
         }

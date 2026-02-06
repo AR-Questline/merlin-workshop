@@ -1,5 +1,6 @@
 ﻿using Awaken.ECS.Editor.DrakeRenderer;
 using Awaken.Kandra;
+using Awaken.TG.Assets.Modding;
 using Awaken.TG.Editor.Assets.Templates;
 using Awaken.TG.Editor.Validation;
 using Awaken.TG.Main.AI.Combat.Behaviours.CustomBehaviours;
@@ -24,6 +25,7 @@ using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.Utility.Debugging;
+using FMODUnity;
 using UnityEditor;
 using UnityEngine;
 
@@ -81,11 +83,15 @@ namespace Awaken.TG.Editor.WorkflowTools {
         }
 
         static void OnExitPlayMode() {
+            UnityUpdateProvider.EDITOR_RuntimeReset();
             if (World.Services != null) {
                 World.DropDomain(Domain.Main);
             }
+
+            // RuntimeManager.StudioSystem.release();
             BrokenKandraMessage.EDITOR_RuntimeReset();
             Log.Utils.EDITOR_RuntimeReset();
+            ModService.EDITOR_RuntimeReset();
         }
     }
 }

@@ -11,5 +11,7 @@ namespace Awaken.TG.MVC.UI {
         /// ignore it, accept it or prevent it from propagating further.
         /// </summary>
         UIResult Handle(UIEvent evt);
+
+        bool IsValid { get; }
     }
 }

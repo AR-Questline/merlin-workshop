@@ -52,7 +52,7 @@ MonoBehaviour:
   templateType: 0
   _isAbstract: 0
   _abstractTypes:
-  - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - _guid: 76622a1274815384685e80c6cd2eb190
   - _guid: ac284bdd722762346b747bef5ac29b16
   metadata:
     verifiedArt: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
   - item:tier5
   iconReference:
     arSpriteReference:
-      address: aab54b9b6ea078d4eb8e04a9d0304302
+      address: 1e84175ccfe593c439fa15e7d5f2efd5
       subObjectName: 
   itemName:
     IdOverride: item_weapon_2h_SiegeBow
@@ -78,7 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_double_decrease_percent
       ID: Template/description_locString_2543871262668956605_312e62d0f4d277c4ebe04660a5b99a7a
-  EDITOR_bakedDescription: A strong bow that can pierce through opponents.
+  EDITOR_bakedDescription: "Increases Max Stamina by 20.\nIncreases Stamina Regeneration
+    by 25.\nDecreases Movement Speed Multiplier by 50\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -103,7 +104,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_312e62d0f4d277c4ebe04660a5b99a7a
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,11 +129,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_312e62d0f4d277c4ebe04660a5b99a7a
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 900
+  basePrice: 1500
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 2
@@ -153,7 +154,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: 8d05b2bbe519f694aa7b38049e97bb7a
+      address: d799b4d177514334daac80d12e828485
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -205,8 +210,8 @@ MonoBehaviour:
   drawBowStaminaCostPerTick: 33
   holdItemStaminaCostPerTick: 12
   pushStaminaCost: 15
-  minDamage: 78
-  maxDamage: 80
+  minDamage: 135
+  maxDamage: 138
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -240,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: 0.7
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-8090837767640589894
 MonoBehaviour:
@@ -564,6 +572,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 20
     - name: GainValue
+      value: 2
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -581,6 +591,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 25
     - name: GainValue
+      value: 2
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

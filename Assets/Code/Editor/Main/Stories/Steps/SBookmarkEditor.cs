@@ -12,7 +12,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorBookmark))]
     public class SBookmarkEditor : ElementEditor {
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawProperties();
             SEditorBookmark bookmark = Target<SEditorBookmark>();
 

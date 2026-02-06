@@ -57,6 +57,7 @@ MonoBehaviour:
     notes: 
   tags:
   - potions:advanced
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 59d3867857994734694997277e0b86f7
@@ -152,6 +153,10 @@ MonoBehaviour:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +189,7 @@ MonoBehaviour:
     - name: Duration
       value: 30
     - name: DurationGain
-      value: 0
+      value: 3
     - name: BuildupCalculated
       value: 0
     - name: DurationPreCalculated

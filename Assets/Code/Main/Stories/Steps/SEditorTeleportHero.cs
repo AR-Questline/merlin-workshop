@@ -5,6 +5,7 @@ using Awaken.TG.Main.Stories.Execution;
 using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
 using Awaken.Utility.Debugging;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Vendor.xNode.Scripts.Attributes;
@@ -52,9 +53,14 @@ namespace Awaken.TG.Main.Stories.Steps {
             }
             
             StepResult result = new();
-            story.Hero.TeleportTo(target.Value, overrideRotation ? Quaternion.Euler(rotation) : null, () => AfterTeleported(result));
+            Teleport(story, target.Value, result).Forget();
             return result;
         }
+
+        async UniTaskVoid Teleport(Story story, Vector3 target, StepResult result) {
+            await story.Hero.EnsureHeroCanTeleport();
+            story.Hero.TeleportTo(target, overrideRotation ? Quaternion.Euler(rotation) : null, () => AfterTeleported(result));
+        } 
 
         void AfterTeleported(StepResult result) {
             result.Complete();

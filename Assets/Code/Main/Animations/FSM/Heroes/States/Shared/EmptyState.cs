@@ -11,9 +11,12 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Shared {
         
         public override void Enter(float previousStateNormalizedTime, float? overrideCrossFadeTime, Action<ITransition> onNodeLoaded = null) {
             Entered = true;
-
-            Animator.GetComponentsInChildren<CharacterHandBase>().ForEach(h => h.OnUnEquippingEnded());
-            ParentModel.ResetInput();
+            if (!HasBeenDiscarded) {
+                if (Animator != null) {
+                    Animator.GetComponentsInChildren<CharacterHandBase>().ForEach(h => h.OnUnEquippingEnded());
+                }
+                ParentModel.ResetInput();
+            }
             onNodeLoaded?.Invoke(null);
         }
     }

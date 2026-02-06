@@ -14,7 +14,7 @@ namespace Awaken.TG.VisualScripts.Units.Awaits {
     [UnitTitle("AR Wait For Frames")]
     [UnitOrder(4)]
     [UnityEngine.Scripting.Preserve]
-    public class ARWaitForFramesUnit : WaitUnit {
+    public class ARWaitForFramesUnit : ARWaitUnit {
         InlineValueInput<bool> _blockSave;
         InlineValueInput<int> _frames;
 
@@ -39,7 +39,7 @@ namespace Awaken.TG.VisualScripts.Units.Awaits {
 
             // HACK: Since execution of exit can throw exception we might not reach postpone discard so call it here but execute in next frame.
             DiscardPostpone(postpone).Forget();
-            yield return exit;
+            yield return TryExit(flow);
         }
 
         static async UniTaskVoid DiscardPostpone(SavePostpone postpone) {

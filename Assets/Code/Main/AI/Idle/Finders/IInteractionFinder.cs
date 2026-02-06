@@ -9,6 +9,7 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
         float GetInteractionRadius(IdleBehaviours behaviours);
         INpcInteraction FindInteraction(IdleBehaviours behaviours);
         bool CanFindInteraction(IdleBehaviours behaviours, INpcInteraction interaction, bool ignoreInteractionRequirements);
+        string DebugInfo();
 
         [UnityEngine.Scripting.Preserve] public static readonly IInteractionFinder Default = new InteractionFallbackFinder();
     }
@@ -21,11 +22,14 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
         public abstract Vector3 GetDesiredPosition(IdleBehaviours behaviours);
         public abstract float GetInteractionRadius(IdleBehaviours behaviours);
         public abstract bool CanFindInteraction(IdleBehaviours behaviours, INpcInteraction interaction, bool ignoreInteractionRequirements);
+
+        public virtual string DebugInfo() {
+            return this?.GetType().ToString();
+        }
         
         public virtual INpcInteraction FindInteraction(IdleBehaviours behaviours) {
             var interaction = Interaction(behaviours.Npc);
             return interaction.AvailableFor(behaviours.Npc, this) ? interaction : null;
         }
-
     }
 }

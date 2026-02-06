@@ -6,6 +6,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.Utility;
+using Awaken.Utility.GameObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,7 @@ namespace Awaken.TG.Main.Stories.Quests {
         Vector3 _offset;
         float _minDistance;
         float _maxDistance;
+        bool _isMapInteractive;
 
         float MinSqrDistance => _minDistance * _minDistance;
         float MaxSqrDistance => _maxDistance * _maxDistance;
@@ -38,8 +40,18 @@ namespace Awaken.TG.Main.Stories.Quests {
             
             _minDistance = constants.questMarkerMinDistance;
             _maxDistance = constants.questMarkerMaxDistance;
-            
-            UIStateStack.Instance.ListenTo(UIStateStack.Events.UIStateChanged, state => gameObject.SetActive(state.IsMapInteractive), this);
+
+            _isMapInteractive = UIStateStack.Instance.State.IsMapInteractive;
+            UIStateStack.Instance.ListenTo(UIStateStack.Events.UIStateChanged, state => {
+                _isMapInteractive = state.IsMapInteractive;
+                if (this == null) {
+                    return;
+                }
+                var go = gameObject;
+                if (go != null) {
+                    go.SetActiveOptimized(_isMapInteractive);
+                }
+            }, this);
             Target.questIcon.RegisterAndSetup(this, markerImage);
             SetOrderNumber();
             SetupSticker();
@@ -101,7 +113,7 @@ namespace Awaken.TG.Main.Stories.Quests {
             bool isInFront = viewportPoint.z > 0f;
             bool isOnScreen = viewportPoint.x is >= 0f and <= 1f &&
                               viewportPoint.y is >= 0f and <= 1f;
-            bool isVisible = isInFront && isOnScreen;
+            bool isVisible = _isMapInteractive && isInFront && isOnScreen;
             UpdateVisibility(isVisible);
         }
 

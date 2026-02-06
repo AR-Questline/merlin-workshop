@@ -3,6 +3,7 @@ using System.Linq;
 using Awaken.TG.Main.Locations.Containers;
 using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -27,6 +28,11 @@ namespace Awaken.TG.Main.Heroes {
         public Vector2 MountMoveInput { get; private set; } = Vector2.zero;
         public Vector2 LookInput { get; private set; } = Vector2.zero;
 
+        public bool AnyHeldActionsActive => _heldActions.Values.Any(action => action) || 
+                                      _mouseHeldActions.Values.Any(action => action);
+        public bool AnyDownActionsActive => _downActions.Values.Any(action => action) || 
+                                      _mouseDownActions.Values.Any(action => action);
+        
         readonly MultiMap<string, IUIPlayerInput> _playerMapInputs = new();
 
         readonly Dictionary<string, KeyValueAutoRefresh> _heldActions = new();
@@ -314,6 +320,10 @@ namespace Awaken.TG.Main.Heroes {
             if (evt is UIKeyAction keyAction) {
                 var orderedInputs = _playerMapInputs.GetValues(keyAction.Name, true).OrderByDescending(input => input.InputPriority);
                 foreach (IUIPlayerInput input in orderedInputs) {
+                    if (!input.IsValid) continue;
+#if DEBUG || AR_DEBUG
+                    input.LogInvalidUIAware(evt);
+#endif
                     var result = input.Handle(evt);
                     if (result != UIResult.Ignore) {
                         delivery.responsibleObject = input;

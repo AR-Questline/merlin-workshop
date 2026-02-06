@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,6 @@ namespace Awaken.TG.Editor.Assets.Templates {
 
         AddressableAssetGroup[] _groups;
         int _startingEntriesHash;
-        DateTime _lastCheckedTime;
         
         public List<ITemplate> Templates { get; private set; }
         public List<AddressableAssetEntry> Entries { get; private set; }
@@ -26,7 +25,6 @@ namespace Awaken.TG.Editor.Assets.Templates {
 
         public void Refresh() {
             _startingEntriesHash = GetEntriesHash(_groups);
-            _lastCheckedTime = DateTime.Now;
             Templates.Clear();
             Entries.Clear();
 
@@ -50,12 +48,7 @@ namespace Awaken.TG.Editor.Assets.Templates {
                 return true;
             }
 
-            if ((DateTime.Now - _lastCheckedTime).TotalSeconds > CheckDelaySec) {
-                _lastCheckedTime = DateTime.Now;
-                return AreHashesDifferent();
-            }
-
-            return false;
+            return AreHashesDifferent();
         }
 
         bool AreHashesDifferent() {

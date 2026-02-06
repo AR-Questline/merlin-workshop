@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 'description_increasestatatthreshold_percent_double_increasepercent '
       ID: Template/description_locString_2543871262668956605_b87d4e748ae55874db341bc6b68ed20c
-  EDITOR_bakedDescription: Increases Sneak Damage by 100%.
+  EDITOR_bakedDescription: "Increases Max Stamina by 125\_% when your Health is below
+    20\_%.\nIncreases Physical Damage by 20\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &7419740545042073915
 MonoBehaviour:
@@ -250,8 +255,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5117576088540074555
 MonoBehaviour:
@@ -281,7 +289,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 0.25
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
@@ -308,7 +316,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
-      value: 0
+      value: 0.02
     - name: ValueCalculated
       value: 0
     enums:

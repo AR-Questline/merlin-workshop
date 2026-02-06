@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_f13505fd16f622041828e95d1fde3128
-  EDITOR_bakedDescription: Grants 5 Gold after killing an enemy.
+  EDITOR_bakedDescription: Improves the reliability of your attacks, helping you
+    deal stronger blows more often.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,7 +153,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: fd33dc5da49acd34481165e3463f8315
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -267,7 +275,7 @@ MonoBehaviour:
   consumeOnUse: 0
   skills:
   - skillGraphRef:
-      _guid: e699a32c4d76b8b48aa933b6586a5bca
+      _guid: 3e576f130419a51438afd46a6a7189f6
     variables:
     - name: ModifyValue
       value: 0.15

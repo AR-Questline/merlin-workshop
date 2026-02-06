@@ -1,10 +1,7 @@
 using Awaken.TG.MVC;
-using Awaken.TG.MVC.Elements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.Dialogue {
-    public partial class DialogueNotification : Element<DialogueNotificationBuffer>, IAdvancedNotification {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class DialogueNotification : AdvancedNotification {
         public readonly DialogueData dialogueData;
 
         public DialogueNotification(DialogueData dialogueData) {
@@ -16,7 +13,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.Dialogue {
             story.ListenTo(Events.AfterDiscarded, _ => Discard(), this);
         }
         
-        public void Show() {
+        public override void Show() {
             World.SpawnView<VDialogueNotification>(this, true);
         }
     }

@@ -17,7 +17,7 @@ namespace Awaken.TG.Main.Timing {
 
         public override Domain DefaultDomain => Domain.Gameplay;
 
-        public const float FixedTimeStep = 0.02f;
+        public const float FixedTimeStep = 0.033f;
         const float MinFixedTimeStep = FixedTimeStep / 10f;
 
         // ReSharper disable once InconsistentNaming

@@ -2,6 +2,7 @@
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
@@ -43,6 +44,7 @@ namespace Awaken.TG.Main.UI.Menu.OST {
         
         public Transform PromptsHost => promptHost;
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnFullyInitialized() {
             InitButtons();

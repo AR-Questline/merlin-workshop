@@ -102,7 +102,7 @@ namespace Awaken.TG.Main.Stories.Quests.UI {
             bool anyActiveObjectiveWithValidScene = firstActiveObjective is {MainTargetScene: { IsSet: true }};
             string sceneName = anyActiveObjectiveWithValidScene ? LocTerms.GetSceneName(firstActiveObjective.MainTargetScene) : string.Empty;
             
-            bool shouldShowRegion = firstActiveObjective?.MainTargetOpenWorldScene != null 
+            bool shouldShowRegion = anyActiveObjectiveWithValidScene && firstActiveObjective?.MainTargetOpenWorldScene is { IsSet: true } 
                                     && firstActiveObjective.MainTargetOpenWorldScene != firstActiveObjective.MainTargetScene;
             string regionName = shouldShowRegion ? LocTerms.GetSceneName(firstActiveObjective.MainTargetOpenWorldScene) : string.Empty;
             

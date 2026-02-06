@@ -1,15 +1,14 @@
 ﻿using Awaken.Utility;
-using System;
-using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Heroes.Stats.Utils;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility.Attributes;
+using Awaken.Utility.Debugging;
 using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Heroes.Items.Weapons {
@@ -18,6 +17,8 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
 
         [Saved] ItemStatsWrapper _wrapper;
         // === Properties
+        public ItemStatsWrapper Wrapper => _wrapper;
+        
         // --- Stamina Costs
         public ItemStat LightAttackCost { get; private set; }
         public ItemStat HeavyAttackCost { get; private set; }
@@ -74,6 +75,9 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
         public ItemStat LightCastManaCost { get; private set; }
         public ItemStat HeavyCastManaCost { get; private set; }
         public ItemStat HeavyCastManaCostPerSecond { get; private set; }
+        public ItemStat LightCastManaCostGain { get; private set; }
+        public ItemStat HeavyCastManaCostGain { get; private set; }
+        public ItemStat HeavyCastManaCostPerSecondGain { get; private set; }
         public LimitedStat ChargeAmount { get; private set; }
         public LimitedStat MagicHeldSpeedMultiplier { get; private set; }
         
@@ -81,7 +85,8 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
         ItemStatsAttachment _dataSource;
         
         // === Gained values
-        float _appliedDamageGain, _appliedArmorGain, _appliedBlockGain, _appliedForceGain, _appliedPoiseDamageGain, _appliedWeightLoss;
+        float _appliedDamageGain, _appliedArmorGain, _appliedBlockGain, _appliedForceGain, _appliedPoiseDamageGain, _appliedWeightLoss, 
+            _appliedLManaCost, _appliedHManeCost, _appliedHManaCostPerSecond;
         
         // === Constructors
         [JsonConstructor, UnityEngine.Scripting.Preserve]
@@ -129,6 +134,18 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
             if (levelChanged || stat.Type == ItemStatType.ItemPoiseDamageGain) {
                 ApplyGain(PoiseDamage, PoiseDamageGain, ref _appliedPoiseDamageGain);
             }
+            
+            if (levelChanged || stat.Type == ItemStatType.LightCastManaCostGain) {
+                ApplyGain(LightCastManaCost, LightCastManaCostGain, ref _appliedLManaCost);
+            }
+            
+            if (levelChanged || stat.Type == ItemStatType.HeavyCastManaCostGain) {
+                ApplyGain(HeavyCastManaCost, HeavyCastManaCostGain, ref _appliedHManeCost);
+            }
+            
+            if (levelChanged || stat.Type == ItemStatType.HeavyCastManaCostPerSecondGain) {
+                ApplyGain(HeavyCastManaCostPerSecond, HeavyCastManaCostPerSecondGain, ref _appliedHManaCostPerSecond);
+            }
 
             if (stat.Type == ItemStatType.ItemWeightLevel) {
                 ApplyWeightLoss();
@@ -156,6 +173,15 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
 
             return null;
         }
+
+        public void SwapWrapperPreInitialize(ItemStatsWrapper newWrapper) {
+            if (IsInitialized) {
+                Log.Important?.Error($"Trying to swap {nameof(ItemStatsWrapper)} of already initialized {LogUtils.GetDebugName(this)}");
+                return;
+            }
+
+            _wrapper = newWrapper;
+        }
         
         // === Persistence
 
@@ -168,47 +194,50 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
 
             const float DefaultChargeAmount = 0f;
             
-            [Saved(0f)] float LightAttackCostDif;
-            [Saved(0f)] float HeavyAttackCostDif;
-            [Saved(0f)] float HeavyAttackHoldCostPerTickDif;
-            [Saved(0f)] float DrawBowCostPerTickDif;
-            [Saved(0f)] float HoldItemCostPerTickDif;
-            [Saved(0f)] float PushStaminaCostDif;
-            [Saved(0f)] float BlockStaminaCostMultiplierDif;
-            [Saved(0f)] float ParryStaminaCostDif;
-            [Saved(0f)] float BaseMinDmgDif;
-            [Saved(0f)] float BaseMaxDmgDif;
-            [Saved(0f)] float DamageGainDif;
-            [Saved(0f)] float HeavyAttackDamageMultiplierDif;
-            [Saved(0f)] float PushDamageMultiplierDif;
-            [Saved(0f)] float BackStabDamageMultiplierDif;
-            [Saved(0f)] float ArmorPenetrationDif;
-            [Saved(0f)] float DamageIncreasePerChargeDif;
-            [Saved(0f)] float ArmorDif;
-            [Saved(0f)] float ArmorGainDif;
-            [Saved(0f)] float BlockAngleDif;
-            [Saved(0f)] float BlockDif;
-            [Saved(0f)] float BlockGainDif;
-            [Saved(0f)] float ForceDif;
-            [Saved(0f)] float ForceGainDif;
-            [Saved(0f)] float ForceDamagePushMultiplierDif;
-            [Saved(0f)] float RagdollForceDif;
-            [Saved(0f)] float PoiseDamageDif;
-            [Saved(0f)] float PoiseDamageGainDif;
-            [Saved(0f)] float PoiseDamageHeavyAttackMultiplierDif;
-            [Saved(0f)] float PoiseDamagePushMultiplierDif;
-            [Saved(0f)] float WeightDif;
-            [Saved(0f)] float NpcDamageMultiplierDif;
-            [Saved(0f)] float RangedZoomModifierDif;
-            [Saved(0f)] float RangedDrawSpeedModifierDif;
-            [Saved(0f)] float LightCastManaCostDif;
-            [Saved(0f)] float HeavyCastManaCostDif;
-            [Saved(0f)] float HeavyCastManaCostPerSecondDif;
-            [Saved(0f)] float ChargeAmountDif;
-            [Saved(0f)] float MagicHeldSpeedMultiplierDif;
-            [Saved(0f)] float CriticalDamageMultiplierDif;
-            [Saved(0f)] float WeakSpotDamageMultiplierDif;
-            [Saved(0f)] float SneakDamageMultiplierDif;
+            [Saved(0f)] public float LightAttackCostDif;
+            [Saved(0f)] public float HeavyAttackCostDif;
+            [Saved(0f)] public float HeavyAttackHoldCostPerTickDif;
+            [Saved(0f)] public float DrawBowCostPerTickDif;
+            [Saved(0f)] public float HoldItemCostPerTickDif;
+            [Saved(0f)] public float PushStaminaCostDif;
+            [Saved(0f)] public float BlockStaminaCostMultiplierDif;
+            [Saved(0f)] public float ParryStaminaCostDif;
+            [Saved(0f)] public float BaseMinDmgDif;
+            [Saved(0f)] public float BaseMaxDmgDif;
+            [Saved(0f)] public float DamageGainDif;
+            [Saved(0f)] public float HeavyAttackDamageMultiplierDif;
+            [Saved(0f)] public float PushDamageMultiplierDif;
+            [Saved(0f)] public float BackStabDamageMultiplierDif;
+            [Saved(0f)] public float ArmorPenetrationDif;
+            [Saved(0f)] public float DamageIncreasePerChargeDif;
+            [Saved(0f)] public float ArmorDif;
+            [Saved(0f)] public float ArmorGainDif;
+            [Saved(0f)] public float BlockAngleDif;
+            [Saved(0f)] public float BlockDif;
+            [Saved(0f)] public float BlockGainDif;
+            [Saved(0f)] public float ForceDif;
+            [Saved(0f)] public float ForceGainDif;
+            [Saved(0f)] public float ForceDamagePushMultiplierDif;
+            [Saved(0f)] public float RagdollForceDif;
+            [Saved(0f)] public float PoiseDamageDif;
+            [Saved(0f)] public float PoiseDamageGainDif;
+            [Saved(0f)] public float PoiseDamageHeavyAttackMultiplierDif;
+            [Saved(0f)] public float PoiseDamagePushMultiplierDif;
+            [Saved(0f)] public float WeightDif;
+            [Saved(0f)] public float NpcDamageMultiplierDif;
+            [Saved(0f)] public float RangedZoomModifierDif;
+            [Saved(0f)] public float RangedDrawSpeedModifierDif;
+            [Saved(0f)] public float LightCastManaCostDif;
+            [Saved(0f)] public float HeavyCastManaCostDif;
+            [Saved(0f)] public float HeavyCastManaCostPerSecondDif;
+            [Saved(0f)] public float ChargeAmountDif;
+            [Saved(0f)] public float MagicHeldSpeedMultiplierDif;
+            [Saved(0f)] public float CriticalDamageMultiplierDif;
+            [Saved(0f)] public float WeakSpotDamageMultiplierDif;
+            [Saved(0f)] public float SneakDamageMultiplierDif;
+            [Saved(0f)] public float LightCastManaCostGainDif;
+            [Saved(0f)] public float HeavyCastManaCostGainDif;
+            [Saved(0f)] public float HeavyCastManaCostPerSecondGainDif;
 
             public void Initialize(ItemStats stats) {
                 Item parentModel = stats.ParentModel;
@@ -265,6 +294,9 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
                 stats.LightCastManaCost = new ItemStat(parentModel, ItemStatType.LightCastManaCost, dataSource.lightCastManaCost + LightCastManaCostDif);
                 stats.HeavyCastManaCost = new ItemStat(parentModel, ItemStatType.HeavyCastManaCost, dataSource.heavyCastManaCost + HeavyCastManaCostDif);
                 stats.HeavyCastManaCostPerSecond = new ItemStat(parentModel, ItemStatType.HeavyCastManaCostPerSecond, dataSource.heavyCastManaCostPerSecond + HeavyCastManaCostPerSecondDif);
+                stats.LightCastManaCostGain = new ItemStat(parentModel, ItemStatType.LightCastManaCostGain, dataSource.lightCastManaCostGain + LightCastManaCostGainDif);
+                stats.HeavyCastManaCostGain = new ItemStat(parentModel, ItemStatType.HeavyCastManaCostGain, dataSource.heavyCastManaCostGain + HeavyCastManaCostGainDif);
+                stats.HeavyCastManaCostPerSecondGain = new ItemStat(parentModel, ItemStatType.HeavyCastManaCostPerSecondGain, dataSource.heavyCastManaCostPerSecondGain + HeavyCastManaCostPerSecondGainDif);
                 stats.ChargeAmount = new LimitedStat(parentModel, ItemStatType.ChargeAmount, DefaultChargeAmount + ChargeAmountDif, 0, 1);
                 stats.MagicHeldSpeedMultiplier = new LimitedStat(parentModel, ItemStatType.MagicHeldSpeedMultiplier, dataSource.magicHeldSpeedMultiplier + MagicHeldSpeedMultiplierDif, 0, 1);
             }
@@ -306,9 +338,12 @@ namespace Awaken.TG.Main.Heroes.Items.Weapons {
                 NpcDamageMultiplierDif = itemStats.NpcDamageMultiplier.ValueForSave - dataSource.npcDamageMultiplier;
                 RangedZoomModifierDif = itemStats.RangedZoomModifier.ValueForSave - dataSource.rangedZoomModifier;
                 RangedDrawSpeedModifierDif = itemStats.RangedDrawSpeedModifier.ValueForSave - dataSource.bowDrawSpeedModifier;
-                LightCastManaCostDif = itemStats.LightCastManaCost.ValueForSave - dataSource.lightCastManaCost;
-                HeavyCastManaCostDif = itemStats.HeavyCastManaCost.ValueForSave - dataSource.heavyCastManaCost;
-                HeavyCastManaCostPerSecondDif = itemStats.HeavyCastManaCostPerSecond.ValueForSave - dataSource.heavyCastManaCostPerSecond;
+                LightCastManaCostDif = itemStats.LightCastManaCost.ValueForSave - dataSource.lightCastManaCost - itemStats._appliedLManaCost;
+                HeavyCastManaCostDif = itemStats.HeavyCastManaCost.ValueForSave - dataSource.heavyCastManaCost - itemStats._appliedHManeCost;
+                HeavyCastManaCostPerSecondDif = itemStats.HeavyCastManaCostPerSecond.ValueForSave - dataSource.heavyCastManaCostPerSecond - itemStats._appliedHManaCostPerSecond;
+                LightCastManaCostGainDif = itemStats.LightCastManaCostGain.ValueForSave - dataSource.lightCastManaCostGain;
+                HeavyCastManaCostGainDif = itemStats.HeavyCastManaCostGain.ValueForSave - dataSource.heavyCastManaCostGain;
+                HeavyCastManaCostPerSecondGainDif = itemStats.HeavyCastManaCostPerSecondGain.ValueForSave - dataSource.heavyCastManaCostPerSecondGain;
                 ChargeAmountDif = itemStats.ChargeAmount.ValueForSave - DefaultChargeAmount;
                 MagicHeldSpeedMultiplierDif = itemStats.MagicHeldSpeedMultiplier.ValueForSave - dataSource.magicHeldSpeedMultiplier;
                 CriticalDamageMultiplierDif = itemStats.CriticalDamageMultiplier.ValueForSave - dataSource.criticalDamageMultiplier;

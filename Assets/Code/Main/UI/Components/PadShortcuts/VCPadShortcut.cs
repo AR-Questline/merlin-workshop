@@ -37,7 +37,9 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
         [SerializeField] Image keyboardIcon;
 
         public bool Hold => hold;
-        
+
+        string _spriteGUID;
+        string _additionalSpriteGUID;
         ButtonShortcut _buttonShortcut;
         bool _active;
 
@@ -72,7 +74,7 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
             }
 
             World.EventSystem.ListenTo(EventSelector.AnySource, Focus.Events.FocusChanged, this, OnFocusChanged);
-            World.EventSystem.ListenTo(EventSelector.AnySource, Focus.Events.ControllerChanged, this, RefreshVisibility);
+            World.EventSystem.ListenTo(EventSelector.AnySource, Focus.Events.KeyMappingRefreshed, this, Refresh);
             
             if (Action != null) {
                 _buttonShortcut = new ButtonShortcut(this);
@@ -95,9 +97,21 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
                 } else {
                     iconSearch = keyMapping.GetIconsOf(KeyBinding, hold)[scheme] as SpriteIcon;
                 }
+
+                if (iconSearch == null) {
+                    return;
+                }
+
+                if (iconSearch.Sprite is { IsSet: true } && _spriteGUID != iconSearch.Sprite.arSpriteReference.Address) {
+                    _spriteGUID = iconSearch.Sprite.arSpriteReference.Address;
+                    TrySetSpriteIcon(iconSearch.Sprite, controllerIcon);
+                }
+
+                if (iconSearch.AdditionalImage is { IsSet: true } && _additionalSpriteGUID != iconSearch.AdditionalImage.arSpriteReference.Address) {
+                    _additionalSpriteGUID = iconSearch.AdditionalImage.arSpriteReference.Address;
+                    TrySetSpriteIcon(iconSearch.AdditionalImage, additionalIcon);
+                }
                 
-                TrySetSpriteIcon(iconSearch?.Sprite, controllerIcon);
-                TrySetSpriteIcon(iconSearch?.AdditionalImage, additionalIcon);
             }
         }
         
@@ -117,8 +131,11 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
         public void Refresh() {
             RefreshVisibility(RewiredHelper.IsGamepad ? ControllerType.Joystick : ControllerType.Keyboard);
         }
+        
         void RefreshVisibility(ControllerType controllerType) {
             if (this == null) return;
+            
+            TryAutoSetup(autoSetupPadIcon, padIcon, additionalPadIcon, ControlScheme.Gamepad);
             
             bool padActive = controllerType == ControllerType.Joystick && Active;
             if (padIconHost != null) {

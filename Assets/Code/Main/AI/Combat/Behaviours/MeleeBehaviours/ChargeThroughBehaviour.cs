@@ -106,7 +106,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours {
             
             var coordsBefore = ParentModel.Coords;
             ParentModel.ParentModel.SafelyMoveTo(to);
-            if (coordsBefore == ParentModel.Coords) {
+            if (ParentModel && coordsBefore == ParentModel.Coords) {
                 End();
             }
         }

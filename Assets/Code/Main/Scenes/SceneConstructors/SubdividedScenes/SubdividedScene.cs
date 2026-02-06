@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.CommonInterfaces;
 using Awaken.TG.Assets;
+using Awaken.TG.Assets.Modding;
 using Awaken.TG.Debugging;
 using Awaken.TG.Graphics.Culling;
 using Awaken.TG.MVC.Domains;
@@ -48,7 +49,11 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors.SubdividedScenes {
                 LoadNextScene();
             } else {
                 if (!IsMapStaticSceneValid()) {
+#if UNITY_EDITOR
+                    Log.Debug?.Warning("Map static scene reference is null. Ignore this if you are not testing with static scenes setup");
+#else
                     Log.Debug?.Error("Map static scene reference is null");
+#endif
                     LoadNextScene();
                 } else {
                     SceneLoadOperation operation = SceneService.LoadSceneAsync(mapStaticScene, LoadSceneMode.Additive);
@@ -197,6 +202,11 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors.SubdividedScenes {
         }
 
 #if UNITY_EDITOR
+        [Button]
+        void FixMissingScenes() {
+            ModService.EDITOR_RuntimeReset();
+        }
+        
         [Button]
         public void RefreshStaticScenesList() {
             staticSubscenes = new(20);

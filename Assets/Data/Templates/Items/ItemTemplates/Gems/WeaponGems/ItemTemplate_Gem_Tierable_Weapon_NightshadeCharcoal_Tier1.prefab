@@ -10,6 +10,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2171448430345750879, guid: 148584b64bf0d774484e2cc744359c5f,
         type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: 148584b64bf0d774484e2cc744359c5f,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[2].name
+      value: ValuePreCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: 148584b64bf0d774484e2cc744359c5f,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[3].name
+      value: ValueCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: 148584b64bf0d774484e2cc744359c5f,
+        type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[0].value
       value: 0.15
       objectReference: {fileID: 0}
@@ -82,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 2543871262668956605, guid: 148584b64bf0d774484e2cc744359c5f,
         type: 3}
       propertyPath: EDITOR_bakedDescription
-      value: Increases Sneak Damage by 15%.
+      value: "Increases Sneak Damage by 17\_%."
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 148584b64bf0d774484e2cc744359c5f,
         type: 3}

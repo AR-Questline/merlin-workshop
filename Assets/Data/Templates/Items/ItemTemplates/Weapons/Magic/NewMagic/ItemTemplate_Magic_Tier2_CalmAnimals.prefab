@@ -115,7 +115,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/heavyCastInfo_effectOverridenToken_locString_2543871262668956605_5aba3cd999b809445a4911f79fe38ebd
+        ID: Template/heavyCastInfo_effectOverridenToken_locString_2543871262668956605_0a823e870804f944b8a29b8bd08272ad
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -214,6 +218,10 @@ MonoBehaviour:
       value: 45
     - name: Duration
       value: 120
+    - name: DurationGain
+      value: 6
+    - name: DurationCalculated
+      value: 0
     enums: []
     datums:
     - name: ReserveMana
@@ -237,7 +245,7 @@ MonoBehaviour:
     - name: LightCastHitConfirm
       assetReference:
         arReference:
-          address: 7c8192c68d5933440903c0f8e8ba0848
+          address: afa5773449b8cfa449e99eb6e7b618b8
           subObjectName: 
     - name: HeavyCastHitConfirm
       assetReference:
@@ -266,7 +274,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 0
   maxDamage: 0
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -299,8 +307,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 30
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 30
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5564243217799062612
 MonoBehaviour:

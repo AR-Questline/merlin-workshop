@@ -62,7 +62,7 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
         void BeforeDamageMultiplied(Damage damage, GraphPointer pointer) {
             var data = pointer.GetElementData<Data>(this);
             var time = Time.time;
-            if (data.alive == damage.Target && time < data.lastHitTime + data.maxDelay) {
+            if (data.alive == damage.TargetPure && time < data.lastHitTime + data.maxDelay) {
                 data.consecutiveHits++;
                 
                 SafeGraph.Run(PrepareFlow(data, damage), _trigger);
@@ -72,7 +72,7 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
                 recurringActions.UnregisterAction(id);
                 recurringActions.RegisterAction(() => OnDelayElapsed(pointer), id, data.maxDelay, false);
             } else {
-                data.alive = damage.Target;
+                data.alive = damage.TargetPure;
                 data.consecutiveHits = 0;
             }
             data.lastHitTime = time;

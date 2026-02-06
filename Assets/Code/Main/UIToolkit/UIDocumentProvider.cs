@@ -9,6 +9,8 @@ namespace Awaken.TG.Main.UIToolkit {
     public class UIDocumentProvider : MonoBehaviour, IService {
         [SerializeField] List<UIDocumentData> documents;
         
+        public List<UIDocument> AllDocuments => documents.Select(data => data.UIDocument).ToList();
+        
         public UIDocument TryGetDocument(UIDocumentType type) {
             return documents.FirstOrDefault(documentData => documentData.TryGetDocument(type) is not null).UIDocument;
         }

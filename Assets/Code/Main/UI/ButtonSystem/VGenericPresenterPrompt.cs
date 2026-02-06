@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.UIToolkit;
+﻿using Awaken.TG.Main.UI.Helpers;
+using Awaken.TG.Main.UIToolkit;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
@@ -19,6 +20,7 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
         [SerializeField] VisualTreeAsset promptPrototype;
 
         public VisualElement Prompt { get; private set; }
+        public bool IsValid => this.IsValidForUIHandle();
 
         BetterOutlinedLabel _nameLabel;
         Tween _alphaTween;

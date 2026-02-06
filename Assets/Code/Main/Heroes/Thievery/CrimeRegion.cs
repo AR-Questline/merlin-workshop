@@ -44,10 +44,9 @@ namespace Awaken.TG.Main.Heroes.Thievery {
             isActiveAndEnabled && regionEnabled.Get(true);
 #endif
         public string EnablingFlag => regionEnabled.Flag;
-        
-        public IEnumerable<CrimeOwnerTemplate> CrimeOwners => isActiveAndEnabled 
-            ? owners.Where(pair => pair.ReputationInRange).Select(pair => pair.OwnerFaction)
-            : Enumerable.Empty<CrimeOwnerTemplate>();
+
+        public OwnerReputationPair[] Owners => owners;
+
         public CrimeType CrimeCommittedHere => crimeCommittedHere | (isLockpickingArea ? CrimeType.Lockpicking : CrimeType.None);
         public int RegionPriority => regionPriority;
         
@@ -130,9 +129,16 @@ namespace Awaken.TG.Main.Heroes.Thievery {
             [SerializeField, TemplateType(typeof(CrimeOwnerTemplate))]
             public TemplateReference crimeOwner;
 
+            string _fameKeyReputation;
+            string _infamyKeyReputation;
+
+            string FameKeyReputation => _fameKeyReputation ??= OwnerReputationUtil.FameKeyReputation(crimeOwner.GUID);
+            string InfamyKeyReputation => _infamyKeyReputation ??= OwnerReputationUtil.InfamyKeyReputation(crimeOwner.GUID);
+
+            int CurrentReputation => OwnerReputationUtil.CurrentReputation(FameKeyReputation, InfamyKeyReputation);
+
             public readonly CrimeOwnerTemplate OwnerFaction => crimeOwner.Get<CrimeOwnerTemplate>();
-            public readonly int CurrentReputation => OwnerReputationUtil.CurrentReputation(crimeOwner.GUID);
-            public readonly bool ReputationInRange => activeReputationRange.InRange(Application.isPlaying ? CurrentReputation : 0);
+            public bool ReputationInRange => activeReputationRange.InRange(Application.isPlaying ? CurrentReputation : 0);
         }
         
         // === Editor

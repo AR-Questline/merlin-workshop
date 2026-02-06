@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: item_weapon_shield_TheEverfrost_Desc
       ID: Template/description_locString_2543871262668956605_6e7eb402120c8cf4eb90a168ad776c1c
-  EDITOR_bakedDescription: Succesful Parries create a small ice explosion, chilling
+  EDITOR_bakedDescription: Successful Parries create a small ice explosion, <color=#04959A>chilling</color>
     nearby enemies.
   lightCastInfo:
     magicType:
@@ -98,7 +98,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_costOverridenToken_locString_2543871262668956605_6e7eb402120c8cf4eb90a168ad776c1c
     magicDescription:
       toggled: 0
       locString:
@@ -128,11 +128,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_6e7eb402120c8cf4eb90a168ad776c1c
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 25
+  basePrice: 250
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 2
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 49faf4d5b308c7c47aa65ad4d720b939
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -203,16 +207,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 7
+  heavyAttackStaminaCost: 11
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 0.9
   parryStaminaCost: 15
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 12
-  maxDamage: 16
+  minDamage: 7
+  maxDamage: 11
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -229,7 +233,7 @@ MonoBehaviour:
     calculatedPercentage: 1
   armor: 20
   armorGain: 0
-  blockDamageReductionPercent: 80
+  blockDamageReductionPercent: 75
   blockAngle: 90
   blockGain: 1
   forceDamage: 8
@@ -246,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3291696646231857555
 MonoBehaviour:

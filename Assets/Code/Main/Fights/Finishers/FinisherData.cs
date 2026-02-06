@@ -54,7 +54,7 @@ namespace Awaken.TG.Main.Fights.Finishers {
 
 
         public bool CheckConditions(DamageOutcome damageOutcome, float predictedDamage, bool hpConditionIsFulfilled, bool isValidationCheck = false) {
-            if (damageOutcome.Target is not NpcElement { HasBeenDiscarded: false, IsAlive: true, CanUseExternalCustomDeath: true } target) {
+            if (damageOutcome.TargetPure is not NpcElement { HasBeenDiscarded: false, IsAlive: true, CanUseExternalCustomDeath: true } target) {
                 return false;
             }
 

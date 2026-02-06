@@ -26,7 +26,7 @@ namespace Awaken.TG.Main.Stories {
         public virtual Hero Hero => Hero.Current;
         public abstract Location FocusedLocation { get; }
         public virtual bool HideHands => true;
-        public UIState UIState => UIState.ModalState(HUDState.MiddlePanelShown);
+        public virtual UIState UIState => UIState.ModalState(HUDState.MiddlePanelShown);
 
         public Transform FocusParent {
             get {
@@ -57,7 +57,7 @@ namespace Awaken.TG.Main.Stories {
             }
 
             Location focusedLocation = FocusedLocation;
-            if (focusedLocation == null) {
+            if (focusedLocation == null || focusedLocation.HasBeenDiscarded) {
                 focus = null;
                 return false;
             }

@@ -38,7 +38,7 @@ namespace Awaken.TG.Main.Utility.Animations {
             or HeroStateType.MovementAlternate or HeroStateType.BlockLoop or HeroStateType.BlockLoopWithoutShield
             or HeroStateType.HeavyAttackWait or HeroStateType.HeavyAttackWaitAlternate or HeroStateType.FishingFight 
             or HeroStateType.CrouchedMovement or HeroStateType.HorseRidingMovement or HeroStateType.InAttackMovement 
-            or HeroStateType.LegsSwimmingMovement;
+            or HeroStateType.LegsSwimmingMovement or HeroStateType.CustomHorseRidingMovement;
 
         public static bool IsInTransition(this AnimancerLayer animancerLayer) {
             var currentState = animancerLayer.CurrentState;

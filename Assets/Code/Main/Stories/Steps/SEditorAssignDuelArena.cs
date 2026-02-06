@@ -6,6 +6,7 @@ using Awaken.TG.Main.Stories.Runtime.Nodes;
 using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using Vendor.xNode.Scripts.Attributes;
 
 namespace Awaken.TG.Main.Stories.Steps {
@@ -14,6 +15,7 @@ namespace Awaken.TG.Main.Stories.Steps {
         public DuelArenaReferenceData duelArenaReferenceData;
         public bool teleportToArenaScene = true;
         public bool teleportToArena = true;
+        [HideIf(nameof(teleportToArena))] public bool teleportOnlySummonsToArena = true;
         public bool automaticallyActivateArena = true;
 
         protected override StoryStep CreateRuntimeStepImpl(StoryGraphParser parser) {
@@ -21,6 +23,7 @@ namespace Awaken.TG.Main.Stories.Steps {
                 duelArenaReferenceData = duelArenaReferenceData,
                 teleportToArenaScene = teleportToArenaScene,
                 teleportToArena = teleportToArena,
+                teleportOnlySummonsToArena = teleportOnlySummonsToArena,
                 automaticallyActivateArena = automaticallyActivateArena
             };
         }
@@ -30,6 +33,7 @@ namespace Awaken.TG.Main.Stories.Steps {
         public DuelArenaReferenceData duelArenaReferenceData;
         public bool teleportToArenaScene = true;
         public bool teleportToArena = true;
+        public bool teleportOnlySummonsToArena = true;
         public bool automaticallyActivateArena = true;
 
         public override StepResult Execute(Story story) {
@@ -39,7 +43,11 @@ namespace Awaken.TG.Main.Stories.Steps {
 
             var duelController = World.Any<DuelController>();
             if (duelController == null) {
-                Log.Minor?.Error("No duel in progress, so can't enter arena");
+                Log.Minor?.Error("No duel in progress, so can't enter arena"
+                    #if UNITY_EDITOR
+                    , story.EDITOR_Graph
+                    #endif
+                    );
                 return StepResult.Immediate;
             }
 
@@ -49,7 +57,7 @@ namespace Awaken.TG.Main.Stories.Steps {
         }
 
         async UniTaskVoid Teleport(DuelController duelController, DuelArenaData data, StepResult result) {
-            await duelController.AssignArena(data, teleportToArenaScene, teleportToArena, automaticallyActivateArena);
+            await duelController.AssignArena(data, teleportToArenaScene, teleportToArena, teleportOnlySummonsToArena, automaticallyActivateArena);
             result.Complete();
         }
     }

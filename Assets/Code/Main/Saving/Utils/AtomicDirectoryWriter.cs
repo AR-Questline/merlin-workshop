@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,6 +33,7 @@ namespace Awaken.TG.Main.Saving.Utils {
                 Log.Critical?.Error($"Ending atomic directory write to directory without beginning it. Directory: {directory}");
                 return false;
             }
+            
             var tempDirectoryDirty = TempDirectoryPathDirty(directory);
             if (!Directory.Exists(tempDirectoryDirty)) {
                 if (Directory.Exists(directory)) {
@@ -70,6 +71,19 @@ namespace Awaken.TG.Main.Saving.Utils {
             }
 
             return success;
+        }
+
+        public static async UniTask Cancel(string directory) {
+            directory = UnifyPath(directory);
+            if (!ProcessedDirectories.Remove(directory)) {
+                Log.Critical?.Error($"Ending atomic directory write to directory without beginning it. Directory: {directory}");
+                return;
+            }
+
+            var tempDirectoryDirty = TempDirectoryPathDirty(directory);
+            var tempDirectoryClean = TempDirectoryPathClean(directory);
+
+            await UniTask.WhenAll(TryDeleteDirectory(tempDirectoryDirty), TryDeleteDirectory(tempDirectoryClean));
         }
         
         public static string AdjustPath(string path) {

@@ -9,8 +9,6 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Views {
         
         protected ItemTooltipUI ItemTooltip => (ItemTooltipUI)Target;
         
-        bool _comparerVisible;
-        
         protected override void OnInitialize() {
             base.OnInitialize();
             ItemTooltip.ListenTo(ItemTooltipUI.Events.ItemDescriptorChanged, CheckVisibility, this);

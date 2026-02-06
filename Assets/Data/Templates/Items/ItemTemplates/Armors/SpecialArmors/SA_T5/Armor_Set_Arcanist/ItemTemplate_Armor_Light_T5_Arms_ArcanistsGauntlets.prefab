@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_350312e02af7fd7419a2233b216d7761
-  EDITOR_bakedDescription: 'Increases Mana Shield by 5%.
-
-    Increases Mana Regeneration
-    by 0.5.'
+  EDITOR_bakedDescription: "Increases Mana Shield by 10\_%.\nIncreases Mana Regeneration
+    by 0.5."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &2498079568710489046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +230,7 @@ MonoBehaviour:
   damageType: 0
   damageSubTypes: []
   armor: 6
-  armorGain: 0
+  armorGain: 1
   blockDamageReductionPercent: 50
   blockAngle: 0
   blockGain: 1
@@ -246,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4968555461651015134
 MonoBehaviour:
@@ -275,7 +280,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: GainValue
-      value: 0.01
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -283,7 +290,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:ManaShield
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:
@@ -292,7 +309,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.5
     - name: GainValue
-      value: 0.2
+      value: 0.1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -300,7 +319,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:ManaRegen
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
 --- !u!114 &3826229412883531347

@@ -1,25 +1,34 @@
 ﻿using System;
 using Awaken.TG.Main.AI.Barks;
+using Awaken.TG.Main.Localization;
+using Awaken.TG.Utility;
 
 namespace Awaken.TG.Main.Stories.Actors {
     public struct Actor : IEquatable<Actor> {
         public string Id { get; private set; }
         public string Name { get; set; }
+        public string NameOrDefault => ShowNameInDialogue 
+                                        ? HasName
+                                            ? Name
+                                            : LocTerms.UnknownActor.Translate()
+                                        : string.Empty;
         public bool ShowNameInDialogue { get; private set; }
         public bool IsSet => !string.IsNullOrWhiteSpace(Id);
         public bool HasName => !string.IsNullOrWhiteSpace(Name);
         public bool HasBarks => BarkConfig is { HasStory: true };
         public BarkConfig BarkConfig { get; }
         public bool IsFake { get; }
+        public bool IsCosplayingHero { get; }
         public int FakeIndex { get; }
         
-        public Actor(string id, string name, bool showNameInDialogues, BarkConfig barkConfig, bool isFake, int fakeIndex) {
+        public Actor(string id, string name, bool showNameInDialogues, BarkConfig barkConfig, bool isFake, int fakeIndex, bool isCosplayingHero) {
             Id = id;
             Name = name;
             ShowNameInDialogue = showNameInDialogues;
             BarkConfig = barkConfig;
             IsFake = isFake;
             FakeIndex = fakeIndex;
+            IsCosplayingHero = isCosplayingHero;
         }
         
         public static implicit operator ActorRef(Actor actor) {

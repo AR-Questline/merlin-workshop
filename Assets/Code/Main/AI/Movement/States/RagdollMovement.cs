@@ -40,7 +40,7 @@ namespace Awaken.TG.Main.AI.Movement.States {
         protected override void OnEnter() {
             _exited = false;
             DeathElement deathElement = Controller.Npc?.TryGetElement<DeathElement>();
-            deathElement?.GetBehaviour<DeathRagdollNpcBehaviour>()?.EnableRagdoll(_forceDirection * _ragdollForce, hitPosition: Npc.Hips.position);
+            deathElement?.GetBehaviour<DeathRagdollNpcBehaviour>()?.EnableRagdoll(_forceDirection, _ragdollForce, Npc.Hips.position);
             _rb = Controller.RootBone.GetComponent<Rigidbody>();
             Controller.SetRotationScheme(new NoRotationChange(), VelocityScheme);
             Controller.AlivePrefab.SetActive(false);
@@ -48,7 +48,8 @@ namespace Awaken.TG.Main.AI.Movement.States {
         }
 
         protected override void OnExit() {
-            if (Npc is { HasBeenDiscarded: false } && !_exited) {
+            // --- If ragdolled npc that has kill prevention dies it enters ragdoll movement which is valid.
+            if (Npc is { HasBeenDiscarded: false, IsUnconscious: false } && !_exited) {
                 Log.Important?.Error("Exited RagdollMovement from outside call! This is not valid! Please Fix!");
             }
         }

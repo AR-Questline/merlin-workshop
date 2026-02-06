@@ -30,12 +30,17 @@ namespace Awaken.TG.Main.Heroes.Storage {
         public Tabs<HeroStorageUI, VHeroStorageTabs, HeroStorageTabType, HeroStorageTabUI> TabsController { get; set; }
         public Prompts Prompts => Element<Prompts>();
         public Transform PromptsHost => View.PromptsHost;
+        public Transform DoublePromptsHost => View.DoublePromptsHost;
         Transform TooltipHost => View.TooltipParent;
         
         ItemTooltipUI _tooltip;
 
         public HeroStorageUI(HeroStorage storage) {
             Storage = storage;
+        }
+
+        protected override void OnInitialize() {
+            Storage.RequestItems();
         }
 
         protected override void OnFullyInitialized() {
@@ -71,6 +76,7 @@ namespace Awaken.TG.Main.Heroes.Storage {
         }
         
         protected override void OnDiscard(bool fromDomainDrop) {
+            Storage.Close();
             World.Only<ItemNotificationBuffer>().SuspendPushingNotifications = false;
             World.Only<SpecialItemNotificationBuffer>().SuspendPushingNotifications = false;
         }

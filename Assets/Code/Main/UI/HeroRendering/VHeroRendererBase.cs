@@ -4,13 +4,13 @@ using Awaken.Kandra.AnimationPostProcess;
 using Awaken.TG.Assets;
 using Awaken.TG.Graphics.Cutscenes;
 using Awaken.TG.Graphics.VFX;
-using Awaken.TG.Main.Cameras;
 using Awaken.TG.Main.Character.Features;
 using Awaken.TG.Main.Character.Features.Config;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Animations;
 using Awaken.TG.Main.Locations.Mobs;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.Transmogrify;
 using Awaken.TG.Main.Utility.Animations.HeroRenderer;
 using Awaken.TG.MVC;
 using Awaken.Utility.Animations;
@@ -50,6 +50,7 @@ namespace Awaken.TG.Main.UI.HeroRendering {
         HeroRendererAnimationMapping _animations;
         
         ClipTransition _defaultAnimation;
+        protected TransmogrifyUI _transmogrifyUI;
         
         // === Properties
         public bool IsLoading { get; private set; }
@@ -73,6 +74,7 @@ namespace Awaken.TG.Main.UI.HeroRendering {
         // === LifeCycle
         protected override void OnInitialize() {
             _animPPNoLeftArm = CommonReferences.Get.noLeftArmPP;
+            _transmogrifyUI = World.Any<TransmogrifyUI>();
         }
 
         void SetInternalHeroVisibility(bool visible) {
@@ -133,7 +135,8 @@ namespace Awaken.TG.Main.UI.HeroRendering {
             BodyInstance.SetActive(true);
             SetInternalHeroVisibility(true);
             BodyLoaded = true;
-
+            
+            _transmogrifyUI?.OnHeroBodyLoaded();
             InitializeAnimationPlayback();
         }
 
@@ -257,7 +260,26 @@ namespace Awaken.TG.Main.UI.HeroRendering {
             if (!BodyLoaded) {
                 return;
             }
-            RequestAnimations(GetAnimationEntryForCurrentLoadout());
+
+            HeroRendererAnimationEntry animationEntry;
+            
+            if (_transmogrifyUI != null) {
+                animationEntry = _transmogrifyUI.ClickedItem switch {
+                    { IsWeapon: true } => Animations.FindForTransmog(_transmogrifyUI.ClickedItem),
+                    { IsArmor: true } => GetAnimationEntryForTransmogArmor(),
+                    _ => Animations.FindDefault() // fallback to default if transmog has no clicked item, hero weapons should be hidden by default
+                };
+            } else {
+                animationEntry = GetAnimationEntryForCurrentLoadout();
+            }
+            
+            RequestAnimations(animationEntry);
+            return;
+
+            HeroRendererAnimationEntry GetAnimationEntryForTransmogArmor() {
+                var entryWhenArmorEquipped = Animations.FindDefault();
+                return entryWhenArmorEquipped == CurrentAnimatorEntry ? null : entryWhenArmorEquipped;
+            }
         }
         
         HeroRendererAnimationEntry GetAnimationEntryForCurrentLoadout() {

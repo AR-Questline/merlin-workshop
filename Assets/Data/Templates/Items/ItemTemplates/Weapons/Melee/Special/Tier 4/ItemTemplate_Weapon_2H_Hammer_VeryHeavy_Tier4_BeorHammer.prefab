@@ -80,8 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_4ae4a24e62eb7974b9bccb3e4038ef81
-  EDITOR_bakedDescription: Hitting a target has a 15% chance to <color=#04959A>Stun</color>
-    it.
+  EDITOR_bakedDescription: "Heavy and critical hits have a 45\_% chance to <color=#04959A>Stun</color>."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a373a4bc46fa38447a0606dc30ed6e08
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -243,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &2250481005308889846
 MonoBehaviour:

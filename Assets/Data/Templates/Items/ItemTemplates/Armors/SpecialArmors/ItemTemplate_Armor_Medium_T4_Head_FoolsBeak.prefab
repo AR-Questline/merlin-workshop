@@ -76,11 +76,9 @@ MonoBehaviour:
     toggled: 1
     locString:
       IdOverride: description_increasestatatthreshold_percent_above_double_increase_percent
-      ID: Template/description_locString_2543871262668956605_bf6298f1dca82bc45976c4c713e8c653
-  EDITOR_bakedDescription: 'Each missing point of Health increases Max Stamina by
-    0.25.
-
-    Increases Physical Damage by 10%.'
+      ID: Template/description_locString_2543871262668956605_c294876bdeeecd34db080bc47e949351
+  EDITOR_bakedDescription: "Increases Critical Chance by 20\_% when your Health is
+    above 50\_%.\nIncreases Weak Spot Damage by 50\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -246,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -277,7 +282,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 0.2
     - name: ValueGain
-      value: 0.02
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -321,6 +326,8 @@ MonoBehaviour:
       value: 0.5
     - name: GainValue
       value: 0.05
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

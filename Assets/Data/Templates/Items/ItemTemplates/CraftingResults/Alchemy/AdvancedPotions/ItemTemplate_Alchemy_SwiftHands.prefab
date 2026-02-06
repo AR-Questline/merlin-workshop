@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_StatIncreasePercForDurationDesc
       ID: Template/description_locString_2543871262668956605_a68c02cd0c5ef4d4aa16535f37a7b908
-  EDITOR_bakedDescription: Increases Attack Speed by 20% for 10s.
+  EDITOR_bakedDescription: "Increases Attack Speed by 20\_% for 10s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

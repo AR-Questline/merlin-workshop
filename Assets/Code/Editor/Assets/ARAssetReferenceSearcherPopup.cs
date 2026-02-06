@@ -55,7 +55,7 @@ namespace Awaken.TG.Editor.Assets {
                 .GetAllAssets( window._assets, true, g => groupFiltersList.All(gf => gf(g)), a => assetFiltersList.All(af => af(a)) );
             window.BuildSearchTree();
             window.ShowPopup();
-            window.Focus();
+            window._searchField.SetFocus();
         }
 
         void BuildSearchTree() {

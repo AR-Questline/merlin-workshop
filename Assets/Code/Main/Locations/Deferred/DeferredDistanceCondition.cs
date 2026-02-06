@@ -44,5 +44,15 @@ namespace Awaken.TG.Main.Locations.Deferred {
             // Return true if Hero is not looking at the target or is further than MaxRequiredDistanceSqr meters
             return dotProduct < 0 || sqrDistance >= MaxRequiredDistanceSqr;
         }
+        
+        public override bool Equals(System.Object other) {
+            if (other is not DeferredDistanceCondition otherCondition) {
+                return false;
+            }
+            if (!_locationRef.Equals(otherCondition._locationRef)) {
+                return false;
+            }
+            return true;
+        }
     }
 }

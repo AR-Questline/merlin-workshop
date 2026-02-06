@@ -10,7 +10,9 @@ using Awaken.TG.Main.Utility.UI.Keys.Components;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.Utility;
+using Awaken.Utility.Animations;
 using Awaken.Utility.Collections;
+using Awaken.Utility.GameObjects;
 using Rewired;
 using TMPro;
 using UnityEngine;
@@ -19,7 +21,8 @@ namespace Awaken.TG.Main.Settings.Options.Views {
     [UsesPrefab("Settings/VKeyBinding")]
     public class VKeyBinding : VFocusableSetting<KeyBindingOption> {
         
-        // === Serializable
+        const int NoBindingId = -1;
+        
         [SerializeField] TMP_Text displayName;
         [SerializeField] TMP_Text infoText;
         [SerializeField] KeyIcon keyIcon;
@@ -28,33 +31,34 @@ namespace Awaken.TG.Main.Settings.Options.Views {
         [SerializeField] TextMeshProUGUI optionNameText;
         [SerializeField] ARButton leftButton;
         [SerializeField] ARButton rightButton;
+        [SerializeField] GameObject icon;
         
         PopupUI _popup;
         ToggleOption _toggleOption;
         View _newKeyBindingView;
-        bool IsToggle => _toggleOption?.Enabled ?? false;
-        string OptionText => IsToggle ? LocTerms.SettingsBindingToggle.Translate() : LocTerms.SettingsBindingHold.Translate();
-
-        // === Fields & Props
-        public string ActionName => Option.Action.name;
-        public Pole Pole => Option.AxisContribution;
-
+        PrefOption _option;
         bool _canActionBeChanged;
         bool _isBeingChanged;
         BindingData _newKeyBinding;
-
         Prompt _change;
-
-        // === Setup
+        Prompt _unbind;
+        
+        public string ActionName => Option.Action.name;
+        public Pole Pole => Option.AxisContribution;
+        bool IsToggle => _toggleOption?.Enabled ?? false;
+        string OptionText => IsToggle ? LocTerms.SettingsBindingToggle.Translate() : LocTerms.SettingsBindingHold.Translate();
+        bool HasBinding => RewiredHelper.IsGamepad ? Option.CurrentBinding.elementIdentifierId != NoBindingId : Option.CurrentBinding.keyCode != KeyCode.None;
+        
         public override void Setup(PrefOption option) {
             base.Setup(option);
-            KeyIcon.Data data = new(UIKeyMapping.FindBindingFor(Option.CachedActionElementMap), false);
-            keyIcon.Setup(data, this);
+            _option = option;
+            UpdateIcon();
             Refresh();
             displayName.text = Option.DisplayName;
             infoText.text = "";
-            button.OnClick += StartNewBinding;
             KeyBindingOption keyBindingOption = (KeyBindingOption)option;
+            button.OnClick += StartNewBinding;
+            keyBindingOption.onChange += UpdateIcon;
             
             if (keyBindingOption.toggleOptionIsToggle != null) {
                 _toggleOption = keyBindingOption.toggleOptionIsToggle;
@@ -66,14 +70,37 @@ namespace Awaken.TG.Main.Settings.Options.Views {
                 actionChangeGameObject.SetActive(false);
             }
         }
-
-        // === Initialization
+        
         protected override void OnInitialize() {
             Target.ListenTo(VNewKeyBinding.Events.KeyPressed, OnNewKeyBindingSet, this);
             Target.ListenTo(VNewKeyBinding.Events.NewBindingCanceled, OnNewKeyBindingCanceled, this);
         }
         
-        // === Operations
+        protected override IBackgroundTask OnDiscard() {
+            KeyBindingOption keyBindingOption = (KeyBindingOption)_option;
+            keyBindingOption.onChange -= UpdateIcon;
+            return base.OnDiscard();
+        }
+        
+        protected override void SpawnPrompts() {
+            _change = Target.Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Accept.Translate()), Target);
+            _unbind = Target.Prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Unbind, LocTerms.Remove.Translate(), Unbind), Target);
+        }
+        
+        protected override void RemovePrompts() {
+            Target.Prompts.RemovePrompt(ref _change);
+            Target.Prompts.RemovePrompt(ref _unbind);
+        }
+
+        protected override void Cleanup() {
+            _popup?.Discard();
+            _newKeyBindingView?.Discard();
+        }
+
+        protected override void Refresh() {
+            optionNameText.text = OptionText;
+        }
+        
         void ChangeBindAction() {
             _toggleOption.Enabled = !_toggleOption.Enabled;
             Refresh();
@@ -96,8 +123,8 @@ namespace Awaken.TG.Main.Settings.Options.Views {
                 _newKeyBinding.controller = ControllerType.Mouse; 
                 _newKeyBinding.elementIdentifierId = (int)ControllerKey.Mouse.LeftMouseButton + data.id;
             } else if (data.controllerType == ControllerType.Joystick) {
-                //_newKeyBinding.elementIdentifierId = RewiredHelper.IsSony ? (int)ControllerKey.GetDualSense(data.id) : (int)ControllerKey.GetXbox(data.id);
-                //_newKeyBinding.elementType = RewiredHelper.IsSony ? ElementTypeForPS(data.id) : ElementTypeForXbox(data.id);
+                // _newKeyBinding.elementIdentifierId = RewiredHelper.IsSony ? (int)ControllerKey.GetDualSense(data.id) : (int)ControllerKey.GetXbox(data.id);
+                // _newKeyBinding.elementType = RewiredHelper.IsSony ? ElementTypeForPS(data.id) : ElementTypeForXbox(data.id);
             }
 
             if (_isBeingChanged) {
@@ -117,6 +144,50 @@ namespace Awaken.TG.Main.Settings.Options.Views {
                                     );
                 }
             }
+        }
+        
+        bool ConflictsWithOtherBinding(BindingData binding) {
+            return World.ViewsFor(Target).AnyNonAlloc(view =>
+                view is VKeyBinding kb &&
+                kb != this &&
+                kb.Option.CurrentBinding == binding &&
+                !OverlappingControlsUtil.AllowedTogether(kb, this)
+            );
+        }
+
+        void OnNewKeyBindingCanceled() {
+            if (_isBeingChanged) {
+                infoText.text = "";
+                _isBeingChanged = false;
+                keyIcon.gameObject.SetActive(true);
+                Target.Trigger(ISettingHolder.Events.KeyProcessed, Target);
+            }
+        }
+
+        void OverrideBinding() {
+            Option.ChangeBinding(_newKeyBinding);
+            DiscardPopup();
+        }
+        
+        void DiscardPopup() {
+            _popup?.Discard();
+            _popup = null;
+            infoText.text = "";
+            _isBeingChanged = false;
+            keyIcon.gameObject.SetActive(true);
+        }
+        
+        void Unbind() {
+            Option.ChangeBinding(new BindingData(Option.CurrentBinding.controller, NoBindingId, KeyCode.None));
+        }
+        
+        void UpdateIcon() {
+            if (HasBinding) {
+                KeyIcon.Data data = new(UIKeyMapping.FindBindingFor(Option.CachedActionElementMap), false);
+                keyIcon.Setup(data, this);
+            }
+            
+            icon.SetActiveOptimized(HasBinding);
         }
         
         // static ControllerElementType ElementTypeForPS(int id) {
@@ -179,57 +250,6 @@ namespace Awaken.TG.Main.Settings.Options.Views {
             } 
             
             return false;
-        }
-        
-        bool ConflictsWithOtherBinding(BindingData binding) {
-            return World.ViewsFor(Target).AnyNonAlloc(view =>
-                view is VKeyBinding kb &&
-                kb != this &&
-                kb.Option.CurrentBinding == binding &&
-                !OverlappingControlsUtil.AllowedTogether(kb, this)
-            );
-        }
-
-        void OnNewKeyBindingCanceled() {
-            if (_isBeingChanged) {
-                infoText.text = "";
-                _isBeingChanged = false;
-                keyIcon.gameObject.SetActive(true);
-                Target.Trigger(ISettingHolder.Events.KeyProcessed, Target);
-            }
-        }
-
-        void OverrideBinding() {
-            Option.ChangeBinding(_newKeyBinding);
-            DiscardPopup();
-        }
-        
-        void DiscardPopup() {
-            _popup?.Discard();
-            _popup = null;
-            infoText.text = "";
-            _isBeingChanged = false;
-            keyIcon.gameObject.SetActive(true);
-        }
-        
-        // === Prompts
-        protected override void RemovePrompts() {
-            Target.Prompts.RemovePrompt(ref _change);
-        }
-
-        protected override void SpawnPrompts() {
-            _change = Target.Prompts.AddPrompt(
-                Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Accept.Translate()),
-                Target);
-        }
-
-        protected override void Cleanup() {
-            _popup?.Discard();
-            _newKeyBindingView?.Discard();
-        }
-
-        protected override void Refresh() {
-            optionNameText.text = OptionText;
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Main.Templates {

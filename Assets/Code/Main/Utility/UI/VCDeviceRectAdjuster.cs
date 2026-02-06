@@ -38,8 +38,7 @@ namespace Awaken.TG.Main.Utility.UI {
         RectOffset _pcGridLayoutGroupPadding;
         RectOffset _consoleGridLayoutGroupPadding;
 
-        static bool s_debugConsolePlatform;
-        bool IsConsole => PlatformUtils.IsConsole || PlatformUtils.IsSteamDeck || s_debugConsolePlatform || World.Any<ConsoleUISetting>()?.Enabled == true;
+        bool IsConsole => PlatformUtils.IsConsole || PlatformUtils.IsSteamDeck || PlatformUtils.sDebugConsolePlatform || World.Any<ConsoleUISetting>()?.Enabled == true;
         bool IsLayoutGroup => target.HasFlag(RectAdjusterTarget.LayoutGroup) || target.HasFlag(RectAdjusterTarget.GridLayoutGroup);
         
         void Awake() {
@@ -151,8 +150,7 @@ namespace Awaken.TG.Main.Utility.UI {
         [FoldoutGroup("Debug"), SerializeField] bool showConsoleSizeDeltaGizmo;
         
         [FoldoutGroup("Debug"), Button]
-        public static void DebugSetAll(bool isConsolePlatform) {
-            s_debugConsolePlatform = isConsolePlatform;
+        public static void DebugSetAll() {
             var result = FindObjectsByType<VCDeviceRectAdjuster>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             
             foreach (var rectAdjuster in result) {

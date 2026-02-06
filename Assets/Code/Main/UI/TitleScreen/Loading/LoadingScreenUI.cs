@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Awaken.ECS.DrakeRenderer.Systems;
 using Awaken.TG.Assets;
 using Awaken.TG.Debugging;
 using Awaken.TG.Graphics;
-using Awaken.TG.Graphics.Animations;
 using Awaken.TG.Graphics.Cutscenes;
 using Awaken.TG.Graphics.Transitions;
 using Awaken.TG.LeshyRenderer;
@@ -15,7 +15,6 @@ using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Scenes.SceneConstructors.AdditiveScenes;
 using Awaken.TG.Main.Scenes.SceneConstructors.SceneInitialization;
 using Awaken.TG.Main.Settings;
-using Awaken.TG.Main.Settings.Graphics;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes;
 using Awaken.TG.Main.Utility.UI;
@@ -29,7 +28,6 @@ using Awaken.Utility;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Times;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using Pathfinding;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,7 +47,7 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
         public UIState UIState => UIState.BlockInput.WithPauseTime();
 
         public ILoadingOperation LoadingOperation { get; }
-        bool ShouldUnloadUnused { get; }
+        public bool ShouldUnloadUnused { get; }
         public bool UseFastTransition { get; }
         public SceneInitializationHandle SceneInitializationHandle { get; private set; }
         public SceneReference PreviousScene { get; private set; }
@@ -58,6 +56,7 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
         public static bool IsFullyLoadingOrCreatingNewGame => World.Any<LoadingScreenUI>()?.LoadingType is LoadingType.Full or LoadingType.NewGame;
         public static bool IsFullyLoading => World.Any<LoadingScreenUI>()?.LoadingType is LoadingType.Full;
         public LoadingType LoadingType => LoadingOperation?.Type ?? LoadingType.None;
+        public bool MapSceneAlreadySetup => _mapScene != null;
 
         IMapScene _mapScene;
 
@@ -96,6 +95,10 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
             Services.TryGet<AudioCore>()?.Initialize();
             PreviousScene = SceneService.ActiveSceneRef;
         }
+        
+        public IEnumerator BeforeDroppingPreviousDomains() {
+            return LoadingOperation.BeforeDroppingPreviousDomains();
+        }
 
         public void DropPreviousDomains() {
             LoadingOperation.DropPreviousDomains(PreviousScene);
@@ -113,12 +116,6 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
         }
 
         public ISceneLoadOperation Load() {
-            // Previous scene has been unloaded, new one will be loaded soon, it's time to clean some caches
-            DOTween.Clear();
-            AnimatorUtils.ResetCache();
-            if (ShouldUnloadUnused) {
-                MemoryClear.ClearProgramming().Forget();
-            }
             World.Only<SettingsMaster>().PerformOnSceneChange();
             return LoadingOperation.Load(this);
         }
@@ -307,10 +304,18 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading {
                 await SmoothFPS(this);
             }
 
-            if (LoadingOperation.SceneToLoad?.RetrieveMapScene() is MapScene mapScene) {
+            bool isValid = LoadingOperation.SceneToLoad != null && SceneManager.GetSceneByName(LoadingOperation.SceneToLoad.Name).IsValid();
+            if (!isValid) {
+               Log.Important?.Error("Loading: scene to load is not valid, incorrect flow");
+            } else if (LoadingOperation.SceneToLoad.RetrieveMapScene() is MapScene mapScene) {
                 mapScene.WasActiveScene = true;
             }
 
+            // Should we continue handling transition or will something else handle them (secondary checks)
+            if (World.HasAny<Cutscene>()) {
+                return;
+            }
+            
             if (UseFastTransition) {
                 transition.ToCamera(ToCameraDurationFast).Forget();
             } else {

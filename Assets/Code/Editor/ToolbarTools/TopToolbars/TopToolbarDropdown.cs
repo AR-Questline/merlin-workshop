@@ -11,8 +11,9 @@ namespace Awaken.TG.Editor.ToolbarTools.TopToolbars {
         readonly DropdownEntree[] _dropdownEntrees;
         readonly int _defaultWidth;
         readonly GUIContent _guiContent;
-        readonly GenericMenu _genericMenu;
+        GenericMenu _genericMenu;
         readonly Func<bool> _additionalEnabledRequirement;
+        readonly bool _shouldRegenerateMenuAlways;
         int _width;
         GUILayoutOption _widthOption;
 
@@ -31,7 +32,7 @@ namespace Awaken.TG.Editor.ToolbarTools.TopToolbars {
         }
 
         public TopToolbarDropdown(string name, string tooltip, in DropdownEntree[] dropdownEntrees, int width,
-                                  TopToolbarButtons.Side defaultSide, bool defaultEnabled, Func<bool> additionalEnabledRequirement = null) {
+                                  TopToolbarButtons.Side defaultSide, bool defaultEnabled, Func<bool> additionalEnabledRequirement = null, bool shouldRegenerateMenuAlways = false) {
             Name = name;
             CustomKeys = new[] {
                 WidthKey,
@@ -42,16 +43,23 @@ namespace Awaken.TG.Editor.ToolbarTools.TopToolbars {
             _dropdownEntrees = dropdownEntrees;
             _defaultWidth = width;
             _additionalEnabledRequirement = additionalEnabledRequirement;
+            _shouldRegenerateMenuAlways = shouldRegenerateMenuAlways;
 
+            GenerateMenu();
+            AfterResetPrefsBasedValues();
+        }
+
+        void GenerateMenu() {
             _genericMenu = new GenericMenu();
             foreach (DropdownEntree entree in _dropdownEntrees) {
                 if (entree.isSeparator) {
                     _genericMenu.AddSeparator("");
                     continue;
                 }
-                _genericMenu.AddItem(new GUIContent(entree.name, entree.tooltip), false, new GenericMenu.MenuFunction(entree.action));
+                if (entree.isDisabled?.Invoke() is null or false) {
+                    _genericMenu.AddItem(new GUIContent(entree.name, entree.tooltip), false, new GenericMenu.MenuFunction(entree.action));
+                }
             }
-            AfterResetPrefsBasedValues();
         }
 
         public void SettingsGUI() {
@@ -72,6 +80,9 @@ namespace Awaken.TG.Editor.ToolbarTools.TopToolbars {
         public void OnGUI() {
             _guiContent.text = ((ITopToolbarElement)this).ShowName; // Apply override name
             if (GUILayout.Button(_guiContent, EditorStyles.toolbarButton, _widthOption)) {
+                if (_shouldRegenerateMenuAlways) {
+                    GenerateMenu();
+                }
                 _genericMenu.DropDown(new Rect(Event.current.mousePosition, new Vector2(0, 0)));
             }
         }
@@ -81,18 +92,21 @@ namespace Awaken.TG.Editor.ToolbarTools.TopToolbars {
         public readonly Action action;
         public readonly string tooltip;
         public readonly bool isSeparator;
+        public readonly Func<bool> isDisabled;
 
         DropdownEntree(bool isSeparator) {
             name = null;
             action = null;
             tooltip = null;
             this.isSeparator = isSeparator;
+            isDisabled = null;
         }
-        public DropdownEntree(string name, Action action, string tooltip = null) {
+        public DropdownEntree(string name, Action action, string tooltip = null, Func<bool> isDisabled = null) {
             this.name = name;
             this.action = action;
             this.tooltip = tooltip;
             this.isSeparator = false;
+            this.isDisabled = isDisabled;
         }
         
         public static DropdownEntree Separator() {

@@ -108,18 +108,18 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
         async UniTaskVoid AwaitChildrenDestroy() {
             await UniTask.WaitUntil(() => this == null || itemParent.childCount == 0);
             if (this != null) {
-                _spawnedInstance.Instantiate(itemParent).OnCompleteForceAsync(OnItemPrefabLoaded);
+                _spawnedInstance.Instantiate(itemParent, OnItemPrefabLoaded, OnItemPrefabLoadCancelled).Forget();
             }
         }
 
-        void OnItemPrefabLoaded(ARAsyncOperationHandle<GameObject> handle) {
-            if (handle.Status == AsyncOperationStatus.Succeeded) {
-                handle.Result.GetComponentsInChildren<Transform>().ForEach(UpdateObjectData);
-                AdjustCameraFovToItemBounds();
-            } else {
-                _spawnedInstance?.ReleaseInstance();
-                _spawnedInstance = null;
-            }
+        void OnItemPrefabLoaded(GameObject result) {
+            result.GetComponentsInChildren<Transform>().ForEach(UpdateObjectData);
+            AdjustCameraFovToItemBounds();
+        }
+
+        void OnItemPrefabLoadCancelled() {
+            _spawnedInstance?.ReleaseInstance();
+            _spawnedInstance = null;
         }
         
         void AdjustCameraFovToItemBounds() {

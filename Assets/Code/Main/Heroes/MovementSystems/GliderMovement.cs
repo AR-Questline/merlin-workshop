@@ -1,7 +1,9 @@
+using Awaken.TG.Main.Cameras.CameraStack;
 using Awaken.TG.Main.Fights.Factions.Markers;
 using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Gliding;
 using Awaken.TG.Main.Heroes.Items.Attachments;
+using Awaken.TG.Main.Rendering;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Settings.Controls;
@@ -19,6 +21,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         Transform _transform;
         HeroCamera _heroCamera;
         HeroGlideAction _gliderAction;
+        HeroDirectionalBlur _directionalBlur;
 
         Vector3 _glidingDirection;
         float _glidingSpeed;
@@ -51,6 +54,9 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             _transform = Controller.transform;
             _heroCamera = ParentModel.VHeroController.HeroCamera;
             _gliderAction = ParentModel.Element<HeroGlideAction>();
+            _directionalBlur = AddElement(new HeroDirectionalBlur(
+                World.Services.Get<SpecialPostProcessService>().VolumeDirectionalBlur,
+                World.Only<CameraStateStack>().MainCamera.transform));
             _cachedFastestFlightSpeed = Data.flightSpeedByAngleCurve.Evaluate(Data.lowestFlightAngle);
             
             var invertSetting = World.Any<InvertGliderPitch>();
@@ -65,7 +71,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             ParentModel.FoV.UpdateCustomLocomotionFoVMultiplier(_currentFovMultiplier, Data.preFlightDuration);
             Vector3 blurVelocity = _targetPreflightVelocity / _cachedFastestFlightSpeed;
             blurVelocity *= Data.cameraDirectionalBlurMultiplier;
-            ParentModel.DirectionalBlur.SetBlurVelocity(blurVelocity, Data.preFlightDuration);
+            _directionalBlur.SetBlurVelocity(blurVelocity, Data.preFlightDuration);
         }
 
         void OnInvertGliderSettingChanged(Setting setting) {
@@ -306,7 +312,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         void UpdateHeroBlur() {
             float forwardVelocity = Mathf.Abs(_glidingSpeed) / _cachedFastestFlightSpeed;
             float blurIntensity = Data.cameraDirectionalBlurMultiplier * forwardVelocity;
-            ParentModel.DirectionalBlur.SetBlurVelocity(_glidingDirection * blurIntensity, 0.0f);
+            _directionalBlur.SetBlurVelocity(_glidingDirection * blurIntensity, 0.0f);
         }
 
         public override void FixedUpdate(float deltaTime) { }
@@ -326,7 +332,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
 
                 Controller.GlidingCrouch(false, Data.postFlightDuration);
                 ParentModel.FoV.UpdateCustomLocomotionFoVMultiplier(1.0f, Data.postFlightDuration);
-                ParentModel.DirectionalBlur.SetBlurVelocity(Vector3.zero, Data.postFlightDuration);
+                _directionalBlur.SetBlurVelocity(Vector3.zero, Data.postFlightDuration);
                 _remainingPostFlightTime = Data.postFlightDuration;
             }
         }
@@ -335,7 +341,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             if (!_endedGliding) {
                 Controller.GlidingCrouch(false, 0.0f);
                 ParentModel.FoV.UpdateCustomLocomotionFoVMultiplier(1.0f);
-                ParentModel.DirectionalBlur.SetBlurVelocity(Vector3.zero, 0.0f);
+                _directionalBlur.SetBlurVelocity(Vector3.zero, 0.0f);
                 _heroCamera.SetRoll(0.0f);
                 _heroCamera.ResetSmoothClampingData();
                 _endedGliding = true;

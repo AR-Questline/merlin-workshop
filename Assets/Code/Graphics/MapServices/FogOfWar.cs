@@ -35,6 +35,7 @@ namespace Awaken.TG.Graphics.MapServices {
         readonly MapMemory _memory;
         
         UnsafeInsertOnlyQuadtree<float2> _visitedPixelsQuadtree;
+        IEventListener _onMapFullyLoaded;
         IEventListener _onDomainChangedListener;
         IEventListener _onPlayerMovedListener;
         ComputeShader _fogOfWarShader;
@@ -51,9 +52,11 @@ namespace Awaken.TG.Graphics.MapServices {
         bool _isParamsLoaded;
         bool _memoryRead;
         bool _isFromActiveScene;
+        bool _isMapFullyLoaded;
+        bool _hasMap;
 
         public bool IsInitialized() => _isParamsLoaded;
-        bool HasMap => _mapSpriteRef != null;
+        bool HasMap => _hasMap;
         bool IsValidAndInitialized => _maskSize.Equals(default) == false && _isParamsLoaded;
 
         public FogOfWar(SceneReference scene, MapMemory memory) {
@@ -62,6 +65,7 @@ namespace Awaken.TG.Graphics.MapServices {
             InitializeParams();
             _onPlayerMovedListener = Hero.Current.ListenTo(GroundedEvents.AfterMovedToPosition, OnPlayerMoved);
             _onDomainChangedListener = World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.AfterNewDomainSet, OnNewDomainSet);
+            _onMapFullyLoaded = World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.SafeAfterSceneChanged, OnMapFullyLoaded);
             OnNewDomainSet(World.Services.Get<SceneService>().ActiveSceneRef);
         }
 
@@ -70,8 +74,10 @@ namespace Awaken.TG.Graphics.MapServices {
             _visitedPixelsQuadtree.Dispose();
             _mapSpriteRef?.Release();
             _mapSpriteRef = null;
+            _hasMap = false;
             World.EventSystem.TryDisposeListener(ref _onPlayerMovedListener);
             World.EventSystem.TryDisposeListener(ref _onDomainChangedListener);
+            World.EventSystem.TryDisposeListener(ref _onMapFullyLoaded);
         }
 
         public void WriteMemory() {
@@ -166,6 +172,11 @@ namespace Awaken.TG.Graphics.MapServices {
 
         void OnNewDomainSet(SceneReference activeScene) {
             _isFromActiveScene = Scene.Equals(activeScene);
+            _isMapFullyLoaded = false;
+        }
+        
+        void OnMapFullyLoaded(SceneLifetimeEvents _) {
+            _isMapFullyLoaded = true;
         }
 
         void OnPlayerMoved(Vector3 position) {
@@ -173,7 +184,7 @@ namespace Awaken.TG.Graphics.MapServices {
                 return;
             }
 
-            if (!_isFromActiveScene) {
+            if (!_isFromActiveScene || !_isMapFullyLoaded) {
                 return;
             }
 
@@ -194,15 +205,18 @@ namespace Awaken.TG.Graphics.MapServices {
                 _maskSize = default;
                 _mapSpriteRef = null;
                 _isParamsLoaded = false;
+                _hasMap = false;
 
                 if (!CommonReferences.Get.MapData.byScene.TryGetValue(Scene, out var mapData)) {
                     _isParamsLoaded = true;
                     return;
                 }
                 _mapSpriteRef = mapData.Sprite.Get();
+                _hasMap = true;
                 if (_mapSpriteRef == null || _mapSpriteRef.IsSet == false) {
                     _mapSpriteRef = null;
                     _isParamsLoaded = true;
+                    _hasMap = false;
                     return;
                 }
 
@@ -243,6 +257,7 @@ namespace Awaken.TG.Graphics.MapServices {
             mapSize.x = mapTexture.width;
             mapSize.y = mapTexture.height;
             _mapSpriteRef.Release();
+            _mapSpriteRef = null;
 
             _maskSize = (int2)math.ceil((float2)mapSize * GameConstants.Get.fogOfWarParams.maskTextureMultiplier);
             var mapTextureRect = mapSprite.textureRect;

@@ -1,5 +1,6 @@
 ﻿using System;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
@@ -21,7 +22,8 @@ namespace Awaken.TG.Main.Settings.Options.Views {
         public PrefOption GenericOption { get; private set; }
         public virtual Selectable MainSelectable => dummySelectable;
         public TooltipConstructor TooltipConstructor => GenericOption.TooltipConstructor?.Invoke();
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         public virtual void Setup(PrefOption option) {
             GenericOption = option;
             OnOptionAssigned();

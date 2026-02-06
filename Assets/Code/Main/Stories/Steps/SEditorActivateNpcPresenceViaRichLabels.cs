@@ -10,6 +10,7 @@ using Awaken.TG.Main.Stories.Execution;
 using Awaken.TG.Main.Stories.Quests.Objectives;
 using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.Main.Utility.RichLabels;
 using Awaken.TG.Main.Utility.RichLabels.SO;
 using Awaken.TG.MVC;
@@ -52,6 +53,11 @@ namespace Awaken.TG.Main.Stories.Steps {
             var execution = new StepExecution(Availability, Teleport);
             var richLabelGuids = richLabelUsage.RichLabelUsageEntries;
 
+            if (richLabelGuids.Length == 0) {
+                Debug.LogException(new Exception($"No rich labels defined for presence activation. Preventing usage. {LogUtils.GetDebugName(story)}"));
+                return StepResult.Immediate;
+            }
+            
             World.Services.Get<PresenceTrackerService>().UpdatePresence(new (richLabelUsage, Availability));
             
             var matchingPresences = PresenceCache.Get.GetMatchingPresenceData(richLabelGuids);
@@ -60,11 +66,14 @@ namespace Awaken.TG.Main.Stories.Steps {
                 Debug.LogException(new Exception($"No presence {richLabelUsage} found by {nameof(SActivateNpcPresenceViaRichLabels)} in story: {story.Guid}"));
             }
 #endif
+            if (matchingPresences.Length > 20) {
+                Debug.LogException(new Exception($"{matchingPresences.Length} rich labels defined for presence activation, it's probably a mistake. {LogUtils.GetDebugName(story)}"));
+            }
             
             var deferredSystem = World.Only<DeferredSystem>();
             foreach (var presence in matchingPresences) {
                 PresenceData presenceData = new (presence);
-                if (DeferredActionWithPresenceMatch.TryExecute(presenceData, execution) == DeferredSystem.Result.Success) {
+                if (DeferredActionWithPresenceMatch.TryExecute(presenceData, execution, null) == DeferredSystem.Result.Success) {
                     continue;
                 }
                 
@@ -76,7 +85,7 @@ namespace Awaken.TG.Main.Stories.Steps {
             // This is part of the old way of activating presences, which is now deprecated.
             if (LocationReference.TryGetDistinctiveMatches(richLabelGuids, out var matches)) {
                 foreach (var match in matches) {
-                    if (DeferredActionWithLocationMatch.TryExecute(match, execution) == DeferredSystem.Result.Success) {
+                    if (DeferredActionWithLocationMatch.TryExecute(match, execution, null) == DeferredSystem.Result.Success) {
                         continue;
                     }
 
@@ -92,6 +101,8 @@ namespace Awaken.TG.Main.Stories.Steps {
 
             [Saved] bool _availability;
             [Saved] bool _teleport;
+            
+            public bool Availability => _availability;
 
             [JsonConstructor, Preserve]
             StepExecution() { }
@@ -120,6 +131,19 @@ namespace Awaken.TG.Main.Stories.Steps {
         public PresenceData(PresenceSource presenceSource) {
             this.sceneRef = presenceSource.motherScene;
             this.richLabelSet = presenceSource.richLabelSet;
+        }
+
+        public override bool Equals(System.Object other) {
+            if (other is not PresenceData otherData) {
+                return false;
+            }
+            if (!sceneRef.Equals(otherData.sceneRef)) {
+                return false;
+            }
+            if (!richLabelSet.EqualRichLabelGuids(otherData.richLabelSet)) {
+                return false;
+            }
+            return true;
         }
     }
     

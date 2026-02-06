@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Awaken.Kandra;
 using Sirenix.OdinInspector;
-using TMPro;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
@@ -13,21 +13,39 @@ namespace Awaken.TG.Editor.Assets.Grouping {
     public class AssetEntry {
         // === Static
         static Type[] s_extractedTypes = {
-            typeof(GameObject), 
-            typeof(Texture), 
-            typeof(Texture2D), 
-            typeof(Texture2DArray), 
-            typeof(Texture3D), 
-            typeof(Cubemap), 
-            typeof(Material), 
-            typeof(Mesh), 
-            typeof(Shader), 
-            typeof(VisualEffectAsset), 
-            typeof(FontAsset), 
+            typeof(GameObject),
+            typeof(Texture),
+            typeof(Texture2D),
+            typeof(Texture2DArray),
+            typeof(Texture3D),
+            typeof(Cubemap),
+            typeof(Material),
+            typeof(Mesh),
+            typeof(KandraMesh),
+            typeof(Shader),
+            typeof(VisualEffectAsset),
             typeof(FontAsset)
         };
 
-        bool IsExtractedType(string path) => s_extractedTypes.Contains(AssetDatabase.GetMainAssetTypeAtPath(path));
+        static bool IsExtractedType(string path) {
+            var investigateType = AssetDatabase.GetMainAssetTypeAtPath(path);
+            foreach (var type in s_extractedTypes) {
+                if (type.IsAssignableFrom(investigateType)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static bool IsRuntime(string path) {
+            if (path.Contains("/Editor/")) {
+                return false;
+            }
+
+            return true;
+        }
+
+        static bool IsValid(string path) => IsExtractedType(path) && IsRuntime(path);
         // === End Static
 
         public string guid;
@@ -49,8 +67,11 @@ namespace Awaken.TG.Editor.Assets.Grouping {
 
         public AssetEntry(string guid, string assetPath) {
             this.guid = guid;
+            if (assetPath.Contains("/Editor/")) {
+                throw new ArgumentException("AssetEntry cannot be created for editor only assets");
+            }
             dependencies = AssetDatabase.GetDependencies(assetPath, true)
-                .Where(IsExtractedType)
+                .Where(IsValid)
                 .Select(AssetDatabase.AssetPathToGUID)
                 .ToArray();
         }

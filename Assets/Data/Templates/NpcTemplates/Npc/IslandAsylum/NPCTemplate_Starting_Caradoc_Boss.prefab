@@ -69,6 +69,7 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 0
+  BackToSpawnPointDistanceMultiplier: 1
   maxHealth: 12000
   healthRegen: 0
   maxStamina: 200
@@ -312,6 +313,7 @@ MonoBehaviour:
         asm: TG.Main}
       data:
         lvl: 0
+        grantBonusLevelFromNgPlus: 1
         loot:
           rid: 7855908944372301906
     - rid: 7855908944372301906

@@ -15,14 +15,6 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
     public static class CrimeUtils {
         const string MemoryContext = Faction.FactionContext + ".crime";
         static ContextualFacts CrimeFacts => World.Services.Get<GameplayMemory>().Context(MemoryContext);
-        
-        // === Fact Keys
-        static class Keys {
-            // Maybe add an on demand cache here
-            public static string UnforgivableCrimeCommitted(CrimeOwnerTemplate template) => $"UnforgivableCrimeCommitted: {template.GUID}";
-            public static string BountyValue(CrimeOwnerTemplate template) => $"Bounty: {template.GUID}";
-        }
-        
 
         // === Events
         public static class Events {
@@ -39,11 +31,11 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
             if (template == null) {
                 return false;
             }
-            return CrimeFacts.Get(Keys.UnforgivableCrimeCommitted(template), false);
+            return CrimeFacts.Get(template.UnforgivableCrimeCommittedKey, false);
         }
 
         public static void CommitUnforgivableCrime(CrimeOwnerTemplate template) {
-            CrimeFacts.Set(Keys.UnforgivableCrimeCommitted(template), true);
+            CrimeFacts.Set(template.UnforgivableCrimeCommittedKey, true);
             Hero.Current.Trigger(Events.UnforgivableCrimeCommittedAgainst, template);
         }
 
@@ -52,14 +44,14 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
             if (template == null) {
                 return false;
             }
-            return CrimeFacts.Get(Keys.BountyValue(template), 0f) > 0;
+            return CrimeFacts.Get(template.BountyValueKey, 0f) > 0;
         }
 
         public static float Bounty(CrimeOwnerTemplate template) {
             if (template == null) {
                 return 0f;
             }
-            return CrimeFacts.Get(Keys.BountyValue(template), 0f);
+            return CrimeFacts.Get(template.BountyValueKey, 0f);
         }
 
         public static bool IsCrimeFor(in Crime crime, CrimeOwnerTemplate template) {
@@ -204,18 +196,18 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         public static void ClearBounty(CrimeOwnerTemplate template) {
             HeroCrimeWithProlong.RemoveProlongsForFaction(template);
             if (!HasBounty(template)) return;
-            CrimeFacts.Set(Keys.BountyValue(template), 0);
+            CrimeFacts.Set(template.BountyValueKey, 0);
             Hero.Current.Trigger(Events.BountyClearedFor, template);
         }
         
         public static void ClearUnforgivableCrime(CrimeOwnerTemplate template) {
             if (!HasCommittedUnforgivableCrime(template)) return;
-            CrimeFacts.Set(Keys.UnforgivableCrimeCommitted(template), false);
+            CrimeFacts.Set(template.UnforgivableCrimeCommittedKey, false);
             ClearBounty(template);
         }
 
         public static void AddBounty(CrimeOwnerTemplate template, float value, out Change<float> bountyChange) {
-            var key = Keys.BountyValue(template);
+            var key = template.BountyValueKey;
             float previousBounty = CrimeFacts.Get(key, 0f);
             float newBounty = previousBounty + value;
             CrimeFacts.Set(key, newBounty);

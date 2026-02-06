@@ -59,6 +59,7 @@ MonoBehaviour:
   - alchemy:alcohol
   - item:alcohol
   - ingredients:basicalchemy
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: e841d773b1ca7cc4eb6f850b924f8bb0
@@ -76,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_72a7d6ae581ff324c90e5de5cde604a5
-  EDITOR_bakedDescription: Consumption leads to insobriety.
+  EDITOR_bakedDescription: Consumption leads to inebriation.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: 5dae94f726cb5114f82b3f89782e2238
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &8628244875916353577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +182,7 @@ MonoBehaviour:
       _guid: 6219faf0de359c24894f4d983ee7d636
     variables:
     - name: Buildup
-      value: 100
+      value: 55
     enums:
     - name: StatEnum
       enumReference:

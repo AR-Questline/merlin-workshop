@@ -59,6 +59,8 @@ namespace Awaken.TG.Main.Utility.Animations {
             [UnityEngine.Scripting.Preserve] Disappear = 20,
             [UnityEngine.Scripting.Preserve] TeleportOut = 21,
             [UnityEngine.Scripting.Preserve] TeleportIn = 22,
+            [UnityEngine.Scripting.Preserve] ExposeWeakspot = 23,
+            [UnityEngine.Scripting.Preserve] HideWeakspot = 24,
         }
 
         public enum AppearType : byte {

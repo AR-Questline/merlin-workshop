@@ -76,10 +76,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_2ce633449acda5a48a11bc079ae9c855
-  EDITOR_bakedDescription: 'Increases Melee Damage by 20% while dual-wielding.
-
-    Increases
-    Mana Shield by 20%.'
+  EDITOR_bakedDescription: "Increases Melee Damage by 20\_% while dual-wielding.\nIncreases
+    Mana Shield by 20\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7549843383542069446
 MonoBehaviour:
@@ -252,8 +254,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8178708183143821486
 MonoBehaviour:
@@ -298,7 +303,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValueCalculated
       value: 0
     enums:
@@ -315,6 +320,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
+      value: 0
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

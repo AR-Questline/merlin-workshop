@@ -3,6 +3,7 @@ using Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.EmptyContent;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
@@ -48,6 +49,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts {
         public VCEmptyInfo WeaponEmptyInfo => weaponEmptyInfo;
         public CanvasGroup[] ContentGroups => new[] { armorContentGroup, armorWeightContentGroup };
         public VCEmptyInfo EmptyInfoView => armorEmptyInfo;
+        public bool IsValid => this.IsValidForUIHandle();
 
         VCLoadout _changedLoadout;
         VCLoadout[] _loadoutCollection;

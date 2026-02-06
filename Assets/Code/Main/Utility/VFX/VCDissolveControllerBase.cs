@@ -76,10 +76,9 @@ namespace Awaken.TG.Main.Utility.VFX {
             if (!dissolveType.HasFlagFast(DissolveType.Weapon)) {
                 return;
             }
-            using var buffer = new ReusableListBuffer<T>(GetComponentsBuffer);
-            weapon.GetComponentsInChildren<T>(buffer);
-            foreach (var dissolvable in buffer) {
-                AddRenderer(dissolvable);
+            FindAdditionalRenderers(weapon.transform);
+            if (ShouldBeInDissolvedState) {
+                UpdateEffects(_transition);
             }
         }
         

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Awaken.TG.Main.AI.Combat.Attachments;
 using Awaken.TG.Main.AI.Combat.Utils;
 using Awaken.TG.Main.AI.Graphs;
@@ -11,6 +12,7 @@ using Awaken.TG.Main.AI.SummonsAndAllies;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.DamageInfo;
+using Awaken.TG.Main.Fights.Duels;
 using Awaken.TG.Main.Fights.Factions;
 using Awaken.TG.Main.Fights.Factions.Markers;
 using Awaken.TG.Main.Fights.NPCs;
@@ -46,6 +48,7 @@ namespace Awaken.TG.Main.AI {
 
         public sealed override bool IsNotSaved => true;
 
+        bool _initialized;
         bool _heroVisible, _wantToExitCombat, _isExitingCombat, _isEnteringCombat;
         float _timeWhenHeroLost = -999;
         float _lostViewOnTarget;
@@ -54,10 +57,9 @@ namespace Awaken.TG.Main.AI {
         VisionDetectionSetup[] _visionDetectionSetups;
         VisionDetectionType _visionDetectionType = VisionDetectionType.None;
         StatTweak _movementSpeedTweak;
+        CancellationTokenSource _cts = new();
 
         // === References
-        public GameObject MachineGameObject { get; }
-
         public NpcData Data { get; private set; }
         public NpcBehaviour Behaviour { get; private set; }
         
@@ -121,8 +123,6 @@ namespace Awaken.TG.Main.AI {
         // === Getters
         public NpcElement NpcElement => ParentModel;
         [UnityEngine.Scripting.Preserve] public Location Location => NpcElement.ParentModel;
-        [UnityEngine.Scripting.Preserve] public VariableDeclarations SceneVariables => Variables.Scene(MachineGameObject);
-        [UnityEngine.Scripting.Preserve] public VariableDeclarations ObjectVariables => Variables.Object(MachineGameObject);
         public AlertStack AlertStack { get; }
         
         public float AlertValue => AlertStack.AlertValue;
@@ -153,16 +153,17 @@ namespace Awaken.TG.Main.AI {
 
         // === Initialization
 
-        public NpcAI(GameObject machineGameObject) {
-            MachineGameObject = machineGameObject;
+        public NpcAI() {
             AlertStack = AddElement<AlertStack>();
         }
-
-        protected override void OnInitialize() {
+        
+        public void InitializerInitialize() {
             SetupVisionDetectionArray();
+            Init();
+            _initialized = true;
         }
 
-        protected override void OnFullyInitialized() {
+        void Init() {
             _isHeroSummon = ParentModel.HasElement<NpcHeroSummon>();
             Behaviour = new NpcBehaviour(this);
             var compassMarker = ParentModel.ParentModel.TryGetElement<LocationMarker>()?.CompassElement as NpcCompassMarker;
@@ -189,7 +190,9 @@ namespace Awaken.TG.Main.AI {
 
         protected override void OnDiscard(bool fromDomainDrop) {
             ParentModel.GetTimeDependent()?.WithoutUpdate(Update);
-            Behaviour.Exit();
+            if (_initialized) {
+                Behaviour.Exit();
+            }
         }
 
         public float GetTargetRange(RangeBetween between) {
@@ -342,7 +345,9 @@ namespace Awaken.TG.Main.AI {
             }
             
             if (currentTarget == null || !currentTarget.IsAlive || currentTarget.HasBeenDiscarded) {
-                if (canBeVictorious) {
+                if (NpcElement.IsSummonOrAlly) {
+                    exitToIdle = true;
+                } else if (canBeVictorious) {
                     ParentModel.Trigger(ICharacter.Events.CombatVictory, NpcElement);
                     AlertStack.Reset();
                     HeroVisibility = 0;
@@ -383,7 +388,7 @@ namespace Awaken.TG.Main.AI {
         // === Damage responses
         void OnDamageTaken(DamageOutcome damageOutcome) {
             var damage = damageOutcome.Damage;
-            var attacker = damage.DamageDealer;
+            var attacker = damage.DamageDealerPure;
             if (attacker == NpcElement) {
                 // Can't perform hostile action towards themself
                 return;
@@ -535,15 +540,15 @@ namespace Awaken.TG.Main.AI {
 
         async UniTaskVoid MakeGetHitNoise(ICharacter attacker) {
             // Wait a bit to allow "sneaky" hits/kills
-            if (!await AsyncUtil.DelayTime(this, GetHitNotifyDelay)) {
+            if (!await AsyncUtil.DelayTime(this, GetHitNotifyDelay, _cts.Token)) {
                 return;
             }
 
-            if (!ParentModel.IsAlive) {
+            if (ParentModel is not { IsAlive: true, HasBeenDiscarded: false, NpcAI: { Data: { } data }}) {
                 return;
             }
 
-            float maxInformRange = NpcElement.NpcAI.Data.perception.MaxInformRange;
+            float maxInformRange = data.perception.MaxInformRange;
             var hearingNpcs = Services.Get<NpcGrid>().GetHearingNpcs(Coords, maxInformRange);
             // 
             var poiPosition = AINoises.GetPosition(attacker, this);
@@ -552,6 +557,11 @@ namespace Awaken.TG.Main.AI {
                     AINoises.MakeNoise(maxInformRange, NoiseStrength.VeryStrong, false, Coords, npc.NpcAI, poiPosition);
                 }
             }
+        }
+
+        public void CancelAllHitNoises() {
+            _cts.Cancel();
+            _cts = new();
         }
         
         // === Helpers

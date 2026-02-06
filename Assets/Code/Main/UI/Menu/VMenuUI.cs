@@ -3,6 +3,7 @@ using Awaken.TG.Graphics.Cutscenes;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Settings.Windows;
 using Awaken.TG.Main.UI.Bugs;
@@ -11,6 +12,7 @@ using Awaken.TG.Main.UI.Menu.SaveLoadUI;
 using Awaken.TG.Main.UI.TitleScreen;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Events;
@@ -24,14 +26,12 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-#if UNITY_GAMECORE
-using Awaken.TG.Main.SocialServices.MicrosoftServices;
-#endif
 
 namespace Awaken.TG.Main.UI.Menu {
     [UsesPrefab("UI/VMenuUI")]
     public class VMenuUI : View<MenuUI>, IFocusSource, IAutoFocusBase, IPromptHost {
         [SerializeField] ButtonConfig resumeGame;
+        [SerializeField] ButtonConfig startNewGamePlus;
         [SerializeField] ButtonConfig saveGame;
         [SerializeField] ButtonConfig loadGame;
         [SerializeField] ButtonConfig unstuck;
@@ -64,9 +64,9 @@ namespace Awaken.TG.Main.UI.Menu {
             
             InitDebugInfo();
             if (xboxProfile != null) {
-                xboxProfile.TrySetActiveOptimized(PlatformUtils.IsXbox);
-#if UNITY_GAMECORE
-                xboxProfile.text = LocTerms.Profile.Translate(MicrosoftManager.Instance.GamerName);
+                xboxProfile.TrySetActiveOptimized(PlatformUtils.IsMicrosoft);
+#if UNITY_GAMECORE || MICROSOFT_GAME_CORE
+                xboxProfile.text = LocTerms.Profile.Translate(SocialServices.MicrosoftServices.MicrosoftManager.Instance.GamerName);
 #endif
             }
             
@@ -86,11 +86,18 @@ namespace Awaken.TG.Main.UI.Menu {
             Target.AddElement(prompts);
             
             var cancelPrompt = Prompt.Tap(KeyBindings.UI.Generic.Cancel, LocTerms.Close.Translate(), Target.Close, Prompt.Position.Last);
+            var selectPrompt = Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad);
             prompts.AddPrompt(cancelPrompt, Target);
+            prompts.AddPrompt(selectPrompt, Target);
         }
 
         void InitializeButtons() {
             resumeGame.InitializeButton(Target.Close);
+            if (NewGamePlusUtils.IsAvailable) {
+                startNewGamePlus.InitializeButton(NewGamePlusUtils.StartNewGamePlusDuringGameplay);
+            } else {
+                startNewGamePlus.gameObject.SetActive(false);
+            }
             saveGame.InitializeButton(() => MenuUI.OpenSaveUI(this));
             loadGame.InitializeButton(() => MenuUI.OpenLoadUI(this));
             unstuck.InitializeButton(Target.Unstuck);
@@ -114,6 +121,9 @@ namespace Awaken.TG.Main.UI.Menu {
         }
 
         void Update() {
+            if (startNewGamePlus.gameObject.activeInHierarchy) {
+                startNewGamePlus.button.Interactable = NewGamePlusUtils.CanBeTriggeredRightNow;
+            }
             saveGame.button.Interactable = LoadSave.Get.CanPlayerSave();
             loadGame.button.Interactable = LoadSave.Get.LoadAllowedInMenu();
         }

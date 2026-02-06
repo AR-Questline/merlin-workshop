@@ -24,7 +24,7 @@ namespace Awaken.TG.Main.Saving.Cloud {
                 .Replace(".data", "");
         }
 
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
         public LocalFileInfo(RemoteStorageFile cloudFile) {
             steamPath = cloudFile.name;
             fullPath = Path.Combine(CloudService.Get.DataPath, steamPath) + ".data";

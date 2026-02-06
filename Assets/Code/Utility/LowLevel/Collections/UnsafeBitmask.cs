@@ -38,6 +38,18 @@ namespace Awaken.Utility.LowLevel.Collections {
             RecalculateLastMaskComplement();
         }
 
+        public UnsafeBitmask(uint elementsLength, UnsafeArray<ulong> masks) {
+            _elementsLength = elementsLength;
+            _masks = masks.Ptr;
+            _allocator = masks.Allocator;
+            _lastMaskComplement = ~0u;
+
+            Asserts.AreEqual(masks.Length, BucketLength(_elementsLength));
+            AllocationsTracker.CustomAllocation(masks.Ptr, masks.Length, _allocator);
+
+            RecalculateLastMaskComplement();
+        }
+
         public void Dispose() {
 #if AR_DEBUG || UNITY_EDITOR
             if (_allocator == Allocator.Invalid) {
@@ -579,6 +591,12 @@ namespace Awaken.Utility.LowLevel.Collections {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly OnesEnumerator EnumerateOnes() => new OnesEnumerator(this);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly OnesEnumeratorReversed EnumerateOnesReversed() => new OnesEnumeratorReversed(this);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly OnesEnumeratorReversed EnumerateOnesReverse() => new OnesEnumeratorReversed(this);
 
         void Resize(uint elementsLength) {
             var oldBucketLength = BucketsLength;
@@ -670,6 +688,47 @@ namespace Awaken.Utility.LowLevel.Collections {
                     var masked = *AllocationsTracker.Access(_masks, _bucketIndex) & _mask;
                     if (masked != 0) {
                         return math.tzcnt(masked);
+                    }
+
+                    _mask = ulong.MaxValue;
+                }
+
+                return -1;
+            }
+        }
+        
+        public ref struct OnesEnumeratorReversed {
+            readonly ulong* _masks;
+            ulong _mask;
+            int _index;
+            ushort _bucketIndex;
+
+            public OnesEnumeratorReversed(in UnsafeBitmask data) {
+                _masks = data._masks;
+                _bucketIndex = unchecked((ushort)(data.BucketsLength - 1));
+                _mask = ulong.MaxValue;
+                _index = -1;
+            }
+
+            public bool MoveNext() {
+                _index = PreviousOne();
+                if (_index != -1) {
+                    _mask ^= 1ul << _index;
+                    return true;
+                }
+
+                return false;
+            }
+
+            public uint Current => (uint)(_index + _bucketIndex * 64);
+
+            public OnesEnumeratorReversed GetEnumerator() => this;
+
+            int PreviousOne() {
+                for (; _bucketIndex != ushort.MaxValue; --_bucketIndex) {
+                    var masked = *AllocationsTracker.Access(_masks, _bucketIndex) & _mask;
+                    if (masked != 0) {
+                        return 63 - math.lzcnt(masked);
                     }
 
                     _mask = ulong.MaxValue;

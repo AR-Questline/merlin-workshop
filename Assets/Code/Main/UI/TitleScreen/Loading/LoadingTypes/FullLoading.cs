@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Saving.SaveSlots;
@@ -34,6 +34,10 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
             yield return sceneService.MainSceneRef;
         }
 
+        public IEnumerator BeforeDroppingPreviousDomains() {
+            yield return new WaitForEndOfFrame();
+        }
+        
         public void DropPreviousDomains(SceneReference _) {
             // Remove Title Screen
             World.DropDomain(Domain.TitleScreen);
@@ -62,7 +66,9 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
                 return loadOperation;
             });
 
-            if (_slot.AdditiveSceneRef == null || TitleScreen.wasLoadingFailed != LoadingFailed.False) {
+            if (loadingScreen.HasBeenDiscarded) {
+                // Loading failed, we should be in titlescreen already here
+            } else if (_slot.AdditiveSceneRef == null) {
                 loadingScreen.CleanupAfterLoading();
             } else {
                 // Additive scene loading

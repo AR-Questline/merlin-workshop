@@ -79,7 +79,8 @@ MonoBehaviour:
     locString:
       IdOverride: item_weapon_2h_IcetongueSpear_Desc
       ID: Template/description_locString_2543871262668956605_e95f802d1f5d2ba4ba3640b8dfec7716
-  EDITOR_bakedDescription: Attacks have a 20% chance to Slow for 3s.
+  EDITOR_bakedDescription: "Attacks have a 20\_% chance to apply <color=#04959A>Slow</color>
+    for 2s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 8a7944d92349965459032e34ce3c37a1
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -241,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-11953570963775665
 MonoBehaviour:
@@ -581,6 +589,10 @@ MonoBehaviour:
       _guid: b9c6539825e72e047886d566b7b5b372
     variables:
     - name: Buildup
+      value: 0
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
       value: 0
     - name: Duration
       value: 2

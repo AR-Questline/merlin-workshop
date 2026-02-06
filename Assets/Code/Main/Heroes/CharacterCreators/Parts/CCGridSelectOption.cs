@@ -66,7 +66,6 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.Parts {
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
-            Icon?.Release();
             Icon = null;
         }
     }

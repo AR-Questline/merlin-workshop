@@ -24,6 +24,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
         [SerializeField, CanBeNull] EmptySlotComponent empty;
         [SerializeField, CanBeNull] ItemTheftComponent theft;
         [SerializeField, CanBeNull] PlainFoodLevelComponent plainFoodLevel;
+        [SerializeField, CanBeNull] ItemIsUnreadComponent isUnread;
+        [SerializeField, CanBeNull] ItemTransmogrifiedComponent transmogrified;
         
         [Title("Audio")] 
         [SerializeField] bool useCustomSound;
@@ -44,12 +46,14 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
             quality?.TryRefresh(data);
             equipped?.TryRefresh(data);
             inLoadout?.TryRefresh(data);
+            transmogrified?.TryRefresh(data);
             weight?.TryRefresh(data);
             empty?.TryRefresh(data);
             selection?.TryRefresh(data);
             theft?.TryRefresh(data);
             plainFoodLevel?.TryRefresh(data);
-
+            isUnread?.TryRefresh(data);
+            
             if (World.Any<CharacterSheetUI>()) {
                 NewThingModel = item;
                 onNewThingRefresh?.Invoke();
@@ -103,9 +107,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
         public void SetQualityActive(bool active) => quality?.SetExternalVisibility(active);
         public void SetEquippedActive(bool active) => equipped?.SetExternalVisibility(active);
         public void SetInLoadoutActive(bool active) => inLoadout?.SetExternalVisibility(active);
+        public void SetTransmogrifiedActive(bool active) => transmogrified?.SetExternalVisibility(active);
         public void SetWeightActive(bool active) => weight?.SetExternalVisibility(active);
         public void SetEmptyActive(bool active) => empty?.SetExternalVisibility(active);
         public void SetSelectionActive(bool active) => selection?.SetExternalVisibility(active);
+        public void SetIsUnreadActive(bool active) => isUnread?.SetExternalVisibility(active);
         
         public event Action OnSelected {
             add => selection.OnSelect += value;
@@ -133,9 +139,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
             SetQualityActive(config.quality);
             SetEquippedActive(config.equipped);
             SetInLoadoutActive(config.inLoadout);
+            SetTransmogrifiedActive(config.transmogrified);
             SetWeightActive(config.weight);
             SetEmptyActive(config.empty);
             SetSelectionActive(config.selection);
+            SetIsUnreadActive(config.isUnread);
         }
         
         public struct VisibilityConfig {
@@ -146,9 +154,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
             public bool quality;
             public bool equipped;
             public bool inLoadout;
+            public bool transmogrified;
             public bool weight;
             public bool empty;
             public bool selection;
+            public bool isUnread;
             
             public static VisibilityConfig All => new() {
                 icon = true,
@@ -158,9 +168,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
                 quality = true,
                 equipped = true,
                 inLoadout = true,
+                transmogrified = true,
                 weight = true,
                 empty = true,
-                selection = true
+                selection = true,
+                isUnread = true
             };
             
             public static VisibilityConfig Equipment => new() {
@@ -169,6 +181,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
                 level = true,
                 quantity = true,
                 quality = true,
+                transmogrified = true,
                 weight = true,
                 empty = true,
                 selection = true
@@ -178,7 +191,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
                 icon = true,
                 mainBackground = true,
                 quality = true,
-                equipped = true,
+                inLoadout = true,
                 level = true
             };
             
@@ -202,7 +215,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
                 mainBackground = true,
                 quantity = true,
                 quality = true,
-                selection = false
+                inLoadout = true,
             };
             
             public static VisibilityConfig OnlyEmpty => new() { empty = true };

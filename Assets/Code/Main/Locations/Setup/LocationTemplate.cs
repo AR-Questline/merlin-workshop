@@ -12,15 +12,15 @@ namespace Awaken.TG.Main.Locations.Setup {
         /// Used to spawn runtime locations with default transform
         /// </summary>
         public Location SpawnLocation(ARAssetReference prefabReferenceOverride = null, string overridenLocationName = "", Scene? spawnScene = null) {
-            RuntimeLocationData data = new(this, Vector3.zero, Quaternion.identity, Vector3.one, prefabReferenceOverride, overridenLocationName, spawnScene);
+            RuntimeLocationData data = new(this, Vector3.zero, Quaternion.identity, Vector3.one, prefabReferenceOverride, overridenLocationName, spawnScene, -1);
             return AddLocationToWorld(data);
         }
         
         /// <summary>
         /// Used to spawn runtime locations with all possible parameters, required minimum is initial position
         /// </summary>
-        public Location SpawnLocation(Vector3 initialPosition, Quaternion? initialRotation = null, Vector3? initialScale = null, ARAssetReference prefabReferenceOverride = null, string overridenLocationName = "", Scene? spawnScene = null) {
-            RuntimeLocationData data = new(this, initialPosition, initialRotation ?? Quaternion.identity, initialScale ?? Vector3.one, prefabReferenceOverride, overridenLocationName, spawnScene);
+        public Location SpawnLocation(Vector3 initialPosition, Quaternion? initialRotation = null, Vector3? initialScale = null, ARAssetReference prefabReferenceOverride = null, string overridenLocationName = "", Scene? spawnScene = null, int newGamePlusLevel = -1) {
+            RuntimeLocationData data = new(this, initialPosition, initialRotation ?? Quaternion.identity, initialScale ?? Vector3.one, prefabReferenceOverride, overridenLocationName, spawnScene, newGamePlusLevel);
             return AddLocationToWorld(data);
         }
         

@@ -23,7 +23,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
         protected abstract IItemTooltipComponent[] ReadMoreSectionsToShow { get; }
         protected abstract IItemTooltipComponent[] ReadMoreSectionsToHide { get; }
 
-        bool UseReadMore => ReadMoreSectionsToShow.Length > 0 && ReadMoreSectionsToShow.Any(section => section.UseReadMore);
+        bool UseReadMore => AllSections.Any(section => section.UseReadMore);
         public Transform PromptsHost => promptsHost;
         bool _readMoreActive;
 
@@ -47,7 +47,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
         
         public void SetupSections(View view) {
             foreach (var tooltipSection in AllSections) {
-                tooltipSection.SetupComponent(view);
+                tooltipSection.SetupComponent(view, true);
             }        
         }
 
@@ -62,6 +62,16 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
             
             _readMoreActive = !_readMoreActive;
             SetReadMoreSections(_readMoreActive);
+        }
+        
+        public bool HandlePagination() {
+            foreach (var section in AllSections) {
+                if (section is IPaginatedComponent { HasPagination: true } paginatedSection) {
+                    paginatedSection.NextPage();
+                    return true;
+                }
+            }
+            return false;
         }
         
         void SetReadMoreSections(bool readMore) {

@@ -22,11 +22,13 @@ namespace Awaken.TG.Main.Utility.VFX {
         [Space]
         [SerializeField, BoxGroup(AdditionalDissolveEffectsGroupName)] Light effectLight;
         [SerializeField, BoxGroup(AdditionalDissolveEffectsGroupName)] AnimationCurve lightIntensity;
+        [SerializeField] bool discardOnDisappeared = true;
 
         HDAdditionalLightData _lightData;
         bool _useLight;
         bool _useVfxGraph;
         
+        protected override bool DiscardOnDisappeared => discardOnDisappeared;
         int TransitionPropertyId => overrideTransitionProperty ? Shader.PropertyToID(overridenPropertyName) : DefaultTransitionPropertyId;
         SerializableTypeReference SerializableTypeReference => overrideTransitionProperty ? overridenSerializedType : DefaultSerializableTypeReference;
 

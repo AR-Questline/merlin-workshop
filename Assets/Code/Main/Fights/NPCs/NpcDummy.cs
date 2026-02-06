@@ -52,6 +52,8 @@ using Pathfinding.RVO;
 using Sirenix.Utilities;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Main.Fights.NPCs {
@@ -63,14 +65,16 @@ namespace Awaken.TG.Main.Fights.NPCs {
         [Saved] public NpcTemplate Template { get; private set; }
         [Saved] ARAssetReference _visualReference;
         [Saved] ShareableARAssetReference _simplifiedDeadBodyReplacementRef;
-        [Saved(false)] bool _fromAttachment;
-        [Saved(false)] bool _hasDied, _disableLoot, _hasBody;
         [Saved] ItemSpawningData[] _initialItems;
+        [Saved(false)] bool _fromAttachment;
+        [Saved(false)] bool _hasDied, _disableLoot, _hasBody, _deadBodyMarkerDiscarded;
+        bool _isRestoring = false;
+        bool _itemAddedListenerRegistered;
 
         [UnityEngine.Scripting.Preserve] Transform _mainHand, _offHand, _head, _torso, _rootBone;
+
         // --- For Initialization Only
         NpcElement _npcElement;
-        bool _itemAddedListenerRegistered;
         // --- For Discarding Only
         ReferenceInstance<GameObject> _spawnedVisualPrefab;
         NpcGenderMarker _npcGenderMarker;
@@ -104,7 +108,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public Transform Neck { get; private set; }
 
         // === Other
-        [UnityEngine.Scripting.Preserve] bool DoesntHaveImportantItems => ParentModel.TryGetElement<SearchAction>()?.AvailableTemplates.All(i => !i.IsImportantItem) ?? false;
+        public bool DoesntHaveImportantItems => ParentModel.TryGetElement<SearchAction>()?.AvailableTemplates.All(i => !i.IsImportantItem) ?? false;
         bool LocationPrefabNotOverriden => ParentModel.OverridenLocationPrefab?.IsSet is false or null;
         public bool HasDied => _hasDied;
 
@@ -134,11 +138,14 @@ namespace Awaken.TG.Main.Fights.NPCs {
         // === Initialization
         protected override void OnInitialize() {
             AddElement(new BodyFeatures());
-            this.ListenTo(Events.AfterFullyInitialized, () => ParentModel.OnVisualLoaded(t => AfterVisualLoaded(t, false).Forget()));
         }
-        
+
         protected override void OnRestore() {
-            this.ListenTo(Events.AfterFullyInitialized, () => ParentModel.OnVisualLoaded(t => AfterVisualLoaded(t, true).Forget()));
+            _isRestoring = true;
+        }
+
+        protected override void OnFullyInitialized() {
+            ParentModel.OnVisualLoaded(t => AfterVisualLoaded(t).Forget());
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
@@ -160,18 +167,18 @@ namespace Awaken.TG.Main.Fights.NPCs {
             ParentModel.SafelyMoveTo(_rootBone.position);
         }
 
-        async UniTaskVoid AfterVisualLoaded(Transform parentTransform, bool isRestoring) {
+        async UniTaskVoid AfterVisualLoaded(Transform parentTransform) {
             ParentTransform = parentTransform;
             
             RegisterItemAddedListener();
 
             if (LocationPrefabNotOverriden) {
-                if (isRestoring) {
+                if (_isRestoring) {
                     RemoveMovementControllers(ParentTransform);
                     if (_hasBody && _visualReference is { IsSet: true }) {
                         _spawnedVisualPrefab = new ReferenceInstance<GameObject>(_visualReference);
-                        var spawnedGO = await _spawnedVisualPrefab.Instantiate(ParentTransform.Find("Visuals"));
-                        if (spawnedGO == null) {
+                        await _spawnedVisualPrefab.Instantiate(ParentTransform.Find("Visuals"));
+                        if (_spawnedVisualPrefab.GenericInstance == null) {
                             _spawnedVisualPrefab?.ReleaseInstance();
                             _spawnedVisualPrefab = null;
                         }
@@ -184,7 +191,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
 
                 var features = Element<BodyFeatures>();
                 
-                if (!isRestoring && _npcElement != null) {
+                if (!_isRestoring && _npcElement != null) {
                     features.MoveFrom(_npcElement.Element<BodyFeatures>());
                 }
                 
@@ -266,7 +273,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
             var animators = ParentTransform.GetComponentsInChildren<Animator>(true);
             animators.ForEach(a => a.writeDefaultValuesOnDisable = false);
             
-            if (isRestoring && !_fromAttachment) {
+            if (_isRestoring && !_fromAttachment) {
                 var alivePrefab = ParentTransform.gameObject.FindChildRecursively("AlivePrefab", true);
                 if (alivePrefab != null) {
                     alivePrefab.gameObject.SetActive(false);
@@ -283,20 +290,31 @@ namespace Awaken.TG.Main.Fights.NPCs {
                                            (custom != null && !custom.ShouldRagdollOnDeath && IDeathAnimationProvider.ShouldPlayAnimationAfterLoad(custom.transform));
                 if (shouldPlayDeathAnimation) {
                     LoadDeathAnim(ParentTransform.GetComponentInChildren<ARNpcAnimancer>(), customDeathAnimation).Forget();
-                    RagdollUtilities.RemoveRagdoll(ParentTransform);
+                    if (ParentTransform.TryGetComponentInChildren<RagdollController>(out var ragdollController)) {
+                        ragdollController.RemoveRagdoll();
+                    }
                     ParentModel.GetTimeDependent()?.RemoveInvalidComponentsAfterFrame().Forget();
                 } else {
                     animators.ForEach(a => a.enabled = false);
+                    if (ParentTransform.TryGetComponentInChildren<RagdollController>(out var ragdollController)) {
+                        ragdollController.ApplyRagdoll();
+                    }
                 }
             }
             
             InitializeInventory();
-            if (!ParentModel.HasElement<SearchAction>() && !_disableLoot) {
-                ParentModel.AddElement(new SearchAction(null, null));
+            var searchAction = ParentModel.TryGetElement<SearchAction>();
+            if (searchAction == null && !_disableLoot) {
+                searchAction = ParentModel.AddElement(new SearchAction(null, null));
             } else if (ParentModel.HasElement<SearchAction>() && _disableLoot) {
                 ParentModel.RemoveElementsOfType<SearchAction>();
             }
-            
+
+            if (!_deadBodyMarkerDiscarded && searchAction != null && !searchAction.IsEmpty() &&
+                Template.corpseVFX is { IsSet: true }) {
+                ParentModel.AddElement(new DeadBodyMarkerVFX(Template.corpseVFX, _rootBone));
+            }
+
             _npcElement = null;
             
             // Remove this remove if Dummies can have items added to their inventory during play (e.g. via transfer).
@@ -342,7 +360,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         }
         
         public bool TryReplaceWithSimplifiedLocation() {
-            if (!_hasDied) {
+            if (!_hasDied || HasBeenDiscarded) {
                 return false;
             }
 
@@ -351,6 +369,10 @@ namespace Awaken.TG.Main.Fights.NPCs {
                 return true;
             }
             return false;
+        }
+        
+        public void MarkDeadBodyMarkerDiscarded() {
+            _deadBodyMarkerDiscarded = true;
         }
 
         void OnMovingPlatformAdded(MovingPlatform movingPlatform) {
@@ -407,7 +429,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
             currentSearchAction.GetAllItems(itemData);
             bool anyVisibleItem = false;
             foreach (var data in itemData) {
-                if (!data.ItemTemplate.HiddenOnUI) {
+                if (data is { ItemTemplate: { HiddenOnUI: false } }) {
                     anyVisibleItem = true;
                     break;
                 }
@@ -417,7 +439,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
                 return true;
             }
             
-            if (!LocationPrefabNotOverriden && !ParentTransform.GetComponentInChildren<KandraRenderer>()) {
+            if (!LocationPrefabNotOverriden && (ParentTransform == null || !ParentTransform.GetComponentInChildren<KandraRenderer>())) {
                 // Location prefab is already overriden with a visual containing no Kandra Renderer. No need to create replacement.
                 return false;
             }
@@ -428,6 +450,9 @@ namespace Awaken.TG.Main.Fights.NPCs {
             
             var searchAction = new SearchAction(itemData, true);
             location.AddElement(searchAction);
+            if (!_deadBodyMarkerDiscarded && Template.corpseVFX is { IsSet: true }) {
+                location.AddElement(new DeadBodyMarkerVFX(Template.corpseVFX));
+            }
             
             if (ParentModel.TryGetElement(out IWithFaction withFaction)) {
                 var factionProvider = new SimpleFactionProvider(withFaction.Faction.Template);

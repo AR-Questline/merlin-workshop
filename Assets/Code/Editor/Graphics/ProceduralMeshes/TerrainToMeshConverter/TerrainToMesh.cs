@@ -21,8 +21,8 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
             var name = terrainGO.name;
             var data = terrain.terrainData;
             var persistenceInfo = GetPersistenceInfo(terrainGO.scene.name, data);
-            var lodsToSpawn = config.mesh.Create(toCreate, data, persistenceInfo);
-            var (material, splatmaps) = config.material.Create(toCreate, data, persistenceInfo);
+            var lodsToSpawn = config.mesh.Create(toCreate, data, persistenceInfo, config.forBuild);
+            var (material, splatmaps) = config.material.Create(toCreate, data, persistenceInfo, config.forBuild);
             
             var meshGO = new GameObject(name);
             meshGO.isStatic = true;
@@ -30,12 +30,17 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
             var meshTransform = meshGO.transform;
             meshTransform.SetParent(terrainTransform.parent);
             meshTransform.CopyPositionAndRotationFrom(terrainTransform);
+            if (config.forBuild == false) {
+                meshGO.hideFlags = HideFlags.DontSaveInBuild | HideFlags.DontSaveInEditor | HideFlags.NotEditable;
+            }
 
             var terrainPosition = terrainTransform.position;
             var terrainSize = data.size;
-            
-            Object.DestroyImmediate(terrainGO);
-            
+
+            if (config.forBuild) {
+                Object.DestroyImmediate(terrainGO);
+            }
+
             var lods = new LOD[lodsToSpawn.Length];
             for (int i = 0; i < lodsToSpawn.Length; i++) {
                 ref readonly var lodToSpawn = ref lodsToSpawn[i];
@@ -70,23 +75,25 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
             var lodGroup = meshGO.AddComponent<LODGroup>();
             lodGroup.SetLODs(lods);
             
-            meshGO.AddComponent<MedusaRendererPrefab>();
+            if (config.forBuild) {
+                meshGO.AddComponent<MedusaRendererPrefab>();
 
-            if (config.withFootsteps) {
-                var surfaceMap = EditorTextureToFootstepMap.Get;
-                var footsteps = meshGO.AddComponent<MeshTerrainFootstepSource>();
-                var accessor = new MeshTerrainFootstepSource.EditorAccessor(footsteps);
-                accessor.FmodParameters = ArrayUtils.Select(data.terrainLayers, surfaceMap.FindFmodParameter);
-                accessor.Splatmaps = splatmaps;
-                accessor.ChunkStart = terrainPosition.xz();
-                accessor.ChunkEnd = terrainPosition.xz() + terrainSize.xz();
-            }
+                if (config.withFootsteps) {
+                    var surfaceMap = EditorTextureToFootstepMap.Get;
+                    var footsteps = meshGO.AddComponent<MeshTerrainFootstepSource>();
+                    var accessor = new MeshTerrainFootstepSource.EditorAccessor(footsteps);
+                    accessor.FmodParameters = ArrayUtils.Select(data.terrainLayers, surfaceMap.FindFmodParameter);
+                    accessor.Splatmaps = splatmaps;
+                    accessor.ChunkStart = terrainPosition.xz();
+                    accessor.ChunkEnd = terrainPosition.xz() + terrainSize.xz();
+                }
 
-            if (config.mesh.CollisionLod >= 0) {
-                ref readonly var colliderLodData = ref lodsToSpawn[config.mesh.CollisionLod];
-                for (int i = 0; i < colliderLodData.meshes.Length; i++) {
-                    var meshCollider = meshGO.AddComponent<MeshCollider>();
-                    meshCollider.sharedMesh = colliderLodData.meshes[i];
+                if (config.mesh.CollisionLod >= 0) {
+                    ref readonly var colliderLodData = ref lodsToSpawn[config.mesh.CollisionLod];
+                    for (int i = 0; i < colliderLodData.meshes.Length; i++) {
+                        var meshCollider = meshGO.AddComponent<MeshCollider>();
+                        meshCollider.sharedMesh = colliderLodData.meshes[i];
+                    }
                 }
             }
         }
@@ -144,6 +151,7 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
             public TerrainToMeshMesh mesh;
             public TerrainToMeshMaterial material;
             public bool withFootsteps;
+            public bool forBuild;
         }
     }
 }

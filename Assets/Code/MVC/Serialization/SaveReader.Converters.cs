@@ -1,14 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Items;
-using Awaken.TG.Main.Locations.Attachments;
+using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Saving.LargeFiles;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Relations;
 using Awaken.TG.MVC.Utils;
+using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.LowLevel.Collections;
 using FMODUnity;
@@ -20,6 +20,42 @@ namespace Awaken.TG.MVC.Serialization {
         public void Read(out UnicodeString unicodeString) {
             ReadArray(out byte[] bytes, static reader => { reader.Read(out byte b); return b; });
             unicodeString = new UnicodeString(Encoding.Unicode.GetString(bytes));
+        }
+        
+        public void Read(out StringCollectionSelector selector) {
+            ReadType(out _);
+            ReadStart();
+            StringCollectionSelector? recreatedSelector = null;
+            while (TryReadName(out var name)) {
+                if (!recreatedSelector.HasValue) {
+                    recreatedSelector = TryDeserialize(in name, this);
+                }
+                ReadToSeparator();
+            }
+            selector = recreatedSelector ?? StringCollectionSelector.Empty;
+            
+            StringCollectionSelector? TryDeserialize(in ushort _name_, SaveReader reader) {
+                if (_name_ == SavedFields._context) {
+                    reader.Read(out int length);
+                    if (length == 0) {
+                        return null;
+                    } 
+                    if (length == 1) {
+                        reader.Read(out string s);
+                        return new StringCollectionSelector(s);
+                    } 
+                    string[] context = new string[length];
+                    for (int i = 0; i < length; i++) {
+                        reader.Read(out context[i]);
+                    }
+                    return new StringCollectionSelector(context);
+                }
+                if (_name_ == SavedFields._singleContext) {
+                    reader.Read(out string gen0);
+                    return new StringCollectionSelector(gen0);
+                }
+                return null;
+            }
         }
 
         public void Read<T>(out WeakModelRef<T> weakModelRef) where T : class, IModel {

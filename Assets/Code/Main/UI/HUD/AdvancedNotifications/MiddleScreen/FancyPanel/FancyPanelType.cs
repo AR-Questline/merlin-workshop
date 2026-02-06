@@ -25,7 +25,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.FancyPanel {
         }
         
         static void FullCustom(IModel relatedModel, string text) {
-            AdvancedNotificationBuffer.Push<MiddleScreenNotificationBuffer>(new FancyPanelNotification(text, typeof(VFancyPanelNotification)));
+            NotificationUtils.PushExplicitly<MiddleScreenNotificationBuffer, FancyPanelNotification>(new FancyPanelNotification(text, typeof(VFancyPanelNotification)));
         }
 
         static NotificationSpawn NotificationWithText(string locTerm) {

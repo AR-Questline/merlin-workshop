@@ -59,7 +59,9 @@ namespace Awaken.TG.Main.Stories.Steps {
                 case StashAction.ApplyAgain:
                     if (currentStash != null) {
                         var crimeSource = new FakeCrimeSource(crimeOwner, currentStash.value);
-                        Crime.Custom(crimeSource, CrimeSituation.IgnoresVisibility | CrimeSituation.InstantReport).TryCommitCrime();
+                        using (var crime = Crime.Custom(crimeSource, CrimeSituation.IgnoresVisibility | CrimeSituation.InstantReport)) {
+                            crime.TryCommitCrime();
+                        }
                         currentStash.Discard();
                     } else {
                         Log.Important?.Error($"Temporary Bounty Stash Element is missing {LogUtils.GetDebugName(story)}");

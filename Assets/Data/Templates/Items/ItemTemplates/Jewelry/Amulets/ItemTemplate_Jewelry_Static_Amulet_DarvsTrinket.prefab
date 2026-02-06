@@ -74,9 +74,9 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: 
+      IdOverride: description_generic_increase_multiply_percent
       ID: Template/description_locString_2543871262668956605_9ef797f7f5267fc488538543e5f86ccc
-  EDITOR_bakedDescription: Reduces Stamina usage while blocking by 10%.
+  EDITOR_bakedDescription: "Increases Max Health by 25\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,7 +151,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: fd33dc5da49acd34481165e3463f8315
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -266,113 +273,12 @@ MonoBehaviour:
   consumeOnUse: 0
   skills:
   - skillGraphRef:
-      _guid: 36740901848264840828a9bf38891bc7
-    variables:
-    - name: Chance
-      value: 1
-    - name: StatValue
-      value: 20
-    - name: StatValueSpecial
-      value: 0
-    - name: StatMultiply
-      value: 0
-    - name: StatMultiplySpecial
-      value: 0
-    enums:
-    - name: Stat
-      enumReference:
-        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:Health
-    datums:
-    - name: AgainstMagicCastersUseSpecial
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 0
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    - name: OnNormalAttack
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 0
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    - name: OnHeavyAttack
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 0
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    - name: OnCriticalAttack
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 1
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    - name: OnSneakAttack
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 1
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    - name: OnWeakSpotAttack
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 1
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    - name: OnBackstabAttack
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 0
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    - name: OnPushAttack
-      type:
-        id: 0
-      value:
-        simpleValue:
-          rawValue: 0
-        stringValue: 
-        assetValue:
-          address: 
-          subObjectName: 
-    templates: []
-    assetReferences: []
-  - skillGraphRef:
       _guid: 1b5b2de6740e49e4a829246bbd414e11
     variables:
     - name: ModifyValue
       value: 0.25
     - name: GainValue
-      value: 0
+      value: 0.01
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated

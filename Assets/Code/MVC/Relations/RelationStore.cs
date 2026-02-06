@@ -230,14 +230,25 @@ namespace Awaken.TG.MVC.Relations {
         }
 
         internal void BreakAllRelations() {
-            // collect first, since the list is going to be changing
-            List<(Relation, IModel)> toBreak = _related.AsEnumerable()
-                .OrderBy(pair => pair.Key.Order)
-                .SelectMany(pair => pair.Value.Select(model => (pair.Key, model)))
-                .ToList();
-            // break everything
-            foreach (var (rel, model) in toBreak) {
-                BreakRelation(rel, rel.GenericOpposite, _owner, model);
+            (Relation relation, List<IModel> models) currentToBreak;
+            while ((currentToBreak = GetToBreak()).relation != null) {
+                while (currentToBreak.models.Count > 0) {
+                    BreakRelation(currentToBreak.relation, currentToBreak.relation.GenericOpposite, _owner, currentToBreak.models[0]);
+                }
+            }
+
+            (Relation relation, List<IModel> models) GetToBreak() {
+                (Relation relation, List<IModel> models) toBreak = default;
+                foreach (var pair in _related) {
+                    if (pair.Value.Count > 0) {
+                        if (toBreak.relation == null || pair.Key.Order < toBreak.relation.Order) {
+                            toBreak.relation = pair.Key;
+                            toBreak.models = pair.Value;
+                        }
+                    }
+                }
+
+                return toBreak;
             }
         }
 

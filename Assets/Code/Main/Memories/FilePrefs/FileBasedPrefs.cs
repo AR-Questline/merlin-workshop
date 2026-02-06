@@ -6,6 +6,7 @@ using Awaken.Utility.Debugging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sirenix.Utilities;
+using UnityEngine;
 using CloudService = Awaken.TG.Main.Saving.Cloud.Services.CloudService;
 
 namespace Awaken.TG.Main.Memories.FilePrefs {
@@ -93,7 +94,13 @@ namespace Awaken.TG.Main.Memories.FilePrefs {
         }
 
         public static void DeleteAll(bool synchronized) {
-            CloudService.Get.DeleteGlobalFile(GetSaveFilePath(synchronized), SaveFileName, synchronized);
+            try {
+                CloudService.Get.DeleteGlobalFile(GetSaveFilePath(synchronized), SaveFileName, synchronized);
+            } catch (Exception ex) {
+                Log.Critical?.Error($"Failed to delete all FileBasedPrefs data", null, LogOption.NoStacktrace);
+                Debug.LogException(ex);
+            }
+
             if (synchronized) {
                 s_latestDataSynchronized = new FileBasedPrefsSaveFileModel();
             } else {
@@ -178,7 +185,12 @@ namespace Awaken.TG.Main.Memories.FilePrefs {
             parentObject.Add("bools", bools);
             string json = parentObject.ToString(Formatting);
             var bytes = Encoding.ASCII.GetBytes(json);
-            CloudService.Get.SaveGlobalFile(GetSaveFilePath(synchronized), SaveFileName, bytes, synchronized);
+            try {
+                CloudService.Get.SaveGlobalFile(GetSaveFilePath(synchronized), SaveFileName, bytes, synchronized);
+            } catch (Exception ex) {
+                Log.Critical?.Error("Failed to save FileBasedPrefs", null, LogOption.NoStacktrace);
+                Debug.LogException(ex);
+            }
         }
         
         static FileBasedPrefsSaveFileModel LoadFromFile(bool synchronized) {

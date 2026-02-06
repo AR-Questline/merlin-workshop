@@ -1,6 +1,6 @@
-﻿using Animancer;
+﻿using System;
+using Animancer;
 using Awaken.TG.Assets;
-using Awaken.TG.Code.Utility;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Utility;
 using Awaken.Utility.Debugging;
@@ -24,7 +24,11 @@ namespace Awaken.TG.Main.Locations.Pets {
         bool _animationsLoaded;
         
         public State CurrentState { get; private set; }
-        
+
+        public bool CanRotate => _animationsLoaded && (CurrentState is State.Idle or State.Movement);
+        public bool CanMove => _animationsLoaded && (CurrentState is State.Idle or State.Movement or State.Pet);
+
+        Action _onAnimationsLoaded;
         public event AnimatorMoved OnAnimatorMoved;
         public delegate void AnimatorMoved(Animator animator);
         
@@ -46,19 +50,22 @@ namespace Awaken.TG.Main.Locations.Pets {
             }
             
             var result = await _animationsReference.LoadAsset<ARPetAnimationMapping>();
-            if (result == null) {
-                Log.Important?.Error("Failed to load base animations for Animancer! Pet will be broken!", gameObject);
-                return;
-            }
-
-            if (this == null || Hero.Current.HasBeenDiscarded) {
+            
+            if (_animationsReference == null || this == null || Hero.Current.HasBeenDiscarded) {
                 _animationsReference?.ReleaseAsset();
                 _animationsReference = null;
                 return;
             }
             
+            if (result == null) {
+                Log.Important?.Error("Failed to load base animations for Animancer! Pet will be broken!", gameObject);
+                return;
+            }
+            
             _animations = result;
             _animationsLoaded = true;
+            _onAnimationsLoaded?.Invoke();
+            _onAnimationsLoaded = null;
         }
 
         void OnAnimatorMove() {
@@ -72,44 +79,66 @@ namespace Awaken.TG.Main.Locations.Pets {
             
             if (petController.IsMoving()) {
                 if (_currentMovementState == null) {
-                    PlayMovementAnimation();
+                    PlayAnimationState(State.Movement);
                 }
                 UpdateMovementStateParam(petController, deltaTime);
                 return;
             }
 
             if (!petController.IsMoving() && _currentMovementState != null) {
-                PlayIdleAnimation();
+                PlayAnimationState(State.Idle);
             }
             
-            if (_currentAnimancerState is not { NormalizedTime: < 1.0f } || !IsPlaying()) {
-                PlayIdleAnimation();
+            if (_currentAnimancerState is not { IsPlaying: true, NormalizedTime: < 1.0f }) {
+                PlayAnimationState(State.Idle);
             }
         }
-        
-        public void PlayTauntAnimation() {
-            PlayAnimation(RandomUtil.UniformSelect(_animations.tauntClips));
-            CurrentState = State.Taunt;
-        }
 
-        public void PlayPetAnimation() {
-            PlayAnimation(_animations.petClip);
-            CurrentState = State.Pet;
-        }
+        public void PlayAnimationState(State state) {
+            if (!_animationsLoaded) {
+                _onAnimationsLoaded += () => PlayAnimationState(state);
+                return;
+            }
+            
+            var clip = _animations.GetAnimation(state);
 
-        void PlayMovementAnimation() {
-            PlayAnimation(_animations.movementMixer);
-            CurrentState = State.Movement;
-        }
-
-        void PlayIdleAnimation() {
-            PlayAnimation(RandomUtil.UniformSelect(_animations.idleClips));
-            CurrentState = State.Idle;
-        }
-
-        void PlayAnimation(ITransition clip) {
-            _currentAnimancerState = Play(clip, clip.FadeDuration);
+            if (clip == null) {
+                return;
+            }
+            
+            _currentAnimancerState = Play(clip, clip.FadeDuration, FadeMode.FromStart);
             _currentMovementState = _currentAnimancerState as MixerState<Vector2>;
+            CurrentState = state;
+        }
+
+        public void SyncAnimationWithState(AnimancerState clipState, State animatorState) {
+            if (clipState is not { Clip: not null }) {
+                return;
+            }
+            
+            if (!_animationsLoaded) {
+                _onAnimationsLoaded += () => SyncAnimationWithState(clipState, animatorState);
+                return;
+            }
+            
+            _currentAnimancerState = Play(clipState.Clip, 0.1f);
+            _currentAnimancerState.Time = clipState.Time;
+            _currentAnimancerState.Speed = clipState.Speed;
+            _currentAnimancerState.NormalizedTime = clipState.NormalizedTime;
+            
+            _currentMovementState = _currentAnimancerState as MixerState<Vector2>;
+            CurrentState = animatorState;
+        }
+        
+        public void SyncAnimationWith(ARPetAnimancer other) {
+            if (!other._animationsLoaded) {
+                other._onAnimationsLoaded += () => SyncAnimationWith(other);
+                return;
+            }
+            
+            if (other._currentAnimancerState != null) {
+                SyncAnimationWithState(other._currentAnimancerState, other.CurrentState);
+            }
         }
         
         void UpdateMovementStateParam(VCPetController petController, float deltaTime) {
@@ -144,13 +173,17 @@ namespace Awaken.TG.Main.Locations.Pets {
             _animationsReference = null;
             _animations = null;
             _animationsLoaded = false;
+            _onAnimationsLoaded = null;
         }
-
+        
         public enum State : byte {
-            Idle,
-            Movement,
-            Taunt,
-            Pet,
+            Idle = 0,
+            Movement = 1,
+            Taunt = 2,
+            Pet = 3,
+            Feed = 4,
+            Transition = 5,
+            TransitionLarge = 6,
         }
     }
 }

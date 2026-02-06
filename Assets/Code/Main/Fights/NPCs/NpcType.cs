@@ -9,7 +9,8 @@ namespace Awaken.TG.Main.Fights.NPCs {
         Normal,
         Elite,
         MiniBoss,
-        Boss
+        Boss,
+        HeroSummon,
     }
 
     public static class NpcTypeUtils {

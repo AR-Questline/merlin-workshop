@@ -1,5 +1,6 @@
 ﻿using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Gems;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -12,6 +13,8 @@ namespace Awaken.TG.Main.Locations.Gems.GemManagement {
         GemAttached _gemAttached;
         
         public ItemTemplate ItemInSlot => _gemAttached?.Template != null ? _gemAttached?.Template : PreviewGemItem?.Template;
+        public int ItemLevelInSlot => _gemAttached?.GemLevel ?? PreviewGemItem?.Level?.ModifiedInt ?? 0;
+        public int ItemNewGamePlusLevelInSlot => _gemAttached?.GemNgPlusLevel ?? PreviewGemItem?.NewGamePlusLevel ?? NewGamePlusSystem.Level;
         public Item PreviewGemItem { get; private set; }
         public bool IsUnlocked { get; private set; }
         public bool HasGemAttached => _gemAttached != null;
@@ -31,7 +34,7 @@ namespace Awaken.TG.Main.Locations.Gems.GemManagement {
         protected override void OnInitialize() {
             _view = World.SpawnView<VGemSlotUI>(this, true, true, _slotsParent);
             if (HasGemAttached) {
-                _view.SetGemSprite(_gemAttached.Template.IconReference.Get());
+                _view.SetGemSprite(_gemAttached.Template.IconReference().Get());
             }
             this.Trigger(Events.GemSlotRefreshed, true);;
         }

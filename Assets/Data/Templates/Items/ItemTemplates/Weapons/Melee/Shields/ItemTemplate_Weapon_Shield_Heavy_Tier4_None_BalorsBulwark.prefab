@@ -78,10 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_3b0c934f6c540d84191a728aeecceea0
-  EDITOR_bakedDescription: 'Each blocked hit charges the shield.
-
-    After gaining
-    10 charges, increases Physical Damage by 100% for 10s.'
+  EDITOR_bakedDescription: "Each blocked hit charges the shield.\nAfter gaining 10
+    charges, increases Physical Damage by 100\_% for 10s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -106,7 +104,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_3b0c934f6c540d84191a728aeecceea0
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -131,7 +129,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_3b0c934f6c540d84191a728aeecceea0
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -157,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: b58814c7e2dfbea4ab346c890c1a652e
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -206,16 +208,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 14
+  heavyAttackStaminaCost: 21
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 0.7
-  parryStaminaCost: 15
+  parryStaminaCost: 40
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 10
-  maxDamage: 13
+  minDamage: 18
+  maxDamage: 22
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -249,8 +251,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5142660982929892319
 MonoBehaviour:
@@ -580,7 +585,7 @@ MonoBehaviour:
     - name: AddValue
       value: 1
     - name: ValueGain
-      value: 0
+      value: 0.1
     - name: Duration
       value: 10
     - name: ValueCalculated

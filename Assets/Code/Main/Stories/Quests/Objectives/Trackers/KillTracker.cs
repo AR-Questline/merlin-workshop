@@ -30,7 +30,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
         }
 
         void OnHeroKilledSomething(DamageOutcome damageOutcome) {
-            if (damageOutcome.Damage.Target is not NpcElement killedEnemy) {
+            if (damageOutcome.Damage.TargetPure is not NpcElement killedEnemy) {
                 return;
             }
 

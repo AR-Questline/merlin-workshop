@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors;
 using Awaken.TG.Main.UI.Components;
 using Awaken.TG.Main.UI.Helpers;
@@ -16,20 +17,16 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
     public abstract class ItemTooltipDescriptionsBaseComponent<T> : IItemTooltipComponent {
         [SerializeField] protected ItemDescriptionElement prefab;
         [SerializeField, Required] GameObject parentSection;
-
         protected Transform ParentSection => parentSection.transform;
         protected ObjectPool<ItemDescriptionElement> _elementPool;
-        List<ItemDescriptionElement> _visibleElements;
-        DescriptionComponentConfig _config;
+        protected List<ItemDescriptionElement> _visibleElements;
+        protected T[] _allElements;
         
         public View TargetView { get; set; }
         public ref PartialVisibility Visibility => ref _visibility;
         PartialVisibility _visibility;
         public bool UseReadMore { get; protected set; }
-
-        protected ItemTooltipDescriptionsBaseComponent(DescriptionComponentConfig config) {
-            _config = config;
-        }
+        public bool UseReadMoreEnabled { get; set; }
         
         public virtual void Refresh(IItemDescriptor descriptor, IItemDescriptor descriptorToCompare) {
             PreparePool();
@@ -51,18 +48,19 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
             PrepareItemDescription(item, _elementPool.Get(), view);
         }
         
-        protected void PrepareDescription(IEnumerable<T> items, View view) {
-            foreach (var item in items) {
+        protected virtual void PrepareDescription(IEnumerable<T> items, View view) {
+            _allElements = items.ToArray();
+            PrepareDescription(view);
+        }
+        
+        protected virtual void PrepareDescription(View view) {
+            foreach (T item in _allElements) {
                 PrepareItemDescription(item, _elementPool.Get(), view);
             }
         }
         
         protected void SetParentSectionVisibility(bool visible) {
-            if (!_config.CanDisableParent() && visible) {
-                parentSection.SetActiveOptimized(true);
-            } else if (_config.CanDisableParent()) {
-                parentSection.SetActiveOptimized(visible);
-            }
+            parentSection.SetActiveOptimized(visible);
         }
         
         void PreparePool() {
@@ -95,24 +93,10 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
             return element;
         }
         
-        void SetupElementVisibility() {
+        protected void SetupElementVisibility() {
             foreach (var element in _visibleElements) {
-                element.gameObject.SetActive(true);
+                element.TrySetActiveOptimized(true);
             }
-        }
-    }
-    
-    public readonly struct DescriptionComponentConfig {
-        bool HasSharedParent { get; }
-        bool IsParentManager { get; }
-        [UnityEngine.Scripting.Preserve] 
-        public DescriptionComponentConfig(bool hasSharedParent, bool isParentManager = false) {
-            HasSharedParent = hasSharedParent;
-            IsParentManager = isParentManager;
-        }
-
-        public bool CanDisableParent() {
-            return !HasSharedParent || (HasSharedParent && IsParentManager);
         }
     }
 }

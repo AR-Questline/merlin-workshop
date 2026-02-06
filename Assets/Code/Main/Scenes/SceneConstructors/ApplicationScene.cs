@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Awaken.Babel;
+using Awaken.PackageUtilities.CommonInterfaces;
 using Awaken.TG.Assets.Modding;
 using Awaken.TG.Debugging.Logging;
 using Awaken.TG.Graphics;
 using Awaken.TG.Graphics.Culling;
-using Awaken.TG.Graphics.Cutscenes;
+using Awaken.TG.Graphics.VFX;
 using Awaken.TG.Main.ActionLogs;
 using Awaken.TG.Main.AI;
 using Awaken.TG.Main.AI.Barks;
@@ -44,8 +46,6 @@ using Awaken.TG.Main.Stories.Quests;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.UI;
-using Awaken.TG.Main.UI.Bugs;
-using Awaken.TG.Main.UI.Menu;
 using Awaken.TG.Main.UI.TitleScreen;
 using Awaken.TG.Main.UI.TitleScreen.PatchNotes;
 using Awaken.TG.Main.UI.UITooltips;
@@ -71,6 +71,11 @@ using Cursor = Awaken.TG.Main.UI.Cursors.Cursor;
 using Debug = UnityEngine.Debug;
 using Log = Awaken.Utility.Debugging.Log;
 using Object = UnityEngine.Object;
+#if UNITY_PS5 || UNITY_GAMECORE
+using Awaken.TG.Graphics.Cutscenes;
+using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.UI.Menu;
+#endif
 
 namespace Awaken.TG.Main.Scenes.SceneConstructors {
     /// <summary>
@@ -154,6 +159,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             SetupJobWorkers();
             CheckReferences();
             InitServicesCrucialForCloudConflict();
+            InitLocalization();
             await InitCloud();
             await InitializeServices();
             uiInitializer.InitAfterServices();
@@ -190,6 +196,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             await CloudService.Get.WaitForManagerInitialization();
 
             CloudService.Get.BeginSaveBatch();
+            Log.Marking?.Warning($"Initializing Cloud with {CloudService.Get.GetType().Name}");
             List<ICloudSyncResult> results = CloudService.Get.InitCloud()?.ToList();
             
             SocialService.SetCurrentGameLanguage();
@@ -213,7 +220,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
 
             DateTime lastLocalTimestamp = DateTime.MinValue;
             DateTime lastCloudTimestamp = DateTime.MinValue;
-            foreach (var conflictBetweenLocalAndCloud in results.OfType<ConflictBetweenLocalAndCloud>()) {
+            foreach (var conflictBetweenLocalAndCloud in results.OfType<ICloudSyncConflict>()) {
                 if (lastLocalTimestamp < conflictBetweenLocalAndCloud.LocalTimeStamp) {
                     lastLocalTimestamp = conflictBetweenLocalAndCloud.LocalTimeStamp;
                 }
@@ -229,14 +236,19 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             }
 
             // Apply conflict resolution to all conflicts
-            foreach (ConflictBetweenLocalAndCloud conflict in results.OfType<ConflictBetweenLocalAndCloud>().ToList()) {
+            foreach (var conflict in results.OfType<ICloudSyncConflict>().ToList()) {
                 results.Remove(conflict);
                 if (resolution == CloudConflictResolution.UseCloud) {
-                    results.Add(conflict.ChooseCloud());
+                    results.AddRange(conflict.ChooseCloud());
                 } else {
-                    results.Add(conflict.ChooseLocal());
+                    results.AddRange(conflict.ChooseLocal());
                 }
             }
+
+#if AR_DEBUG || DEBUG
+            string joinedString = string.Join("\n", results.Select(r => r.ToString()));
+            Log.Important?.Error($"Cloud Sync Results:\n{joinedString}", null, LogOption.NoStacktrace);
+#endif
             
             CloudService.Get.EndSaveBatch();
             
@@ -264,9 +276,8 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             if (_cloudSyncFailures.Any()) {
                 // Log to console
                 Log.Marking?.Warning("Cloud Sync Failure");
-                foreach (ICloudSyncResult result in _cloudSyncFailures) {
-                    Log.Important?.Error(result.ToString());
-                }
+                string joinedString = string.Join("\n", _cloudSyncFailures.Select(r => r.ToString()));
+                Log.Important?.Error($"Cloud Failure Results:\n{joinedString}", null, LogOption.NoStacktrace);
                 
                 // Send auto bug report
                 // string summary = "CloudSyncFailure!";
@@ -287,6 +298,11 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             if (socialService != null) {
                 Services.Register(socialService);
             }
+        }
+
+        void InitLocalization() {
+            ILocalizationManager.Current = new BabelManager();
+            ILocalizationManager.Current.Initialize();
         }
         
         // === Initialize Services
@@ -355,6 +371,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             Services.Register(new CombatDirector()).Init();
             Services.Register(new CircleAroundTargetService()).Init();
             Services.Register(new WyrdnessService()).Init(sceneService);
+            Services.Register(new ScreenSpaceWetnessVisibilityService());
             DebugProjectNames.SyncDebugNamesCache();
         }
         
@@ -412,7 +429,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             if (!s_initCompleted) return;
 
 #if UNITY_PS5 || UNITY_GAMECORE
-            if (!World.HasAny<MenuUI>() && !World.HasAny<Cutscene>() && UIStateStack.Instance.State.IsMapInteractive) {
+            if (!World.HasAny<MenuUI>() && !World.HasAny<Cutscene>() && UIStateStack.Instance.State.IsMapInteractive && World.HasAny<Hero>()) {
                 World.Add(new MenuUI());
             }
 #endif
@@ -458,6 +475,11 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
             Awaken.Utility.LowLevel.WindowsKernelHelpers.KillCurrentProcess();
 #endif
+        }
+
+        void OnDestroy() {
+            ILocalizationManager.Current.Dispose();
+            ILocalizationManager.Current = null;
         }
     }
 }

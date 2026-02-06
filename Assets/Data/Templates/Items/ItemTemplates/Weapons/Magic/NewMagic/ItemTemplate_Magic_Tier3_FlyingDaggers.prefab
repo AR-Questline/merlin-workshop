@@ -55,6 +55,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: fe3ad82b2b929a84cb2045f086d89a9d
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 4e1fddd5b7d0e324e99692b46e9e21d6
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -155,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -327,7 +333,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 20
   maxDamage: 22
-  damageGain: 0
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -360,8 +366,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 21
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 42
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &886293426298787921
 MonoBehaviour:

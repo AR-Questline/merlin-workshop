@@ -14,6 +14,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         public CurrencyStatType Currency => currency.EnumAs<CurrencyStatType>();
 
         public float multiplier = 1;
+        public bool showMultipliedByCurrencyStatMultiplier;
 
         public Element SpawnElement() {
             return new ItemToCurrency();

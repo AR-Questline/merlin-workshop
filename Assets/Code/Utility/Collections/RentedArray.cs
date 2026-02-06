@@ -10,6 +10,7 @@ namespace Awaken.Utility.Collections {
         public readonly int length;
 
         public bool IsEmpty => length < 1;
+        public bool IsCreated => _array != null;
 
         public static RentedArray<T> Borrow(int length) {
             return new(length);
@@ -45,6 +46,20 @@ namespace Awaken.Utility.Collections {
             }
             _array = length == 0 ? Array.Empty<T>() : ArrayPool<T>.Shared.Rent(length);
             this.length = length;
+        }
+
+        public bool Contains(T element) {
+            EqualityComparer<T> comparer = EqualityComparer<T>.Default;
+            return Contains(element, comparer);
+        }
+
+        public bool Contains<TU>(T element, TU comparer) where TU : IEqualityComparer<T> {
+            for (int i = 0; i < length; i++) {
+                if (comparer.Equals(_array[i], element)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public Iterator GetEnumerator() {

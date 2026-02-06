@@ -209,6 +209,9 @@ namespace Awaken.TG.Main.Heroes.Combat {
             _attachedToHero = true;
 
             base.OnAttachedToHero(hero);
+            if (HeroAnimancer.Animator == null) {
+                return;
+            }
             ARTimeUtils.SetAnimatorSpeed(HeroAnimancer.Animator, animatorSpeed);
             _listeners.ForEach(l => World.EventSystem.RemoveListener(l));
             _listeners.Clear();
@@ -217,24 +220,25 @@ namespace Awaken.TG.Main.Heroes.Combat {
             _listeners.Add(hero.ListenTo(Hero.Events.ProcessAnimationSpeed, StartProcessingAnimationSpeed, this));
             _listeners.Add(hero.ListenTo(Hero.Events.StopProcessingAnimationSpeed, StopProcessingAnimationSpeed, this));
 
-            LoadFinishers(Hero.TppActive ? finisherListTpp : finisherList, 
-                Hero.TppActive ? executionListTpp : executionList);
+            LoadFinishers(Hero.TppActive ? finisherListTpp : finisherList, Hero.TppActive ? executionListTpp : executionList);
         }
         
         void LoadFinishers(ARAssetReference finisherListRef, ARAssetReference executionListRef) {
-            if (finisherListRef is { IsSet: true }) {
+            if (!_finisherListHandle.IsValid() && finisherListRef is { IsSet: true }) {
                 _finisherListHandle = finisherListRef.LoadAsset<FinishersList>();
                 _finisherListHandle.OnComplete(OnListLoaded);
             }
 
-            if (executionListRef is { IsSet: true }) {
+            if (!_executionListHandle.IsValid() && executionListRef is { IsSet: true }) {
                 _executionListHandle = executionListRef.LoadAsset<FinishersList>();
                 _executionListHandle.OnComplete(OnListLoaded);
             }
             
             void OnListLoaded(ARAsyncOperationHandle<FinishersList> handle) {
-                if (handle.Status == AsyncOperationStatus.Succeeded) {
+                if (!HasBeenDiscarded && handle.Status == AsyncOperationStatus.Succeeded) {
                     handle.Result.Init();
+                } else {
+                    handle.Release();
                 }
             }
         }
@@ -441,20 +445,33 @@ namespace Awaken.TG.Main.Heroes.Combat {
 
         public override void HideWeapon(bool instantHide) {
             DetachUpdates();
+            UnloadFinishersAndExecutions();
             base.HideWeapon(instantHide);
         }
 
         protected override IBackgroundTask OnDiscard() {
             DetachUpdates();
             _spawnedTrail?.Return();
+            UnloadFinishersAndExecutions();
+            return base.OnDiscard();
+        }
+
+        void UnloadFinishersAndExecutions() {
             if (_finisherListHandle.IsValid()) {
                 if (_finisherListHandle.Result != null) {
                     _finisherListHandle.Result.Unload();
                 }
                 _finisherListHandle.Release();
+                _finisherListHandle = default;
             }
 
-            return base.OnDiscard();
+            if (_executionListHandle.IsValid()) {
+                if (_executionListHandle.Result != null) {
+                    _executionListHandle.Result.Unload();
+                }
+                _executionListHandle.Release();
+                _executionListHandle = default;
+            }
         }
 
         void DetachUpdates() {

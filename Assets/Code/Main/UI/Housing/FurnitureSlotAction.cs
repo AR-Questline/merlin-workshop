@@ -8,6 +8,7 @@ using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.UI.Housing.FurnitureSlotOverview;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Main.UI.Housing {
@@ -40,7 +41,7 @@ namespace Awaken.TG.Main.UI.Housing {
 
         public void AdjustActionCollider(Bounds bounds, Vector3 additionalSize) {
             transform.position = bounds.center;
-            actionCollider.size = actionCollider.transform.InverseTransformVector(bounds.size + additionalSize);
+            actionCollider.size = math.abs(actionCollider.transform.InverseTransformVector(bounds.size + additionalSize));
             World.Any<HeroHousingInvolvement>()?.TriggerChange();
         }
         

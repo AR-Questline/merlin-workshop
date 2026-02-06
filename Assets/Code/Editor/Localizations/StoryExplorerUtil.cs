@@ -11,7 +11,7 @@ namespace Awaken.TG.Editor.Localizations {
         static readonly HashSet<StoryNode> NodesHistory = new();
 
         public static IEnumerable<NodeElement> ExtractElements(StoryBookmark bookmark) {
-            if (!bookmark.IsValid) {
+            if (bookmark is not { IsValid: true }) {
                 yield break;
             }
 

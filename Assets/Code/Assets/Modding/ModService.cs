@@ -67,6 +67,10 @@ namespace Awaken.TG.Assets.Modding {
         }
         
 #if UNITY_EDITOR
+        public static void EDITOR_RuntimeReset() {
+            s_addressablesInitialized = false;
+        }
+        
         static bool s_addressablesInitialized;
 #endif
         public static IResourceLocation GetAddressableLocation(string key, Type type = null) {

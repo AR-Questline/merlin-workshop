@@ -3,6 +3,7 @@ using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Memories.Journal.Conditions.Models;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.Main.Utility.VFX;
@@ -12,7 +13,7 @@ using FMODUnity;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Character {
-    public interface IAlive : IWithStats, IGrounded, IAliveAudio, IAliveVfx {
+    public interface IAlive : IWithStats, IGrounded, IAliveAudio, IAliveVfx, IWithNewGamePlusLevel {
         public static class Events {
             public static readonly Event<IAlive, DamageOutcome> BeforeDeath = new(nameof(BeforeDeath));
 
@@ -49,8 +50,8 @@ namespace Awaken.TG.Main.Character {
             }
         }
 
-        void Kill(ICharacter killer = null, bool allowPrevention = false) {
-            HealthElement?.Kill(killer, allowPrevention);
+        void Kill(ICharacter killer = null, bool allowPrevention = false, Vector3? forceDirection = null, float? ragdollForce = null) {
+            HealthElement?.Kill(killer, allowPrevention, forceDirection, ragdollForce);
         }
         // --- VFX
         ShareableARAssetReference HitVFX { get; }

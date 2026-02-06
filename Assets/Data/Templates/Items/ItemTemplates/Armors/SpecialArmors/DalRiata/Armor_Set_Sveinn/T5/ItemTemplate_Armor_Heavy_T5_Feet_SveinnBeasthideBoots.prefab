@@ -132,7 +132,7 @@ MonoBehaviour:
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Normal
-  basePrice: 60
+  basePrice: 75
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 1
@@ -140,7 +140,7 @@ MonoBehaviour:
   buyPriceMultiplier: 1
   keywords: []
   levelBonus: 0
-  weight: 5.5
+  weight: 3
   weightLoss: 0.5
   upgradeChance: 0.5
   crimeItemValue: 12
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:

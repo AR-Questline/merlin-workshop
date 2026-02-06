@@ -19,7 +19,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         [InfoBox("Cannot be unique npc", InfoMessageType.Error, nameof(NotRepetitiveNpc))]
         [SerializeField, TemplateType(typeof(LocationTemplate))]
         TemplateReference[] locationsToSpawn = Array.Empty<TemplateReference>();
-        [Range(1, 20)] public int spawnAmount;
+        [Range(1, 20)] public byte spawnAmount;
         [Range(0, 125)] public float spawnerRange;
         [DisableIf("@" + nameof(discardAfterSpawn))]
         public bool overrideSpawnerCooldown;

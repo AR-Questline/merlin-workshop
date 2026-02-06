@@ -74,8 +74,8 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_EssenceOfFire
       ID: Template/description_locString_2543871262668956605_1ebb0ed67c912e047b59fb214d1ff2f6
-  EDITOR_bakedDescription: Each arrow hit within 20s of drinking deals an extra 15%
-    damage and an additional 5 fire damage.
+  EDITOR_bakedDescription: "Each arrow hit within 20s of drinking deals an extra
+    15\_% damage and an additional 5 fire damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

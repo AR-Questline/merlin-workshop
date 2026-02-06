@@ -188,7 +188,11 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.CustomBehaviours {
         void RestoreOffHandItems() {
             AIUtils.RestoreItemsInHand(ref _offHandActiveChildren);
         }
-        
+
+        protected override void OnDiscard(bool fromDomainDrop) {
+            ReturnItemPrefab();
+        }
+
         // === Helpers
         void ReturnItemPrefab() {
             _cancellationToken?.Cancel();

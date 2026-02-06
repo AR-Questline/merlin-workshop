@@ -4,6 +4,7 @@ using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.MVC;
@@ -14,8 +15,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
     public partial class ShieldMan : CustomCombatBaseClass {
         public override ushort TypeForSerialization => SavedModels.ShieldMan;
         
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             ParentModel.AfterFullyInitialized(OnParentFullyInitialized);
         }
 

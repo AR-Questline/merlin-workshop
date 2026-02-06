@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_0a3e2a743eebbd7479b8754094d797bc
-  EDITOR_bakedDescription: "Each successful Parry inflicts 20% of this weapon\u2019s
+  EDITOR_bakedDescription: "Each successful Parry inflicts 20\_% of this weapon\u2019s
     damage."
   lightCastInfo:
     magicType:
@@ -150,6 +150,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: 61226f79be5572b4bab3f87ac2165c53
       subObjectName: 

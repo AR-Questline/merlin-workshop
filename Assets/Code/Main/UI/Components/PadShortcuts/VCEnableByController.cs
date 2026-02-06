@@ -16,6 +16,7 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
     public class VCEnableByController : ViewComponent<Model> {
         [SerializeField] List<GameObject> byJoystick;
         [SerializeField] List<GameObject> byKeyboard;
+        [SerializeField] bool hideAllGameObjectsOnDisable = true;
         [SerializeField] bool checkIfOnlyOneActive = true;
         [SerializeField, ShowIf(nameof(checkIfOnlyOneActive)), CanBeNull] Transform checkParent;
         
@@ -36,6 +37,10 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
         }
 
         void OnDisable() {
+            if (!hideAllGameObjectsOnDisable) {
+                return;
+            }
+            
             ForceReset();
             _refreshed = false;
         }

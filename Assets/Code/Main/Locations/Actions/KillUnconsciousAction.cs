@@ -17,7 +17,12 @@ namespace Awaken.TG.Main.Locations.Actions {
         IllegalActionTracker _illegalActionTracker;
         public override string DefaultActionName => LocTerms.KillUnconscious.Translate();
 
-        public override bool IsIllegal => Crime.Murder(ParentModel.Element<NpcElement>()).IsCrime();
+        public override bool IsIllegal {
+            get {
+                using var crime = Crime.Murder(ParentModel.Element<NpcElement>());
+                return crime.IsCrime();
+            }
+        }
 
         public KillUnconsciousAction(UnconsciousElement element) {
             _unconsciousElement = element;

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Debugging.Cheats;
 using Awaken.TG.Main.Cameras.CameraStack;
-using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Settings.Controls;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
@@ -20,6 +21,7 @@ using Awaken.TG.MVC.UI.Handlers.Selections;
 using Awaken.TG.MVC.UI.Handlers.Tooltips;
 using Awaken.TG.MVC.UI.Sources;
 using Awaken.TG.Utility.Cameras;
+using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Extensions;
 using NUnit.Framework;
@@ -45,8 +47,8 @@ namespace Awaken.TG.MVC.UI {
 
         readonly List<InputAction> _inputActions = null;//ReInput.mapping.ActionCategories.SelectMany(actCat => ReInput.mapping.ActionsInCategory(actCat.id, true)).ToList();
 
-        readonly List<IUIAware> _mouseInteractionStack = new List<IUIAware>();
-        readonly List<IUIAware> _keyboardInteractionStack = new List<IUIAware>();
+        readonly List<IUIAware> _mouseInteractionStack = new();
+        readonly List<IUIAware> _keyboardInteractionStack = new();
         readonly Dictionary<string, float> _mouseHeldTime = new();
         readonly List<IUIHandlerSource> _uiHandlerSourcesSorted = new(8);
 
@@ -229,11 +231,17 @@ namespace Awaken.TG.MVC.UI {
         // === Keyboard & Gamepad
 
         HashSet<KeyCode> _heldKeys = new();
-        List<ActionElementMap> _allControllersMaps = new();
-        HashSet<int> _usedButtons = new();
-        HashSet<int> _invokedByButtons = new();
+        ActionData[] _allControllersActionMaps = Array.Empty<ActionData>();
+        HashSet<ButtonData> _usedButtons = new();
+        HashSet<ButtonData> _invokedByButtons = new();
 
-        public void RefreshMaps() => _allControllersMaps ??= new List<ActionElementMap>();
+        public void RefreshMaps() {
+            // var maps = RewiredHelper.Player.controllers.maps.GetAllMaps().SelectMany(m => m.AllMaps).ToArray();
+            // _allControllersActionMaps = new ActionData[maps.Length];
+            // for (int i = 0; i < maps.Length; i++) {
+            //     _allControllersActionMaps[i] = new ActionData(maps[i].actionId, new ButtonData(maps[i].elementIdentifierId, maps[i].elementIndex));
+            // }
+        }
 
         void UpdateReInput() {
             var player = RewiredHelper.Player;
@@ -282,9 +290,9 @@ namespace Awaken.TG.MVC.UI {
 
         void DeliverReInputEvent(InputAction action, UIAction eventToDeliver) {
             _invokedByButtons.Clear();
-            // foreach (var controllerMap in _allControllersMaps) {
-            //     if (controllerMap.actionId == action.id) {
-            //         _invokedByButtons.Add(controllerMap.elementIdentifierId);
+            // foreach (var actionData in _allControllersActionMaps) {
+            //     if (actionData.actionId == action.id) {
+            //         _invokedByButtons.Add(actionData.buttonData);
             //     }
             // }
 
@@ -364,6 +372,14 @@ namespace Awaken.TG.MVC.UI {
         bool TryGetFirstNotIgnoredEventDeliveryDataFromHandlingBy(IReadOnlyList<IUIAware> uiAwares, UIEvent uiEvent, out EventDeliveryData data) {
             for (int index = 0; index < uiAwares.Count; index++) {
                 IUIAware uiAware = uiAwares[index];
+                if (!uiAware.IsValid) {
+                    OnSourceReset(uiAware);
+                    continue;
+                }
+#if DEBUG || AR_DEBUG
+                uiAware.LogInvalidUIAware(uiEvent);
+#endif
+
                 // smart handlers before handling
                 foreach (var smartHandler in SmartHandlers) {
                     var resultOfBeforeHandling = smartHandler.BeforeHandlingBy(uiAware, uiEvent);
@@ -425,21 +441,33 @@ namespace Awaken.TG.MVC.UI {
         UIEventDelivery PerformDelivery(EventDeliveryData data) {
             return PerformDelivery(data.result, data.uiEvent, data.unityEvent, data.responsible);
         }
-
+        
         public void DetermineInteractionStack(UIPosition position, UIContext context, List<IUIAware> handlers) {
             handlers.Clear();
             _uiHandlerSourcesSorted.Clear();
+            
             foreach (var source in Elements<IUIHandlerSource>()) {
                 _uiHandlerSourcesSorted.Add(source);
             }
-            _uiHandlerSourcesSorted.Sort(static (a, b) => b.Priority.CompareTo(a.Priority));
-            int count = _uiHandlerSourcesSorted.Count;
-            for (int i = 0; i < count; i++) {
-                var source = _uiHandlerSourcesSorted[i];
+            
+            _uiHandlerSourcesSorted.Sort(static (sourceA, sourceB) => sourceB.Priority.CompareTo(sourceA.Priority));
+
+            for (int index = 0; index < _uiHandlerSourcesSorted.Count; index++) {
+                var source = _uiHandlerSourcesSorted[index];
                 if ((source.Context & context) == context) {
                     source.ProvideHandlers(position, handlers);
                 }
             }
+        }
+        
+        public void OnSourceReset(List<IUIAware> providedHandlers) {
+            _keyboardInteractionStack.RemoveAll(providedHandlers.Contains);
+            _mouseInteractionStack.RemoveAll(providedHandlers.Contains);
+        }
+        
+        public void OnSourceReset(IUIAware providedHandler) {
+            _keyboardInteractionStack.Remove(providedHandler);
+            _mouseInteractionStack.Remove(providedHandler);
         }
 
         public UIPosition PositionFromScreen(Vector2 screenPos) {
@@ -460,6 +488,28 @@ namespace Awaken.TG.MVC.UI {
                 uiEvent = null;
                 unityEvent = null;
             }
+        }
+
+        readonly struct ActionData {
+            public readonly int actionId;
+            public readonly ButtonData buttonData;
+            
+            public ActionData(int actionId, ButtonData buttonData) {
+                this.actionId = actionId;
+                this.buttonData = buttonData;
+            }
+        }
+
+        readonly struct ButtonData : IEquatable<ButtonData> {
+            readonly int _buttonId;
+            readonly int _controllerIndex;
+            
+            public ButtonData(int buttonId, int controllerIndex) {
+                _buttonId = buttonId;
+                _controllerIndex = controllerIndex;
+            }
+            
+            public bool Equals(ButtonData other) => _buttonId == other._buttonId && _controllerIndex == other._controllerIndex;
         }
     }
 }

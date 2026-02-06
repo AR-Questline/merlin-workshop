@@ -152,8 +152,11 @@
         LegsJumpEndHigh = 164,
         
         HorseRidingMovement = 170,
+        CustomHorseRidingMovement = 171,
         
         LegsSwimmingIdle = 180,
         LegsSwimmingMovement = 181,
+        
+        PlayInstrument = 182,
     }
 }

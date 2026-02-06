@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Awaken.Babel;
 using Awaken.TG.Main.Stories.Core;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
 using Awaken.TG.Main.Stories.Steps;
@@ -49,7 +50,7 @@ namespace Awaken.TG.Main.Stories.Runtime {
 #if UNITY_EDITOR && !ARCHIVES_PRODUCED
                 if (UnityEditor.EditorPrefs.GetInt("story_from_streaming_assets", 0) == 0) {
                     var editorGraph = UnityEditor.AssetDatabase.LoadAssetAtPath<StoryGraph>(UnityEditor.AssetDatabase.GUIDToAssetPath(guid));
-                    var intermediateGraph = StoryGraphParser.Parse(editorGraph);
+                    var intermediateGraph = StoryGraphParser.Parse(editorGraph, BabelManager.IdBaker);
                     if (UnityEditor.EditorPrefs.GetInt("story_intermediate_assets", 1) == 1) {
                         editorGraph.ResetGraphCache();
                         return intermediateGraph;

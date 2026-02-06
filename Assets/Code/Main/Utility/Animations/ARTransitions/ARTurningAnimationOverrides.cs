@@ -10,14 +10,27 @@ namespace Awaken.TG.Main.Utility.Animations.ARTransitions {
     [Serializable]
     public class ARTurningAnimationOverrides {
         [PropertyOrder(999), ListDrawerSettings(ShowFoldout = false, ShowIndexLabels = false), Indent(2)] 
-        [SerializeField] public ARTurningAnimationOverrideEntry[] entries;
+        [SerializeField] public ARTurningAnimationOverrideEntry[] entries = Array.Empty<ARTurningAnimationOverrideEntry>();
         
         public bool ShouldOverrideFor(NpcElement npc) {
-            return entries?.Any(entry => entry.IsInRange(npc)) ?? false;
+            for (int i = 0; i < entries.Length; i++) {
+                if (entries[i].IsInRange(npc)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public ITransition GetOverrideFor(NpcElement npc) {
-            return entries?.FirstOrAny(entry => entry.IsInRange(npc)).clip ?? null;
+            if (entries.Length == 0) {
+                return null;
+            }
+            for (int i = 0; i < entries.Length; i++) {
+                if (entries[i].IsInRange(npc)) {
+                    return entries[i].clip;
+                }
+            }
+            return entries[0].clip;
         }
     }
 }

@@ -6,15 +6,19 @@ using Awaken.TG.Main.Animations.FSM.Heroes.Modifiers;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Locations.Attachments;
+using Awaken.TG.Main.Stories.Conditions;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Templates.Attachments;
 using Awaken.TG.Main.Utility.RichEnums;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility.Attributes;
+using Awaken.TG.Utility.Attributes.Tags;
 using Awaken.Utility;
+using Awaken.Utility.Collections;
 using Awaken.Utility.Previews;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Awaken.TG.Main.Heroes.Items.Attachments {
     [AttachesTo(typeof(ItemTemplate), AttachmentCategory.Common, "For equippable items, contains prefabs and equipment data.")]
@@ -74,7 +78,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
             }
             
             var prefab = humanoidItems
-                .Select(m => m.itemPrefab?.EditorLoad<GameObject>())
+                .Select(m => m.ItemPrefabUnsafeToLoad?.EditorLoad<GameObject>())
                 .FirstOrDefault(p => p != null);
 
             if (prefab != null) {
@@ -103,13 +107,20 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         [SerializeField]
         [Saved] ItemEquipHand hand;
 
+        [SerializeField, Saved, Tags(TagsCategory.Flag)] 
+        string flag;
+
+        [SerializeField]
         [ARAssetReferenceSettings(new []{typeof(GameObject)}, true, AddressableGroup.Weapons)]
-        [Saved] public ARAssetReference itemPrefab;
+        [Saved] ARAssetReference itemPrefab;
 
         // === Properties
         public IEnumerable<NpcTemplate> AbstractNPCs => abstractNpcTemplates.Select(n => n.Get<NpcTemplate>());
         public Gender Gender => gender;
         public ItemEquipHand Hand => hand;
+        public string Flag => flag;
+        public ARAssetReference ItemPrefabDeepCopy => itemPrefab.DeepCopy();
+        public ARAssetReference ItemPrefabUnsafeToLoad => itemPrefab;
 
         // === Copy
         public ItemRepresentationByNpc DeepCopy() {
@@ -117,6 +128,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 abstractNpcTemplates = abstractNpcTemplates,
                 gender = gender,
                 hand = hand,
+                flag = flag,
                 itemPrefab = itemPrefab.DeepCopy(),
             };
         }

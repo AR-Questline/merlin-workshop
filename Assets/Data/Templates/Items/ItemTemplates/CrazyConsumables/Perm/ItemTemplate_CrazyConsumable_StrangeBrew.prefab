@@ -73,7 +73,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_increase_permanent
       ID: Template/description_locString_2543871262668956605_46845b71fc60b374c8fffa8c580c4e83
-  EDITOR_bakedDescription: +5 Max Health Permanently.
+  EDITOR_bakedDescription: Permanently increases Strength by 1.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -149,6 +149,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 5b99038f7489e1249b9986d8c5586acd
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1825663986422285804
 MonoBehaviour:

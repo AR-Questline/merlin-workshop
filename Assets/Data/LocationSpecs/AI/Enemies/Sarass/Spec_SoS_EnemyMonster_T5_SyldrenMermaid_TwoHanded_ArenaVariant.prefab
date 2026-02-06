@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2046225275448360484
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4887187339619651936, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_SoS_EnemyMonster_T5_SyldrenMermaid_TwoHanded_ArenaVariant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880781814916791141, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_5618553813653210433_fc74193188faa9c4e8a005b0997fc864
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196724235781042353, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565818339587218392, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 628a6daf888dc1e44a30e07d633d2f7a
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4887187339619651936, guid: 04118dcf132a1104186c5dc3f5a67039,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4267241230263328022}
+  m_SourcePrefab: {fileID: 100100000, guid: 04118dcf132a1104186c5dc3f5a67039, type: 3}
+--- !u!1 &6897089063553511236 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4887187339619651936, guid: 04118dcf132a1104186c5dc3f5a67039,
+    type: 3}
+  m_PrefabInstance: {fileID: 2046225275448360484}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4267241230263328022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897089063553511236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b850f5a307d54fe3985c71c81271575f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxEffect:
+    arReference:
+      address: 005188beead1ea3498eae742d38cc48f
+      subObjectName: 
+  vfxLifetime: 5
+  spawnOnInitialize: 1
+  spawnOnLogicEnable: 1
+  spawnOnLogicDisable: 0

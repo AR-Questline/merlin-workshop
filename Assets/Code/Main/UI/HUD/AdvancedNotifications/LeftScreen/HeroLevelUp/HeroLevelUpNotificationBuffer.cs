@@ -6,9 +6,7 @@ using Awaken.TG.MVC;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.HeroLevelUp {
-    public partial class HeroLevelUpNotificationBuffer : AdvancedNotificationBuffer<HeroLevelUpNotification> {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class HeroLevelUpNotificationBuffer : AdvancedNotificationBufferPresenter<HeroLevelUpNotification> {
         protected override VisualElement NotificationsParent => ParentModel.NotificationsContainerUI.LevelUpNotificationsParent;
         protected override IEnumerable<Type> DependentBuffers {
             get {

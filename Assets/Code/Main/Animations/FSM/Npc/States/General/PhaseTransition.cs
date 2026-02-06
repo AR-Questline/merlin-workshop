@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.States.General {
 
         public override NpcStateType Type => _stateToEnter;
         public override bool CanBeExited => _transitionFinished;
-        public override bool CanUseMovement => false;
+        public override bool CanUseMovement => Npc?.EnemyBaseClass?.CanMoveOnPhaseTransition ?? false;
 
         [Il2CppEagerStaticClassConstruction]
         public new static class Events {

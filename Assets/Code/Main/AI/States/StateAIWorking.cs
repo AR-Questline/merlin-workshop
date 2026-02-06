@@ -67,17 +67,17 @@ namespace Awaken.TG.Main.AI.States {
                 yield return new StateTransition(Alert, Idle, new PollTransition(Alert2Idle));
                 yield return new StateTransition(null, Combat, new PollTransition(AnyToCombat));
                 
-                yield return new StateTransition(Combat, (ReturnToSpawnAfterVictory, ReturnToSpawnAfterVictory.TauntFromCombat), ListenTransition.New(Npc, ICharacter.Events.CombatVictory, Combat2SpawnPoint));
+                yield return new StateTransition(Combat, (ReturnToSpawnAfterVictory, ReturnToSpawnAfterVictory.TauntFromCombat), ListenTransition.New(Npc, ICharacter.Events.CombatVictory, EventCombat2SpawnPoint));
                 yield return new StateTransition(Combat, (Alert, Alert.Wander), ListenTransition.New(Npc, ICharacter.Events.CombatDisengagement, Combat2AlertInstant));
                 
                 yield return new StateTransition(Combat, Alert, ListenTransition.New(Npc, ICharacter.Events.CombatExited, Combat2Alert));
                 
                 if (Npc.ReturnToSpawnPointArchetype is ReturnToSpawnPointArchetype.UseIdleInstant) {
-                    yield return new StateTransition(Combat, Idle, ListenTransition.New(Npc, ICharacter.Events.CombatExited, Combat2SpawnPoint));
+                    yield return new StateTransition(Combat, Idle, ListenTransition.New(Npc, ICharacter.Events.CombatExited, EventCombat2SpawnPoint));
                     yield return new StateTransition(Combat, Idle, new PollTransition(Combat2SpawnPoint));
                     yield return new StateTransition(Alert, Idle, new PollTransition(Alert2SpawnPoint));
                 } else {
-                    yield return new StateTransition(Combat, ReturnToSpawn, ListenTransition.New(Npc, ICharacter.Events.CombatExited, Combat2SpawnPoint));
+                    yield return new StateTransition(Combat, ReturnToSpawn, ListenTransition.New(Npc, ICharacter.Events.CombatExited, EventCombat2SpawnPoint));
                     yield return new StateTransition(Combat, (ReturnToSpawn, ReturnToSpawn.TauntFromCombat), new PollTransition(Combat2SpawnPoint));
                     yield return new StateTransition(Alert, (ReturnToSpawn, ReturnToSpawn.TauntFromAlert), new PollTransition(Alert2SpawnPoint));
                 }
@@ -128,7 +128,7 @@ namespace Awaken.TG.Main.AI.States {
 
         protected override void OnExit() {
             base.OnExit();
-            Movement.ResetMainState(null);
+            Movement?.ResetMainState(null);
             NpcAI.AllWorkingAI.RemoveSwapBack(AI);
             World.Only<HeroCombat>().UnregisterNearNpcAI(AI);
             bool discarded = Npc.HasBeenDiscarded;
@@ -160,11 +160,12 @@ namespace Awaken.TG.Main.AI.States {
         public bool Alert2Idle() => Alert.CanExitToIdle && AlertValue <= 0f;
         bool Combat2Alert(ICharacter _) => Data.alert.CanEnterAlert && CanLeaveCombat() && (AI.IsOverBand1() || CrimeReactionUtils.IsGuard(Npc));
         bool Combat2AlertInstant(ICharacter _) => Data.alert.CanEnterAlert && Data.alert.CanWander && CanLeaveCombat() && !AI.IsOverBand1() && !AI.HeroVisible && Npc.GetCurrentTarget() == null;
-        bool Combat2SpawnPoint(ICharacter character) => CanLeaveCombat() && !Combat2Alert(character);
         bool NotVictoriousSpawnPoint2Alert(DamageOutcome damageOutcome) => VictoriousSpawnPoint2Alert(damageOutcome) && !DefensiveReturnToSpawnArchetype && AI.IsInBand0();
         bool VictoriousSpawnPoint2Alert(DamageOutcome _) => Data.alert.CanEnterAlert && Idle2Alert();
-        bool Alert2SpawnPoint() => AI.IsOverBand2();
-        bool Combat2SpawnPoint() => CanLeaveCombat() && !Npc.Template.IsPreyAnimal && AI.IsOverBand3();
+        bool Alert2SpawnPoint() => AI.ShouldForceEndAlert();
+        bool EventCombat2SpawnPoint(ICharacter character) => CanLeaveCombat() && !Combat2Alert(character);
+
+        bool Combat2SpawnPoint() => CanLeaveCombat() && !Npc.Template.IsPreyAnimal && AI.ShouldForceEndCombat();
         public bool AnyToCombat() => !AI.InWyrdConversion && !AI.InSpawn && AI.InCombat;
         bool AnyToWyrdConversionIn() => !AI.InSpawn && AlertValue > 0 && Npc.CanBeWyrdConverted;
         bool AnyToWyrdConversionOut() => !AI.InSpawn && Npc.CanBeOutWyrdConverted && Npc.IsSafeFromWyrdness;

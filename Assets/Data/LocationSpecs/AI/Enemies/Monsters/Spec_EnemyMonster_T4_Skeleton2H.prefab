@@ -68,10 +68,45 @@ PrefabInstance:
       propertyPath: npcTemplate._guid
       value: ece9d791617ced447982217091a7a614
       objectReference: {fileID: 0}
+    - target: {fileID: 6786953796087481845, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
+        type: 3}
+      propertyPath: fallbackInteractionData.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786953796087481845, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
+        type: 3}
+      propertyPath: fallbackInteractionData.range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786953796087481845, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
+        type: 3}
+      propertyPath: data.behaviours.Array.data[0].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786953796087481845, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
+        type: 3}
+      propertyPath: data.behaviours.Array.data[0].range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786953796087481845, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
+        type: 3}
+      propertyPath: fallbackInteractionData.waitTime.max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786953796087481845, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
+        type: 3}
+      propertyPath: fallbackInteractionData.waitTime.min
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786953796087481845, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
+        type: 3}
+      propertyPath: data.behaviours.Array.data[0].interactionTag
+      value: MonsterInteraction:Undead
+      objectReference: {fileID: 0}
     - target: {fileID: 9102533663763092846, guid: 6bdcc4ebe8eafdc4cb617c78e57495b9,
         type: 3}
       propertyPath: displayName.ID
-      value: Template/displayName_4065356154213332076_367e472311ea70e47bef550bd80b0dce
+      value: Template/displayName_9102533663763092846_367e472311ea70e47bef550bd80b0dce
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

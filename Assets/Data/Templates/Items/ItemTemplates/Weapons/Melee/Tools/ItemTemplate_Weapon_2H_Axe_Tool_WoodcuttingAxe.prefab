@@ -79,7 +79,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_tool_lumbering
       ID: Template/description_locString_2543871262668956605_0eacfc70a44e11f478b644945ce56693
-  EDITOR_bakedDescription: Allows lumbering.
+  EDITOR_bakedDescription: Allows <color=#04959A>Woodcutting</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -143,7 +143,7 @@ MonoBehaviour:
   - _enumRef: Awaken.TG.Main.Skills.Keyword, TG.Main, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null:ToolLumbering
   levelBonus: 0
-  weight: 2.2
+  weight: 0.5
   weightLoss: 0.5
   upgradeChance: 0.5
   crimeItemValue: 0
@@ -157,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 58548041936cd7f40bdb501132e4501b
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2472755184678981686
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &120668372761239886
 MonoBehaviour:

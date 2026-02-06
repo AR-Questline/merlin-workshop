@@ -12,7 +12,7 @@ namespace Awaken.TG.Main.Stories.Actors {
         // === Definitions
         public static readonly DefinedActor
             None = new(nameof(None), () => default),
-            Hero = new(nameof(Hero), () => new Actor(nameof(Hero), Heroes.Hero.Current?.Name, false, null, false, 0));
+            Hero = new(nameof(Hero), () => new Actor(nameof(Hero), Heroes.Hero.Current?.Name, false, null, false, 0, false));
         
         // === Properties
         // ActorName, ActorGuid and ActorPath in case of defined actors are purposely the same.

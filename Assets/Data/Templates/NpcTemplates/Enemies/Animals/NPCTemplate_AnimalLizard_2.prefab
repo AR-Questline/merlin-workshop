@@ -65,6 +65,7 @@ MonoBehaviour:
   requiresPathToTarget: 1
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
+  returnToSpawnPointArchetype: 0
   maxHealth: 2
   healthRegen: 0
   maxStamina: 100
@@ -91,6 +92,7 @@ MonoBehaviour:
   heroKnockBack: 100
   statusStats:
     displayType: 0
+    invulnerableToStatuses: []
     _bleed:
       buildupThreshold: 1
       effectStrength: 1
@@ -145,8 +147,7 @@ MonoBehaviour:
       buildupName: Full
   crimeNpcValue: 4
   crimeReactionArchetype: 0
-  returnToSpawnPointArchetype: 0
-  npcType: 2
+  npcType: 0
   expLevel: 3
   expTier: 1
   expReward: 50

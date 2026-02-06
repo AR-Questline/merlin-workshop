@@ -78,7 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_3a39858ce9f3e5142b0eeaa17d71f831
-  EDITOR_bakedDescription: Deals 25% increased Melee Damage after Dashing.
+  EDITOR_bakedDescription: "Hitting a target has a 5\_% chance to <color=#04959A>Blind</color>
+    it."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 05dbfbab35548ba4cab8ad2f76d2a3a6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -240,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3703321390094364147
 MonoBehaviour:

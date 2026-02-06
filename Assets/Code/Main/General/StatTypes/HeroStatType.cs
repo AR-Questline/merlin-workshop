@@ -66,6 +66,7 @@ namespace Awaken.TG.Main.General.StatTypes {
             StaminaDepletedTimeMultiplier = new(nameof(StaminaDepletedTimeMultiplier), LocTerms.StaminaDepletedTimeMultiplier, h => h.HeroStats.StaminaDepletedTimeMultiplier, CategoryDamage),
             SummonsManaDrainMultiplier = new(nameof(SummonsManaDrainMultiplier), LocTerms.SummonsManaDrainMultiplier, h => h.HeroStats.SummonsManaDrainMultiplier, CategoryDamage),
             DualWieldHeavyAttackCostMultiplier = new(nameof(DualWieldHeavyAttackCostMultiplier), LocTerms.DualWieldHeavyAttackCostMultiplier, h => h.HeroStats.DualWieldHeavyAttackCostMultiplier, CategoryDamage),
+            MaxHealthReservation = new(nameof(MaxHealthReservation), LocTerms.MaxHealthReservation, h => h.HeroStats.MaxHealthReservation, CategoryDamage),
             MaxManaReservation = new(nameof(MaxManaReservation), LocTerms.MaxManaReservation, h => h.HeroStats.MaxManaReservation, CategoryDamage),
             SummonLimit = new(nameof(SummonLimit), LocTerms.SummonLimit, h => h.HeroStats.SummonLimit, CategoryDamage),
             
@@ -76,6 +77,7 @@ namespace Awaken.TG.Main.General.StatTypes {
             
             ParryStaminaDamageMultiplier = new(nameof(ParryStaminaDamageMultiplier), LocTerms.ParryStaminaDamageMultiplier, c => c.HeroStats.ParryStaminaDamageMultiplier, CategoryCombat),
             ParryWindowBonus = new(nameof(ParryWindowBonus), LocTerms.ParryWindowBonus, c => c.HeroStats.ParryWindowBonus, CategoryCombat),
+            DashIFramesBonus = new(nameof(DashIFramesBonus), LocTerms.DashIFramesBonus, c => c.HeroStats.DashIFramesBonus, CategoryCombat),
             BlockingStaminaDamageMultiplier = new(nameof(BlockingStaminaDamageMultiplier), LocTerms.BlockingStaminaDamageMultiplier, c => c.HeroStats.BlockingStaminaDamageMultiplier, CategoryCombat),
             ArrowRetrievalChance = new(nameof(ArrowRetrievalChance), LocTerms.ArrowRetrievalChance, c => c.HeroStats.ArrowRetrievalChance, CategoryCombat),
             BowSwayMultiplier = new(nameof(BowSwayMultiplier), LocTerms.BowSwayMultiplier, c => c.HeroStats.BowSwayMultiplier, CategoryCombat),

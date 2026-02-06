@@ -34,7 +34,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         public override SynchronizedHeroSubstateMachine AdditionalSynchronizedLayer => _offHand;
         protected override SynchronizedHeroSubstateMachine HeadLayerIndex => _head;
         public override HeroLayerType LayerType => HeroLayerType.MainHand;
-        public override HeroStateType DefaultState => HeroStateType.EquipWeapon;
+        public override HeroStateType DefaultState => DefaultEquipState;
 
         // === Constructor
         public OneHandedFSM(Animator animator, ARHeroAnimancer animancer) : base(animator, animancer) { }

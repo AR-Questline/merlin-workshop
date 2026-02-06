@@ -4,6 +4,7 @@ using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.FancyPanel;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
@@ -28,7 +29,8 @@ namespace Awaken.TG.Main.Heroes.Development.WyrdPowers {
         Hero Hero => ParentModel.ParentModel;
         WyrdSoulFragments WyrdSoulFragments => ParentModel.WyrdSoulFragments;
         bool HasAnyWyrdSkill => WyrdSoulFragments.HasAnySkill;
-        
+                public bool IsValid => this.IsValidForUIHandle();
+
         public IEnumerable<KeyBindings> PlayerKeyBindings {
             get {
                 yield return KeyBindings.Gameplay.UseWyrdSkillsSlot;

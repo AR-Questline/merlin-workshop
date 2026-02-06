@@ -16,12 +16,16 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Character {
             AddElement(new CharacterSubTabs());
         }
         
-        public static async UniTaskVoid ToggleCharacterSheet(CharacterSubTabType initialTab, bool ignoreMapState = false) {
-            var ui = CharacterSheetUI.ToggleCharacterSheet(CharacterSheetTabType.Character, ignoreMapState);
+        public static async UniTask<CharacterUI> ToggleCharacterSheet(CharacterSubTabType initialTab, bool ignoreMapState = false, CharacterSheetTabType[] availableTabs = null, bool backDestroysCurrentView = false) {
+            var ui = CharacterSheetUI.ToggleCharacterSheet(CharacterSheetTabType.Character, ignoreMapState, availableTabs);
             
             if (ui != null && await AsyncUtil.DelayFrame(ui)) {
-                ui.Element<CharacterUI>().TabsController.SelectTab(initialTab);
+                CharacterUI characterUI = ui.Element<CharacterUI>();
+                characterUI.TabsController.SelectTab(initialTab);
+                return characterUI;
             }
+
+            return null;
         }
         
         public bool TryToggleSubTab(CharacterSheetUI ui) {

@@ -6,6 +6,7 @@ using Awaken.TG.Main.Stories.Execution;
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.General.StatTypes;
+using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Stats.StatConfig;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations;
@@ -158,7 +159,7 @@ namespace Awaken.TG.Main.Stories.Steps {
                 var stat = statChangeValue.AffectedStat;
                 int change = (int)(statChangeValue.AffectedStat - prev);
                 if (!settings.suppressStatNotification) {
-                    StoryUtils.AnnounceGettingStat(settings.affectedStat, change, story, settings.target == StoryRoleTarget.Hero);
+                    StoryUtils.AnnounceGettingStat(settings.affectedStat, change, settings.target == StoryRoleTarget.Hero);
                 }
 
                 story.ShowChange(stat, change);
@@ -175,6 +176,14 @@ namespace Awaken.TG.Main.Stories.Steps {
             StatValue changeValue = settings.statValue;
             if (settings.useVariableMultiplier) {
                 changeValue.value *= GetVariableMultiplier(settings.step, api);
+            }
+
+            if (changeValue.value > 0) {
+                if (settings.affectedStat == CurrencyStatType.Wealth) {
+                    changeValue.value = (int) (changeValue.value * Hero.Current.Stat(HeroMultStatType.WealthMultiplier));
+                } else if (settings.affectedStat == HeroStatType.XP) {
+                    changeValue.value = (int) (changeValue.value * Hero.Current.Stat(HeroMultStatType.ExpMultiplier));
+                }
             }
 
             string statValueText = string.Empty;

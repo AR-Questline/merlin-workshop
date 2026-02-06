@@ -39,7 +39,14 @@ namespace Awaken.TG.Main.AudioSystem.Biomes {
 
         static CoreParameters s_parameters;
 
-        GameRealTime GameRealTime => _gameRealTime ??= World.Any<GameRealTime>();
+        GameRealTime GameRealTime {
+            get {
+                if (_gameRealTime is { HasBeenDiscarded: true }) {
+                    _gameRealTime = null;
+                }
+                return _gameRealTime ??= World.Any<GameRealTime>();
+            }
+        }
         GameRealTime _gameRealTime;
 
         [ReadOnly]
@@ -96,7 +103,7 @@ namespace Awaken.TG.Main.AudioSystem.Biomes {
         }
 
         void Update() {
-            if (!_initialized || !_enabled || GameRealTime == null) {
+            if (!_initialized | !_enabled | GameRealTime is null or {HasBeenDiscarded: true}) {
                 return;
             }
             

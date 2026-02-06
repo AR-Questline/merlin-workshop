@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Stories.Choices {
             var item = World.Add(new Item(itemTemplate));
             InfoName = item.DisplayName;
             InfoDescription = item.DescriptionFor(Hero.Current);
-            InfoIcon = itemTemplate.IconReference;
+            InfoIcon = itemTemplate.IconReference();
             item.Discard();
         }
     }

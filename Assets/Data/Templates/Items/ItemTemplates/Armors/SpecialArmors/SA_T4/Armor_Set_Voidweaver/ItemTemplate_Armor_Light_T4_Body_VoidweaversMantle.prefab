@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_9dcaa1d2b36857f4f8752beac09c2e24
-  EDITOR_bakedDescription: 'Increases Spell Power by 20%.
-
-    Consumes 2 Mana per
-    second.'
+  EDITOR_bakedDescription: "Increases Spell Power by 20\_%.\nConsumes 2 Mana per
+    second."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2618666699901799065
 MonoBehaviour:
@@ -246,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3496175791885827493
 MonoBehaviour:
@@ -275,7 +280,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
-      value: 0
+      value: 0.02
     - name: ValueCalculated
       value: 0
     enums:

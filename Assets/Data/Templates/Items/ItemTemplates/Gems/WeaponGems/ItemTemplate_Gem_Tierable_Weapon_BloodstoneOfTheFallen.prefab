@@ -75,8 +75,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_6b0734783d1a55044b3be9a1cd194cf0
-  EDITOR_bakedDescription: Increases Mana Regeneration by 50% for 4s when a nearby
-    enemy dies.
+  EDITOR_bakedDescription: "Killing an enemy with a weapon enhanced with this relic
+    increases Mana Regeneration by 50\_% for 4s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -133,7 +133,7 @@ MonoBehaviour:
   basePrice: 300
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 200
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -152,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:

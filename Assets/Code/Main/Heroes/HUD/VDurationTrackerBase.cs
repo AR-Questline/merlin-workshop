@@ -3,6 +3,7 @@ using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.Utility.Extensions;
+using Awaken.Utility.GameObjects;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -13,8 +14,8 @@ namespace Awaken.TG.Main.Heroes.HUD {
         
         [SerializeField] protected TMP_Text infoLabel;
         [SerializeField] protected CanvasGroup content;
-        [SerializeField] Bar timerBar;
-        [SerializeField] protected CanvasGroup timerCanvasGroup;
+        [SerializeField] protected GameObject timerBarParent;
+        [SerializeField] protected Bar timerBar;
 
         Tween _contentTween;
         CanvasGroup _canvasGroup;
@@ -55,9 +56,9 @@ namespace Awaken.TG.Main.Heroes.HUD {
             bool IsHiddenAndShouldBeHidden() => content.alpha == 0 && !state.IsMapInteractive;
         }
         
-        protected void ChangeVisibility(bool activate) {
+        protected virtual void ChangeVisibility(bool activate) {
             FadeContent(activate ? 1 : 0);
-            timerCanvasGroup.alpha = ShowTimer ? 1 : 0;
+            timerBarParent.TrySetActiveOptimized(ShowTimer);
         }
 
         protected void UpdateTimer(float value) {

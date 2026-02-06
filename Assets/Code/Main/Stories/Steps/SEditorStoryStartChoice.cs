@@ -36,8 +36,8 @@ namespace Awaken.TG.Main.Stories.Steps {
                 }
             }
             
-            var step =  new SStoryStartChoice {
-                text = choice.text,
+            var step = new SStoryStartChoice {
+                text = parser.GetLightLocString(choice.text),
                 span = span,
                 spanFlag = spanFlag,
                 targetChapter = parser.GetChapter(TargetNode() as ChapterEditorNode),
@@ -60,7 +60,7 @@ namespace Awaken.TG.Main.Stories.Steps {
     }
 
     public partial class SStoryStartChoice : StoryStep, IOncePer {
-        public LocString text;
+        public LightLocString text;
         [LabelText("Once Per")][NodeEnum]
         public TimeSpans span = TimeSpans.None;
         [HideInInspector]

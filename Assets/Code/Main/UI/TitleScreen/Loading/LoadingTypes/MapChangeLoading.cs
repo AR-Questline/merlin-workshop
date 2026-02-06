@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Saving;
@@ -24,6 +25,10 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
 
         public MapChangeLoading(SceneReference sceneRef) {
             SceneRef = sceneRef;
+        }
+        
+        public IEnumerator BeforeDroppingPreviousDomains() {
+            yield return new WaitForEndOfFrame();
         }
 
         public void DropPreviousDomains(SceneReference previousScene) {

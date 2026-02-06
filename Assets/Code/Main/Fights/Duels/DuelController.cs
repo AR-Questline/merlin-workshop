@@ -86,15 +86,18 @@ namespace Awaken.TG.Main.Fights.Duels {
         }
         
         public ICharacter FindFirstTargetForNpc(NpcElement duelist, int group) {
-            for (int i = group - 1; i >= 0; i--) {
-                if (_duelistsGroups[i].Defeated) {
+            DuelistsGroup myDuelistsGroup = _duelistsGroups[group];
+            DuelistsGroup duelistsGroup = _duelistsGroups.NextItem(myDuelistsGroup, true);
+            do {
+                if (duelistsGroup.Defeated) {
                     continue;
                 }
-                var target = _duelistsGroups[i].Duelists.FirstOrDefault(d => !d.Defeated);
+                var target = duelistsGroup.Duelists.FirstOrDefault(d => !d.Defeated);
                 if (target is { ParentModel: { HasBeenDiscarded: false } }) {
                     return target.ParentModel;
                 }
-            }
+                duelistsGroup = _duelistsGroups.NextItem(myDuelistsGroup, true);
+            } while (myDuelistsGroup != duelistsGroup);
             return null;
         }
         
@@ -167,7 +170,7 @@ namespace Awaken.TG.Main.Fights.Duels {
 
         // Arena
         
-        public async UniTask AssignArena(DuelArenaData data, bool teleportToArenaScene = true, bool teleportToArena = true, bool activate = true) {
+        public async UniTask AssignArena(DuelArenaData data, bool teleportToArenaScene = true, bool teleportToArena = true, bool teleportOnlySummonsToArena = true, bool activate = true) {
             if (_arena != null) {
                 Log.Minor?.Error("Cannot assign arena, because another Duel Arena is activated");
                 return;
@@ -209,8 +212,9 @@ namespace Awaken.TG.Main.Fights.Duels {
 
             _arena = arena;
             
-            if (teleportToArena) {
-                await _arena.Teleport(_duelistsGroups, teleportToArenaScene);
+            if (teleportToArena || teleportOnlySummonsToArena) {
+                bool onlySummons = !teleportToArena;
+                await _arena.Teleport(_duelistsGroups, teleportToArenaScene, onlySummons);
                 if (!await AsyncUtil.DelayFrame(this, 1)) {
                     return;
                 }

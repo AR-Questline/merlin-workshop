@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -61,6 +62,10 @@ namespace Awaken.Utility.Maths {
             return new(vector.x, 0, vector.z);
         }
         
+        public static Vector3 WithY(this in Vector3 vector, float newY) {
+            return new(vector.x, newY, vector.z);
+        }
+        
         // === Vector2 Swizzle
         public static Vector2 ToVector2(this Vector3 vector) {
             return new(vector.x, vector.z);
@@ -90,6 +95,24 @@ namespace Awaken.Utility.Maths {
         
         public static bool IsInvalid(this Vector3 vector) {
             return float.IsNaN(vector.x) | float.IsNaN(vector.y) | float.IsNaN(vector.z) | float.IsInfinity(vector.x) | float.IsInfinity(vector.y) | float.IsInfinity(vector.z);
+        }
+
+        public static Vector3 FromString(string input) {
+            var span = input.AsSpan();
+            // Skip opening parenthesis and trim spaces
+            span = span.Trim().TrimStart('(');
+            // Skip closing parenthesis and trim spaces
+            span = span.TrimEnd(')').Trim();
+
+            // Split by comma and parse each component
+            int firstComma = span.IndexOf(',');
+            int secondComma = span.Slice(firstComma + 1).IndexOf(',') + firstComma + 1;
+
+            float x = float.Parse(span.Slice(0, firstComma));
+            float y = float.Parse(span.Slice(firstComma + 1, secondComma - firstComma - 1));
+            float z = float.Parse(span.Slice(secondComma + 1));
+
+            return new Vector3(x, y, z);
         }
     }
 }

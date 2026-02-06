@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_ae8228b967f022140b910d206846b7db
-  EDITOR_bakedDescription: Restores 100% Health, 100% Mana, and 100% Stamina.
+  EDITOR_bakedDescription: "Restores 50\_% Mana, 50\_% Health, and 50\_% Stamina."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

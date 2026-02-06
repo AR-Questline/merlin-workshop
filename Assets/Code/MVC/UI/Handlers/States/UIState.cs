@@ -1,11 +1,10 @@
 ﻿using Awaken.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Awaken.TG.Main.UI.Components.PadShortcuts;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.MVC.Utils;
 using Awaken.TG.Utility.Attributes;
+using Awaken.Utility.Collections;
 
 namespace Awaken.TG.MVC.UI.Handlers.States {
     /// <summary>
@@ -20,7 +19,7 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
 
         // === Fields
         
-        [Saved] List<WeakModelRef<IShortcut>> _shortcuts;
+        [Saved] StructList<WeakModelRef<IShortcut>> _shortcuts;
 
         [Saved] public WeakModelRef<IModel> Owner { get; private set; }
         [Saved] public HUDState HudState { get; private set; }
@@ -34,12 +33,14 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
         [Saved] public bool HideCursor { get; private set; }
 
         public bool IsShortcutLayer {
-            get => _shortcuts != null;
+            get => _shortcuts.IsCreated;
             private set {
                 if (value) {
-                    _shortcuts ??= new List<WeakModelRef<IShortcut>>();
+                    if (!_shortcuts.IsCreated) {
+                        _shortcuts = new StructList<WeakModelRef<IShortcut>>(1);
+                    }
                 } else {
-                    _shortcuts = null;
+                    _shortcuts.Uncreate();
                 }
             }
         }
@@ -67,6 +68,21 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
         }
 
         // === Operations
+        public void ResetToBase() {
+            HudState = HUDState.None;
+            SelectionLayer = 0;
+            MapInteractive = true;
+
+            _shortcuts.Uncreate();
+            Owner = null;
+            ForceShowHeroBars = null;
+            OnlyWhenSelected = null;
+            PauseTime = false;
+            PauseWeatherTime = false;
+            ShortcutLayer = null;
+            HideCursor = false;
+        }
+
         [UnityEngine.Scripting.Preserve]
         public UIState WhenSelected(IModel selected) {
             OnlyWhenSelected = new WeakModelRef<IModel>(selected);
@@ -106,31 +122,31 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
             Owner = new WeakModelRef<IModel>(owner);
         }
 
-        /// <summary>
-        /// All logic of merging UIStates lies here
-        /// </summary>
-        public UIState Merge(UIState other) {
-            UIState newState = new UIState();
-            newState.HudState = other.HudState | HudState;
-            newState.SelectionLayer = Math.Max(SelectionLayer, other.SelectionLayer);
-            newState.MapInteractive = other.MapInteractive ?? MapInteractive;
-            newState.ForceShowHeroBars = other.ForceShowHeroBars ?? ForceShowHeroBars;
-            newState.PauseTime = PauseTime || other.PauseTime;
-            newState.PauseWeatherTime = PauseWeatherTime || other.PauseWeatherTime;
-            newState.ShortcutLayer = other.IsShortcutLayer ? other : ShortcutLayer;
-            newState.HideCursor = HideCursor || other.HideCursor;
-            return newState;
+        public void Union(UIState other) {
+            HudState = other.HudState | HudState;
+            SelectionLayer = Math.Max(SelectionLayer, other.SelectionLayer);
+            MapInteractive = other.MapInteractive ?? MapInteractive;
+            ForceShowHeroBars = other.ForceShowHeroBars ?? ForceShowHeroBars;
+            PauseTime = PauseTime || other.PauseTime;
+            PauseWeatherTime = PauseWeatherTime || other.PauseWeatherTime;
+            ShortcutLayer = other.IsShortcutLayer ? other : ShortcutLayer;
+            HideCursor = HideCursor || other.HideCursor;
         }
 
         public void AddShortcut(IShortcut shortcut) {
             _shortcuts.Add(new WeakModelRef<IShortcut>(shortcut));
         }
-        public void AppendShortcuts(IEnumerable<WeakModelRef<IShortcut>> shortcuts) {
-            _shortcuts.AddRange(shortcuts);
+
+        public void AppendShortcuts(UIState other) {
+            foreach (var shortcut in other._shortcuts) {
+                if (shortcut.Get() != null) {
+                    _shortcuts.Add(shortcut);
+                }
+            }
         }
 
         public bool ContainsShortcut(IShortcut shortcut) {
-            if (_shortcuts == null) {
+            if (!_shortcuts.IsCreated) {
                 return false;
             }
             var targetID = shortcut.ID;
@@ -145,11 +161,12 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
         }
 
         public void RefreshShortcuts() {
-            _shortcuts?.RemoveAll(reference => reference.Get() == null);
-        }
-
-        public List<WeakModelRef<IShortcut>> GetShortcuts() {
-            return _shortcuts;
+            for (int i = _shortcuts.Count - 1; i >= 0; i--) {
+                var shortcut = _shortcuts[i];
+                if (shortcut.Get() == null) {
+                    _shortcuts.RemoveAt(i);
+                }
+            }
         }
 
         // === Equality members
@@ -160,8 +177,10 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
             return HudState == other.HudState 
                    && SelectionLayer == other.SelectionLayer
                    && MapInteractive == other.MapInteractive
+                   && ForceShowHeroBars == other.ForceShowHeroBars
                    && PauseTime == other.PauseTime
-                   && PauseWeatherTime == other.PauseWeatherTime;
+                   && PauseWeatherTime == other.PauseWeatherTime
+                   && HideCursor == other.HideCursor;
         }
 
         public override bool Equals(object obj) {

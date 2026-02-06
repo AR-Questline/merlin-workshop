@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.TPP {
         
         // === Properties
         public override HeroStateType StateToEnter => Hero.Mounted
-            ? HeroStateType.HorseRidingMovement
+            ? HeroStateType.CustomHorseRidingMovement
             : Hero.IsSwimming
                 ? HeroStateType.LegsSwimmingMovement
                 : ParentModel.ShouldCrouch

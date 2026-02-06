@@ -58,7 +58,7 @@ namespace Awaken.TG.Main.AI.Combat {
             if (!_circleData.TryGetValue(weakModel, out CircleAroundData data)) {
                 data = new CircleAroundData(target);
                 _circleData.Add(weakModel, data);
-                target.ListenToLimited(IAlive.Events.BeforeDeath, dmg => TryRemoveData(dmg.Target as ICharacter), target);
+                target.ListenToLimited(IAlive.Events.BeforeDeath, dmg => TryRemoveData(dmg.TargetPure as ICharacter), target);
                 target.ListenToLimited(Model.Events.BeforeDiscarded, model => TryRemoveData(model as ICharacter), target);
                 target.ListenToLimited(ICharacter.Events.CombatExited, TryRemoveData, target);
             }

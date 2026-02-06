@@ -12,7 +12,6 @@ using Awaken.TG.Main.Heroes.Items.Loadouts;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Actions.Lockpicking;
 using Awaken.TG.Main.Locations.Attachments;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
@@ -35,7 +34,7 @@ namespace Awaken.TG.Main.Locations.Actions {
         public int ModificationOrder => 10;
 
         Hero Hero => Hero.Current;
-        HeroItems HeroItems => World.Only<HeroItems>();
+        protected HeroItems HeroItems => World.Only<HeroItems>();
         protected bool IsHeroPossessingTool => HeroItems.Items.Any(IsToolSuitable);
         protected virtual bool CanInteractThroughDamage => true;
 
@@ -136,7 +135,7 @@ namespace Awaken.TG.Main.Locations.Actions {
                 return false;
             }
 
-            if (!damage.Item.TryGetElement(out Tool tool) || tool.Type != _requiredToolType) {
+            if (!damage.Item.TryGetElement(out Tool tool) || tool.Type != _requiredToolType || !tool.CanBeUsed) {
                 return false;
             }
             
@@ -155,7 +154,7 @@ namespace Awaken.TG.Main.Locations.Actions {
             var damageParams = damage.Parameters;
             damageParams.IsPrimary = false;
             damageParams.DamageTypeData = new RuntimeDamageTypeData(DamageType.Interact);
-            var newDamage = new Damage(damageParams, damage.DamageDealer, damage.Target, new RawDamageData(1.0f))
+            var newDamage = new Damage(damageParams, damage.DamageDealerPure, damage.TargetPure, new RawDamageData(1.0f))
                 .WithItem(damage.Item)
                 .WithHitCollider(damage.HitCollider);
             _alive.HealthElement.TakeDamage(newDamage);

@@ -5,6 +5,7 @@ using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.Stories.Choices.ChoicePreviews;
 using Awaken.TG.Main.UI.Components;
 using Awaken.TG.Main.UI.Components.Navigation;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -42,6 +43,7 @@ namespace Awaken.TG.Main.Stories.Choices {
         
         // === Bridge to showing additional data
         public string EffectAndCost => Target.EffectAndCost;
+        public bool IsValid => this.IsValidForUIHandle();
 
         View IAssetLoadingGate.OwnerView => this;
 

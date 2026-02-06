@@ -18,6 +18,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
         [SerializeField] GameObject secondarySelectedIndicator;
 
         public int LoadoutIndex => loadoutIndex;
+        public override OptionDescription Description => new(PrimaryItem != null || SecondaryItem != null, LocTerms.UIItemsEquip.Translate());
 
         Item PrimaryItem => Target.HeroItems.LoadoutAt(loadoutIndex).PrimaryItem?.IsFists ?? true
             ? null
@@ -114,8 +115,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
             Target.HeroItems.ActivateLoadout(loadoutIndex);
             RadialMenu.Close();
         }
-
-        public override OptionDescription Description => new(true, LocTerms.UIItemsEquip.Translate());
 
         bool IsEmptySlot(Item itemSlot) {
             return string.IsNullOrEmpty(itemSlot?.DisplayName);

@@ -153,6 +153,10 @@ MonoBehaviour:
     arReference:
       address: 6e9b4a1dfbd07da4a9941e8d2d5573ca
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-5152505637213093509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,17 +180,19 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: 1c2da8428b5a74142b93ed84593676a9
     variables:
-    - name: Gain
-      value: 0
     - name: AddValue
       value: 0.1
     - name: Duration
       value: 10
     - name: AddValueCalculated
       value: 0
+    - name: Gain
+      value: 0
     - name: DurationCalculated
       value: 0
     - name: HealValue
+      value: 0
+    - name: AddValuePreCalculated
       value: 0
     enums:
     - name: StatEnum

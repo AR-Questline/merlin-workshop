@@ -16,7 +16,6 @@ namespace Awaken.TG.Main.Utility.UI {
         
         TMP_Text _text;
         float _pcFontSize;
-        static bool s_debugConsolePlatform;
         
         protected override void OnAttach() {
             CacheValues();
@@ -40,8 +39,7 @@ namespace Awaken.TG.Main.Utility.UI {
         
 #if UNITY_EDITOR
         [Button]
-        public static void DebugSetAll(bool isConsolePlatform) {
-            s_debugConsolePlatform = isConsolePlatform;
+        public static void DebugSetAll() {
             var result = FindObjectsByType<VCDeviceFontAdjuster>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             
             foreach (var fontAdjuster in result) {

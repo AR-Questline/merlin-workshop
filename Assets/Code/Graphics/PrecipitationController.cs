@@ -57,7 +57,8 @@ namespace Awaken.TG.Graphics {
 #endif
 
         ScreenSpaceWetness _screenSpaceWetness;
-
+        ScreenSpaceWetnessVisibilityService _screenSpaceWetnessVisibilityService;
+        
         void Start() {
             if (!Application.isPlaying) {
                 return;
@@ -76,6 +77,7 @@ namespace Awaken.TG.Graphics {
                     waterSurfaceCustomMaterials.Add(ws.customMaterial);
                 }
             }
+            _screenSpaceWetnessVisibilityService = Services.Get<ScreenSpaceWetnessVisibilityService>();
         }
 
         void Update() {
@@ -161,7 +163,8 @@ namespace Awaken.TG.Graphics {
             _moisture = precipitationIntensity > 0 ?
                 Mathf.Min(_moisture + (precipitationIntensity * .25f) * Time.deltaTime, 1) :
                 Mathf.Max(_moisture - dryingRate * Time.deltaTime, 0);
-            _screenSpaceWetness.enabled = precipitationIntensity > VisiblePrecipitationIntensity;
+            _screenSpaceWetness.enabled = precipitationIntensity > VisiblePrecipitationIntensity && 
+                                          _screenSpaceWetnessVisibilityService.IsRequestedToDisable == false;
             _screenSpaceWetness.Update(rainIntensity, _moisture);
         }
 

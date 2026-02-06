@@ -27,6 +27,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.Utility;
 using Awaken.Utility.Animations;
+using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Enums;
 using Cysharp.Threading.Tasks;
@@ -177,10 +178,12 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 quantity = Target.Quantity,
             };
             Vector3 ragdollForce = damageOutcome.RagdollForce;
+            bool canBePickedUp = true;
             if (Owner.Character is NpcElement npcElement) {
+                canBePickedUp = !npcElement.BlockLootingDeadBody;
                 ragdollForce = damageOutcome.RagdollForce / npcElement.Template.npcWeight;
             }
-            Location location = DroppedItemSpawner.SpawnDroppedItemPrefab(transform.position, data, transform.rotation, ragdollForce);
+            Location location = DroppedItemSpawner.SpawnDroppedItemPrefab(transform.position, data, transform.rotation, ragdollForce, canBePickedUp: canBePickedUp);
             location.AddElement(new NPCItemDroppedElement(Target));
             gameObject.SetActive(false);
         }
@@ -201,9 +204,12 @@ namespace Awaken.TG.Main.Heroes.Combat {
         
         protected async UniTaskVoid LoadAnimatorController(ARAssetReference animatorControllerRef, params ARAssetReference[] additionalOverrides) {
             if (_isLoadingAnimator || this == null) {
-                #if !UNITY_EDITOR
                 Log.Critical?.Error("Loading animator controller again: isLoaded:" + _wasAnimatorOverrideLoaded + " isLoading: " + _isLoadingAnimator + " " + LogUtils.GetDebugName(Target));
-                #endif
+                return;
+            }
+
+            if (!_overridesRemoved) {
+                // --- Animations already loaded
                 return;
             }
             
@@ -227,6 +233,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                     OnAnimatorOverrideLoaded(h.Result);
                 } else {
                     Log.Important?.Error($"Failed to load AnimatorOverrideController for weapon: {gameObject.name}");
+                    h.Release();
                 }
             });
 
@@ -239,6 +246,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
                         additionalOverrideMapping.OnCompleteForceAsync(h => {
                             if (h.Status == AsyncOperationStatus.Succeeded) {
                                 OnAdditionalOverrideLoaded(h.Result);
+                            } else {
+                                h.Release();
                             }
                         });
                     }
@@ -377,7 +386,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         public virtual void HideWeapon(bool instantHide) {
-            if (Owner?.Character is not Hero hero) {
+            if (this == null || HasBeenDiscarded || Owner?.Character is not Hero hero) {
                 return;
             }
 
@@ -387,7 +396,9 @@ namespace Awaken.TG.Main.Heroes.Combat {
             }
             
             hero.Trigger(Hero.Events.OnWeaponBeginUnEquip, true);
-            VFXUtils.StopVfx(gameObject);
+            if (this != null && gameObject != null) {
+                VFXUtils.StopVfx(gameObject);
+            }
             if (instantHide) {
                 OnUnEquippingEnded();
             }

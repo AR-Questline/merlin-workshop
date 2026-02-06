@@ -22,7 +22,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
         }
 
         void OnNpcDeath(DamageOutcome outcome) {
-            if (outcome.Target is not NpcElement trackedNpc) {
+            if (outcome.TargetPure is not NpcElement trackedNpc) {
                 return;
             }
             

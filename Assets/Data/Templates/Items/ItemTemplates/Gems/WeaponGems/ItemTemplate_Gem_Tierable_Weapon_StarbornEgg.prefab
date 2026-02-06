@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_aa37ecf8997332a4c91de22cc317c737
-  EDITOR_bakedDescription: Weapon deals an additional 10%  damage.
+  EDITOR_bakedDescription: "Weapon deals an additional 10\_% Damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -87,7 +87,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_aa37ecf8997332a4c91de22cc317c737
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -132,7 +132,7 @@ MonoBehaviour:
   basePrice: 100
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 100
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -149,6 +149,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: c51d3867890876741b1fe800e1706b34
       subObjectName: 
@@ -171,7 +175,7 @@ MonoBehaviour:
     - name: DamageMultiplier
       value: 0.1
     - name: DamageGain
-      value: 0.05
+      value: 0.01
     - name: DamageCalculated
       value: 0
     enums: []

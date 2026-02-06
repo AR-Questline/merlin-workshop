@@ -3,8 +3,10 @@ using Animancer;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.Animations.FSM.Npc.Machines;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
+using Cysharp.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -30,11 +32,19 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.States.Rotation {
                     onNodeLoaded?.Invoke(n);
                 }, OnFailedFindNode, false);
         }
-        
+
         void OnFailedFindNode() {
+            StopRotationAfterOneFrame().Forget();
+        }
+
+        async UniTaskVoid StopRotationAfterOneFrame() {
+            if (!await AsyncUtil.DelayFrame(this)) {
+                return;
+            }
+
             StopRotation(true);
         }
-        
+
         protected override void AfterEnter(float previousStateNormalizedTime) {
             _canExit = false;
         }
@@ -48,8 +58,8 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.States.Rotation {
                 StopRotation(true, true);
             }
         }
-        
-        public void StopRotation(bool instant = false, bool aborted = false) {
+
+        void StopRotation(bool instant = false, bool aborted = false) {
             _canExit = true;
             ParentModel.SetCurrentState(NpcStateType.None, instant ? 0f : null);
             Npc.Trigger(Events.RotationStopped, aborted);

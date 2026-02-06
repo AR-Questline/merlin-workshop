@@ -135,7 +135,7 @@ MonoBehaviour:
   basePrice: 200
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 200
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -152,6 +152,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: 057cf027f8a2eb1478333c132e5a8986
       subObjectName: 
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -273,7 +280,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 3
     - name: GainValue
-      value: 3
+      value: 1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

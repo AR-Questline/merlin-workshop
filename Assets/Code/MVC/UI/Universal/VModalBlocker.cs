@@ -1,4 +1,5 @@
-﻿using Awaken.TG.MVC.Attributes;
+﻿using Awaken.TG.Main.UI.Helpers;
+using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
@@ -20,6 +21,7 @@ namespace Awaken.TG.MVC.UI.Universal {
         // === Auto Focus
         public bool ForceFocus => true;
         public Component DefaultFocus => this;
+        public bool IsValid => this.IsValidForUIHandle();
 
         // === Events
         public static class Events {

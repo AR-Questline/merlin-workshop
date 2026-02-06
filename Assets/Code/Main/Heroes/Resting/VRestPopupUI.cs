@@ -1,6 +1,7 @@
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
@@ -44,6 +45,7 @@ namespace Awaken.TG.Main.Heroes.Resting {
         public bool ForceFocus => true;
         public Component DefaultFocus => this;
         public override Transform DetermineHost() => Target.ViewParent ? Target.ViewParent : World.Services.Get<ViewHosting>().OnMainCanvas();
+        public bool IsValid => this.IsValidForUIHandle();
 
         float? _initialAngleRotation;
 
@@ -65,6 +67,10 @@ namespace Awaken.TG.Main.Heroes.Resting {
             mouseAntiDeadzone *= scaleFactor;
             _mouseDeadzoneSq = mouseDeadzone * mouseDeadzone;
             _mouseAntiDeadzoneSq = mouseAntiDeadzone * mouseAntiDeadzone;
+        }
+        
+        protected override void OnMount() {
+            World.Add(new BlurBackground(Target, BlurConfig.WithBlurVolume)).ShowBackground(this);
         }
         
         void Update() {
@@ -164,6 +170,7 @@ namespace Awaken.TG.Main.Heroes.Resting {
         }
         
         void SetHourChangeBasedOnAngle(float angle) {
+            angle %= 360f;
             float hourAngle = -angle + Atan2Offset;
             if (hourAngle < 0) {
                 hourAngle += 360;

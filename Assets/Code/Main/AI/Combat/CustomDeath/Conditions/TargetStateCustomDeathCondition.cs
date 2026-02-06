@@ -17,7 +17,7 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath.Conditions {
         [SerializeField] NpcState requiredState = NpcState.All;
 
         public bool Check(DamageOutcome damageOutcome, bool isValidationCheck) {
-            if (damageOutcome.Target is not NpcElement target) {
+            if (damageOutcome.TargetPure is not NpcElement target) {
                 return false;
             }
             

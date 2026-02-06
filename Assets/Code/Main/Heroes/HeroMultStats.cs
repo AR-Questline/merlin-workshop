@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.Character;
+﻿using System.Collections.Generic;
+using Awaken.TG.Main.Character;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Setup;
 using Awaken.TG.Main.Heroes.Stats;
@@ -18,7 +19,14 @@ namespace Awaken.TG.Main.Heroes {
         public Stat KillExpMultiplier { get; private set; }
         public Stat WealthMultiplier { get; private set; }
         public Stat ProfMultiplier { get; private set; }
-        
+
+        IEnumerable<Stat> AllStats() {
+            yield return ExpMultiplier;
+            yield return KillExpMultiplier;
+            yield return WealthMultiplier;
+            yield return ProfMultiplier;
+        }
+
         protected override void OnInitialize() {
             _wrapper.Initialize(this);
         }
@@ -26,6 +34,16 @@ namespace Awaken.TG.Main.Heroes {
         public static void CreateFromHeroTemplate(Hero hero) {
             HeroMultStats stats = new ();
             hero.AddElement(stats);
+        }
+        
+        public void RecalculateAllStats(bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this);
+            }
+            _wrapper.Initialize(this);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
         }
                 
         // === Persistence

@@ -22,6 +22,7 @@ Shader "Hidden/BlendCubemap" {
 
             float _faceIndex;
             float _blend;
+            float4 _Tint;       
 
             struct appdata_t {
                 uint vertexID : SV_VertexID;
@@ -53,9 +54,14 @@ Shader "Hidden/BlendCubemap" {
 
             float4 frag (v2f i) : SV_Target
             {
-                const float4 a = SAMPLE_TEXTURECUBE(_MainTex, sampler_MainTex, i.texcoord);
-                const float4 b = SAMPLE_TEXTURECUBE(_BlendTex, sampler_BlendTex, i.texcoord);
-                return lerp(a, b, _blend);
+                const float4 colA = SAMPLE_TEXTURECUBE(_MainTex,  sampler_MainTex,  i.texcoord);
+                const float4 colB = SAMPLE_TEXTURECUBE(_BlendTex, sampler_BlendTex, i.texcoord);
+
+                float4 blended = lerp(colA, colB, saturate(_blend));
+                
+                blended.rgb *= _Tint.rgb;
+
+                return blended;
             }
             ENDHLSL
 

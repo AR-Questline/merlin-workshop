@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_double_percent
       ID: Template/description_locString_2543871262668956605_e6b397ef6ff9dc741b87299e39e230a3
-  EDITOR_bakedDescription: 'Increases Spell Power by 15%.
-
-    Increases Magic Critical
-    Chance by 15%.'
+  EDITOR_bakedDescription: "Increases Spell Power by 15\_%.\nIncreases Magic Critical
+    Chance by 7\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -253,8 +255,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -282,7 +287,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.15
     - name: GainValue
-      value: 0.05
+      value: 0.02
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -297,9 +304,11 @@ MonoBehaviour:
       _guid: e699a32c4d76b8b48aa933b6586a5bca
     variables:
     - name: ModifyValue
-      value: 0.15
+      value: 0.07
     - name: GainValue
-      value: 0.01
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

@@ -57,6 +57,7 @@ MonoBehaviour:
     notes: 
   tags:
   - potions:advanced
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: feebc4bdb999add4985ee5c4a6f68773
@@ -74,8 +75,8 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_EssenceOfCold
       ID: Template/description_locString_2543871262668956605_f00f58405c2f94746aabd4d3daa7a75d
-  EDITOR_bakedDescription: Each arrow hit within 20s of drinking deals an extra 15%
-    damage and an additional 5 cold damage.
+  EDITOR_bakedDescription: "Each arrow hit within 20s of drinking deals an extra
+    15\_% damage and an additional 5 cold damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

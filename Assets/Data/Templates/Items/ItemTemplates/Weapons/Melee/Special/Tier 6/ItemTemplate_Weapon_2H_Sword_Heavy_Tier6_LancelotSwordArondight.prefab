@@ -80,7 +80,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_increase_dependingonmissing
       ID: Template/description_locString_2543871262668956605_700ed12a7ae526b47a166e46b26e4acd
-  EDITOR_bakedDescription: Attacks apply massive Poison buildup.
+  EDITOR_bakedDescription: "Increases Physical Damage by up to 200\_%, depending
+    on missing Health."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 662eff6fc8b25144f96d74dc4892bcdb
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -249,8 +254,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5105216457261439534
 MonoBehaviour:

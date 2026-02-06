@@ -42,7 +42,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
         }
 
         void BeforeDamageDealt(Damage damage) {
-            if (_isPlaying && damage.Target is Hero) {
+            if (_isPlaying && damage.TargetPure is Hero) {
                 ReturnToPool();
             }
         }
@@ -64,10 +64,12 @@ namespace Awaken.TG.Main.Fights.NPCs {
         }
 
         void ClearReferences() {
-            World.EventSystem.DisposeListener(ref _damageDealtListener);
+            World.EventSystem.TryDisposeListener(ref _damageDealtListener);
             _npc = null;
-            parentConstraint.RemoveSource(0);
-            parentConstraint.constraintActive = false;
+            if (parentConstraint.sourceCount != 0) {
+                parentConstraint.RemoveSource(0);
+                parentConstraint.constraintActive = false;
+            }
             _isPlaying = false;
         }
         

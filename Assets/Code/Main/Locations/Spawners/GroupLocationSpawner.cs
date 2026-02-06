@@ -14,8 +14,12 @@ namespace Awaken.TG.Main.Locations.Spawners {
 
         ILocationSpawningMethod _spawningMethod;
         GroupSpawnerAttachment _spec;
-        bool _requireFullClearForRespawn;
         HashSet<LocationTemplate> _allUniqueTemplates;
+        bool _requireFullClearForRespawn;
+        bool _ignoreDistanceCondition;
+
+        protected override bool AllKilled => killedLocations.Count >= _totalSpawnCap;
+        protected override bool DistanceCondition => _ignoreDistanceCondition | base.DistanceCondition;
 
         protected override IEnumerable<LocationTemplate> AllUniqueTemplates {
             get {
@@ -37,13 +41,15 @@ namespace Awaken.TG.Main.Locations.Spawners {
             SpawnOnlyAtNight = spec.spawnOnlyAtNight;
             IsDisabledByFlag = spec.useFlagAvailability;
             _availability = spec.availability;
-            _storyOnAllKilled = spec.storyOnAllKilled;
+            _storyOnAllKilled = spec.StoryOnAllKilled;
+            _statusToApply = spec.StatusToApply;
             _requireFullClearForRespawn = spec.mustFullClearToRespawn;
             _isManualSpawner = spec.manualSpawner;
             _canTriggerAmbush = spec.CanTriggerAmbush;
             _spawnOnlyOnAmbush = spec.spawnOnlyOnAmbush;
             SpawnCooldownAfterKilled = spec.SpawnerCooldown;
             _partialCanSpawnWyrdSpawns = !_isManualSpawner && !SpawnOnlyAtNight && !IsDisabledByFlag;
+            _ignoreDistanceCondition = spec.ignoreDistanceToPlayerWhenSpawning;
             this._spec = spec;
         }
         
@@ -60,14 +66,24 @@ namespace Awaken.TG.Main.Locations.Spawners {
         void InitElements() {
             if (_spec.RandomizationSettings == null) {
                 _spawningMethod = AddElement(new RegularLocationSpawning(_spec.LocationsToSpawn.ToList()));
-                _batchQuantityToSpawn = _spec.LocationsToSpawn.Count();
+                _batchQuantityToSpawn = (byte)_spec.LocationsToSpawn.Count();
+                _totalSpawnCap = _batchQuantityToSpawn;
             } else {
                 RegenerateSpawnCooldown(_spec.RandomizationSettings);
                 _batchQuantityToSpawn = _spec.RandomizationSettings.groupSpawnCap;
-                _spawningMethod = AddElement(new RandomizedLocationSpawning(_spec.RandomizationSettings));
+                _totalSpawnCap = (byte) (_spec.RandomizationSettings.totalSpawnCap + Random.Range(0, _spec.RandomizationSettings.randomSpawnCapIncreaseAtInstantiation + 1));
+                _spawningMethod = AddElement(new RandomizedLocationSpawning(_spec.RandomizationSettings, _totalSpawnCap));
             }
 
             _spec = null;
+        }
+
+        protected override bool AllAliveLocationsKilledOnRestore(bool anyAliveLocations) {
+            // KilledLocations Count is not a safe check because it could be triggered after every restore,
+            // that's why we check it only if it's in tandem with DiscardAfterAllKilled.
+            // It's a fix for a bug not counting self killed locations
+            return base.AllAliveLocationsKilledOnRestore(anyAliveLocations) 
+                   || DiscardAfterAllKilled && !HasAnyDiscardConditions && killedLocations is { Count: > 0 } && spawnedAliveLocations.IsEmpty();
         }
 
         public void RegenerateSpawnCooldown(SpawnerRandomizationSettings settings) {
@@ -80,14 +96,14 @@ namespace Awaken.TG.Main.Locations.Spawners {
             _spawningMethod.Spawn(currentBatchQuantitySpawned);
         }
 
-        public void SpawnLocationWithOffset(LocationTemplate toSpawn, Vector3 positionOffset, Quaternion rotationOffset, int id) {
+        public void SpawnLocationWithOffset(LocationTemplate toSpawn, Vector3 positionOffset, Quaternion rotationOffset, int id, bool allowSnapToGround = true) {
             if (toSpawn == null) {
                 Debug.LogError("GroupLocationSpawner: LocationToSpawn is null!", MainView?.gameObject);
                 return;
             }
             
             Vector3 position = MainView.transform.TransformPoint(positionOffset);
-            position = VerifyPosition(position, toSpawn);
+            position = VerifyPosition(position, toSpawn, allowSnapToGround);
             
             Quaternion rotation = MainView.transform.rotation * rotationOffset;
             Location location = toSpawn.SpawnLocation(position, rotation, spawnScene: MainView.gameObject.scene);

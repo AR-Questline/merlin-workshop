@@ -54,7 +54,6 @@ MonoBehaviour:
   - _guid: ac284bdd722762346b747bef5ac29b16
   - _guid: 6a469d3aba13563448a87cb610eb6c25
   - _guid: a578a70e36e9f944ebf3ade0c0c3db69
-  - _guid: eb6d6040c82ce9046a5dd9adb20a7186
   - _guid: bf6f941990c41df4393d114746ae173e
   metadata:
     verifiedArt: 0
@@ -79,7 +78,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_tool_fishingrod
       ID: Template/description_locString_2543871262668956605_e51e49c6ad37be4478f1654030fe47bf
-  EDITOR_bakedDescription: Allows fishing.
+  EDITOR_bakedDescription: Allows <color=#04959A>Fishing</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -143,7 +142,7 @@ MonoBehaviour:
   - _enumRef: Awaken.TG.Main.Skills.Keyword, TG.Main, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null:ToolFishing
   levelBonus: 0
-  weight: 2.2
+  weight: 0.5
   weightLoss: 0.5
   upgradeChance: 0.5
   crimeItemValue: 4
@@ -157,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 2dc5d9d55206053409fe78c72b717f99
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-5451238795681826495
 MonoBehaviour:
@@ -243,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &7208955695504798296
 MonoBehaviour:

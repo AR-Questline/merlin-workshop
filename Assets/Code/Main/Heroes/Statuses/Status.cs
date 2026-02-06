@@ -59,10 +59,11 @@ namespace Awaken.TG.Main.Heroes.Statuses {
         public ShareableSpriteReference Icon => Template.iconReference;
         public bool HiddenOnUI => Template.hiddenOnUI;
         public bool HiddenOnHUD => HiddenOnUI || Template.hiddenOnHUD;
+        public bool CanStack => Template.AddType == StatusAddType.Stack;
         public int StackLevel => _stackLevel;
         public virtual float EffectModifier => 1;
 
-        public string Description => SourceInfo != null ? SourceInfo.SourceDescription : Template.description;
+        public string Description => SourceInfo != null ? SourceInfo.DescriptionString : Template.description;
         TokenText DescriptionToken => _descriptionToken ??= new TokenText(Description);
         public string StatusDescription => DescriptionToken.GetValue(Character, this);
 

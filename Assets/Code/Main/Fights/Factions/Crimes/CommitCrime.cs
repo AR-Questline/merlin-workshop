@@ -16,7 +16,7 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         }
 
         public static bool Theft(Item item, ICrimeSource source) {
-            var crime = Crime.Theft(item, source);
+            using var crime = Crime.Theft(item, source);
             if (!crime.IsCrime()) {
                 return false;
             }
@@ -28,12 +28,12 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         }
         
         public static bool Theft(MountElement mount, ICrimeSource source) {
-            var crime = Crime.Theft(mount, source);
+            using var crime = Crime.Theft(mount, source);
             return crime.IsCrime() && crime.TryCommitCrime();
         }
 
         public static bool Pickpocket(Item item, NpcElement owner) {
-            var crime = Crime.Pickpocket(item, owner);
+            using var crime = Crime.Pickpocket(item, owner);
             if (!crime.IsCrime()) {
                 return false;
             }
@@ -64,15 +64,17 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         }
 
         public static bool Trespassing(ICrimeSource source) {
-            return Crime.Trespassing(source).TryCommitCrime();
+            using var crime = Crime.Trespassing(source);
+            return crime.TryCommitCrime();
         }
         
         public static bool Lockpicking(ICrimeSource source) {
-            return Crime.Lockpicking(source).TryCommitCrime();
+            using var crime = Crime.Lockpicking(source);
+            return crime.TryCommitCrime();
         }
         
         public static bool Combat(NpcElement npc, CrimeSituation situation = CrimeSituation.None) {
-            Crime combat = Crime.Combat(npc, situation);
+            using var combat = Crime.Combat(npc, situation);
             if (!npc.IsUnconscious) {
                 npc.Element<NpcCrimeReactions>().SetSeeingHero(true);
             }
@@ -80,7 +82,8 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         }
         
         public static bool Murder(IWithCrimeNpcValue withCrime) {
-            return Crime.Murder(withCrime).TryCommitCrime();
+            using var crime = Crime.Murder(withCrime);
+            return crime.TryCommitCrime();
         }
 
         public static CrimeSituation Append(this CrimeSituation situation, CrimeSituation situationToAppend) {

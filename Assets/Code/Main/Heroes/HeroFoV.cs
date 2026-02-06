@@ -40,7 +40,7 @@ namespace Awaken.TG.Main.Heroes {
         bool _fovChangesAllowed;
 
         Hero Hero => ParentModel;
-        float FoV => DefaultFoV * _toolFovMultiplier * (_fovChangesAllowed ? GetMovementFoVMultiplier() * _weaponFovMultiplier * _bowShotFovMultiplier * _slowTimeFovMultiplier : 1);
+        public float FoV => DefaultFoV * _toolFovMultiplier * (_fovChangesAllowed ? GetMovementFoVMultiplier() * _weaponFovMultiplier * _bowShotFovMultiplier * _slowTimeFovMultiplier : 1);
 
         public new static class Events {
             public static readonly Event<Hero, FoVChangeData> FoVUpdated = new(nameof(FoVUpdated));

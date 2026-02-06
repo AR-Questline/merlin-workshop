@@ -42,7 +42,8 @@ namespace Awaken.TG.Main.Stories.Steps {
                 CrimeUtils.CommitUnforgivableCrime(owner.Get<CrimeOwnerTemplate>());
             } else if (bountyGain > 0) {
                 var crimeSource = new FakeCrimeSource(owner.Get<CrimeOwnerTemplate>(), bountyGain);
-                Crime.Custom(crimeSource, situation).TryCommitCrime(); // TODO: check all useages of this step
+                using var crime = Crime.Custom(crimeSource, situation);
+                crime.TryCommitCrime(); // TODO: check all useages of this step
             }
             return StepResult.Immediate;
         }

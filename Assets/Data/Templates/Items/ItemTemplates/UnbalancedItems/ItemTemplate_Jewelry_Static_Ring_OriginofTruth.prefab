@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_jewelry_ring_OriginofTruth
       ID: Template/description_locString_2543871262668956605_fc1487e2f856a144e9adb7a2f559c411
-  EDITOR_bakedDescription: Each attack has a 1% chance to apply Freeze and Burn.
+  EDITOR_bakedDescription: "Each attack has a 1\_% chance to apply Freeze and Burn."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: d25fc86c7a905924ab15045b295ddd1d
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -247,8 +251,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:

@@ -71,7 +71,8 @@ MonoBehaviour:
   alwaysShowSeparately: 0
   invertProgressUI: 0
   overrideToAddForDifferentItems: 0
-  addType: 0
+  overrideToAddForUniqueItems: 0
+  addType: 6
   addTypeOnStacking: 2
   timerShouldDeStack: 0
   upgradeReference:
@@ -83,6 +84,8 @@ MonoBehaviour:
     variables:
     - name: ModifyValue
       value: 10
+    - name: ValueCalculated
+      value: 0
     enums:
     - name: StatEnum
       enumReference:

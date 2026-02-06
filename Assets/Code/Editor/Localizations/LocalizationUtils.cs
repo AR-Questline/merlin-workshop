@@ -11,6 +11,7 @@ using Awaken.TG.Main.Memories.Journal;
 using Awaken.TG.Main.Stories.Core;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility.Reflections;
+using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Extensions;
@@ -51,6 +52,57 @@ namespace Awaken.TG.Editor.Localizations {
             loc.ID = term;
         }
 
+        public static void CopyLocalizationData(string sourceId, string targetId) {
+            if (string.IsNullOrWhiteSpace(sourceId) || string.IsNullOrWhiteSpace(targetId)) {
+                return;
+            }
+            
+            foreach (string tableId in LocalizationHelper.StringTables) {
+                var tableCollection = LocalizationEditorSettings.GetStringTableCollection(tableId);
+                if (tableCollection == null) {
+                    continue;
+                }
+
+                var sharedEntry = tableCollection.SharedData.GetEntry(sourceId);
+                if (sharedEntry == null) {
+                    continue;
+                }
+                
+                var targetSharedEntry = tableCollection.SharedData.GetEntry(targetId);
+                if (targetSharedEntry == null) {
+                    targetSharedEntry = tableCollection.SharedData.AddKey(targetId);
+                }
+                
+                if (sharedEntry.Metadata != null) {
+                    targetSharedEntry.Metadata.MetadataEntries.Clear();
+                    foreach (var metadata in sharedEntry.Metadata.MetadataEntries) {
+                        targetSharedEntry.Metadata.AddMetadata(metadata);
+                    }
+                }
+                
+                foreach (var stringTable in tableCollection.StringTables) {
+                    var sourceEntry = stringTable.GetEntry(sourceId);
+                    if (sourceEntry != null) {
+                        var targetEntry = stringTable.AddEntry(targetId, sourceEntry.Value);
+                        
+                        targetEntry.IsSmart = sourceEntry.IsSmart;
+                        
+                        if (sourceEntry.MetadataEntries.Count > 0) {
+                            targetEntry.MetadataEntries.Clear();
+                            foreach (var metadata in sourceEntry.MetadataEntries) {
+                                targetEntry.AddMetadata(metadata);
+                            }
+                        }
+                    }
+                }
+                
+                EditorUtility.SetDirty(tableCollection.SharedData);
+                foreach (var table in tableCollection.StringTables) {
+                    EditorUtility.SetDirty(table);
+                }
+            }
+        }
+        
         public static void AssignNewTerm(GameObjectLocalizer localize, string newTermID, string oldTermId, StringTableCollection tableCollection) {
             var tmp = localize.GetComponent<TextMeshProUGUI>();
             var stringTable = (StringTable)tableCollection.GetTable(LocalizationSettings.ProjectLocale.Identifier);

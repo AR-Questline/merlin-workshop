@@ -17,14 +17,14 @@ namespace Awaken.TG.Main.Stories.Steps {
 
         protected override StoryStep CreateRuntimeStepImpl(StoryGraphParser parser) {
             return new SFancyPanel {
-                text = text,
+                text = parser.GetLightLocString(text),
                 type = type
             };
         }
     }
 
     public partial class SFancyPanel : StoryStep {
-        public LocString text;
+        public LightLocString text;
         public RichEnumReference type;
         
         public override StepResult Execute(Story story) {

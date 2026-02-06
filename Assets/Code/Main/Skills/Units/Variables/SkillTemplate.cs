@@ -63,11 +63,16 @@ namespace Awaken.TG.Main.Skills.Units.Variables {
         [Serialize, Inspectable, UnitHeaderInspectable]
         public string name;
         
-        
         protected override void Definition() {
+            var chapterNameInput = FallbackARValueInput("chapterName", _ => string.Empty);
+            
             ValueOutput("Bookmark", f => {
                 var graphReference = this.Skill(f).GetTemplateReference(name);
-                return StoryBookmark.ToInitialChapter(graphReference);
+                var chapterName = chapterNameInput.Value(f);
+                var bookmark = string.IsNullOrEmpty(chapterName)
+                    ? StoryBookmark.ToInitialChapter(graphReference)
+                    : StoryBookmark.ToSpecificChapter(graphReference, chapterName);
+                return bookmark;
             });
         }
     }

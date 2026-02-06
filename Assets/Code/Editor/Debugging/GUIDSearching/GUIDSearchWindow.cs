@@ -14,14 +14,13 @@ using Object = UnityEngine.Object;
 using ProgressBar = Awaken.TG.Editor.SimpleTools.ProgressBar;
 
 namespace Awaken.TG.Editor.Debugging.GUIDSearching {
-    public class GUIDSearchWindow : OdinEditorWindow {
-        const string OtherGUIDToolsGroup = "Other GUID Tools";
-        const string OtherGUIDToolsButtonsGroup = OtherGUIDToolsGroup+"/Buttons";
-        
+    public class GUIDSearchWindow : GUIDSearchWindowBase {
         public static readonly Type[] DesiredDockTypes = {typeof(GUIDSearchWindow), typeof(UnusedSearchWindow), typeof(RichEnumSearchWindow), typeof(IdOverrideSearchWindow)};
         
         [ShowInInspector, PropertyOrder(-10)]
         public string LastBake => GUIDCache.Instance?.LastBake;
+        
+        protected override bool ShowGUIDSearchButton => false;
 
         public static void OpenWindow() {
             var window = GetWindow<GUIDSearchWindow>(DesiredDockTypes);
@@ -115,22 +114,28 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
             }
         }
 
-        [BoxGroup(OtherGUIDToolsGroup), HorizontalGroup(OtherGUIDToolsButtonsGroup), PropertyOrder(-1)]
-        [Button(ButtonSizes.Small)]
-        void OpenUnusedSearchWindow() {
-            UnusedSearchWindow.OpenWindow();
-        }
-        
-        [HorizontalGroup(OtherGUIDToolsButtonsGroup), PropertyOrder(-1)]
-        [Button(ButtonSizes.Small)]
-        void OpenRichEnumSearchWindow() {
-            RichEnumSearchWindow.OpenWindow();
-        }
-        
-        [HorizontalGroup(OtherGUIDToolsButtonsGroup), PropertyOrder(-1)]
-        [Button(ButtonSizes.Small)]
-        void OpenIdOverrideSearchWindow() {
-            IdOverrideSearchWindow.OpenWindow();
+        [HorizontalGroup("Buttons"), PropertySpace(SpaceBefore = 5)]
+        [Button(ButtonSizes.Medium, ButtonStyle.CompactBox)]
+        [LabelText("Search Current Scene")]
+        void SearchCurrentScene() {
+            _foundUsages.Clear();
+            if (selectedObject == null) {
+                return;
+            } 
+            foreach (var go in Object.FindObjectsOfType<GameObject>(true)) {
+                foreach (var component in go.GetComponents<Component>()) {
+                    if (component == null) continue;
+                    SerializedObject so = new SerializedObject(component);
+                    SerializedProperty prop = so.GetIterator();
+                    while (prop.NextVisible(true)) {
+                        if (prop.propertyType == SerializedPropertyType.ObjectReference && prop.objectReferenceValue == selectedObject) {
+                            _foundUsages.Add(new SearchResultObject(go.PathInSceneHierarchy(), go));
+                        } else if (prop.propertyType == SerializedPropertyType.String && prop.stringValue == phrase) {
+                            _foundUsages.Add(new SearchResultObject(go.PathInSceneHierarchy(), go));
+                        }
+                    }
+                }
+            }
         }
         
         void Search() {

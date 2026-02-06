@@ -40,8 +40,10 @@ namespace Awaken.TG.Main.Heroes.Statuses {
         public bool alwaysShowSeparately;
         public bool invertProgressUI;
 
-        [SerializeField, Tooltip("If true, status add type will be changed to Add if the status has different source item.")]
+        [SerializeField, LabelText("Override To Add For Different Templates"), Tooltip("If true, status add type will be changed to Add if the status has different source item template.")]
         bool overrideToAddForDifferentItems;
+        [SerializeField, ShowIf(nameof(overrideToAddForDifferentItems)), Tooltip("If true, status add type will be changed to Add if the status has different source item.")]
+        bool overrideToAddForUniqueItems;
         
         [SerializeField] 
         StatusAddType addType;
@@ -65,6 +67,7 @@ namespace Awaken.TG.Main.Heroes.Statuses {
         public IEnumerable<Keyword> Keywords => keywords.Select(k => k.EnumAs<Keyword>());
 
         public bool OverrideToAddForDifferentItems => overrideToAddForDifferentItems;
+        public bool OverrideToAddForUniqueItems => overrideToAddForUniqueItems;
         public StatusAddType AddType => addType;
         public StatusAddType AddTypeOnStacking => addTypeOnStacking;
         public bool TimerShouldDeStackInsteadOfCancelingEffect => timerShouldDeStack;

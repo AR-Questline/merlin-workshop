@@ -7,12 +7,14 @@ using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Locations.Containers;
 using Awaken.TG.Main.Settings.Accessibility;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
+using Cysharp.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -44,11 +46,13 @@ namespace Awaken.TG.Main.Heroes {
                 yield return KeyBindings.HeroItems.UseQuickSlot;
                 yield return KeyBindings.HeroItems.NextQuickSlot;
                 yield return KeyBindings.Gameplay.ChangeHeroPerspective;
+                yield return KeyBindings.UI.HUD.ChangeActiveSarrasBranch;
             }
         }
 
         bool CanZoomBow => Target.Development.CanZoomBow;
         bool HasBowToUse => Target.CanUseEquippedWeapons && Target.MainHandWeapon is { Item: { IsRanged: true } };
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             World.Only<PlayerInput>().RegisterPlayerInput(this, Target);
@@ -69,7 +73,7 @@ namespace Awaken.TG.Main.Heroes {
                 } else if (action == KeyBindings.UI.CharacterSheets.QuestLog) {
                     CharacterSheetUI.ToggleCharacterSheet(CharacterSheetTabType.Quests);
                 } else if (!RewiredHelper.IsGamepad && action == KeyBindings.UI.HUD.OpenSkillTree) {
-                    CharacterUI.ToggleCharacterSheet(CharacterSubTabType.Talents).Forget();;
+                    CharacterUI.ToggleCharacterSheet(CharacterSubTabType.Talents).Forget();
                 } else if (action == KeyBindings.UI.HUD.QuickUseWheel) {
                     QuickUseWheelUI.Show();
                 } else if (action == KeyBindings.UI.CharacterSheets.ToggleMap && MapUI.IsOnSceneWithMap()) {

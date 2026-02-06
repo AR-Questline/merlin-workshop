@@ -99,7 +99,8 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
 
         public override void TriggerAnimationEvent(ARAnimationEvent animationEvent) {
             if (animationEvent.actionType == ARAnimationEvent.ActionType.AttachWeapon) {
-                AttachWeaponsToHands(ParentModel.MainHandItem, ParentModel.OffHandItem, Npc);
+                AttachWeaponsToHands(ParentModel.MainHandItem, ParentModel.AdditionalMainHandItem,
+                    ParentModel.OffHandItem, ParentModel.AdditionalOffHandItem, Npc);
                 _weaponsAttached = true;
             }
         }
@@ -111,7 +112,8 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
         protected override void BehaviourExit() {
             // --- If somebody forgot to add event to attach weapons attach them here
             if (!_weaponsAttached) {
-                AttachWeaponsToHands(ParentModel.MainHandItem, ParentModel.OffHandItem, Npc);
+                AttachWeaponsToHands(ParentModel.MainHandItem, ParentModel.AdditionalMainHandItem,
+                    ParentModel.OffHandItem, ParentModel.AdditionalOffHandItem, Npc);
             }
         }
 
@@ -152,7 +154,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
             return false;
         }
 
-        public static void AttachWeaponsToHands(Item mainHandItem, Item offHandItem, NpcElement npc) {
+        public static void AttachWeaponsToHands(Item mainHandItem, Item additionalMainHandItem, Item offHandItem, Item additionalOffHandItem, NpcElement npc) {
             NpcWeaponsHandler weaponsHandler = npc.WeaponsHandler;
             if (weaponsHandler == null) {
                 return;
@@ -161,8 +163,17 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
             if (mainHandItem != null) {
                 weaponsHandler.AttachWeaponToHand(mainHandItem.Element<ItemEquip>());
             }
+
+            if (additionalMainHandItem != null) {
+                weaponsHandler.AttachWeaponToHand(additionalMainHandItem.Element<ItemEquip>());
+            }
+            
             if (offHandItem != null) {
                 weaponsHandler.AttachWeaponToHand(offHandItem.Element<ItemEquip>());
+            }
+
+            if (additionalOffHandItem != null) {
+                weaponsHandler.AttachWeaponToHand(additionalOffHandItem.Element<ItemEquip>());
             }
         }
 

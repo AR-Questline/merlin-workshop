@@ -21,6 +21,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         public override HeroLayerType LayerType => HeroLayerType.Overrides;
         public override HeroStateType DefaultState => HeroStateType.None;
         public bool IsActive => AnimancerLayer.Weight > 0 && CurrentAnimatorState != null && CurrentAnimatorState.Type != HeroStateType.None;
+        public bool IsInInteractAnimation => CurrentAnimatorState is IAnimatorStateHeroInteraction { IsInInteraction: true };
         protected override bool CanBeDisabled => false;
         protected override bool CanBeUpdatedInSafeZone => true;
         protected override SynchronizedHeroSubstateMachine HeadLayerIndex => _head;
@@ -38,6 +39,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
             AddState(new HeroThrowableThrow());
             AddState(new HeroCustomInteractionAnimation());
             AddState(new HeroPraySuccess());
+            AddState(new HeroPlayInstrument());
 
             if (!Hero.TppActive) {
                 AddState(new FinisherState());

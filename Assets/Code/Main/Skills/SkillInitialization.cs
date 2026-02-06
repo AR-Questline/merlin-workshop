@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Awaken.TG.Main.Heroes.Skills;
 using Awaken.TG.MVC;
-using Unity.Collections;
 
 namespace Awaken.TG.Main.Skills {
     public static class SkillInitialization {
@@ -64,7 +63,7 @@ namespace Awaken.TG.Main.Skills {
             for (int i = 0; i < references.Count; i++) {
                 if (references[i].SkillGraph(null) == skill.Graph) {
                     reference = references[i];
-                    references.RemoveAtSwapBack(i);
+                    references.RemoveAt(i);
                     return true;
                 }
             }

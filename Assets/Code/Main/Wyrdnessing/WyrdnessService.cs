@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Awaken.TG.Graphics.DayNightSystem;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes;
@@ -15,7 +16,7 @@ namespace Awaken.TG.Main.Wyrdnessing {
         static readonly UniversalProfilerMarker FullUpdateMarker = new("WyrdnessService.FullUpdate");
         static readonly UniversalProfilerMarker MovedMarker = new("WyrdnessService.Moved");
         
-        readonly HashSet<IWyrdnessReactor> _listeners = new();
+        readonly List<IWyrdnessReactor> _listeners = new();
         
         readonly HashSet<IWyrdnightRepellerSource> _fastRepellers = new();
         readonly HashSet<IWyrdnightRepellerSource> _repellers = new();
@@ -30,8 +31,8 @@ namespace Awaken.TG.Main.Wyrdnessing {
         /// Use this method if you want to ignore <see cref="WyrdnightDisabled"/> properties and only check if the position is in any repeller.
         /// </summary>
         public bool IsInRepeller(Vector3 position) => IsPositionInAnyRepeller(position, false);
-        public bool WyrdnightDisabled => !_sceneService.IsOpenWorld || !Hero.Current.HeroWyrdNight.Night;
-        public bool IsWyrdNight => _sceneService.IsOpenWorld && Hero.Current.HeroWyrdNight.Night;
+        public bool WyrdnightDisabled => !_sceneService.AllowsWyrdnight || !Hero.Current.HeroWyrdNight.Night;
+        public bool IsWyrdNight => _sceneService.AllowsWyrdnight && Hero.Current.HeroWyrdNight.Night;
         
         public void Init(SceneService sceneService) {
             _sceneService = sceneService;
@@ -131,11 +132,14 @@ namespace Awaken.TG.Main.Wyrdnessing {
             
             FullUpdateMarker.Begin();
             if (WyrdnightDisabled) {
-                foreach (var listener in _listeners) {
-                    InformOfRepellerStateChanged(listener, true);
+                // Listeners can be destroyed during this loop (e.g. NPC IsWyrdnessBound)
+                for (int i = _listeners.Count - 1; i >= 0; i--) {
+                    InformOfRepellerStateChanged(_listeners[i], true);
                 }
             } else {
-                foreach (var listener in _listeners) {
+                // Listeners can be destroyed during this loop (e.g. NPC IsWyrdnessBound)
+                for (int i = _listeners.Count - 1; i >= 0; i--) {
+                    var listener = _listeners[i];
                     InformOfRepellerStateChanged(listener, IsPositionInAnyRepeller(listener.Coords));
                 }
             }
@@ -159,9 +163,7 @@ namespace Awaken.TG.Main.Wyrdnessing {
             if (listener.IsSafeFromWyrdness == isInRepeller) return;
             
             listener.IsSafeFromWyrdness = isInRepeller;
-            if (listener is Hero hero) {
-                hero.HeroWyrdNight.OnWyrdNightRepellerChanged();
-            }
+            listener.OnWyrdNightRepellerChanged();
         }
     }
 }

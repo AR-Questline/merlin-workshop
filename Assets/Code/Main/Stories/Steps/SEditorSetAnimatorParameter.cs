@@ -60,6 +60,8 @@ namespace Awaken.TG.Main.Stories.Steps {
             [Saved] int _parameterHash; 
             [Saved] SavedAnimatorParameter _parameter;
             
+            public override bool RequireVisualLoaded => true;
+            
             [JsonConstructor, Preserve]
             StepExecution() { }
             

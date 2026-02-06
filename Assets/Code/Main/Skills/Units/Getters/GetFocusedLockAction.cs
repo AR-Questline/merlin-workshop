@@ -1,6 +1,5 @@
 using System.Linq;
 using Awaken.TG.Main.Heroes;
-using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.VisualScripts.Units;
 using Unity.VisualScripting;

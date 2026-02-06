@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Awaken.Kandra;
@@ -76,11 +77,19 @@ namespace Awaken.TG.Main.Character.Features {
         public sealed override UniTask Release(bool prettySwap = false) {
             _releasedDuringSpawnCancellationTokenSource?.Cancel();
             _releasedDuringSpawnCancellationTokenSource = null;
-            
-            foreach (var kandraMarker in _usedMarkers) {
-                var renderer = kandraMarker.Renderer;
-                if (!prettySwap) CleanupModification(renderer.rendererData.RenderingMaterials[kandraMarker.Index], renderer);
-                kandraMarker.Renderer.UseOriginalMaterial(kandraMarker.Index);
+            try {
+                foreach (var kandraMarker in _usedMarkers) {
+                    var renderer = kandraMarker.Renderer;
+                    if (renderer == null) {
+                        Log.Important?.Error($"Renderer was destroyed before releasing material modification: {kandraMarker.Index} on {Features.SafeGameObject?.HierarchyPath()}");
+                        continue;
+                    }
+                    if (!prettySwap) CleanupModification(renderer.rendererData.RenderingMaterials[kandraMarker.Index], renderer);
+                    kandraMarker.Renderer.UseOriginalMaterial(kandraMarker.Index);
+                }
+            } catch (Exception e) {
+                Log.Critical?.Error($"Exception during releasing material modifications on {Features.SafeGameObject?.HierarchyPath()}");
+                Debug.LogException(e);
             }
             _usedMarkers.Clear();
             FinalizeCleanup();

@@ -2,6 +2,7 @@
 using System.Linq;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Heroes.CharacterCreators.PresetSelection;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Saving.SaveSlots;
 using Awaken.TG.Main.Scenes.SceneConstructors;
@@ -27,25 +28,31 @@ namespace Awaken.TG.Main.UI.TitleScreen {
     public class VTitleScreenUI : View<TitleScreenUI>, IAutoFocusBase, IFocusSource {
         [Title("Title Menu Buttons")]
         [SerializeField] GameObject defaultButtonsParent;
-        [SerializeField] GameObject dlcButtonsParent;
         [SerializeField] ButtonConfig continueGame;
         [SerializeField] ButtonConfig newGame;
         [SerializeField] ButtonConfig loadGame;
         [SerializeField] ButtonConfig options;
         [SerializeField] ButtonConfig modManager;
-        [SerializeField] ButtonConfig ost;
-        [SerializeField] ButtonConfig artbook;
-        [SerializeField] ButtonConfig exitGame;
+        [SerializeField] ButtonConfig extras;
         [SerializeField] GameObject[] dlcObjects = Array.Empty<GameObject>();
-        [Title("New Game Buttons")]
+        
+        [Title("New Game Buttons")] 
         [SerializeField] GameObject newGameButtonsParent;
+        [SerializeField] ButtonConfig newGamePlus;
         [SerializeField] ButtonConfig prologue;
         [SerializeField] ButtonConfig hornsOfTheSouth;
-        [Title("Footer")]
-        [SerializeField] Transform promptHost;
+
+        [Title("Extras Buttons")] 
+        [SerializeField] GameObject extrasButtonsParent;
+        [SerializeField] ButtonConfig modManagerExtras;
+        [SerializeField] ButtonConfig ost;
+        [SerializeField] ButtonConfig artbook;
+        [Title("Footer")] [SerializeField] Transform promptHost;
 
         ButtonConfig[] _allButtons;
         bool _isDescriptionShown;
+        MenuPanel _currentPanel = MenuPanel.Default;
+        MenuPanel _previousPanel = MenuPanel.Default;
 
         public Transform PromptsHost => promptHost;
         public bool ForceFocus => true;
@@ -54,7 +61,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
 
         protected override void OnInitialize() {
-            SwitchButtons(true);
+            SwitchButtons(MenuPanel.Default);
             InitializeButtons();
             
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelDiscarded<LoadMenuUI>(), this, model => {
@@ -71,54 +78,78 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         }
 
         void InitializeButtons() {
-            newGame.InitializeButton(GameMode.IsDemo 
-                ? StartPrologue 
+            newGame.InitializeButton(GameMode.IsDemo
+                ? StartPrologue
                 : NewGameAction
             );
-            
+
             continueGame.InitializeButton(() => {
                 Target.PauseMusic();
-                FMODManager.PlayOneShotAfter(CommonReferences.Get.AudioConfig.StartGameSound, continueGame.button.clickSound, this).Forget();
+                FMODManager.PlayOneShotAfter(CommonReferences.Get.AudioConfig.StartGameSound,
+                    continueGame.button.clickSound, this).Forget();
                 SaveSlot slot = SaveSlot.LastSaveSlot;
                 LoadSave.Get.Load(slot, "TitleScreen Continue");
             });
-            
+
             loadGame.InitializeButton(() => MenuUI.OpenLoadUI(this));
             options.InitializeButton(() => MenuUI.OpenSettingUI(this));
 
             bool isConsole = PlatformUtils.IsConsole;
-            modManager.TrySetActiveOptimized(!isConsole);
+            bool hasSupportersDlc = HasSupportersPackDlc();
+
+            extras.TrySetActiveOptimized(hasSupportersDlc);
+            extras.InitializeButton(() => SwitchButtons(MenuPanel.Extras));
+            
+            modManager.TrySetActiveOptimized(!isConsole && !hasSupportersDlc);
+            modManagerExtras.TrySetActiveOptimized(!isConsole && hasSupportersDlc);
             if (!isConsole) {
                 modManager.InitializeButton(() => MenuUI.OpenModUI(this));
+                modManagerExtras.InitializeButton(() => MenuUI.OpenModUI(this));
             }
-            
-            if (HasSupportersPackDlc()) {
+
+            if (hasSupportersDlc) {
                 ost.InitializeButton(MenuUI.OpenOstUI);
                 artbook.InitializeButton(MenuUI.OpenArtbookUI);
             }
+
             foreach (GameObject obj in dlcObjects) {
-                obj.SetActiveOptimized(HasSupportersPackDlc());
+                obj.SetActiveOptimized(hasSupportersDlc);
             }
             
-            exitGame.InitializeButton(Target.ExitGame);
-            
+            newGamePlus.InitializeButton(() => MenuUI.OpenLoadUI(this, true));
             prologue.InitializeButton(StartPrologue);
             hornsOfTheSouth.InitializeButton(SkipPrologue);
 
             RefreshButtons();
         }
 
-        public void SwitchButtons(bool isDefault) {
+        void SwitchButtons(MenuPanel panel) {
+            _previousPanel = _currentPanel;
+            _currentPanel = panel;
+            
+            var isDefault = panel == MenuPanel.Default;
+            var isNewGame = panel == MenuPanel.NewGame;
+            var isExtras = panel == MenuPanel.Extras;
+            
             Target.RefreshPrompt(!isDefault);
             defaultButtonsParent.SetActiveOptimized(isDefault);
-            dlcButtonsParent.SetActiveOptimized(isDefault);
-            newGameButtonsParent.SetActiveOptimized(!isDefault);
-            World.Only<Focus>().Select(isDefault ? DefaultFocus : prologue.button);
+            extrasButtonsParent.SetActiveOptimized(isExtras);
+            newGameButtonsParent.SetActiveOptimized(isNewGame);
+            
+            Component toFocus = panel switch {
+                MenuPanel.Default when _previousPanel == MenuPanel.Extras => extras.button,
+                MenuPanel.Default => DefaultFocus,
+                MenuPanel.NewGame => prologue.button,
+                MenuPanel.Extras => artbook.button,
+                _ => throw new ArgumentOutOfRangeException(nameof(panel), panel, null)
+            };
+            World.Only<Focus>().Select(toFocus);
         }
 
         void NewGameAction() {
             if (TitleScreenUI.SkipPrologueUnlocked) {
-                SwitchButtons(false);
+                newGamePlus.gameObject.SetActive(NewGamePlusUtils.AnyNewGamePlusEligibleSave());
+                SwitchButtons(MenuPanel.NewGame);
             } else {
                 StartPrologue();
             }
@@ -130,13 +161,13 @@ namespace Awaken.TG.Main.UI.TitleScreen {
             
             FMODManager.PlayOneShotAfter(commonReferences.AudioConfig.StartGameSound, newGame.button.clickSound, this).Forget();
             SceneSets jailTutorial = commonReferences.presetSelectorConfig.JailTutorial;
-            
+
             StartGameData data = new() {
                 withHeroCreation = true,
                 sceneReference = jailTutorial.Scene,
                 characterPresetData = jailTutorial.presets.FirstOrDefault()
             };
-            
+
             TitleScreenUtils.StartNewGame(data);
         }
 
@@ -146,26 +177,25 @@ namespace Awaken.TG.Main.UI.TitleScreen {
             
             FMODManager.PlayOneShotAfter(commonReferences.AudioConfig.StartGameSound, newGame.button.clickSound, this).Forget();
             SceneSets hosSet = commonReferences.presetSelectorConfig.HornsOfTheSouth;
-            
+
             StartGameData data = new() {
                 withHeroCreation = true,
-                sceneReference = hosSet.Scene, 
+                sceneReference = hosSet.Scene,
                 characterPresetData = hosSet.presets.FirstOrDefault()
             };
             TitleScreenUtils.StartNewGame(data);
         }
-        
+
         public void Back() {
-            SwitchButtons(true);
+            SwitchButtons(MenuPanel.Default);
         }
 
         void RefreshButtons() {
             bool canContinue = LoadSave.Get.CanContinue();
             continueGame.button.TrySetActiveOptimized(canContinue);
             loadGame.button.TrySetActiveOptimized(canContinue);
-            exitGame.button.TrySetActiveOptimized(!PlatformUtils.IsConsole);
         }
-        
+
         void CorrectFocusOnReturn(Model model) {
             switch (model) {
                 case LoadMenuUI:
@@ -184,7 +214,13 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         }
 
         static bool HasSupportersPackDlc() {
-            return SocialService.Get.HasDlc(CommonReferences.Get.SupportersPackDlcId);
+            return SocialService.Get.HasDlc(DlcCategory.SupporterPack);
+        }
+
+        enum MenuPanel : byte {
+            Default,
+            NewGame,
+            Extras
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(CEditorQuestObjective))]
     public class CQuestObjectiveEditor : ElementEditor {
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawPropertiesExcept("objectiveName", "requiredState");
 
             CEditorQuestObjective step = Target<CEditorQuestObjective>();
@@ -18,7 +18,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
             if (step.questRef.IsSet) {
                 QuestTemplate questTemplate = step.questRef.Get<QuestTemplate>();
                 if (questTemplate == null) {
-                    Log.Important?.Warning($"Invalid template assigned");
+                    Log.Important?.Warning("Invalid template assigned");
                     return;
                 }
 

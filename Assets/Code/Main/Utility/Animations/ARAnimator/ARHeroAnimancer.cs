@@ -18,6 +18,7 @@ using Sirenix.OdinInspector;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
@@ -51,11 +52,19 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             { HeroStateType.HeavyAttackStartAlternate, HeroStateType.HeavyAttackStart },
             { HeroStateType.HeavyAttackWaitAlternate, HeroStateType.HeavyAttackWait },
             { HeroStateType.HeavyAttackEndAlternate, HeroStateType.HeavyAttackEnd },
+            { HeroStateType.CustomHorseRidingMovement, HeroStateType.HorseRidingMovement },
+            { HeroStateType.IdleAlternate, HeroStateType.Idle },
+            { HeroStateType.MovementAlternate, HeroStateType.Movement },
+            { HeroStateType.EquipWeaponAlternate, HeroStateType.EquipWeapon },
+            { HeroStateType.UnEquipWeaponAlternate, HeroStateType.UnEquipWeapon },
+            { HeroStateType.MagicHeavyEndAlternate1, HeroStateType.MagicHeavyEnd },
+            { HeroStateType.MagicHeavyEndAlternate2, HeroStateType.MagicHeavyEnd },
+            { HeroStateType.MagicHeavyEndAlternate3, HeroStateType.MagicHeavyEnd },
         };
 
         protected override void Awake() {
             base.Awake();
-            InitializeHeroAnimancer().Forget();
+            InitializeHeroAnimancer();
             InitPlayable();
             AnimancerDisposeTracker.StopTracking(_rigBuilder);
         }
@@ -108,31 +117,39 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             }
         }
 
-        async UniTaskVoid InitializeHeroAnimancer() {
+        void InitializeHeroAnimancer() {
             _baseAnimationsReference = baseAnimations.Get();
             if (_baseAnimationsReference is not { IsSet: true }) {
                 Log.Critical?.Error("Hero does not have base animations set!", gameObject);
                 return;
             }
             
-            var result = await _baseAnimationsReference.LoadAsset<ARHeroAnimancerBaseAnimations>();
-            if (result == null) {
-                Log.Critical?.Error("Failed to load base animations for Animancer! Hero will be broken!", gameObject);
-                return;
-            }
-
-            if (this == null || Hero.Current.HasBeenDiscarded) {
-                _baseAnimationsReference?.ReleaseAsset();
-                _baseAnimationsReference = null;
-                return;
-            }
             
-            _baseAnimations = result;
-            foreach (var mapping in _baseAnimations.animationMappings) {
-                ApplyOverrides(this, mapping);
-            }
+            _baseAnimationsReference.LoadAsset<ARHeroAnimancerBaseAnimations>().OnComplete(h => {
+                bool heroDiscarded = Hero.Current?.HasBeenDiscarded ?? true;
+                
+                if (h.Status != AsyncOperationStatus.Succeeded || h.Result == null) {
+                    if (!heroDiscarded) {
+                        Log.Critical?.Error("Failed to load base animations for Animancer! Hero will be broken!", gameObject);
+                    }
+                    h.Release();
+                    _baseAnimationsReference = null;
+                    return;
+                }
 
-            OnAnimationsLoaded();
+                if (this == null || heroDiscarded) {
+                    h.Release();
+                    _baseAnimationsReference = null;
+                    return;
+                }
+                
+                _baseAnimations = h.Result;
+                foreach (var mapping in _baseAnimations.animationMappings) {
+                    ApplyOverrides(this, mapping);
+                }
+
+                OnAnimationsLoaded();
+            });
         }
         
         public AnimationCurve GetAnimationSpeedCurve(HeroLayerType layer, HeroStateType currentStateType) {
@@ -310,6 +327,28 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             _onAnimationsLoaded?.Invoke();
             _onAnimationsLoaded = null;
         }
+        
+        protected override void OnDestroy() {
+            _replacements.Clear();
+            _entryToTransition.Clear();
+            _baseAnimations = null;
+            
+            _baseAnimationsReference?.ReleaseAsset();
+            _baseAnimationsReference = null;
+
+            _onAnimationsLoaded = null;
+            
+            foreach (var layer in Layers) {
+                layer.DestroyStates();
+            }
+            
+            base.OnDestroy();
+            
+            if (_rigBuilder != null) {
+                _rigBuilder.Clear();
+                _rigBuilder = null;
+            }
+        }
 
         // === Helpers
         [UsedImplicitly, UnityEngine.Scripting.Preserve]
@@ -317,6 +356,16 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             // Animation Events are handled for hero by HeroWeaponEvents. This method is only to suppress errors from animator.
         }
 
+        void OnAnimatorMove() {
+            if (Animator.deltaPosition.magnitude > 0.01f) {
+                Hero.Current.VHeroController.MoveTowards(Animator.deltaPosition);
+            }
+            
+            if (Animator.deltaRotation != Quaternion.identity) {
+                Hero.Current.VHeroController.Transform.rotation *= Animator.deltaRotation;
+            }
+        }
+        
         IEnumerable<ARHeroStateToAnimationMapping> GetMappingsForLayer(HeroLayerType layerType) {
             return _replacements.Where(m => m.mapping.layerType == layerType).Select(m => m.mapping)
                 .Concat(_baseAnimations.animationMappings.Where(m => m.layerType == layerType));

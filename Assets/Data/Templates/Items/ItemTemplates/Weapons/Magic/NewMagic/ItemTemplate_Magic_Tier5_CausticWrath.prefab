@@ -56,6 +56,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 11a07a8cdfbe00344b9a173f3aefa854
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -157,6 +159,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -266,6 +272,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 80
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 120
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -314,6 +324,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 85
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 130
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -362,6 +376,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 100
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 150
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -427,7 +445,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 19
   maxDamage: 21
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -460,8 +478,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 36
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 54
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:
@@ -837,6 +858,10 @@ MonoBehaviour:
         useHandSlotOrientation: 0
         handSlotOrientationLocalDirection: {x: 0, y: 1, z: 0}
         predictPlayerMovement: 1
+        overrideFireAngleRange: 0
+        fireAngleRange:
+          min: -60
+          max: 60
         maxFireBallVelocity: 40
         aimAtTargetHeight: 0.85
         inaccuracyOffset: 0

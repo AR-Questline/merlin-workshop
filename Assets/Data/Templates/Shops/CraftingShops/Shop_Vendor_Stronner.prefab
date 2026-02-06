@@ -63,8 +63,16 @@ MonoBehaviour:
     removeOnRestock:
       low: 0
       high: 0
-  uniqueItems: []
+  uniqueItems:
+  - itemTemplateReference:
+      _guid: 7d779a13eb87db04682ddcedad7de679
+    quantity: 1
+    itemLvl:
+      low: 0
+      high: 0
+  lockedUniqueItems: []
   restockWealthGain:
     low: 20
     high: 30
   maxWealth: 200
+  shopCantBuyItemsWithTheseTags: []

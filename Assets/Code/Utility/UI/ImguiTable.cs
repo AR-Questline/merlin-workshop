@@ -400,7 +400,6 @@ namespace Awaken.Utility.UI {
                 void ElementDrawer(in Rect rect, T e) => drawer(rect, toTotalExtractor(e));
             }
 
-
             public ColumnDefinition(string name, Width width, Drawer<T> drawer, Func<T, float> toTotalExtractor, Drawer<float> totalDrawer, Comparison<T> sortAsc, Comparison<T> sortDsc) {
                 this.name = name;
                 this.width = width;

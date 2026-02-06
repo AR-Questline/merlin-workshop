@@ -62,7 +62,7 @@ MonoBehaviour:
   - item:tier4
   iconReference:
     arSpriteReference:
-      address: ec1d35a5772385d49ad4a97bd7598dfd
+      address: ce8d8ac00716d2d43a91ae5ee7216f2c
       subObjectName: 
   itemName:
     IdOverride: item_jewelry_ring_TempestAlliance
@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_tempestalliance
       ID: Template/description_locString_2543871262668956605_e8823566115c50946ae4676b06bad0fd
-  EDITOR_bakedDescription: Increase Mana Shield by -42%.
+  EDITOR_bakedDescription: "Increase Mana Shield by 0\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -102,7 +102,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_e8823566115c50946ae4676b06bad0fd
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +127,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_e8823566115c50946ae4676b06bad0fd
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -215,12 +219,14 @@ MonoBehaviour:
       _guid: 5b62d967456f0e040aace9179c247ca2
     variables:
     - name: StatMultiplier
-      value: 0.01
+      value: 0.0025
     - name: StatMultiplierGain
-      value: 0
+      value: 0.0001
     - name: StatPreCalculated
       value: 0
     - name: StatCalculated
+      value: 0
+    - name: StatForDescription
       value: 0
     enums:
     - name: ModifiedStat

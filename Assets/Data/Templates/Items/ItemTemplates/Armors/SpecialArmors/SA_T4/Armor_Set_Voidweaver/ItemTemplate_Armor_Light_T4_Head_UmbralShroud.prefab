@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_8205bf551ef820043bb33739d1168c67
-  EDITOR_bakedDescription: 'Increases Critical Chance by 15%.
-
-    Consumes 1 Mana
-    per second.'
+  EDITOR_bakedDescription: "Increases Critical Chance by 15\_%.\nConsumes 1 Mana
+    per second."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-1412403706529252117
 MonoBehaviour:
@@ -246,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5987292840863074766
 MonoBehaviour:
@@ -275,6 +280,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.15
     - name: GainValue
+      value: 0
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

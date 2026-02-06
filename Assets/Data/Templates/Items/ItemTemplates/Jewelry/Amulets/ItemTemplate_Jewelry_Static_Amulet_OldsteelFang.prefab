@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_OnDamageTaken_IncreaseStat_multiply
       ID: Template/description_locString_2543871262668956605_c8ea797eba22392449c60e9415effd24
-  EDITOR_bakedDescription: Increases Lifesteal by 3%.
+  EDITOR_bakedDescription: "Taking damage increases Armor by 15\_% for 2s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: 133442bfec9bde34194ff4a92a25612b
       subObjectName: 
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -270,11 +277,11 @@ MonoBehaviour:
       _guid: dcbed1b27a3b55a4daadf66e1864e7b6
     variables:
     - name: AddValue
-      value: 0.25
+      value: 0.15
     - name: Gain
-      value: 0.01
+      value: 0
     - name: Duration
-      value: 3
+      value: 2
     - name: AddValueCalculated
       value: 0
     - name: AddValuePreCalculated

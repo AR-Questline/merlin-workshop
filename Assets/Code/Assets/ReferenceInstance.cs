@@ -1,5 +1,6 @@
 ﻿using System;
 using Awaken.Utility.Debugging;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -43,20 +44,20 @@ namespace Awaken.TG.Assets {
             referenceInstance.Reference.ReleaseAsset();
         }
 
-        public static ARAsyncOperationHandle<GameObject> Instantiate(this ReferenceInstance<GameObject> instance, Transform parent, Action<GameObject> onLoaded = null, Action onCancelled = null) {
+        public static UniTask Instantiate(this ReferenceInstance<GameObject> instance, Transform parent, Action<GameObject> onLoaded = null, Action onCancelled = null) {
             return instance.Instantiate(parent, null, onLoaded, onCancelled);
         }
         
-        public static ARAsyncOperationHandle<GameObject> Instantiate(this ReferenceInstance<GameObject> instance, Transform parent, Vector3 position, Quaternion rotation, 
+        public static UniTask Instantiate(this ReferenceInstance<GameObject> instance, Transform parent, Vector3 position, Quaternion rotation, 
             Action<GameObject> onLoaded = null, Action onCancelled = null) {
             return instance.Instantiate(parent, (position, rotation), onLoaded, onCancelled);
         }
         
-        static ARAsyncOperationHandle<GameObject> Instantiate(this ReferenceInstance<GameObject> instance, Transform parent, (Vector3, Quaternion)? positionAndRotationOverride = null, 
+        static UniTask Instantiate(this ReferenceInstance<GameObject> instance, Transform parent, (Vector3, Quaternion)? positionAndRotationOverride = null, 
             Action<GameObject> onLoaded = null, Action onCancelled = null) {
             var handle = instance.Reference.LoadAsset<GameObject>();
             handle.OnComplete(h => instance.InstanceLoaded(h, parent, onLoaded, positionAndRotationOverride), _ => onCancelled?.Invoke());
-            return handle;
+            return handle.ToUniTask();
         }
 
         static void InstanceLoaded(this ReferenceInstance<GameObject> instance, ARAsyncOperationHandle<GameObject> handle, Transform parent = null, Action<GameObject> onLoaded = null, (Vector3, Quaternion)? positionAndRotationOverride = null) {

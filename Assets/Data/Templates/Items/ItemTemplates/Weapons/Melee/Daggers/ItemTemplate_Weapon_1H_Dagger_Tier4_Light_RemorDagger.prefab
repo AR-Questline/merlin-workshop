@@ -156,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: e80bc3982a6792542b2393215127d009
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5872891149054577755
 MonoBehaviour:

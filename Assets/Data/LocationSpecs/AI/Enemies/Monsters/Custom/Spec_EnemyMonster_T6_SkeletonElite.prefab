@@ -164,7 +164,7 @@ MonoBehaviour:
       subdivide: 0
       intervalMinutes: 0
       intervalDeviation: 0
-      type: 0
+      type: 2
       position:
         space: 1
         position: {x: 0, y: 0, z: 0}
@@ -172,7 +172,7 @@ MonoBehaviour:
         space: 0
         position: {x: 0, y: 0, z: 0}
       range: 25
-      interactionTag: 
+      interactionTag: MonsterInteraction:Undead
       allowInteractionRepeat: 0
       waitTime:
         min: 0
@@ -188,6 +188,12 @@ MonoBehaviour:
     oneShots: []
   template:
     _guid: 
+  fallbackInteractionData:
+    type: 1
+    range: 10
+    waitTime:
+      min: 5
+      max: 10
 --- !u!114 &4719053470291679615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +244,89 @@ MonoBehaviour:
   aliveAudioContainerWrapper:
     assetType: 0
     dataAsset: {fileID: 11400000, guid: 50efe34420da99f4ba7e52b4b2230799, type: 2}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+  usesExplicitWyrdConvertedAudio: 0
+  wyrdConvertedAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
     data:
       audioType: 0
       idle:

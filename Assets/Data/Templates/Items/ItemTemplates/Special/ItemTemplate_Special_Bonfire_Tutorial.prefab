@@ -73,7 +73,10 @@ MonoBehaviour:
     locString:
       IdOverride: item_bonfire_description
       ID: Template/description_locString_2543871262668956605_701c3a019eadf954d909b0a60750abb0
-  EDITOR_bakedDescription: Allows you to build a bonfire.
+  EDITOR_bakedDescription: 'Offers a moment of peace in a world slipping into chaos.
+
+    Used
+    to rest, cook, repel the Wyrdness, and speak with Arthur.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -149,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 78ccaa09ae8b96d42b5d78ca375a5ae2
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6723473617950232950
 MonoBehaviour:

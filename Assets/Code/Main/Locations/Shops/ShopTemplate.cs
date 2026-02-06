@@ -16,6 +16,7 @@ namespace Awaken.TG.Main.Locations.Shops {
         [ShowIf(nameof(IsFence))] public float fenceBuyModifierMultiplier = 0.5f;
         public StockData[] restockableItems = Array.Empty<StockData>();
         public ItemSpawningData[] uniqueItems = Array.Empty<ItemSpawningData>();
+        public LockedUniqueItems[] lockedUniqueItems = Array.Empty<LockedUniqueItems>();
         public IntRange restockWealthGain;
         public int maxWealth;
 
@@ -36,5 +37,12 @@ namespace Awaken.TG.Main.Locations.Shops {
         public int Capacity => capacity;
         public bool RemoveAllOnRestock => removeAllOnRestock;
         public IntRange RemoveOnRestock => removeOnRestock;
+    }
+
+    [Serializable]
+    public class LockedUniqueItems {
+        [Tags(TagsCategory.Flag)]
+        public string flagToUnlock;
+        public ItemSpawningData[] lockedUniqueItems;
     }
 }

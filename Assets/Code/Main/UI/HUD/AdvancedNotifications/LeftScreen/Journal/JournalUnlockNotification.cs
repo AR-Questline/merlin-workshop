@@ -1,10 +1,7 @@
 using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs;
-using Awaken.TG.MVC.Elements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Journal {
-    public partial class JournalUnlockNotification : Element<JournalUnlockNotificationBuffer>, IAdvancedNotification {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class JournalUnlockNotification : AdvancedNotification {
         public readonly string journalEntry;
         public readonly JournalSubTabType journalTabType;
 

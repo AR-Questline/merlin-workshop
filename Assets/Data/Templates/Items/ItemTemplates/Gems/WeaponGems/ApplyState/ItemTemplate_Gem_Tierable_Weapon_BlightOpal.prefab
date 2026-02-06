@@ -154,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: 185bb0226e1d9be40af1f299a2901fd9
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,12 +176,20 @@ MonoBehaviour:
     variables:
     - name: Buildup
       value: 20
+    - name: BuildupGain
+      value: 8
+    - name: BuildupCalculated
+      value: 0
     - name: Duration
       value: 0
     - name: ChanceToApply
       value: 1
     - name: StackCount
       value: 1
+    - name: ValuePreCalculated
+      value: 0
+    - name: DurationGainValue
+      value: 0
     enums: []
     datums:
     - name: OnNormalAttack

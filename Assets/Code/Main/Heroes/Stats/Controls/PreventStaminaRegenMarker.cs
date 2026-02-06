@@ -9,13 +9,21 @@ namespace Awaken.TG.Main.Heroes.Stats.Controls {
     /// </summary>
     public partial class PreventStaminaRegenMarker : Element<ICharacter>, IPreventStaminaRegen {
         public sealed override bool IsNotSaved => true;
+        
+        public StaminaRegenBlockType BlockType { get; }
 
+        public PreventStaminaRegenMarker(StaminaRegenBlockType blockType) {
+            BlockType = blockType;
+        }
+        
         protected override void OnFullyInitialized() {
-            ParentModel.Trigger(IPreventStaminaRegen.Events.StaminaRegenBlocked, true);
+            ParentModel.Trigger(IPreventStaminaRegen.Events.StaminaRegenBlocked, 
+                new StaminaRegenBlockParams(true, BlockType));
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
-            ParentModel.Trigger(IPreventStaminaRegen.Events.StaminaRegenBlocked, false);
+            ParentModel.Trigger(IPreventStaminaRegen.Events.StaminaRegenBlocked, 
+                new StaminaRegenBlockParams(false, BlockType));
         }
     }
 }

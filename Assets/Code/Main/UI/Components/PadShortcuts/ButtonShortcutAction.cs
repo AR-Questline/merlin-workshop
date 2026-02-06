@@ -14,7 +14,7 @@ namespace Awaken.TG.Main.UI.Components.PadShortcuts {
         
         public UIResult Invoke() {
             OnButtonShortcutAction?.Invoke();
-            return button.Handle(new UISubmitAction());
+            return button.IsValid ? button.Handle(new UISubmitAction()) : UIResult.Ignore;
         }
 
         private void Start() {

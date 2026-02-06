@@ -4,6 +4,7 @@ using Awaken.TG.Main.Crafting.HandCrafting.RecipeView;
 using Awaken.TG.Main.Crafting.Recipes;
 using Awaken.TG.Main.Crafting.Result;
 using Awaken.TG.Main.Crafting.Slots;
+using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Localization;
@@ -13,6 +14,7 @@ using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.EmptyContent;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility;
+using Cysharp.Threading.Tasks;
 using FMODUnity;
 using UnityEngine;
 
@@ -63,8 +65,18 @@ namespace Awaken.TG.Main.Crafting.HandCrafting {
             base.AfterCreate(item);
             ParentModel.AddElement(new ItemDiscoveredInfo(new [] {item})).ShowItemCreatedInfo(item.DisplayName);
             GenerateRecipe(CurrentRecipe);
-            RecipeGridUI.Refresh(true);
+            RefreshAtTheStartOfNextFrame(RecipeGridUI).Forget();
         }
+        
+        static async UniTaskVoid RefreshAtTheStartOfNextFrame(RecipeGridUI recipeGridUI) {
+            // After Create stories are performed on the Late Update and can modify available Recipe list.
+            await AsyncUtil.DelayFrame(recipeGridUI);
+            if (recipeGridUI is { HasBeenDiscarded: false }) {
+                recipeGridUI.Refresh(true);
+            }
+        }
+        
+        
 
         public override void AddToWorkbenchSlot(InteractableItem interactableItem) { }
         

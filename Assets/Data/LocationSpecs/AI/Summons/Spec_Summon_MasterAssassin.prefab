@@ -134,7 +134,7 @@ MonoBehaviour:
       subObjectName: 
   npcIcon:
     arSpriteReference:
-      address: f1db039257cc592439f834e27fc81ba4
+      address: 0ec5da1ef2807d74695edb61a453cc3e
       subObjectName: 
   renderIcon:
     arSpriteReference:
@@ -205,7 +205,7 @@ MonoBehaviour:
       type: {class: NpcMarkerDataWrapper, ns: Awaken.TG.Main.Maps.Markers, asm: TG.Main}
       data:
         method: 1
-        explicitData: {fileID: 11400000, guid: 3494a02137cc3b34ebfc93d72058a597, type: 2}
+        explicitData: {fileID: 11400000, guid: dffea85ed018c6644b428f89c2654cc5, type: 2}
         embeddedData:
           defaultIcon:
             arSpriteReference:
@@ -395,3 +395,9 @@ MonoBehaviour:
     oneShots: []
   template:
     _guid: 
+  fallbackInteractionData:
+    type: 0
+    range: 0
+    waitTime:
+      min: 0.5
+      max: 1.5

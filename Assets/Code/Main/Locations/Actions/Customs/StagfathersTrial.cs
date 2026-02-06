@@ -193,7 +193,7 @@ namespace Awaken.TG.Main.Locations.Actions.Customs {
             if (_state is not ITrialElement.TrialState.InProgress) {
                 return;
             }
-            if (outcome.Target is not NpcElement npc) {
+            if (outcome.TargetPure is not NpcElement npc) {
                 return;
             }
             _preys.Remove(new WeakModelRef<NpcElement>(npc));

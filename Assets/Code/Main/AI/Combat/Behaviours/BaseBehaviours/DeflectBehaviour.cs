@@ -65,8 +65,6 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
             float chance = RandomUtil.UniformFloat(0, 1f);
             bool deflect = (_isMagic && magicDeflectChance > chance) || (!_isMagic && physicalDeflectChance > chance);
             if (deflect) {
-                _previousMovementState = ParentModel.NpcMovement.CurrentState;
-                
                 if (ParentModel.StartBehaviour(this)) {
                     hook.Prevent();
                     CharacterProjectileDeflection.GetOrCreate(Npc).DeflectProjectile(hook.Value, projectile, !deflectTowardsTarget);
@@ -76,9 +74,6 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
 
         protected override bool StartBehaviour() {
             ParentModel.SetAnimatorState(StateType, NpcFSMType.TopBodyFSM, 0f);
-            if (_previousMovementState != null) {
-                ParentModel.NpcMovement.ChangeMainState(_previousMovementState);
-            }
             _deflectPrecisionTweak = StatTweak.Override(ParentModel.CharacterStats.DeflectPrecision, deflectPrecision, parentModel: this);
             return true;
         }
@@ -98,11 +93,6 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours {
         }
 
         protected override void BehaviourExit() {
-            if (_previousMovementState != null) {
-                ParentModel.NpcMovement.ResetMainState(_previousMovementState);
-                _previousMovementState = null;
-            }
-            
             _deflectPrecisionTweak?.Discard();
             _deflectPrecisionTweak = null;
         }

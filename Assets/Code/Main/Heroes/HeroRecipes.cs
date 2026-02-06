@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Heroes {
 
         public void LearnRecipe(IRecipe recipe) {
             if (knownRecipes.Add(recipe)) {
-                ItemUtils.AnnounceGettingRecipe(recipe, ParentModel);
+                ItemUtils.AnnounceGettingRecipe(recipe);
                 this.Trigger(Events.RecipeLearned, recipe);
             }
         }

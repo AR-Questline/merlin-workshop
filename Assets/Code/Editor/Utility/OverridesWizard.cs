@@ -70,6 +70,7 @@ namespace Awaken.TG.Editor.Utility {
                 new() { name = "update_ar_addressables", enabled = true, dependsOn = new[] { buildAddressables } },
                 actuallyBuild,
                 debug,
+                new() { name = "microsoft_pc" },
                 new() { name = "deep_profiling", dependsOn = new[] { debug } },
                 new() { name = "connect_profiler", dependsOn = new[] { debug } },
                 new() { name = "script_debugging", dependsOn = new[] { debug } },

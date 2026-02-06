@@ -126,7 +126,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
             BehaviourExit();
         }
         
-        void ApplyCooldown() {
+        protected void ApplyCooldown() {
             if (Cooldown == CombatBehaviourCooldown.UntilTimeElapsed) {
                 EnemyBehaviourCooldown.Cooldown(this, new TimeDuration(CooldownDuration));
                 return;

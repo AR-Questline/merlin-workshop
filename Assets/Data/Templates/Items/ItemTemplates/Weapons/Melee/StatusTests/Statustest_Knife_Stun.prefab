@@ -79,7 +79,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_d9428dbc40fedc54d815c6b634f3155f
-  EDITOR_bakedDescription: On Hit Inflict has a 100% chance to Stun.
+  EDITOR_bakedDescription: "On Hit Inflict has a 100\_% chance to <color=#04959A>Stun</color>."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -148,12 +148,17 @@ MonoBehaviour:
   canStack: 0
   cannotBeDropped: 0
   hiddenOnUI: 0
+  visibleOnUIForLoadout: 0
   damageSurfaceType:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
       address: bf268d6382ce29c438a20cf071288053
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -240,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8627754540802847578
 MonoBehaviour:
@@ -363,6 +371,13 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+      castFullyCharged:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
       castCancel:
         Guid:
           Data1: 0
@@ -377,6 +392,13 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+      castHeavyRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
       equipMagic:
         Guid:
           Data1: 0
@@ -385,6 +407,27 @@ MonoBehaviour:
           Data4: 0
         Path: 
       unEquipMagic:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldChargedIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      projectileIdle:
         Guid:
           Data1: 0
           Data2: 0

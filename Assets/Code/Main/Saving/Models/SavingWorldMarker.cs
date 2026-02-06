@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Saving.Cloud.Services;
 using Awaken.TG.MVC;
-using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Domains;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UniversalProfiling;
@@ -40,7 +41,12 @@ namespace Awaken.TG.Main.Saving.Models {
             while (_savingTasks.Any()) {
                 UniTask savingTask = _savingTasks[0];
                 if (savingTask.Status == UniTaskStatus.Pending) {
-                    await savingTask;
+                    try {
+                        await savingTask;
+                    } catch (Exception e) {
+                        Log.Critical?.Error("SavingWorldMarker error while saving world", null, LogOption.NoStacktrace);
+                        Debug.LogException(e);
+                    }
                 }
 
                 _savingTasks.RemoveAt(0);

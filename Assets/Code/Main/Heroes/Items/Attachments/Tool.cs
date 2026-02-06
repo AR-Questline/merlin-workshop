@@ -9,8 +9,9 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         public ToolType Type { get; private set; }
         public bool CanInteractWithLightAttack { get; private set; }
         public bool CanInteractWithHeavyAttack { get; private set; }
+        public virtual bool CanBeUsed => true;
         
-        public void InitFromAttachment(ToolAttachment spec, bool isRestored) {
+        public virtual void InitFromAttachment(ToolAttachment spec, bool isRestored) {
             Type = spec.Type;
             CanInteractWithLightAttack = spec.canInteractWithLightAttack;
             CanInteractWithHeavyAttack = spec.canInteractWithHeavyAttack;

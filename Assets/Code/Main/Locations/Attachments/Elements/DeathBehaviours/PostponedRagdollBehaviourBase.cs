@@ -1,13 +1,20 @@
 ﻿using System;
 using Awaken.TG.Main.Animations.FSM.Npc.States.General;
+using Awaken.TG.Main.Animations.IK;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.General;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
+using Awaken.Utility.Collections;
 using Awaken.Utility.GameObjects;
+using Awaken.Utility.LowLevel.Collections;
+using Awaken.Utility.Maths;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using Unity.Burst;
+using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
@@ -18,7 +25,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
 
         Location _location;
         GameObject _alivePrefab;
-        protected DeathRagdollBehaviour _ragdollDeathBehaviour;
+        protected DeathRagdollNpcBehaviour _ragdollDeathBehaviour;
         
         public bool IsVisualInitialized { get; private set; }
         public abstract bool UseDeathAnimation { get; }
@@ -28,7 +35,6 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
         protected bool EnableRagdollAfterAnimation => RagdollData.enableRagdollAfterAnimation;
         protected float DelayToEnterRagdoll => RagdollData.DelayToEnterRagdoll;
         protected AnimToRagdollForceBufferType AnimToRagdollForceBuffer => RagdollData.animToRagdollForceBufferType;
-        
 
         public virtual void OnVisualLoaded(DeathElement death, Transform transform) {
             IsVisualInitialized = true;
@@ -37,7 +43,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
                 _alivePrefab = aliveTransform.gameObject;
             }
             _location = death?.ParentModel.ParentModel;
-            _ragdollDeathBehaviour = death?.GetBehaviour<DeathRagdollBehaviour>();
+            _ragdollDeathBehaviour = death?.GetBehaviour<DeathRagdollNpcBehaviour>();
         }
 
         public virtual void OnDeath(DamageOutcome damageOutcome, Location dyingLocation) {
@@ -49,12 +55,14 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
                 if (_ragdollDeathBehaviour == null) {
                     return;
                 }
-                if (_ragdollDeathBehaviour.IsRagdollEnabled) {
+                if (_ragdollDeathBehaviour.IsRagdollInProgress) {
                     _ragdollDeathBehaviour.DisableRagdoll();
                 }
                 EnterRagdollAfterAnimationStarted().Forget();
             }
         }
+
+        public virtual void AfterOnDeath(DamageOutcome damageOutcome, bool isUsingCustomDeathAnimation, NpcDeath.DeathAnimType deathAnimType) { }
 
         protected virtual void OnRagdollEnabled() { }
 
@@ -84,91 +92,104 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
         }
         
         async UniTaskVoid EnterRagdollAfterDelay() {
-            (DeathRagdollBehaviour.TransformCache[] transforms, float time, float timeScale) cacheData;
-            switch (AnimToRagdollForceBuffer) {
-                case AnimToRagdollForceBufferType.None:
-                    await AsyncUtil.DelayTimeWithModelTimeScale(_location, DelayToEnterRagdoll);
-                    _ragdollDeathBehaviour.EnableDeathRagdoll();
-                    OnRagdollEnabled();
-                    return;
-                case AnimToRagdollForceBufferType.OneFrame:
-                    cacheData = await CacheAfterFrames(DelayToEnterRagdoll, 1);
-                    break;
-                case AnimToRagdollForceBufferType.ConstAmountOfFrames:
-                    cacheData = await CacheAfterFrames(DelayToEnterRagdoll, CacheRagdollBufferFrames);
-                    break;
-                case AnimToRagdollForceBufferType.ConstTimeBuffer:
-                    if (DelayToEnterRagdoll <= CacheRagdollBufferTime) {
-                        cacheData = await CacheAfterTime(0, DelayToEnterRagdoll);
-                    } else {
-                        cacheData = await CacheAfterTime(DelayToEnterRagdoll - CacheRagdollBufferTime, CacheRagdollBufferTime);
-                    }
-                    break;
-                default:
-                    return;
-            }
-            if (cacheData.transforms == null) {
+            if (AnimToRagdollForceBuffer == AnimToRagdollForceBufferType.None) {
+                await AsyncUtil.DelayTimeWithModelTimeScale(_location, DelayToEnterRagdoll);
+                _ragdollDeathBehaviour.EnableDeathRagdoll();
+                OnRagdollEnabled();
                 return;
             }
-            float avgTimeScale = (cacheData.timeScale + _location.GetTimeScale()) * 0.5f;
-            GetBonePositionsOffset(cacheData.transforms, (Time.unscaledTime - cacheData.time) / avgTimeScale, out var bonePositionVelocity, out var boneRotationVelocity);
-            _ragdollDeathBehaviour.EnableDeathRagdoll(bonePositionVelocity, boneRotationVelocity);
+
+            var positions = default(UnsafeArray<float3>);
+            var rotations = default(UnsafeArray<quaternion>);
+            var cacheTime = default(float);
+            var cacheTimeTimeScale = default(float);
+            if (AnimToRagdollForceBuffer == AnimToRagdollForceBufferType.OneFrame) {
+                (positions, rotations, cacheTime, cacheTimeTimeScale) = await CacheAfterFrames(DelayToEnterRagdoll, 1);
+            } else if (AnimToRagdollForceBuffer == AnimToRagdollForceBufferType.ConstAmountOfFrames) {
+                (positions, rotations, cacheTime, cacheTimeTimeScale) = await CacheAfterFrames(DelayToEnterRagdoll, CacheRagdollBufferFrames);
+            } else if (AnimToRagdollForceBuffer == AnimToRagdollForceBufferType.ConstTimeBuffer) {
+                if (DelayToEnterRagdoll <= CacheRagdollBufferTime) {
+                    (positions, rotations, cacheTime, cacheTimeTimeScale) = await CacheAfterTime(0, DelayToEnterRagdoll);
+                } else {
+                    (positions, rotations, cacheTime, cacheTimeTimeScale) = await CacheAfterTime(DelayToEnterRagdoll - CacheRagdollBufferTime, CacheRagdollBufferTime);
+                }
+            }
+
+            if (positions.IsCreated == false) {
+                return;
+            }
+
+            float avgTimeScale = (cacheTimeTimeScale + _location.GetTimeScale()) * 0.5f;
+
+            var positionsVelocity = new UnsafeArray<float3>(positions.Length, ARAlloc.Temp);
+            var rotationsVelocity = new UnsafeArray<float3>(rotations.Length, ARAlloc.Temp);
+
+            var elapsedTime = (Time.unscaledTime - cacheTime) / avgTimeScale;
+            _ragdollDeathBehaviour.RagdollController.CacheRigidbodyTransforms(ARAlloc.Temp, out var currentPositions, out var currentRotations);
+
+            new CalculateVelocitiesJob {
+                previousPositions = positions,
+                currentPositions = currentPositions,
+                previousRotations = rotations,
+                currentRotations = currentRotations,
+                elapsedTime = elapsedTime,
+
+                outPositionsVelocity = positionsVelocity,
+                outRotationsVelocity = rotationsVelocity
+            }.Run();
+
+            positions.Dispose();
+            currentPositions.Dispose();
+            rotations.Dispose();
+            currentRotations.Dispose();
+
+            _ragdollDeathBehaviour.EnableDeathRagdoll(positionsVelocity, rotationsVelocity);
+
+            positionsVelocity.Dispose();
+            rotationsVelocity.Dispose();
+
             OnRagdollEnabled();
         }
 
-        async UniTask<(DeathRagdollBehaviour.TransformCache[] transforms, float time, float timeScale)> CacheAfterFrames(float normalDelay, int frameDelay) {
+        async UniTask<(UnsafeArray<float3>, UnsafeArray<quaternion>, float, float)> CacheAfterFrames(float normalDelay, int frameDelay) {
             if (!await AsyncUtil.DelayTimeWithModelTimeScale(_location, normalDelay)) {
-                return (null, 0, 0);
+                return default;
             }
-            var transformsCache = _ragdollDeathBehaviour.GetBoneTransformCache();
+            _ragdollDeathBehaviour.RagdollController.CacheRigidbodyTransforms(ARAlloc.Persistent, out var positions, out var rotations);
             var cacheTime = Time.unscaledTime;
             var cacheTimeTimeScale = _location.GetTimeScale();
             if (!await AsyncUtil.DelayFrame(_location, frameDelay)) {
-                return (null, 0, 0);
+                positions.Dispose();
+                rotations.Dispose();
+                return default;
             }
-            return (transformsCache, cacheTime, cacheTimeTimeScale);
+
+            return (positions, rotations, cacheTime, cacheTimeTimeScale);
         }
 
-        async UniTask<(DeathRagdollBehaviour.TransformCache[] transforms, float time, float timeScale)> CacheAfterTime(float firstDelay, float secondDelay) {
+        async UniTask<(UnsafeArray<float3>, UnsafeArray<quaternion>, float, float)> CacheAfterTime(float firstDelay, float secondDelay) {
             if (firstDelay > 0) {
                 if (!await AsyncUtil.DelayTimeWithModelTimeScale(_location, firstDelay)) {
-                    return (null, 0, 0);
+                    return default;
                 }
             }
-            var transformsCache = _ragdollDeathBehaviour.GetBoneTransformCache();
+            _ragdollDeathBehaviour.RagdollController.CacheRigidbodyTransforms(ARAlloc.Persistent, out var positions, out var rotations);
             var cacheTime = Time.unscaledTime;
             var cacheTimeTimeScale = _location.GetTimeScale();
             if (!await AsyncUtil.DelayTimeWithModelTimeScale(_location, secondDelay)) {
-                return (null, 0, 0);
+                positions.Dispose();
+                rotations.Dispose();
+                return default;
             }
-            return (transformsCache, cacheTime, cacheTimeTimeScale);
-        }
-
-        void GetBonePositionsOffset(DeathRagdollBehaviour.TransformCache[] cachedTransform, float cacheTime, out Vector3[] positionVelocity, out Vector3[] rotationVelocity) {
-            if (_ragdollDeathBehaviour == null) {
-                positionVelocity = null;
-                rotationVelocity = null;
-                return;
-            }
-            var currentState =  _ragdollDeathBehaviour.GetBoneTransformCache();
-            float timeMultiplier = 1 / cacheTime;
-            positionVelocity = new Vector3[cachedTransform.Length];
-            rotationVelocity = new Vector3[cachedTransform.Length];
-            for (int i = 0; i < cachedTransform.Length; i++) {
-                positionVelocity[i] = (currentState[i].position - cachedTransform[i].position) * timeMultiplier;
-                
-                var deltaRotation = currentState[i].rotation * Quaternion.Inverse(cachedTransform[i].rotation);
-                deltaRotation.ToAngleAxis(out float angle, out Vector3 axis);
-                rotationVelocity[i] = axis * (angle * Mathf.Deg2Rad * timeMultiplier);
-            }
+            return (positions, rotations, cacheTime, cacheTimeTimeScale);
         }
 
         [Serializable]
         public struct RagdollEnableData {
-            public bool enableRagdollAfterAnimation;
             [ShowIf(nameof(enableRagdollAfterAnimation))] public FloatRange delayToEnterRagdoll;
             [ShowIf(nameof(enableRagdollAfterAnimation))] public AnimToRagdollForceBufferType animToRagdollForceBufferType;
-            
+            public bool enableRagdollAfterAnimation;
+
             public float DelayToEnterRagdoll => delayToEnterRagdoll.RogueRandomPick();
 
             public RagdollEnableData(bool enableRagdollAfterAnimation, float delayToEnterRagdoll, AnimToRagdollForceBufferType animToRagdollForceBufferType)
@@ -188,6 +209,29 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
             OneFrame,
             ConstAmountOfFrames,
             ConstTimeBuffer
+        }
+
+        [BurstCompile]
+        struct CalculateVelocitiesJob : IJob {
+            public UnsafeArray<float3>.Span previousPositions;
+            public UnsafeArray<float3>.Span currentPositions;
+            public UnsafeArray<quaternion>.Span previousRotations;
+            public UnsafeArray<quaternion>.Span currentRotations;
+            public float elapsedTime;
+
+            public UnsafeArray<float3>.Span outPositionsVelocity;
+            public UnsafeArray<float3>.Span outRotationsVelocity;
+
+            public void Execute() {
+                float timeMultiplier = math.rcp(elapsedTime);
+                for (var i = 0u; i < previousPositions.Length; i++) {
+                    outPositionsVelocity[i] = (currentPositions[i] - previousPositions[i]) * timeMultiplier;
+
+                    var deltaRotation = math.mul(currentRotations[i], math.inverse(previousRotations[i]));
+                    mathExt.toAxisAngleRad(deltaRotation, out var angleRad, out var axis);
+                    outRotationsVelocity[i] = axis * (angleRad * timeMultiplier);
+                }
+            }
         }
     }
 }

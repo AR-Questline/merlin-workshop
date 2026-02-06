@@ -192,6 +192,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 223797347991158880
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
@@ -201,6 +203,25 @@ MonoBehaviour:
         - rid: 8428719183709601814
         - rid: 8428719183709601815
         - rid: 8428719183709601816
+    - rid: 6720257270644998188
+      type: {class: LootTableNewGamePlusConditional, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        minimumNewGamePlusLevel: 1
+        ifTrue:
+          rid: 6720257270644998189
+        ifFalse:
+          rid: -2
+    - rid: 6720257270644998189
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 34b0a9c7b7b3b2045ab7d6a2a7013c4a
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
     - rid: 7766364333048594468
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
@@ -220,7 +241,8 @@ MonoBehaviour:
     - rid: 7855908944372301898
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
-        array: []
+        array:
+        - rid: 6720257270644998188
     - rid: 8428719183709601812
       type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
         asm: TG.Main}

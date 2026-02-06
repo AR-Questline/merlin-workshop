@@ -15,6 +15,7 @@ using Awaken.TG.Main.Heroes.Thievery;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Attachments.Elements;
+using Awaken.TG.Main.Scenes;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.MVC;
@@ -46,6 +47,7 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         public float ManaExpended => _manaExpended;
         public bool IsAlive => !HasBeenDiscarded && ParentModel.IsAlive;
         public bool AlwaysAnimate => IsAlive;
+        public virtual bool DestroyOnRest => true;
         protected override bool AlwaysUpdate => true;
         protected override bool AdditionalMovePrevent => _allyInDialogue;
         Location NpcLocation => ParentModel.ParentModel;
@@ -68,15 +70,6 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         
         // === Initialization
         protected override void OnInitialize() {
-            ParentModel.IsHeroSummon = true;
-            ParentModel.OnCompletelyInitialized(npc => {
-                var npcController = npc.Controller;
-                npcController.RichAI.canBePaused = false;
-                _walkThroughColliders = npcController.AlivePrefab.GetComponentsInChildren<Collider>();
-                ToggleWalkThroughColliders();
-                _animatorBridge = AnimatorBridge.GetOrAddDefault(npcController.Animator);
-                _animatorBridge.RegisterStateProvider(this);
-            });
             base.OnInitialize();
             Owner.Trigger(INpcSummon.Events.SummonSpawned, this);
             GameplayUniqueLocation.InitializeForLocation(NpcLocation);
@@ -87,6 +80,16 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         }
 
         protected override void Init() {
+            ParentModel.IsHeroSummon = true;
+            ParentModel.OnCompletelyInitialized(npc => {
+                var npcController = npc.Controller;
+                npcController.RichAI.canBePaused = false;
+                _walkThroughColliders = npcController.AlivePrefab.GetComponentsInChildren<Collider>();
+                ToggleWalkThroughColliders();
+                _animatorBridge = AnimatorBridge.GetOrAddDefault(npcController.Animator);
+                _animatorBridge.RegisterStateProvider(this);
+            });
+            
             base.Init();
             if (Ally == null) {
                 return;
@@ -100,6 +103,7 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
                 ParentModel.AddElement<HeroSummonInvisibility>();
             }
             PreventMovement().Forget();
+            ParentModel.ListenTo(HealthElement.Events.DealingDamage, OnBeforeDealingDamage, this);
         }
 
         async UniTaskVoid PreventMovement() {
@@ -125,16 +129,34 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         }
         
         // === Listener Callbacks
+        void OnBeforeDealingDamage(HookResult<ICharacter, Damage> hook) {
+            // Don't deal damage to characters that are Allies
+            if (hook.Value.TargetPure is ICharacter character && character == Ally) {
+                hook.Prevent();
+            }
+        }
+
         void OnHeroArrivedAtPortal(Portal portal) {
+            bool fromAdditiveScene = portal.TargetSceneIsAdditive;
+            if (fromAdditiveScene && World.Any<LoadingScreenUI>() is { MapSceneAlreadySetup: false }) {
+                World.EventSystem.LimitedListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.PathfindingRestored, this, OnPathfindingRestored, 1);
+                return;
+            }
+            TryTeleportToNewScene();
+        }
+        
+        void OnPathfindingRestored(SceneLifetimeEventData _) => TryTeleportToNewScene();
+
+        void TryTeleportToNewScene() {
             LoadingScreenUI loadingScreenUI = World.Any<LoadingScreenUI>();
             if (loadingScreenUI) {
-                HeroArrivedAtPortal(loadingScreenUI).Forget();
+                TryTeleportToNewScene(loadingScreenUI).Forget();
                 return;
             }
             TeleportToNewScene();
         }
 
-        async UniTaskVoid HeroArrivedAtPortal(LoadingScreenUI loadingScreenUI) {
+        async UniTaskVoid TryTeleportToNewScene(LoadingScreenUI loadingScreenUI) {
             if (await AsyncUtil.WaitWhile(this, () => !loadingScreenUI.HasBeenDiscarded) == false) {
                 return;
             }
@@ -146,11 +168,23 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
             NpcLocation.Element<GameplayUniqueLocation>().TeleportIntoCurrentScene(teleportPosition);
         }
         
-        void OnHeroFastTraveled(Hero hero) {
+        void OnHeroFastTraveled(bool fromAdditiveScene) {
+            if (fromAdditiveScene) {
+                return;
+            }
+
+            if (World.Any<LoadingScreenUI>()) {
+                // Fast Travel from one scene to another
+                TeleportToNewScene();
+                return;
+            } 
             TeleportToAlly(DistanceToAllySqr, TeleportContext.SummonAfterFastTravel, out _);
         }
 
-        void OnHeroAfterLongTeleport(Hero hero) {
+        void OnHeroAfterLongTeleport(bool fromAdditiveScene) {
+            if (fromAdditiveScene) {
+                return;
+            }
             TeleportToAlly(DistanceToAllySqr, TeleportContext.AllyTooFar, out _);
         }
         
@@ -207,7 +241,7 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
 
         // === Helpers
         void TryPreventFriendlyFire(HookResult<HealthElement, Damage> hook) {
-            if (hook.Value.DamageDealer is Hero h && h.Development.DontDealDamageToSummons) {
+            if (hook.Value.DamageDealerPure is Hero h && h.Development.DontDealDamageToSummons) {
                 hook.Prevent();
             }
         }
@@ -227,11 +261,16 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         
         // === ICharacterLimitedLocation
         public ICharacter Owner => Ally;
-        public CharacterLimitedLocationType Type => CharacterLimitedLocationType.HeroSummon;
-        public int LimitForCharacter(ICharacter character) => Hero.Current.HeroStats.SummonLimit.ModifiedInt;
+        public virtual CharacterLimitedLocationType Type => CharacterLimitedLocationType.HeroSummon;
+        public virtual int LimitForCharacter(ICharacter character) => Hero.Current.HeroStats.SummonLimit.ModifiedInt;
 
         public void Destroy() {
-            ParentModel.ParentModel.Kill();
+            var location = ParentModel.ParentModel;
+            if (ParentModel is { IsVisible: true, HasCompletelyInitialized: true } && location.Interactability == LocationInteractability.Active) {
+                location.Kill();
+            } else {
+                location.Discard();
+            }
         }
     }
 }

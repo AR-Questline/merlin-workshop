@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
@@ -20,6 +22,10 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
             SceneService sceneService = World.Services.Get<SceneService>();
             yield return sceneService.AdditiveSceneRef;
             yield return sceneService.MainSceneRef;
+        }
+
+        public IEnumerator BeforeDroppingPreviousDomains() {
+            yield return new WaitForEndOfFrame();
         }
 
         public void DropPreviousDomains(SceneReference _) {

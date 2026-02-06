@@ -1,13 +1,12 @@
 using System;
 using Awaken.TG.Main.General.Configs;
-using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Development.WyrdPowers;
 using Awaken.TG.Main.Localization;
-using Awaken.TG.Main.Locations.Gems;
 using Awaken.TG.Main.Locations.Pets;
 using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.Stories;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Domains;
@@ -60,10 +59,10 @@ namespace Awaken.TG.Main.Crafting.Fireplace {
             talkWithForedweller.RegisterButton(ownTarget.TalkWithForedweller, LocTerms.FireplaceTalkWithForedweller.Translate(), LocTerms.TalkWithForedwellerDescription.Translate(), ShowDescription);
             boostBonfire.RegisterButton(BoostBonfire, LocTerms.FireplaceBoost.Translate(), LocTerms.BoostDescription.Translate(), ShowDescription);
             restoreWyrdSkill.RegisterButton(RestoreWyrdSkill, LocTerms.FireplaceRestoreWyrdSkill.Translate(), LocTerms.RestoreWyrdSkillDescription.Translate(), ShowDescription);
-            identifyLoot.RegisterButton(IdentifyLoot, LocTerms.IdentifyTab.Translate(), LocTerms.IdentifyDescription.Translate(), ShowDescription);
-            fastTravel.RegisterButton(ownTarget.FastTravel, LocTerms.FastTravelPopupTitle.Translate(), LocTerms.FastTravelDescription.Translate(), ShowDescription);
-            alchemy.RegisterButton(Target.AlchemyAction, LocTerms.Alchemy.Translate(), LocTerms.FireplaceAlchemyDescription.Translate(), ShowDescription);
-            handcrafting.RegisterButton(Target.HandcraftingAction, LocTerms.Handcrafting.Translate(), LocTerms.FireplaceHandcraftingDescription.Translate(), ShowDescription);
+            identifyLoot.RegisterButton(() => UIUtils.AddOverlayUIView(ownTarget.IdentifyLoot(), this, () => Target.UpdateUiVisibility(true)), LocTerms.IdentifyTab.Translate(), LocTerms.IdentifyDescription.Translate(), ShowDescription);
+            fastTravel.RegisterButton(() => UIUtils.AddOverlayUIView(ownTarget.FastTravel(), this, () => Target.UpdateUiVisibility(true)), LocTerms.FastTravelPopupTitle.Translate(), LocTerms.FastTravelDescription.Translate(), ShowDescription);
+            alchemy.RegisterButton(() => UIUtils.AddOverlayUIView(Target.AlchemyAction(), this, () => Target.UpdateUiVisibility(true)), LocTerms.Alchemy.Translate(), LocTerms.FireplaceAlchemyDescription.Translate(), ShowDescription);
+            handcrafting.RegisterButton(() => UIUtils.AddOverlayUIView(Target.HandcraftingAction(), this, () => Target.UpdateUiVisibility(true)), LocTerms.Handcrafting.Translate(), LocTerms.FireplaceHandcraftingDescription.Translate(), ShowDescription);
             saveGame.RegisterButton(Target.SaveGame, LocTerms.SaveGame.Translate(), LocTerms.SaveGameDescription.Translate(), ShowDescription);
             recallPet.RegisterButton(ownTarget.RecallPet, LocTerms.FireplaceRecallPet.Translate(), LocTerms.RecallPetDescription.Translate(), ShowDescription);
             
@@ -71,10 +70,6 @@ namespace Awaken.TG.Main.Crafting.Fireplace {
             wyrdSkillRestoreCost.text = _wyrdSkillRestoreCost.ToString();
             
             base.OnInitialize();
-        }
-
-        static void IdentifyLoot() {
-            GemsUI.OpenIdentifyUI();
         }
         
         void BoostBonfire() {
@@ -109,12 +104,13 @@ namespace Awaken.TG.Main.Crafting.Fireplace {
             talkWithForedweller.SetActive(Target is WyrdRepellingFireplaceUI { HasForedweller: true } wyrdRepelling && !Story.IsStorySubMenuEmpty(wyrdRepelling.FordwellerTesterStoryConfig));
             boostBonfire.SetActive(!Target.IsUpgraded && Target is WyrdRepellingFireplaceUI { IsUpgradeable: true });
             identifyLoot.SetActive(Target.IsUpgraded);
+            stash.SetActive(Target.IsUpgraded);
             fastTravel.SetActive(Target.IsUpgraded && World.Services.Get<SceneService>().IsOpenWorld);
             alchemy.SetActive(Target.IsUpgraded);
             handcrafting.SetActive(Hero.Current.Development.BonfireCraftingLevel > 0);
             saveGame.SetActive(Target.IsUpgraded && World.Only<DifficultySetting>().Difficulty.SaveRestriction.HasFlagFast(SaveRestriction.SurvivalSaving));
             restoreWyrdSkill.SetActive(World.Only<WyrdSkillActivation>().IsDepleted);
-            recallPet.SetActive(World.Any<PetElement>()?.HasBeenLeftBehind() ?? false);
+            recallPet.SetActive(PetUtils.HasPetBeenLeftBehind());
 
             if (CurrentTutorialStage is WyrdRepellingFireplaceUI.TutorialStage.None) {
                 RefreshWyrdSkillRestoreButton();
@@ -175,6 +171,7 @@ namespace Awaken.TG.Main.Crafting.Fireplace {
 
             cooking.Button.Interactable = interactable;
             levelUp.Button.Interactable = interactable;
+            stash.Button.Interactable = interactable;
         } 
 
         void RefreshBoostButton() {

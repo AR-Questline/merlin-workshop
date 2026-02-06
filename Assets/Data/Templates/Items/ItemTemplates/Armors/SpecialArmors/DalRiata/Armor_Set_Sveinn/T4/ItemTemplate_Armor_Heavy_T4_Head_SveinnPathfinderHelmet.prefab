@@ -139,7 +139,7 @@ MonoBehaviour:
   buyPriceMultiplier: 1
   keywords: []
   levelBonus: 0
-  weight: 4
+  weight: 2
   weightLoss: 0.5
   upgradeChance: 0.5
   crimeItemValue: 12
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -245,7 +249,7 @@ MonoBehaviour:
   sneakDamageMultiplier: 0
   damageType: 0
   damageSubTypes: []
-  armor: 10
+  armor: 5
   armorGain: 1
   blockDamageReductionPercent: 50
   blockAngle: 0
@@ -264,8 +268,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &215660845427092069
 MonoBehaviour:

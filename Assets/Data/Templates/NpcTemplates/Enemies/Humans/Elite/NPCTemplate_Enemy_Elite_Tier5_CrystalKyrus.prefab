@@ -66,17 +66,22 @@ PrefabInstance:
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
       propertyPath: meleeDamage
-      value: 66
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
       propertyPath: rangedDamage
-      value: 50
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
       propertyPath: templateType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: faction._guid
+      value: 4c90d92d219d54a4f8918310ba9998a7
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
@@ -121,7 +126,7 @@ PrefabInstance:
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
       propertyPath: fightingStyle._guid
-      value: 17026384967160b4fb1fe02758e76a12
+      value: 18a4a0f4bb552ad4e9af6bab3aa0e813
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
@@ -181,6 +186,11 @@ PrefabInstance:
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
       propertyPath: corpseLootTables.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: returnToSpawnPointArchetype
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,

@@ -84,6 +84,9 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         }
 
         protected virtual void AfterVisualLoaded(Transform parentTransform) {
+            if (HasBeenDiscarded) {
+                return;
+            }
             if (Ally == null) {
                 Discard();
                 return;
@@ -144,11 +147,15 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
             _nextTickTime = Time.unscaledTime + TickSecondsInterval;
             FindTarget();
 
-            if (ParentModel.GetCurrentTarget() != null) {
+            if (ParentModel.GetCurrentTarget() is {} target) {
                 float distanceToAllySqr = DistanceToAllySqr;
-                if (distanceToAllySqr > MaxDistanceFromAllySqrTripled && ParentModel.Movement != null) {
-                    ParentModel.ForceEndCombat();
-                    TeleportToAlly(distanceToAllySqr, TeleportContext.AllyTooFar, out _);
+                if (distanceToAllySqr > MaxDistanceFromAllySqrTripled) {
+                    if (ParentModel.Movement != null) {
+                        ParentModel.ForceEndCombat();
+                        TeleportToAlly(distanceToAllySqr, TeleportContext.AllyRanAway, out _);
+                    }
+                } else if (!ParentModel.NpcAI.InCombat) {
+                    ParentModel.NpcAI.EnterCombatWith(target, true);
                 }
                 return;
             }
@@ -162,28 +169,53 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         }
 
         void StayCloseToAlly() {
+            if (Time.timeScale == 0f) {
+                return;
+            }
+            
             float distanceToAllySqr = DistanceToAllySqr;
-            if (distanceToAllySqr > MaxDistanceFromAllySqrTripled && ParentModel.Movement != null) {
-                TeleportToAlly(distanceToAllySqr, TeleportContext.AllyTooFar, out _);
+            if (!InTripledAllyRange(DistanceToAllySqr) && ParentModel.Movement != null) {
+                TeleportToAlly(distanceToAllySqr, TeleportContext.AllyRanAway, out _);
                 return;
             }
 
-            if (distanceToAllySqr > MaxDistanceFromAllySqr) { 
-                _patrol.UpdatePlace(Ally?.Coords ?? ParentModel.Coords); 
-                _patrol.UpdateVelocityScheme(distanceToAllySqr > MaxDistanceFromAllySqrDoubled ? VelocityScheme.Run : VelocityScheme.Trot);
-            } else {
+            if (InAllyRange(distanceToAllySqr)) { 
                 _patrol.UpdateVelocityScheme(VelocityScheme.Walk);
+            } else {
+                _patrol.UpdatePlace(Ally?.Coords ?? ParentModel.Coords); 
+                _patrol.UpdateVelocityScheme(InDoubledAllyRange(distanceToAllySqr) ? VelocityScheme.Trot : VelocityScheme.Run);
             }
+        }
+
+        public bool InTripledAllyRange(Vector3 position) {
+            var distanceSqr = Ally != null ? (Ally.Coords - position).sqrMagnitude : 0;
+            return InTripledAllyRange(distanceSqr);
+        }
+
+        static bool InTripledAllyRange(float distanceSqr) {
+            return distanceSqr <= MaxDistanceFromAllySqrTripled;
+        }
+        
+        static bool InDoubledAllyRange(float distanceSqr) {
+            return distanceSqr <= MaxDistanceFromAllySqrDoubled;
+        }
+        
+        static bool InAllyRange(float distanceSqr) {
+            return distanceSqr <= MaxDistanceFromAllySqr;
         }
 
         protected void TeleportToAlly(float distanceToAllySqr, TeleportContext teleportContext, out Vector3 teleportPosition) {
             ICharacter ally = Ally;
-            if (ally == null || ally.HasBeenDiscarded || AstarPath.active == null) {
+            if (ally is not { HasBeenDiscarded: false, Grounded: true } || ally is Hero { IsSwimming: true } || AstarPath.active == null) {
                 teleportPosition = ParentModel?.Coords ?? Vector3.zero;
                 return;
             }
+
+            bool teleportBehindAllyBack = teleportContext == TeleportContext.AllyRanAway;
+            int forwardModifier = teleportBehindAllyBack ? -1 : 1;
+            
             teleportPosition = ally.Coords +
-                               ally.Forward() * RandomUtil.UniformFloat(3f, 9f) +
+                               ally.Forward() * RandomUtil.UniformFloat(3f * forwardModifier, 9f * forwardModifier) +
                                ally.Right() * RandomUtil.UniformFloat(-3f, 3f);
             var nnInfo = AstarPath.active.GetNearest(teleportPosition);
             if (nnInfo.node != null) { teleportPosition = nnInfo.position; }
@@ -193,13 +225,13 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
 
         void OnTeleportPathCalculated(Path path, float distanceToAllySqr, TeleportContext teleportContext) {
             if (path.error) {
-                Log.Important?.Error($"Failed to teleport summon {this} to ally {Ally}. \nPath calculation failed: {path.errorLog}");
+                Log.Important?.Error($"Failed to teleport summon {this} to ally {Ally}. \nPath calculation failed: {path.errorLog}", logOption: LogOption.NoStacktrace);
                 return;
             }
             if (HasBeenDiscarded || Ally == null || Ally.HasBeenDiscarded) {
                 return;
             }
-            ParentModel.Movement.Controller.TeleportTo(new TeleportDestination { position = path.vectorPath[^1] }, TeleportContext.AllyTooFar);
+            NpcTeleporter.Teleport(ParentModel, new TeleportDestination { position = path.vectorPath[^1] }, TeleportContext.AllyTooFar);
             _patrol.UpdatePlace(Ally.Coords); 
             _patrol.UpdateVelocityScheme(distanceToAllySqr > MaxDistanceFromAllySqrDoubled ? VelocityScheme.Run : VelocityScheme.Trot);
         }
@@ -210,6 +242,9 @@ namespace Awaken.TG.Main.AI.SummonsAndAllies {
         }
         
         protected void FindTarget() {
+            if (ParentModel is not { HasCompletelyInitialized: true, HasBeenDiscarded: false }) {
+                return;
+            }
             ParentModel.Movement.ResetMainState(_patrol);
 
             foreach (var allyAttacker in Ally.PossibleAttackers) {

@@ -148,6 +148,10 @@ MonoBehaviour:
     arReference:
       address: f7e2f22b11da2624f8fce8701d40a59a
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-5342346521601020765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +168,7 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.General.StatTypes.CurrencyStatType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Wealth
   multiplier: 1
+  showMultipliedByCurrencyStatMultiplier: 1
 --- !u!114 &-7103854499931290375
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Awaken.CommonInterfaces;
 using Awaken.ECS.DrakeRenderer.Authoring;
@@ -17,17 +16,20 @@ using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Locations.Mobs;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.Stories;
+using Awaken.TG.Main.Transmogrify;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
 using Awaken.Utility;
+using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using LogType = Awaken.Utility.Debugging.LogType;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Main.Heroes.Items.Attachments {
@@ -54,6 +56,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         ARAssetReference _weaponSpawnedPrefab;
         ARAssetReference _armorSpawnedPrefab;
         bool _isEquipping;
+        bool _isInPerspectiveChange;
 
         // === Events
         public new class Events {
@@ -136,8 +139,8 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         }
 
         public EquipmentSlotType GetMainSlot() {
-            if (EquipmentType.CustomMainSlotTypes.Contains(EquipmentType)) {
-                return Item.CharacterInventory?.SlotWith(Item) ?? EquipmentType.MainSlotType;
+            if (!World.HasAny<TransmogrifyUI>() && EquipmentType.CustomMainSlotTypes.Contains(EquipmentType)) {
+                return Item.CharacterInventory?.SlotWith(Item) ?? EquipmentType.MainSlotType; 
             }
             return EquipmentType.MainSlotType;
         }
@@ -174,9 +177,16 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         public ARAssetReference GetHeroItem(Hero hero) {
             using var heroAbstracts = hero.Template.AbstractTypes;
             Gender heroGender = hero.GetGender();
-            foreach (var mobItem in MobItems) {
-                if (CanEquip(heroAbstracts, heroGender, ParentModel.EquippedInSlotOfType, mobItem)) {
-                    return mobItem.itemPrefab;
+            var items = MobItems;
+            var equippedInSlotType = World.HasAny<TransmogrifyUI>() ? EquipmentType.MainSlotType : ParentModel.EquippedInSlotOfType;
+
+            if (ParentModel.TryGetElement<ItemTransmog>(out var transmog) && transmog.IsTransmogrified) {
+                items = transmog.Template.GetAttachment<ItemEquipSpec>().RetrieveMobItemsInstance();
+            }
+            
+            foreach (var mobItem in items) {
+                if (CanEquip(heroAbstracts, heroGender, equippedInSlotType, mobItem)) {
+                    return mobItem.ItemPrefabDeepCopy;
                 }
             }
             
@@ -204,7 +214,6 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         }
 
         // === Equipping
-        
         void OnEquip() {
             if (HasBeenDiscarded) return;
             
@@ -214,53 +223,69 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 return;
             }
 
-            if (ParentModel.Owner.EquipTarget is Hero hero) {
-                _isEquipping = true;
-                hero.OnVisualLoaded(() => {
-                    if (!_isEquipping) {
-                        return;
-                    }
-                    HeroEquip(hero);
-                    PlayEquipToggleSound(hero, true);
-                    _isEquipping = false;
-                });
-            } else if (ParentModel.Owner.EquipTarget is INpcEquipTarget { CanEquip: true } npcTarget) {
-                NpcEquip(npcTarget);
+            switch (ParentModel.Owner.EquipTarget) {
+                case Hero hero:
+                    HeroEquipProcess(hero);
+                    break;
+                case INpcEquipTarget { CanEquip: true } npcTarget:
+                    NpcEquip(npcTarget);
+                    break;
             }
         }
 
-        void HeroEquip(Hero hero) {
+        public void HeroEquipProcess(Hero hero) {
+            _isEquipping = true;
+            bool muteEquips = hero.MuteEquips;
+            hero.OnVisualLoaded(() => {
+                if (!_isEquipping) {
+                    return;
+                }
+                HeroEquip(hero);
+                if (!muteEquips) {
+                    PlayEquipToggleSound(hero, true);
+                }
+                _isEquipping = false;
+            });
+        }
+
+        UniTask HeroEquip(Hero hero, bool hideWeaponOnSpawn = false) {
             ARAssetReference itemPrefab = GetHeroItem(hero);
 
             if (itemPrefab?.IsSet ?? false) {
                 if (EquipmentType.ProvidesCloth) {
                     if (ParentModel.EquipmentType == EquipmentType.Helmet &&
                         World.Only<DisableHeroHelmetSetting>().Enabled) {
-                        return;
+                        return UniTask.CompletedTask;
                     }
 
+                    UniTask task = UniTask.CompletedTask;
                     if (Hero.TppActive) {
-                        hero.BodyClothes.Equip(itemPrefab);
+                        task = hero.BodyClothes.EquipTask(itemPrefab);
                     } else if (EquipmentType == EquipmentType.Gauntlets || EquipmentType == EquipmentType.Cuirass) {
-                        hero.HandClothes.Equip(itemPrefab, BaseClothes.ShadowsOverride.ForceOff);
+                        task = hero.HandClothes.EquipTask(itemPrefab, BaseClothes.ShadowsOverride.ForceOff);
                     }
                     foreach (var clothes in World.All<CustomHeroClothes>()) {
-                        clothes.Equip(itemPrefab);
+                        clothes.Equip(itemPrefab.DeepCopy());
                     }
                     _armorSpawnedPrefab = itemPrefab;
-                } else if (EquipmentType.IsWeapon) {
+                    return task;
+                }
+
+                if (EquipmentType.IsWeapon) {
                     ReleaseWeaponPrefab();
                     _weaponSpawnedPrefab = itemPrefab;
                     ARAsyncOperationHandle<GameObject> handle = _weaponSpawnedPrefab.LoadAsset<GameObject>();
                     Transform itemParent = GetItemSocket(hero);
                     var heroWeaponShadowCastingMode = Hero.TppActive ? ShadowCastingMode.On : ShadowCastingMode.Off;
-                    handle.OnCompleteForceAsync(h => OnWeaponLoaded(h, itemParent, heroWeaponShadowCastingMode));
+                    handle.OnCompleteForceAsync(h => OnWeaponLoaded(h, itemParent, heroWeaponShadowCastingMode, hideWeaponOnSpawn));
 
                     foreach (var clothes in World.All<CustomHeroClothes>()) {
-                        clothes.SpawnWeapon(itemPrefab, this);
+                        clothes.SpawnWeapon(itemPrefab.DeepCopy(), this);
                     }
+                    return handle.ToUniTask();
                 }
             }
+            return UniTask.CompletedTask;
         }
 
         void NpcEquip(INpcEquipTarget npcTarget) {
@@ -269,7 +294,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
             ItemRepresentationByNpc itemToSpawn = MobItems.FirstOrDefault(m =>
                 CanEquip(npcAbstracts, npcGender, ParentModel.EquippedInSlotOfType, m));
             npcAbstracts.Release();
-            if (!(itemToSpawn.itemPrefab?.IsSet ?? false)) {
+            if (!(itemToSpawn.ItemPrefabUnsafeToLoad?.IsSet ?? false)) {
                 Log.Minor?.Info($"Item: {LogUtils.GetDebugName(ParentModel)} has no visual prefab attached to equip for {LogUtils.GetDebugName(npcTarget)} for template: {ParentModel.Template.name}", ParentModel.Template);
                 return;
             }
@@ -286,31 +311,31 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 return;
             }
             if (EquipmentType.ProvidesCloth) {
-                npcTarget.Clothes.Equip(itemToSpawn.itemPrefab);
-                _armorSpawnedPrefab = itemToSpawn.itemPrefab;
+                _armorSpawnedPrefab = itemToSpawn.ItemPrefabDeepCopy;
+                npcTarget.Clothes.Equip(_armorSpawnedPrefab);
             } else {
                 if (npcTarget is NpcElement { CanDetachWeaponsToBelts: true }) {
                     return;
                 }
                 
-                if (itemToSpawn.itemPrefab is not { IsSet: true }) {
+                if (itemToSpawn.ItemPrefabUnsafeToLoad is not { IsSet: true }) {
                     Log.Important?.Error($"Trying to equip empty weapon for {GenericParentModel}");
                     return;
                 }
 
                 if (_weaponInstance != null) {
-                    Log.Important?.Warning($"Trying to equip already equipped weapon for {GenericParentModel} - {itemToSpawn.itemPrefab.RuntimeKey}");
+                    Log.Important?.Warning($"Trying to equip already equipped weapon for {GenericParentModel} - {itemToSpawn.ItemPrefabUnsafeToLoad.RuntimeKey}");
                     return;
                 }
 
                 ReleaseWeaponPrefab();
-                _weaponSpawnedPrefab = itemToSpawn.itemPrefab;
+                _weaponSpawnedPrefab = itemToSpawn.ItemPrefabDeepCopy;
                 ARAsyncOperationHandle<GameObject> handle = _weaponSpawnedPrefab.LoadAsset<GameObject>();
                 handle.OnComplete(h => OnWeaponLoaded(h, itemParent));
             }
         }
 
-        void OnWeaponLoaded(ARAsyncOperationHandle<GameObject> handle, Transform parent, Optional<ShadowCastingMode> shadowCastingMode = default) {
+        void OnWeaponLoaded(ARAsyncOperationHandle<GameObject> handle, Transform parent, Optional<ShadowCastingMode> shadowCastingMode = default, bool hideOnSpawn = false) {
             if (handle.Status != AsyncOperationStatus.Succeeded || handle.Result == null || handle.IsCancelled) {
                 ReleaseWeaponPrefab();
                 return;
@@ -335,7 +360,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 linkedLifetime = true,
                 movable = true
             });
-
+            
             World.BindView(ParentModel, _weaponInstance, true, true);
             character.AttachWeapon(_weaponInstance);
             Item.CharacterInventory?.Trigger(Events.WeaponEquipped, itemInstance);
@@ -367,6 +392,10 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 }
                 UnityEngine.Pool.ListPool<KandraRenderer>.Release(kandraRenderers);
             }
+
+            if (hideOnSpawn) {
+                _weaponInstance.HideWeapon(true);
+            }
         }
 
         // === Unequipping
@@ -374,14 +403,18 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
             if (IsEquipped || ParentModel.Owner?.EquipTarget == null) return;
 
             _isEquipping = false;
-            bool armorSet = _armorSpawnedPrefab?.IsSet ?? false;
-            bool weaponSet = _weaponSpawnedPrefab?.IsSet ?? false;
+
             IEquipTarget equipTarget = ParentModel.Owner.EquipTarget;
-            if (equipTarget is Hero h) {
-                HeroUnequip(h, armorSet, weaponSet, unEquippedSlotType);
-                PlayEquipToggleSound(h, false);
-            } else if (equipTarget is INpcEquipTarget { CanEquip: true } npcTarget) {
-                NpcUnequip(npcTarget, armorSet, weaponSet); 
+            switch (equipTarget) {
+                case Hero hero:
+                    HeroUnequipProcess(hero, unEquippedSlotType);
+                    break;
+                case INpcEquipTarget { CanEquip: true } npcTarget: {
+                    bool armorSet = _armorSpawnedPrefab?.IsSet ?? false;
+                    bool weaponSet = _weaponSpawnedPrefab?.IsSet ?? false;
+                    NpcUnequip(npcTarget, armorSet, weaponSet);
+                    break;
+                }
             }
             
             _armorSpawnedPrefab = null;
@@ -390,6 +423,15 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 return;
             }
             ReleaseWeaponPrefab();
+        }
+        
+        public void HeroUnequipProcess(Hero hero, EquipmentSlotType unEquippedSlotType) {
+            bool armorSet = _armorSpawnedPrefab?.IsSet ?? false;
+            bool weaponSet = _weaponSpawnedPrefab?.IsSet ?? false;
+            HeroUnequip(hero, armorSet, weaponSet, unEquippedSlotType);
+            if (!hero.MuteEquips) {
+                PlayEquipToggleSound(hero, false);
+            }
         }
 
         void HeroUnequip(Hero hero, bool armorSet, bool weaponSet, EquipmentSlotType unEquippedSlotType) {
@@ -453,11 +495,28 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
             }
         }
         
+        public UniTask PerspectiveChangeHeroEquip(Hero hero, bool hideWeaponOnSpawn) {
+            if (!_isInPerspectiveChange) {
+                return UniTask.CompletedTask;
+            }
+
+            _isInPerspectiveChange = false;
+            return HeroEquip(hero, hideWeaponOnSpawn);
+        }
+
+        public void PerspectiveChangeHeroUnEquip(EquipmentSlotType unEquippedSlotType) {
+            _isInPerspectiveChange = true;
+            OnUnequip(unEquippedSlotType);
+            ParentModel.Trigger(Item.Events.PerspectiveChangeUnequip, this);
+        }
+        
         public static bool CanEquip(List<NpcTemplate> abstracts, Gender gender, EquipmentSlotType equipmentSlotType, ItemRepresentationByNpc representation) {
             bool abstractNpcFulfilled = representation.AbstractNPCs.All(abstracts.Contains);
             bool genderFulfilled = representation.Gender == Gender.None || representation.Gender == gender;
             bool itemHandFulfilled = equipmentSlotType == null || CanEquipInHand(representation.Hand, equipmentSlotType);
-            return abstractNpcFulfilled && genderFulfilled && itemHandFulfilled;
+            bool flagsFulfilled = string.IsNullOrEmpty(representation.Flag) || StoryFlags.Get(representation.Flag);
+            
+            return abstractNpcFulfilled && genderFulfilled && itemHandFulfilled && flagsFulfilled;
         }
         
         // === Debug
@@ -471,7 +530,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
             Gender heroGender = Gender.Male;
             foreach (var mobItem in mobItems) {
                 if (CanEquip(heroAbstracts.value, heroGender, null, mobItem)) {
-                    return mobItem.itemPrefab;
+                    return mobItem.ItemPrefabDeepCopy;
                 }
             }
 

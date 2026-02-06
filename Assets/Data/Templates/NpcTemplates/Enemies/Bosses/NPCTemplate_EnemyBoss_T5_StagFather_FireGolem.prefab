@@ -70,6 +70,7 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 2
+  BackToSpawnPointDistanceMultiplier: 1
   maxHealth: 3000
   healthRegen: 0
   maxStamina: 300
@@ -154,6 +155,10 @@ MonoBehaviour:
       buildupThreshold: 1
       effectStrength: 1
       buildupName: Full
+    _petrification:
+      buildupThreshold: 3
+      effectStrength: 1
+      buildupName: Petrification
   crimeNpcValue: 0
   crimeReactionArchetype: 0
   npcType: 5
@@ -173,19 +178,19 @@ MonoBehaviour:
   lootTables:
   - lootType: 0
     lootReference:
-      _guid: 22c64614920d44b478a47d06dacd729a
+      _guid: 044e38f2173ff3c4b9fd6a08c3840ef3
     table:
       rid: -2
   corpseLootTables: []
   wyrdConvertedLootTables:
   - lootType: 0
     lootReference:
-      _guid: 9c576cd5f893c2340b61d4e42e2cab31
+      _guid: 5f78360874dcc3541aad1eaf2ebf6e1a
     table:
       rid: -2
   - lootType: 0
     lootReference:
-      _guid: d583e4e5d3b31504381b8ff06b2fe837
+      _guid: 850e0252d84c2ed4f8ca67599dd41dc6
     table:
       rid: -2
   tags:
@@ -201,6 +206,10 @@ MonoBehaviour:
       address: a3827a59fc2d5a744bbdda2bf6478dcb
       subObjectName: 
   tattooType: 0
+  corpseVFX:
+    arReference:
+      address: 
+      subObjectName: 
   dummyDeathClipTransition:
     address: 
     subObjectName: 

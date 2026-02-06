@@ -79,10 +79,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_164a63af334b2c54f8cb1d9a9ab5975b
-  EDITOR_bakedDescription: 'Attacks apply Poison.
+  EDITOR_bakedDescription: 'Attacks apply <color=#04959A>Poison</color>.
 
-    Increases potency of all gathered
-    Mushrooms when held in the Inventory.'
+    Increases
+    potency of all gathered Mushrooms when held in the Inventory.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: ce9920ba532433d4697bdaddec431fb4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -249,8 +253,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8627754540802847578
 MonoBehaviour:

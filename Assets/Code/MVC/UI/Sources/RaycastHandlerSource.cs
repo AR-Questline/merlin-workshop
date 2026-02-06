@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Awaken.TG.MVC.Elements;
+using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.Utility;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +32,10 @@ namespace Awaken.TG.MVC.UI.Sources {
         // === Operation
 
         public void ProvideHandlers(UIPosition mousePosition, List<IUIAware> handlers) {
+            if (UIStateStack.Instance.State.IsMapInteractive) {
+                return;
+            }
+            
             // use the event system for raycasting
             // we "forge" a PointerEventData to be able to cast, just the position matters
             _pointerEventData.position = mousePosition.screen;
@@ -65,6 +70,11 @@ namespace Awaken.TG.MVC.UI.Sources {
                 // nope, go up the stack
                 gameObject = gameObject.transform.parent?.gameObject;
             }
+        }
+        
+        protected override void OnDiscard(bool fromDomainDrop) {
+            ParentModel.OnSourceReset(_distinctHandlersBuffer);            
+            base.OnDiscard(fromDomainDrop);
         }
     }
 }

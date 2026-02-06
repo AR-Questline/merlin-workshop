@@ -76,7 +76,6 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.PresetSelection {
 
         protected override void OnDiscard(bool fromDomainDrop) {
             RemovePrompts();
-            ParentModel.View<VTitleScreenUI>().SwitchButtons(false);
             base.OnDiscard(fromDomainDrop);
         }
         

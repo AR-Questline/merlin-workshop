@@ -18,7 +18,7 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
         [SerializeField] TerrainResolutions backgroundResolutions;
         [SerializeField] TerrainToMeshMaterial terrainToMeshMaterial;
         
-        public override void Bake(GroundBounds groundBounds, TerrainGroundBoundsBaker baker) {
+        public override void Bake(GroundBounds groundBounds, TerrainGroundBoundsBaker baker, bool forBuild) {
             var sceneName = baker.gameObject.scene.name;
 
             groundBounds.CalculateGamePolygon(Allocator.Temp, out var gamePolygon);
@@ -48,23 +48,25 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
 
                     gameplayTerrainsBounds.Encapsulate(terrain.transform.position.xz());
 
-                    SetupTerrain(toCreate, terrain, gameplayResolutions, true, sceneName);
+                    SetupTerrain(toCreate, terrain, gameplayResolutions, true, sceneName, forBuild);
                     continue;
                 }
                 
                 Polygon2DUtils.Intersects(terrainBounds, terrainForegroundPolygon, out var intersectsForeground);
                 if (intersectsForeground) {
-                    SetupTerrain(toCreate, terrain, foregroundResolutions, false, sceneName);
+                    SetupTerrain(toCreate, terrain, foregroundResolutions, false, sceneName, forBuild);
                     continue;
                 }
 
                 Polygon2DUtils.Intersects(terrainBounds, terrainBackgroundPolygon, out var intersectsBackground);
                 if (intersectsBackground) {
-                    SetupTerrain(toCreate, terrain, backgroundResolutions, false, sceneName);
+                    SetupTerrain(toCreate, terrain, backgroundResolutions, false, sceneName, forBuild);
                     continue;
                 }
 
-                DestroyImmediate(terrain.gameObject);
+                if (forBuild) {
+                    DestroyImmediate(terrain.gameObject);
+                }
             }
 
             TerrainToMesh.AssetToCreate.Create(toCreate);
@@ -73,27 +75,30 @@ namespace Awaken.TG.Editor.Graphics.ProceduralMeshes.TerrainToMeshConverter {
             terrainBackgroundPolygon.Dispose();
         }
         
-        void SetupTerrain(List<TerrainToMesh.AssetToCreate> toCreate, Terrain terrain, in TerrainResolutions resolutions, bool withFootsteps, string sceneName) {
-            var terrainData = terrain.terrainData;
-            terrainData = CopyTerrainData(terrainData, sceneName);
+        void SetupTerrain(List<TerrainToMesh.AssetToCreate> toCreate, Terrain terrain, in TerrainResolutions resolutions, bool withFootsteps, string sceneName, bool forBuild) {
+            if (forBuild) {
+                var terrainData = terrain.terrainData;
+                terrainData = CopyTerrainData(terrainData, sceneName);
 
-            var splatmapSize = math.ceilpow2((int)(math.rcp(resolutions.splatmapMetersPerPixel) * terrainData.size.x));
-            if (splatmapSize < terrainData.alphamapResolution) {
-                ResizeControlTexture(splatmapSize, terrainData);
+                var splatmapSize = math.ceilpow2((int)(math.rcp(resolutions.splatmapMetersPerPixel) * terrainData.size.x));
+                if (splatmapSize < terrainData.alphamapResolution) {
+                    ResizeControlTexture(splatmapSize, terrainData);
+                }
+                
+                terrain.terrainData = terrainData;
+                terrain.Flush();
+                
+    #if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(terrainData);
+                UnityEditor.AssetDatabase.SaveAssetIfDirty(terrainData);
+    #endif
             }
-            
-            terrain.terrainData = terrainData;
-            terrain.Flush();
-            
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(terrainData);
-            UnityEditor.AssetDatabase.SaveAssetIfDirty(terrainData);
-#endif
             
             var terrainToMeshConfig = new TerrainToMesh.Config {
                 mesh = resolutions.terrainToMeshMesh,
                 material = terrainToMeshMaterial,
-                withFootsteps = withFootsteps
+                withFootsteps = withFootsteps,
+                forBuild = forBuild,
             };
             TerrainToMesh.Convert(toCreate, terrain, terrainToMeshConfig);
         }

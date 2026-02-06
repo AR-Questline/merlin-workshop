@@ -1,5 +1,5 @@
-﻿using Awaken.TG.MVC.UI.Events;
-using UnityEngine;
+﻿using Awaken.TG.Main.UI.Helpers;
+using Awaken.TG.MVC.UI.Events;
 
 namespace Awaken.TG.MVC.UI.Handlers.Focuses {
     /// <summary>
@@ -13,7 +13,8 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
         public bool naviRight;
 
         Focus Focus => World.Only<Focus>();
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         public UIResult Handle(UIEvent evt) {
             if (evt is UINaviAction navi) {
                 bool up = naviUp && navi.direction == NaviDirection.Up;

@@ -63,7 +63,7 @@ MonoBehaviour:
   - item:tier3
   iconReference:
     arSpriteReference:
-      address: 15600520447ee3e4d8f2faebae7afa1c
+      address: 9d9083d66b527244a918aadb795e63b0
       subObjectName: 
   itemName:
     IdOverride: item_jewelry_necklace_DruidicAmulet
@@ -78,7 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_3a25fc93837e18b48b5da74e51abd3dc
-  EDITOR_bakedDescription: Increases Armor by 1.
+  EDITOR_bakedDescription: "Increases Spell Power by 10\_%.\nIncreases Magic Critical
+    Chance by 10\_%.\nIncreases Max Mana by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -103,7 +104,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_3a25fc93837e18b48b5da74e51abd3dc
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,7 +129,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_3a25fc93837e18b48b5da74e51abd3dc
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -154,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 5d9da2e7b00ca5a44ae62215243a2307
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -274,6 +282,8 @@ MonoBehaviour:
       value: 0.1
     - name: GainValue
       value: 0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -290,7 +300,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: GainValue
-      value: 0.01
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

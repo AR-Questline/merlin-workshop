@@ -19,8 +19,8 @@ namespace Awaken.TG.Main.Stories.Steps {
 
         protected override StoryStep CreateRuntimeStepImpl(StoryGraphParser parser) {
             return new SShowTutorialText {
-                title = this.title,
-                text = this.text
+                title = title,
+                text = text
             };
         }
     }

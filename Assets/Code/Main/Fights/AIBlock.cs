@@ -37,7 +37,7 @@ namespace Awaken.TG.Main.Fights {
             }
 
             float originalAmount = hook.Value.RawData.CalculatedValue;
-            ICharacter damageDealer = hook.Value.DamageDealer;
+            ICharacter damageDealer = hook.Value.DamageDealerPure;
             hook.Value.RawData.MultiplyMultModifier(damageAmountMultiplier);
             if (hook.Value.Parameters.KnockdownType == KnockdownType.Always) {
                 ParentModel.CharacterStats.Stamina.SetTo(0, false, new ContractContext(damageDealer, ParentModel, ChangeReason.CombatDamage));
@@ -49,7 +49,7 @@ namespace Awaken.TG.Main.Fights {
             hook.Value.SetBlocked(statsItem);
             
             ParentModel.HealthElement.Trigger(HealthElement.Events.OnDamageBlocked, hook.Value);
-            hook.Value.DamageDealer.Trigger(HealthElement.Events.OnMyDamageBlocked, hook.Value);
+            hook.Value.DamageDealerPure.Trigger(HealthElement.Events.OnMyDamageBlocked, hook.Value);
             // --- Audio
             FMODManager.PlayBlockAudio(statsItem, ParentModel, hook.Value.Item);
         }
@@ -70,11 +70,11 @@ namespace Awaken.TG.Main.Fights {
             }
 
             if (damage.Item is { IsSpectralWeapon: true } 
-                && damage.DamageDealer is Hero { Development: { SpectralWeaponsPenetrateShields: true } }) {
+                && damage.DamageDealerPure is Hero { Development: { SpectralWeaponsPenetrateShields: true } }) {
                 return false;
             }
 
-            if (damage.DamageDealer == null) {
+            if (damage.DamageDealerPure == null) {
                 return false;
             }
 
@@ -82,7 +82,7 @@ namespace Awaken.TG.Main.Fights {
             Stat blockAngle = statsItem?.ItemStats?.BlockAngle;
             float blockAngleValue = blockAngle?.ModifiedValue ?? 0;
             
-            Vector3 direction = (damage.DamageDealer.Coords - npcElement.Coords).ToHorizontal3();
+            Vector3 direction = (damage.DamageDealerPure.Coords - npcElement.Coords).ToHorizontal3();
             float angle = Vector3.Angle(npcElement.Forward(), direction);
             return angle < blockAngleValue;
         }

@@ -149,7 +149,7 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             _rb.linearVelocity = Vector3.ClampMagnitude(_rb.linearVelocity, maxSpeed);
         }
 
-        bool TryGetTargetPosition(out Vector3 targetPosition) {
+        protected bool TryGetTargetPosition(out Vector3 targetPosition) {
             if (_target != null) {
                 targetPosition = _target.position;
                 return true;

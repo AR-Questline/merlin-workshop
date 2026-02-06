@@ -1,5 +1,6 @@
 ﻿using System;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -22,6 +23,7 @@ namespace Awaken.TG.Main.Settings.GammaSettingScreen {
         bool Interactable => slider.interactable;
         float MinValue => slider.minValue;
         float MaxValue => slider.maxValue;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public void Setup(float minValue, float maxValue, bool wholeNumbers, float defaultValue, float stepChange, Action<float> onValueChanged = null, bool interactable = true) {
             slider.wholeNumbers = wholeNumbers;

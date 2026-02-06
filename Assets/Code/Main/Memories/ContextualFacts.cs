@@ -82,6 +82,17 @@ namespace Awaken.TG.Main.Memories {
             }
         }
 
+        public void CopyFrom(ContextualFacts other) {
+            foreach (var value in other._values.KeyValues) {
+                _values.Set(value.Key, value.Value);
+            }
+            foreach (var key in other._keysByOwner.Keys) {
+                foreach (var value in other._keysByOwner.GetValues(key, true)) {
+                    _keysByOwner[key].Add(value);
+                }
+            }
+        }
+
         public bool HasValue(string label) => _values.HasValue(label);
         [UnityEngine.Scripting.Preserve] public bool HasValue<TVal>(string label) => _values.HasValue<TVal>(label);
 

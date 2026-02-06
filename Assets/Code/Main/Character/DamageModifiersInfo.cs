@@ -1,17 +1,19 @@
 ﻿namespace Awaken.TG.Main.Fights {
     public struct DamageModifiersInfo {
-        public DamageModifiersInfo(float criticalMultiplier, float sneakMultiplier, float weakSpotMultiplier, float backStabMultiplier, bool isFinisher = false) {
-            IsCritical = criticalMultiplier > 0;
+        public DamageModifiersInfo(bool isCritical, float criticalMultiplier, bool isSneak, float sneakMultiplier,
+            bool isWeakSpot, float weakSpotMultiplier, bool isBackStab, float backStabMultiplier,
+            bool isFinisher = false) {
+            IsCritical = isCritical;
             CriticalMultiplier = criticalMultiplier;
-            IsSneak = sneakMultiplier > 0;
+            IsSneak = isSneak;
             SneakMultiplier = sneakMultiplier;
-            IsWeakSpot = weakSpotMultiplier > 0;
+            IsWeakSpot = isWeakSpot;
             WeakSpotMultiplier = weakSpotMultiplier;
-            IsBackStab = backStabMultiplier > 0;
+            IsBackStab = isBackStab;
             BackStabMultiplier = backStabMultiplier;
             IsFinisher = isFinisher;
         }
-        
+
         DamageModifiersInfo(DamageModifiersInfo info, bool isFinisher) {
             IsCritical = info.IsCritical;
             CriticalMultiplier = info.CriticalMultiplier;

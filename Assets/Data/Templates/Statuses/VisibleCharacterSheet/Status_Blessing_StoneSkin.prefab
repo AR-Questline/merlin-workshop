@@ -82,6 +82,8 @@ MonoBehaviour:
     skillGraphRef:
       _guid: ae08c8e869b7d62498f61c5c39c6ccc0
     variables:
+    - name: IncomingDamage
+      value: 0.2
     - name: Damage
       value: 0
     - name: Range
@@ -121,7 +123,7 @@ MonoBehaviour:
     - name: VFX
       assetReference:
         arReference:
-          address: bb2417cd71325c2459cc53e460a78b0e
+          address: c36525ad696dd4c41aba47e75e152a69
           subObjectName: 
     - name: ExplosionVFX
       assetReference:

@@ -1,9 +1,10 @@
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
+using Awaken.Utility.GameObjects;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Crafting.Cooking {
-    [UsesPrefab("Crafting/Cooking/VExperimentalCooking")]
+    [UsesPrefab("Crafting/Cooking/" + nameof(VExperimentalCooking))]
     public class VExperimentalCooking : VCrafting<ExperimentalCooking>, IAutoFocusBase {
         [field: SerializeField] public Transform IngredientsGridUI { get; private set; }
 
@@ -13,7 +14,11 @@ namespace Awaken.TG.Main.Crafting.Cooking {
 
         protected override void OnInitialize() {
             base.OnInitialize();
-            StaticTooltip.gameObject.SetActive(true);
+            StaticTooltip.TrySetActiveOptimized(true);
+        }
+
+        protected override void CreateKeyHeld() {
+            Target.PossibleResultTooltipUI.DisappearTooltip();
         }
     }
 }

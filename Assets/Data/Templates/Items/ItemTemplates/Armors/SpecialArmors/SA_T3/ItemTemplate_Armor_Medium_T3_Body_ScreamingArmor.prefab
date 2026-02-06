@@ -60,7 +60,8 @@ MonoBehaviour:
     verifiedDesign: 0
     notes: 
   tags:
-  - item:tier1
+  - item:tier3
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 7ecbe344671edc24abf7261f43e931f8
@@ -78,8 +79,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_7fd550b25b63a1d41b85300451192509
-  EDITOR_bakedDescription: Takes 20% of incoming damage instead of you, while screaming
-    in agony.
+  EDITOR_bakedDescription: "Takes 20\_% of incoming Damage instead of you, while
+    screaming in agony."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +157,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +178,7 @@ MonoBehaviour:
     - _guid: 2cbf742a45c17d64cbc764f22674cc80
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: 6f259eff024df3745a50a574d8029580
       subObjectName: 
@@ -180,6 +186,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: f1aa93fe0b194cd49836222b187dadf2
       subObjectName: 
@@ -187,6 +194,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: 28b479bfb2650b04cba4400c8343a3fb
       subObjectName: 
@@ -252,8 +260,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -299,20 +310,34 @@ MonoBehaviour:
           address: 5c78545f277a0c24baa7c131505d9788
           subObjectName: 
   - skillGraphRef:
-      _guid: eb8447bbf43f4c54395094171e14688a
+      _guid: 0c343816eaf02ad468410ab05890f036
     variables:
     - name: ModifyValue
       value: 0.2
     - name: ValueGain
+      value: 0.01
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
+    - name: ValueCap
+      value: 0.3
     enums:
     - name: StatEnum
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:IncomingDamage
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
 --- !u!114 &215660845427092069
@@ -640,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903ca2e94e3f43ac8d8d46c75b7a82ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ChargesToSpend>k__BackingField: 45
+  <ChargesToSpend>k__BackingField: 180
   transformsInto:
     itemTemplateReference:
       _guid: 991260514fec54141b197a5a203c0919
@@ -648,3 +673,5 @@ MonoBehaviour:
     itemLvl:
       low: 0
       high: 0
+  copyItemElementsData: 1
+  useItemLevels: 1

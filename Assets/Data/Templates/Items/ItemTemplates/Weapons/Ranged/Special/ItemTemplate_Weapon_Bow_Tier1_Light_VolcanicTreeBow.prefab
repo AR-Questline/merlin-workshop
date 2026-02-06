@@ -52,7 +52,7 @@ MonoBehaviour:
   templateType: 0
   _isAbstract: 0
   _abstractTypes:
-  - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - _guid: c669d4f8af7f83a4f8cbe1b6d360fed9
   - _guid: dcd64189d3cdf7044a4c6f44477ad9cd
   metadata:
     verifiedArt: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_cb19c0f1e5d8e5149a805e581feadcc6
-  EDITOR_bakedDescription: Arrows apply Burn.
+  EDITOR_bakedDescription: Arrows apply <color=#04959A>Burn</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 2b6a815b816d43447b3cf9318470e3ff
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -239,8 +243,11 @@ MonoBehaviour:
   rangedZoomModifier: 0.7
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &2801436953182460930
 MonoBehaviour:

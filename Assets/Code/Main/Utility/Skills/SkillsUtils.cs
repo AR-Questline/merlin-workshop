@@ -121,6 +121,23 @@ namespace Awaken.TG.Main.Utility.Skills {
             return keywords;
         }
 
+        public static bool CheckKeywords(string desc, out List<string> keywordsMarker) {
+            keywordsMarker = new List<string>();
+            desc ??= "";
+            bool result = true;
+            
+            foreach (var match in KeywordRegex.Matches(desc).Where(m => m.Success)) {
+                var keywordMarker = match.Groups[1].Value;
+                var keyword = StringToKeyword(keywordMarker);
+                
+                if (keyword == null) {
+                    keywordsMarker.Add(keywordMarker);
+                    result = false;
+                }
+            }
+            return result;
+        }
+        
         public static Keyword StringToKeyword(string key) => Keyword.KeywordFor(key);
         
         // === Variable Cache

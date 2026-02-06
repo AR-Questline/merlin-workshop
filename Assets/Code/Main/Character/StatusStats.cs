@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.General.StatTypes;
+﻿using System.Collections.Generic;
+using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Templates;
@@ -45,7 +46,40 @@ namespace Awaken.TG.Main.Character {
         public LimitedStat IntoxicatedEffectModifier { get; private set; }
         public LimitedStat FullBuildup { get; private set; }
         public LimitedStat FullEffectModifier { get; private set; }
+        public LimitedStat PetrificationBuildup { get; private set; }
+        public LimitedStat PetrificationEffectModifier { get; private set; }
         public TemplateReference[] InvulnerableToStatuses { get; private set; }
+
+        IEnumerable<Stat> AllStats() {
+            yield return BleedBuildup; 
+            yield return BleedEffectModifier;
+            yield return BurnBuildup;
+            yield return BurnEffectModifier;
+            yield return FrenzyBuildup;
+            yield return FrenzyEffectModifier;
+            yield return ConfusionBuildup;
+            yield return ConfusionEffectModifier;
+            yield return CorruptionBuildup;
+            yield return CorruptionEffectModifier;
+            yield return MuteBuildup;
+            yield return MuteEffectModifier;
+            yield return PoisonBuildup;
+            yield return PoisonEffectModifier;
+            yield return SlowBuildup;
+            yield return SlowEffectModifier;
+            yield return StunBuildup;
+            yield return StunEffectModifier;
+            yield return WeakBuildup;
+            yield return WeakEffectModifier;
+            yield return DrunkBuildup;
+            yield return DrunkEffectModifier;
+            yield return IntoxicatedBuildup;
+            yield return IntoxicatedEffectModifier;
+            yield return FullBuildup;
+            yield return FullEffectModifier;
+            yield return PetrificationBuildup;
+            yield return PetrificationEffectModifier;
+        }
 
         // === Events
 
@@ -56,6 +90,16 @@ namespace Awaken.TG.Main.Character {
         public static void Create(ICharacter character) {
             StatusStats stats = new();
             character.AddElement(stats);
+        }
+        
+        public void RecalculateAllStats(bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this);
+            }
+            _wrapper.Initialize(this);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
         }
 
         // === Persistence
@@ -97,6 +141,8 @@ namespace Awaken.TG.Main.Character {
             [Saved(0f)] float IntoxicatedEffectModifierDif;
             [Saved(0f)] float FullBuildupDif;
             [Saved(0f)] float FullEffectModifierDif;
+            [Saved(0f)] float PetrificationBuildupDif;
+            [Saved(0f)] float PetrificationEffectModifierDif;
 
             public void Initialize(StatusStats stats) {
                 ICharacter owner = stats.ParentModel;
@@ -131,6 +177,9 @@ namespace Awaken.TG.Main.Character {
                 stats.FullBuildup = new LimitedStat(owner, StatusStatType.FullBuildup, statValues.Full.GetThreshold(tier) + FullBuildupDif, 1, MaxLimitStatMax);
                 stats.FullEffectModifier = new LimitedStat(owner, StatusStatType.FullEffectModifier, statValues.Full.GetModifier() + FullEffectModifierDif, 0, MaxLimitStatMax);
 
+                stats.PetrificationBuildup = new LimitedStat(owner, StatusStatType.PetrificationBuildup, statValues.Petrification.GetThreshold(tier) + PetrificationBuildupDif, 1, MaxLimitStatMax);
+                stats.PetrificationEffectModifier = new LimitedStat(owner, StatusStatType.PetrificationEffectModifier, statValues.Petrification.GetModifier() + PetrificationEffectModifierDif, 0, MaxLimitStatMax);
+                
                 stats.InvulnerableToStatuses = statValues.InvulnerableToStatuses;
             }
 
@@ -165,6 +214,9 @@ namespace Awaken.TG.Main.Character {
                 IntoxicatedEffectModifierDif = statusStats.IntoxicatedEffectModifier.ValueForSave - statValues.Intoxicated.GetModifier();
                 FullBuildupDif = statusStats.FullBuildup.ValueForSave - statValues.Full.GetThreshold(tier);
                 FullEffectModifierDif = statusStats.FullEffectModifier.ValueForSave - statValues.Full.GetModifier();
+                
+                PetrificationBuildupDif = statusStats.PetrificationBuildup.ValueForSave - statValues.Petrification.GetThreshold(tier);
+                PetrificationEffectModifierDif = statusStats.PetrificationEffectModifier.ValueForSave - statValues.Petrification.GetModifier();
             }
         }
     }

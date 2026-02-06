@@ -1,5 +1,4 @@
 ﻿using Awaken.TG.Main.Memories;
-using Awaken.TG.Main.Stories.Execution;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
 using Awaken.TG.Main.Stories.Steps;
 using Awaken.TG.Main.Stories.Steps.Helpers;
@@ -55,7 +54,7 @@ namespace Awaken.TG.Main.Stories.Runtime {
                 ? story!.ShortMemory
                 : World.Services.Get<GameplayMemory>();
 
-            int day = World.Only<GameRealTime>().WeatherTime.Day;
+            int day = World.Only<GameRealTime>().WeatherDaysSinceGameStart;
             int lastTaken = memory.Context(context).Get(oncePer.SpanFlag, 0);
 
             return GameTimeUtil.HasTimeSpanChanged(day, lastTaken, oncePer.Span);
@@ -77,7 +76,7 @@ namespace Awaken.TG.Main.Stories.Runtime {
         static void OncePerPerformed(Story story, IOncePer oncePer) {
             var context = StoryUtilsRuntime.AutoContext(story);
             var memory = oncePer.Span == TimeSpans.Dialogue ? story.ShortMemory : story.Memory;
-            int day = World.Only<GameRealTime>().WeatherTime.Day;
+            int day = World.Only<GameRealTime>().WeatherDaysSinceGameStart;
             memory.Context(context).Set(oncePer.SpanFlag, day);
         }
         
@@ -85,12 +84,12 @@ namespace Awaken.TG.Main.Stories.Runtime {
         /// Create context based on api only.
         /// It cannot create context that respects both Hero and Place.
         /// </summary>
-        public static string[] AutoContext([CanBeNull] Story api) {
+        public static StringCollectionSelector AutoContext([CanBeNull] Story api) {
             var memory = World.Services.Get<GameplayMemory>();
             if (api != null && api.IsSharedBetweenMultipleNPCs && api.OwnerLocation != null) {
-                return memory.Contextify(api, api.OwnerLocation);
+                return memory.ContextSelector(api, api.OwnerLocation);
             } else {
-                return memory.Contextify(api);
+                return memory.ContextSelector(api);
             }
         }
     }

@@ -189,6 +189,14 @@ namespace Awaken.TG.Main.Locations {
                     }
                 }
             }
+
+            public virtual void Collect(List<Location> locations) {
+                foreach (var location in World.All<Location>()) {
+                    if (IsMatching(location)) {
+                        locations.Add(location);
+                    }
+                }
+            }
             
             public abstract ushort TypeForSerialization { get; }
             protected abstract bool IsMatching(Location loc);
@@ -211,8 +219,31 @@ namespace Awaken.TG.Main.Locations {
                 }
             }
 
+            public override void Collect(List<Location> locations) {
+                foreach (var presence in World.All<NpcPresence>()) {
+                    if (RichLabelUtilities.IsMatchingRichLabel(presence.RichLabelSet, _richLabelGuids)) {
+                        locations.Add(presence.ParentModel);
+                    }
+                }
+            }
+
             protected override bool IsMatching(Location loc) {
                 throw new InvalidOperationException("Shouldn't happen, because Find is overriden");
+            }
+
+            public override bool Equals(System.Object match) {
+                if (match is not MatchByRichLabel otherMatch) {
+                    return false;
+                }
+                if (this._richLabelGuids.Length != otherMatch._richLabelGuids.Length) {
+                    return false;
+                }
+                for (int i = 0; i < _richLabelGuids.Length; i++) {
+                    if (!_richLabelGuids[i].Equals(otherMatch._richLabelGuids[i])) {
+                        return false;
+                    }
+                }
+                return true;
             }
         }
         
@@ -220,6 +251,8 @@ namespace Awaken.TG.Main.Locations {
             public override ushort TypeForSerialization => SavedTypes.MatchByAllTags;
 
             [Saved] string[] _tags;
+            
+            public string[] Tags => _tags;
             
             public MatchByAllTags(string[] tags) {
                 _tags = tags;
@@ -235,12 +268,29 @@ namespace Awaken.TG.Main.Locations {
 
                 return true;
             }
+            
+            public override bool Equals(System.Object match) {
+                if (match is not MatchByAllTags otherMatch) {
+                    return false;
+                }
+                if (this._tags.Length != otherMatch._tags.Length) {
+                    return false;
+                }
+                for (int i = 0; i < _tags.Length; i++) {
+                    if (!_tags[i].Equals(otherMatch._tags[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
         
         public sealed partial class MatchByTag : Match {
             public override ushort TypeForSerialization => SavedTypes.MatchByTag;
 
             [Saved] string _tag;
+            
+            public string Tag => _tag;
             
             public MatchByTag(string tag) {
                 _tag = tag;
@@ -249,12 +299,24 @@ namespace Awaken.TG.Main.Locations {
             protected override bool IsMatching(Location loc) {
                 return loc.Tags.Contains(_tag);
             }
+            
+            public override bool Equals(System.Object match) {
+                if (match is not MatchByTag otherMatch) {
+                    return false;
+                }
+                if (!_tag.Equals(otherMatch._tag)) {
+                    return false;
+                }
+                return true;
+            }
         }
         
         public sealed partial class MatchByTemplates : Match {
             public override ushort TypeForSerialization => SavedTypes.MatchByTemplates;
 
             [Saved] LocationTemplate _template;
+            
+            public LocationTemplate Template => _template;
             
             public MatchByTemplates(LocationTemplate template) {
                 _template = template;
@@ -263,6 +325,16 @@ namespace Awaken.TG.Main.Locations {
             protected override bool IsMatching(Location loc) {
                 return loc.Template == _template;
             }
+            
+            public override bool Equals(System.Object match) {
+                if (match is not MatchByTemplates otherMatch) {
+                    return false;
+                }
+                if (!_template.Equals(otherMatch._template)) {
+                    return false;
+                }
+                return true;
+            }
         }
         
         public sealed partial class MatchByActor : Match {
@@ -270,6 +342,8 @@ namespace Awaken.TG.Main.Locations {
 
             [Saved] ActorRef _actorRef;
             Actor? _actor;
+
+            public string ActorRefGuid => _actorRef.guid;
             
             public MatchByActor(ActorRef actorRef) {
                 _actorRef = actorRef;
@@ -280,8 +354,23 @@ namespace Awaken.TG.Main.Locations {
                 return StoryUtils.MatchActorLocations(_actor.Value);
             }
 
+            public override void Collect(List<Location> locations) {
+                _actor ??= _actorRef.Get();
+                StoryUtils.MatchActorLocations(_actor.Value, locations);
+            }
+
             protected override bool IsMatching(Location loc) {
                 throw new InvalidOperationException("Shouldn't happen, because Find is overriden");
+            }
+            
+            public override bool Equals(System.Object match) {
+                if (match is not MatchByActor otherMatch) {
+                    return false;
+                }
+                if (!_actorRef.Equals(otherMatch._actorRef)) {
+                    return false;
+                }
+                return true;
             }
         }
     }

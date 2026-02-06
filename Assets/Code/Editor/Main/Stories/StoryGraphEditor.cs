@@ -4,7 +4,6 @@ using System.Linq;
 using Awaken.TG.Editor.Helpers;
 using Awaken.TG.Editor.Helpers.Tags;
 using Awaken.TG.Editor.Localizations;
-using Awaken.TG.Editor.Main.Fmod;
 using Awaken.TG.Editor.Main.Stories.Steps;
 using Awaken.TG.Editor.Utility;
 using Awaken.TG.Editor.Utility.Screenshotting;
@@ -41,24 +40,45 @@ namespace Awaken.TG.Editor.Main.Stories {
         static Texture2D[] s_backgrounds;
         public bool wasRepaintedForScreenshot;
 
+        bool _isEditMode = true;
+        
         // -- Target
         SerializedObject _serializedObject;
         StoryGraph Target => target as StoryGraph;
         public override float BlackBoardWidth => base.BlackBoardWidth + 35;
 
+        [MenuItem("Assets/Open in ReadOnly Mode", validate = true, priority = 101)]
+        static bool OpenGraphInReadOnlyMode_Validate() {
+            return Selection.GetFiltered<StoryGraph>(SelectionMode.Assets).Length > 0;
+        }
+
+        [MenuItem("Assets/Open in ReadOnly Mode", priority = 101)]
+        public static void OpenGraphInReadOnlyMode() {
+            var graphs = Selection.GetFiltered<StoryGraph>(SelectionMode.Assets);
+            StoryGraph graph = graphs.Length > 0 ? graphs[0] : null;
+            if (graph != null) {
+                var nodeEditorWindow = NodeEditorWindow.Open(graph);
+                if (NodeGraphEditor.GetEditor(graph, nodeEditorWindow) is StoryGraphEditor storyGraphEditor) {
+                    storyGraphEditor.SetReadonlyMode();
+                }
+            } else {
+                Log.Important?.Warning("Select a StoryGraph asset to open");
+            }
+        }
+
+        [MenuItem("TG/Graphs/Refresh used sound banks on all Story Graphs")]
+        public static void RefreshUsedSoundBanksOnAllStoryGraphs() => StoryGraphFmodEditorUtils.RefreshUsedSoundBanksOnAllStoryGraphs();
+        
         [MenuItem("TG/Graphs/Open running Story Graph")]
         public static void OpenRunningStoryGraph() {
-            StoryGraph graph = World.AllInOrder<Story>().LastOrDefault()?.EDITOR_Graph;
+            StoryGraph graph = World.LastOrNull<Story>()?.EDITOR_Graph;
             if (graph != null) {
                 NodeEditorWindow.Open(graph);
             } else {
                 Log.Important?.Warning("No compatible story opened");
             }
         }
-
-        [MenuItem("TG/Graphs/Refresh used sound banks on all Story Graphs")]
-        public static void RefreshUsedSoundBanksOnAllStoryGraphs() => StoryGraphFmodEditorUtils.RefreshUsedSoundBanksOnAllStoryGraphs();
-
+        
         public override void OnOpen() {
             StoryGraph template = (StoryGraph)target;
             if (!template.nodes.Any(n => n is StoryStartEditorNode)) {
@@ -211,6 +231,13 @@ namespace Awaken.TG.Editor.Main.Stories {
         protected override void OnBlackBoardBottom() {
             var oldEnabled = GUI.enabled;
 
+            string editModeButtonLabel = _isEditMode ? "Toggle Readonly Mode" : "Toggle Edit Mode";
+            GUIContent editModeButtonContent = new (editModeButtonLabel, "Toggles 'readonly mode' or 'edit mode' for all nodes in graph");
+            
+            if (GUILayout.Button(editModeButtonContent)) {
+                ToggleEditMode();
+            }
+            
             using (new DisableGUIScope(!Target.nodes.OfType<StoryNode>().Any(node => node.toReview))) {
                 if (GUILayout.Button("Mark all nodes as reviewed")) {
                     Target.nodes.OfType<StoryNode>().ForEach(node => node.toReview = false);
@@ -304,6 +331,24 @@ namespace Awaken.TG.Editor.Main.Stories {
         }
 
         // === Operations
+        void ToggleEditMode() {
+            _isEditMode = !_isEditMode;
+            Target.nodes.ForEach(node => {
+                if (NodeEditor.GetEditor(node, NodeEditorWindow.current) is StoryNodeEditor editor) {
+                    editor.isEditMode = _isEditMode;
+                }
+            });
+        }
+        
+        void SetReadonlyMode() {
+            _isEditMode = false;
+            Target.nodes.ForEach(node => {
+                if (NodeEditor.GetEditor(node, NodeEditorWindow.current) is StoryNodeEditor editor) {
+                    editor.isEditMode = _isEditMode;
+                }
+            });
+        }
+        
         void FillSTextWithActors() {
             _serializedObject.ApplyModifiedProperties();
 

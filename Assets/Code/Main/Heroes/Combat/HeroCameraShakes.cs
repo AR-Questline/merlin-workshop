@@ -107,7 +107,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 return;
             }
 
-            bool isDying = outcome.Target?.IsDying ?? false;
+            bool isDying = outcome.TargetPure?.IsDying ?? false;
             
             if (!isProjectile) {
                 GameCamera.Shake(true, 2.25f, 5, 0.4f, 0.2f).Forget();
@@ -144,8 +144,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
             Vector3 position = outcome.Position 
                                + projectileForward * StealthKillPositionForwardOffset 
                                + projectileTransform.right * StealthKillPositionRightOffset;
-            Transform transformToFollow = outcome.Target.ParentTransform;
-            if (outcome.Target is ICharacter character) {
+            Transform transformToFollow = outcome.TargetPure.ParentTransform;
+            if (outcome.TargetPure is ICharacter character) {
                 position = new Vector3(position.x, character.Coords.y + character.Height, position.z);
                 transformToFollow = character.Head;
             }

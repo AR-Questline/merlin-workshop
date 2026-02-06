@@ -34,7 +34,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tools {
             var rotation = Quaternion.LookRotation(Hero.Current.Forward());
             var position = Hero.Current.Coords + Hero.Current.Forward() * 1.5f;
             s_target = CommonReferences.Get.TestDummy.SpawnLocation(position, rotation);
-            s_target.Element<AliveLocation>().HealthElement.ListenTo(HealthElement.Events.OnDamageTaken, outcome => outcome.Target.Health.SetToFull(), s_target);
+            s_target.Element<AliveLocation>().HealthElement.ListenTo(HealthElement.Events.OnDamageTaken, outcome => outcome.TargetPure.Health.SetToFull(), s_target);
 
             s_saveBlocker = World.Add(new SaveBlocker("AttackPerSecondTest"));
             

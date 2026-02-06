@@ -5,8 +5,8 @@ using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.General;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
-using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using Awaken.Utility.Extensions;
@@ -68,7 +68,8 @@ namespace Awaken.TG.Main.UI.Components {
         public EventReference clickInactiveSound;
 
         static AudioConfig AudioConfig => CommonReferences.Get.AudioConfig;
-
+        public bool IsValid => this.IsValidForUIHandle();
+        
         // === Properties
         // with backing field for refresh on change
 

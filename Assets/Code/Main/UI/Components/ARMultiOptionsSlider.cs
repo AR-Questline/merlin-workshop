@@ -1,4 +1,5 @@
 ﻿using System;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.Popup.PopupContents;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -12,7 +13,8 @@ namespace Awaken.TG.Main.UI.Components {
         event Action<float> ValueSetter;
         float _changePerStep;
         public float Value => slider.value;
-
+        public bool IsValid => this.IsValidForUIHandle();
+        
         public void Initialize(string name, Action<float> valueSetter, float min = 0f, float max = 100f, float step = 1f, float initialValue = 0f) {
             ValueSetter = valueSetter;
             _changePerStep = step;

@@ -60,6 +60,7 @@ MonoBehaviour:
   tags:
   - armors:weak
   - item:tier0
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 115e2b2cda9761b49a391db807520a93
@@ -154,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7549843383542069446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,9 +173,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobItems:
   - abstractNpcTemplates:
+    - _guid: ab7d9a5f54b31e74b8aaae93855078b1
+    gender: 1
+    hand: 0
+    flag: 
+    itemPrefab:
+      address: d7f11d2a81181194482d299a7be01ea6
+      subObjectName: 
+  - abstractNpcTemplates:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: 058a6bb41f3d98448991317c1086c39a
       subObjectName: 
@@ -178,6 +192,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: bd54472ab869ac34ab5fc28faafe1000
       subObjectName: 
@@ -243,8 +258,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5778096359074526577
 MonoBehaviour:

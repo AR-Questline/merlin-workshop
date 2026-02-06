@@ -11,6 +11,8 @@ namespace Awaken.TG.MVC.UI.Handlers.Tooltips {
     /// Represents a tooltip.
     /// </summary>
     public partial class Tooltip : Model, ITooltip {
+        static Vector2 ScreenTargetPosition => World.Only<GameUI>().MousePosition.screen;
+        
         public override Domain DefaultDomain => Domain.Gameplay;
         public sealed override bool IsNotSaved => true;
 
@@ -20,7 +22,6 @@ namespace Awaken.TG.MVC.UI.Handlers.Tooltips {
         public ITooltip Parent { get; }
         public bool MoveWithMouse => !RewiredHelper.IsGamepad;
         public TooltipConstructor Constructor { get; }
-        public Vector2 ScreenTargetPosition => World.Only<GameUI>().MousePosition.screen;
         public Vector2 TargetPosition => Constructor.StaticPositioning?.position ?? ScreenTargetPosition;
         bool _focusChanged;
 

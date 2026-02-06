@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Awaken.TG.Main.UI.EmptyContent {
     public class VCEmptyInfo : ViewComponent {
-        const float EmptyContentAlpha = 0.2f;
+        const float EmptyContentAlpha = 0.1f;
         
         [SerializeField] GameObject emptyInfo;
         [SerializeField] CanvasGroup emptyInfoGroup;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Awaken.CommonInterfaces.Animations;
 using Awaken.TG.Main.AI.Idle.Data.Runtime;
 using Awaken.TG.Main.AI.Idle.Finders;
 using Awaken.TG.Main.Fights.NPCs;
@@ -60,6 +61,8 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         bool startAllWhenOneIsStarted = true;
         [FoldoutGroup(InteractingGroup, Expanded = true), SerializeField, Tooltip("Should the partial interaction start at the same moment. Before synchronize start the wait interaction is used")]
         bool synchronizeStart = false;
+        [FoldoutGroup(InteractingGroup, Expanded = true), SerializeField, ShowIf(nameof(synchronizeStart)), Tooltip("Should the partial interaction be played at the same rate")]
+        bool synchronizeLoop = false;
         [FoldoutGroup(InteractingGroup, Expanded = true), SerializeField, Tooltip("If partial interaction in not allowing for interrupt (eg. while talking), should ve allow interruption or not")]
         bool allowInterruptDuringTalk;
         [FoldoutGroup(InteractingGroup, Expanded = true), SerializeField, ShowIf(nameof(allowInterruptDuringTalk)), Tooltip("When trying to interrupt should we do it immediately (force it) or wait for special node in the story")]
@@ -68,6 +71,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         protected TargetState _targetState = TargetState.Inactive;
         protected TargetState? _previousState = null;
         protected Activity _activity = Activity.Inactive;
+        bool _syncState;
 
         bool UseMainAndNotUnique => useMainInteractionsRequirements && uniqueID.IsNullOrWhitespace();
         public virtual bool AllowDialogueAction => true;
@@ -78,6 +82,8 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         public bool AllowInterruptDuringTalk => allowInterruptDuringTalk;
         public bool ForceInterruptInsteadOfRequest => forceInterruptInsteadOfRequest;
         public int Priority => 1;
+        public NpcElement FirstNpc => actors[0].NPC;
+        bool SynchronizeLoop => synchronizeStart && synchronizeLoop;
 
         const string ValidateAllNpcsRequiredMsg = "If not all Npcs are required to find this interaction, we can't use start all";
         bool ValidateAllNpcsRequired() {
@@ -527,12 +533,12 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
 
             GroupInteractionPart CreateInteraction(GroupInteraction parent) {
                 if (InteractionSet) {
-                    return new GroupInteractionPart(parent, interaction);
+                    return parent.SynchronizeLoop ? new SyncGroupInteractionPart(parent, interaction) : new GroupInteractionPart(parent, interaction);
                 } else {
                     Vector3 pos = PositionSet ? position.position : parent.transform.position;
                     Vector3 forw = PositionSet ? position.forward : parent.transform.forward;
                     var standInteraction = new StandInteraction(IdlePosition.World(pos), IdlePosition.World(forw), null);
-                    return new GroupInteractionPart(parent, standInteraction);
+                    return parent.SynchronizeLoop ? new SyncGroupInteractionPart(parent, standInteraction) : new GroupInteractionPart(parent, standInteraction);
                 }
             }
             

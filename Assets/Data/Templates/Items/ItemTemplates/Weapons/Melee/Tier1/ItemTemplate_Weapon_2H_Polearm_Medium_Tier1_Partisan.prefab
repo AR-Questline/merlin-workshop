@@ -54,6 +54,7 @@ MonoBehaviour:
   - _guid: fb3f705c21071314b8d3a9fa554e0ed3
   - _guid: daf158c6dbc15944abe6500fb253bae7
   - _guid: 00e2ecb9a87647c42b02d08d71fc9c48
+  - _guid: 2ec1f2b91c4b91540a3d9d5544f2ad41
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -155,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: 145a83d5be916ca478daf20de4c98064
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &4189735662918844105
 MonoBehaviour:

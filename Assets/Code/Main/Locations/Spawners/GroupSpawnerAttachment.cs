@@ -23,6 +23,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         public bool discardAfterAllKilled;
         [LabelText("Spawn Once (and discard immediately)"), Tooltip("Use this when you want to spawn something once and don't need to handle any further logic, like running STORY ON ALL KILLED"), DisableIf(nameof(discardAfterAllKilled)), DisableIf(nameof(discardSpawnedLocationsOnDiscard))]
         public bool discardAfterSpawn;
+        public bool ignoreDistanceToPlayerWhenSpawning;
         
         [DisableIf("@" + nameof(discardAfterSpawn))]
         public bool overrideSpawnerCooldown;
@@ -78,7 +79,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         // === Editor
         
         // -- Odin
-        enum SpawnMode {
+        public enum SpawnMode {
             Static,
             Advanced
         }
@@ -215,8 +216,36 @@ namespace Awaken.TG.Main.Locations.Spawners {
             if (StaticSpawning) return;
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(transform.position, RandomizationSettings.spawnRadius);
+            if (!RandomizationSettings.GroupSettingsMatter) return;
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, RandomizationSettings.groupSpawnRadius);
+            Gizmos.DrawWireSphere(transform.position, RandomizationSettings.GroupSpawnRadius);
+        }
+        
+        // === Editor Access for Tools
+        public static class EditorAccess {
+            public static void SetToStaticMode(GroupSpawnerAttachment spawner) {
+                spawner.spawnMode = SpawnMode.Static;
+            }
+            
+            public static void AddLocationWithPosition(GroupSpawnerAttachment spawner, LocationTemplateWithPosition location) {
+                spawner.locationsWithPositions.Add(location);
+            }
+            
+            public static void ClearLocationsWithPositions(GroupSpawnerAttachment spawner) {
+                spawner.locationsWithPositions.Clear();
+            }
+            
+            public static LocationTemplateWithPosition CreateLocationWithPosition(TemplateReference locationToSpawn, int id, Matrix4x4 matrix) {
+                return new LocationTemplateWithPosition {
+                    locationToSpawn = locationToSpawn,
+                    id = id,
+                    locationMatrix = matrix
+                };
+            }
+            
+            public static int GetNextId(GroupSpawnerAttachment spawner) {
+                return spawner.GetNextIndex();
+            }
         }
 #endif
     }

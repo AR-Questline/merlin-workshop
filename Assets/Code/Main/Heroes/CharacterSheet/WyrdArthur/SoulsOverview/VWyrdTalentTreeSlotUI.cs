@@ -20,6 +20,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         [SerializeField] Image runeIcon;
         [SerializeField] TooltipPosition tooltipPositionLeft;
         [SerializeField] TooltipPosition tooltipPositionRight;
+        [SerializeField] Color activeColor;
 
         WyrdArthurPower TalentTreeUI => Target.ParentModel;
         public ARButton Button => talentSlot.button;
@@ -36,6 +37,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         }
 
         protected override void OnMount() {
+            // _lineRenderer = transform.parent.GetComponentInChildren<UILineRenderer>();
+            // Target.ParentModel.LineSpriteReference.SetSprite(_lineRenderer);
             SetupTalent();
             talentSlot.button.ClearAllOnClickAudioFeedback();
         }
@@ -44,8 +47,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
             World.Only<Focus>().Select(talentSlot.button);
         }
 
-        public void ColorLine(ARColor color, float duration = UITweens.ColorChangeDuration) {
-            
+        public void ColorLine(Color color, float duration = UITweens.ColorChangeDuration) {
+            // _lineColorTween = _lineRenderer.DOGraphicColor(color, duration);
         }
 
         void OnSlotHovered(bool isHovering) {
@@ -83,8 +86,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur.SoulsOverview {
         
         void SetupTalent() {
             bool active = Target.IsUpgraded;
-            _runeColorTween = runeIcon.DOGraphicColor(active ? ARColor.DarkerMainAccent : ARColor.MainGrey, UITweens.ColorChangeDuration);
-            ColorLine(active ? ARColor.DarkerMainAccent : ARColor.MainGrey);
+            _runeColorTween = runeIcon.DOGraphicColor(active ? activeColor : ARColor.MainGrey, UITweens.ColorChangeDuration);
+            ColorLine(active ? activeColor : ARColor.MainGrey);
         }
 
         void RefreshTalent() {

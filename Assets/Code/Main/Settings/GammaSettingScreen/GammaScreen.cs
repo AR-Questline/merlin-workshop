@@ -1,6 +1,8 @@
 ﻿using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.Settings.Windows;
+using Awaken.TG.Main.UI.Menu;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.UI.Handlers.States;
@@ -32,6 +34,14 @@ namespace Awaken.TG.Main.Settings.GammaSettingScreen {
             var slider = World.SpawnView<VGammaSlider>(this, forcedParent: view.SliderParent);
 
             slider.Setup(MinValue, MaxValue, false, GammaValue, SliderStepChange, SetGamma);
+
+            World.Any<MenuUI>()?.Hide();
+            World.Any<AllSettingsUI>()?.Hide();
+        }
+
+        protected override void OnDiscard(bool fromDomainDrop) {
+            World.Any<MenuUI>()?.UnHide();
+            World.Any<AllSettingsUI>()?.UnHide();
         }
 
         public void Close() {

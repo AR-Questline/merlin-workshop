@@ -18,13 +18,17 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         int _chargesToSpend;
         ItemSpawningDataRuntime _transformsInto;
         Action<Item> _afterTransform;
-        
+        bool _copyElementsData;
+        bool _useItemLevels;
+
         public int ChargesRemaining => _chargesToSpend - _chargesSpent;
         
         public void InitFromAttachment(TransformAfterChargesSpentAttachment spec, bool isRestored) {
             _chargesToSpend = spec.ChargesToSpend;
             _transformsInto = spec.TransformsInto;
             _afterTransform = spec.AfterTransform;
+            _copyElementsData = spec.CopyItemElementsData;
+            _useItemLevels = spec.UseItemLevels;
         }
         
         public void SpendCharges(int charges = 1) {
@@ -51,8 +55,16 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 ParentModel.Discard();
                 return;
             }
+
+            if (_copyElementsData) {
+                _transformsInto.elementsData = ParentModel.TryGetRuntimeData();
+            }
+            if (_useItemLevels) {
+                _transformsInto.itemLvl = ParentModel.Level.ModifiedInt;
+                _transformsInto.weightLvl = ParentModel.WeightLevel.ModifiedInt;
+                _transformsInto.newGamePlusLvl = ParentModel.NewGamePlusLevel;
+            }
             
-            _transformsInto.elementsData = ParentModel.TryGetRuntimeData();
             ParentModel.Discard();
             
             var resultantItem = characterInventory.AddSingleItem(_transformsInto);

@@ -1,32 +1,46 @@
 using Awaken.Utility;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Utility.Attributes;
+using Awaken.Utility.Collections;
 
 namespace Awaken.TG.Main.Fights.Factions.Crimes {
-    public readonly partial struct CrimeOwners {
-        public static CrimeOwners None { get; } = new(Array.Empty<CrimeOwnerTemplate>());
+    public readonly partial struct CrimeOwners : IDisposable {
+        public static CrimeOwners None { get; } = new CrimeOwners(null as CrimeOwnerTemplate);
         
-        readonly CrimeOwnerTemplate[] _crimeOwners;
+        readonly RentedArray<CrimeOwnerTemplate> _crimeOwners;
         
         public CrimeOwners(CrimeOwnerTemplate owner) {
-            _crimeOwners = owner != null 
-                               ? new[] {owner} 
-                               : Array.Empty<CrimeOwnerTemplate>();
+            if (owner == null) {
+                _crimeOwners = RentedArray<CrimeOwnerTemplate>.Borrow(0);
+            } else {
+                _crimeOwners = RentedArray<CrimeOwnerTemplate>.Borrow(1);
+                _crimeOwners[0] = owner;
+            }
         }
 
-        public CrimeOwners(CrimeOwnerTemplate[] crimeOwner) {
-            _crimeOwners = crimeOwner ?? throw new ArgumentException("Crime owners cannot be null");
+        public CrimeOwners(HashSet<CrimeOwnerTemplate> crimeOwners) {
+            _crimeOwners = RentedArray<CrimeOwnerTemplate>.Borrow(crimeOwners);
         }
-        
-        public bool IsEmpty => _crimeOwners.Length == 0;
-        public bool IsValid => _crimeOwners != null;
-        public CrimeOwnerTemplate[] AllOwners => _crimeOwners ?? Array.Empty<CrimeOwnerTemplate>();
-        public CrimeOwnerTemplate PrimaryOwner => _crimeOwners.Length == 0 ? null : _crimeOwners[0];
+
+        CrimeOwners(RentedArray<CrimeOwnerTemplate> crimeOwners) {
+            _crimeOwners = crimeOwners;
+        }
+
+        public void Dispose() {
+            if (_crimeOwners.IsCreated) {
+                _crimeOwners.Dispose();
+            }
+        }
+
+        public bool IsEmpty => _crimeOwners.length == 0;
+        public bool IsValid => _crimeOwners.IsCreated;
+        public  RentedArray<CrimeOwnerTemplate> AllOwners => _crimeOwners;
+        public CrimeOwnerTemplate PrimaryOwner => _crimeOwners.length == 0 ? null : _crimeOwners[0];
         
         public bool Contains(CrimeOwnerTemplate owner) {
-            return _crimeOwners?.Contains(owner) ?? false;
+            return _crimeOwners.Contains(owner);
         }
         
         [Serializable]
@@ -36,15 +50,15 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
             [Saved] public TemplateReference[] owners;
             
             public SerializedCrimeOwners(CrimeOwners source) {
-                owners = new TemplateReference[source._crimeOwners.Length];
-                for (int i = 0; i < source._crimeOwners.Length; i++) {
+                owners = new TemplateReference[source._crimeOwners.length];
+                for (int i = 0; i < source._crimeOwners.length; i++) {
                     owners[i] = new(source._crimeOwners[i]);
                 }
             }
             
             public readonly CrimeOwners ToCrimeOwners() {
-                CrimeOwnerTemplate[] ownerTemplates = new CrimeOwnerTemplate[this.owners.Length];
-                for (int i = 0; i < ownerTemplates.Length; i++) {
+                var ownerTemplates = RentedArray<CrimeOwnerTemplate>.Borrow(owners.Length);
+                for (int i = 0; i < owners.Length; i++) {
                     ownerTemplates[i] = owners[i].Get<CrimeOwnerTemplate>();
                 }
                 return new CrimeOwners(ownerTemplates);

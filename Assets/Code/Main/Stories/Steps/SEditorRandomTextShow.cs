@@ -17,7 +17,7 @@ namespace Awaken.TG.Main.Stories.Steps {
     
     public partial class SRandomTextShow : StoryStep {
         public override StepResult Execute(Story story) {
-            var sText = RandomUtil.UniformSelectSafe(parentChapter.steps.OfType<SText>().ToList());
+            var sText = RandomUtil.UniformSelectSafe(parentChapter.steps.OfType<SText>().ToList(), sText => StoryUtilsRuntime.ShouldExecute(story, sText));
             var result = new StepResult();
             AsyncExecute(sText, story, result).Forget();
             return result;

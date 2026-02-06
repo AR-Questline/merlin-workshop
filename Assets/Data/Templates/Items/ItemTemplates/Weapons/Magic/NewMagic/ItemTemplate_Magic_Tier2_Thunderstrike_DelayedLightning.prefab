@@ -53,6 +53,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 215fdd7c20cb19346a75b841bdfec939
+  - _guid: 5b8ff4dba6b2cce4595892af72058db8
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -78,8 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_cf9d91fb2fed6b04dbd57628051396e3
-  EDITOR_bakedDescription: Calls down lightning after a short delay, dealing damage
-    in an area.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -238,7 +243,7 @@ MonoBehaviour:
     - name: LightCastVFX
       assetReference:
         arReference:
-          address: 1b50771a83d66f742860f9184e36b5a7
+          address: a663f70be2d8fc24f86bd1bd89c07fe4
           subObjectName: 
     - name: SpawnVFX
       assetReference:
@@ -267,7 +272,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 13
   maxDamage: 20
-  damageGain: 0
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -300,8 +305,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 10
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 24
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3133018332611667374
 MonoBehaviour:

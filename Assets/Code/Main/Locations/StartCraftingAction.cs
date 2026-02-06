@@ -19,7 +19,9 @@ namespace Awaken.TG.Main.Locations {
         TabSetConfig _tabSetConfig;
         
         public TabSetConfig TabSetConfig => _tabSetConfig;
-
+        
+        protected override bool DisableInCombat => true;
+        
         public void InitFromAttachment(StartCraftingAttachment spec, bool isRestored) {
             _tabSetConfig = spec.TabSetConfig;
         }
@@ -33,7 +35,7 @@ namespace Awaken.TG.Main.Locations {
         }
 
         public override ActionAvailability GetAvailability(Hero hero, IInteractableWithHero interactable) {
-            return hero.IsInCombat() ? ActionAvailability.Disabled : base.GetAvailability(hero, interactable);
+            return base.GetAvailability(hero, interactable);
         }
     }
 }

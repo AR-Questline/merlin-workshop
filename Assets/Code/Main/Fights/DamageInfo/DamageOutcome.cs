@@ -1,6 +1,7 @@
 ﻿using System;
 using Awaken.TG.Main.Character;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Fights.DamageInfo {
@@ -13,9 +14,13 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
         public float Amount => Damage.Amount;
         public float FinalAmount { get; }
         public float Radius => Damage.Radius;
-        public ICharacter Attacker => Damage.DamageDealer;
+        // [HideInVS] 
+        public ICharacter AttackerPure => Damage.DamageDealerPure;
+        [UnityEngine.Scripting.Preserve] public ICharacter Attacker => Damage.DamageDealer;
         public Collider HitCollider => Damage.HitCollider;
-        public IAlive Target => Damage.Target;
+        // [HideInVS] 
+        public IAlive TargetPure => Damage.TargetPure;
+        [UnityEngine.Scripting.Preserve] public IAlive Target => Damage.Target;
         public DamageModifiersInfo DamageModifiersInfo { get; }
 
         public DamageOutcome(Damage damage, Vector3 position, DamageModifiersInfo damageModifiers, float finalDamageValue) {

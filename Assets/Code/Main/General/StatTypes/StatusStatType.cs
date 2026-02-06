@@ -36,7 +36,9 @@ namespace Awaken.TG.Main.General.StatTypes {
             IntoxicatedBuildup = new(nameof(IntoxicatedBuildup), LocTerms.IntoxicatedBuildup, c => c.StatusStats.IntoxicatedBuildup, "Buildup"),
             IntoxicatedEffectModifier = new(nameof(IntoxicatedEffectModifier), LocTerms.IntoxicatedEffectModifier, c => c.StatusStats.IntoxicatedEffectModifier, "EffectModifier"),
             FullBuildup = new(nameof(FullBuildup), LocTerms.FullBuildup, c => c.StatusStats.FullBuildup, "Buildup"),
-            FullEffectModifier = new(nameof(FullEffectModifier), LocTerms.FullEffectModifier, c => c.StatusStats.FullEffectModifier, "EffectModifier");
+            FullEffectModifier = new(nameof(FullEffectModifier), LocTerms.FullEffectModifier, c => c.StatusStats.FullEffectModifier, "EffectModifier"),
+            PetrificationBuildup = new(nameof(PetrificationBuildup), LocTerms.PetrificationBuildup, c => c.StatusStats.PetrificationBuildup, "Buildup"),
+            PetrificationEffectModifier = new(nameof(PetrificationEffectModifier), LocTerms.PetrificationEffectModifier, c => c.StatusStats.PetrificationEffectModifier, "EffectModifier");
 
 
         protected StatusStatType(string id, string displayName, Func<ICharacter, Stat> getter,

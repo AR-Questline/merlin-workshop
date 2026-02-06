@@ -78,5 +78,9 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
             
             return ignoreInteractionRequirements || interaction.AvailableFor(behaviours.Npc, this);
         }
+        
+        public string DebugInfo() {
+            return $"BaseFinder Pos:{_position} Range:{_range} Tag:{Tag}";
+        }
     }
 }

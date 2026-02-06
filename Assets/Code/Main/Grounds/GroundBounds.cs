@@ -80,6 +80,10 @@ namespace Awaken.TG.Main.Grounds {
         public void CalculateMedusaPolygon(Allocator allocator, out Polygon2D polygon) {
             polygon = medusaBoundsPolygon.ToPolygon(allocator);
         }
+        
+        public void CalculateVegetationPolygon(Allocator allocator, out Polygon2D polygon) {
+            polygon = vegetationBoundsPolygon.ToPolygon(allocator);
+        }
 
 #if UNITY_EDITOR
         float PathfindingCenterY => (boundsTop + seaLevel - pathfindingInSeaHeight) * 0.5f;

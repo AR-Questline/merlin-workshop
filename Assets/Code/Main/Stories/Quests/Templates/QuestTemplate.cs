@@ -11,18 +11,20 @@ namespace Awaken.TG.Main.Stories.Quests.Templates {
         
         // === Unique values
         // -- Implementation 
-        [PropertyOrder(1)]
-        public QuestType questType = QuestType.Main;
+        [SerializeField, PropertyOrder(1)]
+        QuestType questType = QuestType.Main;
+        [SerializeField, PropertyOrder(1)]
+        QuestCategory questCategory = QuestCategory.Default;
 
-        [TitleGroup(ObjectivesGroup, order: 3), Tooltip("If true, objectives will be automatically completed when quest is completed.")]
-        public bool autoCompleteLeftObjectives;
-        [TitleGroup(ObjectivesGroup), Tooltip("Objectives that should be automatically started when quest is started.")]
-        public List<ObjectiveSpec> autoRunObjectives = new();
-        [TitleGroup(ObjectivesGroup), Tooltip("Should quest be automatically completed when chosen objectives are completed?")]
-        public bool autoCompletion;
-        [ShowIf(nameof(autoCompletion)), TitleGroup(ObjectivesGroup), Tooltip("When these objectives are completed, quest will complete automatically.")]
+        [SerializeField, TitleGroup(ObjectivesGroup, order: 3), Tooltip("If true, objectives will be automatically completed when quest is completed.")]
+        bool autoCompleteLeftObjectives;
+        [SerializeField, TitleGroup(ObjectivesGroup), Tooltip("Objectives that should be automatically started when quest is started.")]
+        List<ObjectiveSpec> autoRunObjectives = new();
+        [SerializeField, TitleGroup(ObjectivesGroup), Tooltip("Should quest be automatically completed when chosen objectives are completed?")]
+        bool autoCompletion;
+        [SerializeField, ShowIf(nameof(autoCompletion)), TitleGroup(ObjectivesGroup), Tooltip("When these objectives are completed, quest will complete automatically.")]
         [LabelText("On Objectives Completed -> Complete Quest", Icon = SdfIconType.Check, IconColor = ARColor.EditorMediumGreen)]
-        public List<ObjectiveSpec> autoCompleteAfter = new();
+        List<ObjectiveSpec> autoCompleteAfter = new();
         
         // === QuestTemplateBase
         public override QuestType TypeOfQuest => questType;
@@ -30,5 +32,6 @@ namespace Awaken.TG.Main.Stories.Quests.Templates {
         public override IEnumerable<ObjectiveSpecBase> AutoRunObjectives => autoRunObjectives;
         public override bool AutoCompletion => autoCompletion;
         public override IEnumerable<ObjectiveSpecBase> AutoCompleteAfter => autoCompleteAfter;
+        public QuestCategory QuestCategory => questCategory;
     }
 }

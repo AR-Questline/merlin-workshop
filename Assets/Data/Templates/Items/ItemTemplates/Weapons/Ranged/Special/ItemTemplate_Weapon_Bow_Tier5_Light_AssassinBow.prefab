@@ -52,7 +52,7 @@ MonoBehaviour:
   templateType: 0
   _isAbstract: 0
   _abstractTypes:
-  - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - _guid: c669d4f8af7f83a4f8cbe1b6d360fed9
   - _guid: dcd64189d3cdf7044a4c6f44477ad9cd
   metadata:
     verifiedArt: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
   - item:tier5
   iconReference:
     arSpriteReference:
-      address: a9245fcec17122e49a2664ba9b3d886a
+      address: 33fd1d6f21a17414597c27fbc802551c
       subObjectName: 
   itemName:
     IdOverride: 
@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_dbce58b9e5ee5fb4f9dec87b5ccce2ae
-  EDITOR_bakedDescription: Hitting a target <color=#04959A>Chills</color> them.
+  EDITOR_bakedDescription: "Attacks have a 10\_% chance to Blind. Sneak Attacks have
+    a 80\_% chance to Blind."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -102,7 +103,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_dbce58b9e5ee5fb4f9dec87b5ccce2ae
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +128,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_dbce58b9e5ee5fb4f9dec87b5ccce2ae
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -152,7 +153,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: 2bc9e02c8de0a5b48a7f11ebd1202a06
+      address: 52d6c61380504a94baccd7017f432351
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -204,8 +209,8 @@ MonoBehaviour:
   drawBowStaminaCostPerTick: 18
   holdItemStaminaCostPerTick: 9
   pushStaminaCost: 15
-  minDamage: 44
-  maxDamage: 50
+  minDamage: 86
+  maxDamage: 95
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -239,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: 0.7
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &2801436953182460930
 MonoBehaviour:
@@ -266,6 +274,10 @@ MonoBehaviour:
       _guid: b9c6539825e72e047886d566b7b5b372
     variables:
     - name: Buildup
+      value: 0
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
       value: 0
     - name: Duration
       value: 5
@@ -368,6 +380,10 @@ MonoBehaviour:
       _guid: b9c6539825e72e047886d566b7b5b372
     variables:
     - name: Buildup
+      value: 0
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
       value: 0
     - name: Duration
       value: 5

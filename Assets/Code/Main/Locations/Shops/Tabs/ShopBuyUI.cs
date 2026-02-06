@@ -18,7 +18,7 @@ namespace Awaken.TG.Main.Locations.Shops.Tabs {
     }
 
     public partial class ShopBuyBackUI : ShopBuyUI {
-        public override IEnumerable<Item> Items => Shop.BoughtFromHeroStock.Items;
+        public override IEnumerable<Item> Items => Shop.BoughtFromHeroStock.Items.Where(i => !i.HiddenOnUI);
         
         protected override void SetupEmptyInfoLabels() {
             View<IEmptyInfo>().EmptyInfoView.SetupLabels(LocTerms.EmptyNoItems.Translate(), LocTerms.EmptyShopBuyBackDesc.Translate());

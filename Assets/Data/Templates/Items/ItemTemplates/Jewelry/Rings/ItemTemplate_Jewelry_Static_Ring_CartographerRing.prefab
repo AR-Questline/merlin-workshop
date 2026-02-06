@@ -61,6 +61,7 @@ MonoBehaviour:
   - item:ring
   - rings:t1
   - item:tier1
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 34db20f4929dffe4096fef09be23d749
@@ -78,8 +79,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_increase_outofcombat_percent
       ID: Template/description_locString_2543871262668956605_f95eda05bdfb1e54a8582a2ccf4709ba
-  EDITOR_bakedDescription: Increases Movement Speed Multiplier by 5% when not in
-    combat.
+  EDITOR_bakedDescription: "Increases Movement Speed Multiplier by 5\_% when not
+    in combat."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +155,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
 --- !u!114 &1382325995290807351
@@ -173,6 +178,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
@@ -180,6 +186,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
@@ -245,8 +252,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -274,7 +284,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.05
     - name: GainValue
-      value: 0
+      value: 0.005
     - name: ValueCalculated
       value: 0
     enums:

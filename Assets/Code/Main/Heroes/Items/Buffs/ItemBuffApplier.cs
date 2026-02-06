@@ -29,7 +29,8 @@ namespace Awaken.TG.Main.Heroes.Items.Buffs {
         // Character for ISkillOwner
         public ICharacter Character => null;
         public ItemActionType Type => ItemActionType.Use;
-        int ItemLevel => ParentModel?.Level?.ModifiedInt ?? 0; 
+        public int ItemLevel => ParentModel?.Level?.ModifiedInt ?? 0;
+        public int NewGamePlusLevel => ParentModel?.NewGamePlusLevel ?? 0;
         
         public void InitFromAttachment(ItemBuffApplierAttachment spec, bool isRestored) {
             _spec = spec;
@@ -77,7 +78,10 @@ namespace Awaken.TG.Main.Heroes.Items.Buffs {
             equippedWeapon.AddElement(buff);
 
             if (ParentModel.Owner is Hero h) {
-                h.Trigger(Hero.Events.ShowWeapons, true);
+                if (!h.IsWeaponEquipped) {
+                    h.Trigger(Hero.Events.ShowWeapons, true);
+                }
+
                 h.Element<HeroOverridesFSM>().SetCurrentState(HeroStateType.WeaponBuff);
                 World.Any<CharacterSheetUI>()?.Discard();
                 World.Any<QuickUseWheelUI>()?.Discard();

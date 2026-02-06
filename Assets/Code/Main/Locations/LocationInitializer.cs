@@ -1,4 +1,5 @@
 using Awaken.TG.Assets;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Locations.Views;
 using Awaken.TG.Main.Saving;
@@ -18,6 +19,7 @@ namespace Awaken.TG.Main.Locations {
         public Vector3 SpecInitialScale { get; protected set; }
         
         [Saved] public ARAssetReference OverridenLocationPrefab { get; set; }
+        public virtual int OverridenNewGamePlusLevel => -1;
         
         public virtual bool ShouldBeSaved => OverridenLocationPrefab?.IsSet == true;
 
@@ -37,6 +39,8 @@ namespace Awaken.TG.Main.Locations {
                 World.BindView(location, vStatic, true, true);
             } else if (location.IsNonMovable) {
                 World.SpawnView<VSpawnedLocation>(location, true, forcedParent: location.ViewParent, forcedToBeFirstChild: true);
+            } else if (Spec.TryGetComponent(out NpcAttachment npc) && !npc.NpcTemplate.IsSummon) {
+                World.SpawnView<VNpcLocation>(location, true, forcedParent: location.ViewParent, forcedToBeFirstChild: true);
             } else {
                 World.SpawnView<VDynamicLocation>(location, true, forcedParent: location.ViewParent, forcedToBeFirstChild: true);
             }

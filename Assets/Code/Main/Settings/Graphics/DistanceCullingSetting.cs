@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace Awaken.TG.Main.Settings.Graphics {
     public partial class DistanceCullingSetting : Setting, IGraphicSetting {
-        const string PrefKey = "DistanceCullingBias";
+        public const string PrefKey = "DistanceCullingBias";
         const float SeriesSViewDistance = 0.55f;
 
         // === Options
@@ -27,7 +27,27 @@ namespace Awaken.TG.Main.Settings.Graphics {
         
         public float Value => _debugValue ?? Option.Value;
         public float BiasValue => _debugValue ?? Value.Remap(0, 1, 0.4f, 1f);
+        float DefaultValue => PlatformUtils.IsXboxScarlettS
+                                ? SeriesSViewDistance
+                                : World.Any<SettingsMaster>()?.DefaultPreset is { } preset
+                                    ? _defaultValueByPreset[preset]
+                                    : _defaultValueByPreset[Preset.Ultra];
 
+#if UNITY_GAMECORE || UNITY_PS5
+        readonly Dictionary<Preset, FloatRange> _presetsMapping = new() {
+            { Preset.Low, new(0, 0.5499f) },
+            { Preset.Medium, new(0.55f, 0.699f) },
+            { Preset.High, new(0.7f, 0.799f) },
+            { Preset.Ultra, new(0.8f, 1) },
+        };
+
+        readonly Dictionary<Preset, float> _defaultValueByPreset = new() {
+            { Preset.Low, 0.4f },
+            { Preset.Medium, 0.55f },
+            { Preset.High, 0.7f },
+            { Preset.Ultra, 0.8f },
+        };
+#else
         readonly Dictionary<Preset, FloatRange> _presetsMapping = new() {
             { Preset.Low, new(0, 0.4499f) },
             { Preset.Medium, new(0.45f, 0.799f) },
@@ -41,6 +61,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
             { Preset.High, 0.85f },
             { Preset.Ultra, 1f },
         };
+#endif
         
         public IEnumerable<Preset> MatchingPresets {
             get {
@@ -56,7 +77,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
 
         // === Initialization
         public DistanceCullingSetting() {
-            Option = new(PrefKey, SettingName, 0f, 1f, false, NumberWithPercentFormat, 1, false);
+            Option = new(PrefKey, SettingName, 0f, 1f, false, NumberWithPercentFormat, DefaultValue, false);
         }
 
         // === Logic

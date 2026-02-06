@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.Fights.NPCs;
+﻿using System;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.MVC;
@@ -8,6 +9,7 @@ using UnityEngine;
 
 namespace Awaken.TG.Main.AI.Combat.Attachments.Bosses {
     [UnityEngine.Scripting.Preserve]
+    [Serializable]
     public partial class GenericBossCombat : BaseBossCombat {
         public override ushort TypeForSerialization => SavedModels.GenericBossCombat;
 
@@ -25,8 +27,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Bosses {
             base.InitFromAttachment(spec, isRestored);
         }
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             NpcElement.OnCompletelyInitialized(OnNpcCompletelyInitialized);
         }
 

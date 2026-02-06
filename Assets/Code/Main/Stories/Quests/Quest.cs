@@ -11,6 +11,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility.Attributes;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Stories.Quests {
@@ -27,6 +28,7 @@ namespace Awaken.TG.Main.Stories.Quests {
         [Saved] public QuestTemplateBase Template { get; private set; }
         [Saved] public bool DisplayedByPlayer { get; set; }
         [Saved(false)] public bool IsTracked { get; private set; }
+        bool _shouldSetActive = true; // free bool slot
         [Saved] AttachmentTracker _tracker;
         
         public float ExperiencePoints { get; private set; }
@@ -35,18 +37,24 @@ namespace Awaken.TG.Main.Stories.Quests {
         public string DebugName => Template?.DebugName ?? "Missing Template";
         public string Description => Template.description;
         [UnityEngine.Scripting.Preserve] public int TargetLevel => ActiveObjectives.Any() ? ActiveObjectives.Max(o => o.TargetLevel) : Template.targetLvl;
-        public bool ShowQuestMarkers => Template.showQuestMarkers;
+        public bool ShowQuestMarkers => Template.showQuestMarkers && State == QuestState.Active;
         public ModelsSet<Objective> Objectives => Elements<Objective>();
         public IEnumerable<Objective> ActiveObjectives => Objectives.Where(o => o.State == ObjectiveState.Active);
         public IEnumerable<Objective> ActiveObjectivesWithMarkers => ActiveObjectives.Where(o => o.AnyMarkerVisible);
         public QuestState State => Services.Get<GameplayMemory>().Context(this).Get("state", QuestState.NotTaken);
+        public bool InFinalState => State is QuestState.Completed or QuestState.Failed;
         protected override bool OnSave() => Template != null;
         public QuestType QuestType => Template.TypeOfQuest;
+        public QuestCategory Category => QuestTemplate?.QuestCategory ?? QuestCategory.Default;
         public bool CanBeTracked => QuestType is QuestType.Main or QuestType.Side or QuestType.Misc;
         public bool ShowNotificationTrackPrompt => CanBeTracked;
         public bool VisibleInQuestLog => CanBeTracked || QuestType == QuestType.Misc;
         public string NewThingId => Template?.GUID;
         public bool DiscardAfterMarkedAsSeen => false;
+
+        // Not every Quest has QuestTemplate (e.g. Achievements);
+        [CanBeNull] QuestTemplate QuestTemplate => _questTemplate = _questTemplate ? _questTemplate : Template as QuestTemplate;
+        QuestTemplate _questTemplate;
 
         public override string ContextID => QuestUtils.ContextID(this);
 
@@ -65,7 +73,6 @@ namespace Awaken.TG.Main.Stories.Quests {
             _tracker.SetOwner(this);
             using var attachmentGroups = Template.GetAttachmentGroups();
             _tracker.Initialize(attachmentGroups.value);
-            this.ListenTo(Events.AfterFullyInitialized, SetActive, this);
         }
 
         protected override void OnAfterDeserialize() {
@@ -80,10 +87,21 @@ namespace Awaken.TG.Main.Stories.Quests {
 
         protected override void OnRestore() {
             Init();
+            _shouldSetActive = false;
+        }
+
+        protected override void OnFullyInitialized() {
+            if (_shouldSetActive) {
+                SetActive();
+            }
+
+            if (InFinalState) {
+                QuestUtils.FinishActiveObjectives(this, asFailed: true);
+            }
         }
 
         void Init() {
-            ExperiencePoints = QuestUtils.CalculateXp(Template.targetLvl, Template.xpGainRange, Template.experiencePoints);
+            ExperiencePoints = QuestUtils.CalculateXp(Template.targetLvl, Template.xpGainRange, Template.experiencePoints, true);
             this.ListenTo(QuestUtils.Events.ObjectiveChanged, () => QuestUtils.TryAutocomplete(this), this);
         }
 

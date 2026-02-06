@@ -83,7 +83,6 @@ namespace Awaken.TG.Main.Heroes.Combat {
         [UnityEngine.Scripting.Preserve] float DialogueLookAreaSize => Screen.height * _dialogueLookAreaSizePercent;
         HeroControllerData Data => _heroController.Data;
         Transform HeroTransform => _heroController.transform;
-        Vector3 HeroForward => _hero.Rotation * Vector3.forward;
         Vector2 ForcedInputFromCode => _heroController.ForcedInputFromCode;
         CinemachineVirtualCamera BaseVirtualCamera => Hero.TppActive ? _heroController.tppVirtualCamera : _heroController.baseVirtualCamera;
         CinemachineVirtualCamera DialogueVirtualCamera => _heroController.dialogueVirtualCamera;
@@ -99,6 +98,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         bool HighAssistEnabled => _aimAssistSetting?.HighAssistEnabled ?? false;
         Transform TargetFollower => Hero.TppActive ? _tppTargetFollower : _heroController.AimAssistTargetFollower;
         bool CanRotateHero => !Hero.TppActive || !Hero.Current.Mounted;
+        bool HeroMountedAndTppActive => Hero.TppActive && Hero.Current.Mounted;
         
         public HeroCamera(VHeroController heroController) {
             _heroController = heroController;
@@ -144,7 +144,10 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         void AfterTeleported() {
-            MainCamera.transform.forward = HeroTransform.forward;
+            var targetForward = HeroTransform.forward;
+            MainCamera.transform.forward = targetForward;
+            FppArmsPivot.forward = targetForward;
+            CinemachineTargetPitch = 0;
         }
 
         void UpdateSensitivity(Setting setting) {
@@ -436,17 +439,31 @@ namespace Awaken.TG.Main.Heroes.Combat {
 
         public void FollowRotation(Vector3 eulerAngles, float deltaTime, float force = 1f) {
             float d = deltaTime * force;
-            Quaternion targetHeroRotation = Quaternion.Euler(0.0f, eulerAngles.y, 0.0f);
-            HeroTransform.rotation = Quaternion.Slerp(HeroTransform.rotation, targetHeroRotation, d);
-            SetPitch(Mathf.LerpAngle(CinemachineTargetPitch, eulerAngles.x, d));
+
+            var currentRotation = Quaternion.Euler(GetAngles());
+            var targetRotation = Quaternion.Euler(eulerAngles);
+            if (HeroMountedAndTppActive) {
+                targetRotation *= Quaternion.Inverse(TppPivot.parent.rotation);
+            }
+            var newRotation = Quaternion.Slerp(currentRotation, targetRotation, d);
+            SetAngles(newRotation.eulerAngles);
         }
 
         public void SetAngles(Vector3 eulerAngles) {
+            if (HeroMountedAndTppActive) {
+                TppPivot.localEulerAngles = eulerAngles;
+                return;
+            }
+            
             HeroTransform.rotation = Quaternion.Euler(0.0f, eulerAngles.y, 0.0f);
             SetPitch(eulerAngles.x);
         }
 
         public Vector3 GetAngles() {
+            if (HeroMountedAndTppActive) {
+                return TppPivot.localEulerAngles;
+            }
+            
             return new Vector3(CinemachineTargetPitch, HeroTransform.eulerAngles.y, 0.0f);
         }
         
@@ -463,7 +480,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
         
         void LockToTarget(NpcElement npc, Transform target) {
-            _lockedTarget = _aimAssistSetting.HighAssistEnabled ? npc.Torso : target;
+            _lockedTarget = _aimAssistSetting.HighAssistEnabled ? npc.GetAimAssistTarget(target) : target;
             _targetDeathListener = npc.ListenTo(IAlive.Events.BeforeDeath, DisableLockToTarget, npc);
             _targetLeftCombatListener = npc.ListenTo(ICharacter.Events.CombatExited, DisableLockToTarget, npc);
             _targetDiscardedListener = npc.ListenTo(Model.Events.BeforeDiscarded, DisableLockToTarget, npc);
@@ -615,12 +632,12 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         public void ChangeHeroPerspective(bool tppActive) {
+            _heroController.tppVirtualCamera.enabled = tppActive;
+            _heroController.baseVirtualCamera.enabled = !tppActive;
+            
             if (DialogueVirtualCamera.enabled) {
                 return;
             }
-
-            _heroController.tppVirtualCamera.enabled = tppActive;
-            _heroController.baseVirtualCamera.enabled = !tppActive;
             World.Only<GameCamera>().SetCinemachineCamera(BaseVirtualCamera);
         }
         

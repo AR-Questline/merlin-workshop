@@ -50,6 +50,10 @@ namespace Awaken.TG.Main.Fights.Factions {
         public IntRange[] reputationRanges = new IntRange[4];
         [SerializeField, ShowIf(nameof(hasReputation))] public FactionEffect[] factionEffects = Array.Empty<FactionEffect>();
 
+        // Cached
+        string _unforgivableCrimeCommittedKey;
+        string _bountyValueKey;
+
         public int MaxReputation => reputationRanges[3].high;
 
         public string DisplayName => displayName;
@@ -57,6 +61,9 @@ namespace Awaken.TG.Main.Fights.Factions {
         public bool HasBounty => hasBounty;
         public bool IsAcceptable(in CrimeArchetype archetype) => severities.Get(archetype, CrimeSeverity.Normal) == CrimeSeverity.Acceptable;
         public bool IsUnforgivable(in CrimeArchetype archetype) => severities.Get(archetype, CrimeSeverity.Normal) == CrimeSeverity.Unforgivable;
+
+        public string UnforgivableCrimeCommittedKey => _unforgivableCrimeCommittedKey ??= $"UnforgivableCrimeCommitted: {GUID}";
+        public string BountyValueKey => _bountyValueKey ??= $"Bounty: {GUID}";
 
         public ref readonly CrimeItemValueData ItemBounty(CrimeItemValue value) {
             switch (value) {

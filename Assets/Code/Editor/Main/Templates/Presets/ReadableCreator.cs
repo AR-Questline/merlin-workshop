@@ -56,7 +56,7 @@ namespace Awaken.TG.Editor.Main.Templates.Presets {
             GameObjects.SetStaticRecursively(go, false);
             
             //Prefab
-            specInPrefab.prefabReference = new ARAssetReference(AssetsUtils.ObjectToGuid(readableVisual));
+            specInPrefab.PrefabReference = new ARAssetReference(AssetsUtils.ObjectToGuid(readableVisual));
             
             //Item template
             PickItemAttachment pickItemAttachment = go.GetOrAddComponent<PickItemAttachment>();

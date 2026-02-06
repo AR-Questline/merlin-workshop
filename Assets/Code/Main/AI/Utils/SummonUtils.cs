@@ -56,5 +56,15 @@ namespace Awaken.TG.Main.AI.Utils {
                 location.TryGetElement<PersistentAoE>()?.AssignDamageDealer(damageDealer);
             });
         }
+
+        [UsedImplicitly, UnityEngine.Scripting.Preserve]
+        public static void DestroyHeroSummonsExceptPets() {
+            foreach (var summon in World.All<NpcHeroSummon>().ToArraySlow()) {
+                if (summon is NpcHeroPetAlly) {
+                    continue;
+                }
+                summon.Destroy();
+            }
+        }
     }
 }

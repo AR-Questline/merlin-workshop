@@ -11,6 +11,8 @@ namespace Awaken.TG.Main.Heroes.SkinnedBones {
 
         [ShowInInspector, ReadOnly] GameObject _instance;
         
+        public GameObject Instance => _instance;
+        
         void OnEnable() {
             if (!cloth) {
                 return;
@@ -23,8 +25,8 @@ namespace Awaken.TG.Main.Heroes.SkinnedBones {
 
 #if UNITY_EDITOR
             if (!Application.isPlaying) {
-                _instance = Instantiate(cloth, transform);
-                _instance.hideFlags = HideFlags.DontSaveInBuild | HideFlags.DontSaveInEditor | HideFlags.NotEditable;
+                _instance = UnityEditor.PrefabUtility.InstantiatePrefab(cloth, transform) as GameObject;
+                UnityEditor.PrefabUtility.GetPrefabInstanceHandle(_instance).hideFlags  = HideFlags.DontSaveInBuild | HideFlags.DontSaveInEditor | HideFlags.NotEditable;
             } else
 #endif
             {

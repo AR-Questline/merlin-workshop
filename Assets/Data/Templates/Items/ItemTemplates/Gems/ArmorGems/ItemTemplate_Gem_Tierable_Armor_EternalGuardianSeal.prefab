@@ -72,9 +72,9 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: description_generic_increase
+      IdOverride: description_generic_increase_multiply_percent
       ID: Template/description_locString_2543871262668956605_66f7bd066ae6adb49bc565e9649f797c
-  EDITOR_bakedDescription: Increases Max Health by 3.
+  EDITOR_bakedDescription: "Increases Max Health by 5\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -131,7 +131,7 @@ MonoBehaviour:
   basePrice: 100
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 150
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -149,6 +149,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 75d79d1b7615c8b4eb48446091fbc441
       subObjectName: 
 --- !u!114 &2171448430345750879
@@ -165,12 +169,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skills:
   - skillGraphRef:
-      _guid: e699a32c4d76b8b48aa933b6586a5bca
+      _guid: 1b5b2de6740e49e4a829246bbd414e11
     variables:
     - name: ModifyValue
-      value: 3
+      value: 0.05
     - name: GainValue
-      value: 1
+      value: 0.005
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

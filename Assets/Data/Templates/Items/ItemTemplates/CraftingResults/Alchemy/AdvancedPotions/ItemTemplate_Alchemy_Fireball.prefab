@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_StatIncreasePercForDurationDesc
       ID: Template/description_locString_2543871262668956605_aa229c7d00512c44b9754c80602b3007
-  EDITOR_bakedDescription: Increases Critical Chance by 20% for 90s.
+  EDITOR_bakedDescription: "Increases Critical Chance by 20\_% for 60s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
     arReference:
       address: 85845fd08e5e5854fa0e5d796155e4fe
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,11 +181,11 @@ MonoBehaviour:
     - name: AddValue
       value: 0.2
     - name: Gain
-      value: 0.01
-    - name: Duration
-      value: 90
-    - name: DurationGain
       value: 0
+    - name: Duration
+      value: 60
+    - name: DurationGain
+      value: 10
     - name: AddValueCalculated
       value: 0
     - name: DurationCalculated

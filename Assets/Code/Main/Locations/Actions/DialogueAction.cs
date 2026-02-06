@@ -12,7 +12,6 @@ using Awaken.TG.Main.Locations.Actions.Attachments;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Timing;
-using Awaken.TG.Main.Utility.Animations.ARAnimator;
 using Awaken.TG.Main.Utility.Animations.Gestures;
 using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
@@ -20,7 +19,7 @@ using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
-using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Locations.Actions {
@@ -34,17 +33,21 @@ namespace Awaken.TG.Main.Locations.Actions {
         public bool IsInDialogue => _createdStory is {HasBeenDiscarded: false};
         public StoryBookmark Bookmark => _bookmarksStack[^1];
         public GesturesSerializedWrapper GesturesWrapper { get; private set; }
-        public Transform ViewFocus { get; private set; }
+        [CanBeNull]
+        public Transform ViewFocus => _hasViewFocus ? _dialoguePoint : null;
         public float EndStoryDistanceSqr { get; private set; }
-        public override InfoFrame ActionFrame => new(_interactLabel, HeroHasRequiredItem());
+        protected override bool DisableInCombat => true;
+        protected override InfoFrame ActionFrameInternal => new(_interactLabel, HeroHasRequiredItem());
         TimeQueue TimeQueue => Services.Get<TimeQueue>();
         float MinAngleToTalk => Hero.Current.IsCrouching ? MinAngleToTalkCrouched : MinAngleToTalkStanding;
         
-        float SqrDistanceToHero => (Hero.Current.Coords - ViewFocus.position).sqrMagnitude;
+        float SqrDistanceToHero => (Hero.Current.Coords - _dialoguePoint.position).sqrMagnitude;
 
         string _interactLabel;
         Story _createdStory;
         bool _registeredToTimeQueue;
+        bool _hasViewFocus;
+        Transform _dialoguePoint;
 
         [UnityEngine.Scripting.Preserve] public Story CreatedStory => _createdStory;
         
@@ -58,7 +61,8 @@ namespace Awaken.TG.Main.Locations.Actions {
                     spec.gameObject);
             }
             PushStoryOverride(spec.bookmark);
-            ViewFocus = spec.viewFocus;
+            _dialoguePoint = spec.viewFocus;
+            _hasViewFocus = _dialoguePoint != null;
             GesturesWrapper = spec.gesturesWrapper;
             EndStoryDistanceSqr = spec.EndStoryDistanceSqr;
             string customLabel = spec.customDialogueLabel.ToString();
@@ -73,17 +77,30 @@ namespace Awaken.TG.Main.Locations.Actions {
             // --- We can't have conversation with dead npc
             ParentModel.TryGetElement<IAlive>()?.ListenTo(IAlive.Events.AfterDeath, _ => Discard(), this);
 
-            if (ViewFocus != null) {
+            if (_hasViewFocus) {
                 return;
             }
 
             if (ParentModel.TryGetElement(out NpcElement npc)) {
-                npc.OnCompletelyInitialized(_ => ViewFocus = npc.Head);
+                npc.OnCompletelyInitialized(_ => {
+                    SetViewFocus(npc.Head, npc.ParentTransform);
+                });
             } else {
                 ParentModel.OnVisualLoaded(t => {
-                    ViewFocus = t.GetComponentsInChildren<Transform>(true)
-                        .FirstOrDefault(c => c.gameObject.CompareTag("Head"));
+                    var head = t.GetComponentsInChildren<Transform>(true)
+                        .FirstOrDefault(c => c.CompareTag("Head"));
+                    SetViewFocus(head, t);
                 });
+            }
+
+            void SetViewFocus(Transform viewFocus, Transform fallbackPoint) {
+                if (viewFocus != null) {
+                    _dialoguePoint = viewFocus;
+                    _hasViewFocus = true;
+                } else {
+                    _dialoguePoint = fallbackPoint;
+                    _hasViewFocus = false;
+                }
             }
         }
 
@@ -92,16 +109,17 @@ namespace Awaken.TG.Main.Locations.Actions {
                 return base.GetAvailability(null, interactable);
             }
             
-            if (hero.IsInCombat()) {
-                return ActionAvailability.Disabled;
-            }
-
             if (interactable is not Location location) {
                 return ActionAvailability.Disabled;
             }
             NpcElement npcElement = location.TryGetElement<NpcElement>();
             if (npcElement == null) {
                 return base.GetAvailability(hero, interactable);
+            }
+            
+            // If it's an NPC we don't want to show dialogue action at all.
+            if (hero.IsInCombat()) {
+                return ActionAvailability.Disabled;
             }
 
             // --- Check NPC availability
@@ -165,7 +183,11 @@ namespace Awaken.TG.Main.Locations.Actions {
         }
 
         void CheckOutOfRange() {
-            if (HasBeenDiscarded || Hero.Current == null) return;
+            if (HasBeenDiscarded || Hero.Current == null || _createdStory.InvolveHero) return;
+            if (_dialoguePoint == null) {
+                Log.Important?.Error($"{LogUtils.GetDebugName(ParentModel)} has DialogueAction with no DialoguePoint");
+                return;
+            }
             if (SqrDistanceToHero <= EndStoryDistanceSqr) return;
             EndDialogue();
         }

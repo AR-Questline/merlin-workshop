@@ -5,6 +5,7 @@ using Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.UI.Components.Navigation;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
@@ -19,9 +20,10 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment {
         public abstract bool Hidden { get; }
         public abstract bool Locked { get; }
         public abstract EquipmentSlotType Type { get; }
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         HeroItems HeroItems => Hero.Current.HeroItems;
-        public bool AllowUnequip => HeroItems.EquippedItem(Type) != null;
+        public bool AllowUnequip => HeroItems.EquippedItem(Type) != null && Target.HeroItems.AllowEquipping;
         public Item ItemInSlot => HeroItems.EquippedItem(Type);
         public event Action onNewThingRefresh;
 
@@ -77,10 +79,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment {
         }
 
         public UIResult Handle(UIEvent evt) {
-            if (Target == null || Target.HasBeenDiscarded) {
-                return UIResult.Ignore;
-            }
-            
             if (TryHandleNavigationSkippingHidden(evt, out var result)) return result;
             
             if (evt is UIEPointTo) {

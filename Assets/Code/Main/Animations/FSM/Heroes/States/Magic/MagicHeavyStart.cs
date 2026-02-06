@@ -17,7 +17,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Magic {
 
         protected override void AfterEnter(float previousStateNormalizedTime) {
             ParentModel.CurrentChargeSteps = 0;
-            Hero.VHeroController?.CastingBegun(ParentModel.CastingHand);
+            Hero.VHeroController?.CastingBegun(ParentModel.CastingHand, false);
             ParentModel.PlayAudioClip(ItemAudioType.CastBegun.RetrieveFrom(ParentModel.Item));
             ParentModel.BeginSlowModifier();
             RewiredHelper.VibrateLowFreq(VibrationStrength.Low, VibrationDuration.Short);

@@ -87,6 +87,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         public SceneInitializer SceneInitialization => World.Services.Get<SceneInitializer>();
         
         // === Fields & Properties
+        public GroundBounds GroundBounds => ground;
         public Func<bool> TryRestoreWorld { get; set; }
         public bool InitializationCanceled { get; set; }
         public bool IsInitialized { get; protected set; }
@@ -409,6 +410,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
             
             AstarPath.active = aStarPath;
             aStarPath.FastEnable();
+            World.EventSystem.Trigger(SceneLifetimeEvents.Get, SceneLifetimeEvents.Events.PathfindingRestored, new SceneLifetimeEventData(true, SceneRef));
         }
 
         // === Cleanup

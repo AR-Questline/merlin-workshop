@@ -18,6 +18,8 @@ namespace Awaken.TG.Main.Locations {
         protected TabSetConfig _alchemyTabSetConfig;
 
         [UnityEngine.Scripting.Preserve] protected abstract bool ManualRestTime { get; }
+        
+        protected override bool DisableInCombat => true;
 
         protected override void OnStart(Hero hero, IInteractableWithHero interactable) {
             _heroInteracting = true;
@@ -30,7 +32,7 @@ namespace Awaken.TG.Main.Locations {
         protected abstract void InitUI();
 
         public override ActionAvailability GetAvailability(Hero hero, IInteractableWithHero interactable) {
-            return hero.IsInCombat() ? ActionAvailability.Disabled : base.GetAvailability(hero, interactable);
+            return base.GetAvailability(hero, interactable);
         }
         
         void PlayHeroAnimation(Hero hero, Vector3 heroPos) {

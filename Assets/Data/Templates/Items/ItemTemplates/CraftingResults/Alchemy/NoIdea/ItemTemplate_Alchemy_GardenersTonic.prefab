@@ -76,9 +76,9 @@ MonoBehaviour:
   EDITOR_bakedDescription: 'Consumption reduces strength of your attacks.
 
     Decrease
-    Practicality by 0 for 10 seconds.
+    Practicality by 5 for 10 seconds.
 
-    Decrease Endurance by 0 for 10 seconds.'
+    Decrease Endurance by 5 for 10 seconds.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 116473962917af44293a519f2a30c2c6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

@@ -55,6 +55,7 @@ MonoBehaviour:
     verifiedDesign: 0
     notes: 
   tags: []
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 0df96afb8964f7f4ebf092d76c26f65c
@@ -139,7 +140,7 @@ MonoBehaviour:
   upgradeChance: 0.5
   crimeItemValue: 0
   canStack: 1
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
@@ -148,6 +149,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 098f032fc95e4b641b0799895dbe68ff
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4838591279151652239
 MonoBehaviour:

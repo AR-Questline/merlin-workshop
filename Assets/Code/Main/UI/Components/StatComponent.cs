@@ -1,5 +1,7 @@
 ﻿using Awaken.TG.Main.Heroes.HUD.Bars;
 using Awaken.TG.Main.Heroes.Stats;
+using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -22,6 +24,7 @@ namespace Awaken.TG.Main.UI.Components {
         [SerializeField, ShowIf(nameof(showText))] protected TextMeshProUGUI text;
         [SerializeField, ShowIf(nameof(showText))] bool useStatColor = true;
         [SerializeField, ShowIf(nameof(showText))] bool showUpperLimit = true;
+        [SerializeField, ShowIf(nameof(showText))] bool setupNativeStatName;
         [Space(10f)]
         [SerializeField] bool showBar;
         [SerializeField, ShowIf(nameof(showBar))] Bar bar;
@@ -30,6 +33,7 @@ namespace Awaken.TG.Main.UI.Components {
         [SerializeField, ShowIf(nameof(showTooltip))] RectTransform tooltipHost;
 
         public Stat Stat { get; private set; }
+        public bool IsValid => this.IsValidForUIHandle();
 
         IWithStats _target;
 
@@ -44,7 +48,11 @@ namespace Awaken.TG.Main.UI.Components {
             UpdateStat();
 
             if (statName != null) {
-                statName.text = Stat.Type.DisplayName;
+                if (setupNativeStatName) {
+                    statName.text = Stat.Type.DisplayName;
+                } else {
+                    statName.SetText($"{LocTerms.AvailablePoints.Translate()}:");
+                }
             }
         }
         

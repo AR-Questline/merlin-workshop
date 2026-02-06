@@ -23,6 +23,11 @@ PrefabInstance:
       propertyPath: enduranceRequired
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: -2030504492413747376, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: perceptionRequired
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1342416209863646601, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
       propertyPath: armor
@@ -79,6 +84,12 @@ PrefabInstance:
         type: 3}
       propertyPath: itemName.IdOverride
       value: item_armor_heavy_DuelKnightArmor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: EDITOR_bakedDescription
+      value: "Taking Damage restores 10 Stamina.\nIncreases Melee Retaliation by
+        10\_%."
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
@@ -205,7 +216,7 @@ MonoBehaviour:
     - name: AddValue
       value: 10
     - name: Gain
-      value: 0
+      value: 1
     - name: AddValueCalculated
       value: 0
     - name: MultiplyValue
@@ -305,7 +316,7 @@ MonoBehaviour:
         id: 0
       value:
         simpleValue:
-          rawValue: 1
+          rawValue: 0
         stringValue: 
         assetValue:
           address: 
@@ -315,7 +326,7 @@ MonoBehaviour:
         id: 0
       value:
         simpleValue:
-          rawValue: 1
+          rawValue: 0
         stringValue: 
         assetValue:
           address: 
@@ -1688,6 +1699,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: GainValue
+      value: 0.01
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

@@ -1,6 +1,4 @@
-﻿using Awaken.TG.Main.Localization;
-using Awaken.TG.MVC;
-using Awaken.TG.Utility;
+﻿using Awaken.TG.MVC;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Utility.UI.RadialMenu {
@@ -31,8 +29,8 @@ namespace Awaken.TG.Main.Utility.UI.RadialMenu {
         public abstract void OnHoverStart();
         public abstract void OnHoverEnd();
         public abstract void OnSelect(bool onClose);
-
-        public virtual OptionDescription Description => OptionDescription.Empty;
+        
+        public abstract OptionDescription Description { get; }
 
 
         public struct OptionDescription {
@@ -43,8 +41,6 @@ namespace Awaken.TG.Main.Utility.UI.RadialMenu {
                 this.active = active;
                 this.name = name;
             }
-
-            public static OptionDescription Empty => new(false, LocTerms.UIGenericUse.Translate());
         }
     }
 }

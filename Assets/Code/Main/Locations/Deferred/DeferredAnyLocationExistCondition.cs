@@ -27,5 +27,15 @@ namespace Awaken.TG.Main.Locations.Deferred {
             }
             return any;
         }
+        
+        public override bool Equals(System.Object other) {
+            if (other is not DeferredAnyLocationExistCondition otherCondition) {
+                return false;
+            }
+            if (!_locationRef.Equals(otherCondition._locationRef)) {
+                return false;
+            }
+            return true;
+        }
     }
 }

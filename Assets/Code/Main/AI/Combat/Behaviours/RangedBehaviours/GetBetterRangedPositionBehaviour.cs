@@ -43,7 +43,6 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.RangedBehaviours {
             var npcAI = npcElement.NpcAI;
             var betterPositionOption = AIUtils.FindBetterPositionForArcher(npcAI.VisionDetectionOrigin, target.Head.position, 5);
             if (!betterPositionOption.TryGetValue(out var betterPosition)) {
-                ParentModel.StartWaitBehaviour();
                 return false;
             }
 

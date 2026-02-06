@@ -76,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_c7fc711c976a8b642881b12e2932e2d7
-  EDITOR_bakedDescription: Increases Ranged Damage by 15%.
+  EDITOR_bakedDescription: "Increases Ranged Damage by 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -88,7 +88,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_c7fc711c976a8b642881b12e2932e2d7
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -150,6 +150,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
@@ -217,6 +221,8 @@ MonoBehaviour:
       value: 0.15
     - name: GainValue
       value: 0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

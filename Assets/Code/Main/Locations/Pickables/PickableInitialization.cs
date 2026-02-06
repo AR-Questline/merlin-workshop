@@ -14,8 +14,9 @@ namespace Awaken.TG.Main.Locations.Pickables {
         }
 
         public static void Uninitialize(Pickable regrowable) {
-            regrowable.Uninitialize();
-            ToInitialize.Remove(regrowable);
+            if (ToInitialize.Remove(regrowable) == false) {
+                regrowable.Uninitialize();
+            }
         }
 
         public static void InitializeWaiting(PickableService pickableService) {

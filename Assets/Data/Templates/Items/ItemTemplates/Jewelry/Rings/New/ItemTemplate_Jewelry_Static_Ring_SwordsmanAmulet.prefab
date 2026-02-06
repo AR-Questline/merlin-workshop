@@ -78,8 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_d124f1394bbcae44abfb098d18f4f223
-  EDITOR_bakedDescription: If you are fighting with two weapons, increase damage
-    by 25%.
+  EDITOR_bakedDescription: "If you are fighting with two weapons, increase Damage
+    by 25\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +153,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
@@ -245,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -274,7 +281,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.25
     - name: ValueGain
-      value: 0
+      value: 0.01
     - name: ValueCalculated
       value: 0
     enums:

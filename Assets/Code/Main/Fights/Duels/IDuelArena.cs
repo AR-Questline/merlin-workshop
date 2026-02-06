@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Awaken.TG.Main.Fights.Duels {
     public interface IDuelArena : IElement<Location> {
-        UniTask Teleport(DuelistsGroup[] duelistsGroups, bool fadeOutAfterHeroTeleport);
+        UniTask Teleport(DuelistsGroup[] duelistsGroups, bool fadeOutAfterHeroTeleport, bool onlySummons);
         void Activate();
         void Deactivate();
     }

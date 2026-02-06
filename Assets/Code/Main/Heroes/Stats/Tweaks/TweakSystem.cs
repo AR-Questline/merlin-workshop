@@ -120,13 +120,7 @@ namespace Awaken.TG.Main.Heroes.Stats.Tweaks {
             ClearTweaksCache();
 
             // gather all tweaks related to this stat
-            foreach (TweakSelector selector in SelectorsForStat(stat)) {
-                if (_bySelector.TryGetValue(selector, out var selectorTweaks)) {
-                    foreach (Tweak tweak in selectorTweaks) {
-                        _tweaksByPriority[(int) tweak.Priority].Add(tweak);
-                    }
-                }
-            }
+            AddTweakToStat(stat);
 
             // perform calculations in correct order
             float baseVal = stat.BaseValue;
@@ -171,15 +165,18 @@ namespace Awaken.TG.Main.Heroes.Stats.Tweaks {
             return baseVal;
         }
 
-        // === All selectors for given stat
-
-        IEnumerable<TweakSelector> SelectorsForStat(Stat stat) {
-            if (stat is CompoundStat compound) {
-                foreach (var selector in compound.Stats.SelectMany(SelectorsForStat)) {
-                    yield return selector;
+        void AddTweakToStat(Stat stat) {
+            if (stat is CompoundStat compoundStat) {
+                foreach (var compoundStatStat in compoundStat.Stats) {
+                    AddTweakToStat(compoundStatStat);
                 }
             } else {
-                yield return new TweakSelector(stat.Owner, stat.Type);
+                var selector = new TweakSelector(stat);
+                if (_bySelector.TryGetValue(selector, out var selectorTweaks)) {
+                    foreach (Tweak tweak in selectorTweaks) {
+                        _tweaksByPriority[(int) tweak.Priority].Add(tweak);
+                    }
+                }
             }
         }
 

@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_OnDamageTaken_IncreaseStat_percent
       ID: Template/description_locString_2543871262668956605_599a418e1b2c9e2458031f741f597419
-  EDITOR_bakedDescription: Taking damage increases Physical Damage by 15% for 3s.
+  EDITOR_bakedDescription: "Taking damage increases Physical Damage by 15\_% for
+    3s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,6 +153,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
 --- !u!114 &1382325995290807351
@@ -217,7 +222,7 @@ MonoBehaviour:
     - name: AddValue
       value: 0.15
     - name: Gain
-      value: 0
+      value: 0.01
     - name: Duration
       value: 3
     - name: AddValueCalculated

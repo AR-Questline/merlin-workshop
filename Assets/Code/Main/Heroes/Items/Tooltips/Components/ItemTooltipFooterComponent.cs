@@ -18,6 +18,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
         public ref PartialVisibility Visibility => ref _visibility;
         PartialVisibility _visibility;
         public bool UseReadMore { get; private set; }
+        public bool UseReadMoreEnabled { get; set; }
 
         public void Refresh(IItemDescriptor descriptor, IItemDescriptor descriptorToCompare, View view) {
             Refresh(descriptor, descriptorToCompare);

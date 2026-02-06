@@ -175,22 +175,34 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
                         return;
                     }
                 }
-                if (!await AsyncUtil.DelayFrame(_npc, 1)) {
+                if (!await AsyncUtil.DelayFrame(_npc)) {
                     return;
                 }
             }
         }
 
         void DisableVisualsForInit() {
+            if (_npc == null || _npc.HasBeenDiscarded) {
+                Log.Minor?.Error("Trying to disable visuals on Npc that has been discarded.", this);
+                return;
+            }
             _npc.DisableKandra();
         }
 
         void EnableVisualsAfterInit() {
+            if (_npc == null || _npc.HasBeenDiscarded) {
+                Log.Minor?.Error("Trying to enable visuals on Npc that has been discarded.", this);
+                return;
+            }
             _npc.EnableKandra();
         }
 
         // === Updating
         void OnUpdate(float deltaTime) {
+            if (_npc == null || _npc.HasBeenDiscarded) {
+                return;
+            }
+            
             if (_npc.IsVisible) {
                 AngularSpeedMultiplier = math.max(0, 1 - _npcAngularSpeedReduction.Value);
 
@@ -213,7 +225,7 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             if (Visible) {
                 DisableVisualsForInit();
                 await UniTask.WhenAll(UpdateFightingStyle(npcFightingStyle), AwaitForSubstateMachinesInit());
-                if (!await AsyncUtil.DelayFrame(_npc, 1)) {
+                if (!await AsyncUtil.DelayFrame(_npc)) {
                     return;
                 }
                 EnableVisualsAfterInit();
@@ -230,6 +242,9 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
         }
 
         void OnDistanceBandChanged(bool visible) {
+            if (_npc is not { HasBeenDiscarded: false }) {
+                return;
+            }
             if (visible) {
                 Visible = true;
                 _isLoadingBaseAnimations = true;
@@ -255,7 +270,7 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             var baseTask = SetCurrentBaseAnimations(_currentFightingStyle.BaseAnimations);
             var combatDataTask = UpdateCurrentCombatData(_currentCombatData, _currentStatsItem);
             await UniTask.WhenAll(baseTask, combatDataTask, AwaitForSubstateMachinesInit());
-            if (!await AsyncUtil.DelayFrame(_npc, 1)) {
+            if (!await AsyncUtil.DelayFrame(_npc)) {
                 return;
             }
             EnableVisualsAfterInit();
@@ -325,12 +340,13 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
                     }
                 }
                 
-                OnRemovedAnimationsFromCollection(s_removedEntries, forceRemoveAnimations: true);
+                var assetRef = _baseAnimationsReference;
+                OnRemovedAnimationsFromCollection(s_removedEntries, () => assetRef?.ReleaseAsset(), true);
                 s_removedEntries.Clear();
+            } else {
+                _baseAnimationsReference?.ReleaseAsset();
             }
             _baseAnimations = null;
-            
-            _baseAnimationsReference?.ReleaseAsset();
             _baseAnimationsReference = null;
         }
 
@@ -405,9 +421,6 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
         
         void RemoveAllFightingStylesAnimations() {
             using var marker = RemoveAllFightingStylesAnimationsMarker.Auto();
-            
-            _fightingStyleReplacementsReferences.ForEach(r => r.ReleaseAsset());
-            _fightingStyleReplacementsReferences.Clear();
 
             s_removedEntries.Clear();
             foreach (var replacement in _fightingStyleReplacements) {
@@ -417,9 +430,17 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
                     }
                 }
             }
-            OnRemovedAnimationsFromCollection(s_removedEntries, forceRemoveAnimations: !Visible);
+
+            var assetRefs = _fightingStyleReplacementsReferences.ToArray();
+            OnRemovedAnimationsFromCollection(s_removedEntries, () => {
+                foreach (var r in assetRefs) {
+                    r.ReleaseAsset();
+                }
+                assetRefs = null;
+            }, !Visible);
             s_removedEntries.Clear();
             _fightingStyleReplacements.Clear();
+            _fightingStyleReplacementsReferences.Clear();
         }
         
         // === External Overrides
@@ -551,7 +572,7 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             void OnFail(bool log) {
                 onFail?.Invoke();
                 if (log) {
-                    Log.Minor?.Error($"Failed to find animation for state: {npcStateType}, Npc: {_npc}", gameObject);
+                    Log.Minor?.Error($"Failed to find animation for state: {npcStateType}, Npc: {LogUtils.GetDebugName(_npc)}", gameObject);
                 }
             }
         }
@@ -562,8 +583,8 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
                 state.Events?.OnEnd?.Invoke();
             }
             
-            if (_isLoadingBaseAnimations) {
-                _npc?.TryGetElement<NpcCustomActionsFSM>()?.TryGetElement<CustomExit>()?.OnAnimatorDisabled();
+            if (_isLoadingBaseAnimations && _npc is { HasBeenDiscarded: false }) {
+                _npc.TryGetElement<NpcCustomActionsFSM>()?.TryGetElement<CustomExit>()?.OnAnimatorDisabled();
             }
 
             if (IsPlayableInitialized) {
@@ -586,8 +607,11 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             _fightingStyleReplacementsReferences.Clear();
 
             _currentFightingStyle = null;
-            
-            _npc?.GetTimeDependent()?.WithoutUpdate(OnUpdate);
+
+            if (_npc is { HasBeenDiscarded: false }) {
+                _npc.GetTimeDependent()?.WithoutUpdate(OnUpdate);
+            }
+            _npc = null;
 
             foreach (var layer in Layers) {
                 layer.DestroyStates();
@@ -605,7 +629,8 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
         }
 
         void BeforeNpcDiscarded(Model _) {
-            _npc.GetTimeDependent()?.WithoutUpdate(OnUpdate);
+            _npc?.GetTimeDependent()?.WithoutUpdate(OnUpdate);
+            _npc = null;
         }
         
         // === Fake methods to suppress errors  "Animation event has no receiver, are you missing a component"
@@ -667,11 +692,8 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
         }
 
         void OnRemovedAnimationsFromCollection(IReadOnlyCollection<ARStateToAnimationMappingEntry> removedStates, Action onAllAnimationsRemoved = null, bool forceRemoveAnimations = false) {
-            if (_npc == null || _npc.HasBeenDiscarded) {
-                return;
-            }
-
-            if (removedStates == null) {
+            if (_npc == null || _npc.HasBeenDiscarded || removedStates == null) {
+                onAllAnimationsRemoved?.Invoke();
                 return;
             }
 
@@ -681,8 +703,8 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
                 return;
             }
             
-            bool waitsForAnimationEnd = false;
             bool isAnimancerActive = !forceRemoveAnimations && IsPlaying() && gameObject.activeInHierarchy && this.isActiveAndEnabled;
+            int onEndCount = 0;
             
             foreach (var transition in removedStates.SelectMany(r => r.AnimancerNodes)) {
                 ARMixerTransition mixerTransition = null;
@@ -720,9 +742,9 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
                         var events = new AnimancerEvent.Sequence();
                         Action onEnd = null;
                         onEnd = () => OnEnd(stateToDestroy, onEnd).Forget();
+                        onEndCount++;
                         events.OnEnd += onEnd;
                         stateToDestroy.Events = events;
-                        waitsForAnimationEnd = true;
                         return false;
                     }
                     stateToDestroy.Destroy();
@@ -731,7 +753,7 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
             }
             
             OnAnimancerStatesChanged();
-            if (!waitsForAnimationEnd) {
+            if (onEndCount <= 0) {
                 onAllAnimationsRemoved?.Invoke();
             }
             return;
@@ -743,27 +765,31 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
 
                 bool clipCondition = stateThatEnded.Clip != null || stateThatEnded is MixerState<Vector2>;
                 await UniTask.WaitWhile(() =>
-                    this != null 
-                    && this.isActiveAndEnabled 
-                    && stateThatEnded.IsValid 
+                    this != null
+                    && this.isActiveAndEnabled
+                    && stateThatEnded.IsValid
                     && clipCondition
                     && stateThatEnded.IsPlaying);
 #if UNITY_EDITOR
-                    if (EditorOnly.Utils.EditorApplicationUtils.IsLeavingPlayMode) {
-                        return;
-                    }
+                if (EditorOnly.Utils.EditorApplicationUtils.IsLeavingPlayMode) {
+                    return;
+                }
 #endif
                 stateThatEnded.Destroy();
                 await UniTask.Yield(PlayerLoopTiming.LastUpdate);
                 if (Animator) {
                     OnAnimancerStatesChanged();
                 }
-                onAllAnimationsRemoved?.Invoke();
+
+                onEndCount--;
+                if (onEndCount <= 0) {
+                    onAllAnimationsRemoved?.Invoke();
+                }
             }
         }
         
         void OnAnimationsLoaded() {
-            if (this == null || _npc.HasBeenDiscarded) {
+            if (this == null || _npc == null || _npc.HasBeenDiscarded) {
                 return;
             }
             
@@ -788,8 +814,10 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
         }
 
         void OnAnimancerStatesChanged() {
-            foreach (var state in _npc.Elements<NpcAnimatorState>()) {
-                state.OnStatesCollectionChanged(this);
+            if (_npc is { HasBeenDiscarded: false }) {
+                foreach (var state in _npc.Elements<NpcAnimatorState>()) {
+                    state.OnStatesCollectionChanged(this);
+                }
             }
 
             if (!Animator.enabled) {

@@ -1,6 +1,7 @@
 ﻿using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.Semaphores;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
@@ -18,6 +19,7 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.Parts {
         CoyoteSemaphore _isHovered;
 
         public override Transform DetermineHost() => Target.ParentModel.View<VCCGridSelect>().Content;
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             _isHovered = new CoyoteSemaphore(this);

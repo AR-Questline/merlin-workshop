@@ -49,7 +49,7 @@ namespace Awaken.TG.Main.Locations.Containers {
 
         public bool IsEmpty {
             get {
-                bool hasAnyItems = SpawningDataItems.Any(data => !data.ItemTemplate.hiddenOnUI);
+                bool hasAnyItems = SpawningDataItems.Any(data => !data.ItemTemplate.HiddenOnUI);
                 bool hasAnyInventoryItems = Inventory != null && Inventory.Items.Any(i => !i.HiddenOnUI);
                 return !hasAnyItems && !hasAnyInventoryItems;
             }

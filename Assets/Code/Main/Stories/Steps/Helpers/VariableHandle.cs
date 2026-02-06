@@ -53,7 +53,7 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             return _type switch {
                 VariableType.Custom => _value,
                 VariableType.Const => _value,
-                VariableType.CurrentDay => World.Only<GameRealTime>().WeatherTime.Day + _value,
+                VariableType.CurrentDay => World.Only<GameRealTime>().WeatherDaysSinceGameStart + _value,
                 VariableType.CurrentWeek => World.Only<GameRealTime>().WeatherTime.Week + (int)_value,
                 VariableType.Defined => throw new InvalidOperationException("VariableHandle should never be of type Defined"),
                 _ => throw new ArgumentOutOfRangeException(),
@@ -68,7 +68,7 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             return _type switch {
                 VariableType.Custom => GetCustomValue(),
                 VariableType.Const => _value,
-                VariableType.CurrentDay => World.Only<GameRealTime>().WeatherTime.Day,
+                VariableType.CurrentDay => World.Only<GameRealTime>().WeatherDaysSinceGameStart,
                 VariableType.CurrentWeek => World.Only<GameRealTime>().WeatherTime.Week,
                 VariableType.Defined => throw new InvalidOperationException("VariableHandle should never be of type Defined"),
                 _ => throw new ArgumentOutOfRangeException()

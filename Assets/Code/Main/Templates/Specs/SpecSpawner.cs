@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Awaken.TG.Main.Grounds.CullingGroupSystem;
 using Awaken.TG.Main.Heroes.Thievery;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Pickables;
@@ -8,12 +9,12 @@ using Awaken.TG.Main.Locations.Regrowables;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Utility.Availability;
+using Awaken.TG.Main.Utility.Patchers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.Utility.Debugging;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using LogType = Awaken.Utility.Debugging.LogType;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Main.Templates.Specs {
@@ -28,6 +29,8 @@ namespace Awaken.TG.Main.Templates.Specs {
         Dictionary<string, LocationSpec> _locationSpecById;
 
         public void Init(Scene[] scenes) {
+            World.Services.Get<PatcherService>().RunSpecPatches(scenes);
+            
             var specs = Object.FindObjectsByType<SceneSpec>(FindObjectsSortMode.None);
             _specs = new List<BaseSpec>(specs.Length);
             _locationSpecById = new Dictionary<string, LocationSpec>(_specs.Capacity);
@@ -84,6 +87,7 @@ namespace Awaken.TG.Main.Templates.Specs {
             }
             
             InitNonModelSceneSpecs();
+            AfterSpecsInitialized();
         }
 
         /// <summary>
@@ -116,6 +120,7 @@ namespace Awaken.TG.Main.Templates.Specs {
             }
             
             InitNonModelSceneSpecs();
+            AfterSpecsInitialized();
         }
 
         void InitNonModelSceneSpecs() {
@@ -123,6 +128,10 @@ namespace Awaken.TG.Main.Templates.Specs {
             RegrowableInitialization.InitializeWaiting(World.Services.Get<RegrowableService>());
             PickableInitialization.InitializeWaiting(World.Services.Get<PickableService>());
             FactionRegionsService.InitializeWaiting(World.Services.Get<FactionRegionsService>());
+        }
+
+        void AfterSpecsInitialized() {
+            World.Services.TryGet<CullingSystem>()?.RequestChunkUpdate().Forget();
         }
 
         // === Helpers

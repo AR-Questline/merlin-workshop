@@ -38,7 +38,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         public SpikeTrapPersistentAoE(SpikeTrapWithPersistentAoEAttachment spikeTrapWithPersistentAoEAttachment, float? tick, IDuration duration, StatusTemplate statusTemplate, float buildupStrength,
             SkillVariablesOverride overrides, SphereDamageParameters? damageParameters, bool onlyOnGrounded, bool isRemovingOther, bool isRemovable, 
             bool canApplyToSelf, bool discardParentOnEnd, bool discardOnDamageDealerDeath)
-            : base(tick, duration, statusTemplate, buildupStrength, overrides, damageParameters, onlyOnGrounded, isRemovingOther, isRemovable, 
+            : base(tick, duration, statusTemplate, buildupStrength, false, overrides, damageParameters, onlyOnGrounded, isRemovingOther, isRemovable, 
                 canApplyToSelf, discardParentOnEnd, discardOnDamageDealerDeath) {
             _vfx = spikeTrapWithPersistentAoEAttachment.Vfx;
             _vfxSpawnPoint = spikeTrapWithPersistentAoEAttachment.VfxSpawnPoint;

@@ -22,6 +22,8 @@ namespace Awaken.Utility.Collections {
         public int Capacity => _keys.Capacity;
         public int Count => _keys.Count;
 
+        public UnsafePinnableList<TValue> Values => _values;
+
         public TValue this[TKey key] {
             get => GetValue(key);
             set => SetValue(key, value);

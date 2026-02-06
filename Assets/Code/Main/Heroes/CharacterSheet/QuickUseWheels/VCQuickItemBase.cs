@@ -12,11 +12,10 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
         
         protected Item _item;
         protected virtual bool UseOnClose => true;
-        protected virtual string ItemName => LocTerms.UIItemsEquip.Translate();
         protected virtual bool ShowQuantity => false;
         protected static HeroItems HeroItems => Hero.Current.HeroItems;
         
-        public override OptionDescription Description => new(true, ItemName);
+        public override OptionDescription Description => new(_item != null, LocTerms.Use.Translate());
         
         protected abstract Item RetrieveItem();
         public abstract void UseItemAction();

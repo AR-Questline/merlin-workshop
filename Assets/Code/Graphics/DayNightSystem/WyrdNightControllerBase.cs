@@ -88,14 +88,20 @@ namespace Awaken.TG.Graphics.DayNightSystem {
             World.EventSystem.ListenTo(SceneLifetimeEvents.Get.ID, SceneLifetimeEvents.Events.OpenWorldStateChanged, this,
                 openWorld => {
                     if (openWorld) {
-                        ApplyEffect(CurrentValue);
                         this.enabled = true;
+                        if (isActiveAndEnabled) {
+                            ApplyEffect(CurrentValue);
+                        }
                     } else {
+                        if (isActiveAndEnabled) {
+                            ApplyEffect(DisabledValue);
+                        }
                         this.enabled = false;
-                        ApplyEffect(DisabledValue);
                     }
                 });
         }
+
+        protected virtual void OnEnable() { }
 
         protected abstract void ApplyEffect(float value);
 

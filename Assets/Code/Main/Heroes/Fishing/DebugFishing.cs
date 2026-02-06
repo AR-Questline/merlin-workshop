@@ -12,6 +12,11 @@ namespace Awaken.TG.Main.Heroes.Fishing {
         
         public Domain Domain => Domain.Gameplay;
         public bool IsEnabled => _enabled;
+        
+        public static class Events {
+            public static readonly Event<Hero, IEnumerable<IFishVolume>> OnDebugFishDataShow = new(nameof(OnDebugFishDataShow));
+            public static readonly Event<Hero, Hero> OnDebugFishDataHide = new(nameof(OnDebugFishDataHide));
+        }
 
         public DebugFishing Init() {
             _listeners.Add(World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.OnFullSceneLoaded, OnSceneChanged));
@@ -44,13 +49,13 @@ namespace Awaken.TG.Main.Heroes.Fishing {
 
         void OnFishVolumesCulminated(IEnumerable<IFishVolume> fishVolumes) {
             if (_enabled) {
-                Hero.Current.Trigger(VCHeroDamageDealtStatusResistance.Events.OnDebugFishDataShow, fishVolumes);
+                Hero.Current.Trigger(Events.OnDebugFishDataShow, fishVolumes);
             }
         }
         
         void OnFishingBobberDestroyed() {
             if (_enabled) {
-                Hero.Current.Trigger(VCHeroDamageDealtStatusResistance.Events.OnDebugFishDataHide, Hero.Current);
+                Hero.Current.Trigger(Events.OnDebugFishDataHide, Hero.Current);
             }
         }
 

@@ -15,6 +15,7 @@ using Vendor.xNode.Scripts.Attributes;
 namespace Awaken.TG.Editor.Main.Stories.Drawers {
     public class ElementEditor {
         public NodeElement target;
+        // public PropertyTree PropertyTree { get; private set; }
         protected T Target<T>() where T : NodeElement => (T) target;
         protected T ParentNode<T>() where T : StoryNode => (T) target.genericParent;
 
@@ -23,20 +24,54 @@ namespace Awaken.TG.Editor.Main.Stories.Drawers {
         public void StartElementGUI(NodeElement element) {
             target = element;
             _serializedObject = new SerializedObject(element);
+            SetupTree();
             AssignUniqueFlagForOncePer();
             OnStartGUI();
         }
 
-        public void DrawElementGUI() {
+        public void DrawElementGUI(bool isEditMode) {
             _serializedObject.Update();
             DrawDebugInfo();
-            OnElementGUI();
+            OnElementGUI(isEditMode);
             _serializedObject.ApplyModifiedProperties();
+        }
+        
+        void SetupTree() {
+            // if (PropertyTree != null) {
+            //     Dispose();
+            // }
+            // PropertyTree = PropertyTree.Create(_serializedObject);
+            // PropertyTree.UpdateTree();
+            // AssemblyReloadEvents.beforeAssemblyReload += PropertyTree.Dispose;
+            // Selection.selectionChanged += RefreshSetup;
+            // SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            // SceneManager.sceneLoaded += OnActiveSceneChanged;
+        }
+
+        void RefreshSetup()
+        {
+            // PropertyTree.RootProperty.RefreshSetup();
+        }
+
+        void OnActiveSceneChanged(Scene arg0, LoadSceneMode arg1) {
+            EditorApplication.delayCall += RefreshSetup;
+        }
+
+        void OnActiveSceneChanged(Scene a, Scene b) {
+            EditorApplication.delayCall += RefreshSetup;
+        }
+        
+        public void Dispose() {
+            // AssemblyReloadEvents.beforeAssemblyReload -= PropertyTree.Dispose;
+            // Selection.selectionChanged -= RefreshSetup;
+            // SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            // SceneManager.sceneLoaded -= OnActiveSceneChanged;
+            // PropertyTree.Dispose();
         }
 
         protected virtual void OnStartGUI() {}
 
-        protected virtual void OnElementGUI() {
+        protected virtual void OnElementGUI(bool isEditMode) {
             DrawProperties();
         }
 

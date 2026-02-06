@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_increasestatatthreshold_percent_above_double_increase
       ID: Template/description_locString_2543871262668956605_7a8094457a057134c91138a6ac709c5e
-  EDITOR_bakedDescription: 'Increases Max Stamina by 50 when your Health is below
-    25%.
-
-    Increases Attack Speed by 10%.'
+  EDITOR_bakedDescription: "Increases Physical Damage by 25\_% when your Health is
+    above 90\_%.\nIncreases Max Health by 35."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -105,7 +103,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_7a8094457a057134c91138a6ac709c5e
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -130,7 +128,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_7a8094457a057134c91138a6ac709c5e
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -260,8 +262,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -291,7 +296,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 0.25
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValueCalculated
       value: 0
     enums:
@@ -326,7 +331,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 35
     - name: GainValue
-      value: 1
+      value: 3
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

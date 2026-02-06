@@ -56,7 +56,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MeleeBehaviours {
             
             _wander.UpdateDestination(TargetPlace());
             
-            if (ParentModel.DistanceToTarget < VHeroCombatSlots.CombatSlotOffset * 2f) {
+            if (ParentModel.DistanceToTarget < VHeroCombatSlots.CombatSlotOffset * 2f && ParentModel.NpcElement.IsTargetingHero()) {
                 CombatDirector.BookAttackAction(ParentModel);
             }
 

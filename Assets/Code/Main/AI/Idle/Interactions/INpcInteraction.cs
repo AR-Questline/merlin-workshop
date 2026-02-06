@@ -49,6 +49,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         NPCActivated,
         NPCPresenceDisabled,
         NPCDeactivated,
+        NPCDeactivatedAndActivated,
         NPCReactivatedFromGameLoad,
         NPCStartedCombat,
         NPCEndedCombat,

@@ -2,6 +2,7 @@ using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -36,7 +37,7 @@ namespace Awaken.TG.Main.Crafting.HandCrafting.RecipeView {
         }
 
         protected override void OnFullyInitialized() {
-            _usePrompt = RecipeGridUI.Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Confirm.Translate()), this, false);
+            _usePrompt = RecipeGridUI.Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad), this, false);
         }
 
         protected override void AfterViewSpawned(VRecipeTabContents view) {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Grounds;
+using Awaken.TG.Utility;
 using Awaken.Utility.Maths;
 using Unity.Mathematics;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Awaken.TG.Main.AI.Grid.Iterators {
             _grid = grid;
             _chunks = chunks;
             _center = center;
-            _forward = forward;
+            _forward = forward.normalized;
             _radius = radius;
             _cos = cos;
             _sin = sin;
@@ -45,7 +46,7 @@ namespace Awaken.TG.Main.AI.Grid.Iterators {
             readonly int _xMax;
             readonly int _yMin;
             readonly int _yMax;
-
+            
             int _xCurrent;
             int _yCurrent;
 
@@ -101,11 +102,19 @@ namespace Awaken.TG.Main.AI.Grid.Iterators {
                         continue;
                     }
 
-                    if (_currentEntries[_currentEntryIndex] is NpcElement { HasCompletelyInitialized: false }) {
+                    var npcElement = _currentEntries[_currentEntryIndex] as NpcElement;
+                    if (npcElement is { HasCompletelyInitialized: false }) {
                         continue;
                     }
+
+                    Vector3 direction;
+                    if (npcElement != null) {
+                        var closestPointOnSegment = M.ClosestPointOnUpLineSegmentToRay(_center, _forward, _currentEntries[_currentEntryIndex].Coords, npcElement.Height);
+                        direction = closestPointOnSegment - _center;
+                    } else {
+                        direction = _currentEntries[_currentEntryIndex].Coords - _center;
+                    }
                     
-                    var direction = _currentEntries[_currentEntryIndex].Coords - _center;
                     if (direction.sqrMagnitude >= _radiusSq) {
                         continue;
                     }

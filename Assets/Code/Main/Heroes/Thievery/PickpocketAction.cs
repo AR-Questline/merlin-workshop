@@ -27,7 +27,12 @@ namespace Awaken.TG.Main.Heroes.Thievery {
 
         IInventory Inventory => _inventory ??= ParentModel?.Inventory;
 
-        public override bool IsIllegal => Crime.Pickpocket(ParentModel.Element<NpcElement>()).IsCrime();
+        public override bool IsIllegal {
+            get {
+                using var crime = Crime.Pickpocket(ParentModel.Element<NpcElement>());
+                return crime.IsCrime();
+            }
+        }
 
         protected override void OnFullyInitialized() {
             _illegalActionTracker = Hero.Current.Element<IllegalActionTracker>();
@@ -42,7 +47,7 @@ namespace Awaken.TG.Main.Heroes.Thievery {
             return !_illegalActionTracker.IsCrouching
                    || !HasAnyItemsToShow()
                    || _illegalActionTracker.SeenByNPC(ParentModel.Element<NpcElement>())
-                   || ParentModel.GetCurrentCrimeOwnersFor(CrimeArchetype.Pickpocketing(CrimeItemValue.High, CrimeNpcValue.High)).IsEmpty
+                   || !ParentModel.HasCurrentCrimeOwnersFor(CrimeArchetype.Pickpocketing(CrimeItemValue.High, CrimeNpcValue.High))
                    || ParentModel.Element<NpcElement>() is not { Template: { isPickpocketable: true } } npcElement
                    || npcElement.IsInCombat()
                    || (lastPickpocketFailTime + BlockActionDuration) > Time.time

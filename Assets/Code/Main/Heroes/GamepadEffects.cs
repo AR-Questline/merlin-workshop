@@ -23,10 +23,22 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+#if UNITY_PS5
+using Rewired.Platforms.PS5;
+#endif
+
+// #if PLATFORM_STANDALONE_WIN
+// using Rewired.Platforms.Microsoft.WindowsGamingInput;
+// #endif
+
+#if UNITY_GAMECORE_SCARLETT || UNITY_GAMECORE_XBOXSERIES || UNITY_GAMECORE_XBOXONE
+using Rewired.Platforms.GameCore;
+#endif
+
 namespace Awaken.TG.Main.Heroes {
     public partial class GamepadEffects : Element<Hero> {
-        public override ushort TypeForSerialization => SavedModels.GamepadEffects;
-
+        public sealed override bool IsNotSaved => true;
+        
         const int RightDualSenseTriggerIndex = (int)ControllerKey.DualSense.R2;
         const int LeftDualSenseTriggerIndex = (int)ControllerKey.DualSense.L2;
         const int RightXboxOneTriggerIndex = (int)ControllerKey.Xbox.RightTrigger;
@@ -61,45 +73,44 @@ namespace Awaken.TG.Main.Heroes {
         }
 
         void XboxTriggerVibrations(TriggersVibrationData triggersVibrationData) {
-            // //On pc with Windows Gaming Input enabled both Xbox One and Xbox Series controllers are recognized as Xbox One Gamepad, with XboxOneGuid
-            // //So even if player has both Xbox One and Xbox Series controllers connected during session, only one GameControls is created for both of them
-            // if (_xboxAttackKeyBindingOption == null || _xboxBlockKeyBindingOption == null) {
-            //     var settings = World.Only<SettingsMaster>();
-            //     var controls = GetCorrectGameControls(c => c.controllerIdentifier == ControllerKey.XboxOneGuid || c.controllerIdentifier == ControllerKey.XboxSeriesGuid);
-            //     
-            //     if (controls == null) {
-            //         settings.InitOptionsForConnectedController();
-            //         controls = GetCorrectGameControls(c => c.controllerIdentifier == ControllerKey.XboxOneGuid || c.controllerIdentifier == ControllerKey.XboxSeriesGuid);
-            //     }
-            //     
-            //     _xboxAttackKeyBindingOption = controls.KeyBindings.Single(setting => setting.ID == AttackActionID);
-            //     _xboxBlockKeyBindingOption = controls.KeyBindings.Single(setting => setting.ID == BlockActionID);
-            // }
-            //
-            // if (!_xboxAttackKeyBindingOption.CurrentBinding.TryGetForJoystick(out int attackIdentifierId) ||
-            //     !_xboxBlockKeyBindingOption.CurrentBinding.TryGetForJoystick(out int blockIdentifierId)) {
-            //     return;
-            // }
-            //
-            // bool isRightHandAttackTrigger = attackIdentifierId is RightXboxOneTriggerIndex or LeftXboxOneTriggerIndex;
-            // bool isLeftHandAttackTrigger = blockIdentifierId is RightXboxOneTriggerIndex or LeftXboxOneTriggerIndex;
-            // bool isRightHandAffected = isRightHandAttackTrigger && triggersVibrationData.handsAffected is CastingHand.MainHand or CastingHand.BothHands;
-            // bool isLeftHandAffected = isLeftHandAttackTrigger && triggersVibrationData.handsAffected is CastingHand.OffHand or CastingHand.BothHands;
-
-            // var currentControllerExtension = ReInput.controllers.GetLastActiveController().extension;
-            //
-            // //xbox controllers are using different extensions depending on platform, that's why they need to be handled separately for each platform
-            // if (currentControllerExtension is XboxOneGamepadExtension xboxExtension) {
-            //     foreach (var data in triggersVibrationData.effects) {
-            //         if (isRightHandAffected) {
-            //             xboxExtension.SetVibration(GetXboxMotorId(attackIdentifierId), data.strength, data.duration);
-            //         }
-            //
-            //         if (isLeftHandAffected) {
-            //             xboxExtension.SetVibration(GetXboxMotorId(blockIdentifierId), data.strength, data.duration);
-            //         }
-            //     }
-            // } 
+            //On pc with Windows Gaming Input enabled both Xbox One and Xbox Series controllers are recognized as Xbox One Gamepad, with XboxOneGuid
+            //So even if player has both Xbox One and Xbox Series controllers connected during session, only one GameControls is created for both of them
+            
+//             if (_xboxAttackKeyBindingOption == null || _xboxBlockKeyBindingOption == null) {
+//                 var settings = World.Only<SettingsMaster>();
+//                 var controls = GetCorrectGameControls(c => c.controllerIdentifier == ControllerKey.XboxOneGuid || c.controllerIdentifier == ControllerKey.XboxSeriesGuid);
+//                 
+//                 if (controls == null) {
+//                     settings.InitOptionsForConnectedController();
+//                     controls = GetCorrectGameControls(c => c.controllerIdentifier == ControllerKey.XboxOneGuid || c.controllerIdentifier == ControllerKey.XboxSeriesGuid);
+//                 }
+//                 
+//                 _xboxAttackKeyBindingOption = controls.KeyBindings.Single(setting => setting.ID == AttackActionID);
+//                 _xboxBlockKeyBindingOption = controls.KeyBindings.Single(setting => setting.ID == BlockActionID);
+//             }
+//
+//             if (!_xboxAttackKeyBindingOption.CurrentBinding.TryGetForJoystick(out int attackIdentifierId) ||
+//                 !_xboxBlockKeyBindingOption.CurrentBinding.TryGetForJoystick(out int blockIdentifierId)) {
+//                 return;
+//             }
+//
+//             bool isRightHandAttackTrigger = attackIdentifierId is RightXboxOneTriggerIndex or LeftXboxOneTriggerIndex;
+//             bool isLeftHandAttackTrigger = blockIdentifierId is RightXboxOneTriggerIndex or LeftXboxOneTriggerIndex;
+//             bool isRightHandAffected = isRightHandAttackTrigger && triggersVibrationData.handsAffected is CastingHand.MainHand or CastingHand.BothHands;
+//             bool isLeftHandAffected = isLeftHandAttackTrigger && triggersVibrationData.handsAffected is CastingHand.OffHand or CastingHand.BothHands;
+//
+//             var currentControllerExtension = ReInput.controllers.GetLastActiveController().extension;
+//             
+// #if UNITY_GAMECORE_SCARLETT || UNITY_GAMECORE_XBOXSERIES || UNITY_GAMECORE_XBOXONE
+//             GameCoreControllerExtension extension = ReInput.controllers.GetLastActiveController().GetExtension<GameCoreControllerExtension>();
+//             IGameCoreVibrationDevice vibrationDevice = extension?.GetComponent<IGameCoreVibrationDevice>();
+//             
+//             foreach (var data in triggersVibrationData.effects) {
+//                 var rightTriggerStrength = isRightHandAffected ? data.strength : 0;
+//                 var leftTriggerStrength = isRightHandAffected ? 0 : data.strength;
+//                 vibrationDevice?.SetVibration(GameCoreVibration.Create(0, 0, leftTriggerStrength, rightTriggerStrength), data.duration);
+//             }
+// #endif
             
 #if PLATFORM_STANDALONE_WIN
             // if (currentControllerExtension is WindowsGamingInputControllerExtension { controller: Joystick joystick }) {
@@ -279,7 +290,7 @@ namespace Awaken.TG.Main.Heroes {
 //                 extension.SetLightColor(color);
 //             }
 //         }
-     }
+    }
     
     [Serializable]
     public struct VibrationData {

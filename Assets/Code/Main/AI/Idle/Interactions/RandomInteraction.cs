@@ -96,6 +96,9 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         
         public override void Unbook(NpcElement npc) {
             base.Unbook(npc);
+            if (swapInteractionWhileInteracting) {
+                World.Services.Get<UnityUpdateProvider>().UnregisterGeneric(this);
+            }
             DelayRemoveOldInteraction().Forget();
             _availableInteractions = null;
             _currentInteraction = null;

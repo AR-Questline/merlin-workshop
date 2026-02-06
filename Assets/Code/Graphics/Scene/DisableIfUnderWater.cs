@@ -11,6 +11,9 @@ namespace Awaken.TG.Graphics.Scene {
         }
         
         void OnWaterCollisionStateChanged(bool inWater) {
+            if (this == null || gameObject == null) {
+                return;
+            } 
             gameObject.SetActive(!inWater);
         }
     }

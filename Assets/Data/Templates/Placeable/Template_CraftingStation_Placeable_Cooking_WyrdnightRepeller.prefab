@@ -188,6 +188,12 @@ MonoBehaviour:
   tags: []
   startInteractabilityReference:
     _enumRef: 
+  conditionalPrefabReferences:
+  - requiredFlag: 
+    onlyOnSpecificWorlds: 8
+    location:
+      address: 8ccfdc813a413fb429dbe068d0a09fb9
+      subObjectName: 
   prefabReference:
     address: 7a4775e071c81324b94f433e7d8cba4e
     subObjectName: 
@@ -409,14 +415,59 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null:RecipeAlchemy
     tempRef:
       _guid: a4fc5c231fe4d9642b31158035e8aa1d
-  foredwellerLocation:
-    _guid: 111cd15fc292a4f4a83ab9b45aa44877
-  foredwellerDialogue:
-    story:
-      _guid: 0420a35a6641be741b17ecaa93688288
-    chapterName: 
   manualRestTime: 0
   isUpgraded: 1
+  talkConfigs:
+  - talkingLocation:
+      _guid: dc0f52d9559ba5849b885a037c28f3a5
+    spawnDistance: 1.3
+    dialogue:
+      story:
+        _guid: 22346b24592c30c448e91029ed01ae46
+      chapterName: 
+    dialogueTester:
+      story:
+        _guid: 22346b24592c30c448e91029ed01ae46
+      chapterName: AnyWhispersTester
+    hideAfterNoTalkOptions: 1
+    requiredFlags:
+    - Sagremors:Unlocked
+    requireDLC: 1
+    requiredDLC: 1
+    disablingFlag: Sarras:BlackAnnisTalkedTo
+  - talkingLocation:
+      _guid: de76731fa18be0945b15ef79dcf2be0d
+    spawnDistance: 4.6
+    dialogue:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: 
+    dialogueTester:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: AnyWhispersTester
+    hideAfterNoTalkOptions: 0
+    requiredFlags:
+    - ArthurSkin:ConquerorOfAvalon
+    requireDLC: 1
+    requiredDLC: 2
+    disablingFlag: 
+  - talkingLocation:
+      _guid: 111cd15fc292a4f4a83ab9b45aa44877
+    spawnDistance: 4.6
+    dialogue:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: 
+    dialogueTester:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: AnyWhispersTester
+    hideAfterNoTalkOptions: 0
+    requiredFlags: []
+    requireDLC: 0
+    requiredDLC: 0
+    disablingFlag: 
 --- !u!1 &6450163457843182349
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,14 +566,59 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null:RecipeAlchemy
     tempRef:
       _guid: a4fc5c231fe4d9642b31158035e8aa1d
-  foredwellerLocation:
-    _guid: 111cd15fc292a4f4a83ab9b45aa44877
-  foredwellerDialogue:
-    story:
-      _guid: 0420a35a6641be741b17ecaa93688288
-    chapterName: 
   manualRestTime: 0
   isUpgraded: 0
+  talkConfigs:
+  - talkingLocation:
+      _guid: dc0f52d9559ba5849b885a037c28f3a5
+    spawnDistance: 1.3
+    dialogue:
+      story:
+        _guid: 22346b24592c30c448e91029ed01ae46
+      chapterName: 
+    dialogueTester:
+      story:
+        _guid: 22346b24592c30c448e91029ed01ae46
+      chapterName: AnyWhispersTester
+    hideAfterNoTalkOptions: 1
+    requiredFlags:
+    - Sagremors:Unlocked
+    requireDLC: 1
+    requiredDLC: 1
+    disablingFlag: Sarras:BlackAnnisTalkedTo
+  - talkingLocation:
+      _guid: de76731fa18be0945b15ef79dcf2be0d
+    spawnDistance: 4.6
+    dialogue:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: 
+    dialogueTester:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: AnyWhispersTester
+    hideAfterNoTalkOptions: 0
+    requiredFlags:
+    - ArthurSkin:ConquerorOfAvalon
+    requireDLC: 1
+    requiredDLC: 2
+    disablingFlag: 
+  - talkingLocation:
+      _guid: 111cd15fc292a4f4a83ab9b45aa44877
+    spawnDistance: 4.6
+    dialogue:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: 
+    dialogueTester:
+      story:
+        _guid: 0420a35a6641be741b17ecaa93688288
+      chapterName: AnyWhispersTester
+    hideAfterNoTalkOptions: 0
+    requiredFlags: []
+    requireDLC: 0
+    requiredDLC: 0
+    disablingFlag: 
 --- !u!1 &9139421009722810561
 GameObject:
   m_ObjectHideFlags: 0

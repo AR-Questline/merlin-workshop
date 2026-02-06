@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Awaken.TG.Assets;
 using Awaken.TG.Debugging.Cheats;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
@@ -13,6 +14,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         readonly SceneReference[] _sceneReferences;
 
         public IReadOnlyList<SceneReference> SceneReferences => _sceneReferences;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public TitleScreenSceneSelection(SceneReference[] sceneReferences) {
             _sceneReferences = sceneReferences;
@@ -27,7 +29,6 @@ namespace Awaken.TG.Main.UI.TitleScreen {
                 if (ShowScenesDialog()) {
                     return UIResult.Accept;
                 }
-                return UIResult.Ignore;
             }
             return UIResult.Ignore;
         }

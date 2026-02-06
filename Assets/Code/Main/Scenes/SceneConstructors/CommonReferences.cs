@@ -65,7 +65,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         
         public void RegisterServices() {
             World.Services.Register(inputToTextMapping);
-            World.Services.Register(keyMapping).Init();
+            World.Services.Register(keyMapping);
             World.Services.Register(audioCore);
             World.Services.Register(notificationsAudioService);
             World.Services.Register(outsideFoVAttacksService);
@@ -91,12 +91,15 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         [SerializeField, FoldoutGroup("Heroes"), TemplateType(typeof(StatusTemplate))] TemplateReference finisherStatusTemplate;
         [SerializeField, FoldoutGroup("Heroes"), TemplateType(typeof(FactionTemplate))] TemplateReference invisibleHeroFaction;
         [SerializeField, FoldoutGroup("Heroes"), TemplateType(typeof(StatusTemplate))] TemplateReference wyrdNightStatusTemplate;
+        [SerializeField, FoldoutGroup("Heroes"), TemplateType(typeof(StatusTemplate))] TemplateReference newGamePlusStatusTemplate;
         [SerializeField, FoldoutGroup("Heroes")] public PresetSelectorConfig presetSelectorConfig;
         [SerializeField, FoldoutGroup("Heroes/WyrdArthur"), TemplateType(typeof(TalentTreeTemplate))] TemplateReference wyrdArthurTalentTreeTemplate;
         [SerializeField, FoldoutGroup("Heroes/WyrdArthur")] WyrdSoulFragment[] soulFragments = Array.Empty<WyrdSoulFragment>();
+        [SerializeField, FoldoutGroup("Heroes/Sarras"), TemplateType(typeof(TalentTreeTemplate))] TemplateReference sarrasTalentTreeTemplate;
         
         [SerializeField, FoldoutGroup("HeroProgression")] HeroExpPerLevelSchema heroExpPerLevelSchema;
         [SerializeField, FoldoutGroup("HeroProgression"), TemplateType(typeof(JournalTemplate))] TemplateReference journal;
+        [SerializeField, FoldoutGroup("HeroProgression/NG+"), TemplateType(typeof(StatusTemplate))] TemplateReference[] statusesToRemoveOnNgPlus = Array.Empty<TemplateReference>();
         
         [FormerlySerializedAs("inputActionsMapping")] [SerializeField, FoldoutGroup("UI")] InputToTextMapping inputToTextMapping;
         [SerializeField, FoldoutGroup("UI")] UIKeyMapping keyMapping;
@@ -112,9 +115,15 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         [SerializeField, FoldoutGroup("UI"), TemplateType(typeof(LocationTemplate))] TemplateReference spyglassMarkerReference;
         [SerializeField, FoldoutGroup("UI"), UIAssetReference] ShareableSpriteReference fastTravelIcon;
 
+        [SerializeField, FoldoutGroup("UI/Fonts")] FontAsset sansFontAsset;
+        [SerializeField, FoldoutGroup("UI/Fonts")] FontAsset serifFontAsset;
+        
         [SerializeField, FoldoutGroup("UI"), ARAssetReferenceSettings(new[] {typeof(SpriteAsset)})] ShareableARAssetReference keyIconsSpriteAssetPCReference;
         [SerializeField, FoldoutGroup("UI"), ARAssetReferenceSettings(new[] {typeof(SpriteAsset)})] ShareableARAssetReference keyIconsSpriteAssetPSReference;
         [SerializeField, FoldoutGroup("UI"), ARAssetReferenceSettings(new[] {typeof(SpriteAsset)})] ShareableARAssetReference keyIconsSpriteAssetXboxReference;
+        
+        [SerializeField, FoldoutGroup("UI"), ARAssetReferenceSettings(new[] {typeof(Texture2D), typeof(Sprite)}, true, AddressableGroup.StatusEffects)] ShareableSpriteReference defaultStatusFromTalentIcon;
+
 
         [SerializeField, FoldoutGroup("Localization")]
         Locale[] nonAlphabetLanguages = Array.Empty<Locale>();
@@ -126,12 +135,28 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         [SerializeField, FoldoutGroup("Systems")] SceneConfigs sceneConfigs;
         [SerializeField, FoldoutGroup("Systems")] VariablesGroupAsset localizationVariables;
         [SerializeField, FoldoutGroup("Systems")] SceneReference campaignReference;
+        [SerializeField, FoldoutGroup("Systems")] SceneReference campaignReference2;
+        [SerializeField, FoldoutGroup("Systems")] SceneReference campaignReference3;
         [SerializeField, FoldoutGroup("Systems")] TutorialConfig tutorialConfig;
         [SerializeField, FoldoutGroup("Systems")] MapData mapData;
+        
+        [SerializeField, FoldoutGroup("Skins")] List<LocationTemplate> qrkoMountTemplates;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference qrkoNaturalPreview;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference qrkoPalePreview;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference qrkoMossPreview;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference qrkoMoonlightPreview;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference caradocKnightErrantPreview;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference caradocKnightOfTheRealmPreview;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference arthurTheOnceAndFutureKingPreview;
+        [SerializeField, FoldoutGroup("Skins"), UIAssetReference] ShareableSpriteReference arthurConquerorOfAvalonPreview;
 
-        [SerializeField, FoldoutGroup("DLC")] DlcId[] horseDlcIds = Array.Empty<DlcId>();
+        [SerializeField, FoldoutGroup("DLC")] DlcId horseDlcId;
         [SerializeField, FoldoutGroup("DLC")] ItemSpawningData horseDlcItem;
         [SerializeField, FoldoutGroup("DLC")] DlcId supportersPackDlcId;
+        [SerializeField, FoldoutGroup("DLC")] DlcId contentPackDlcId;
+        [SerializeField, FoldoutGroup("DLC")] DlcId sarrasDlcId;
+        [SerializeField, FoldoutGroup("DLC")] SceneReference sarrasCampaignSceneReference;
+        [SerializeField, FoldoutGroup("DLC")] SceneReference sarrasFirstSceneReference;
 
         [SerializeField, FoldoutGroup("Crafting"), TemplateType(typeof(ItemTemplate))] TemplateReference handCraftingGarbageItemTemplateRef;
         [SerializeField, FoldoutGroup("Crafting"), TemplateType(typeof(ItemTemplate))] TemplateReference alchemyGarbageItemTemplateRef;
@@ -240,8 +265,15 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         [FoldoutGroup("Visuals"), SerializeField] Material noRenderMaterial;
         [FoldoutGroup("Visuals"), SerializeField, ARAssetReferenceSettings(new []{typeof(GameObject)}, group: AddressableGroup.VFX)]
         public ShareableARAssetReference deadBodyHighlightVfx;
-        [FoldoutGroup("Visuals")]
-        public AnimationPostProcessingPreset dummyNoHeadPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoHeadPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoLArmPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoLForeArmPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoRArmPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoRForeArmPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoLLegPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoLForeLegPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoRLegPP;
+        [FoldoutGroup("Visuals")] public AnimationPostProcessingPreset dummyNoRForeLegPP;
         
         [CustomValueDrawer("@Awaken.TG.EditorOnly.OdinHelpers.Space(20)"), ShowInInspector] string _space_ODIN3;
         
@@ -249,8 +281,12 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         
         [field: FoldoutGroup("Locations"), SerializeField, TemplateType(typeof(LocationTemplate))] 
         public TemplateReference WyrdSphereVoidTemplate { get; private set; }
+        [field: FoldoutGroup("Locations"), SerializeField, TemplateType(typeof(LocationTemplate))] 
+        public TemplateReference PetBaseVariant { get; private set; }
         [FoldoutGroup("Locations"), SerializeField]
         PresenceTrackerService presenceTrackerService;
+        [field: FoldoutGroup("Locations"), SerializeField, TemplateType(typeof(LocationTemplate))] 
+        public TemplateReference SarrasMessenger { get; private set; }
         
         [field: FoldoutGroup("Wyrdness"), SerializeField, TemplateType(typeof(NpcFightingStyle))] public TemplateReference HumanoidWyrdFightStyle { [UnityEngine.Scripting.Preserve] get; private set; }
         [field: FoldoutGroup("Wyrdness"), SerializeField, TemplateType(typeof(NpcFightingStyle))] public TemplateReference CustomWyrdFightStyle1H { [UnityEngine.Scripting.Preserve] get; private set; }
@@ -307,12 +343,15 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         [UnityEngine.Scripting.Preserve] public StatusTemplate FinisherStatusTemplate => finisherStatusTemplate?.Get<StatusTemplate>(this);
         public FactionTemplate InvisibleHeroFaction => invisibleHeroFaction?.Get<FactionTemplate>(this);
         public StatusTemplate WyrdNightStatus => wyrdNightStatusTemplate?.Get<StatusTemplate>(this);
+        public StatusTemplate NewGamePlusStatus => newGamePlusStatusTemplate?.Get<StatusTemplate>(this);
         public IEnumerable<WyrdSoulFragment> WyrdSoulFragments => soulFragments; 
+        public TalentTreeTemplate SarrasTalentTableTemplate => sarrasTalentTreeTemplate?.Get<TalentTreeTemplate>(this);
         public WyrdSoulFragment GetWyrdSoulFragment(WyrdSoulFragmentType type) => soulFragments.FirstOrDefault(f => f.fragmentType == type);
         
         // --- HeroProgression
         public HeroExpPerLevelSchema HeroExpPerLevelSchema => heroExpPerLevelSchema;
         public JournalTemplate Journal => journal.Get<JournalTemplate>(this);
+        public TemplateReference[] StatusesToRemoveOnNgPlus => statusesToRemoveOnNgPlus;
         
         // --- UI
         public QuestMarkerData QuestMainCompassMarkerData => questMainCompassMarkerData;
@@ -323,12 +362,16 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         public ShareableSpriteReference ExitDialogIcon => exitDialogIcon;
         public ShareableSpriteReference ShopDialogIcon => shopDialogIcon;
         public ShareableSpriteReference FastTravelIcon => fastTravelIcon;
+        public FontAsset SansFontAsset => sansFontAsset;
+        public FontAsset SerifFontAsset => serifFontAsset;
         public LocationTemplate CustomMarkerTemplate => customMarkerReference.Get<LocationTemplate>(this);
         [UnityEngine.Scripting.Preserve] public LocationTemplate EmptyLocationTemplate => emptyLocationTemplate.Get<LocationTemplate>(this);
         public LocationTemplate SpyglassMarkerTemplate => spyglassMarkerReference.Get<LocationTemplate>(this);
         public ShareableARAssetReference KeyIconsSpriteAssetPCReference => keyIconsSpriteAssetPCReference;
         public ShareableARAssetReference KeyIconsSpriteAssetPSReference => keyIconsSpriteAssetPSReference;
         public ShareableARAssetReference KeyIconsSpriteAssetXboxReference => keyIconsSpriteAssetXboxReference;
+        
+        public ShareableSpriteReference DefaultStatusFromTalentIcon => defaultStatusFromTalentIcon;
         
         // --- Localization
         public Locale[] NonAlphabetLanguages => nonAlphabetLanguages;
@@ -337,11 +380,26 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         public SceneConfigs SceneConfigs => sceneConfigs;
         public StatDefinedValuesConfig StatValuesConfig => statValuesConfig;
         [UnityEngine.Scripting.Preserve] public SceneReference CampaignReference => campaignReference;
+        [UnityEngine.Scripting.Preserve] public SceneReference CampaignReference2 => campaignReference2;
+        [UnityEngine.Scripting.Preserve] public SceneReference CampaignReference3 => campaignReference3;
+        public SceneReference SarrasCampaignSceneReference => sarrasCampaignSceneReference;
+        public SceneReference SarrasFirstSceneReference => sarrasFirstSceneReference;
         public TutorialConfig TutorialConfig => tutorialConfig;
         public ref readonly MapData MapData => ref mapData;
-        public DlcId[] HorseDlcIds => horseDlcIds;
+        public List<LocationTemplate> QrkoMountTemplates => qrkoMountTemplates;
+        public ShareableSpriteReference QrkoNaturalPreview => qrkoNaturalPreview;
+        public ShareableSpriteReference QrkoPalePreview => qrkoPalePreview;
+        public ShareableSpriteReference QrkoMossPreview => qrkoMossPreview;
+        public ShareableSpriteReference QrkoMoonlightPreview => qrkoMoonlightPreview;
+        public ShareableSpriteReference CaradocKnightErrantPreview => caradocKnightErrantPreview;
+        public ShareableSpriteReference CaradocKnightOfTheRealmPreview => caradocKnightOfTheRealmPreview;
+        public ShareableSpriteReference ArthurTheOnceAndFutureKingPreview => arthurTheOnceAndFutureKingPreview;
+        public ShareableSpriteReference ArthurConquerorOfAvalonPreview => arthurConquerorOfAvalonPreview;
+        public DlcId HorseDlcId => horseDlcId;
         public ItemSpawningData HorseDlcItem => horseDlcItem;
         public DlcId SupportersPackDlcId => supportersPackDlcId;
+        public DlcId ContentPackDlcId => contentPackDlcId;
+        public DlcId SarrasDlcId => sarrasDlcId;
         public AudioConfig AudioConfig => audioConfig;
         public VariablesGroupAsset GlobalLocalizationVariables => localizationVariables;
         
@@ -431,6 +489,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
         // --- Hero CutoffHand
         public ItemTemplate HandCutOffItemTemplate => handCutOffItemTemplate.Get<ItemTemplate>();
         
+
         // --- Hero Animator AvatarMasks
         public AvatarMask GetMask(HeroLayerType layerType) {
             if (layerType is HeroLayerType.MainHand or HeroLayerType.DualMainHand) {
@@ -448,7 +507,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
 
             if (layerType is HeroLayerType.CameraShakes or HeroLayerType.HeadMainHand
                 or HeroLayerType.HeadOffHand or HeroLayerType.HeadBothHands or HeroLayerType.HeadTools 
-                or HeroLayerType.HeadFishing or HeroLayerType.HeadSpyglass or HeroLayerType.HeadOverrides) {
+                or HeroLayerType.HeadFishing or HeroLayerType.HeadSpyglass or HeroLayerType.HeadOverrides or HeroLayerType.Idle) {
                 return heroHeadOnlyMask;
             }
 
@@ -487,7 +546,7 @@ namespace Awaken.TG.Main.Scenes.SceneConstructors {
                 return tppHeroLegsMask;
             }
             
-            if (layerType is HeroLayerType.ActiveMainHand or HeroLayerType.ActiveOffHand) {
+            if (layerType is HeroLayerType.ActiveMainHand or HeroLayerType.ActiveOffHand or HeroLayerType.Idle) {
                 return null;
             }
 

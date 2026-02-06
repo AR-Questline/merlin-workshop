@@ -81,10 +81,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_5d1744e2e84299c438eea584da90a4aa
-  EDITOR_bakedDescription: 'Charged by killing.
+  EDITOR_bakedDescription: 'Charged by killing 0/10.
 
-    Summon an Undead Kamelot Defender
-    for 30s.'
+    Summon an Undead Kamelot
+    Defender for 90s.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a705c5a777ee0764c9eef1ef16099ac1
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -326,8 +330,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

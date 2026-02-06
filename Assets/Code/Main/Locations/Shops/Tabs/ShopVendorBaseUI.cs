@@ -26,12 +26,12 @@ namespace Awaken.TG.Main.Locations.Shops.Tabs {
         InputItemQuantityUI _inputItemQuantityUI;
 
         ShopUI ShopUI => ParentModel;
-        ItemsUI ItemsUI { get; set; }
         Item HoveredItem => ItemsUI.HoveredItem;
         Transform IItemsUIConfig.ItemsHost => View.ItemsHost;
         string CantAffordInfo => LocTerms.UIShopCantAfford.Translate();
         VShopTooltipSystemUI Tooltip => Element<ItemTooltipUI>().View<VShopTooltipSystemUI>();
         
+        protected ItemsUI ItemsUI { get; set; }
         protected static Hero Hero => Hero.Current;
         protected abstract string TradeActionName { get; }
         protected VShopVendorBaseUI View => View<VShopVendorBaseUI>();
@@ -61,10 +61,11 @@ namespace Awaken.TG.Main.Locations.Shops.Tabs {
             ItemsUI.ListenTo(ItemsUI.Events.ItemsCollectionChanged, ShowEmptyInfo, this);
             
             _vendorPrompt = Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, TradeActionName), this, false);
+            
             World.Only<ItemNotificationBuffer>().SuspendPushingNotifications = true;
             World.Only<SpecialItemNotificationBuffer>().SuspendPushingNotifications = true;
         }
-        
+
         void ShowEmptyInfo() {
             SetupEmptyInfoLabels();
             
@@ -118,7 +119,7 @@ namespace Awaken.TG.Main.Locations.Shops.Tabs {
             }
         }
 
-        bool TryTrade(Item tradeItem, int itemQuantity = 1) {
+        protected bool TryTrade(Item tradeItem, int itemQuantity = 1, bool autoListRefresh = true) {
             if (tradeItem.IsStolen && Buyer is Shop { Template: { IsFence: false } }) {
                 PlayCantAffordSfx();
                 return false;
@@ -130,7 +131,10 @@ namespace Awaken.TG.Main.Locations.Shops.Tabs {
             }
             
             OnSuccessfulTrade();
-            if ((tradeItem?.HasBeenDiscarded ?? true) || tradeItem.Inventory != Seller.Inventory) {
+            
+            if (autoListRefresh == false) return true;
+            
+            if (tradeItem.HasBeenDiscarded || tradeItem.Inventory != Seller.Inventory) {
                 // Seller no longer owns this item
                 ItemsUI.GetItemsListElementWithItem(tradeItem)?.Discard();
                 ItemsUI.Trigger(ItemsUI.Events.ItemsCollectionChanged, Items);

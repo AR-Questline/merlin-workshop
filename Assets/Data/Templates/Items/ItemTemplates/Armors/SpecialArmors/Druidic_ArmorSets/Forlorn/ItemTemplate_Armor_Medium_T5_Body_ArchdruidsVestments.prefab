@@ -79,8 +79,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_triple_increase_decrease_increasestatatthreshold
       ID: Template/description_locString_2543871262668956605_c5d0d5070769d1343b877bc9e62ecfe0
-  EDITOR_bakedDescription: Increases Magic Critical Chance by 100% when below 13%
-    Max Health.
+  EDITOR_bakedDescription: "Increases Max Mana by 100.\nDecreases Mana Regeneration
+    by 5.\nIncreases Spell Power by 75\_% when your Mana is below 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -246,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -275,7 +282,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 100
     - name: GainValue
-      value: 10
+      value: 2
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -311,7 +320,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 0.75
     - name: ValueGain
-      value: 0.05
+      value: 0.01
     - name: ValueCalculated
       value: 0
     enums:

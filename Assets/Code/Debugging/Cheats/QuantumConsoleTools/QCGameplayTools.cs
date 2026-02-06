@@ -1,3 +1,6 @@
+using Awaken.TG.Main.AI.Grid;
+using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Heroes.Stats.Tweaks;
@@ -6,8 +9,12 @@ using Awaken.TG.Main.Locations.Actions.Lockpicking;
 using Awaken.TG.Main.Maps.Compasses;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Timing;
+using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.TG.MVC;
+using Awaken.Utility;
 using QFSW.QC;
+using Unity.Mathematics;
+using UnityEngine;
 
 namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
     public static class QCGameplayTools {
@@ -213,5 +220,26 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
         }
 
         #endregion
+        
+        [Command("enable.ragdoll-in-enemies-in-front", "Enables ragdoll in enemies in front")][UnityEngine.Scripting.Preserve]
+        static void EnableRagdollInEnemyInFront(float ragdollStrength = 500, float minRagdollDuration = 2f, float angle = 90) {
+            math.sincos(angle * Mathf.Deg2Rad, out var sin, out var cos);
+            
+            var firePoint = Hero.Current.VHeroController.FirePoint;
+            var origin = firePoint.position;
+            var direction = firePoint.forward;
+            var ray = new Ray(origin, direction);
+            
+            if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, RenderLayers.Mask.AIs)) {
+                if (VGUtils.TryGetModel(hit.collider.gameObject, out NpcElement npc)) {
+                    npc.EnemyBaseClass.EnableRagdoll(Hero.Current.Forward(), ragdollStrength, minRagdollDuration, true);
+                }
+            }
+            
+            var npcs = World.Services.Get<NpcGrid>().GetNpcsInCone(Hero.Current.Coords, Hero.Current.Forward(), 50, cos, sin);
+            foreach (var npcElement in npcs) {
+                npcElement.EnemyBaseClass.EnableRagdoll(Hero.Current.Forward(), ragdollStrength, minRagdollDuration, true);
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         
         Action<Portal> _afterTeleported;
         bool _teleportAssigned;
+        bool _fromAdditive;
         
         bool _paused;
         bool _mountedTeleport;
@@ -33,7 +34,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         }
         protected override void SetupForceExitConditions() { }
         
-        void AssignTeleportDestination(TeleportDestination destination, string portalTag, SceneReference portalScene, Action<Portal> afterTeleported, bool canOverride) {
+        void AssignTeleportDestination(TeleportDestination destination, string portalTag, SceneReference portalScene, Action<Portal> afterTeleported, bool canOverride, bool fromAdditive) {
             if (_teleportAssigned && !canOverride) {
                 Debug.LogException(new InvalidOperationException("Another teleport is in progress"));
                 return;
@@ -44,17 +45,18 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             _portalScene = portalScene;
             _afterTeleported = afterTeleported;
             _teleportAssigned = true;
+            _fromAdditive = fromAdditive;
             
             Teleport();
         }
         
         // === Public API
-        public void AssignDestinationTeleport(TeleportDestination destination, Action<Portal> afterTeleported, bool canOverride) {
-            AssignTeleportDestination(destination, null, null, afterTeleported, canOverride);
+        public void AssignDestinationTeleport(TeleportDestination destination, Action<Portal> afterTeleported, bool canOverride, bool fromAdditive) {
+            AssignTeleportDestination(destination, null, null, afterTeleported, canOverride, fromAdditive);
         }
         
         public void AssignPortalTeleport(string portalTag, SceneReference portalScene, Action<Portal> afterTeleported, bool canOverride) {
-            AssignTeleportDestination(TeleportDestination.Zero, portalTag, portalScene, afterTeleported, canOverride);
+            AssignTeleportDestination(TeleportDestination.Zero, portalTag, portalScene, afterTeleported, canOverride, false);
         }
 
         public void PauseTeleport() {
@@ -110,7 +112,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             // Events
             ParentModel.Trigger(GroundedEvents.AfterTeleported, ParentModel);
             if (longTeleport) {
-                ParentModel.Trigger(Hero.Events.HeroLongTeleported, ParentModel);
+                ParentModel.Trigger(Hero.Events.HeroLongTeleported, _fromAdditive);
             }
             
             Controller.Controller.enabled = true;

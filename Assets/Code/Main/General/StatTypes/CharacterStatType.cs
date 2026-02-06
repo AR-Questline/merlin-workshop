@@ -13,6 +13,10 @@ namespace Awaken.TG.Main.General.StatTypes {
         public static readonly CharacterStatType
             Level = new(nameof(Level), LocTerms.Level, c => c.CharacterStats.Level, "General", new Param {Tweakable = false}),
             TalentPoints = new(nameof(TalentPoints), LocTerms.TalentPoints, c => c.CharacterStats.TalentPoints, "General", new Param {Tweakable = false}),
+            CatalystTalentPoints = new(nameof(CatalystTalentPoints), LocTerms.CatalystTalentPoints, c => c.CharacterStats.CatalystTalentPoints, "General", new Param {Tweakable = false}),
+            SarrasMageTalentPoints = new(nameof(SarrasMageTalentPoints), LocTerms.SarrasMageTalentPoints, c => c.CharacterStats.SarrasMageTalentPoints, "General", new Param {Tweakable = false}),
+            SarrasRogueTalentPoints = new(nameof(SarrasRogueTalentPoints), LocTerms.SarrasRogueTalentPoints, c => c.CharacterStats.SarrasRogueTalentPoints, "General", new Param {Tweakable = false}),
+            SarrasWarriorTalentPoints = new(nameof(SarrasWarriorTalentPoints), LocTerms.SarrasWarriorTalentPoints, c => c.CharacterStats.SarrasWarriorTalentPoints, "General", new Param {Tweakable = false}),
             BaseStatPoints = new(nameof(BaseStatPoints), LocTerms.BaseStatPoints, c => c.CharacterStats.BaseStatPoints, "General", new Param {Tweakable = false}),
             
             Stamina = new(nameof(Stamina), LocTerms.Stamina, c => c.CharacterStats.Stamina, "General", new Param { Abbreviation = "s", Tweakable = false }),
@@ -41,8 +45,8 @@ namespace Awaken.TG.Main.General.StatTypes {
             IncomingHealing = new(nameof(IncomingHealing), LocTerms.IncomingHealing, c => c.CharacterStats.IncomingHealing, "Fight"),
             ConsumableHealingBonus = new(nameof(ConsumableHealingBonus), LocTerms.ConsumableHealingBonus, c => c.CharacterStats.ConsumableHealingBonus, "Fight", new Param {Abbreviation = "Heal"}),
             PotionHealingBonus = new(nameof(PotionHealingBonus), LocTerms.PotionHealingBonus, c => c.CharacterStats.PotionHealingBonus, "Fight", new Param {Abbreviation = "Heal"}),
-
-            Evasion = new(nameof(Evasion), LocTerms.Evasion, c => c.CharacterStats.Evasion, "Fight",new Param {Abbreviation = "ev"}),
+            
+            Evasion = new(nameof(Evasion), string.Empty, _ => null, "_obsolete"),
             Resistance = new(nameof(Resistance), LocTerms.Resistance, c => c.CharacterStats.Resistance, "Fight",new Param {Abbreviation = "res"}),
             LifeSteal = new(nameof(LifeSteal), LocTerms.Lifesteal, c => c.CharacterStats.LifeSteal, "Fight",new Param {Abbreviation = "lifesteal"}),
             

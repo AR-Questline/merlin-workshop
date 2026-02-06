@@ -53,6 +53,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         [SerializeReference] ILootTable[] items;
         [SerializeField, TemplateType(typeof(IRecipe))] List<TemplateReference> recipesToLearn = new();
         [ListDrawerSettings(CustomAddFunction = nameof(CustomAddTalentPreset))] public TalentPreset[] talents = Array.Empty<TalentPreset>();
+        public bool clearTalentsIfListEmpty = false;
         
         [Space]
         public bool modifiesStats;
@@ -61,6 +62,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         
         [Space]
         public WyrdSoulFragmentType[] wyrdSoulFragmentTypes = Array.Empty<WyrdSoulFragmentType>();
+        public bool replaceFragmentsInsteadOfGiving = false;
         [SerializeField]
         TagTargetStatePair[] storyFlagsToSet = Array.Empty<TagTargetStatePair>();
 
@@ -84,6 +86,8 @@ namespace Awaken.TG.Main.Heroes.Items {
             
             bool bufferWasBlocked = AdvancedNotificationBuffer.AllNotificationsSuspended;
             AdvancedNotificationBuffer.AllNotificationsSuspended = true;
+            bool equipSoundsWereMuted = hero.MuteEquips;
+            hero.MuteEquips = true;
             try {
                 ApplyRecipes(hero);
 
@@ -119,14 +123,17 @@ namespace Awaken.TG.Main.Heroes.Items {
                 }
             } finally {
                 AdvancedNotificationBuffer.AllNotificationsSuspended = bufferWasBlocked;
+                hero.MuteEquips = equipSoundsWereMuted;
             }
         }
 
         public void ApplyWyrdSoulFragments() {
-            if (wyrdSoulFragmentTypes == null) {
+            if (replaceFragmentsInsteadOfGiving) {
+                Hero.Current.Development.WyrdSoulFragments.LockAll();
+            }
+            if (wyrdSoulFragmentTypes.IsNullOrEmpty()) {
                 return;
             }
-            
             foreach (var wyrdSoulType in wyrdSoulFragmentTypes) {
                 Hero.Current.Development.WyrdSoulFragments.Unlock(wyrdSoulType);
             }
@@ -214,13 +221,13 @@ namespace Awaken.TG.Main.Heroes.Items {
         public void ApplyLevelSettings() {
             if (modifiesLevel) {
                 Hero.Current.Development.LevelUpTo(levelToSet);
-                Hero.Current.Development.RewardExpAsPercentOfNextLevel(percentToNextLevel);
+                Hero.Current.Development.RewardExpAsPercentOfNextLevel(percentToNextLevel, Hero.Current, ChangeReason.Forceful);
             }
         }
 
         public void ApplyTalents(Hero hero) {
             if (talents.IsNotNullOrEmpty()) {
-                Hero.Current.Talents.Reset();
+                Hero.Current.Talents.Reset(false);
                 for (int i = 0; i < talents.Length; i++) {
                     TalentTemplate talent = talents[i].Talent;
                     if (talent == null) {
@@ -230,6 +237,8 @@ namespace Awaken.TG.Main.Heroes.Items {
 
                     ItemSet.LevelUpTalent(talent, talents[i].level);
                 }
+            } else if (clearTalentsIfListEmpty) {
+                Hero.Current.Talents.Reset(false);
             }
         }
         

@@ -29,6 +29,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
         [BoxGroup(BaseCastingGroup), SerializeField] protected Vector3 castingPointOffset = Vector3.zero;
         
         [SerializeField] NpcDamageData damageData = NpcDamageData.DefaultAttackData;
+        [SerializeField] bool snapVfxToGround = true;
         [SerializeField] bool customExplosionConeAngle;
         [SerializeField, ShowIf(nameof(customExplosionConeAngle))] float explosionConeAngle = 45;
         [SerializeField] bool disableFriendlyFire;
@@ -66,6 +67,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
             LayerMask mask = explosionHitMask == 0 ? Npc.HitLayerMask : explosionHitMask;
 
             var parameters = DamageParameters.Default;
+            parameters.KnockdownType = KnockdownType;
             parameters.ForceDamage = explosionForceDamage;
             parameters.RagdollForce = ragdollForce;
             parameters.DamageTypeData = damageData.GetDamageTypeData(Npc).GetRuntimeData();
@@ -98,7 +100,9 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
             }
             
             // --- VFX
-            position = Ground.SnapToGround(position);
+            if (snapVfxToGround) {
+                position = Ground.SnapToGround(position);
+            }
 
             if (explosionVFX.IsSet) {
                 PrefabPool.InstantiateAndReturn(explosionVFX, position, damageRotation, explosionVFXDuration).Forget();

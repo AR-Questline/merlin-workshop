@@ -76,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_13b93a9b7d7a51f46801266b3a1c0353
-  EDITOR_bakedDescription: 'Banishes the target, making it disappear for 8s.
+  EDITOR_bakedDescription: 'Banishes the target, making it disappear for s.
 
     Summons
     are banished for eternity instead.'
@@ -156,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: c0ca2ad030848f34f8c0043403a00c9c
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &4573730755203723746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,8 +238,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4508705400885166064
 MonoBehaviour:

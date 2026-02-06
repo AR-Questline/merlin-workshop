@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_a02adf48f80a454478dd683a03bb77f3
-  EDITOR_bakedDescription: Attacks apply massive Poison buildup.
+  EDITOR_bakedDescription: Attacks apply massive <color=#04959A>Poison</color> buildup.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: ff86ed51b0d7c7b45aed5a4730cbdc18
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5105216457261439534
 MonoBehaviour:
@@ -582,6 +589,10 @@ MonoBehaviour:
     variables:
     - name: Buildup
       value: 120
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
+      value: 0
     - name: Duration
       value: 0
     - name: ChanceToApply

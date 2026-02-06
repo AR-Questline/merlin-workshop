@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Heroes.Items.Attachments;
+using Awaken.TG.Main.Memories.FilePrefs;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Utility.TokenTexts;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
+using Awaken.TG.Utility;
 using Awaken.TG.Utility.Attributes;
 using Newtonsoft.Json;
 
@@ -15,6 +19,8 @@ namespace Awaken.TG.Main.Heroes.Items.Gems {
         public override ushort TypeForSerialization => SavedModels.GemAttached;
 
         [Saved] ItemTemplate _template;
+        [Saved] int _gemLevel;
+        [Saved] int _gemNgPlusLevel;
         [Saved] List<SkillReference> _skillReferences;
 
         TokenText _descriptionToken;
@@ -26,31 +32,38 @@ namespace Awaken.TG.Main.Heroes.Items.Gems {
         public Item Item => ParentModel;
         public ICharacter Character => Item.Owner?.Character;
         public IEnumerable<Skill> Skills => Elements<Skill>().GetManagedEnumerator();
+        public int GemLevel => _gemLevel;
+        public int GemNgPlusLevel => _gemNgPlusLevel;
         public int PerformCount { get; set; }
         public ItemTemplate Template => _template;
         public List<SkillReference> SkillRefs => _skillReferences;
+        public int ModifiedLevelWithoutNewGamePlus => GemLevel - NewGamePlusSystem.CalculateBonusItemLevelValue(GemNgPlusLevel);
 
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         GemAttached() {}
         
         public GemAttached(GemUnattached gem) {
             _template = gem.ParentModel.Template;
+            _gemLevel = gem.ParentModel.Level.ModifiedInt;
+            _gemNgPlusLevel = gem.ParentModel.NewGamePlusLevel;
             _skillReferences = gem.SkillRefs.ToList();
         }
 
-        public GemAttached(ItemTemplate template, List<SkillReference> skillReferences) {
+        public GemAttached(ItemTemplate template, int gemLevel, int gemNgPlusLevel, List<SkillReference> skillReferences) {
             _template = template;
+            _gemLevel = gemLevel;
+            _gemNgPlusLevel = gemNgPlusLevel;
             _skillReferences = skillReferences;
         }
 
         protected override void OnInitialize() {
-            DisplayName = _template.ItemName;
+            DisplayName = ItemUtils.GetDisplayName(Template, ModifiedLevelWithoutNewGamePlus);
             _descriptionToken = new TokenText(_template.Description);
             this.ListenTo(Events.AfterFullyInitialized, InitSkills, this);
         }
 
         protected override void OnRestore() {
-            DisplayName = _template.ItemName;
+            DisplayName = ItemUtils.GetDisplayName(Template, ModifiedLevelWithoutNewGamePlus);
             _descriptionToken = new TokenText(_template.Description);
         }
 
@@ -67,7 +80,7 @@ namespace Awaken.TG.Main.Heroes.Items.Gems {
         }
 
         public Item RetrieveGem() {
-            Item item = new(_template);
+            Item item = new(_template, 1, _gemLevel, newGamePlusLevel: _gemNgPlusLevel);
             World.Add(item);
             foreach (var skill in Skills) {
                 skill.Unequip();

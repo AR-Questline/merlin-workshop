@@ -6,6 +6,7 @@ using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.UI.Components.PadShortcuts;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.UI.Keys.Components;
@@ -50,7 +51,8 @@ namespace Awaken.TG.Main.UI.Components.Tabs {
         protected VCTabButton CurrentTabButton => _buttons.FirstOrAny(b => ParentModel.CurrentType == b.Type);
         protected abstract KeyBindings Previous { get; }
         protected abstract KeyBindings Next { get; }
-            
+        public bool IsValid => this.IsValidForUIHandle();
+
         EventReference _selectedSound;
         TabEvents _events;
         VCTabButton[] _buttons;
@@ -164,8 +166,8 @@ namespace Awaken.TG.Main.UI.Components.Tabs {
 
         public bool IsSelected(VCTabButton b) => b.Type == ParentModel.CurrentType;
 
-        public UIResult Handle(UIEvent evt) {
-            if (HasBeenDiscarded || !this.IsActive() || BlockNavigation) {
+        public UIResult Handle(UIEvent evt) { 
+            if (!this.IsActive() || BlockNavigation) {
                 return UIResult.Ignore;
             }
             
@@ -249,7 +251,7 @@ namespace Awaken.TG.Main.UI.Components.Tabs {
         // === TabButton
         
         public abstract class VCTabButton : ViewComponent<Tabs<TTarget, TTabsView, TTabType, TTab>> {
-            [Tags(TagsCategory.Flag)][SerializeField]
+            [SerializeField, Tags(TagsCategory.Flag), ShowIf(nameof(ShowRequiredFlag))]
             string requiredFlag = "";
             [SerializeField] public ARButton button;
             
@@ -258,6 +260,8 @@ namespace Awaken.TG.Main.UI.Components.Tabs {
             
             [UnityEngine.Scripting.Preserve]
             protected TTabsView TabsView => (TTabsView) ParentView;
+            protected virtual bool ShowRequiredFlag => true;
+            protected virtual bool AdditionalRequirements => string.IsNullOrEmpty(requiredFlag) || StoryFlags.Get(requiredFlag);
             
             protected override void OnAttach() {
                 if (!gameObject.activeSelf) return;
@@ -280,8 +284,7 @@ namespace Awaken.TG.Main.UI.Components.Tabs {
             }
 
             void Refresh() {
-                bool requiresFlag = !string.IsNullOrEmpty(requiredFlag) && StoryFlags.Get(requiredFlag) == false;
-                bool isVisible = Type.IsVisible(Target.ParentModel) && !requiresFlag;
+                bool isVisible = Type.IsVisible(Target.ParentModel) && AdditionalRequirements;
                 gameObject.SetActive(isVisible);
                 if (isVisible) {
                     Refresh(Type == Target.ParentModel.CurrentType);

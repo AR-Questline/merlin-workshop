@@ -9,9 +9,11 @@ namespace Awaken.TG.Main.Heroes.Storage {
     public class VHeroStorageUI : VTabParent<HeroStorageUI>, IAutoFocusBase {
         [SerializeField] Transform promptsHost;
         [SerializeField] Transform tooltipParent;
+        [SerializeField] Transform doublePromptsHost;
 
         public Transform PromptsHost => promptsHost;
         public Transform TooltipParent => tooltipParent;
+        public Transform DoublePromptsHost => doublePromptsHost;
         
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
     }

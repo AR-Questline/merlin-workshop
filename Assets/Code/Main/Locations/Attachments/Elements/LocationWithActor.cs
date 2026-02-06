@@ -1,5 +1,6 @@
 ﻿using Awaken.TG.Main.Locations.Attachments.Attachment;
 using Awaken.TG.Main.Stories.Actors;
+using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.Utility;
 using Awaken.Utility.GameObjects;
@@ -13,6 +14,17 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         public Transform ActorTransform => ParentModel.MainView.transform;
         public Transform Head { get; private set; }
         public Transform LookAtTarget => Head;
+        
+        // Location Name
+        public int ModificationOrder => 1;
+        public string ModifyName(string original) {
+            if (!string.IsNullOrWhiteSpace(original)) {
+                return original;
+            }
+            // We need to update the Actor in case its name has changed
+            Actor = World.Services.Get<ActorsRegister>().GetActor(Actor.Id);
+            return Actor.NameOrDefault;
+        }
         
         public void InitFromAttachment(LocationWithActorAttachment spec, bool isRestored) {
             Actor = spec.actorRef.Get();

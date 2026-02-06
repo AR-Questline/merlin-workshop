@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_e1b1087ba61bcf34f979f48f6126573a
-  EDITOR_bakedDescription: Increases Magic Critical Chance by 2%.
+  EDITOR_bakedDescription: "Increases Critical Damage by 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3443842606788812044
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-904871263847367215
 MonoBehaviour:
@@ -270,8 +277,10 @@ MonoBehaviour:
       _guid: e699a32c4d76b8b48aa933b6586a5bca
     variables:
     - name: ModifyValue
-      value: 0.02
+      value: 0.15
     - name: GainValue
+      value: 0.02
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -279,7 +288,7 @@ MonoBehaviour:
     - name: StatEnum
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:MagicCriticalChance
+          Culture=neutral, PublicKeyToken=null:CriticalDamageMultiplier
     datums: []
     templates: []
     assetReferences: []

@@ -1,13 +1,13 @@
-﻿using Awaken.TG.Main.Fights.DamageInfo;
+﻿using System.Collections.Generic;
+using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Stats;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
-using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Character {
     /// <summary>
@@ -29,13 +29,24 @@ namespace Awaken.TG.Main.Character {
         public Stat TrapDamageMultiplier { get; set; }
         [UnityEngine.Scripting.Preserve] public float TotalArmor => ParentModel.TotalArmor(DamageSubType.GenericPhysical);
 
+        IEnumerable<Stat> AllStats() {
+            yield return MaxHealth;
+            yield return Health;
+            yield return HealthRegen;
+            yield return ArmorMultiplier;
+            yield return Armor;
+            yield return StatusResistance;
+            yield return ForceStumbleThreshold;
+            yield return TrapDamageMultiplier;
+        }
+
         // === Events
         public new static class Events {
             public static readonly Event<IAlive, AliveStats> GeneralStatsAdded = new(nameof(GeneralStatsAdded));
         }
 
         protected override void OnInitialize() {
-            _wrapper.Initialize(this);
+            _wrapper.Initialize(this, ParentModel.HeroLevelAtInitialization);
             DamageReceivedMultiplierData = ParentModel.AliveStatsTemplate.GetDamageReceivedMultiplierData();
             ParentModel.Trigger(Events.GeneralStatsAdded, this);
         }
@@ -45,10 +56,20 @@ namespace Awaken.TG.Main.Character {
             parent.AddElement(stats);
         }
 
+        public void RecalculateAllStats(int previousHereLevel, int newHeroLevel, bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this, previousHereLevel);
+            }
+            _wrapper.Initialize(this, newHeroLevel);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
+        }
+
         // === Persistence
 
         void OnBeforeWorldSerialize() {
-            _wrapper.PrepareForSave(this);
+            _wrapper.PrepareForSave(this, ParentModel.HeroLevelAtInitialization);
         }
         
         public interface ITemplate {
@@ -73,12 +94,15 @@ namespace Awaken.TG.Main.Character {
             [Saved(0f)] float ForceStumbleThresholdDif;
             [Saved(0f)] float TrapDamageMultiplierDif;
             
-            public void Initialize(AliveStats stats) {
+            public void Initialize(AliveStats stats, int heroLevel) {
                 IAlive parent = stats.ParentModel;
                 ITemplate data = parent.AliveStatsTemplate;
 
-                stats.MaxHealth = new Stat(parent, AliveStatType.MaxHealth, data.MaxHealth + MaxHealthDif);
-                stats.Health = new LimitedStat(parent, AliveStatType.Health, stats.MaxHealth + HealthDif, 0, AliveStatType.MaxHealth);
+                int ngLevel = parent.NewGamePlusLevel;
+                NewGamePlusSystem.GetAllAliveStats(data, ngLevel, heroLevel, out var health);
+
+                stats.MaxHealth = new Stat(parent, AliveStatType.MaxHealth, health + MaxHealthDif);
+                stats.Health = new LimitedStat(parent, AliveStatType.Health, stats.MaxHealth + HealthDif, 0, AliveStatType.MaxHealth, upperLimitMinimumValue: 1);
                 stats.HealthRegen = new Stat(parent, AliveStatType.HealthRegen, HealthRegenDif);
                 stats.ArmorMultiplier = new Stat(parent, AliveStatType.ArmorMultiplier, data.ArmorMultiplier + ArmorMultiplierDif);
                 stats.Armor = new Stat(parent, AliveStatType.Armor, data.Armor + ArmorDif);
@@ -87,10 +111,14 @@ namespace Awaken.TG.Main.Character {
                 stats.TrapDamageMultiplier = new Stat(parent, AliveStatType.TrapDamageMultiplier, data.TrapDamageMultiplier + TrapDamageMultiplierDif);
             }
 
-            public void PrepareForSave(AliveStats aliveStats) {
-                ITemplate defaultData = aliveStats.ParentModel.AliveStatsTemplate;
+            public void PrepareForSave(AliveStats aliveStats, int heroLevel) {
+                IAlive parent = aliveStats.ParentModel;
+                ITemplate defaultData = parent.AliveStatsTemplate;
+
+                int ngLevel = parent.NewGamePlusLevel;
+                NewGamePlusSystem.GetAllAliveStats(defaultData, ngLevel, heroLevel, out var health);
                 
-                MaxHealthDif = aliveStats.MaxHealth.ValueForSave - defaultData.MaxHealth;
+                MaxHealthDif = aliveStats.MaxHealth.ValueForSave - health;
                 HealthDif = aliveStats.Health.ValueForSave - aliveStats.MaxHealth.ValueForSave;
                 HealthRegenDif = aliveStats.HealthRegen.ValueForSave;
                 ArmorMultiplierDif = aliveStats.ArmorMultiplier.ValueForSave - defaultData.ArmorMultiplier;

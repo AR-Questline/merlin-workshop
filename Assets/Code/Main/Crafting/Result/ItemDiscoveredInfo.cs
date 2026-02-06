@@ -70,7 +70,7 @@ namespace Awaken.TG.Main.Crafting.Result {
             for (int index = 0; index < _items.Length; index++) {
                 Item item = _items[index];
                 ItemDiscoveredTooltipSystemUI tooltip = _tooltips[index];
-                _itemDescriptor = new TempItemDescriptor(item.Template, this, item.Quantity, item.Level.ModifiedInt, item.WeightLevel.ModifiedInt);
+                _itemDescriptor = new TempItemDescriptor(item.Template, this, item.Quantity, item.Level.ModifiedInt, item.WeightLevel.ModifiedInt, item.NewGamePlusLevel);
                 tooltip.SetDescriptor(_itemDescriptor);
                 tooltip.View<VItemDiscoveredTooltipSystemUI>().RefreshTooltipContent(_itemDescriptor);
             }

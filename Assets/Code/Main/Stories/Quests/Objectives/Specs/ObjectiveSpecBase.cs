@@ -39,7 +39,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Specs {
 
         [FoldoutGroup(ExpGroup), ShowInInspector, HideIf("@" + nameof(ExperienceGainRange) + "==" + nameof(StatDefinedRange) + "." + nameof(StatDefinedRange.Custom))]
         public FloatRange CalculatedExpRange =>
-            QuestUtils.CalculateXpRange(TargetLevel, ExperienceGainRange, ExperiencePoints);
+            QuestUtils.CalculateXpRange(TargetLevel, ExperienceGainRange, ExperiencePoints, true);
 
         public string GetName() => gameObject.name;
 

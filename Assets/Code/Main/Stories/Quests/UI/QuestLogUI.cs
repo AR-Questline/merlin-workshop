@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
-using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
+using System.Collections.Generic;
+using Awaken.TG.Main.Heroes.CharacterSheet;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Components.Tabs;
@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Stories.Quests.UI {
     /// <summary>
     /// Represents and controls quests ui in character sheet 
     /// </summary>
-    public partial class QuestLogUI : CharacterSheetTab<VQuestLogUI>, IKeyProvider<VCTabSwitchKeyIcon.TabSwitch> {
+    public partial class QuestLogUI : QuestLogSubTab<VQuestLogUI>, IKeyProvider<VCTabSwitchKeyIcon.TabSwitch> {
         Prompt _trackQuestPrompt;
         
         public KeyBindings Previous => KeyBindings.UI.Generic.DecreaseValueAlt;
@@ -24,21 +24,31 @@ namespace Awaken.TG.Main.Stories.Quests.UI {
         // === Queries
         public QuestUI SelectedQuest => Elements<QuestUI>().FirstOrDefault(q => q.IsSelected);
         public ModelsSet<QuestUI> AllQuests => Elements<QuestUI>();
+        QuestCategory Category { get; set; }
+        CharacterSheetUI CharacterSheetUI => ParentModel.ParentModel;
         
         public new static class Events {
             public static readonly Event<QuestLogUI, QuestUI> QuestSelected = new(nameof(QuestSelected));
         }
 
+        public QuestLogUI(QuestCategory category) {
+            Category = category;
+        }
+
         // === Initialization
         protected override void AfterViewSpawned(VQuestLogUI view) {
-            ParentModel.SetHeroOnRenderVisible(false);
+            CharacterSheetUI.SetHeroOnRenderVisible(false);
             var questListUI = World.SpawnView<VQuestListUI>(this, forcedParent: view.LeftContent);
             World.SpawnView<VQuestDescriptionUI>(this, forcedParent: view.RightContent);
 
-            var allQuests = World.AllInOrder<Quest>()
-                .Where(q => q.VisibleInQuestLog)
-                .OrderBy(q => (int)q.QuestType)
-                .ToArray();
+            var allInOrder = World.AllInOrderReadonlyNotValidated();
+            var allQuests = new List<Quest>(64);
+            foreach (var item in allInOrder) {
+                if (item is Quest { HasBeenDiscarded: false, VisibleInQuestLog: true } quest && quest.Category == Category) {
+                    allQuests.Add(quest);
+                }
+            }
+            allQuests.Sort((l, r) => ((int)l.QuestType).CompareTo((int)r.QuestType));
 
             QuestType? questType = null;
             int sectionIndexInHierarchy = 0;
@@ -54,7 +64,9 @@ namespace Awaken.TG.Main.Stories.Quests.UI {
                 sectionIndexInHierarchy++;
             }
 
-            _trackQuestPrompt = ParentModel.Prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Accept, LocTerms.QuestNotificationTrack.Translate(), SetTrackedQuest), this, false);
+            allQuests.Clear();
+
+            _trackQuestPrompt = CharacterSheetUI.Prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Accept, LocTerms.QuestNotificationTrack.Translate(), SetTrackedQuest), this, false);
             this.ListenTo(Events.QuestSelected, OnQuestSelected, this);
         }
 

@@ -35,7 +35,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.Dialogue {
             _defaultSortingOrder = _canvas.sortingOrder;
         }
 
-        async UniTaskVoid AfterNewNotificationPushed(IAdvancedNotification notification) {
+        async UniTaskVoid AfterNewNotificationPushed(AdvancedNotification notification) {
             UpdateSortingOrder();
             notification.ListenTo(Model.Events.BeforeDiscarded, BeforeNotificationDiscarded, this);
 

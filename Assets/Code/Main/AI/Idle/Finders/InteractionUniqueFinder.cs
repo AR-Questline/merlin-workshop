@@ -43,5 +43,9 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
         public override bool CanFindInteraction(IdleBehaviours behaviours, INpcInteraction interaction, bool ignoreInteractionRequirements) {
             return InteractionUtils.AreSearchablesTheSameInteraction(behaviours.Npc, interaction, Searchable);
         }
+        
+        public override string DebugInfo() {
+            return $"UniqueFinder UniqueID {_uniqueID}";
+        }
     }
 }

@@ -76,10 +76,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_27de9a8e8f6242d48ba3e2ce34c3f19e
-  EDITOR_bakedDescription: 'Increases Mana Shield by 10%.
+  EDITOR_bakedDescription: 'Taking Damage restores 5 Mana.
 
-    Increases Mana Regeneration
-    by 1.'
+    Increases Max Mana
+    by 15.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -104,7 +104,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_27de9a8e8f6242d48ba3e2ce34c3f19e
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -129,7 +129,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_27de9a8e8f6242d48ba3e2ce34c3f19e
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -155,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7549843383542069446
 MonoBehaviour:
@@ -245,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-2691477325831240808
 MonoBehaviour:
@@ -279,301 +286,7 @@ MonoBehaviour:
       value: 0
     - name: MultiplyValue
       value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
-    - name: MultiplyValue
-      value: 0
     - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: GainMultiply
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
-      value: 0
-    - name: MultiplyValueCalculated
       value: 0
     - name: MultiplyValueCalculated
       value: 0

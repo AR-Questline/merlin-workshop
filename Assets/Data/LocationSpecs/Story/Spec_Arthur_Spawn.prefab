@@ -95,6 +95,11 @@ MonoBehaviour:
   startInteractabilityReference:
     _enumRef: Awaken.TG.Main.Locations.LocationInteractability, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Active
+  conditionalPrefabReferences:
+  - requiredFlag: ArthurSkin:ConquerorOfAvalon
+    location:
+      address: 24cf90d8cce36b343970f53a12c3e034
+      subObjectName: 
   prefabReference:
     address: 9893f1b0b98739943ab4070730fd79f3
     subObjectName: 
@@ -156,8 +161,6 @@ MonoBehaviour:
       _guid: 481c0baa88c49c44a80720465f16deec
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 8342851118871145318}

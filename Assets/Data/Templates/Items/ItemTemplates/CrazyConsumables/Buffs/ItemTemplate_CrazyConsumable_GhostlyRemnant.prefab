@@ -73,7 +73,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_2f4d4dee686a6f2479af54cfb86a9ea5
-  EDITOR_bakedDescription: Increases Spell Power by 0.5% for 10s.
+  EDITOR_bakedDescription: "Increases Spell Power by 50\_% for 10s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -149,6 +149,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: d24eddc2f4d056f4ea82a68b4fb06131
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &5128635444738983869
 MonoBehaviour:

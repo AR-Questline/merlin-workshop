@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Awaken.Kandra;
 using Awaken.Utility.Debugging;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Editor.Assets.Grouping {
@@ -112,6 +112,8 @@ namespace Awaken.TG.Editor.Assets.Grouping {
                 return AssetGroupType.Shaders;
             } else if (type == typeof(SceneAsset)) {
                 return AssetGroupType.Scenes;
+            } else if (type == typeof(KandraMesh)) {
+                return AssetGroupType.Meshes;
             } else {
                 return AssetGroupType.Mixed;
             }

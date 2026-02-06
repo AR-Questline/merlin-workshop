@@ -43,7 +43,7 @@ namespace Awaken.TG.Main.Locations.Gems {
         }
         
         public void RefreshRequiredQuantity(int inventoryQuantity, int requiredQuantity) {
-            quantityText.SetText($"{inventoryQuantity.ToString().ColoredText(inventoryQuantity > 0 ? ARColor.MainGrey : ARColor.MainRed)}/{requiredQuantity}");
+            quantityText.SetText($"{inventoryQuantity.ToString().ColoredText(inventoryQuantity >= requiredQuantity ? ARColor.MainGrey : ARColor.MainRed)}/{requiredQuantity}");
         }
 
         public void ResetTooltip() {

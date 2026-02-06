@@ -1,5 +1,6 @@
 using Awaken.Utility;
 using System;
+using System.Collections.Generic;
 using Awaken.TG.Main.AI.States;
 using Awaken.TG.Main.Animations.FSM.Heroes.States.Shared;
 using Awaken.TG.Main.General.StatTypes;
@@ -7,10 +8,10 @@ using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Development;
 using Awaken.TG.Main.Heroes.Setup;
 using Awaken.TG.Main.Heroes.Stats;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility.Attributes;
-using Newtonsoft.Json;
+
+// ReSharper disable InconsistentNaming
 
 namespace Awaken.TG.Main.Character {
     public partial class HeroStats : Element<Hero> {
@@ -73,6 +74,7 @@ namespace Awaken.TG.Main.Character {
         // Combat
         public LimitedStat ParryStaminaDamageMultiplier { get; private set; }
         public LimitedStat ParryWindowBonus { get; private set; }
+        public LimitedStat DashIFramesBonus { get; private set; }
         public LimitedStat BlockingStaminaDamageMultiplier { get; private set; }
         public LimitedStat ArrowRetrievalChance { get; private set; }
         public LimitedStat BowSwayMultiplier { get; private set; }
@@ -84,6 +86,7 @@ namespace Awaken.TG.Main.Character {
         public LimitedStat StaminaDepletedTimeMultiplier { get; private set; }
         public LimitedStat SummonsManaDrainMultiplier { get; private set; }
         public LimitedStat DualWieldHeavyAttackCostMultiplier { get; private set; }
+        public LimitedStat MaxHealthReservation { get; private set; }
         public LimitedStat MaxManaReservation { get; private set; }
         public LimitedStat SummonLimit { get; private set; }
         // Gathering
@@ -106,6 +109,81 @@ namespace Awaken.TG.Main.Character {
         public Stat CraftingSkillBonus { get; private set; }
         public Stat FishingMeanMultiplier { get; private set; }
 
+        IEnumerable<Stat> AllStats() {
+            yield return XPForNextLevel;
+            yield return XP;
+            yield return MoveSpeed;
+            yield return SprintSpeed;
+            yield return CrouchSpeedMultiplier;
+            yield return SwimSpeed;
+            yield return BlockingMovementMultiplier;
+            yield return JumpHeight;
+            yield return DashSpeed;
+            yield return DashStamina;
+            yield return DashCostMultiplier;
+            yield return MaxDashOptimalCounter;
+            yield return DashRegenDurationMultiplier;
+            yield return EncumbranceLimit;
+            yield return ArmorWeightMultiplier;
+            yield return FootstepsNoisiness;
+            yield return OxygenLevel;
+            yield return OxygenUsage;
+            yield return DamageNullifier;
+            yield return FallDamageMultiplier;
+            yield return VisibilityMultiplier;
+            yield return NoiseMultiplier;
+            yield return CrouchNoiseMultiplier;
+            yield return CrouchVisibilityMultiplier;
+            yield return LockpickDamageMultiplier;
+            yield return LockpickToleranceMultiplier;
+            yield return LootChanceMultiplier;
+            yield return CriticalChance;
+            yield return CriticalDamageMultiplier;
+            yield return SneakDamageMultiplier;
+            yield return BackStabDamageMultiplier;
+            yield return MeleeSneakDamageMultiplier;
+            yield return WeakSpotDamageMultiplier;
+            yield return MeleeWeakSpotDamageMultiplier;
+            yield return MeleeCriticalChance;
+            yield return RangedCriticalChance;
+            yield return MagicCriticalChance;
+            yield return ItemStaminaCostMultiplier;
+            yield return EquipWeaponActionCooldown;
+            yield return StaminaDepletedTimeMultiplier;
+            yield return SummonsManaDrainMultiplier;
+            yield return DualWieldHeavyAttackCostMultiplier;
+            yield return MaxHealthReservation;
+            yield return MaxManaReservation;
+            yield return SummonLimit;
+            yield return MaxWyrdSkillDuration;
+            yield return WyrdSkillDuration;
+            yield return WyrdWhispers;
+            yield return WyrdMemoryShards;
+            yield return ParryStaminaDamageMultiplier;
+            yield return ParryWindowBonus;
+            yield return DashIFramesBonus;
+            yield return BlockingStaminaDamageMultiplier;
+            yield return ArrowRetrievalChance;
+            yield return BowSwayMultiplier;
+            yield return MinimumHeavyDamageAdd;
+            yield return MaximumHeavyDamageAdd;
+            yield return AimSensitivityMultiplier;
+            yield return AdditionalScrapChance;
+            yield return TheftHoldTimeModifier;
+            yield return PickpocketHoldTimeModifier;
+            yield return PickpocketRecoveryChance;
+            yield return EquipmentLevelBonus;
+            yield return CookingLevelBonus;
+            yield return AlchemyLevelBonus;
+            yield return UpgradeDiscount;
+            yield return CraftingRequirementModifier;
+            yield return PrisonPenaltyMultiplier;
+            yield return ArmorPenaltyMultiplier;
+            yield return FenceSellBonusMultiplier;
+            yield return CraftingSkillBonus;
+            yield return FishingMeanMultiplier;
+        }
+
         protected override void OnInitialize() {
             _wrapper.Initialize(this);
         }
@@ -113,6 +191,16 @@ namespace Awaken.TG.Main.Character {
         public static void CreateFromHeroTemplate(Hero hero) {
             HeroStats heroStats = new();
             hero.AddElement(heroStats);
+        }
+        
+        public void RecalculateAllStats(bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this);
+            }
+            _wrapper.Initialize(this);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
         }
 
         // === Persistence
@@ -174,6 +262,7 @@ namespace Awaken.TG.Main.Character {
             [Saved(0f)] float StaminaDepletedTimeMultiplierDif;
             [Saved(0f)] float SummonsManaDrainMultiplierDif;
             [Saved(0f)] float DualWieldHeavyAttackCostMultiplierDif;
+            [Saved(0f)] float MaxHealthReservationDif;
             [Saved(0f)] float MaxManaReservationDif;
             [Saved(0f)] float SummonLimitDif;
             
@@ -184,6 +273,7 @@ namespace Awaken.TG.Main.Character {
             
             [Saved(0f)] float ParryStaminaDamageMultiplierDif;
             [Saved(0f)] float ParryWindowBonusDif;
+            [Saved(0f)] float DashIFramesBonusDif;
             [Saved(0f)] float BlockingStaminaDamageMultiplierDif;
             [Saved(0f)] float ArrowRetrievalChanceDif;
             [Saved(0f)] float BowSwayMultiplierDif;
@@ -263,6 +353,7 @@ namespace Awaken.TG.Main.Character {
                 heroStats.StaminaDepletedTimeMultiplier = new LimitedStat(hero, HeroStatType.StaminaDepletedTimeMultiplier, DefaultMultiplier + StaminaDepletedTimeMultiplierDif, 0, float.MaxValue);
                 heroStats.SummonsManaDrainMultiplier = new LimitedStat(hero, HeroStatType.SummonsManaDrainMultiplier, DefaultMultiplier + SummonsManaDrainMultiplierDif, 0, float.MaxValue);
                 heroStats.DualWieldHeavyAttackCostMultiplier = new LimitedStat(hero, HeroStatType.DualWieldHeavyAttackCostMultiplier, template.dualWieldHeavyAttackCostMultiplier + DualWieldHeavyAttackCostMultiplierDif, 0, float.MaxValue);
+                heroStats.MaxHealthReservation = new LimitedStat(hero, HeroStatType.MaxHealthReservation, DefaultBonusValue + MaxHealthReservationDif, 0, float.MaxValue);
                 heroStats.MaxManaReservation = new LimitedStat(hero, HeroStatType.MaxManaReservation, DefaultBonusValue + MaxManaReservationDif, 0, float.MaxValue);
                 heroStats.SummonLimit = new LimitedStat(hero, HeroStatType.SummonLimit, template.summonLimit + SummonLimitDif, 0, float.MaxValue);
                 // Wyrding
@@ -273,6 +364,7 @@ namespace Awaken.TG.Main.Character {
                 // Combat
                 heroStats.ParryStaminaDamageMultiplier = new LimitedStat(hero, HeroStatType.ParryStaminaDamageMultiplier, DefaultMultiplier + ParryStaminaDamageMultiplierDif, 0, MaxStaminaDamageMultiplier);
                 heroStats.ParryWindowBonus = new LimitedStat(hero, HeroStatType.ParryWindowBonus, DefaultBonusValue + ParryWindowBonusDif, -1, 1);
+                heroStats.DashIFramesBonus = new LimitedStat(hero, HeroStatType.DashIFramesBonus, DefaultBonusValue + DashIFramesBonusDif, 0, 1);
                 heroStats.BlockingStaminaDamageMultiplier = new LimitedStat(hero, HeroStatType.BlockingStaminaDamageMultiplier, DefaultMultiplier + BlockingStaminaDamageMultiplierDif, 0, MaxStaminaDamageMultiplier);
                 heroStats.ArrowRetrievalChance = new LimitedStat(hero, HeroStatType.ArrowRetrievalChance, DefaultBonusValue + ArrowRetrievalChanceDif, 0, 1);
                 heroStats.BowSwayMultiplier = new LimitedStat(hero, HeroStatType.BowSwayMultiplier, DefaultMultiplier + BowSwayMultiplierDif, 0, 2);
@@ -349,6 +441,7 @@ namespace Awaken.TG.Main.Character {
                 StaminaDepletedTimeMultiplierDif = heroStats.StaminaDepletedTimeMultiplier.ValueForSave - DefaultMultiplier;
                 SummonsManaDrainMultiplierDif = heroStats.SummonsManaDrainMultiplier.ValueForSave - DefaultMultiplier;
                 DualWieldHeavyAttackCostMultiplierDif = heroStats.DualWieldHeavyAttackCostMultiplier.ValueForSave - template.dualWieldHeavyAttackCostMultiplier;
+                MaxHealthReservationDif = heroStats.MaxHealthReservation.ValueForSave - DefaultBonusValue;
                 MaxManaReservationDif = heroStats.MaxManaReservation.ValueForSave - DefaultBonusValue;
                 SummonLimitDif = heroStats.SummonLimit.ValueForSave - template.summonLimit;
                 
@@ -363,6 +456,7 @@ namespace Awaken.TG.Main.Character {
                 ArrowRetrievalChanceDif = heroStats.ArrowRetrievalChance.ValueForSave - DefaultBonusValue;
                 BowSwayMultiplierDif = heroStats.BowSwayMultiplier.ValueForSave - DefaultMultiplier;
                 AimSensitivityMultiplierDif = heroStats.AimSensitivityMultiplier.ValueForSave - DefaultMultiplier;
+                DashIFramesBonusDif = heroStats.DashIFramesBonus.ValueForSave - DefaultBonusValue;
                 
                 MinimumHeavyDamageAddDif = heroStats.MinimumHeavyDamageAdd.ValueForSave - DefaultBonusValue;
                 MaximumHeavyDamageAddDif = heroStats.MaximumHeavyDamageAdd.ValueForSave - DefaultBonusValue;

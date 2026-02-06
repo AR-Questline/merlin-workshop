@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8028609651078576212}
   - component: {fileID: 3713306922424407902}
+  - component: {fileID: 2991274811615596977}
   m_Layer: 0
   m_Name: Status_Taunted
   m_TagString: Untagged
@@ -71,6 +72,7 @@ MonoBehaviour:
   alwaysShowSeparately: 0
   invertProgressUI: 0
   overrideToAddForDifferentItems: 0
+  overrideToAddForUniqueItems: 0
   addType: 2
   addTypeOnStacking: 2
   timerShouldDeStack: 0
@@ -87,3 +89,17 @@ MonoBehaviour:
     datums: []
     templates: []
     assetReferences: []
+--- !u!114 &2991274811615596977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999560093889689413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab6a699ed5945868a70c95e94432a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0
+  unscaledTime: 1

@@ -74,7 +74,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_80ee4690c52f3fe48a21aec7bc792a77
-  EDITOR_bakedDescription: Grants an additional 50% of damage if your mana is full.
+  EDITOR_bakedDescription: "Grants an additional 50\_% of damage if your mana is
+    full."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -149,6 +150,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 98fdce7b3e0f220428335b1e21fceeae
       subObjectName: 
 --- !u!114 &2171448430345750879
@@ -170,7 +175,7 @@ MonoBehaviour:
     - name: BonusDamageMultiplier
       value: 0.5
     - name: BonusDamageMultiplierGain
-      value: 0
+      value: 0.01
     - name: BonusDamageMultiplierCalculated
       value: 0
     enums:

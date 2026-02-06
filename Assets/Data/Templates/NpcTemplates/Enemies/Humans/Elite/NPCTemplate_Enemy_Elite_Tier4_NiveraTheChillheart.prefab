@@ -135,6 +135,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
+      propertyPath: lootTables.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
       propertyPath: statusStats.buildupBurn
       value: 18
       objectReference: {fileID: 0}
@@ -200,8 +205,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
+      propertyPath: lootTables.Array.data[1].table
+      value: 6720257270644998204
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: lootTables.Array.data[2].table
+      value: 6720257270644998205
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
       propertyPath: statusStats.buildupIntoxicated
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: lootTables.Array.data[1].lootType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: lootTables.Array.data[2].lootType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
@@ -330,6 +355,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
+      propertyPath: 'managedReferences[6720257270644998204]'
+      value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.LootTableNewGamePlusConditional
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: 'managedReferences[6720257270644998205]'
+      value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.LootTableNewGamePlusConditional
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: 'managedReferences[6720257270644998206]'
+      value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.ItemSpawningData
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: 'managedReferences[6720257270644998207]'
+      value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.ItemSpawningData
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
       propertyPath: 'managedReferences[8276197865330049138]'
       value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.ItemSpawningData
       objectReference: {fileID: 0}
@@ -445,6 +490,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
+      propertyPath: managedReferences[6720257270644998204].ifTrue
+      value: 6720257270644998206
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998205].ifTrue
+      value: 6720257270644998207
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
       propertyPath: managedReferences[8467002003733872826].amount
       value: 1
       objectReference: {fileID: 0}
@@ -525,6 +580,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
+      propertyPath: managedReferences[6720257270644998204].ifFalse
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998205].ifFalse
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
       propertyPath: managedReferences[8276197865330049138].itemLvl
       value: 0
       objectReference: {fileID: 0}
@@ -576,6 +641,16 @@ PrefabInstance:
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
       propertyPath: managedReferences[6602534713154338950].quantity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998206].quantity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998207].quantity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
@@ -700,6 +775,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
+      propertyPath: managedReferences[6720257270644998206].itemLvl.low
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998207].itemLvl.low
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
       propertyPath: managedReferences[8276197865330049139].itemLvl.low
       value: 0
       objectReference: {fileID: 0}
@@ -731,6 +816,16 @@ PrefabInstance:
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
       propertyPath: managedReferences[6602534713154338950].itemLvl.high
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998206].itemLvl.high
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998207].itemLvl.high
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
@@ -880,6 +975,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}
+      propertyPath: managedReferences[6720257270644998204].minimumNewGamePlusLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998205].minimumNewGamePlusLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
       propertyPath: managedReferences[1429581127784071310].loots.Array.data[0].loot
       value: 407485091390947424
       objectReference: {fileID: 0}
@@ -1002,6 +1107,16 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[6602534713154338950].itemTemplateReference._guid
       value: b454d4e72e4a0094a863249a75f46a6a
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998206].itemTemplateReference._guid
+      value: 1ca5da4c71ac63a469dd360c09b36927
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998207].itemTemplateReference._guid
+      value: f15850f5b723357449a0eaa24906a644
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: 5f403d8714313e947925f024c3c5b262,
         type: 3}

@@ -55,7 +55,6 @@ MonoBehaviour:
   - _guid: ac284bdd722762346b747bef5ac29b16
   - _guid: 6a469d3aba13563448a87cb610eb6c25
   - _guid: dc7fb31eeeb8e5643a4460e35e7f0bf0
-  - _guid: eb6d6040c82ce9046a5dd9adb20a7186
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -63,6 +62,7 @@ MonoBehaviour:
   tags:
   - type:farmers
   - item:withIron
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: b5be5dce8626c3d429830cdce9a797f4
@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_tool_digging
       ID: Template/description_locString_2543871262668956605_8e7c8cd88b5993443a1925ac4a9f7e5f
-  EDITOR_bakedDescription: Allows digging.
+  EDITOR_bakedDescription: Allows <color=#04959A>Digging</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -144,7 +144,7 @@ MonoBehaviour:
   - _enumRef: Awaken.TG.Main.Skills.Keyword, TG.Main, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null:ToolDigging
   levelBonus: 0
-  weight: 2.7
+  weight: 0.5
   weightLoss: 0.5
   upgradeChance: 0.5
   crimeItemValue: 4
@@ -158,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 6d36f57091490a04d82406e5c5c7fc80
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4704836569250101899
 MonoBehaviour:
@@ -176,6 +180,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: 731e00b79c957874c8a30994d5678e3d
       subObjectName: 
@@ -244,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &3340715399762663728
 MonoBehaviour:

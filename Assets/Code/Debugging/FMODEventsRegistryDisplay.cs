@@ -1,4 +1,4 @@
-﻿#if AR_DEBUG || DEBUG
+﻿﻿#if AR_DEBUG || DEBUG
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,6 @@ using Awaken.Utility.UI;
 using FMOD;
 using FMOD.Studio;
 using FMODUnity;
-using Pathfinding.Util;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -129,7 +128,6 @@ namespace Awaken.TG.Debugging {
             DrawCreatedEventsScrollView("Created events", _createdEventsData, ref _playingScrollPos, ref startX, ref startY);
             startX = StartX;
             startY += SpacingHeight;
-            EventInstance e;
             DrawOneShotsScrollView("One Shot Events", _oneShotEventDatas, _mergeOneShots, ref _oneShotsScrollPos, ref startX, ref startY);
             startX = StartX;
             startY += SpacingHeight;
@@ -514,10 +512,15 @@ namespace Awaken.TG.Debugging {
             // _eventGuidToMemoryUsageMinMaxMap.Clear();
             // _eventGuidToPath.Clear();
             // foreach (var eventInstance in createdEventInstances) {
+            //     if (eventInstance.isValid() == false) {
+            //         continue;
+            //     }
             //     if (TryGetEventDescriptionAndGuid(eventInstance, out var eventDescription, out var guid) == false) {
             //         continue;
             //     }
-            //
+            //     if (eventInstance.getPlaybackState(out var playbackState) != RESULT.OK || playbackState == PLAYBACK_STATE.STOPPED) {
+            //         continue;
+            //     }
             //     _createdEventGuidToCountMap[guid] = _createdEventGuidToCountMap.GetValueOrDefault(guid, 0) + 1;
             //
             //     if (_eventGuidToMemoryUsageMinMaxMap.TryGetValue(guid, out var memoryUsageMinMax) == false && eventInstance.getMemoryUsage(out var instanceMemoryUsage) == RESULT.OK) {
@@ -616,7 +619,7 @@ namespace Awaken.TG.Debugging {
             RefreshData();
         }
 
-        void OnEventStartCulling(StudioEventEmitter emitter) {
+        void OnEventStartCulling(EventInstance eventInstance, StudioEventEmitter emitter) {
 #if !UNITY_GAMECORE
             //WriteStackTrace($"Started culling event {GetEventPathAndGuidString(emitter.EventDescription)} from emitter {PathInSceneHierarchy(emitter.gameObject)}");
 #endif

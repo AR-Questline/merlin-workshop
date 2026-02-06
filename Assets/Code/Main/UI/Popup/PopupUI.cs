@@ -44,7 +44,8 @@ namespace Awaken.TG.Main.UI.Popup {
         public static PopupUI SpawnSimplePopup3Choices(Type viewType, string text, Prompt leftButtonPrompt, Prompt middleButtonPrompt, Prompt rightButtonPrompt, string title, DynamicContent dynamicContent = null) {
             leftButtonPrompt.AddAudio(new PromptAudio { TapSound = CommonReferences.Get.AudioConfig.ButtonApplySound });
             PopupUI popup = World.Add(new PopupUI());
-            World.SpawnView(popup, viewType, true);
+            var view = World.SpawnView(popup, viewType, true);
+            World.Add(new BlurBackground(popup, BlurConfig.Default)).ShowBackground(view);
             popup.ShowText(TextConfig.WithText(text));
             popup.SpawnContent(dynamicContent);
             popup.SetTitle(title);
@@ -72,18 +73,19 @@ namespace Awaken.TG.Main.UI.Popup {
         public static PopupUI SpawnNonInteractablePopup(Type viewType, string title, string text) {
             var popup = World.Add(new PopupUI());
             var view = World.SpawnView(popup, viewType, true);
+            World.Add(new BlurBackground(popup, BlurConfig.Default)).ShowBackground(view);
             if (view is VMediumPopupUI vMediumPopup) {
                 vMediumPopup.titleText.text = title;
             }
             popup.ShowText(TextConfig.WithText(text));
             popup.SetTitle(title);
-            popup.ToggleBg(false);
             return popup;
         }
 
         static PopupUI CreateNoChoicePopup(Type viewType, string title, string text) {
             var popup = World.Add(new PopupUI());
-            World.SpawnView(popup, viewType, true);
+            var view = World.SpawnView(popup, viewType, true);
+            World.Add(new BlurBackground(popup, BlurConfig.Default)).ShowBackground(view);
             popup.ShowText(TextConfig.WithText(text));
             popup.SetTitle(title);
             return popup;
@@ -91,7 +93,8 @@ namespace Awaken.TG.Main.UI.Popup {
         
         static PopupUI AddSimplePopupUIToWorld(Type viewType) {
             PopupUI popup = World.Add(new PopupUI());
-            World.SpawnView(popup, viewType, true);
+            var view = World.SpawnView(popup, viewType, true);
+            World.Add(new BlurBackground(popup, BlurConfig.Default)).ShowBackground(view);
             return popup;
         }
 

@@ -56,10 +56,10 @@ namespace Awaken.TG.Main.Utility.Video {
         async UniTaskVoid Play() {
             await UniTask.WaitUntil(RenderTextureCreated);
 
-            while (!Target.HasBeenDiscarded && !Target.IsLastClip) {
+            while (Target is { HasBeenDiscarded: false, IsLastClip: false }) {
                 await UniTask.WaitUntil(() => _videoFinished);
 
-                if (Target.HasBeenDiscarded) {
+                if (Target?.HasBeenDiscarded ?? true) {
                     return;
                 }
                 

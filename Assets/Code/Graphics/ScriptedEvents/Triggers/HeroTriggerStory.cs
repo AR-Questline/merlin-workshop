@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using Awaken.TG.Main.Fights.NPCs.Presences;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Actions;
+using Awaken.TG.Main.Utility.Debugging;
+using Awaken.Utility.GameObjects;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -70,6 +72,10 @@ namespace Awaken.TG.Graphics.ScriptedEvents.Triggers {
                 return null;
             }
             foreach (var spec in locationsToAdd) {
+                if (spec == null) {
+                    Debug.LogException(new Exception($"Missing LocationSpec in {nameof(HeroTriggerStory)}. {LogUtils.GetDebugName(this)}. {gameObject.PathInSceneHierarchy()}"));
+                    continue;
+                }
                 var location = World.ByID<Location>(spec.GetLocationId());
                 if (TryGetBookmark(location, out var bookmark)) {
                     return bookmark;

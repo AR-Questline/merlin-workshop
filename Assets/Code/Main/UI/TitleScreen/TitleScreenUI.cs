@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Linq;
 using Awaken.TG.Assets.ShadersPreloading;
 using Awaken.TG.Debugging.Logging; // for standard error log handler for exiting game
@@ -13,31 +13,35 @@ using Awaken.TG.Main.Saving.Cloud.Services;
 using Awaken.TG.Main.Saving.SaveSlots;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Settings;
-using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.Settings.FontChooseStartup;
 using Awaken.TG.Main.Settings.GammaSettingScreen;
 using Awaken.TG.Main.Settings.Graphics;
+using Awaken.TG.Main.Settings.Other;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.Main.UI.Popup;
+using Awaken.TG.Main.UI.TitleScreen.Expansion;
 using Awaken.TG.Main.UI.TitleScreen.FileVerification;
 using Awaken.TG.Main.UI.TitleScreen.PatchNotes;
+using Awaken.TG.Main.UI.TitleScreen.SaveVerifications;
 using Awaken.TG.Main.UI.UITooltips;
 using Awaken.TG.Main.UI.TitleScreen.ShadersPreloading;
 using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.Patchers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.Utility;
 using Awaken.Utility;
-using Awaken.Utility.Automation;
 using Awaken.Utility.Collections;
-using Awaken.Utility.Debugging;
+using Awaken.Utility.Automation;
 using Awaken.Utility.Extensions;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
 using System.IO;
 using Awaken.TG.Main.Analytics;
 using Awaken.TG.Main.Saving.Utils;
@@ -56,9 +60,12 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         Model _popup;
         Prompts _prompts;
         Prompt _backPrompt;
+        Prompt _exitPrompt;
+        Prompt _joinDiscordPrompt;
 
         public UIState UIState => UIState.ModalState(HUDState.None);
         public Transform PromptsHost => View<VTitleScreenUI>().PromptsHost;
+        bool IsConsole => PlatformUtils.IsConsole || PlatformUtils.sDebugConsolePlatform;
 
         // === Initialization
         protected override void OnInitialize() {
@@ -87,8 +94,8 @@ namespace Awaken.TG.Main.UI.TitleScreen {
 
             Automations.Prepare();
             await CreateFocusPopup();
-            
-#if !UNITY_GAMECORE && !UNITY_PS5
+
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
             if (!Configuration.GetBool(ApplicationScene.IsGoG)) {
                 if (!PlatformUtils.IsSteamInitialized) {
                     await CreateSteamMissingPopup();
@@ -101,6 +108,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
             //await ShowGammaScreen();
             await FileVerification();
             await PreloadShaders();
+            await SaveVerification();
             if (GameMode.IsDemo) {
                 OnDataCollectionDeclined();
             } else {
@@ -108,7 +116,10 @@ namespace Awaken.TG.Main.UI.TitleScreen {
                 await SpawnStartupPopup();
             }
             await CreateGraphicPresetPopup();
-
+            if (!LocalizationHelper.IsNonLatinaCharacters()) {
+                await ShowFontChoosePopup();
+            }
+            
             if (TitleScreen.autoContinueGame) {
                 TitleScreen.autoContinueGame = false;
                 PauseMusic();
@@ -137,7 +148,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         }
 
         async UniTask FileVerification() {
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
             var fileIntegrity = ApplicationFileIntegrityChecker.Instance;
             if (fileIntegrity != null) {
                 var panel = AddElement(new FileIntegrityPanel(fileIntegrity));
@@ -152,6 +163,15 @@ namespace Awaken.TG.Main.UI.TitleScreen {
             }
             var panel = AddElement(new ShadersPreloadingPanel());
             await AsyncUtil.WaitForDiscard(panel);
+        }
+
+        async UniTask SaveVerification() {
+            var progress = new Progress<float>();
+            var task = World.Services.Get<PatcherService>().CheckAllSaveSlots(progress);
+            if (task is { Status: UniTaskStatus.Pending }) {
+                var panel = AddElement(new SaveVerificationPanel(task, progress));
+                await AsyncUtil.WaitForDiscard(panel);
+            }
         }
 
         async UniTask ShowGammaScreen() {
@@ -176,9 +196,18 @@ namespace Awaken.TG.Main.UI.TitleScreen {
             TextLinkHandler.OpenLinksOf(startupPopup);
             await AsyncUtil.WaitForDiscard(startupPopup);
         }
-
         
-#if !UNITY_GAMECORE && !UNITY_PS5
+        async UniTask ShowFontChoosePopup() {
+            const string PrefKey = "FontChoose_Popup_Shown";
+            if (PrefMemory.GetBool(PrefKey) || Automations.HasAutomation) {
+                return;
+            }
+            Log.Marking?.Warning("Showing font choose start popup");
+            PrefMemory.Set(PrefKey, true, false);
+            await FontChooseStartup.ShowFontChoose();
+        }
+
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
         async UniTask CreateSteamMissingPopup() {
             _popup = PopupUI.SpawnSimplePopup(typeof(VSmallPopupUI),
                 LocTerms.PopupMissingSteamMessage.Translate(),
@@ -205,6 +234,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
                     Log.Marking?.Warning("Migrating saves to Steam");
                     gogMigration.Migrate();
                     defaultMigration.Migrate();
+                    PrefMemory.Save();
                     ClosePopupAndExit();
                 }),
                 PopupUI.CancelTapPrompt(ClosePopup),
@@ -253,7 +283,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         }
         
         async UniTask CreateGraphicPresetPopup() {
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
             const string GraphicPresetPopupShown = "graphic_preset_popup_shown";
             if (PrefMemory.GetBool(GraphicPresetPopupShown) || Automations.HasAutomation) {
                 return;
@@ -289,11 +319,12 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         }
 
         void SpawnTitleScreenUI() {
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
             World.Add(new GameAnalyticsController());
 #endif
-            World.SpawnView(this, typeof(VTitleScreenOverlayUI));
             World.SpawnView(this, typeof(VTitleScreenUI));
+            World.Add(new ExpansionUI());
+            World.SpawnView(this, typeof(VTitleScreenOverlayUI));
             InitPrompts();
         }
 
@@ -307,8 +338,8 @@ namespace Awaken.TG.Main.UI.TitleScreen {
             new StandardErrorLogHandler().Register();
             try {
                 PrefMemory.Save();
-#if !UNITY_GAMECORE && !UNITY_PS5
-                // GameAnalyticsSDK.GameAnalytics.EndSession();
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
+               // GameAnalyticsSDK.GameAnalytics.EndSession();
 #endif
             } catch (System.Exception e) {
                 UnityEngine.Debug.LogException(e);
@@ -332,10 +363,14 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         void InitPrompts() {
             _prompts = AddElement(new Prompts(this));
             _backPrompt = _prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Cancel, LocTerms.UIGenericBack.Translate(), View<VTitleScreenUI>().Back), this, false, false);
+            _exitPrompt = _prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Cancel, LocTerms.PopupQuitToSystem.Translate(), ExitGame), this, !IsConsole, !IsConsole);
+            _joinDiscordPrompt = _prompts.AddPrompt(Prompt.Hold(KeyBindings.UI.Generic.JoinDiscord, LocTerms.TitleScreenJoinDiscord.Translate(), () => Application.OpenURL(GameConstants.Get.discordURL)), this, !IsConsole, !IsConsole);
         }
         
         public void RefreshPrompt(bool state) {
             _backPrompt?.SetupState(state, state);
+            _exitPrompt?.SetupState(!IsConsole && !state, !IsConsole && !state);
+            _joinDiscordPrompt?.SetupState(!IsConsole && !state, !IsConsole && !state);
         }
     }
 }

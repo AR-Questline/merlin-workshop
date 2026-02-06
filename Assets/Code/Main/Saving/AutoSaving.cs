@@ -11,6 +11,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI.Handlers.States;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ namespace Awaken.TG.Main.Saving {
         }
 
         static bool CanAutoSave(bool checkSavingMarker = true) => LoadSave.Get.CanAutoSave(checkSavingMarker);
+        static bool CanForceAutoSave(bool checkSavingMarker = true) => LoadSave.Get.CanForceAutoSave(checkSavingMarker);
         static bool IsSafeToSave() => UIStateStack.Instance.State.IsMapInteractive && LoadSave.Get.HeroStateAllowsSave();
         // We want to AutoSave after rest always event even on SurvivalMode so we bypass CanAutoSave check here.
         static bool CanSaveAfterRest(bool checkSavingMarker = true) => World.Only<AutoSaveSetting>().Enabled && LoadSave.Get.CanSystemSave(checkSavingMarker);
@@ -47,11 +49,24 @@ namespace Awaken.TG.Main.Saving {
             TryAutoSave().Forget();
         }
         
+        public void ForceAutoSaveWithRecurringRetry(Action action) {
+            TryForceAutoSave(action).Forget();
+        }
+        
         async UniTaskVoid TryAutoSave() {
             if (!await AutoSave(CanAutoSave)) {
                 // Auto saving failed, change interval and wait until it succeeds
                 RefreshAutoSaveCooldown(true);
             }
+        }
+        
+        async UniTaskVoid TryForceAutoSave(Action action) {
+            if (!await AutoSave(CanForceAutoSave)) {
+                Log.Critical?.Error($"Force auto saving failed, this should never happen.");
+                // Auto saving failed, change interval and wait until it succeeds
+                RefreshAutoSaveCooldown(true);
+            }
+            action.Invoke();
         }
 
         void RefreshAutoSaveCooldown(bool retry) {
@@ -76,7 +91,7 @@ namespace Awaken.TG.Main.Saving {
             float time = Time.realtimeSinceStartup;
             if (ignoreMinimumDelay || time - _lastSaveTime > MinimumDelayTime) {
                 _lastSaveTime = time;
-                LoadSave.Get.Save(SaveSlot.GetAutoSave());
+                LoadSave.Get.Save(SaveSlot.GetAutoSave(out bool createdNew), deleteSaveSlotIfSavingFailed: createdNew);
                 RefreshAutoSaveCooldown(false);
                 return true;
             }

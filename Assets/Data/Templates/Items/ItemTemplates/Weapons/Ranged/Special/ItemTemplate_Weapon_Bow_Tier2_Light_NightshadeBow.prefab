@@ -52,7 +52,7 @@ MonoBehaviour:
   templateType: 0
   _isAbstract: 0
   _abstractTypes:
-  - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - _guid: 3de257638f67f2c4ca48f4c9cb515946
   - _guid: daf158c6dbc15944abe6500fb253bae7
   metadata:
     verifiedArt: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_multiply
       ID: Template/description_locString_2543871262668956605_e7b79e404694bc648afb0ef2ead2c0e6
-  EDITOR_bakedDescription: Multiplies Sneak Damage by 2.
+  EDITOR_bakedDescription: Multiplies Sneak Damage by x2.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -102,7 +102,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_e7b79e404694bc648afb0ef2ead2c0e6
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +127,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_e7b79e404694bc648afb0ef2ead2c0e6
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -155,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 501c2a21371a7f34fa725daa42d10542
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -241,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: 0.7
   bowDrawSpeedModifier: 0.5
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &2801436953182460930
 MonoBehaviour:
@@ -270,7 +277,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 1
     - name: GainValue
-      value: 0
+      value: 0.1
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated

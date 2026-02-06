@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Assets;
+﻿using System;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Utility;
 using Awaken.Utility;
@@ -7,7 +8,6 @@ using Awaken.Utility.LowLevel.Collections;
 using Awaken.Utility.Maths;
 using Unity.Collections;
 using Unity.Mathematics;
-using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UniversalProfiling;
@@ -25,7 +25,7 @@ namespace Awaken.TG.Main.Grounds {
         // === Queries
         public static Vector3 CoordsToWorld(Vector3 coords, int raycastMask = LayerMask) {
             Vector3 v = coords;
-            v.y = HeightAt(coords, raycastMask, true);
+            v.y = HeightAt(coords, raycastMask, FindClosestType.FindClosest);
             return v;
         }
 
@@ -48,16 +48,12 @@ namespace Awaken.TG.Main.Grounds {
         /// </summary>
         public static bool SnapToGroundSafe(Transform transform, AlignMode align = AlignMode.None, PhysicsScene physicsScene = default) {
             bool snapped = false;
-            bool isOpenWorld = false;
-            for (int i = 0; !isOpenWorld & i < SceneManager.sceneCount; i++) {
-                isOpenWorld |= CommonReferences.Get.SceneConfigs.IsOpenWorld(SceneReference.ByScene(SceneManager.GetSceneAt(i)));
-            }
             
             if (!physicsScene.IsValid()) {
                 physicsScene = Physics.defaultPhysicsScene;
             }
 
-            Vector3 position = isOpenWorld
+            Vector3 position = IsOpenWorld()
                 ? Ground.FindClosestNotBelowTerrain(transform.position, transform, physicsScene)
                 : Ground.SnapToGround(transform.position, transform, physicsScene: physicsScene);
             if (math.abs(position.y - transform.position.y) > 0.001f) {
@@ -87,7 +83,7 @@ namespace Awaken.TG.Main.Grounds {
         }
 
         public static Vector3 SnapNpcToGround(Vector3 position) {
-            position.y = HeightAt(position, NpcGroundLayerMask, true);
+            position.y = HeightAt(position, NpcGroundLayerMask, FindClosestType.FindClosestNotBelowTerrain);
             return position;
         }
 
@@ -102,19 +98,36 @@ namespace Awaken.TG.Main.Grounds {
         }
 
         public static float HeightAt(Vector3 coords, int raycastMask = LayerMask, bool findClosest = false, Transform ignoreRoot = null,
+            bool performExtraChecks = false, PhysicsScene physicsScene = default, float rayStartY = MaxRayHeight,
+            QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
+            return HeightAt(coords, raycastMask, findClosest ? FindClosestType.FindClosest : FindClosestType.Disabled, ignoreRoot, performExtraChecks, physicsScene, rayStartY, queryTriggerInteraction);
+        }
+
+        public static float HeightAt(Vector3 coords, int raycastMask, FindClosestType findClosest, Transform ignoreRoot = null,
             bool performExtraChecks = false, PhysicsScene physicsScene = default, float rayStartY = MaxRayHeight, 
             QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
             return HeightAndNormalAt(coords, raycastMask, findClosest, ignoreRoot, performExtraChecks, physicsScene, rayStartY, queryTriggerInteraction).height;
         }
         
-        public static (float height, Vector3 normal) HeightAndNormalAt(Vector3 coords, int raycastMask = LayerMask, bool findClosest = false, Transform ignoreRoot = null, bool performExtraChecks = false, PhysicsScene physicsScene = default, float rayStartY = MaxRayHeight, 
+        public static (float height, Vector3 normal) HeightAndNormalAt(Vector3 coords, int raycastMask = LayerMask, FindClosestType findClosest = FindClosestType.Disabled, Transform ignoreRoot = null, bool performExtraChecks = false, PhysicsScene physicsScene = default, float rayStartY = MaxRayHeight, 
             QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
-            if (findClosest) {
-                return FindClosest(coords, raycastMask, ignoreRoot, performExtraChecks, physicsScene, queryTriggerInteraction);
+            switch (findClosest) {
+                case FindClosestType.Disabled:
+                    return TryHit(coords, raycastMask, rayStartY, rayStartY + BelowGroundHeight, out Vector3 hitPos, out Vector3 hitNormal, physicsScene, queryTriggerInteraction) 
+                        ? (hitPos.y, hitNormal) 
+                        : (0, Vector3.up);
+                case FindClosestType.FindClosest:
+                    return FindClosest(coords, raycastMask, ignoreRoot, performExtraChecks, physicsScene, queryTriggerInteraction);
+                case FindClosestType.FindClosestNotBelowTerrain:
+                    if (IsOpenWorld()) {
+                        coords.y = FindClosestNotBelowTerrain(coords, raycastMask, ignoreRoot, physicsScene, queryTriggerInteraction);
+                        return (coords.y, Vector3.up);
+                    } else {
+                        return FindClosest(coords, raycastMask, ignoreRoot, performExtraChecks, physicsScene, queryTriggerInteraction);
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(findClosest), findClosest, null);
             }
-
-            return TryHit(coords, raycastMask, rayStartY, rayStartY + BelowGroundHeight, out Vector3 hitPos, out Vector3 hitNormal, physicsScene, queryTriggerInteraction) ?
-                (hitPos.y, hitNormal) : (0, Vector3.up);
         }
 
         public static void Snap2DPointsToGround(in UnsafeArray<float2> points, float originHeight, QueryParameters parameters, Allocator allocator,
@@ -194,13 +207,13 @@ namespace Awaken.TG.Main.Grounds {
             return (height, normal);
         }
 
-        static float FindClosestNotBelowTerrain(Vector3 coords, int raycastMask, Transform ignoreRoot, PhysicsScene physicsScene = default) {
+        static float FindClosestNotBelowTerrain(Vector3 coords, int raycastMask, Transform ignoreRoot, PhysicsScene physicsScene = default, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
             FindClosestMarker.Begin();
             Vector3 origin = new(coords.x, MaxRayHeight, coords.z);
             if (!physicsScene.IsValid()) {
                 physicsScene = Physics.defaultPhysicsScene;
             }
-            int size = physicsScene.Raycast(origin, Vector3.down, Results, MaxRayHeight + BelowGroundHeight, raycastMask);
+            int size = physicsScene.Raycast(origin, Vector3.down, Results, MaxRayHeight + BelowGroundHeight, raycastMask, queryTriggerInteraction);
             if (size <= 0) return coords.y;
 
             bool terrainHit = physicsScene.Raycast(origin, Vector3.down, out var terrainHitInfo, MaxRayHeight + BelowGroundHeight, RenderLayers.Mask.Terrain);
@@ -236,6 +249,20 @@ namespace Awaken.TG.Main.Grounds {
             }
 
             return false;
+        }
+
+        static bool IsOpenWorld() {
+            bool isOpenWorld = false;
+            for (int i = 0; !isOpenWorld & i < SceneManager.sceneCount; i++) {
+                isOpenWorld |= CommonReferences.Get.SceneConfigs.IsOpenWorld(SceneReference.ByScene(SceneManager.GetSceneAt(i)));
+            }
+            return isOpenWorld;
+        }
+
+        public enum FindClosestType : byte {
+            Disabled,
+            FindClosest,
+            FindClosestNotBelowTerrain,
         }
     }
 }

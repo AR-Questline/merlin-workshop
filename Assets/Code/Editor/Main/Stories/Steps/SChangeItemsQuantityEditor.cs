@@ -52,7 +52,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
             }
         }
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawModeToolbar();
             CustomDrawProperties();
 
@@ -195,7 +195,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
 
             foreach (string tag in tags) {
                 string id = TagUtils.GetTagID(tag);
-                if (LocalizationHelper.GetTableEntry(id).entry == null && !notFoundTags.Contains(tag)) {
+                if (LocalizationHelper.EditorOnly_GetTableEntry(id).entry == null && !notFoundTags.Contains(tag)) {
                     notFoundTags.Add(tag);
                 }
             }

@@ -23,6 +23,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
             DiscardSpawnedLocationsOnDiscard = spec.discardSpawnedLocationsOnDiscard;
             _locationsToSpawn = spec.LocationsToSpawn.ToArray();
             _batchQuantityToSpawn = spec.spawnAmount;
+            _totalSpawnCap = _batchQuantityToSpawn;
             _spawnerRange = spec.spawnerRange;
             DiscardAfterSpawn = spec.discardAfterSpawn;
             DiscardAfterAllKilled = spec.discardAfterAllKilled;
@@ -30,7 +31,8 @@ namespace Awaken.TG.Main.Locations.Spawners {
             SpawnOnlyAtNight = spec.spawnOnlyAtNight;
             IsDisabledByFlag = spec.useFlagAvailability;
             _availability = spec.availability;
-            _storyOnAllKilled = spec.storyOnAllKilled;
+            _storyOnAllKilled = spec.StoryOnAllKilled;
+            _statusToApply = spec.StatusToApply;
             _requireFullClearForRespawn = spec.mustFullClearToRespawn;
             SpawnCooldownAfterKilled = spec.SpawnerCooldown;
 

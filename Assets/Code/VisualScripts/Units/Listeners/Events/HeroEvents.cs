@@ -1,10 +1,9 @@
-﻿using Awaken.TG.Main.AI.Fights.Projectiles;
-using Awaken.TG.Main.AI.SummonsAndAllies;
-using Awaken.TG.Main.Character;
+﻿using Awaken.TG.Main.AI.SummonsAndAllies;
 using Awaken.TG.Main.Crafting;
-using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.Combat;
+using Awaken.TG.Main.Skills;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.VisualScripts.Units.Listeners.Contexts;
@@ -35,12 +34,6 @@ namespace Awaken.TG.VisualScripts.Units.Listeners.Events {
     }
     
     [UnityEngine.Scripting.Preserve]
-    public class EvtCharacterDeflectedProjectile : EvtDamage<ICharacter, Damage> {
-        protected override Event<ICharacter, Damage> Event => CharacterProjectileDeflection.Events.CharacterDeflectedProjectile;
-        protected override ICharacter Source(IListenerContext context) => context.Character;
-    }
-    
-    [UnityEngine.Scripting.Preserve]
     public class EvtHeroCrouchToggled : GraphEvent<Hero, bool> {
         protected override Event<Hero, bool> Event => Hero.Events.HeroCrouchToggled;
         protected override Hero Source(IListenerContext context) => context.Model as Hero;
@@ -64,8 +57,21 @@ namespace Awaken.TG.VisualScripts.Units.Listeners.Events {
         protected override Hero Source(IListenerContext context) => context.Model as Hero;
     }
 
+    [UnityEngine.Scripting.Preserve]
     public class EvtHeroPerspectiveChanged : GraphEvent<Hero, bool> {
         protected override Event<Hero, bool> Event => Hero.Events.HeroPerspectiveChanged;
+        protected override Hero Source(IListenerContext context) => context.Model as Hero;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class OnKnockDownEnterUnit : GraphEvent<Hero, bool> {
+        protected override Event<Hero, bool> Event => HeroKnockdown.Events.KnockdownEntered;
+        protected override Hero Source(IListenerContext context) => context.Model as Hero;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class OnKnockDownExitUnit : GraphEvent<Hero, bool> {
+        protected override Event<Hero, bool> Event => HeroKnockdown.Events.KnockdownExited;
         protected override Hero Source(IListenerContext context) => context.Model as Hero;
     }
 }

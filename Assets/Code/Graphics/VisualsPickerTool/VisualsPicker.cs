@@ -212,7 +212,7 @@ namespace Awaken.TG.Graphics.VisualsPickerTool {
                 return false;
             }
 
-            parentLocation.prefabReference = visuals;
+            parentLocation.PrefabReference = visuals;
             parentLocation.ValidatePrefab(true);
             CurrentIndex = _tempIndex;
             EditorUtility.SetDirty(parentLocation);

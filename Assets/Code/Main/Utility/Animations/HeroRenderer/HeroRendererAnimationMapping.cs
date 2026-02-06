@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Loadouts;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -12,6 +13,14 @@ namespace Awaken.TG.Main.Utility.Animations.HeroRenderer {
 
         public HeroRendererAnimationEntry FindFor(ILoadout loadout) {
             return entries.Find(e => e.Matches(loadout));
+        }
+
+        public HeroRendererAnimationEntry FindForTransmog(Item item) {
+            return entries.Find(e => e.MatchesForTransmog(item));
+        }
+        
+        public HeroRendererAnimationEntry FindDefault() {
+            return entries.Find(e => e.MatchesForFists());
         }
 
         // === Helpers

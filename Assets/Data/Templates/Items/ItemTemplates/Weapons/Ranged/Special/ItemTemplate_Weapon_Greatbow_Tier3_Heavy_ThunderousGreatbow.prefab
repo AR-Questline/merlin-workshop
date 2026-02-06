@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -4475773184946659116}
   - component: {fileID: -8090837767640589894}
   - component: {fileID: 2772734176035398955}
-  - component: {fileID: -1424867102444929372}
   - component: {fileID: -4219551050460964602}
   m_Layer: 0
   m_Name: ItemTemplate_Weapon_Greatbow_Tier3_Heavy_ThunderousGreatbow
@@ -53,7 +52,7 @@ MonoBehaviour:
   templateType: 0
   _isAbstract: 0
   _abstractTypes:
-  - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - _guid: 76622a1274815384685e80c6cd2eb190
   - _guid: ac284bdd722762346b747bef5ac29b16
   metadata:
     verifiedArt: 0
@@ -61,6 +60,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:tier3
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 188debeeb479802498df39a8d4199fba
@@ -78,7 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_a2fd16225556ad74dae7d10b13608a88
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: Fully drawn arrows cost 15 Mana when hitting enemies,
+    dealing an additional 30 Damage in an area.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: 93fee06840e2c1f4b87075ede930dae0
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +177,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: 95d2d1c80ea9ace41ba7cdb57e54bc20
       subObjectName: 
@@ -240,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: 0.7
   bowDrawSpeedModifier: 1
   lightCastManaCost: 15
+  lightCastManaCostGain: 0
   heavyCastManaCost: 15
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-8090837767640589894
 MonoBehaviour:
@@ -586,25 +595,6 @@ MonoBehaviour:
         arReference:
           address: 
           subObjectName: 
---- !u!114 &-1424867102444929372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9174666264328438791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba20f8f2bac04561aebf07f9b8f0ba32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skills: []
-  duration: 0
-  durationGain: 0
-  weaponVFX:
-    arReference:
-      address: 
-      subObjectName: 
 --- !u!114 &-4219551050460964602
 MonoBehaviour:
   m_ObjectHideFlags: 0

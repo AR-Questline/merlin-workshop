@@ -190,6 +190,7 @@ namespace Awaken.TG.Main.Animations {
                     _ => 0
                 };
             }
+            
             void FinalizeFullRotationTowardsLookAt() {
                 _data.headRigDesiredWeight = 0;
                 _data.bodyRigDesiredWeight = 0;

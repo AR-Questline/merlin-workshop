@@ -158,6 +158,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +218,10 @@ MonoBehaviour:
     - name: ProjectileCount
       value: 4
     - name: StatCost
+      value: 0
+    - name: StatCostGain
+      value: 0
+    - name: StatCostCalculated
       value: 0
     - name: Range
       value: 10
@@ -331,7 +339,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 19
   maxDamage: 25
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -364,8 +372,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 30
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 27
+  heavyCastManaCostPerSecondGain: 1.5
   magicHeldSpeedMultiplier: 0.6
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

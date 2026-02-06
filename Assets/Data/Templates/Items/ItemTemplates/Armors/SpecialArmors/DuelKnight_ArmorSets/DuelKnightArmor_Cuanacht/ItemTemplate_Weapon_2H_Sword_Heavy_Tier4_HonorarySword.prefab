@@ -65,7 +65,7 @@ MonoBehaviour:
   - item:tier4
   iconReference:
     arSpriteReference:
-      address: 030f4ade5e3cb12439a348e2a31a9d72
+      address: 0bf72093fdd4c3f41883d14e94af003a
       subObjectName: 
   itemName:
     IdOverride: specialweapon_HonorarySword
@@ -80,7 +80,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_c0bde6fa7d8f425479f31bd99c6f34e0
-  EDITOR_bakedDescription: Attacks apply massive Poison buildup.
+  EDITOR_bakedDescription: "Deals 100\_% more Damage to staggered enemies.\nAttacks
+    against targets below 33\_% Health have 33\_% more chance to be Critical.\nBlocking
+    regenerates 50\_% of the blocked Damage as Stamina."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -105,7 +107,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_a02adf48f80a454478dd683a03bb77f3
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_c0bde6fa7d8f425479f31bd99c6f34e0
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -130,7 +132,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_a02adf48f80a454478dd683a03bb77f3
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_c0bde6fa7d8f425479f31bd99c6f34e0
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -155,7 +157,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: ab4ac2b764d2780459dcfd7808d502cf
+      address: cc4b9f928d362b94ab204b1ac9292cd1
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -242,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5105216457261439534
 MonoBehaviour:
@@ -585,7 +594,12 @@ MonoBehaviour:
     enums: []
     datums: []
     templates: []
-    assetReferences: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 583f0a061e6fcdc44a4c3282b03f31c5
+          subObjectName: 
   - skillGraphRef:
       _guid: e9e68729ac8788247bb59148748cc90d
     variables:
@@ -647,4 +661,9 @@ MonoBehaviour:
           address: 
           subObjectName: 
     templates: []
-    assetReferences: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 
+          subObjectName: 

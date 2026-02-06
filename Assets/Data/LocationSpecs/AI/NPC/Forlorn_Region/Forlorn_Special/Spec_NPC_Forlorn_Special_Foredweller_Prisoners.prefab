@@ -134,12 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02be8d841ce9e1448b41db8d011b6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
-  healthRegen: 0
+  maxHealth: 999999999
+  healthRegen: 1e+9
   discardOnDeath: 1
   discardDelayInSeconds: 0.1
   armorMultiplier: 1
-  armor: 0
+  armor: 100
   forceModifier: 1
   surfaceType:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
@@ -152,7 +152,13 @@ MonoBehaviour:
     arReference:
       address: 
       subObjectName: 
+  storyOnDeath:
+    story:
+      _guid: 
+    chapterName: 
   damageReceivedMultipliers:
+  - subType: 0
+    takenDamagePercentageMultiplier: 0
   - subType: 1
     takenDamagePercentageMultiplier: 0
   - subType: 2
@@ -164,6 +170,16 @@ MonoBehaviour:
   - subType: 12
     takenDamagePercentageMultiplier: 0
   - subType: 13
+    takenDamagePercentageMultiplier: 0
+  - subType: 20
+    takenDamagePercentageMultiplier: 0
+  - subType: 21
+    takenDamagePercentageMultiplier: 0
+  - subType: 22
+    takenDamagePercentageMultiplier: 0
+  - subType: 23
+    takenDamagePercentageMultiplier: 0
+  - subType: 24
     takenDamagePercentageMultiplier: 0
 --- !u!114 &-4848942153796973313
 MonoBehaviour:
@@ -185,8 +201,6 @@ MonoBehaviour:
       _guid: ce3e1286fcde01b48afc76ddfcb8a909
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 0}

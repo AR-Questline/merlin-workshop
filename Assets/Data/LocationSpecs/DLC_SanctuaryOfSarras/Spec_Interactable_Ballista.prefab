@@ -1,0 +1,314 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5545430941669151807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3383205285082349501}
+  - component: {fileID: -9130120985250361749}
+  - component: {fileID: 8302400451837707895}
+  - component: {fileID: 31944352874529407}
+  - component: {fileID: -8604979883837712269}
+  - component: {fileID: 1668863750911265255}
+  m_Layer: 29
+  m_Name: Spec_Interactable_Ballista
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3383205285082349501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 13.912075, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-9130120985250361749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCached: 0
+  sceneId:
+    sceneName: 
+    prefabId: 0
+    objectId: 0
+    baked: 0
+  displayName:
+    IdOverride: 
+    ID: Template/displayName_9316623088459189867_c76ced03e683deb47a7a8ccf6488fd1c
+  tags: []
+  startInteractabilityReference:
+    _enumRef: 
+  conditionalPrefabReferences: []
+  prefabReference:
+    address: ea5cd1b085a2f35458d5240600beefcc
+    subObjectName: 
+  snapToGround: 0
+  _isNonMovable: 0
+  _hidableStatic: 0
+  maxActiveDistanceBand: 3
+  autoConvertToStatic: 0
+--- !u!114 &8302400451837707895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b643b77c560fe6f48a9814d05ac87c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes: []
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+--- !u!114 &31944352874529407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: becc4dd95452409fb9c002ccfb5b89f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeOnlyWhenLocationInCombat: 1
+  locationThatHasToBeInCombat:
+    targetTypes: 1
+    tags:
+    - Sarras:Lir
+    locationRefs: []
+    actors: []
+    locationSpecsReferences: []
+  difficultyParameters:
+  - rawDifficulty:
+      _enumRef: 
+    projectileVelocity: 50
+    targetRandomRadius: 5
+    firingAccuracyAngle: 5
+    launchInterval: 30
+    maxRotationSpeed: 5
+  - rawDifficulty:
+      _enumRef: Awaken.TG.Main.Settings.Gameplay.Difficulty, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Hard
+    projectileVelocity: 100
+    targetRandomRadius: 2
+    firingAccuracyAngle: 1
+    launchInterval: 25
+    maxRotationSpeed: 10
+  - rawDifficulty:
+      _enumRef: Awaken.TG.Main.Settings.Gameplay.Difficulty, TG.Main, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null:Survival
+    projectileVelocity: 120
+    targetRandomRadius: 2
+    firingAccuracyAngle: 1
+    launchInterval: 20
+    maxRotationSpeed: 20
+  minDistanceToTrack: 30
+  maxDistanceToAttack: 100
+  ballistaHeadTag: Head
+  pitchLimit: 30
+  yawLimit: 45
+  randomInitialDelayDecrease: 20
+  randomIntervalDelta: 10
+  operatorLocation:
+    _guid: 049017613c745a642b8237e00a7fdfce
+  spawnOperatorAtStart: 1
+  operatorRespawnDelay: -1
+  operatorSeatTag: NPCInteraction
+  returnToBaseRotationWithoutOperator: 0
+--- !u!114 &-8604979883837712269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7685adfa82d4efea71e23d3e8e51032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - skillGraphRef:
+      _guid: 6fe5a1ecf5a534e48ac5a94eb6cf894e
+    variables:
+    - name: Damage
+      value: 1
+    - name: Lifetime
+      value: 120
+    - name: Velocity
+      value: 100
+    enums: []
+    datums:
+    - name: Cooldown
+      type:
+        id: 1
+      value:
+        simpleValue:
+          rawValue: 5
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: DealDirectDamageOnContact
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ExplodeOnContact
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ExplodeOnEnviroHit
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ExplodeOnLifetimeEnd
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ShowLifetimeStartVFX
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: LifetimeStartVFXOnFirePointPosition
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: Piercing
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: LimitedPiercing
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: PiercingLimit
+      type:
+        id: 1
+      value:
+        simpleValue:
+          rawValue: 10
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OwnerIsShooter
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    templates: []
+    assetReferences:
+    - name: LogicPrefab
+      assetReference:
+        arReference:
+          address: 9c7611fff8c409a4ba0942c0b24ec3a4
+          subObjectName: 
+    - name: VisualPrefab
+      assetReference:
+        arReference:
+          address: 8b908c79437d639489ebba722f25b489
+          subObjectName: 
+  setAnimatorParametersOnTrigger: 1
+  animatorParameters:
+  - targetParameter:
+      type: 9
+      boolValue: 0
+      floatValue: 0
+      intValue: 0
+    parameterName: Fire
+    shouldBeSaved: 0
+--- !u!114 &1668863750911265255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545430941669151807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78b030055d8425282016a982e103500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

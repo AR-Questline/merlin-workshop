@@ -6,9 +6,7 @@ using Awaken.TG.MVC;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.LocationDiscovery {
-    public partial class LocationDiscoveryBuffer : AdvancedNotificationBuffer<NewLocationNotification> {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class LocationDiscoveryBuffer : AdvancedNotificationBufferPresenter<NewLocationNotification> {
         protected override VisualElement NotificationsParent => ParentModel.NotificationsContainerUI.LocationNotificationsParent;
         protected override IEnumerable<Type> DependentBuffers {
             get {

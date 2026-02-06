@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -7115959648689163848}
   - component: {fileID: -4475773184946659116}
   - component: {fileID: -11953570963775665}
+  - component: {fileID: 5753989512334038383}
   - component: {fileID: 10439516592509193}
   m_Layer: 0
   m_Name: ItemTemplate_Weapon_2H_Polearm_Medium_Tier5_StarlightSerpentLance
@@ -54,6 +55,7 @@ MonoBehaviour:
   - _guid: fb3f705c21071314b8d3a9fa554e0ed3
   - _guid: daf158c6dbc15944abe6500fb253bae7
   - _guid: 00e2ecb9a87647c42b02d08d71fc9c48
+  - _guid: 2ec1f2b91c4b91540a3d9d5544f2ad41
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -73,11 +75,12 @@ MonoBehaviour:
       IdOverride: 
       ID: 
   description:
-    toggled: 0
+    toggled: 1
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_a1f70334822a43542a788009690e8e41
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: "Attacks have a 10\_% chance to <color=#04959A>Break the
+    Armor</color> for 10s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 1b2f2f863a46c3947be751f22b527f4c
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -239,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-11953570963775665
 MonoBehaviour:
@@ -537,6 +547,132 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+--- !u!114 &5753989512334038383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174666264328438791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a781d35a7464364dae8f087ddc8a36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionType:
+    _enumRef: Awaken.TG.Main.Heroes.Items.Attachments.ItemActionType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:Equip
+  chargeAble: 0
+  hasChargeSteps: 0
+  maxChargeSteps: 1
+  consumeOnUse: 0
+  skills:
+  - skillGraphRef:
+      _guid: b9c6539825e72e047886d566b7b5b372
+    variables:
+    - name: Buildup
+      value: 0
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
+      value: 0
+    - name: Duration
+      value: 10
+    - name: ChanceToApply
+      value: 0.1
+    - name: StackCount
+      value: 1
+    - name: ValuePreCalculated
+      value: 0
+    - name: DurationGainValue
+      value: 1
+    enums: []
+    datums:
+    - name: OnNormalAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnHeavyAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnCriticalAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnSneakAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnWeakSpotAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnBackstabAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnPushAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ApplyToUser
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    templates:
+    - name: Status
+      templateReference:
+        _guid: d1e4079507be7c149b0eba6d0b14c5f5
+    assetReferences: []
 --- !u!114 &10439516592509193
 MonoBehaviour:
   m_ObjectHideFlags: 0

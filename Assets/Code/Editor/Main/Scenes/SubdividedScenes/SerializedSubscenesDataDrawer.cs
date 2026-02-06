@@ -143,24 +143,25 @@ namespace Awaken.TG.Editor.Main.Scenes.SubdividedScenes {
 
         static void DrawNodeField(Rect rect, SerializedProperty node, string nodeNameValue, uint serializedPropertyContentHash) {
             var rects = new PropertyDrawerRects(rect);
-            var nodeRect = rects.AllocateWithRest(ToggleWidth + LoadToggleLabelWidth);
-            var loadLabelRect = rects.AllocateLeft(LoadToggleLabelWidth);
-            var toggleRect = rects.Rect;
+            var toggleRect = rects.AllocateRight(ToggleWidth);
+            var loadLabelRect = rects.AllocateRight(LoadToggleLabelWidth);
+            var nodeRect = rects.Rect;
+            
             if (IsCurrentlyEdited(node.propertyPath, serializedPropertyContentHash)) {
                 var nodeName = node.FindPropertyRelative(NameName);
                 EditorGUI.PropertyField(nodeRect, nodeName, GUIContent.none);
             } else {
-                node.isExpanded = EditorGUI.Foldout(nodeRect, node.isExpanded,
-                    nodeNameValue, true);
+                node.isExpanded = EditorGUI.Foldout(nodeRect, node.isExpanded, nodeNameValue, true);
             }
+            
             EditorGUI.LabelField(loadLabelRect, "Load:");
+            
             var nodeStableUniqueId = node.FindPropertyRelative(NameNodeStableUniqueId).intValue;
-            var isNodeNeededToLoad = IsNodeNeededToLoad(nodeStableUniqueId); 
-            var newIsNodeNeededToLoad =  EditorGUI.Toggle(toggleRect, isNodeNeededToLoad);
+            var isNodeNeededToLoad = IsNodeNeededToLoad(nodeStableUniqueId);
+            var newIsNodeNeededToLoad = EditorGUI.Toggle(toggleRect, isNodeNeededToLoad);
             if (isNodeNeededToLoad != newIsNodeNeededToLoad) {
                 MarkNodeToLoad(nodeStableUniqueId, newIsNodeNeededToLoad);
             }
-           
         }
         
         static void DrawSceneField(Rect position, SerializedProperty scene, string sceneName, bool isSet, SceneReference sceneReference, 
@@ -175,17 +176,18 @@ namespace Awaken.TG.Editor.Main.Scenes.SubdividedScenes {
                     SceneReferenceSettings
                 );
             } else {
+                var loadToggleRect = rects.AllocateRight(ToggleWidth);
+                var loadLabelRect = rects.AllocateRight(LoadToggleLabelWidth);
+                
                 if (isSet == false) GUI.enabled = false;
                 bool isSceneLoaded = sceneReference.LoadedScene.IsValid();
                 var newIsSceneLoaded = EditorGUI.Toggle(rects.AllocateLeft(ToggleWidth), isSceneLoaded);
-                
                 GUI.enabled = true;
                 
-                EditorGUI.LabelField(rects.AllocateWithRest(ToggleWidth + LoadToggleLabelWidth), sceneName);
+                EditorGUI.LabelField(rects.Rect, sceneName);
                 
                 if (isSet == false) GUI.enabled = false;
-                
-                EditorGUI.LabelField(rects.AllocateLeft(LoadToggleLabelWidth), "Load:");
+                EditorGUI.LabelField(loadLabelRect, "Load:");
                 
                 var sceneStableUniqueId = scene.FindPropertyRelative(NameSceneStableUniqueId).intValue;
                 var sceneIndex = SerializedSubscenesData.GetIndexFromId(scene.FindPropertyRelative(NameSceneId).intValue);
@@ -195,7 +197,7 @@ namespace Awaken.TG.Editor.Main.Scenes.SubdividedScenes {
                     isSceneNeededToLoad = false;
                 }
                 
-                var newIsSceneNeededToLoad = EditorGUI.Toggle(rects.Rect, isSceneNeededToLoad);
+                var newIsSceneNeededToLoad = EditorGUI.Toggle(loadToggleRect, isSceneNeededToLoad);
                 
                 GUI.enabled = true;
                 if (isSceneNeededToLoad != newIsSceneNeededToLoad) {

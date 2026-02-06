@@ -1,12 +1,8 @@
-using Awaken.TG.Main.Heroes.CharacterSheet;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
-using Awaken.Utility;
 using Awaken.Utility.Debugging;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Crafting.Slots {
     [UsesPrefab("Crafting/VGhostItem")]
@@ -14,7 +10,6 @@ namespace Awaken.TG.Main.Crafting.Slots {
         static readonly int Grayscale = Shader.PropertyToID("_Grayscale");
 
         [SerializeField] Image ghostImage;
-        [SerializeField] TextMeshProUGUI counter;
         
         public override Transform DetermineHost() => Target.DeterminedHost;
 
@@ -41,9 +36,6 @@ namespace Awaken.TG.Main.Crafting.Slots {
             }
             
             bool canCraft = Target.inventoryQuantity >= Target.requiredQuantity;
-            counter.gameObject.SetActive(Target.ParentModel is not EditableWorkbenchSlot && Target.requiredQuantity > 1);
-            counter.SetText(canCraft ? Target.requiredQuantity.ToString() : $"{Target.inventoryQuantity}/{Target.requiredQuantity}");
-            counter.color = canCraft ? ARColor.MainWhite : ARColor.MainRed;
             var grayscale = canCraft ? 0 : 1;
             _iconMaterial.SetFloat(Grayscale, grayscale);
         }

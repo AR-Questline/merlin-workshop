@@ -76,7 +76,7 @@ MonoBehaviour:
   EDITOR_bakedDescription: 'Increase Dexterity by 5 for 60 seconds.
 
     Decrease
-    Strength by 0 for 60 seconds.'
+    Strength by 5 for 60 seconds.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 116473962917af44293a519f2a30c2c6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

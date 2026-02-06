@@ -31,6 +31,8 @@ namespace Awaken.TG.Main.Stories.Steps {
         public partial class StepExecution : DeferredLocationExecution {
             public override ushort TypeForSerialization => SavedTypes.StepExecution_NpcTurnFromGhost;
             
+            public override bool RequireVisualLoaded => true;
+            
             public override void Execute(Location location) {
                 NpcElement npcElement = location.TryGetElement<NpcElement>();
                 NpcGhostElement npcGhostElement = npcElement?.TryGetElement<NpcGhostElement>();

@@ -3,6 +3,7 @@ using Awaken.TG.Main.Heroes.Interactions;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.Utility;
+using Cysharp.Threading.Tasks;
 
 namespace Awaken.TG.Main.Locations.Spawners {
     public partial class SpawnerAction : AbstractLocationAction, IRefreshedByAttachment<SpawnerActionAttachment> {
@@ -12,7 +13,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         
         protected override void OnStart(Hero hero, IInteractableWithHero interactable) {
             foreach (var spawner in ParentModel.Elements<BaseLocationSpawner>()) {
-                spawner.TryGetElement<ManualSpawner>()?.TriggerSpawner();
+                spawner.TryGetElement<ManualSpawner>()?.TriggerSpawner().Forget();
             }
         }
     }

@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Locations.Setup;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Saving.DefaultValues;
 using Awaken.TG.MVC;
@@ -20,7 +22,9 @@ namespace Awaken.TG.Main.Locations {
         [Saved, DefaultValueVector3(1, 1, 1)] public Vector3 SpecInitialScaleSaved { get => SpecInitialScale; private set => SpecInitialScale = value; }
         
         [Saved] public string OverridenLocationName { get; private set; }
-        
+        [Saved, DefaultValue(-1)] public int NewGamePlusLevel { get; private set; }
+
+        public override int OverridenNewGamePlusLevel => NewGamePlusLevel;
         public override bool ShouldBeSaved => true;
         
         Scene? _desiredScene;
@@ -31,7 +35,8 @@ namespace Awaken.TG.Main.Locations {
             Template = data.Template;
             OverridenLocationPrefab = data.OverridenLocationPrefab;
             OverridenLocationName = data.OverridenLocationName;
-            
+            NewGamePlusLevel = data.NewGamePlusLevel;
+                
             SpecInitialPosition = data.InitialPosition;
             SpecInitialRotation = data.InitialRotation;
             SpecInitialScale = data.InitialScale;
@@ -51,6 +56,10 @@ namespace Awaken.TG.Main.Locations {
             JsonUtils.JsonWrite(jsonWriter, serializer, nameof(SpecInitialPositionSaved), SpecInitialPositionSaved);
             JsonUtils.JsonWrite(jsonWriter, serializer, nameof(SpecInitialRotationSaved), SpecInitialRotationSaved);
             JsonUtils.JsonWrite(jsonWriter, serializer, nameof(SpecInitialScaleSaved), SpecInitialScaleSaved, new Vector3(1, 1, 1));
+
+            if (NewGamePlusLevel != -1 && NewGamePlusLevel != NewGamePlusSystem.Level) {
+                JsonUtils.JsonWrite(jsonWriter, serializer, nameof(NewGamePlusLevel), NewGamePlusLevel);
+            }
         }
 
         public override void PrepareSpec(Location location) {
@@ -102,8 +111,9 @@ namespace Awaken.TG.Main.Locations {
         public Scene? DesiredScene { get; }
         public ARAssetReference OverridenLocationPrefab { get; }
         public string OverridenLocationName { get; }
+        public int NewGamePlusLevel { get; }
         
-        public RuntimeLocationData(LocationTemplate template, Vector3 position, Quaternion rotation, Vector3 scale,ARAssetReference overridenLocationPrefab, string overridenLocationName, Scene? desiredScene) {
+        public RuntimeLocationData(LocationTemplate template, Vector3 position, Quaternion rotation, Vector3 scale,ARAssetReference overridenLocationPrefab, string overridenLocationName, Scene? desiredScene, int newGamePlusLevel) {
             Template = template;
             InitialPosition = position;
             InitialRotation = rotation;
@@ -111,6 +121,7 @@ namespace Awaken.TG.Main.Locations {
             OverridenLocationPrefab = overridenLocationPrefab;
             OverridenLocationName = overridenLocationName;
             DesiredScene = desiredScene;
+            NewGamePlusLevel = newGamePlusLevel;
         }
     }
 }

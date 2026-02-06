@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Awaken.TG.Editor.Assets;
 using Awaken.TG.Editor.Helpers;
 using Awaken.TG.Editor.Localizations;
@@ -45,7 +46,7 @@ namespace Awaken.TG.Editor.Utility.Localization {
 
             bool isOverriden = !string.IsNullOrWhiteSpace(locString.IdOverride);
             string id = isOverriden ? locString.IdOverride : locString.ID;
-            var entry = LocalizationHelper.GetTableEntry(id).entry;
+            var entry = LocalizationHelper.EditorOnly_GetTableEntry(id).entry;
             
             // validate category
             Category? category;
@@ -82,7 +83,7 @@ namespace Awaken.TG.Editor.Utility.Localization {
 
             // --- Text Field with generated ID
             if (string.IsNullOrWhiteSpace(locString.IdOverride)) {
-                string textString = LocalizationHelper.Translate(locString.ID, LocalizationSettings.ProjectLocale, true);
+                string textString = LocalizationHelper.Translate(locString.ID, true);
                 float height = LocStringDrawerHelper.TextArea.CalcHeight(new GUIContent(textString), Screen.width);
                 using var scope = new DisableGUIScope(correctId == null);
                 EditableTextField(stringTable, locString.ID, textString, rects.AllocateTop(height + EditorGUIUtility.singleLineHeight));
@@ -103,15 +104,20 @@ namespace Awaken.TG.Editor.Utility.Localization {
 
             // --- Text Field with overriden ID
             if (isOverriden) {
-                if (entry != null) {
-                    Locale locale = LocalizationSettings.ProjectLocale;
-                    string translation = LocalizationHelper.Translate(locString.IdOverride, locale, true);
-                    float height = LocStringDrawerHelper.TextArea.CalcHeight(new GUIContent(translation), Screen.width);
-                    EditableTextField(OverridesTable, locString.IdOverride, translation, rects.AllocateTop(height));
+                if (ExistsInOtherTables(id, out var tables)) {
+                    using (new ColorGUIScope(Color.red)) {
+                        EditorGUI.LabelField(rects.AllocateLine(), "ID already used in tables: " + string.Join(", ", tables) );
+                    }
                 } else {
-                    float height = LocStringDrawerHelper.TextArea.CalcHeight(new GUIContent(fallbackString), Screen.width);
-                    string value = EditorGUI.TextArea(rects.AllocateTop(height), fallbackString, LocStringDrawerHelper.TextArea);
-                    locString.SetFallback(value, true);
+                    if (entry != null) {
+                    	string translation = LocalizationHelper.Translate(locString.IdOverride, true);
+                    	float height = LocStringDrawerHelper.TextArea.CalcHeight(new GUIContent(translation), Screen.width);
+                    	EditableTextField(OverridesTable, locString.IdOverride, translation, rects.AllocateTop(height));
+                    } else {
+                        float height = LocStringDrawerHelper.TextArea.CalcHeight(new GUIContent(fallbackString), Screen.width);
+                        string value = EditorGUI.TextArea(rects.AllocateTop(height), fallbackString, LocStringDrawerHelper.TextArea);
+                        locString.SetFallback(value, true);
+                    }
                 }
             }
             EditorGUILayout.BeginHorizontal();
@@ -187,8 +193,7 @@ namespace Awaken.TG.Editor.Utility.Localization {
             if (string.IsNullOrWhiteSpace(text.IdOverride)) {
                 textString = text + "\n";
             } else {
-                Locale locale = LocalizationSettings.ProjectLocale;
-                textString =  LocalizationHelper.Translate(text.IdOverride, locale, true);
+                textString = LocalizationHelper.Translate(text.IdOverride, true);
             }
             GUIContent content = new(textString);
             float height = LocStringDrawerHelper.TextArea.CalcHeight(content, Screen.width);
@@ -197,6 +202,26 @@ namespace Awaken.TG.Editor.Utility.Localization {
             }
             // --- Single line for: PrefixLabel, OverridenId Label
             return height + EditorGUIUtility.singleLineHeight * 2f;
+        }
+        
+        bool ExistsInOtherTables(string id, out List<string> tables) {
+            string[] tablesToCheck = new string[LocalizationHelper.StringTables.Length - 2];
+            for(int i = 0, j = 0; i < LocalizationHelper.StringTables.Length; i++) {
+                if (LocalizationHelper.StringTables[i] != LocalizationHelper.OverridesTable && LocalizationHelper.StringTables[i] != LocalizationHelper.StoryTable) {
+                    tablesToCheck[j++] = LocalizationHelper.StringTables[i];
+                }
+            }
+            
+            tables = new List<string>();
+            foreach (var tableName in tablesToCheck) {
+                var table = LocalizationSettings.StringDatabase.GetTable(tableName, LocalizationHelper.SelectedLocale);
+                var entry = table.GetEntryFromReference(id);
+                if (entry != null) {
+                    tables.Add(tableName);
+                }
+            }
+
+            return tables.Count > 0;
         }
     }
 

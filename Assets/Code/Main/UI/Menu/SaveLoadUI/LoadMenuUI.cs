@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Saving.SaveSlots;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.UI.Popup.PopupContents;
@@ -33,6 +35,7 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
         protected EditNameUI _editNameUI;
         protected Prompt _acceptPrompt;
         
+        readonly bool _onlyNewGamePlusEligible;
         SaveLoadSlotUI _editingSlotUI;
         Prompt _renamePrompt;
         Prompt _removePrompt;
@@ -42,11 +45,18 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
         
         public override Domain DefaultDomain => Domain.Globals;
         public UIState UIState => UIState.ModalState(HUDState.MiddlePanelShown).WithPauseTime();
-        public virtual string TitleName => LocTerms.LoadGame.Translate();
+        public virtual string TitleName => _onlyNewGamePlusEligible 
+                                                ? LocTerms.LoadGameAndStartNewGamePlus.Translate() 
+                                                : LocTerms.LoadGame.Translate();
         public Transform SlotsParent => View<VSaveLoadUI>().SlotsParent;
         public Transform PromptsHost => View<VSaveLoadUI>().PromptsHost;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         protected VSaveLoadUI View => View<VSaveLoadUI>();
+
+        public LoadMenuUI(bool onlyNewGamePlusEligible) {
+            _onlyNewGamePlusEligible = onlyNewGamePlusEligible;
+        }
         
         protected override void OnFullyInitialized() {
             World.EventSystem.ListenTo(EventSelector.AnySource, Selection.Events.SelectionChanged, this, OnSelectionChanged);
@@ -58,6 +68,9 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
         void InitializeSlots() {
             int i = 0;
             foreach (SaveSlot saveSlot in World.All<SaveSlot>().ToArraySlow().OrderByDescending(s => s.LastSavedTime)) {
+                if (_onlyNewGamePlusEligible && !saveSlot.AllowNewGamePlus) {
+                    continue;
+                }
                 var slotUI = new SaveLoadSlotUI(saveSlot, i);
                 AddElement(slotUI);
                 World.SpawnView<VSaveLoadSlotUI>(slotUI, true, true, View<VSaveLoadUI>().SlotsParent);
@@ -182,12 +195,16 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
 
         public virtual void SaveLoadAction(SaveLoadSlotUI saveSlotUI) {
             SaveSlot slot = saveSlotUI.saveSlot;
-            LoadSave.Get.Load(slot, World.HasAny<DeathUI.DeathUI>() ? "Death Load UI" : "Menu Load UI");
+            if (_onlyNewGamePlusEligible) {
+                NewGamePlusUtils.LoadSaveAndStartNewGamePlus(slot);
+            } else {
+                LoadSave.Get.Load(slot, World.HasAny<DeathUI.DeathUI>() ? "Death Load UI" : "Menu Load UI");
+            }
             Close();
         }
 
         public virtual void SetupAcceptPrompt(SelectionChange selectionChange) {
-            _acceptPrompt.SetActive(selectionChange.Selected);
+            _acceptPrompt.SetActive(_hoveredSlotUI.saveSlot.HasValidDLCs() && selectionChange.Selected);
         }
 
         public UIResult Handle(UIEvent evt) {

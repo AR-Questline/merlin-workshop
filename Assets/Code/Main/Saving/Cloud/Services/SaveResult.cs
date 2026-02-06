@@ -1,11 +1,14 @@
-﻿namespace Awaken.TG.Main.Saving.Cloud.Services {
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+namespace Awaken.TG.Main.Saving.Cloud.Services {
     public class SaveResult {
         public static readonly SaveResult Default = new() {
-            SupportsFileCounting = false,
-            FileCount = 0
+            FileNames = Array.Empty<string>(),
         };
 
-        public bool SupportsFileCounting { get; init; } = true; // TODO: Fix xbox and remove
-        public int FileCount { get; init; }
+        public int FileCount => FileNames.Length;
+        public string[] FileNames { get; init; }
     }
 }

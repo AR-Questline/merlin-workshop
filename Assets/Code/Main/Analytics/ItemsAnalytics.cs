@@ -25,6 +25,9 @@ namespace Awaken.TG.Main.Analytics {
     /// Used number of events: ItemsCount * Events
     /// </summary>
     public partial class ItemsAnalytics : Element<GameAnalyticsController> {
+        const int VeryImportantItemBonusScore = -5;
+        const int ImportantItemBonusScore = -2;
+        
         public sealed override bool IsNotSaved => true;
 
         public static string ItemName(ItemTemplate template) => NiceName(template != null ? template.name : template.ItemName);
@@ -37,8 +40,8 @@ namespace Awaken.TG.Main.Analytics {
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelFullyInitialized<Hero>(), this, OnHeroInit);
             World.EventSystem.ListenTo(EventSelector.AnySource, Item.Events.BeforeActionPerformed, this, OnItemAction);
             World.EventSystem.ListenTo(EventSelector.AnySource, Item.Events.ItemSharpened, this, OnItemSharpened);
-            World.EventSystem.ListenTo(EventSelector.AnySource, GemManagementUI.Events.GemDetached, this, OnRelicChanged);
-            World.EventSystem.ListenTo(EventSelector.AnySource, GemManagementUI.Events.GemAttached, this, OnRelicChanged);
+            // World.EventSystem.ListenTo(EventSelector.AnySource, GemManagementUI.Events.GemDetached, this, OnRelicChanged);
+            // World.EventSystem.ListenTo(EventSelector.AnySource, GemManagementUI.Events.GemAttached, this, OnRelicChanged);
         }
 
         // === Callbacks
@@ -52,16 +55,16 @@ namespace Awaken.TG.Main.Analytics {
         void OnHeroInit(Model model) {
             Hero hero = (Hero) model;
             hero.HeroItems.ListenTo(ICharacterInventory.Events.PickedUpItem, OnItemAcquired, this);
-            hero.HeroItems.ListenTo(ICharacterInventory.Events.ItemDropped, OnItemDropped, this);
+            // hero.HeroItems.ListenTo(ICharacterInventory.Events.ItemDropped, OnItemDropped, this);
             
             hero.ListenTo(Awaken.TG.Main.Crafting.Crafting.Events.Created, OnItemCrafted, this);
             
             hero.ListenTo(IMerchant.Events.ItemSold, OnItemSold, this);
             hero.ListenTo(IMerchant.Events.ItemBought, OnItemBought, this);
             
-            hero.ListenTo(Hero.Events.Died, OnHeroDeath, this);
-            
-            hero.AfterFullyInitialized(DelayedHeroInit, this);
+            // hero.ListenTo(Hero.Events.Died, OnHeroDeath, this);
+            //
+            // hero.AfterFullyInitialized(DelayedHeroInit, this);
         }
 
         void DelayedHeroInit() {
@@ -84,7 +87,7 @@ namespace Awaken.TG.Main.Analytics {
         }
 
         void OnItemSold(Item item) {
-            if (!IsImportantItem(item)) {
+            if (!IsImportantItem(item, VeryImportantItemBonusScore)) {
                 return;
             }
             string evt = $"Sold:{ItemType(item)}:{ItemName(item.Template)}";
@@ -92,7 +95,7 @@ namespace Awaken.TG.Main.Analytics {
         }
 
         void OnItemBought(Item item) {
-            if (!IsImportantItem(item)) {
+            if (!IsImportantItem(item, VeryImportantItemBonusScore)) {
                 return;
             }
             string evt = $"Bought:{ItemType(item)}:{ItemName(item.Template)}";
@@ -105,7 +108,7 @@ namespace Awaken.TG.Main.Analytics {
                 return;
             }
 
-            if (!IsImportantItem(item)) {
+            if (!IsImportantItem(item, VeryImportantItemBonusScore)) {
                 return;
             }
             string evt = $"Acquired:{ItemType(item)}:{ItemName(item.Template)}";
@@ -204,7 +207,7 @@ namespace Awaken.TG.Main.Analytics {
         
         void OnItemCrafted(CreatedEvent createdEvent) {
             var item = createdEvent.Item;
-            int itemLevel = item.Level.ModifiedInt;
+            int itemLevel = item.ModifiedLevelWithoutNewGamePlus;
             int practicalityStat = Hero.Current.HeroRPGStats.Practicality.ModifiedInt;
             string evt = $"CraftedItem:{ItemType(item)}:{ItemName(item.Template)}";
             AnalyticsUtils.TrySendDesignEvent($"Items:{evt}:Practicality", practicalityStat);
@@ -222,7 +225,7 @@ namespace Awaken.TG.Main.Analytics {
 
         void OnItemAction(ItemActionEvent itemActionEvent) {
             var item = itemActionEvent.Item;
-            if (!IsImportantItem(item, 0.2f)) {
+            if (!IsImportantItem(item, ImportantItemBonusScore)) {
                 return;
             }
             if ((itemActionEvent.ActionType == ItemActionType.Use || itemActionEvent.ActionType == ItemActionType.Eat)) {
@@ -249,7 +252,7 @@ namespace Awaken.TG.Main.Analytics {
         }
 
         void OnHeroDeath(DamageOutcome outcome) {
-            if (outcome.Target is not Hero hero) {
+            if (outcome.TargetPure is not Hero hero) {
                 return;
             }
             var heroItems = hero.HeroItems;
@@ -274,22 +277,27 @@ namespace Awaken.TG.Main.Analytics {
         /// <summary>
         /// To limit the number of possible strings some item level values are grouped together.
         /// The higher the number the bigger group size is used
-        /// 0-9 are not grouped: "1", "2", [...], "9"
-        /// 10-29 are grouped by 5: "10-14", "15-19", "20-24", "25-29"
-        /// 30-99 are grouped by 10: "30-39", "40-49", [...], "90-99"
+        /// 0-5 are not grouped: "1", "2", "3", "4", "5"
+        /// 6-9 are grouped by 2: "6-7", "8-9"
+        /// 11-24 are grouped by 5: "10-14", "15-19", "20-24"
+        /// 25-99 are grouped by 25: "25-49", "50-74", "75-99"
         /// 100+ are grouped all together: "100+"
         /// </summary>
         static string ItemLevel(int itemLevel) {
             switch (itemLevel) {
-                case < 10:
+                case <= 5:
                     return itemLevel.ToString();
-                case < 30: {
+                case < 10: {
+                    int rangeMin = (int) (Math.Floor(itemLevel / 2f) * 2);
+                    return $"{rangeMin}-{rangeMin + 1}";
+                }
+                case < 25: {
                     int rangeMin = (int) (Math.Floor(itemLevel / 5f) * 5);
                     return $"{rangeMin}-{rangeMin + 4}";
                 }
                 case < 100: {
-                    int rangeMin = (int) (Math.Floor(itemLevel / 10f) * 10);
-                    return $"{rangeMin}-{rangeMin + 9}";
+                    int rangeMin = (int) (Math.Floor(itemLevel / 25f) * 25);
+                    return $"{rangeMin}-{rangeMin + 24}";
                 }
                 default: {
                     return "100+";

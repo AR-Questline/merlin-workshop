@@ -7,6 +7,7 @@ using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Buffs;
 using Awaken.TG.Main.Heroes.Statuses;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.MVC;
@@ -79,7 +80,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
                 _appliedItemBuff.Discard();
             }
 
-            _appliedItemBuff = new(equipped.Template, itemVFX, itemDuration);
+            _appliedItemBuff = new(equipped.Template, itemVFX, itemDuration, NewGamePlusSystem.CalculatedBonusItemLevel, NewGamePlusSystem.Level);
             foreach (Skill s in itemSkills.Select(skillRef => skillRef.CreateSkill())) {
                 _appliedItemBuff.AddElement(s);
             }

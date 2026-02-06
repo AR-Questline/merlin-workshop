@@ -17,6 +17,7 @@ using Awaken.TG.Main.Settings.Graphics;
 using Awaken.TG.Main.UI.TitleScreen.FileVerification;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
+using Awaken.Utility;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Threads;
 using Cysharp.Threading.Tasks;
@@ -118,7 +119,7 @@ namespace Awaken.TG.Main.UI.Bugs {
             _description = description;
             _summary = summary;
 
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
             if (ApplicationFileIntegrityChecker.Instance is { Success: false }) {
                 _summary = "[FAILED INTEGRITY] " + _summary;
             }
@@ -126,6 +127,8 @@ namespace Awaken.TG.Main.UI.Bugs {
             
             if (Application.isEditor) {
                 _summary = "[EDITOR] " + _summary;
+            } else if (PlatformUtils.IsMonoBuild) {
+                _summary = "[MONO] " + _summary;
             }
             
             _summary = $"[{Application.version}v] {_summary}";
@@ -171,7 +174,7 @@ namespace Awaken.TG.Main.UI.Bugs {
                     .GetFiles(savePath, "*.*", SearchOption.TopDirectoryOnly)
                     //.AppendWith(globals)
                     //.AppendWith(lastSaveFiles)
-                    .Where(f => !f.Contains("_uncompressed"));
+                    .Where(f => !f.Contains(LoadSystem.UncompressedFileSuffix));
 
                 try {
                     IOUtil.CreateZipFile(zipFilePath, files);
@@ -190,7 +193,7 @@ namespace Awaken.TG.Main.UI.Bugs {
         }
 
         static void AddLogsAttachments(string filePrefix) {
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
             List<KeyValuePair<string, DateTime>> logs = LogsCollector.GetLogNamesWithDates();
             if (logs.Any()) {
                 logs.Sort((log1, log2) => log2.Value.CompareTo(log1.Value));

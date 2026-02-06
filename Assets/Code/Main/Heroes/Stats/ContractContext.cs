@@ -23,5 +23,9 @@ namespace Awaken.TG.Main.Heroes.Stats {
         [UnityEngine.Scripting.Preserve] CombatDamage = 6,
         [UnityEngine.Scripting.Preserve] Forceful = 7,
         [UnityEngine.Scripting.Preserve] LevelUp = 8,
+        [UnityEngine.Scripting.Preserve] Proficiency = 9,
+        [UnityEngine.Scripting.Preserve] Crafting = 10,
+        [UnityEngine.Scripting.Preserve] Quest = 11,
+        [UnityEngine.Scripting.Preserve] Objective = 12,
     }
 }

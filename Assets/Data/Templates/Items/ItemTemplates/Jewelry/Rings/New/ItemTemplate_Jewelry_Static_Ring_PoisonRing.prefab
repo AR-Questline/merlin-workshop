@@ -76,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_0229a18fa3f54c64092b10831807f911
-  EDITOR_bakedDescription: Increases damage by 100% if enemy is poisoned.
+  EDITOR_bakedDescription: "Increases Damage by 100\_% if enemy is Poisoned."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
       subObjectName: 
 --- !u!114 &1382325995290807351
@@ -215,6 +219,10 @@ MonoBehaviour:
     variables:
     - name: BonusDamageMultiplier
       value: 1
+    - name: BonusDamageGain
+      value: 0.01
+    - name: BonusDamageCalculated
+      value: 0
     enums:
     - name: StatEnum
       enumReference:

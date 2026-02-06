@@ -16,7 +16,7 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Bosses {
         bool _canLoseTargetBasedOnVisibility;
         
         // === Behaviours
-        public int CurrentPhase { get; set; }
+        public int CurrentPhase { get; private set; }
         public override bool CanLoseTargetBasedOnVisibility => _canLoseTargetBasedOnVisibility;
         protected override bool CanBePushed => false;
         protected bool InPhaseTransition { get; private set; }
@@ -64,11 +64,13 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Bosses {
         
         protected void SetPhaseWithTransition(int phase, bool alternate = false) {
             InPhaseTransition = true;
+            OnPhaseTransitionStarted(phase);
             StopCurrentBehaviour(false);
             NpcElement.SetAnimatorState(NpcFSMType.GeneralFSM, alternate ? NpcStateType.PhaseTransitionAlternate : NpcStateType.PhaseTransition);
             NpcElement.ListenToLimited(PhaseTransition.Events.TransitionFinished, () => SetPhase(phase), this);
         }
         
+        protected virtual void OnPhaseTransitionStarted(int phase) { }
         protected virtual void OnPhaseTransitionFinished(int phase) { }
         
         protected override void Tick(float deltaTime, NpcElement npc) {

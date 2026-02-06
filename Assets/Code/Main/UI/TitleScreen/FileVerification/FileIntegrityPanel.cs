@@ -10,20 +10,19 @@ using Awaken.Utility.Debugging;
 using Awaken.Utility.Extensions;
 using UnityEngine;
 
-
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
 using Awaken.TG.Main.Analytics;
 using GameAnalyticsSDK;
 #endif
 
 namespace Awaken.TG.Main.UI.TitleScreen.FileVerification {
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
     [SpawnsView(typeof(VFileIntegrityPanel))]
 #endif
     public partial class FileIntegrityPanel : Element<TitleScreenUI> {
         public sealed override bool IsNotSaved => true;
 
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
         readonly ApplicationFileIntegrityChecker _checker;
         bool _verificationHandled;
         

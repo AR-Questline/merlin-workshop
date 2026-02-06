@@ -58,6 +58,7 @@ MonoBehaviour:
   tags:
   - potions:quest
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: f096e80eb9ac62045b888d4c0b83f24b
@@ -145,7 +146,7 @@ MonoBehaviour:
   upgradeChance: 0
   crimeItemValue: 4
   canStack: 1
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
@@ -154,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 116473962917af44293a519f2a30c2c6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

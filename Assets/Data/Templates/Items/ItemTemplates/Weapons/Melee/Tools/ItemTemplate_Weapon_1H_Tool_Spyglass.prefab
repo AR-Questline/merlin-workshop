@@ -78,7 +78,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_tool_scouting
       ID: Template/description_locString_2543871262668956605_6c3d2374cf1f60d42ae60b48dbd5780d
-  EDITOR_bakedDescription: Allows scouting.
+  EDITOR_bakedDescription: Allows <color=#04959A>Scouting</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: b452b2f04ebd39743992fe13f4b9a610
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-5451238795681826495
 MonoBehaviour:
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &7208955695504798296
 MonoBehaviour:

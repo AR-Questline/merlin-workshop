@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Awaken.TG.Main.AI.SummonsAndAllies;
 using Awaken.TG.Main.Fights.Factions;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
@@ -19,15 +19,19 @@ namespace Awaken.TG.Main.Skills.Units.Effects {
         InlineValueInput<bool> _includeNeutralToHero;
         
         protected override IEnumerable Collection(Flow flow) {
-            List<NpcElement> summons = World.All<NpcElement>().Where(npc => {
-                if (!npc.IsSummon) {
-                    return false;
-                }
+            List<NpcElement> summons = new();
+            bool includeHostile = _includeHostileToHero.Value(flow);
+            bool includeFriendly = _includeFriendlyToHero.Value(flow);
+            bool includeNeutral = _includeNeutralToHero.Value(flow);
+            foreach (var summon in World.All<INpcSummon>()) {
                 Hero hero = Hero.Current;
-                return (_includeHostileToHero.Value(flow) && npc.AntagonismTo(hero) == Antagonism.Hostile) ||
-                       (_includeFriendlyToHero.Value(flow) && npc.AntagonismTo(hero) == Antagonism.Friendly) ||
-                       (_includeNeutralToHero.Value(flow) && npc.AntagonismTo(hero) == Antagonism.Neutral);
-            }).ToList();
+                NpcElement npc = summon.ParentModel;
+                if ((includeHostile && npc.AntagonismTo(hero) == Antagonism.Hostile) ||
+                    (includeFriendly && npc.AntagonismTo(hero) == Antagonism.Friendly) ||
+                    (includeNeutral && npc.AntagonismTo(hero) == Antagonism.Neutral)) {
+                    summons.Add(npc);
+                }
+            }
             return summons;
         }
 

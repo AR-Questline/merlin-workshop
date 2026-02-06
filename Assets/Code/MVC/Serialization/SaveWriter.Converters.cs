@@ -2,10 +2,12 @@ using System;
 using System.Text;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Saving.LargeFiles;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Relations;
 using Awaken.TG.MVC.Utils;
+using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Enums.Helpers;
 using Awaken.Utility.LowLevel.Collections;
@@ -23,6 +25,25 @@ namespace Awaken.TG.MVC.Serialization {
         
         public void Write<T>(WeakModelRef<T> weakModelRef) where T : class, IModel {
             WriteAscii(weakModelRef.id);
+        }
+        
+        public void Write(StringCollectionSelector selector) {
+            WriteType(SavedTypes.StringCollectionSelector);
+            WriteStart();
+            if (selector.ContextPure.Length > 1) {
+                WriteName(SavedFields._context);
+                WriteArray(selector.ContextPure, static (writer, s) => writer.Write(s));
+                WriteSeparator();
+            } else if (selector.ContextPure.Length == 1) {
+                WriteName(SavedFields._singleContext);
+                Write(selector.ContextPure[0]);
+                WriteSeparator();
+            } else if (!string.IsNullOrEmpty(selector.SingleContextPure)) {
+                WriteName(SavedFields._singleContext);
+                Write(selector.SingleContextPure);
+                WriteSeparator();
+            }
+            WriteEnd();
         }
 
         public void Write(in ModelElements modelElements) {
@@ -59,7 +80,9 @@ namespace Awaken.TG.MVC.Serialization {
 
         public void Write(LargeFileIndex largeFileIndex) {
             Write(largeFileIndex.value);
-            World.Services.Get<LargeFilesStorage>().AddUsedLargeFile(largeFileIndex);
+            if (largeFileIndex.value != 0) {
+                World.Services.Get<LargeFilesStorage>().AddUsedLargeFile(largeFileIndex);
+            }
         }
         
         public void Write(ItemInSlots itemInSlots) {

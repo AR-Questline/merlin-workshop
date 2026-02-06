@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3596201710798554005
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4443325589952417686, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_Name
+      value: Spec_SoS_EnemyZombie_T4_Drowner_2H_ArenaVariant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931201620430829565, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423593210849289748, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: npcTemplate._guid
+      value: 4a9643f4d2ae9a945ad4b1cafcad2878
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102533663763092846, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      propertyPath: displayName.ID
+      value: Template/displayName_5745172851190568699_f7958e42294a40d459bb58d875ea36d1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4443325589952417686, guid: a5d157a124dbe114a9deb6a37da3358c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9080880661933082959}
+  m_SourcePrefab: {fileID: 100100000, guid: a5d157a124dbe114a9deb6a37da3358c, type: 3}
+--- !u!1 &883157916310866947 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4443325589952417686, guid: a5d157a124dbe114a9deb6a37da3358c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3596201710798554005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9080880661933082959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883157916310866947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b850f5a307d54fe3985c71c81271575f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxEffect:
+    arReference:
+      address: 005188beead1ea3498eae742d38cc48f
+      subObjectName: 
+  vfxLifetime: 5
+  spawnOnInitialize: 1
+  spawnOnLogicEnable: 1
+  spawnOnLogicDisable: 0

@@ -95,11 +95,11 @@ namespace Awaken.TG.Main.Locations.Actions {
                 return;
             }
             
-            var attacker = hook.Value.DamageDealer;
+            var attacker = hook.Value.DamageDealerPure;
             AddItemsToAttacker(attacker.Inventory).Forget();
             
             AbstractLocationAction.Interact(attacker, ParentModel);
-            DestroyCurrentObject(hook.Value.DamageDealer.ParentTransform.position);
+            DestroyCurrentObject(hook.Value.DamageDealerPure.ParentTransform.position);
             FMODManager.PlayOneShot(_spec.hitSound, ParentModel.Coords);
 
             if (_restoreListener == null) {

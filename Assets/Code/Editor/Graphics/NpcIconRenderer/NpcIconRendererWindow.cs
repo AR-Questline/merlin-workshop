@@ -1,5 +1,4 @@
 using Awaken.TG.Main.Heroes;
-using Awaken.TG.Main.Locations.Setup;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
@@ -43,7 +42,7 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
         }
 
         async UniTask RenderAllAsync() {
-            NpcIconRenderingUtils.locationIconRenderReady += OnLocationReadyToRender;
+            NpcIconRenderingUtils.entryReadyToRender += OnEntryReadyToRender;
             NpcIconRenderingUtils.iconRenderComplete += OnRenderComplete;
             bool renderComplete;
 
@@ -55,8 +54,8 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
 
             return;
 
-            void OnLocationReadyToRender(LocationTemplate locationTemplate) {
-                NpcIconRenderingUtils.RenderAndAssignIcon(locationTemplate);
+            void OnEntryReadyToRender(Entry entry) {
+                NpcIconRenderingUtils.RenderAndAssignIcon(entry);
             }
 
             void OnRenderComplete() {

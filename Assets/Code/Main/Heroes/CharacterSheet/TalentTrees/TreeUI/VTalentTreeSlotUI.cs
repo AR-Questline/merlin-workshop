@@ -21,6 +21,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         [SerializeField] ButtonConfig talentSlot;
         [SerializeField] Image runeIcon;
         [SerializeField] GameObject lockedIcon;
+        [SerializeField] GameObject levelRoot;
         [SerializeField] TalentTreeLevelSlot[] levelSlots = new TalentTreeLevelSlot[5];
 
         public VTalentTreeSlotUI[] Children => _children ??= Target.FindTalentChildren().ToArray();
@@ -33,6 +34,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         
         protected override void OnInitialize() {
             World.EventSystem.ListenTo(EventSelector.AnySource, Talent.Events.TalentChanged, this, RefreshTalent);
+            Target.ParentModel.ListenTo(TalentTreeUI.Events.TreeSpawned, SetupTalentRelations, this);
+            
             talentSlot.InitializeButton(OnClicked);
             talentSlot.button.OnHover += OnSlotHovered;
             talentSlot.button.OnSelected += OnSlotSelected;
@@ -48,7 +51,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
             SetupTalent();
         }
 
-        protected override void OnMount() {
+        void SetupTalentRelations() {
             SetupLine();
             RefreshLines().Forget();
             talentSlot.button.ClearAllOnClickAudioFeedback();
@@ -57,7 +60,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         void SetupLine() {
             if (Target.Talent.Parent == null) return;
             
-            Parent = Target.FindTalentParent();
+            // _lineRenderer = transform.parent.GetComponentInChildren<UILineRenderer>();
+            // Target.ParentModel.LineSpriteReference.SetSprite(_lineRenderer);
+            // Parent = Target.FindTalentParent();
+            // _lineRenderer.transform.SetParent(Parent.transform);
+            // _lineRenderer.transform.SetAsFirstSibling();
         }
         
         public void Focus() {
@@ -97,6 +104,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
                 levelSlots[index].CanvasGroup.alpha = Target.IsLocked ? 0.25f : 1f;
                 levelSlots[index].Icon.color = index > Target.Talent.EstimatedLevel - 1 ? ARColor.DarkerGrey : ARColor.MainAccent;
             }
+            
+            levelRoot.SetActiveOptimized(!Target.HasHiddenLevels);
         }
 
         void RefreshTalent() {

@@ -57,6 +57,7 @@ MonoBehaviour:
     notes: 
   tags:
   - potions:advanced
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: db9dea28861a04b41ac3d481074fddec
@@ -74,8 +75,8 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_RapidShooterMixture
       ID: Template/description_locString_2543871262668956605_b97f06cd5f053ce489c777b5919c5252
-  EDITOR_bakedDescription: Consumption increases Bow Draw Speed by 100%, but consumes
-    5 Mana per second.
+  EDITOR_bakedDescription: "Consumption increases Bow Draw Speed by 100\_%, but consumes
+    5 Mana per second."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

@@ -7,12 +7,11 @@ using Awaken.Utility.Debugging;
 using Awaken.Utility.Editor;
 using UnityEditor;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorObjectiveChange))]
     public class SObjectiveChangeEditor : ElementEditor {
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             GUILayout.Space(5);
             GUIUtils.PushLabelWidth(190);
             DrawPropertiesExcept(nameof(SEditorObjectiveChange.newState), nameof(SEditorObjectiveChange.objectiveGuid), nameof(SEditorObjectiveChange.onlyIfActive));

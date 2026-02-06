@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Collections;
+using Awaken.Utility.Debugging;
 using Unity.Mathematics;
 
 namespace Awaken.TG.Graphics.MapServices {
@@ -32,6 +34,12 @@ namespace Awaken.TG.Graphics.MapServices {
 
         public void Visit(SceneReference scene) {
             _visitedScenes.AddUnique(scene);
+        }
+        
+        public void LockSarrasMap() {
+            Log.Marking?.Warning("Locking Sarras map");
+            var sarrasScene = CommonReferences.Get.SarrasCampaignSceneReference;
+            _visitedScenes.Remove(sarrasScene);
         }
         
         public bool TryGetFogOfWar(SceneReference scene, out FogOfWar instance) {

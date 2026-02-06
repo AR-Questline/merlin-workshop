@@ -63,6 +63,7 @@ MonoBehaviour:
   - weapons:1h
   - item:important
   - item:tier4
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 2edf5e601ce3e654b97a1760a81d3625
@@ -80,10 +81,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_decrease_percent_double
       ID: Template/description_locString_2543871262668956605_5d19b8b68c8773943b263634e699cef5
-  EDITOR_bakedDescription: 'Increases Incoming Damage by 50%.
-
-    Decreases Incoming
-    Healing by 50%.'
+  EDITOR_bakedDescription: "Increases Incoming Damage by 50\_%.\nDecreases Incoming
+    Healing by 50\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +159,10 @@ MonoBehaviour:
     arReference:
       address: 8e26f981def6997499872c32c68b904e
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +180,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: ae4d6d0db96414344b40a811dc56480f
       subObjectName: 
@@ -245,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5872891149054577755
 MonoBehaviour:
@@ -587,6 +594,8 @@ MonoBehaviour:
       value: 0.5
     - name: GainValue
       value: -0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -594,7 +603,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:IncomingDamage
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:
@@ -604,6 +623,8 @@ MonoBehaviour:
       value: 0.5
     - name: ValueGain
       value: -0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -611,6 +632,16 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:IncomingHealing
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []

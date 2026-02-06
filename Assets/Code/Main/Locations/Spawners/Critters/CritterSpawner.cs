@@ -121,7 +121,7 @@ namespace Awaken.TG.Main.Locations.Spawners.Critters {
             var ecb = ecsWorld.GetOrCreateSystemManaged<BeginInitializationEntityCommandBufferSystem>().CreateCommandBuffer();
             ecb.DestroyEntity(critterEntity);
             for (int i = 0; i < visualEntitiesCountPerCritter; i++) {
-                ecb.SetComponent(visualEntitiesBuffer[i], new VA_AnimatorParams(0, CritterEntityData.ToDeathTransitionTime, CritterEntityData.DeathAnimationIndex));
+                ecb.SetComponent(visualEntitiesBuffer[i], new VA_AnimatorParams((half)0f, (half)CritterEntityData.ToDeathTransitionTime, CritterEntityData.DeathAnimationIndex));
             }
             UnityEngine.Object.Destroy(critter.gameObject);
         }
@@ -270,7 +270,7 @@ namespace Awaken.TG.Main.Locations.Spawners.Critters {
             // Position will be set in CrittersWalkSystem
             entityManager.SetComponentData(critterEntity, new DrakeVisualEntitiesTransform(default, quaternion.identity, randomScale));
             entityManager.SetComponentData(critterEntity, new CritterMovementState(randomSpeed));
-            entityManager.SetComponentData(critterEntity, new CritterAnimatorParams(0, 0, byte.MaxValue));
+            entityManager.SetComponentData(critterEntity, new CritterAnimatorParams((half)0, (half)0, byte.MaxValue));
             entityManager.SetComponentData(critterEntity, new CritterIndexInGroup(critterIndex));
             entityManager.AddComponentObject(critterEntity, audioEmitter);
         }

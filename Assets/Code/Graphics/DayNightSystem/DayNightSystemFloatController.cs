@@ -42,11 +42,11 @@ namespace Awaken.TG.Graphics.DayNightSystem {
                             Debug.LogError("FullScreenCustomPass not found in CustomPassVolume custom passes.");
                         }
                     }
-
+                    
                     if (heroWyrdNightEdgePass) {
                         var heroWyrdCustomPass = customPassVolume.customPasses.OfType<HeroWyrdNightEdge>().FirstOrDefault();
                         if (heroWyrdCustomPass != null) {
-                            _heroWyrdNightEdgeMaterial = heroWyrdCustomPass.fullScreenMaterial; 
+                            _heroWyrdNightEdgeMaterial = heroWyrdCustomPass.GetRuntimeMaterial();
                         } else {
                             Debug.LogError("HeroWyrdNightEdge not found in CustomPassVolume custom passes.");
                         }
@@ -70,17 +70,17 @@ namespace Awaken.TG.Graphics.DayNightSystem {
             if (s_propertyID == -1) return; 
 
             float evaluatedValue = animationCurve.Evaluate(TimeOfDay);
-
+            
             if (customPass && _customPassMaterial != null) {
                 _customPassMaterial.SetFloat(s_propertyID, evaluatedValue);
-                return; 
+                return;
             }
-
+            
             if (heroWyrdNightEdgePass && _heroWyrdNightEdgeMaterial != null) {
                 _heroWyrdNightEdgeMaterial.SetFloat(s_propertyID, evaluatedValue);
                 return;
             }
-
+            
             if (_renderer != null && _materials != null) {
                 foreach (var material in _materials) {
                     material.SetFloat(s_propertyID, evaluatedValue);

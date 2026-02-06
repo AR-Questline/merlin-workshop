@@ -69,6 +69,7 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 2
+  BackToSpawnPointDistanceMultiplier: 1
   maxHealth: 800
   healthRegen: 0
   maxStamina: 100
@@ -76,7 +77,7 @@ MonoBehaviour:
   staminaUsageMultiplier: 1
   canBeWyrdEmpowered: 0
   canEnterCombat: 1
-  meleeDamage: 40
+  meleeDamage: 80
   rangedDamage: 15
   magicDamage: 15
   armor: 0
@@ -152,6 +153,10 @@ MonoBehaviour:
       buildupThreshold: 1
       effectStrength: 1
       buildupName: Full
+    _petrification:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Petrification
   crimeNpcValue: 4
   crimeReactionArchetype: 0
   npcType: 2
@@ -199,6 +204,10 @@ MonoBehaviour:
       address: 
       subObjectName: 
   tattooType: 0
+  corpseVFX:
+    arReference:
+      address: 
+      subObjectName: 
   dummyDeathClipTransition:
     address: 
     subObjectName: 

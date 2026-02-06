@@ -1,9 +1,9 @@
-﻿using Awaken.TG.Main.AI.Debugging;
+﻿using System;
+using Awaken.TG.Main.AI.Debugging;
 using Awaken.TG.Main.AI.Movement.Controllers;
 using Awaken.TG.Main.AI.Movement.States;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Scenes.SceneConstructors;
-using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -27,22 +27,31 @@ namespace Awaken.TG.Main.AI.Movement {
         }
 
         protected override void OnInitialize() {
-            Controller = ParentModel.CharacterView.transform.GetComponentInChildren<NpcController>(true);
-            
             _mainState = new NoMove();
             _mainState.Setup(this);
             _mainState.Enter();
+        }
+
+        public void InitializerInitialize() {
+            Controller = ParentModel.CharacterView.transform.GetComponentInChildren<NpcController>(true);
             
-            ParentModel.GetOrCreateTimeDependent().WithUpdate(Update);
+            CurrentState.OnNpcMovementCompletelyInitialized();
+            ParentModel.TimeDependent.WithUpdate(Update);
         }
         
         protected override void OnDiscard(bool fromDomainDrop) {
-            ParentModel.GetTimeDependent()?.WithoutUpdate(Update);
+            ParentModel.TimeDependent?.WithoutUpdate(Update);
+
+            if (Controller == null) {
+                return;
+            }
+            
             if (_interruptState != null) {
                 _interruptState.Exit(true);
             } else {
                 _mainState.Exit(true);
             }
+            
             Object.Destroy(Controller);
         }
 
@@ -64,6 +73,7 @@ namespace Awaken.TG.Main.AI.Movement {
             _interruptState = state;
             _interruptState.Setup(this);
             _interruptState.Enter();
+            
             ParentModel.Trigger(Events.OnMovementInterrupted, state);
         }
         

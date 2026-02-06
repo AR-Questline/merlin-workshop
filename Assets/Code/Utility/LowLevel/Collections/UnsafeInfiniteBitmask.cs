@@ -72,6 +72,14 @@ namespace Awaken.Utility.LowLevel.Collections {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DownIfPresent(uint index) {
+            if (AllocationsTracker.Access(_bitmask)->ElementsLength <= index) {
+                return;
+            }
+            _bitmask->Down(index);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Il2CppSetOption(Option.ArrayBoundsChecks, false), Il2CppSetOption(Option.NullChecks, false)]
         public void DownNoChecks(uint index) {
             AllocationsTracker.Access(_bitmask)->Down(index);

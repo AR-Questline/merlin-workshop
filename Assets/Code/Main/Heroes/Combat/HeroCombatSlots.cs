@@ -306,7 +306,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         void OnOccupantDeath(DamageOutcome damageOutcome) {
-            if (damageOutcome.Target is not NpcElement npcElement) {
+            if (damageOutcome.TargetPure is not NpcElement npcElement) {
                 Log.Important?.Error($"{nameof(IAlive)} is null or not of type {nameof(NpcElement)}. It should always be of type {nameof(NpcElement)}");
                 return;
             }
@@ -515,7 +515,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 AstarPath.active.maxNearestNodeDistance = 1;
                 do {
                     distancePercentage += PositionUpdateInterval;
-                    desiredPosition += Vector3.up * MaxVerticalDistance * distancePercentage;
+                    desiredPosition += Vector3.up * (MaxVerticalDistance * distancePercentage);
                     resultNode = AstarPath.active.GetNearest(desiredPosition, Constraint);
                 } while (resultNode.node == null && distancePercentage <= MaxVerticalPositionUpdates);
             }

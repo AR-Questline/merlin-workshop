@@ -81,11 +81,11 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_37e4c2d3e4dcbb54397a3cdec5279d16
-  EDITOR_bakedDescription: 'Charged by dealing Elemental Damage.
+  EDITOR_bakedDescription: 'Charged by dealing Elemental Damage 0/500.
 
-    Creates an
-    explosion, dealing 150 damage and applying random elemental statuses to all enemies
-    around you.'
+    Creates
+    an explosion, dealing 150 Damage and applying random elemental statuses to all
+    enemies around you.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -161,6 +161,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 7cf1ebd68e32d3145a0c596f9bc9d110
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -336,8 +340,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

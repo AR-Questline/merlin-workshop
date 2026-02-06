@@ -12,12 +12,14 @@ namespace Awaken.TG.Main.Locations.Spawners {
         public sealed override bool IsNotSaved => true;
 
         readonly SpawnerRandomizationSettings _settings;
+        readonly int _totalSpawnCap;
         readonly List<SpawnerRandomizationSettings.LocationTemplateRandomSpawn> _spawnCandidates;
         GroupLocationSpawner Spawner => ParentModel;
 
         Vector3 _batchSpawnPoint;
-        public RandomizedLocationSpawning(SpawnerRandomizationSettings settings) {
+        public RandomizedLocationSpawning(SpawnerRandomizationSettings settings, byte totalSpawnCap) {
             _settings = settings;
+            _totalSpawnCap = totalSpawnCap;
             _spawnCandidates = new(_settings.RandomLocationsToSpawn.Count());
             
             int id = 0;
@@ -28,7 +30,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         
         public void Spawn(int currentBatchQuantitySpawned) {
             if (currentBatchQuantitySpawned == 0) {
-                _batchSpawnPoint = (Random.insideUnitCircle * (_settings.spawnRadius - _settings.groupSpawnRadius)).X0Y();
+                _batchSpawnPoint = (Random.insideUnitCircle * (_settings.spawnRadius - _settings.GroupSpawnRadius)).X0Y() + _settings.spawnOffsetFromSpawner;
             }
             
             bool anySpawned = false;
@@ -41,7 +43,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
                 }
             }
 
-            if (!anySpawned && _settings.shouldAlwaysSpawnSuccessfully) {
+            if (!anySpawned && _settings.shouldAlwaysSpawnSuccessfully && _spawnCandidates.Count > 0) {
                 var selected = RandomUtil.WeightedSelect(_spawnCandidates, c => c.spawnChancePerInterval);
                 Spawn(selected);
             }
@@ -63,15 +65,15 @@ namespace Awaken.TG.Main.Locations.Spawners {
         int CurrentlySpawnedByID(int id) => Spawner.CurrentlySpawnedByID(id) + Spawner.KilledLocationCount(id);
 
         void Spawn(SpawnerRandomizationSettings.LocationTemplateRandomSpawn target) {
-            Vector3 position = _batchSpawnPoint + (Random.insideUnitCircle * _settings.groupSpawnRadius).X0Y();
+            Vector3 position = _batchSpawnPoint + (Random.insideUnitCircle * _settings.GroupSpawnRadius).X0Y();
             Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             
             var template = ParentModel.IsSpawningWyrdSpawns ? ParentModel.WyrdSpawnTemplate() : target.locationToSpawn.Get<LocationTemplate>();
-            Spawner.SpawnLocationWithOffset(template, position, rotation, target.id);
+            Spawner.SpawnLocationWithOffset(template, position, rotation, target.id, !_settings.skipSnapToGround);
             Spawner.RegenerateSpawnCooldown(_settings);
         }
 
-        public int TargetSpawnCount() => _settings.totalSpawnCap;
+        public int TargetSpawnCount() => _totalSpawnCap;
         
         public IEnumerable<LocationTemplate> GetAllPossibleTemplates() => _spawnCandidates.Select(lts => lts.locationToSpawn.Get<LocationTemplate>());
     }

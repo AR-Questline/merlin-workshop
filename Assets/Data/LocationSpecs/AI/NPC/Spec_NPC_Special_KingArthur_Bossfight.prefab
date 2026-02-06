@@ -62,6 +62,7 @@ MonoBehaviour:
   startInteractabilityReference:
     _enumRef: Awaken.TG.Main.Locations.LocationInteractability, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Active
+  conditionalPrefabReferences: []
   prefabReference:
     address: d820785f7c7fec643bbb3a6ed5a08685
     subObjectName: 
@@ -107,6 +108,11 @@ MonoBehaviour:
     guid: 
   storyOnDeath:
     _guid: 
+  conditionalVisualPrefabs:
+  - requiredFlag: ArthurSkin:ConquerorOfAvalon
+    visualPrefab:
+      address: 0655cbcf353111f4bb0725d6b3a77c3f
+      subObjectName: 
   visualPrefab:
     address: b3971f45abfd3344cb5878ff7c33c185
     subObjectName: 
@@ -155,7 +161,7 @@ MonoBehaviour:
   meleeRangedSwitchDistance:
     min: 3
     max: 7
-  weaponsAlwaysEquipped: 1
+  weaponsAlwaysEquipped: 0
   usesCombatMovementAnimations: 1
   usesAlertMovementAnimations: 0
   canBePushed: 1

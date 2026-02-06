@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using Awaken.TG.Main.TimeLines.Markers;
 using Awaken.TG.MVC;
+using Awaken.Utility.Collections;
+using Awaken.Utility.LowLevel.Collections;
 using Cysharp.Threading.Tasks;
 using FMOD;
 using FMOD.Studio;
 using FMODUnity;
 using Sirenix.OdinInspector;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Awaken.TG.Main.AudioSystem {
     public abstract class VoiceOversEventEmitter : StudioEventEmitter {
-        [FoldoutGroup("Spectrum Settings")] [SerializeField] float averageModifier = 1000f;
-        [FoldoutGroup("Spectrum Settings")] [Tooltip("how many samples of audio; must be the power of 2")] [SerializeField] int windowSize = 512;
+        [FoldoutGroup("Spectrum Settings")] [SerializeField] float averageModifier = 500f;
+        [FoldoutGroup("Spectrum Settings")] [Tooltip("how many samples of audio; must be the power of 2")] [SerializeField] uint windowSize = 32;
         [FoldoutGroup("Spectrum Settings")] [SerializeField] DSP_FFT_WINDOW_TYPE windowShape = DSP_FFT_WINDOW_TYPE.HAMMING; //fft - Fast Fourier Transform
         [SerializeField] bool timeScaleDependent = true;
         
@@ -22,15 +23,14 @@ namespace Awaken.TG.Main.AudioSystem {
         // ChannelGroup _channelGroup;
         // DSP _dsp; //digital signal processor
 
-        float[] Samples { get; set; }
+        protected bool ARAllowFadeout => false;
         
         // === Initialization
         protected override void Awake() {
             base.Awake();
-            Samples = new float[windowSize];
             // RuntimeManager.CoreSystem.createDSPByType(DSP_TYPE.FFT, out _dsp);
-            // _dsp.setParameterInt((int) DSP_FFT.WINDOW, (int) windowShape);
-            // _dsp.setParameterInt((int) DSP_FFT.WINDOWSIZE, windowSize * 2);
+            // _dsp.setParameterInt((int) DSP_FFT.WINDOW, (int)windowShape);
+            // _dsp.setParameterInt((int) DSP_FFT.WINDOWSIZE, (int)(windowSize * 2));
             Prepare();
         }
         
@@ -74,35 +74,97 @@ namespace Awaken.TG.Main.AudioSystem {
             //     return 0;
             // }
             
-            if (GetSpectrumData()) {
-                float value = Samples.Average() * averageModifier;
+            if (GetSpectrumData(out var samples)) {
+                var total = 0f;
+                foreach (var sample in samples) {
+                    total += sample;
+                }
+                float value = total / samples.Length * averageModifier;
+                samples.Dispose();
                 return Mathf.Clamp01(value);
             }
             return 0;
         }
         
-        bool GetSpectrumData() {
+        unsafe bool GetSpectrumData(out UnsafeArray<float> samples) {
             // if (EventInstance.isValid() == false || EventInstance.getPlaybackState(out var playbackState) != RESULT.OK || playbackState != PLAYBACK_STATE.PLAYING) {
+            //     samples = default;
             //     return false;
             // }
+            //
             // _dsp.getParameterData((int)DSP_FFT.SPECTRUMDATA, out IntPtr data, out uint _);
-            // var fftParam = Marshal.PtrToStructure<DSP_PARAMETER_FFT>(data);
+            // var fftParam = (AR_DSP_PARAMETER_FFT*)data;
             //
             // EventInstance.getChannelGroup(out _channelGroup);
             // _channelGroup.addDSP(0, _dsp);
             //
-            // if (fftParam.numchannels >= 1) {
-            //     for (int s = 0; s < windowSize; s++) {
-            //         float totalChannelData = 0f;
-            //         for (int c = 0; c < fftParam.numchannels; c++) {
-            //             totalChannelData += fftParam.spectrum[c][s];
+            // var numChannels = fftParam->numchannels;
+            // if (numChannels == 1) {
+            //     samples = new UnsafeArray<float>(windowSize, ARAlloc.Temp);
+            //     UnsafeUtility.MemCpy(samples.Ptr, GetSpectrumDataPointer(fftParam, 0), windowSize * sizeof(float));
+            //     return true;
+            // } else if (numChannels > 1) {
+            //     samples = new UnsafeArray<float>(windowSize, ARAlloc.Temp);
+            //     UnsafeUtility.MemCpy(samples.Ptr, GetSpectrumDataPointer(fftParam, 0), windowSize * sizeof(float));
+            //     for (int c = 1; c < numChannels; c++) {
+            //         var spectrumPtr = GetSpectrumDataPointer(fftParam, c);
+            //         for (var s = 0u; s < windowSize; s++) {
+            //             samples[s] += spectrumPtr[s];
             //         }
-            //         Samples[s] = totalChannelData / fftParam.numchannels;
             //     }
+            //     for (var s = 0u; s < windowSize; s++) {
+            //         samples[s] /= numChannels;
+            //     }
+            //     return true;
             // }
             //
-            // return fftParam.numchannels >= 1;
+            samples = default;
             return false;
+        }
+
+        // Copy of DSP_PARAMETER_FFT with spectrum_internal unrolled and public
+        [StructLayout(LayoutKind.Sequential)]
+        unsafe struct AR_DSP_PARAMETER_FFT {
+            public int length;
+            public int numchannels;
+
+            public float* spectrum_internal_00;
+            public float* spectrum_internal_01;
+            public float* spectrum_internal_02;
+            public float* spectrum_internal_03;
+            public float* spectrum_internal_04;
+            public float* spectrum_internal_05;
+            public float* spectrum_internal_06;
+            public float* spectrum_internal_07;
+            public float* spectrum_internal_08;
+            public float* spectrum_internal_09;
+            public float* spectrum_internal_10;
+            public float* spectrum_internal_11;
+            public float* spectrum_internal_12;
+            public float* spectrum_internal_13;
+            public float* spectrum_internal_14;
+            public float* spectrum_internal_15;
+            public float* spectrum_internal_16;
+            public float* spectrum_internal_17;
+            public float* spectrum_internal_18;
+            public float* spectrum_internal_19;
+            public float* spectrum_internal_20;
+            public float* spectrum_internal_21;
+            public float* spectrum_internal_22;
+            public float* spectrum_internal_23;
+            public float* spectrum_internal_24;
+            public float* spectrum_internal_25;
+            public float* spectrum_internal_26;
+            public float* spectrum_internal_27;
+            public float* spectrum_internal_28;
+            public float* spectrum_internal_29;
+            public float* spectrum_internal_30;
+            public float* spectrum_internal_31;
+        }
+
+        unsafe float* GetSpectrumDataPointer(AR_DSP_PARAMETER_FFT* fftData, int channel) {
+            // 1 to skip length + numchannels, (int+int) == ptr size
+            return ((float**)fftData)[1 + channel];
         }
     }
 }

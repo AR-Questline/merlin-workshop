@@ -10,6 +10,7 @@ using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.NPCs.Providers;
 using Awaken.TG.Main.Grounds;
+using Awaken.TG.Main.Locations.Pets.Variants;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
 using Awaken.TG.MVC;
@@ -125,6 +126,8 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.Machines {
             AddState(new NpcSpawn());
             AddState(new PhaseTransition(NpcStateType.PhaseTransition));
             AddState(new PhaseTransition(NpcStateType.PhaseTransitionAlternate));
+            AddState(new NpcTeleportState(NpcStateType.TeleportIn));
+            AddState(new NpcTeleportState(NpcStateType.TeleportOut));
             // --- Alert
             AddState(new AlertStart());
             AddState(new AlertStartQuick());
@@ -132,6 +135,14 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.Machines {
             AddState(new AlertLookAt());
             AddState(new AlertMovement());
             AddState(new AlertExit());
+            // --- Pet Variants
+
+            if (ParentModel.ParentModel.HasElement<PetVariantBase>()) {
+                AddState(new NpcPetVariantInteractionState(NpcStateType.PetVariantFeed));
+                AddState(new NpcPetVariantInteractionState(NpcStateType.PetVariantPet));
+                AddState(new NpcPetVariantInteractionState(NpcStateType.PetVariantTransition));
+                AddState(new NpcPetVariantInteractionState(NpcStateType.PetVariantTransitionLarge));
+            }
 
             ParentModel.HealthElement.ListenTo(HealthElement.Events.OnDamageTaken, OnDamageTaken, this);
             NpcCanMoveHandler.AddCanMoveProvider(ParentModel, this);
@@ -148,7 +159,7 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.Machines {
         
         NpcStateType GetPoiseBreakTypeForDamage(DamageOutcome damageOutcome) {
             Vector3 damageDirection = damageOutcome.Damage.Direction ??
-                                      damageOutcome.Damage.DamageDealer.Forward();
+                                      damageOutcome.Damage.DamageDealerPure.Forward();
 
             return GetPoiseBreakTypeForDirection(damageDirection);
         }

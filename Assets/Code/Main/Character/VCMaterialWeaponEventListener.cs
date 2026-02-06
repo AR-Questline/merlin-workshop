@@ -1,17 +1,12 @@
-using System.Threading;
 using Awaken.Kandra;
-using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.MVC;
-using Awaken.TG.MVC.Events;
-using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Character {
-    public class VCMaterialWeaponEventListener : ViewComponent<Location> {
+    public class VCMaterialWeaponEventListener : ViewComponent<Location>, IMaterialWeaponEventListenerProvider {
         [SerializeField] ARAnimationEvent.ActionType activateEvent;
         [SerializeField] ARAnimationEvent.ActionType deactivateEvent;
         [SerializeField] KandraRenderer rendererWithMaterial;
@@ -23,11 +18,16 @@ namespace Awaken.TG.Main.Character {
         
         int _lastAnimationEventFrame;
         Object _lastAnimationEventObject;
-        CancellationTokenSource _cts;
-        IEventListener _deathListener;
-        Material _instancedMaterial;
-        bool _active;
+        MaterialWeaponEventListener<VCMaterialWeaponEventListener> _listener;
         
+        public int MaterialIndex => materialIndex;
+        public string Parameter => parameter;
+        public float ValueActivated => valueActivated;
+        public float ValueDeactivated => valueDeactivated;
+        public float LerpTime => lerpTime;
+
+        public MaterialWeaponEventListener<VCMaterialWeaponEventListener> Listener => _listener ??= new (this, Target.TryGetElement<IAlive>(), rendererWithMaterial);
+
         protected override void OnAttach() { }
         
         // --- Called from animator event
@@ -55,69 +55,16 @@ namespace Awaken.TG.Main.Character {
         }
 
         void Activate() {
-            if (_active) {
-                return;
-            }
-            _active = true;
-            _deathListener = Target.TryGetElement<IAlive>()?.ListenTo(IAlive.Events.BeforeDeath, Deactivate, this);
-            ActivateTween(valueActivated, parameter, lerpTime).Forget();
+            Listener.Activate();
         }
 
-        async UniTaskVoid ActivateTween(float valueTo, string parameter, float lerpTime) {
-            _cts?.Cancel();
-            _cts = new CancellationTokenSource();
-            
-            if (_instancedMaterial == null) {
-                if (!await AsyncUtil.WaitForPlayerLoopEvent(this, PlayerLoopTiming.Update, _cts)) {
-                    return;
-                }
-                _instancedMaterial = rendererWithMaterial.UseInstancedMaterial(materialIndex);
-            }
-            
-            float valueFrom = _instancedMaterial.GetFloat(parameter);
-            float currentTime = 0f;
-            
-            _cts = new CancellationTokenSource();
-            while (await AsyncUtil.DelayFrame(this, 1, _cts.Token)) {
-                currentTime += Time.deltaTime;
-                if (currentTime >= lerpTime) {
-                    _instancedMaterial.SetFloat(parameter, valueTo);
-                    break;
-                }
-                _instancedMaterial.SetFloat(parameter, math.lerp(valueFrom, valueTo, currentTime / lerpTime));
-            }
-        }
-        
         void Deactivate() {
-            if (!_active) {
-                return;
-            }
-            _active = false;
-            World.EventSystem.TryDisposeListener(ref _deathListener);
-            DeactivateTween(valueDeactivated, parameter, lerpTime).Forget();
+            Listener.Deactivate();
         }
         
-        async UniTaskVoid DeactivateTween(float valueTo, string parameter, float lerpTime) {
-            _cts?.Cancel();
-            _cts = new CancellationTokenSource();
-            
-            float valueFrom = _instancedMaterial.GetFloat(parameter);
-            float currentTime = 0f;
-            while (await AsyncUtil.DelayFrame(this, 1, _cts.Token)) {
-                currentTime += Time.deltaTime;
-                if (currentTime >= lerpTime) {
-                    break;
-                }
-                _instancedMaterial.SetFloat(parameter, math.lerp(valueFrom, valueTo, currentTime / lerpTime));
-            }
-            
-            rendererWithMaterial.UseOriginalMaterial(materialIndex);
-            _instancedMaterial = null;
-        }
-
         protected override void OnDiscard() {
-            _cts?.Cancel();
-            World.EventSystem.TryDisposeListener(ref _deathListener);
+            _listener?.OnDiscard();
+            _listener = null;
         }
     }
 }

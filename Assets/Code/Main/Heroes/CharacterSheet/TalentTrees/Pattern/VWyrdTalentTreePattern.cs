@@ -12,9 +12,8 @@ using UnityEngine;
 namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern {
     public class VWyrdTalentTreePattern : VTalentTreePatternBase {
         [SerializeField] List<WyrdTalentSubTree> subTrees;
-        
         public List<WyrdTalentSubTree> WyrdTalentTree => subTrees;
-        protected override List<TalentSubTreeBase> GetSubTrees() => subTrees.Cast<TalentSubTreeBase>().ToList();
+        public override List<TalentSubTreeBase> SubTrees => subTrees.Cast<TalentSubTreeBase>().ToList();
     }
     
     [Serializable]

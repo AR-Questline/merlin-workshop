@@ -18,12 +18,22 @@ namespace Awaken.TG.Main.AI.Idle {
         public readonly struct Config {
             public readonly NpcElement npc;
             public readonly Vector3 targetPosition;
+            public readonly Quaternion? rotation;
             public readonly Hero hero;
             public readonly GameConstants constants;
 
             public Config(NpcElement npc, Vector3 position) {
                 this.npc = npc;
                 this.targetPosition = position;
+                this.rotation = null;
+                hero = Hero.Current;
+                constants = World.Services.Get<GameConstants>();
+            }
+            
+            public Config(NpcElement npc, Vector3 position, Quaternion? rotation) {
+                this.npc = npc;
+                this.targetPosition = position;
+                this.rotation = rotation;
                 hero = Hero.Current;
                 constants = World.Services.Get<GameConstants>();
             }
@@ -41,24 +51,37 @@ namespace Awaken.TG.Main.AI.Idle {
             return false;
         }
 
+        public static void Teleport(NpcElement npc, TeleportDestination destination, TeleportContext context = TeleportContext.None) {
+            Teleport(new Config(npc, destination.position, destination.Rotation), context);
+        }
+
         public static void Teleport(NpcElement npc, Vector3 position, TeleportContext context = TeleportContext.None) {
             Teleport(new Config(npc, position), context);
         }
+        
         static void Teleport(in Config config, TeleportContext context = TeleportContext.None) {
             if (config.npc.IsUnique && NpcPresence.InAbyss(config.npc.Coords) && context != TeleportContext.PresenceRefresh && config.npc.NpcPresence == null) {
                 Log.Critical?.Error($"Trying to teleport npc {config.npc} from Abyss! Context: {context}");
             }
             var controller = config.npc.Movement?.Controller;
             if (controller == null) {
-                Log.Important?.Error($"Can't teleport npc: {config.npc}, it has no controller.");
+                MoveLocation(config);
                 return;
             }
             if (controller.isActiveAndEnabled) {
-                controller.TeleportTo(new TeleportDestination { position = config.targetPosition }, context);
+                controller.TeleportTo(new TeleportDestination { position = config.targetPosition, Rotation = config.rotation}, context);
             } else {
                 controller.DisableFallDamageForTeleport();
-                config.npc.ParentModel.SafelyMoveTo(config.targetPosition, true);
+                MoveLocation(config);
                 controller.RichAI.ForceTeleport(config.targetPosition);
+            }
+
+            static void MoveLocation(in Config config) {
+                if (config.rotation.HasValue) {
+                    config.npc.ParentModel.SafelyMoveAndRotateTo(config.targetPosition, config.rotation.Value, true);
+                } else {
+                    config.npc.ParentModel.SafelyMoveTo(config.targetPosition, true);
+                }
             }
         }
 
@@ -115,5 +138,6 @@ namespace Awaken.TG.Main.AI.Idle {
         SummonAfterFastTravel,
         ToDuelArena,
         FromStory,
+        AllyRanAway
     }
 }

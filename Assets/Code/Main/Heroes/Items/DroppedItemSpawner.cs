@@ -53,21 +53,23 @@ namespace Awaken.TG.Main.Heroes.Items {
             }
         }
 
-        public static Location SpawnDroppedItemPrefab(Vector3 spawnPosition, DroppedItemData itemData, Quaternion? rotation = null, Vector3? force = null) {
+        public static Location SpawnDroppedItemPrefab(Vector3 spawnPosition, DroppedItemData itemData, Quaternion? rotation = null, Vector3? force = null, bool canBePickedUp = true) {
             Item item = itemData.item;
-            return SpawnDroppedItemPrefab(spawnPosition, item.Template, itemData.quantity, item.Level.ModifiedInt, item.WeightLevel.ModifiedInt, rotation, force, itemData.elementsData, item.DisplayName);
+            return SpawnDroppedItemPrefab(spawnPosition, item.Template, itemData.quantity, item.Level.ModifiedInt, item.WeightLevel.ModifiedInt, item.NewGamePlusLevel, rotation, force, itemData.elementsData, item.DisplayName, canBePickedUp);
         }
         
-        public static Location SpawnDroppedItemPrefab(Vector3 spawnPosition, ItemTemplate template, int quantity, int itemLevel = 0, int weightLevel = 0,
-            Quaternion? rotation = null, Vector3? force = null, ItemElementsDataRuntime elementsData = null, string itemName = null) {
+        public static Location SpawnDroppedItemPrefab(Vector3 spawnPosition, ItemTemplate template, int quantity, int itemLevel = 0, int weightLevel = 0, int newGamePlusLevel = 0,
+            Quaternion? rotation = null, Vector3? force = null, ItemElementsDataRuntime elementsData = null, string itemName = null, bool canBePickedUp = true) {
             
             DroppedItemSpawner spawner = World.Services.Get<DroppedItemSpawner>();
             LocationTemplate itemDropParent = spawner.ItemDropParent;
 
             Location location = itemDropParent.SpawnLocation(spawnPosition, rotation ?? Quaternion.identity, Vector3.one, template.DropPrefab.Get(), itemName ?? template.ItemName);
             location.AddElement(new LifetimeElement(DroppedItemLifetime));
-            var spawningData = new ItemSpawningDataRuntime(template) { quantity = quantity, itemLvl = itemLevel, weightLvl = weightLevel, elementsData = elementsData };
-            location.AddElement(new PickItemAction(spawningData, true));
+            var spawningData = new ItemSpawningDataRuntime(template) { quantity = quantity, itemLvl = itemLevel, weightLvl = weightLevel, newGamePlusLvl = newGamePlusLevel, elementsData = elementsData };
+            if (canBePickedUp) {
+                location.AddElement(new PickItemAction(spawningData, true));
+            }
             location.AddElement(new ItemRigidbody(force));
             location.AddElement(new NoLocationCrimeOverride());
             return location;

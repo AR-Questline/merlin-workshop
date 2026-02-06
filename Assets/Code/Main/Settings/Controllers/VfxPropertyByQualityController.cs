@@ -196,7 +196,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
 
             protected abstract bool IsValidProperty(in VFXExposedProperty vfxExposedProperty);
             
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
             protected static void EXTRALOGGING_LogMissingProperty(VisualEffect effect, VfxProperty property) {
                 Log.Important?.Warning("Missing property: " + property.ToString() + " on: " + effect.gameObject.HierarchyPath());
             }
@@ -229,7 +229,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class FloatVfxPropertyQuality : VfxPropertyQuality<float, float> {
             protected override void ApplyProperty(VisualEffect effect, float value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasFloat(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -251,7 +251,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class IntVfxPropertyQuality : VfxPropertyQuality<int, int> {
             protected override void ApplyProperty(VisualEffect effect, int value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasInt(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -273,7 +273,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class UIntVfxPropertyQuality : VfxPropertyQuality<uint, uint> {
             protected override void ApplyProperty(VisualEffect effect, uint value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasUInt(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -295,7 +295,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class BoolVfxPropertyQuality : VfxPropertyQuality<bool, bool> {
             protected override void ApplyProperty(VisualEffect effect, bool value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasBool(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -317,7 +317,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class ColorVfxPropertyQuality : VfxPropertyQuality<Color, Vector4> {
             protected override void ApplyProperty(VisualEffect effect, Color value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasVector4(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -339,7 +339,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class Float4VfxPropertyQuality : VfxPropertyQuality<float4, Vector4> {
             protected override void ApplyProperty(VisualEffect effect, float4 value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasVector4(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -361,7 +361,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class Float3VfxPropertyQuality : VfxPropertyQuality<float3, Vector3> {
             protected override void ApplyProperty(VisualEffect effect, float3 value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasVector3(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -383,7 +383,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class Float2VfxPropertyQuality : VfxPropertyQuality<float2, Vector2> {
             protected override void ApplyProperty(VisualEffect effect, float2 value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasVector2(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -405,7 +405,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class AnimationCurveVfxPropertyQuality : VfxPropertyQuality<AnimationCurve, AnimationCurve> {
             protected override void ApplyProperty(VisualEffect effect, AnimationCurve value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasAnimationCurve(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }
@@ -427,7 +427,7 @@ namespace Awaken.TG.Main.Settings.Controllers {
         [Serializable]
         public sealed class GradientVfxPropertyQuality : VfxPropertyQuality<Gradient, Gradient> {
             protected override void ApplyProperty(VisualEffect effect, Gradient value) {
-#if PROPERTY_BY_QUALITY_EXTRA_DEBUG
+#if PROPERTY_BY_QUALITY_EXTRA_DEBUG || UNITY_EDITOR
                 if (!effect.HasGradient(property)) {
                     EXTRALOGGING_LogMissingProperty(effect, property);
                 }

@@ -8,13 +8,25 @@ using Awaken.TG.MVC;
 namespace Awaken.TG.Main.Stories.Steps {
     [Element("Game/Saving: Manual Auto Save")]
     public class SEditorManualAutoSave : EditorStep {
+        public bool forceSaveRightNow = false;
+        
         protected override StoryStep CreateRuntimeStepImpl(StoryGraphParser parser) {
-            return new SManualAutoSave();
+            return new SManualAutoSave() {
+                forceSaveRightNow = forceSaveRightNow
+            };
         }
     }
 
     public partial class SManualAutoSave : StoryStep {
+        public bool forceSaveRightNow;
+
         public override StepResult Execute(Story story) {
+            if (forceSaveRightNow) {
+                var stepResult = new StepResult();
+                World.Services.Get<AutoSaving>().ForceAutoSaveWithRecurringRetry(() => stepResult.Complete());
+                return stepResult;
+            } 
+            
             World.Services.Get<AutoSaving>().AutoSaveWithRecurringRetry();
             return StepResult.Immediate;
         }

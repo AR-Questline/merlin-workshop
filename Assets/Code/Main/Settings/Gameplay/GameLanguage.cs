@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Awaken.PackageUtilities.CommonInterfaces;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Memories;
+using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.Main.Settings.Options;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.UI.TitleScreen;
+using Awaken.TG.MVC;
 using Awaken.TG.Utility;
+using Awaken.Utility;
 using Awaken.Utility.Collections;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -45,15 +49,36 @@ namespace Awaken.TG.Main.Settings.Gameplay {
         void ConfigureOption() {
             List<ToggleOption> options = new();
             Locale selectedLocale = LocalizationSettings.SelectedLocale;
+
             foreach (var locale in Languages) {
                 options.Add(new ToggleOption($"{PrefId}_{locale.LocaleName}", locale.LocaleName, locale == selectedLocale, false));
             }
             
+            ToggleOption defaultLanguage = options[0];
+            
             if (!options.Any(o => o.Enabled)) {
-                options.First().Enabled = true;
+                defaultLanguage.Enabled = true;
             }
 
-            _option = new EnumArrowsOption(PrefId, SettingName, options.First(o => o.Enabled), false, options.ToArray());
+            _option = new EnumArrowsOption(PrefId, SettingName, defaultLanguage, false, options.ToArray());
+            _option.onChange += UpdateFontChooseSetting;
+        }
+
+        void UpdateFontChooseSetting(ToggleOption option) {
+            var fontChooseSetting = World.Any<FontChooseSetting>();
+            
+            if (fontChooseSetting == null) {
+                return;
+            }
+            
+            Locale selectedLocale = GetSelectedLocale();
+
+            if (LocalizationHelper.IsNonLatinaCharacters(selectedLocale)) {
+                fontChooseSetting.SetFontOption(FontFamily.Sans);
+                fontChooseSetting.SetForbiddenOption(FontFamily.Serif);
+            } else {
+                fontChooseSetting.EnumOption.SetForbiddenOptions();
+            }
         }
         
         protected override void OnApply() {
@@ -66,6 +91,10 @@ namespace Awaken.TG.Main.Settings.Gameplay {
                 );
             }
         }
+        
+        public override void RestoreDefault() {
+            // We can't change this setting without explicit player's action.
+        }
 
         void DiscardChange() {
             _popup?.Discard();
@@ -76,6 +105,7 @@ namespace Awaken.TG.Main.Settings.Gameplay {
         void ApplyAndExit() {
             Locale selectedLocale = GetSelectedLocale();
             LocalizationSettings.SelectedLocale = selectedLocale;
+            ILocalizationManager.Current.SwitchLanguage(selectedLocale.Identifier);
             PrefMemory.Set(ChosenLanguageKey, selectedLocale.LocaleName, true);
 #if UNITY_PS5 && !UNITY_EDITOR
             PrefMemory.Save();

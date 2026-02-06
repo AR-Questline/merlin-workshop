@@ -34,6 +34,11 @@ namespace Awaken.TG.Main.Rendering {
             _desiredWeight = weight;
             _speed = speed;
         }
+
+        public void SetWeightInstant(float weight) {
+            _desiredWeight = weight;
+            volume.weight = _desiredWeight;
+        }
         
         /// <summary>
         /// Use in cases where more than one owner can request a weight change

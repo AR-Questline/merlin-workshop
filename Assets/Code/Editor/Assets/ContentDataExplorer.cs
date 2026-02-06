@@ -76,9 +76,9 @@ namespace Awaken.TG.Editor.Assets {
                 if (locationTemplate != null && locationTemplate.GetComponent<LocationSpec>() != null) {
                     LocationSpec spec = locationTemplate.GetComponent<LocationSpec>();
                     if (TagUtils.HasRequiredTag(spec.Tags, "rogue:NPC")) {
-                        npcs.Add(new TemplateData(guid, locationTemplate, spec.prefabReference));
+                        npcs.Add(new TemplateData(guid, locationTemplate, spec.PrefabReference));
                     } else if (TagUtils.HasRequiredKind(spec.Tags, "rogue")) {
-                        locations.Add(new TemplateData(guid, locationTemplate, spec.prefabReference));
+                        locations.Add(new TemplateData(guid, locationTemplate, spec.PrefabReference));
                     }
                 }
             } catch (Exception e) {

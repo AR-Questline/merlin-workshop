@@ -25,7 +25,10 @@ namespace Awaken.TG.Main.Utility.VFX {
         [SerializeField, Tooltip("Materials linked below will be used, original textures won't get copied to them.")] 
         public bool hasCustomGhostMaterials;
         [SerializeField, HideIf(nameof(dontReplaceMaterials)), ReadOnly] public Material[] dissolveAbleMaterials = Array.Empty<Material>();
-        [SerializeField, HideIf(nameof(dontReplaceMaterials)), ARAssetReferenceSettings(new[] {typeof(Material)}, group: AddressableGroup.DrakeRenderer)] public ARAssetReference[] dissolveAbleMaterialRefs = Array.Empty<ARAssetReference>();
+        [SerializeField, HideIf(nameof(dontReplaceMaterials)), ARAssetReferenceSettings(new[] {typeof(Material)}, group: AddressableGroup.DrakeRenderer)] ARAssetReference[] dissolveAbleMaterialRefs = Array.Empty<ARAssetReference>();
+        
+        public ARAssetReference[] DissolveAbleMaterialRefsUnsafeToLoad => dissolveAbleMaterialRefs;
+        public ARAssetReference[] DissolveAbleMaterialRefsDeepCopy => dissolveAbleMaterialRefs.Select(r => r.DeepCopy()).ToArray();
         
         IDissolveAbleRendererWrapper _wrapper;
         IDissolveAbleDissolveController _dissolveController;

@@ -42,6 +42,10 @@ namespace Awaken.TG.Main.AI.Movement.States {
         }
 
         protected override void OnUpdate(float deltaTime) {
+            if (Controller == null || Controller.HasBeenDiscarded) {
+                return;
+            }
+            
             if (!_haveSetDestination) {
                 _haveSetDestination = Controller.TrySetDestination(_destination.Position);
             }
@@ -49,7 +53,7 @@ namespace Awaken.TG.Main.AI.Movement.States {
             if (_instantExitRadiusSq is { } radiusSq 
                 && _destination.DistanceSq(Npc.Coords) < radiusSq) {
                 End();
-            } else if (!Controller.RichAI.hasPath && !Controller.RichAI.pathPending && !Controller.RichAI.reachedEndOfPath) {
+            } else if (Controller.RichAI != null && Controller.RichAI is { hasPath: false, pathPending: false, reachedEndOfPath: false }) {
                 // Edge case, no time to investigate the cause
                 Controller.RichAI.SearchPath();
             }

@@ -86,9 +86,6 @@ namespace Awaken.TG.Main.Stories.Quests {
             if (!await AsyncUtil.DelayFrame(gameObject, 2, _cancellationTokenSource.Token)) {
                 return;
             }
-
-            layoutElement.minHeight = rectTransform.rect.height;
-            horizontalLayoutGroup.enabled = false;
             
             const string StrikethroughEndTag = "</s>";
             var word = Target.objective.GetQuestTrackerDescription();
@@ -101,6 +98,7 @@ namespace Awaken.TG.Main.Stories.Quests {
 
             var entryColor = objectiveState == ObjectiveState.Completed ? ARColor.SecondaryAccent : ARColor.DarkerGrey;
             questObjectiveName.DOColor(entryColor, StrikethroughDuration);
+            layoutElement.preferredHeight = rectTransform.rect.height;
             for (int i = 0; i < word.Length; i++) {
                 if (insertIndex >= stringBuilder.Length) {
                     break;
@@ -132,7 +130,7 @@ namespace Awaken.TG.Main.Stories.Quests {
             var localScale = transform.localScale;
             _sequence.Kill();
             _sequence = DOTween.Sequence().SetUpdate(true)
-                .Join(DOTween.To(() => layoutElement.minHeight, h => layoutElement.minHeight = h, 0f, 1f).SetEase(Ease.InOutQuint))
+                .Join(DOTween.To(() => layoutElement.preferredHeight, h => layoutElement.preferredHeight = h, 0f, 1f).SetEase(Ease.InOutQuint))
                 .Join(DOTween.To(() => localScale.y, y => {
                     localScale.y = y;
                     transform.localScale = localScale;
@@ -143,7 +141,6 @@ namespace Awaken.TG.Main.Stories.Quests {
         // === Helpers
         void Hide() {
             canvasGroup.alpha = 0;
-            layoutElement.minHeight = 0;
             layoutElement.preferredHeight = 0;
             gameObject.SetActive(false);
             tick.SetActive(false);

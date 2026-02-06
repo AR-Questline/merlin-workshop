@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_762dc422cdd9b7d42a14e0b7c30f6432
-  EDITOR_bakedDescription: Increase Max Stamina by 6 per Perception point.
+  EDITOR_bakedDescription: Increases Max Stamina by 6 per Perception point.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: ce19cc55da5d5cc41b2eed0bc0791a71
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5872891149054577755
 MonoBehaviour:

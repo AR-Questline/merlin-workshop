@@ -359,6 +359,89 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+  usesExplicitWyrdConvertedAudio: 0
+  wyrdConvertedAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
 --- !u!114 &4233988917973886465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,11 +459,9 @@ MonoBehaviour:
     ID: Template/customDialogueLabel_4233988917973886465_09f893e60fee532479f1cd1e137ea33c
   bookmark:
     story:
-      _guid: b328cc476cefb64499ec689aa82fc6dd
+      _guid: 54523ed5bf574944f9d28d7142ea811c
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 0}
@@ -410,6 +491,10 @@ MonoBehaviour:
     story:
       _guid: 
     chapterName: 
+  deathVFX:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &1652659207807731071
 MonoBehaviour:
   m_ObjectHideFlags: 0

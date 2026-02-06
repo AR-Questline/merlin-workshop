@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -4463589451527713540}
   - component: {fileID: 3716150357415095985}
   - component: {fileID: -5430733319049777652}
-  - component: {fileID: 1732090638821486827}
   m_Layer: 0
   m_Name: ItemTemplate_Weapon_Ammo_Special_ExplosiveMagicArrow
   m_TagString: Untagged
@@ -153,6 +152,10 @@ MonoBehaviour:
     arReference:
       address: bf70f712ca7f1c44f974badca2675fb1
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &4573730755203723746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,8 +241,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &3716150357415095985
 MonoBehaviour:
@@ -569,36 +575,3 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
---- !u!114 &1732090638821486827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9174666264328438791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de8052cd92946234ba06e17b1d0848d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    logicPrefab:
-      arReference:
-        address: 
-        subObjectName: 
-    visualPrefab:
-      arReference:
-        address: 
-        subObjectName: 
-    skills: []
-    logicData:
-      lifetime: 5
-      showLifetimeStartVFX: 0
-      lifeTimeStartVFXOnFirePointPosition: 0
-      piercing: 0
-      limitedPiercing: 0
-      piercingLimit: 1
-      dealDirectDamageOnContact: 1
-      explodeOnContact: 0
-      explodeOnEnviroHit: 0
-      explodeOnLifetimeEnd: 0

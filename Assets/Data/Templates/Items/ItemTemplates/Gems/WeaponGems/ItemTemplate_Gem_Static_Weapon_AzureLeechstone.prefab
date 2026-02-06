@@ -76,8 +76,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_5825dc9d71811d3468f89e8ef95040c0
-  EDITOR_bakedDescription: Physical attacks regenerate 15% of the damage dealt as
-    Mana.
+  EDITOR_bakedDescription: "Physical attacks regenerate 5\_% of the damage dealt
+    as Mana."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,9 +175,9 @@ MonoBehaviour:
       _guid: 0bd82a8a2c09e7a4eaab439ac5bffbd6
     variables:
     - name: ModifyValue
-      value: 0.15
-    - name: ValueGain
       value: 0.05
+    - name: ValueGain
+      value: 0.001
     - name: ValueCalculated
       value: 0
     enums:

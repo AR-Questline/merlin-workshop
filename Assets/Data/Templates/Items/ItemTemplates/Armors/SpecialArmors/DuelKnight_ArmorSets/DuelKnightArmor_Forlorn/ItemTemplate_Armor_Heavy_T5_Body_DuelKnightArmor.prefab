@@ -23,6 +23,11 @@ PrefabInstance:
       propertyPath: enduranceRequired
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: -2030504492413747376, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: perceptionRequired
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1342416209863646601, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
       propertyPath: armor
@@ -82,6 +87,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
+      propertyPath: EDITOR_bakedDescription
+      value: "Increases Damage by 15\_% if enemy is Burning.\nIncreases Damage by
+        15\_% if enemy is Poisoned.\nIncreases Max Stamina by 25."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
       propertyPath: description.locString.ID
       value: Template/description_locString_9211682420203416995_0185f3908fc3a7f478c53d92c6a0393d
       objectReference: {fileID: 0}
@@ -99,6 +110,16 @@ PrefabInstance:
         type: 3}
       propertyPath: iconReference.arSpriteReference.address
       value: 59fa658103f2b2a4281f1b8c2ff82c78
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: heavyCastInfo.magicDescription.locString.ID
+      value: Template/heavyCastInfo_magicDescription_locString_9211682420203416995_0185f3908fc3a7f478c53d92c6a0393d
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: lightCastInfo.magicDescription.locString.ID
+      value: Template/lightCastInfo_magicDescription_locString_9211682420203416995_0185f3908fc3a7f478c53d92c6a0393d
       objectReference: {fileID: 0}
     - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
@@ -194,6 +215,10 @@ MonoBehaviour:
     variables:
     - name: BonusDamageMultiplier
       value: 0.15
+    - name: BonusDamageGain
+      value: 0
+    - name: BonusDamageCalculated
+      value: 0
     enums:
     - name: ModifiedStat
       enumReference:
@@ -4708,6 +4733,10 @@ MonoBehaviour:
     variables:
     - name: BonusDamageMultiplier
       value: 0.15
+    - name: BonusDamageGain
+      value: 0
+    - name: BonusDamageCalculated
+      value: 0
     enums:
     - name: ModifiedStat
       enumReference:
@@ -9223,7 +9252,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 25
     - name: GainValue
-      value: 1
+      value: 2
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

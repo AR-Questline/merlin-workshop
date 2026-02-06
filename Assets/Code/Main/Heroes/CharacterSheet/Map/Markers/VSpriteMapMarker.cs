@@ -15,9 +15,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
         [SerializeField] Image highlightImage;
         [Title("Icon")] 
         [SerializeField] Image iconImage;
-
-        protected Image IconImage => iconImage;
-        SpriteReference _spriteReference;
         
         protected override void Awake() {
             base.Awake();
@@ -31,21 +28,10 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
         
         void InitSprite() {
             if (Target.Icon is { IsSet: true } icon) {
-                _spriteReference = icon.Get();
-                _spriteReference.RegisterAndSetup(this, IconImage, (_, _) => {
+                icon.Get().RegisterAndSetup(this, iconImage, (_, _) => {
                     StartHighlightAnimation();
                 });
             }
-        }
-        
-        void ReleaseSprite() {
-            if ((_spriteReference?.IsSet ?? false) == false) {
-                return;
-            }
-            
-            iconImage.sprite = null;
-            _spriteReference.Release();
-            _spriteReference = null;
         }
         
         void StartHighlightAnimation() {
@@ -56,7 +42,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers {
         }
         
         protected override IBackgroundTask OnDiscard() {
-            ReleaseSprite();
+            iconImage.sprite = null;
             return base.OnDiscard();
         }
     }

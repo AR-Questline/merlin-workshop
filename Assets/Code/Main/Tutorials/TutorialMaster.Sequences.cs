@@ -5,8 +5,11 @@ using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.CharacterSheet;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts;
 using Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels;
+using Awaken.TG.Main.Heroes.CharacterSheet.SarrasTalents;
 using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
 using Awaken.TG.Main.Heroes.Combat;
+using Awaken.TG.Main.Heroes.Development.SarrasPowers;
+using Awaken.TG.Main.Heroes.HUD;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.Items.Loadouts;
@@ -275,6 +278,21 @@ namespace Awaken.TG.Main.Tutorials {
                 .Append(AfterCustomEvent(hero, FishingFSM.Events.BobberHitWater, out var fishingThrowListener))
                 .Append(Instantly(() => TutorialVideo.Show(config.fishing)))
                 .OnKill(RemoveListener(fishingThrowListener));
+            
+            TutorialSequence.Create(SequenceKey.SarrasSickle)
+                .Append(AfterCustomEvent(hero.HeroItems, ICharacterInventory.Events.PickedUpItem, item => item.TryGetElement<SarrasSickle>() != null, out var sarrasSickleAcquireListener))
+                .Append(Instantly(() => TutorialVideo.Show(config.sarrasSickle)))
+                .OnKill(RemoveListener(sarrasSickleAcquireListener));
+            
+            TutorialSequence.Create(SequenceKey.SarrasBlessing)
+                .Append(AfterCustomEvent(World.Events.ModelDiscarded<SarrasShrineBlessingUI>(), out var sarrasBlessingListener))
+                .Append(Instantly(() => TutorialVideo.Show(config.sarrasBlessing)))
+                .OnKill(RemoveListener(sarrasBlessingListener));
+            
+            TutorialSequence.Create(SequenceKey.SarrasTalentTree)
+                .Append(AfterCustomEvent(VCSarrasTalentTrinket.Events.PointsDistributionCompleted, out var sarrasTalentTreeListener))
+                .Append(Instantly(() => TutorialVideo.Show(config.sarrasTalentTree)))
+                .OnKill(RemoveListener(sarrasTalentTreeListener));
         }
 
         static bool TrackableQuest(QuestUtils.QuestStateChange stateChange) {
@@ -286,6 +304,9 @@ namespace Awaken.TG.Main.Tutorials {
         }
         
         static bool IsEnemyParryable(ICharacter character) {
+            if (!character.PossibleAttackers.Any()) {
+                return false;
+            }
             var attackers = character.PossibleAttackers.GetEnumerator();
             attackers.MoveNext();
             if (attackers.Current == null) {

@@ -18,6 +18,8 @@ namespace Awaken.TG.Main.Locations.Attachments.Attachment {
         public int maxHealth = 100;
         public float healthRegen;
         public bool discardOnDeath;
+        [ShowIf(nameof(discardOnDeath))]
+        public bool makeInactiveOnDeath;
         [ShowIf(nameof(discardOnDeath)), Range(0, 10)]
         public float discardDelayInSeconds;
 

@@ -21,15 +21,22 @@ using Awaken.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.Utility.LowLevel.Collections;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Fights.DamageInfo {
     public class Damage {
-        public ICharacter DamageDealer { get; private set; }
+        const float MaxDamageArmorReduction = 0.95f;
+        
+        // [HideInVS] 
+        public ICharacter DamageDealerPure { get; private set; }
+        public ICharacter DamageDealer => DamageDealerPure is { HasBeenDiscarded: false } ? DamageDealerPure : null;
         public Item Item { get; private set; }
         public Item BlockingItem { [UnityEngine.Scripting.Preserve] get; private set; }
-        public IAlive Target { get; private set; }
+        // [HideInVS] 
+        public IAlive TargetPure { get; private set; }
+        public IAlive Target => TargetPure is { HasBeenDiscarded: false } ? TargetPure : null;
         public Skill Skill { get; private set; }
         public RawDamageData RawData { get; private set; }
         public RawRandomnessData AdditionalRandomnessData { get; private set; } = new();
@@ -65,18 +72,18 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
         public Vector3? Position => Parameters.Position ?? _position;
         public Vector3? Direction => Parameters.Direction ?? _direction;
         public Vector3? ForceDirection => Parameters.ForceDirection;
-        [UnityEngine.Scripting.Preserve]  public Vector3 DealerPosition => 
-            (Parameters.DealerPosition ?? (DamageDealer is Hero h ? h.CoordsOnNavMesh : DamageDealer?.Coords)) ?? Vector3.zero;
+        [UnityEngine.Scripting.Preserve] public Vector3 DealerPosition => 
+            (Parameters.DealerPosition ?? (DamageDealerPure is Hero h ? h.CoordsOnNavMesh : DamageDealer?.Coords)) ?? Vector3.zero;
         
-        public bool CanBeBlocked => !Inevitable && DamageDealer != null && !IsDamageOverTime && Type is DamageType.PhysicalHitSource or DamageType.MagicalHitSource;
+        public bool CanBeBlocked => !Inevitable && DamageDealerPure != null && !IsDamageOverTime && Type is DamageType.PhysicalHitSource or DamageType.MagicalHitSource;
         public bool CanBeReducedByArmor => !IgnoreArmor && (Damage.IsAnyPhysicalDamage(Type) || Type is DamageType.MagicalHitSource);
 
         Vector3? _position, _direction;
 
         public Damage(DamageParameters parameters, ICharacter dealer, IAlive target, RawDamageData data, float staminaDamageAmount = 0) {
             Parameters = parameters;
-            DamageDealer = dealer;
-            Target = target;
+            DamageDealerPure = dealer;
+            TargetPure = target;
             DamageReceivedMultiplierData = target?.GetRuntimeDamageReceivedMultiplierData();
             RawData = data;
             StaminaDamageAmount = staminaDamageAmount;
@@ -164,14 +171,14 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
         // === Utils
         
         public void ApplyBeforeDamageMultipliedModifiers() {
-            DamageDealer?.Trigger(HealthElement.Events.BeforeDamageMultiplied, this);
-            (Target as ICharacter)?.Trigger(HealthElement.Events.BeforeDamageTakenMultiplied, this);
+            DamageDealerPure?.Trigger(HealthElement.Events.BeforeDamageMultiplied, this);
+            (TargetPure as ICharacter)?.Trigger(HealthElement.Events.BeforeDamageTakenMultiplied, this);
         }
 
         public void ApplyOnDamageMultipliedModifiers(DamageModifiersInfo modifiersInfo) {
             var modifiedDamageInfo = new ModifiedDamageInfo(this, modifiersInfo);
-            DamageDealer?.Trigger(HealthElement.Events.OnDamageMultiplied, modifiedDamageInfo);
-            (Target as ICharacter)?.Trigger(HealthElement.Events.OnDamageTakenMultiplied, modifiedDamageInfo);
+            DamageDealerPure?.Trigger(HealthElement.Events.OnDamageMultiplied, modifiedDamageInfo);
+            (TargetPure as ICharacter)?.Trigger(HealthElement.Events.OnDamageTakenMultiplied, modifiedDamageInfo);
         }
 
         [UnityEngine.Scripting.Preserve]
@@ -479,7 +486,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetArmorDamageReduction(float armorValue) {
             float reduction = armorValue / 100f;
-            reduction = Mathf.Clamp(reduction, 0, 0.9999f);
+            reduction = Mathf.Clamp(reduction, 0, MaxDamageArmorReduction);
             return reduction;
         }
 

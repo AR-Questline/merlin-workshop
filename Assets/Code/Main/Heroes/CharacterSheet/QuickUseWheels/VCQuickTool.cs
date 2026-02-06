@@ -18,6 +18,16 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
                 .OrderByDescending(item => item.Quality.Priority)
                 .FirstOrDefault(item => item.TryGetElement<Tool>()?.Type == ToolType);
         }
+        
+        protected override void OnShow() {
+            base.OnShow();
+            VQuickUseWheel.UpdatePrompts(this);
+        }
+
+        protected override void OnHide() {
+            base.OnHide();
+            VQuickUseWheel.UpdatePrompts(null);
+        }
 
         public override void UseItemAction() {
             if (_item is not { HasBeenDiscarded: false }) {

@@ -56,6 +56,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 2c972dd406e9fe346aa167b634555726
@@ -140,13 +141,17 @@ MonoBehaviour:
   upgradeChance: 0
   crimeItemValue: 4
   canStack: 0
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: 
       subObjectName: 

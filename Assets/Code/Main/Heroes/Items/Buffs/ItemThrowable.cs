@@ -1,4 +1,5 @@
-﻿using Awaken.Utility;
+﻿using System;
+using Awaken.Utility;
 using System.Threading;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.AI.Fights.Projectiles;
@@ -11,6 +12,7 @@ using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.Items.Attachments.Interfaces;
 using Awaken.TG.Main.Locations.Attachments;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -69,7 +71,12 @@ namespace Awaken.TG.Main.Heroes.Items.Buffs {
             if (ParentModel.Owner is Hero hero) {
                 _itemSpawnToken?.Cancel();
                 _itemSpawnToken = new CancellationTokenSource();
-                _itemPrefab = await _projectile.GetInHandProjectile(hero.MainHand, _itemSpawnToken);
+                if (_projectile.IsSetUp) {
+                    _itemPrefab = await _projectile.GetInHandProjectile(hero.MainHand, _itemSpawnToken);
+                } else {
+                    _itemPrefab = await ItemProjectile.GetDefaultInHandProjectile(hero.MainHand, _itemSpawnToken);
+                    Debug.LogException(new Exception($"Projectile not setup for throwable item: {LogUtils.GetDebugName(ParentModel)}"));
+                }
                 if (_itemPrefab.Instance != null) {
                     _preloadedProjectile = _projectile.PreloadProjectile();
                     var item = _itemPrefab.Instance;

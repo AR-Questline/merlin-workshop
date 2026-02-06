@@ -2,8 +2,10 @@
 using System.Diagnostics;
 using System.Linq;
 using Awaken.TG.Graphics.Cutscenes;
+using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.Main.UI.Components.Navigation;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.Menu;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
@@ -19,9 +21,7 @@ using Awaken.Utility.Debugging;
 using Rewired;
 using UnityEngine;
 using UnityEngine.UI;
-using Debug = UnityEngine.Debug;
 using EventSystem = UnityEngine.EventSystems.EventSystem;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.MVC.UI.Handlers.Focuses {
     /// <summary>
@@ -74,7 +74,7 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
         bool IsGamepadConnected {
             set {
                 bool wasDisconnected = _isConnected && !value;
-                bool canShowMenuUI = !World.HasAny<MenuUI>() && !World.HasAny<Cutscene>() && UIStateStack.Instance.State.IsMapInteractive;
+                bool canShowMenuUI = !World.HasAny<MenuUI>() && !World.HasAny<Cutscene>() && UIStateStack.Instance.State.IsMapInteractive && World.HasAny<Hero>();
                 bool numberOfControllersReduced = _numberOfControllers > CurrentNumberOfControllers;
                 if (wasDisconnected && canShowMenuUI && numberOfControllersReduced) { 
                     World.Add(new MenuUI());
@@ -90,6 +90,7 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
             public static readonly Event<Focus, FocusChange> AfterFocusChanged = new(nameof(AfterFocusChanged));
             public static readonly Event<Focus, Focus> FocusBaseChanged = new(nameof(FocusBaseChanged));
             public static readonly Event<Focus, ControllerType> ControllerChanged = new(nameof(ControllerChanged));
+            public static readonly Event<Focus, ControllerType> ControllerConnected = new(nameof(ControllerConnected));
             public static readonly Event<Focus, UIKeyMapping> KeyMappingRefreshed = new(nameof(KeyMappingRefreshed));
         }
 
@@ -98,6 +99,7 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
             AddElement(new FocusHistorian());
 
             this.GetOrCreateTimeDependent().WithLateUpdate(ProcessLateUpdate).ThatProcessWhenPause();
+            // ReInput.ControllerConnectedEvent += args => this.Trigger(Events.ControllerConnected, args.controllerType);
         }
 
         // === Focus / Unfocus
@@ -122,6 +124,7 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
             }
             ParentModel.Element<Hovering>().ChangeHoverTo(selectable);
             this.Trigger(Events.FocusChanged, new FocusChange {previous = previous, current = _focused});
+            ResetSource(previous);
             Historian.RegisterFocusChange(_focused, isFromInit);
             if (DebugMode) {
                 Log.Important?.Error($"Selection - changed to {selectable?.gameObject.name}", selectable?.gameObject);
@@ -288,7 +291,7 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
         }
 
         // === Providing Handler Source
-        public void ProvideHandlers(UIPosition position, List<IUIAware> handlers) {
+        public void ProvideHandlers(UIPosition _, List<IUIAware> handlers) {
             if (RewiredHelper.IsGamepad && Focused is IUIAware uiAware) {
                 handlers.Add(uiAware);
             }
@@ -330,7 +333,7 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
         }
 
         UIResult HandleNaviActionByUIAware(IUIAware aware, UINaviAction navi) {
-            UIResult result = aware.Handle(navi);
+            UIResult result = aware.IsValid ? aware.Handle(navi) : UIResult.Ignore;
             if (result != UIResult.Ignore) return result;
 
             if (aware is IUIAwareContainer container) {
@@ -398,8 +401,22 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
             if (allowSmartHandlers) {
                 return ParentModel.DeliverEvent(evt, null, awares).finalResult;
             }
-            return awares.Select(a => a.Handle(evt)).FirstOrDefault(r => r != UIResult.Ignore);
-
+            
+            for (int i = 0; i < awares.Length; i++) {
+                var aware = awares[i];
+                if (!aware.IsValid) {
+                    continue;
+                }
+#if DEBUG || AR_DEBUG
+                aware.LogInvalidUIAware(evt);
+#endif
+                
+                var result = aware.Handle(evt);
+                if (result != UIResult.Ignore) {
+                    return result;
+                }
+            }
+            return UIResult.Ignore;
         }
 
         IUIAware[] GetUIAwares(bool goUpHierarchy) {
@@ -438,6 +455,17 @@ namespace Awaken.TG.MVC.UI.Handlers.Focuses {
             IsGamepad = RewiredHelper.IsGamepad;
             IsGamepadConnected = RewiredHelper.IsCurrentControllerConnected;
             _numberOfControllers = CurrentNumberOfControllers;
+        }
+        
+        protected override void OnDiscard(bool fromDomainDrop) {
+            ResetSource(Focused);
+            base.OnDiscard(fromDomainDrop);
+        }
+        
+        void ResetSource(Component focused) {
+            if (focused is IUIAware uiAware) {
+                ParentModel.OnSourceReset(uiAware);          
+            }
         }
     }
 }

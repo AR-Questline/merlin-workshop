@@ -1,0 +1,350 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263c9af830c4469593b6ca8f1bb79263, type: 3}
+  m_Name: Loottable_Chest_SoS_BigBetter_Locked
+  m_EditorClassIdentifier: 
+  table:
+    rid: 5152522003028640098
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  addItemsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 407485066785850297
+      type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        loot:
+          rid: 407485066785850298
+        chance: 0.5
+        useLootChanceMultiplier: 1
+    - rid: 407485066785850298
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 602fec30ef30c3f458e2f360ee243848
+    - rid: 1973226865924767898
+      type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        loot:
+          rid: 1973226865924767900
+        chance: 0.33
+        useLootChanceMultiplier: 1
+    - rid: 1973226865924767900
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 2
+        generateOnlyOnce: 0
+        loot:
+          rid: 1973226865924767901
+    - rid: 1973226865924767901
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 372ea54a09173364d8b4b27d7c0d3b16
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 2257103954643779584
+      type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        loot:
+          rid: 2257103954643779586
+        chance: 0.33
+        useLootChanceMultiplier: 1
+    - rid: 2257103954643779586
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 14
+        randomizedAmount: 29
+        generateOnlyOnce: 0
+        loot:
+          rid: 2257103954643779587
+    - rid: 2257103954643779587
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 0fd240ecd615a884c97a0bff38f4377a
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 4475009124143464448
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 1
+        loots:
+        - loot:
+            rid: 6801777033020178441
+          weight: 4
+        - loot:
+            rid: 6801777033020178501
+          weight: 10
+        - loot:
+            rid: 6801777033020178503
+          weight: 1
+    - rid: 5152522003028640098
+      type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        array:
+        - rid: 6801776962716827683
+        - rid: 407485066785850297
+        - rid: 4475009124143464448
+        - rid: 2257103954643779584
+        - rid: 6801777033020178468
+        - rid: 6801777033020178489
+        - rid: 7107151014564200451
+        - rid: 1973226865924767898
+    - rid: 6801776962716827683
+      type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        loot:
+          rid: 6801776962716827684
+        chance: 1
+        useLootChanceMultiplier: 1
+    - rid: 6801776962716827684
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 601292d8c6055914998a02bfb1b92e91
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6801777033020178441
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 2
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178442
+    - rid: 6801777033020178442
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: f2bbaabf48093e84e9eb5fced682b9ba
+    - rid: 6801777033020178468
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 0
+        loots:
+        - loot:
+            rid: 6801777033020178469
+          weight: 1
+        - loot:
+            rid: 6801777033020178470
+          weight: 1
+    - rid: 6801777033020178469
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 3
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178471
+    - rid: 6801777033020178470
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 3
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178472
+    - rid: 6801777033020178471
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 74b5f28fe18e7b743906b2c9aa75e637
+    - rid: 6801777033020178472
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 785b2aebcda53a8429bedf21b0d16e9e
+    - rid: 6801777033020178489
+      type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        loot:
+          rid: 6801777033020178490
+        chance: 0.4
+        useLootChanceMultiplier: 1
+    - rid: 6801777033020178490
+      type: {class: LootWeightArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 0
+        loots:
+        - loot:
+            rid: 6801777033020178491
+          weight: 2
+        - loot:
+            rid: 6801777033020178492
+          weight: 2
+        - loot:
+            rid: 6801777033020178493
+          weight: 1
+        - loot:
+            rid: 6801777033020178494
+          weight: 1
+        - loot:
+            rid: 6801777033020178495
+          weight: 1
+    - rid: 6801777033020178491
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 4
+        randomizedAmount: 21
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178496
+    - rid: 6801777033020178492
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 4
+        randomizedAmount: 21
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178497
+    - rid: 6801777033020178493
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 1
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178498
+    - rid: 6801777033020178494
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 1
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178499
+    - rid: 6801777033020178495
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 1
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178500
+    - rid: 6801777033020178496
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e42d61fb3c394a74d9d1b40869124b23
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6801777033020178497
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 6b9da43ba6ec6454e835e7fe6d431bf2
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6801777033020178498
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: e95f528ee702f27408254968dbdd6362
+    - rid: 6801777033020178499
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: fd933cec59d9772479009bad5eb26985
+    - rid: 6801777033020178500
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: e7e6c65d6596b224595ce30bb0da63d9
+    - rid: 6801777033020178501
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 1
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178502
+    - rid: 6801777033020178502
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: a3ca6a31009cab74dae0eb0fab09bab2
+    - rid: 6801777033020178503
+      type: {class: LootTableMultiplier, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        amount: 1
+        randomizedAmount: 4
+        generateOnlyOnce: 0
+        loot:
+          rid: 6801777033020178504
+    - rid: 6801777033020178504
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: e85c4f55323f55d42a09f2d1218104fa
+    - rid: 7107151014564200451
+      type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        loot:
+          rid: 7107151014564200452
+        chance: 0.66
+        useLootChanceMultiplier: 1
+    - rid: 7107151014564200452
+      type: {class: LootTableAssetRef, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        table:
+          _guid: 40cd95b6f7f0fef4c83fcc552f2366be

@@ -25,7 +25,7 @@ namespace Awaken.TG.Assets {
             GameObject loadedAsset = await AssetReference.LoadAsset<GameObject>().ToUniTask();
             if (cancellationToken.IsCancellationRequested || _cancellationToken.IsCancellationRequested || loadedAsset == null) {
                 _completed = true;
-                AssetReference.ReleaseAsset();
+                AssetReference?.ReleaseAsset();
                 return;
             }
             Instance = PrefabUtil.InstantiateDisabled(loadedAsset);
@@ -34,10 +34,10 @@ namespace Awaken.TG.Assets {
                 movable = true,
             });
             await UniTask.DelayFrame(1);
-            if (cancellationToken.IsCancellationRequested || _cancellationToken.IsCancellationRequested) {
+            if (cancellationToken.IsCancellationRequested || (_cancellationToken?.IsCancellationRequested ?? false)) {
                 _completed = true;
                 Object.Destroy(Instance);
-                AssetReference.ReleaseAsset();
+                AssetReference?.ReleaseAsset();
                 return;
             }
             _completed = true;
@@ -66,16 +66,11 @@ namespace Awaken.TG.Assets {
         }
         
         public void Invalidate() {
-            if (Instance != null) {
-                PrefabPool prefabPool = World.Services.TryGet<PrefabPool>();
-                if (prefabPool != null) {
-                    prefabPool.Return(this);
-                } else {
-                    Object.Destroy(Instance);
-                }
+            if (Instance != null && World.Services.TryGet(out PrefabPool prefabPool)) {
+                prefabPool.Return(this);
+            } else {
+                Release();
             }
-            
-            Instance = null;
         }
     }
 }

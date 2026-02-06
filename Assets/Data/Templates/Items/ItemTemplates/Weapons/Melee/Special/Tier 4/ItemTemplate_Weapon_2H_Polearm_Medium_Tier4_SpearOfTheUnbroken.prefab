@@ -79,7 +79,7 @@ MonoBehaviour:
     locString:
       IdOverride: item_weapon_2h_SpearOfTheUnbroken_Desc
       ID: Template/description_locString_2543871262668956605_93a2b57dfe619ed4e8e6f255c44897c9
-  EDITOR_bakedDescription: Damage increased by 50% against shielded enemies.
+  EDITOR_bakedDescription: "Damage increased by 40\_% against shielded enemies."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: d99fcda1a534c9649af79597eeaf09aa
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -241,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-11953570963775665
 MonoBehaviour:
@@ -668,4 +675,9 @@ MonoBehaviour:
     - name: Status
       templateReference:
         _guid: ed4913b52b010214e83063bd5d041d0e
-    assetReferences: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: bb761b173dc7a044d9f6115f4e481403
+          subObjectName: 

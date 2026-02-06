@@ -4,6 +4,7 @@ using Awaken.TG.Assets;
 using Awaken.TG.Main.AudioSystem.Biomes;
 using Awaken.TG.Main.Fights.Duels;
 using Awaken.TG.Main.General;
+using Awaken.TG.Main.Heroes.Items.Attachments.Audio;
 using Awaken.TG.Main.Heroes.Items.LootTables;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations;
@@ -291,6 +292,22 @@ namespace Awaken.TG.Main.Stories.Runtime {
             Write(value.state);
             Write(value.expressionHandler);
             Write(value.roundDuration);
+        }
+        
+        public void Write(AliveAudioContainer value) {
+            value ??= new AliveAudioContainer();
+            Write(value.audioType);
+            Write(value.idle);
+            Write(value.hurt);
+            Write(value.die);
+            Write(value.attack);
+            Write(value.specialAttack);
+            Write(value.specialBegin);
+            Write(value.specialRelease);
+            Write(value.fall);
+            Write(value.dash);
+            Write(value.footStep);
+            Write(value.roar);
         }
         
         // === Collections

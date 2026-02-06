@@ -38,6 +38,13 @@ namespace Awaken.TG.MVC.UI.Sources {
 
         // === Implementation
 
-        public virtual void ProvideHandlers(UIPosition _, List<IUIAware> handlers) => handlers.AddRange(_handlers);
+        public virtual void ProvideHandlers(UIPosition _, List<IUIAware> handlers) {
+            handlers.AddRange(_handlers);
+        }
+        
+        protected override void OnDiscard(bool fromDomainDrop) {
+            ParentModel.OnSourceReset(_handlers.ToList());
+            base.OnDiscard(fromDomainDrop);
+        }
     }
 }

@@ -14,21 +14,22 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Journal.Content {
         Video _video;
 
         public LocString Title { [UnityEngine.Scripting.Preserve] get; }
-        public string Text { get; }
+        public string Text => TutorialDataOwner.GetTranslatedContentText();
         public ShareableSpriteReference Icon { get; }
         [CanBeNull] public ShareableSpriteReference Graphic { get; }
         [CanBeNull] public LoadingHandle VideoHandle { get; }
+        ITutorialDataOwner TutorialDataOwner { get; }
         
         public JournalTutorialContent(TutorialConfig.GraphicTutorial tutorialConfig) {
+            TutorialDataOwner = tutorialConfig;
             Title = tutorialConfig.title;
-            Text = tutorialConfig.GetTranslatedText();
             Graphic = tutorialConfig.graphic;
             Icon = tutorialConfig.icon;
         }
         
         public JournalTutorialContent(TutorialConfig.VideoTutorial tutorialConfig) {
+            TutorialDataOwner = tutorialConfig;
             Title = tutorialConfig.title;
-            Text = tutorialConfig.GetTranslatedText();
             VideoHandle = tutorialConfig.video;
             Icon = tutorialConfig.icon;
         }

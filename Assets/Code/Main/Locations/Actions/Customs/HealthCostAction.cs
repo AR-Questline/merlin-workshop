@@ -13,9 +13,9 @@ namespace Awaken.TG.Main.Locations.Actions.Attachments {
         string _interactLabel;
         float _costPerSecond;
         
-        public override InfoFrame ActionFrame => !string.IsNullOrWhiteSpace(_interactLabel) ? 
+        protected override InfoFrame ActionFrameInternal => !string.IsNullOrWhiteSpace(_interactLabel) ? 
             new InfoFrame(_interactLabel, HeroHasRequiredItem()) : 
-            base.ActionFrame;
+            base.ActionFrameInternal;
 
         public void InitFromAttachment(HealthCostActionAttachment spec, bool isRestored) {
             _spec = spec;

@@ -4,6 +4,7 @@ using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Stories.Quests.UI.Awaken.TG.Main.Stories.Quests.UI;
 using Awaken.TG.Main.UI.EmptyContent;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
@@ -31,6 +32,7 @@ namespace Awaken.TG.Main.Stories.Quests.UI {
         
         public Transform QuestParent => questParent;
         public override Transform DetermineHost() => Target.ParentModel.View<VQuestLogUI>().LeftContent;
+        public bool IsValid => this.IsValidForUIHandle();
 
         // === Initialization
         protected override void OnInitialize() {

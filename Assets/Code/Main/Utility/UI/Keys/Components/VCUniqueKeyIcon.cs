@@ -1,7 +1,6 @@
 ﻿using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Utility.UI.Keys.Components {
     [RequireComponent(typeof(KeyIcon))]

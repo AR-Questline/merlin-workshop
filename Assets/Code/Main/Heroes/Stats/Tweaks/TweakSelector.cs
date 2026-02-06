@@ -15,6 +15,8 @@ namespace Awaken.TG.Main.Heroes.Stats.Tweaks {
         // Works only for Model Selectors!!!
         [JsonIgnore] public Stat Stat => Model.Stat(StatType);
 
+        public TweakSelector(Stat stat) : this(stat.Owner, stat.Type) {}
+
         public TweakSelector(IWithStats model, StatType statType) {
             this.Model = model;
             this.StatType = statType;

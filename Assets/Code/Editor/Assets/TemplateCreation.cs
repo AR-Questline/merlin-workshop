@@ -46,6 +46,8 @@ namespace Awaken.TG.Editor.Assets {
         static void CreateAchievementTemplate() => CreatePrefab(PrefabCreator<AchievementTemplate, AchievementObjectiveSpec, AchievementEffectorAttachment>);
         [MenuItem("Assets/TG Data/Miscellaneous/Npc Template")]
         static void CreateNpcTemplate() => CreatePrefab(PrefabCreator<NpcTemplate>);
+        [MenuItem("Assets/TG Data/Miscellaneous/Scaling Npc Template")]
+        static void CreateScalingNpcTemplate() => CreatePrefab(PrefabCreator<ScalingNpcTemplate>);
         [MenuItem("Assets/TG Data/Miscellaneous/Faction")]
         static void CreateFactionTemplate() => CreatePrefab(PrefabCreator<FactionTemplate>);
         [MenuItem("Assets/TG Data/Miscellaneous/Shop Definition")]

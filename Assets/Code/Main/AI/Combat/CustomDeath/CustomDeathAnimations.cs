@@ -27,7 +27,11 @@ namespace Awaken.TG.Main.AI.Combat.CustomDeath {
             _useCustomDeathAnimation = CheckDeathAnimations(damageOutcome);
             if (_useCustomDeathAnimation) {
                 base.OnDeath(damageOutcome, dyingLocation);
-            } else if (useRagdollIfNoCustomDeathAnimationFound) {
+            }
+        }
+        
+        public override void AfterOnDeath(DamageOutcome damageOutcome, bool isUsingCustomDeathAnimation, NpcDeath.DeathAnimType deathAnimType) {
+            if (!isUsingCustomDeathAnimation && useRagdollIfNoCustomDeathAnimationFound) {
                 _ragdollDeathBehaviour?.EnableDeathRagdoll(damageOutcome);
             }
         }

@@ -15,6 +15,7 @@ namespace Awaken.TG.Main.Stories.Actors {
         public bool isFake;
         [ShowIf(nameof(isFake))]
         public int fakeIndex;
+        public bool isCosplayingHero;
         
         [SerializeField, Tags(TagsCategory.Barks)]
         public string[] tags = new string[0];
@@ -60,7 +61,7 @@ namespace Awaken.TG.Main.Stories.Actors {
         }
 
         public Actor Create(string stateId) {
-            Actor actor = new(Guid, displayName.ToString(), showNameInDialogues, barkConfig, isFake, fakeIndex);
+            Actor actor = new(Guid, displayName.ToString(), showNameInDialogues, barkConfig, isFake, fakeIndex, isCosplayingHero);
             ActorState state = States.FirstOrDefault(s => s.Id == stateId);
             state?.Apply(ref actor);
             return actor;

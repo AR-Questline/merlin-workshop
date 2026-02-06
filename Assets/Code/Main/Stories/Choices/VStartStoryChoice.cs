@@ -2,6 +2,7 @@
 using System.Linq;
 using Awaken.TG.Main.Heroes.CharacterSheet;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -18,6 +19,8 @@ namespace Awaken.TG.Main.Stories.Choices {
         public ARButton button;
         public TextMeshProUGUI mainText;
         public TextMeshProUGUI additionalText;
+        
+        public bool IsValid => this.IsValidForUIHandle();
         
         // === Bridge to showing additional data
         string AggregatedEffects => string.Join("\n", Effects.Where(eff => !string.IsNullOrWhiteSpace(eff)));

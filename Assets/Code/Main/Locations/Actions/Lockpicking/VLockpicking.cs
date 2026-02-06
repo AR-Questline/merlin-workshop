@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Awaken.TG.Graphics.VFX;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes.Items;
@@ -52,6 +53,7 @@ namespace Awaken.TG.Main.Locations.Actions.Lockpicking {
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
 
         protected override void OnInitialize() {
+            DisableWetness();
             Init3D();
             InitPrompts();
             
@@ -138,7 +140,16 @@ namespace Awaken.TG.Main.Locations.Actions.Lockpicking {
             Target.ResetLockState();
         }
 
+        void DisableWetness() {
+            Services.Get<ScreenSpaceWetnessVisibilityService>().DisableWetness(this); 
+        }
+        
+        void EnableWetness() {
+            Services.Get<ScreenSpaceWetnessVisibilityService>().EnableWetness(this); 
+        }
+        
         protected override IBackgroundTask OnDiscard() {
+            EnableWetness();
             _blurSequence.Kill();
             _backgroundTexture?.Release();
             _backgroundTexture = null;

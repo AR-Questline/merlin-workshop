@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.CharacterSheet.Character;
 using Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.EntryInfo;
 using Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.StatsSummary;
-using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
 using Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;

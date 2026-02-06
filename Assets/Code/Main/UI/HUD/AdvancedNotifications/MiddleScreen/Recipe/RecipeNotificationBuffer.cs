@@ -6,17 +6,14 @@ using DG.Tweening;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Recipe {
-    public partial class RecipeNotificationBuffer : AdvancedNotificationBuffer<RecipeNotification> {
+    public partial class RecipeNotificationBuffer : AdvancedNotificationBufferPresenter<RecipeNotification> {
         const float FadeDuration = 0.3f;
         const float DelayDuration = 4.7f;
-
-        public sealed override bool IsNotSaved => true;
         
         Tween _fadeTween;
         
         protected override VisualElement NotificationsParent => ParentModel.NotificationsContainerUI.RecipeNotificationsParent;
         protected override int MaxVisibleNotifications => 4;
-        protected override bool HideWhenMapNotInteractive => true;
 
         protected override void OnAfterPushingNewNotification() {
             _fadeTween.Kill();
@@ -39,6 +36,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Recipe {
 
         protected override void OnDiscard(bool fromDomainDrop) {
             UITweens.DiscardTween(ref _fadeTween);
+            base.OnDiscard(fromDomainDrop);
         }
     }
 }

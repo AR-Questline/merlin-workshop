@@ -3,5 +3,6 @@
 namespace Awaken.TG.Main.Heroes.Stats {
     public interface IWithStats : IModel {
         Stat Stat(StatType statType);
+        int HeroLevelAtInitialization => 0;
     }
 }

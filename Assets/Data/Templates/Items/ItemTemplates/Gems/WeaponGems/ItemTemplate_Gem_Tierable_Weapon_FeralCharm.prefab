@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_d42cb5bc2917a5b43aa11950bd420d60
-  EDITOR_bakedDescription: Increases Physical Damage by 3%.
+  EDITOR_bakedDescription: "Increases Physical Damage by 7\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -87,7 +87,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_d42cb5bc2917a5b43aa11950bd420d60
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -132,7 +132,7 @@ MonoBehaviour:
   basePrice: 300
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 200
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -149,6 +149,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: a7ec4fd4a603a2f478be699f8c83ff7f
       subObjectName: 
@@ -169,9 +173,11 @@ MonoBehaviour:
       _guid: e699a32c4d76b8b48aa933b6586a5bca
     variables:
     - name: ModifyValue
-      value: 0.03
+      value: 0.07
     - name: GainValue
-      value: 0.03
+      value: 0.007
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

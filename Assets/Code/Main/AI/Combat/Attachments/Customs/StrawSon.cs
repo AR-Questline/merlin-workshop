@@ -1,5 +1,6 @@
 using Awaken.Utility;
 using System;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes.Statuses;
 using Awaken.TG.Main.Heroes.Statuses.BuildUp;
@@ -11,8 +12,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
     public partial class StrawSon : CustomCombatBaseClass {
         public override ushort TypeForSerialization => SavedModels.StrawSon;
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             NpcElement.Statuses.ListenTo(CharacterStatuses.Events.AddedStatus, s => OnStatusAdded(s).Forget(), this);
         }
 

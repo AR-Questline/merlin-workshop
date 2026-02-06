@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Locations.Actions;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.UI.Keys.Components;
@@ -23,6 +24,7 @@ namespace Awaken.TG.Main.Heroes.Interactions {
 
         protected bool HasAction => _usedAction is { IsValidAction: true };
         protected IHeroAction _usedAction;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public HeroInteractionUI(IInteractableWithHero interactable) {
             Interactable = interactable;
@@ -53,7 +55,9 @@ namespace Awaken.TG.Main.Heroes.Interactions {
                 _usedAction = newAction;
                 RewiredHelper.VibrateHighFreq(VibrationStrength.Low, VibrationDuration.VeryShort);
                 return UIResult.Accept;
-            } else if (HasAction && evt is UIKeyUpAction) {
+            }
+
+            if (HasAction && evt is UIKeyUpAction) {
                 EndAction();
                 RewiredHelper.VibrateHighFreq(VibrationStrength.Low, VibrationDuration.VeryShort);
                 return UIResult.Accept;

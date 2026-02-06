@@ -15,6 +15,7 @@ using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.LootTables;
 using Awaken.TG.Main.Heroes.Stats.StatConfig;
 using Awaken.TG.Main.Locations;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Stories.Tags;
 using Awaken.TG.Main.Templates;
@@ -60,12 +61,13 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public bool canDealDamageToFriendlies;
         [SerializeField, FoldoutGroup("Combat Behaviour")]
         ReturnToSpawnPointArchetype returnToSpawnPointArchetype = ReturnToSpawnPointArchetype.Defensive;
+        public float BackToSpawnPointDistanceMultiplier = 1f;
 
-        [FoldoutGroup("Stats"), SerializeField] 
+        [FoldoutGroup("Stats"), SerializeField, HideIf(nameof(HideScalingStats))] 
         int maxHealth = 100;
         [FoldoutGroup("Stats"), SerializeField] 
         float healthRegen;
-        [FoldoutGroup("Stats"), SerializeField, Space]
+        [FoldoutGroup("Stats"), SerializeField, HideIf(nameof(HideScalingStats)), Space]
         int maxStamina = 100; 
         [FoldoutGroup("Stats"), SerializeField] 
         float staminaRegenPerTick = 0.25f;
@@ -88,11 +90,11 @@ namespace Awaken.TG.Main.Fights.NPCs {
         bool canBeWyrdEmpowered = true;
         [FoldoutGroup("Combat Stats"), SerializeField] 
         bool canEnterCombat = true;
-        [FoldoutGroup("Combat Stats"), SerializeField, Indent]
+        [FoldoutGroup("Combat Stats"), SerializeField, HideIf(nameof(HideScalingStats)), Indent]
         public float meleeDamage = 10;
-        [FoldoutGroup("Combat Stats"), SerializeField, Indent]
+        [FoldoutGroup("Combat Stats"), SerializeField, HideIf(nameof(HideScalingStats)), Indent]
         public float rangedDamage = 10;
-        [FoldoutGroup("Combat Stats"), SerializeField, Indent]
+        [FoldoutGroup("Combat Stats"), SerializeField, HideIf(nameof(HideScalingStats)), Indent]
         public float magicDamage = 10;
         [FoldoutGroup("Combat Stats"), SerializeField, Space] 
         int armor;
@@ -102,13 +104,13 @@ namespace Awaken.TG.Main.Fights.NPCs {
         List<DamageReceivedMultiplierDataConfig> damageReceivedMultipliers = new ();
         [FoldoutGroup("Combat Stats"), SerializeField] 
         int statusResistance;
-        [FoldoutGroup("Combat Stats"), SerializeField, Title("Force")] 
+        [FoldoutGroup("Combat Stats"), SerializeField, HideIf(nameof(HideScalingStats)), Title("Force")] 
         float forceStumbleThreshold = 15;
         [FoldoutGroup("Combat Stats"), Tooltip("This value sets npc ragdoll weight")]
         public int npcWeight = 80;
         [FoldoutGroup("Combat Stats")] 
         public LayerMask npcHitMask = (1 << 24) | (1 << 31);
-        [FoldoutGroup("Combat Stats")] 
+        [FoldoutGroup("Combat Stats"), HideIf(nameof(HideScalingStats))] 
         public float poiseThreshold = 35;
         [FoldoutGroup("Combat Stats"), Range(0, 100)] 
         public int blockValue = 50;
@@ -166,6 +168,8 @@ namespace Awaken.TG.Main.Fights.NPCs {
         [FoldoutGroup("VFX"), ARAssetReferenceSettings(new[] {typeof(GameObject)}, true, AddressableGroup.VFX)] [UnityEngine.Scripting.Preserve]
         public ShareableARAssetReference onHitCriticalVFX;
         [FoldoutGroup("VFX")] public TattooType tattooType;
+        [FoldoutGroup("VFX"), ARAssetReferenceSettings(new[] {typeof(GameObject)}, true, AddressableGroup.VFX)]
+        public ShareableARAssetReference corpseVFX;
         [FoldoutGroup("Animations"), SerializeField, ClipTransitionAssetReference] ARAssetReference dummyDeathClipTransition;
         
         public FactionTemplate Faction => faction.Get<FactionTemplate>(this) ?? World.Services.Get<FactionProvider>().Root;
@@ -176,11 +180,15 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public CrimeReactionArchetype CrimeReactionArchetype => crimeReactionArchetype;
         public ReturnToSpawnPointArchetype ReturnToSpawnPointArchetype => returnToSpawnPointArchetype;
         public NpcType NpcType => npcType;
-        public int MaxHealth => maxHealth;
+        public virtual int MaxHealth => maxHealth;
         public int Level => level;
         public int TalentPoints => 0;
+        public int CatalystTalentPoints => 0;
+        public int SarrasMageTalentPoints => 0;
+        public int SarrasRogueTalentPoints => 0;
+        public int SarrasWarriorTalentPoints => 0;
         public int BaseStatPoints => 0;
-        public int MaxStamina => maxStamina;
+        public virtual int MaxStamina => maxStamina;
         public float StaminaRegen => staminaRegenPerTick;
         public float StaminaUsageMultiplier => staminaUsageMultiplier;
         public int MaxMana => isSpellCaster ? int.MaxValue : 0;
@@ -189,12 +197,16 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public float ManaRegenPercentage => 0f;
         public float Strength => 1f;
         public float StrengthLinear => 0f;
+        public virtual float MeleeDamage => meleeDamage;
+        public virtual float RangedDamage => rangedDamage;
+        public virtual float MagicDamage => magicDamage;
         public float Evasion => 0f;
         public float Resistance => 0f;
         public int Armor => armor;
         public float ArmorMultiplier => armorMultiplier;
         public float StatusResistance => statusResistance;
-        public float ForceStumbleThreshold => forceStumbleThreshold;
+        public virtual float PoiseThreshold => poiseThreshold;
+        public virtual float ForceStumbleThreshold => forceStumbleThreshold;
         public float TrapDamageMultiplier => 1f;
         public SurfaceType SurfaceType => surfaceType.EnumAs<SurfaceType>();
         public bool CanTriggerAggroMusic => canTriggerAggroMusic;
@@ -225,8 +237,12 @@ namespace Awaken.TG.Main.Fights.NPCs {
         public PooledList<NpcTemplate> AbstractTypes => this.Abstracts<NpcTemplate>();
         public bool IsPreyAnimal => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractPreyAnimal);
         public bool IsHumanoid => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractHumanoid);
+        public bool IsWyrdnessBound => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractWyrdnessBound);
+        public bool IsSummon => this.InheritsFrom(CommonReferences.Get.TemplateService.AbstractSummon);
         
         public ref StatusStatsValues StatusStats => ref statusStats;
+        
+        protected virtual bool HideScalingStats => false;
 
         Cached<NpcTemplate, NpcFightingStyle> _fightingStyle = new(static template => {
             var fightingStyle = template.fightingStyle.Get<NpcFightingStyle>();
@@ -260,9 +276,12 @@ namespace Awaken.TG.Main.Fights.NPCs {
 
         public int GetExpReward() {
             if (expTier == StatDefinedRange.Custom) {
-                return expReward;
+                if (expReward <= 0) {
+                    return 0;
+                }
+                return expReward + NewGamePlusSystem.CalculatedBonusEnemyXPValueIfCustom;
             }
-            float expForLvl = HeroDevelopment.RequiredExpFor(Mathf.Max(expLevel, 2));
+            float expForLvl = HeroDevelopment.RequiredExpFor(Mathf.Max(expLevel + NewGamePlusSystem.CalculatedBonusEnemyXPLevel, 2));
             float expMulti = GetExpMultiplier();
             float reward = expForLvl * expMulti;
             return HeroDevelopment.RoundExp(reward);

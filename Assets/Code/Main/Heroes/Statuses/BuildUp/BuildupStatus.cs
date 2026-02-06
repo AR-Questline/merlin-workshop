@@ -1,5 +1,6 @@
 using System;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Heroes.Statuses.Attachments;
 using Awaken.TG.Main.Localization;
@@ -20,7 +21,9 @@ namespace Awaken.TG.Main.Heroes.Statuses.BuildUp {
         readonly float _decayRateMultiplier;
         readonly float _gainMultiplier;
         readonly bool _startActivated;
+        readonly bool _isEffectModifierUsingStatusStrengthModifier;
         readonly bool _isDecayUsingEffectModifier;
+        readonly bool _isDecayUsingStatusDurationModifier;
         bool _activated;
         
         public BuildupStatusType BuildupStatusStatusType => _buildupStatusType;
@@ -30,7 +33,18 @@ namespace Awaken.TG.Main.Heroes.Statuses.BuildUp {
         public float BuildupProgress => CurrentBuildup / NeededBuildup;
         public bool Active => _activated || _startActivated;
         public string DurationText => $"{DurationProgress:F1} {LocTerms.SecondsAbbreviation.Translate()}";
-        public override float EffectModifier => ParentModel.ParentModel.Stat(EffectModifierStat).ModifiedValue;
+        public override float EffectModifier => _isEffectModifierUsingStatusStrengthModifier 
+                                                    ? (BuildupEffectModifier + StatusEffectModifier - 1f) 
+                                                    : BuildupEffectModifier;
+        float BuildupEffectModifier => Character.Stat(EffectModifierStat).ModifiedValue;
+        float StatusDurationModifier => Template.IsPositive
+                                        ? Character.Stat(CharacterStatType.BuffDuration).ModifiedValue
+                                        : Character.Stat(CharacterStatType.DebuffDuration).ModifiedValue;
+        float StatusEffectModifier => Template.IsPositive 
+                                        ? Character.Stat(CharacterStatType.BuffStrength).ModifiedValue
+                                        : SourceInfo?.SourceCharacter.TryGet(out ICharacter sourceCharacter) ?? false 
+                                            ? sourceCharacter.Stat(CharacterStatType.DebuffStrength).ModifiedValue 
+                                            : 1f;
         protected float CurrentBuildup { get; private set; }
         StatType BuildupStat => _buildupStatusType.BuildupStatType;
         StatType EffectModifierStat => _buildupStatusType.EffectModifierType;
@@ -46,7 +60,7 @@ namespace Awaken.TG.Main.Heroes.Statuses.BuildUp {
             StatusTemplate statusTemplate, StatusSourceInfo sourceInfo, float startingBuildup) {
             
             ICharacter character = statuses.ParentModel;
-            character.Trigger(ICharacter.Events.TriedToDealBuildupStatus, new TrialBuildupData(character, data, sourceInfo.SourceCharacter.Get()));
+            character.Trigger(ICharacter.Events.TriedToDealBuildupStatus, new TrialBuildupData(character, data, sourceInfo));
             if (!statusTemplate.IsBuildupAble || data == null || IsImmune(character, data) || !statusTemplate.CanBeApplied) {
                 return;
             }
@@ -70,7 +84,9 @@ namespace Awaken.TG.Main.Heroes.Statuses.BuildUp {
             _gainMultiplier = data.BuildupGainMultiplier;
             _buildupConsumptionType = data.BuildupConsumptionType;
             _buildupStatusType = data.BuildupStatusType;
+            _isEffectModifierUsingStatusStrengthModifier = data.IsEffectModifierUsingStatusStrengthModifier;
             _isDecayUsingEffectModifier = data.IsDecayUsingEffectModifier;
+            _isDecayUsingStatusDurationModifier = data.IsDecayUsingStatusDurationModifier;
         }
 
         protected override void OnInitialize() {
@@ -133,12 +149,19 @@ namespace Awaken.TG.Main.Heroes.Statuses.BuildUp {
         /// <returns>Fully decayed</returns>
         public bool Decay(float deltaTime) {
             if (HasBeenDiscarded) return true;
-            
-            if (_isDecayUsingEffectModifier && _activated) {
-                CurrentBuildup -= deltaTime * DecayRate * (1f / EffectModifier);
-            } else {
-                CurrentBuildup -= deltaTime * DecayRate;
+
+            float decay = deltaTime * DecayRate;
+            if (_activated) {
+                if (_isDecayUsingEffectModifier && _isDecayUsingStatusDurationModifier) {
+                    decay /= (EffectModifier + StatusDurationModifier - 1f);
+                } else if (_isDecayUsingEffectModifier) {
+                    decay /= EffectModifier;
+                } else if (_isDecayUsingStatusDurationModifier) {
+                    decay /= StatusDurationModifier;
+                }
             }
+
+            CurrentBuildup -= decay;
             
             if (CurrentBuildup < 0) {
                 CurrentBuildup = 0;

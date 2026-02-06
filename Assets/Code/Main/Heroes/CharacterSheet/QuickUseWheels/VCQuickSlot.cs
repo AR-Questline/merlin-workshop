@@ -1,10 +1,8 @@
 ﻿using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Heroes.Items;
-using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Utility.RichEnums;
 using Awaken.TG.MVC;
-using Awaken.TG.Utility;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
@@ -16,7 +14,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
         EquipmentSlotType EquipmentSlotType => equipment.EnumAs<EquipmentSlotType>();
 
         protected override bool UseOnClose => false;
-        protected override string ItemName => LocTerms.Select.Translate();
         protected override bool ShowQuantity => true;
 
         protected override void OnAttach() {

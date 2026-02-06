@@ -39,6 +39,7 @@ using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
 using Awaken.TG.Main.Utility.Animations.FightingStyles;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -51,11 +52,8 @@ using Cysharp.Threading.Tasks;
 using Pathfinding;
 using Sirenix.OdinInspector;
 using Unity.IL2CPP.CompilerServices;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UniversalProfiling;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.AI.Combat.Attachments {
     [Il2CppEagerStaticClassConstruction]
@@ -125,7 +123,9 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
         public int OwnedCombatSlotIndex { get; internal set; } = -1;
         public Item StatsItem => MainHandItem ?? OffHandItem;
         public Item MainHandItem => NpcElement.Inventory.EquippedItem(EquipmentSlotType.MainHand);
-        public virtual Item OffHandItem => NpcElement.Inventory.EquippedItem(EquipmentSlotType.OffHand);
+        public Item AdditionalMainHandItem => NpcElement.Inventory.EquippedItem(EquipmentSlotType.AdditionalMainHand);
+        public Item OffHandItem => NpcElement.Inventory.EquippedItem(EquipmentSlotType.OffHand);
+        public Item AdditionalOffHandItem => NpcElement.Inventory.EquippedItem(EquipmentSlotType.AdditionalOffHand);
         public WeakModelRef<IBehaviourBase> CurrentBehaviour { get; private set; }
         public bool CanBeAggressive => CurrentBehaviour.Get()?.CanBeAggressive ?? true;
         public float AggressionScore { get; private set; }
@@ -146,6 +146,7 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
         public bool WeaponsAlwaysEquipped => WeaponsAlwaysEquippedBase || NpcElement.WyrdConverted;
         protected bool WeaponsAlwaysEquippedBase { private get; set; }
         public bool BaseBehavioursLoaded => _baseBehavioursLoaded;
+        public virtual bool CanMoveOnPhaseTransition => false;
         protected List<EnemyBehaviourBase> TemporaryBehaviours { get; set; } = new();
         protected List<EnemyBehaviourBase> CombatBehaviours { get; set; } = new();
         protected List<ARAssetReference> CombatBehavioursReferences { get; set; } = new();
@@ -192,7 +193,18 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
         }
 
         // === Initialization
-        protected override void OnInitialize() {
+        protected sealed override void OnInitialize() {
+            if (!ParentModel.TryGetElement<NpcElement>()) {
+                if (!ParentModel.TryGetElement<NpcDummy>()) {
+                    Log.Critical?.Error($"EnemyBaseClass attached to a Location ({LogUtils.GetDebugName(ParentModel)}) without NpcElement, discarding EnemyBaseClass.");
+                }
+                ParentModel.AfterFullyInitialized(Discard);
+                return;
+            }
+            OnInitializeInternal();
+        }
+
+        protected virtual void OnInitializeInternal() {
             NpcElement.ListenTo(Model.Events.BeforeDiscarded, Discard, this);
             ParentModel.GetOrCreateTimeDependent().WithUpdate(OnUpdate);
             NpcElement.ListenTo(NpcElement.Events.ItemsAddedToInventory, OnItemsAddedToInventory, this);
@@ -895,7 +907,7 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
 
         public virtual void DealPoiseDamage(NpcStateType getHitType, float poiseDamage, bool isCritical, bool isDamageOverTime) {
             // --- Don't enter get hit animations when dying.
-            if (NpcElement.IsDying) {
+            if (NpcElement is not { IsDying: false, IsStunned: false }) {
                 return;
             }
             
@@ -924,7 +936,7 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
             }
         }
 
-        void EnterPoise(NpcStateType poiseBreakDirection, bool isInCombat) {
+        public void EnterPoise(NpcStateType poiseBreakDirection, bool isInCombat) {
             _shouldEnterStaggerOrRest = null;
 
             if (!isInCombat) {
@@ -998,13 +1010,15 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
         
         // === Discarding
         protected override void OnDiscard(bool fromDomainDrop) {
-            if (NpcElement is { HasBeenDiscarded: false }) {
-                NpcCanMoveHandler.RemoveCanMoveProvider(NpcElement, this);
+            if (ParentModel.TryGetElement<NpcElement>() is { HasBeenDiscarded: false } npcElement) {
+                NpcCanMoveHandler.RemoveCanMoveProvider(npcElement, this);
             }
 
             CleanupCurrentBehaviourData();
 
-            _baseBehavioursAssetReference?.ReleaseAsset();
+            if (_baseBehavioursAssetReference is { IsSet: true }) {
+                _baseBehavioursAssetReference.ReleaseAsset();
+            }
             _baseBehavioursAssetReference = null;
             
             ParentModel.GetTimeDependent()?.WithoutUpdate(OnUpdate);
@@ -1101,14 +1115,16 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
                 return;
             }
             NpcElement.Inventory.Unequip(EquipmentSlotType.MainHand);
+            NpcElement.Inventory.Unequip(EquipmentSlotType.AdditionalMainHand);
             NpcElement.Inventory.Unequip(EquipmentSlotType.OffHand);
+            NpcElement.Inventory.Unequip(EquipmentSlotType.AdditionalOffHand);
         }
 
         public void AfterVisualInBand(NpcElement npc) {
             if (WeaponsAlwaysEquipped) {
                 EquipWeapons(false, out _);
                 if (NpcElement.CanDetachWeaponsToBelts) {
-                    EquipWeaponBehaviour.AttachWeaponsToHands(MainHandItem, OffHandItem, NpcElement);
+                    EquipWeaponBehaviour.AttachWeaponsToHands(MainHandItem, AdditionalMainHandItem, OffHandItem, AdditionalOffHandItem, NpcElement);
                 }
             }
         }

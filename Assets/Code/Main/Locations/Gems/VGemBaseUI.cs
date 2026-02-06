@@ -16,6 +16,7 @@ namespace Awaken.TG.Main.Locations.Gems {
         [SerializeField] CanvasGroup rightSide;
         
         Tween _fadeTween;
+        bool _rightSideVisible;
 
         protected override void OnFullyInitialized() {
             Target.ListenTo(IGemBase.Events.AfterRefreshed, OnActionPerformed, this);
@@ -33,17 +34,28 @@ namespace Awaken.TG.Main.Locations.Gems {
         protected virtual void OnActionPerformed() { }
 
         protected void FadeInRightSide() {
+            if (_rightSideVisible) {
+                return;
+            }
+            
             Fade(1f);
+            _rightSideVisible = true;
         }
 
         protected virtual void FadeOutRightSide() {
+            if (!_rightSideVisible) {
+                return;
+            }
+
             Fade(0f);
             Target.RefreshPrompt(false);
+            _rightSideVisible = false;
         }
 
         public void HideRightSide() {
             _fadeTween.Kill();
             rightSide.alpha = 0;
+            _rightSideVisible = false;
         }
         
         void Fade(float targetAlpha) {

@@ -12,7 +12,6 @@ using Awaken.Utility.Debugging;
 using Awaken.Utility.GameObjects;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 using ParamType = UnityEngine.AnimatorControllerParameterType;
 
 namespace Awaken.TG.Main.Utility.Animations {
@@ -56,6 +55,7 @@ namespace Awaken.TG.Main.Utility.Animations {
 
             if (IsAnimatorAvailable) {
                 SetParameterInternal(_animator, hash, parameter);
+                _awaitingParameters?.Remove(hash);
                 return;
             }
             
@@ -73,6 +73,7 @@ namespace Awaken.TG.Main.Utility.Animations {
             if (!await AsyncUtil.WaitUntil(this, () => IsAnimatorAvailable)) {
                 return;
             }
+            
             SetParametersFromDictionary(parameters, _animator);
             if (clearAfterSet) {
                 parameters.Clear();

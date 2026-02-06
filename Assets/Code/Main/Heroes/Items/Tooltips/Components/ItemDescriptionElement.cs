@@ -27,7 +27,19 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
         }
         
         public Item AddItemIcon(ItemTemplate template, View view) {
-            _currentItem = new Item(template);
+            return AddItemIcon(new Item(template), view);
+        }
+        
+        public Item AddItemIcon(ItemTemplate template, View view, int level) {
+            return AddItemIcon(new Item(template, 1, level), view);
+        }
+        
+        public Item AddItemIcon(ItemTemplate template, View view, int level, int ngLevel) {
+            return AddItemIcon(new Item(template, 1, level, newGamePlusLevel: ngLevel), view);
+        }
+        
+        public Item AddItemIcon(Item targetItem, View view) {
+            _currentItem = targetItem;
             _currentItem.MarkedNotSaved = true;
             
             World.Add(_currentItem);

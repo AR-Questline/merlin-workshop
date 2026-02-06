@@ -39,6 +39,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         
         public void InitFromAttachment(HideSpotLocationSpawnerAttachment spec, bool isRestored) {
             _batchQuantityToSpawn = 1;
+            _totalSpawnCap = _batchQuantityToSpawn;
             SpawnOnlyAtNight = false;
             DiscardAfterSpawn = false;
             DiscardAfterAllKilled = true;
@@ -142,7 +143,6 @@ namespace Awaken.TG.Main.Locations.Spawners {
             position = VerifyPosition(position, locationToSpawn);
             
             Location location = locationToSpawn.SpawnLocation(position, rotation, spawnScene: ParentModel.MainView.gameObject.scene);
-            location.ViewParent.localScale = Vector3.zero;
             
             RepetitiveNpcUtils.Check(location);
             OnLocationSpawned(location, -1);
@@ -152,7 +152,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         }
 
         void OnLocationSpawningInProgress() {
-            SetSpawnedLocationVisibility(false);
+            OwnSpawnedLocation.SetTemporaryScaleBasedInvisibility(true);
             
             if (OwnSpawnedLocation.TryGetElement(out NpcElement npc)) {
                 npc.StartInSpawn = true;
@@ -164,7 +164,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
 
         void FinalizeLocationSpawn(bool onRestore) {
             if (!onRestore) {
-                SetSpawnedLocationVisibility(true);
+                OwnSpawnedLocation.SetTemporaryScaleBasedInvisibility(false);
                 CreateAndReturnSpawnVFX();
             }
             
@@ -174,13 +174,6 @@ namespace Awaken.TG.Main.Locations.Spawners {
 
             HideSpawner();
             _locationSpawning = false;
-        }
-        
-        void SetSpawnedLocationVisibility(bool visible) {
-            if (OwnSpawnedLocation) {
-                var nearZeroScale = Vector3.one * 0.01f;
-                OwnSpawnedLocation.ViewParent.localScale = visible ? Vector3.one : nearZeroScale;
-            }
         }
         
         void RefreshLocationDistanceBand(int band) {

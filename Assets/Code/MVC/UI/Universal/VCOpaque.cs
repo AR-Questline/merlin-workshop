@@ -1,4 +1,5 @@
-﻿using Awaken.TG.MVC.UI.Events;
+﻿using Awaken.TG.Main.UI.Helpers;
+using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.MVC.UI.Handlers.States;
 
 namespace Awaken.TG.MVC.UI.Universal {
@@ -8,6 +9,8 @@ namespace Awaken.TG.MVC.UI.Universal {
     /// </summary>
     public class VCOpaque : ViewComponent<Model>, IUIAware {
         public bool isNewShortcutLayer;
+        
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnAttach() {
             if (isNewShortcutLayer) {

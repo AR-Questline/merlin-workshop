@@ -1,8 +1,9 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Enums;
 using Awaken.Utility.PhysicUtils;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Combat {
@@ -32,18 +33,18 @@ namespace Awaken.TG.Main.Heroes.Combat {
             return Result.Ignored;
         }
         
-        public Result CheckMultiHit(Vector3 origin, Vector3 direction, out List<HitResult> hitInfos, float maxDistance, float sphereSize = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
+        public Result CheckMultiHit(Vector3 origin, Vector3 direction, out List<HitResult> hitInfos, float maxDistance, float sphereRadius = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
             int mask = accept | prevent;
             using var rentedArray = RentedArray<Collider>.Borrow(MultiselectArraySize);
             hitInfos = new List<HitResult>();
             Vector3 currOrigin = origin;
             float currMaxDistance = maxDistance;
             bool prevented = false;
-            if (sphereSize > 0) {
-                int hitCount = Physics.OverlapSphereNonAlloc(origin, sphereSize, rentedArray.GetBackingArray(), mask, queryTriggerInteraction); 
+            if (sphereRadius > 0) {
+                int hitCount = Physics.OverlapSphereNonAlloc(origin, sphereRadius, rentedArray.GetBackingArray(), mask, queryTriggerInteraction); 
                 var preventedHitInfos = new List<HitResult>();
                 for (int i = 0; i < hitCount; i++) {
-                    if (RayCheck(origin, rentedArray[0].ClosestPoint(origin) - origin, out var hitInfo, sphereSize, queryTriggerInteraction, mask, out Result sphereCastToRaycastResult)) {
+                    if (RayCheck(origin, rentedArray[0].ClosestPoint(origin) - origin, out var hitInfo, sphereRadius, queryTriggerInteraction, mask, out Result sphereCastToRaycastResult)) {
                         currMaxDistance -= (hitInfo.Point - currOrigin).magnitude + AdditionalRaycastDistanceLose;
                         currOrigin = hitInfo.Point + direction * AdditionalRaycastDistanceLose;
                         if (sphereCastToRaycastResult == Result.Prevented) {
@@ -90,23 +91,23 @@ namespace Awaken.TG.Main.Heroes.Combat {
             return false;
         }
 
-        public Collider Detected(Vector3 origin, Vector3 direction, float maxDistance, float sphereSize = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
-            return Check(origin, direction, out var hitResult, maxDistance, sphereSize, queryTriggerInteraction) switch {
+        public Collider Detected(Vector3 origin, Vector3 direction, float maxDistance, float sphereRadius = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
+            return Check(origin, direction, out var hitResult, maxDistance, sphereRadius, queryTriggerInteraction) switch {
                 Result.Accepted => hitResult.Collider,
                 _ => null
             };
         }
         
-        public HitResult Raycast(Vector3 origin, Vector3 direction, float maxDistance, float sphereSize = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
-            return Check(origin, direction, out HitResult hitResult, maxDistance, sphereSize, queryTriggerInteraction) switch {
+        public HitResult Raycast(Vector3 origin, Vector3 direction, float maxDistance, float sphereRadius = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
+            return Check(origin, direction, out HitResult hitResult, maxDistance, sphereRadius, queryTriggerInteraction) switch {
                 Result.Accepted => hitResult,
                 Result.Prevented => hitResult,
                 _ => new HitResult()
             };
         }
         
-        public List<HitResult> RaycastMultiHit(Vector3 origin, Vector3 direction, float maxDistance, float sphereSize = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
-            return CheckMultiHit(origin, direction, out List<HitResult> hitResults, maxDistance, sphereSize, queryTriggerInteraction) switch {
+        public List<HitResult> RaycastMultiHit(Vector3 origin, Vector3 direction, float maxDistance, float sphereRadius = 0.02f, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Collide) {
+            return CheckMultiHit(origin, direction, out List<HitResult> hitResults, maxDistance, sphereRadius, queryTriggerInteraction) switch {
                 Result.Accepted => hitResults,
                 Result.Prevented => hitResults,
                 _ => new List<HitResult>()

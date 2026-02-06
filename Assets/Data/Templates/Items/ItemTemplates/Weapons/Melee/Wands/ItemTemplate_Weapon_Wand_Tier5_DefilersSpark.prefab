@@ -134,7 +134,7 @@ MonoBehaviour:
   basePrice: 1500
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a65cfa0558663994dab546d1e646d1c0
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -206,7 +210,7 @@ MonoBehaviour:
   pushStaminaCost: 15
   minDamage: 40
   maxDamage: 46
-  damageGain: 1
+  damageGain: 2
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
   backStabDamageMultiplier: 0
@@ -239,8 +243,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 10
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5224496351014600131
 MonoBehaviour:
@@ -282,32 +289,42 @@ MonoBehaviour:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:SpellChargeSpeed
     datums:
-    - name: DamageSubtype
+    - name: FireDamageSubType
       type:
         id: 259
       value:
         simpleValue:
-          rawValue: 0
+          rawValue: 21
         stringValue: 
         assetValue:
           address: 
           subObjectName: 
-    - name: Physical
+    - name: ColdDamageSubType
       type:
-        id: 0
+        id: 259
       value:
         simpleValue:
-          rawValue: 0
+          rawValue: 22
         stringValue: 
         assetValue:
           address: 
           subObjectName: 
-    - name: Magic
+    - name: PoisonDamageSubType
       type:
-        id: 0
+        id: 259
       value:
         simpleValue:
-          rawValue: 1
+          rawValue: 23
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ElectricDamageSubType
+      type:
+        id: 259
+      value:
+        simpleValue:
+          rawValue: 24
         stringValue: 
         assetValue:
           address: 

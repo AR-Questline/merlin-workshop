@@ -20,7 +20,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
 
         // === Initialization
         public ChromaticAberrationSetting() {
-            Option = new ToggleOption(PrefId, SettingName, EnabledByDefault, false);
+            Option = new ToggleOption(PrefId, SettingName, EnabledByDefault, true);
         }
 
         public void SetValueForPreset(Preset preset) {

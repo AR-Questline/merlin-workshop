@@ -3,6 +3,7 @@ using System.Linq;
 using Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours;
 using Awaken.TG.Main.AI.Combat.Utils;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Saving;
@@ -11,6 +12,7 @@ using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Api;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
+using Awaken.TG.MVC.Events;
 using JetBrains.Annotations;
 
 namespace Awaken.TG.Main.Fights.NPCs {
@@ -31,6 +33,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
 
         protected override void OnInitialize() {
             StoryAPI.ListenTo(Events.AfterDiscarded, Discard, this);
+            ParentModel.ListenTo(HealthElement.Events.DealingDamage, OnBeforeDealingDamage, this);
 
             if (ParentModel is not NpcElement npc) {
                 return;
@@ -38,6 +41,10 @@ namespace Awaken.TG.Main.Fights.NPCs {
             foreach (var targeting in npc.GetTargeting().ToList()) {
                 WaitForTargetInStoryBehaviour.Start(targeting);
             }
+        }
+
+        void OnBeforeDealingDamage(HookResult<ICharacter, Damage> hook) {
+            hook.Prevent();
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {

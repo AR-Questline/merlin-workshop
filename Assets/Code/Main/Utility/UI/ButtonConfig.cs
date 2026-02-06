@@ -55,6 +55,8 @@ namespace Awaken.TG.Main.Utility.UI {
         public string Text => buttonText ? buttonText.text : string.Empty;
         public TMP_Text Label => buttonText;
         bool _isSelected;
+        bool _wasInitialized;
+        bool _feedbackInitialized;
 
         bool ButtonTextIsNotNull() => buttonText != null;
         bool ButtonImageIsNotNull() => background != null;
@@ -64,17 +66,26 @@ namespace Awaken.TG.Main.Utility.UI {
             SetText(string.IsNullOrEmpty(buttonName) ? textString.ToString() : buttonName);
             SetSelection(false);
             UpdateHovered(false, true);
-            
-            if (nonInteractive) return;
+            InitializeButtonFeedback(nonInteractive);
+            _wasInitialized = true;
+        }
 
-            if (pressed) button.OnPress += SetPressed;
-            if (hovered) button.OnHover += state => UpdateHovered(state);
-            if (selected) button.OnSelected += state => UpdateHovered(state);
-
-            if (interactable) {
-                button.OnInteractableChange += state => UpdateInteractability(state);
-                UpdateInteractability(button.Interactable, true);   
+        public void InitializeButtonFeedback(bool nonInteractive = false) {
+            if (_feedbackInitialized && nonInteractive) {
+                if (pressed) button.OnPress -= SetPressed;
+                if (hovered) button.OnHover -= UpdateHoveredProcess;
+                if (selected) button.OnSelected -= UpdateHoveredProcess;
+                if (interactable) button.OnInteractableChange -= UpdateInteractabilityProcess;
+                _feedbackInitialized = false;
+            } else if (!_feedbackInitialized && !nonInteractive) {
+                if (pressed) button.OnPress += SetPressed;
+                if (hovered) button.OnHover += UpdateHoveredProcess;
+                if (selected) button.OnSelected += UpdateHoveredProcess;
+                if (interactable) button.OnInteractableChange += UpdateInteractabilityProcess;
+                _feedbackInitialized = true;
             }
+
+            UpdateInteractability(button.Interactable, true);   
         }
         
         // use it in parent object and handle persistent button selection in button configs group
@@ -103,19 +114,11 @@ namespace Awaken.TG.Main.Utility.UI {
             }
         }
 
-        void SetPressed() {
-            if (background) {
-                background.DOKill();
-                background.DOColor(blendButtonPressedColor, animationDuration).SetUpdate(true);
-            }
-
-            if (buttonText && _isSelected == false && textPressed) {
-                buttonText.DOKill();
-                buttonText.DOColor(textPressedColor, animationDuration).SetUpdate(true);
-            }
+        void UpdateHoveredProcess(bool isHovered) {
+            UpdateHovered(isHovered);
         }
 
-        void UpdateHovered(bool isHovered, bool instant = false) {
+        public void UpdateHovered(bool isHovered, bool instant = false) {
             if (hoverGroup) {
                 hoverGroup.DOKill();
                 hoverGroup.DOFade(isHovered ? 1 : 0, animationDuration).SetUpdate(true).SetInstant(instant);
@@ -141,6 +144,22 @@ namespace Awaken.TG.Main.Utility.UI {
                 buttonText.DOKill();
                 buttonText.DOColor(isHovered ? textHoverColor : textNormalColor, animationDuration).SetUpdate(true).SetInstant(instant);
             }
+        }
+
+        void SetPressed() {
+            if (background) {
+                background.DOKill();
+                background.DOColor(blendButtonPressedColor, animationDuration).SetUpdate(true);
+            }
+
+            if (buttonText && _isSelected == false && textPressed) {
+                buttonText.DOKill();
+                buttonText.DOColor(textPressedColor, animationDuration).SetUpdate(true);
+            }
+        }
+
+        void UpdateInteractabilityProcess(bool isInteractable) {
+            UpdateInteractability(isInteractable);
         }
 
         void UpdateInteractability(bool isInteractable, bool instant = false) {

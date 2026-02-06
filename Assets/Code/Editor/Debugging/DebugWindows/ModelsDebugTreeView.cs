@@ -68,8 +68,10 @@ namespace Awaken.TG.Editor.Debugging.DebugWindows {
             _indexByID.Clear();
             
             // Collect root models
-            var rootModels = World
-                .AllInOrder()
+            var allInOrder = World.AllInOrder();
+            var rootModels = allInOrder
+                .BackingArray
+                .Take(allInOrder.Count)
                 .Where(m => m is not Element && m.IsInitialized)
                 .ToArray();
 

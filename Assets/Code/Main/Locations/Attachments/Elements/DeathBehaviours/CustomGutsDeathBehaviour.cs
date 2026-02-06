@@ -3,17 +3,21 @@ using Awaken.CommonInterfaces;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Animations.FSM.Npc.States.General;
 using Awaken.TG.Main.Fights.DamageInfo;
+using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Grounds;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
     public class CustomGutsDeathBehaviour : MonoBehaviour, IDeathBehaviour {
+        [SerializeField] bool disableObjectsToDisableAfterGutsSpawn;
         [SerializeField] GameObject[] objectsToDisable = Array.Empty<GameObject>();
         [ARAssetReferenceSettings(new [] {typeof(GameObject)}, true, AddressableGroup.NPCs), SerializeField]
         ShareableARAssetReference gutsPrefabRef;
         [SerializeField] bool snapAndRotateToGround;
+        [SerializeField] float delayBeforeGutsSpawn;
 
         ARAsyncOperationHandle<GameObject> _gutsHandle;
 
@@ -26,18 +30,25 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
         public void OnVisualLoaded(DeathElement death, Transform transform) { }
 
         public void OnDeath(DamageOutcome damageOutcome, Location location) {
-            // --- Disable objects to disable
-            if (objectsToDisable != null) {
-                foreach (var obj in objectsToDisable) {
-                    if (obj != null) {
-                        obj.SetActive(false);
-                    }
-                }
+            if (!disableObjectsToDisableAfterGutsSpawn) {
+                DisableObjectsToDisable();
             }
             
             // --- Spawn guts prefab
             if (HasGutsPrefab && StillExists) {
-                InstantiateGuts(location);
+                if (delayBeforeGutsSpawn > 0) {
+                    DelayInstantiateGuts(location).Forget();
+                } else {
+                    InstantiateGuts(location);
+                }
+            }
+        }
+        
+        async UniTaskVoid DelayInstantiateGuts(Location location) {
+            if (await AsyncUtil.DelayTime(location, delayBeforeGutsSpawn)) {
+                if (StillExists) {
+                    InstantiateGuts(location);
+                }
             }
         }
 
@@ -45,14 +56,15 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
             var assetRef = gutsPrefabRef.Get();
             _gutsHandle = assetRef.LoadAsset<GameObject>();
             _gutsHandle.OnComplete(h => {
-                if (gameObject == null || h.Status != AsyncOperationStatus.Succeeded || h.Result == null) {
+                if (this == null || h.Status != AsyncOperationStatus.Succeeded || h.Result == null) {
                     ReleaseGutsHandle();
+                    return;
                 }
 
                 var gutsInstance = Object.Instantiate(h.Result, transform);
                 var gutsPosition = transform.position;
                 if (snapAndRotateToGround) {
-                    (float height, Vector3 groundNormal) = Ground.HeightAndNormalAt(gutsPosition, raycastMask: Ground.NpcGroundLayerMask, findClosest: true);
+                    (float height, Vector3 groundNormal) = Ground.HeightAndNormalAt(gutsPosition, raycastMask: Ground.NpcGroundLayerMask, findClosest: Ground.FindClosestType.FindClosest);
                     gutsPosition.y = height;
                     gutsInstance.transform.up = groundNormal;
                 }
@@ -66,7 +78,21 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
                 if (location != null) {
                     location.Initializer.OverridenLocationPrefab = assetRef;
                 }
+                
+                if (disableObjectsToDisableAfterGutsSpawn) {
+                    DisableObjectsToDisable();
+                }
             });
+        }
+
+        void DisableObjectsToDisable() {
+            if (objectsToDisable != null) {
+                foreach (var obj in objectsToDisable) {
+                    if (obj != null) {
+                        obj.SetActive(false);
+                    }
+                }
+            }
         }
 
         void OnDestroy() {

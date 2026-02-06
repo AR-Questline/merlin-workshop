@@ -78,9 +78,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_dd69d6aba8fcd6f4cbcd741c8186be5a
-  EDITOR_bakedDescription: 'Blesses caster for 120.
+  EDITOR_bakedDescription: 'Blesses caster for 120s.
 
-    Returns 33% of damage received
+    Returns 33% of Damage received
     back to the attacker for the duration.'
   lightCastInfo:
     magicType:
@@ -157,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -290,8 +294,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5203209056648338950
 MonoBehaviour:

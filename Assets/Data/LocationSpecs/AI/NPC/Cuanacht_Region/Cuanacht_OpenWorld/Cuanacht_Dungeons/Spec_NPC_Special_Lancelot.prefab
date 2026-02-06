@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -6435078479710081945}
   - component: {fileID: 8913245625003642423}
   - component: {fileID: 7396073331534610080}
+  - component: {fileID: 2615227372720335801}
   m_Layer: 0
   m_Name: Spec_NPC_Special_Lancelot
   m_TagString: Untagged
@@ -249,9 +250,20 @@ MonoBehaviour:
       _guid: ff19c6dadc4b6a7479051cbf0ef02af4
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 0}
   endStoryDistance: 1
+--- !u!114 &2615227372720335801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c7f98ff5f17be4f9dc7dcad0bf8ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableUnconscious: 1

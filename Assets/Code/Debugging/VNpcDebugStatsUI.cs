@@ -24,7 +24,7 @@ namespace Awaken.TG.Debugging {
                           HasBeenDiscarded;
         static Hero Hero => Hero.Current;
 
-        public override Transform DetermineHost() => Hero.View<VHeroHUD>().centerBars;
+        public override Transform DetermineHost() => Hero.View<VHeroHUD>().CenterBars;
 
         protected override void OnInitialize() {
             Hero.ListenTo(VCHeroRaycaster.Events.PointsTowardsIWithHealthBar, OnPointingTowardsLocation, this);

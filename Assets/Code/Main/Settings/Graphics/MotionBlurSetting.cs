@@ -26,9 +26,9 @@ namespace Awaken.TG.Main.Settings.Graphics {
 
         // === Initialization
         public MotionBlurSetting() {
-            _blurToggle = new ToggleOption(BlurEnabledPrefId, SettingName, EnabledByDefault, false);
+            _blurToggle = new ToggleOption(BlurEnabledPrefId, SettingName, EnabledByDefault, true);
             _blurIntensity = new(BlurIntensityPrefId, LocTerms.SettingsMotionBlurIntensity.Translate(), 0, 1, false,
-                NumberWithPercentFormat, DefaultBlurIntensity, false);
+                NumberWithPercentFormat, DefaultBlurIntensity, true);
             
             _mainOption = new DependentOption(_blurToggle, _blurIntensity);
         }

@@ -5,6 +5,7 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Stats;
+using Awaken.TG.Main.Scenes;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Events;
@@ -23,14 +24,22 @@ namespace Awaken.TG.Main.AI.Utils {
         
         public bool RemoveOnDomainChange() {
             _registered.Clear();
+            World.EventSystem.RemoveAllListenersOwnedBy(this);
+            Init();
             return false;
         }
 
         public void Init() {
+            World.EventSystem.LimitedListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.SafeAfterSceneChanged, this, AttachLimitsAfterAllStateChangesAreApplied, 1);
+        }
+
+        void AttachLimitsAfterAllStateChangesAreApplied(SceneLifetimeEvents _) {
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelFullyInitialized<ICharacterLimitedLocation>(), this, OnLocationInitialized);
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelDiscarded<ICharacterLimitedLocation>(), this, OnLocationDestroyed);
             World.EventSystem.ListenTo(EventSelector.AnySource, Stat.Events.StatChangedBy(HeroStatType.SummonLimit), this, HeroSummonLimitChanged);
-            foreach (var location in World.All<ICharacterLimitedLocation>()) {
+
+            // Register can Discard ICharacterLimitedLocation (e.g. NpcHeroSummon Destroy).
+            foreach (var location in World.All<ICharacterLimitedLocation>().ToArraySlow()) {
                 Register(location);
             }
         }

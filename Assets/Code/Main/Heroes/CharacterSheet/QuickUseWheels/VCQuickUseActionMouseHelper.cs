@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.Utility.Semaphores;
+﻿using Awaken.TG.Main.UI.Helpers;
+using Awaken.TG.Main.Utility.Semaphores;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -9,6 +10,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
         [SerializeField] VCQuickUseAction quickAction;
 
         CoyoteSemaphore _isHovered;
+
+        public bool IsValid => this.IsValidForUIHandle();
 
         void Start() {
             _isHovered = new CoyoteSemaphore(this);

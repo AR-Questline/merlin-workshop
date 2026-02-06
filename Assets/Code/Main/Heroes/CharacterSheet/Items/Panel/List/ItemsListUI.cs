@@ -40,9 +40,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
         public ItemsUI ItemsUI => ParentModel;
         public bool IsEmpty => !Items.Any();
         public bool IsMultipleLists => ItemsByTab.Count > 1;
+        public List<ItemsTabType> SubTabsInOrder { get; private set; }
 
         Dictionary<ItemsTabType, (IItemsList listView, List<Item> items)> ItemsByTab { get; set; }
-        List<ItemsTabType> _subTabsInOrder;
         bool _onlyOneList;
         VHostItemsListWithCategory _viewHostWithCategory;
         Transform _viewHost;
@@ -57,13 +57,13 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
         }
         
         //TODO: better handle of multiple recyclable collections/lists and ride of the linq queries
-        protected async UniTaskVoid SetupItemByTabs() {
+        async UniTaskVoid SetupItemByTabs() {
             bool addedAnyTab = false;
             ItemsTabType[] subTabs = CurrentType.SubTabs;
             string tabTitle = CurrentType.Title;
             
             if (subTabs is { Length: > 1 }) {
-                _subTabsInOrder = new List<ItemsTabType>(subTabs) { ItemsTabType.None };
+                SubTabsInOrder = new List<ItemsTabType>(subTabs) { ItemsTabType.None };
             }
             
             ItemsByTab = new Dictionary<ItemsTabType, (IItemsList listView, List<Item> items)>();
@@ -103,7 +103,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
                     }
                     
                     if (World.SpawnView(this, ParentModel.Config.ItemsCategoryListUIView, false, true, _viewHostWithCategory!.ViewHost) is IItemsList otherItemsView) {
-                        SetupItemsList(ItemsTabType.None, otherItemsView, otherItems, LocTerms.OtherItems.Translate());
+                        SetupItemsList(ItemsTabType.None, otherItemsView, otherItems, LocTerms.ItemTypeOther.Translate());
                         SetupItemsListWithSubTab(otherItemsView, otherItemsCount);
                     }
                 }
@@ -157,8 +157,10 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
             if (IsMultipleLists) {
                 Items.Where(item => CurrentFilter?.Contains(item) ?? true)
                     .GroupBy(item => ItemsByTab.FirstOrDefault(pair => pair.Value.items.Contains(item)).Key)
-                    .OrderBy(group => _subTabsInOrder.IndexOf(group.Key))
-                    .SelectMany(group => group.OrderWith(CurrentSorting)
+                    .OrderBy(group => SubTabsInOrder.IndexOf(group.Key))
+                    .SelectMany(group => group
+                        .OrderWith(CurrentSorting)
+                        .ThenBy(item => item.Template.GUID)
                         .Select(item => new { Item = item, CurrentType = group.Key }))
                     .ForEach(item => {
                         ItemsByTab[item.CurrentType].listView.FirstItemIndex ??= index;
@@ -168,7 +170,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
                     });
             } else {
                 var itemsToDisplay = Items.Where(item => CurrentFilter?.Contains(item) ?? true)
-                    .OrderWith(CurrentSorting).ToList();
+                    .OrderWith(CurrentSorting)
+                    .ThenBy(item => item.Template.GUID)
+                    .ToList();
                 var listView = ItemsByTab.FirstOrDefault().Value.listView;
 
                 if (itemsToDisplay.Any() && listView != null) {
@@ -197,10 +201,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
             if (HasBeenDiscarded || ItemsByTab.IsEmpty()) {
                 return;
             }
-
-            if (IsMultipleLists) {
-                RefreshListsAndRemoveEmptyTabs();
-            }
+            
+            RefreshListsAndRemoveEmptyTabs();
             RefreshOrder();
         }
         
@@ -277,8 +279,12 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
                 var items = ItemsListElements
                     .GetManagedEnumerator()
                     .GroupBy(element => ItemsByTab.FirstOrDefault(pair => pair.Value.items.Contains(element.Item)).Key)
-                    .OrderBy(group => _subTabsInOrder.IndexOf(group.Key))
-                    .SelectMany(group => group.OrderBy(element => element.Item, CurrentSorting).Select(element => new { Element = element, CurrentType = group.Key }));
+                    .OrderBy(group => SubTabsInOrder.IndexOf(group.Key))
+                    .SelectMany(group => group
+                        .OrderBy(element => element.Item, CurrentSorting)
+                        .ThenBy(element => element.Item.Template.GUID)
+                        .Select(element => new { Element = element, CurrentType = group.Key })
+                    );
                 foreach (var item in items) {
                     ItemsByTab[item.CurrentType].listView.FirstItemIndex ??= newIndex;
                     ItemsByTab[item.CurrentType].listView.LastItemIndex = newIndex;
@@ -287,7 +293,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
             } else {
                 var items = ItemsListElements
                     .GetManagedEnumerator()
-                    .OrderBy(element => element.Item, CurrentSorting);
+                    .OrderBy(element => element.Item, CurrentSorting)
+                    .ThenBy(element => element.Item.Template.GUID);
                 foreach (var item in items) {
                     item.RefreshIndex(newIndex++);
                 }

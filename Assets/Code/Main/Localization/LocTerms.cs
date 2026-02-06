@@ -23,6 +23,10 @@ namespace Awaken.TG.Main.Localization {
             ExperienceShort = "Generic/XP",
             Proficiency = "Generic/Proficiency",
             TalentPoints = "Generic/TalentPoints",
+            CatalystTalentPoints = "Generic/CatalystTalentPoints",
+            SarrasMageTalentPoints = "Generic/SarrasMageTalentPoints",
+            SarrasRogueTalentPoints = "Generic/SarrasRogueTalentPoints",
+            SarrasWarriorTalentPoints = "Generic/SarrasWarriorTalentPoints",
             BaseStatPoints = "Generic/BaseStatPoints",
             AvailablePoints = "Generic/AvailablePoints",
             PointsAvailable = "Generic/PointsAvailable",
@@ -39,6 +43,7 @@ namespace Awaken.TG.Main.Localization {
             Read = "Generic/Read",
             Mine = "Generic/Mine",
             Dig = "Generic/Dig",
+            Cut = "Generic/Cut",
             KillUnconscious = "Generic/KillUnconscious",
             Gather = "Generic/Gather",
             Fish = "Generic/Fish",
@@ -64,6 +69,7 @@ namespace Awaken.TG.Main.Localization {
             Lumbering = "Generic/Lumbering",
             Spyglassing = "Generic/Spyglassing",
             Sketching = "Generic/Sketching",
+            Cutting = "Generic/Cutting",
             HealthPerSecond = "Generic/HealthPerSecond",
             HealthCostPerSecond = "Generic/HealthCostPerSecond",
             HealthAbbreviation = "Generic/HealthAbbreviation",
@@ -94,6 +100,7 @@ namespace Awaken.TG.Main.Localization {
             WyrdMemoryShards = "Generic/WyrdMemoryShards",
             ParryStaminaDamageMultiplier = "Generic/ParryStaminaDamageMultiplier",
             ParryWindowBonus = "Generic/ParryWindowBonus",
+            DashIFramesBonus = "Generic/DashIFramesBonus",
             BlockingStaminaDamageMultiplier = "Generic/BlockingStaminaDamageMultiplier",
             ArrowRetrievalChance = "Generic/ArrowRetrievalChance",
             BowSwayMultiplier = "Generic/BowSwayMultiplier",
@@ -138,6 +145,7 @@ namespace Awaken.TG.Main.Localization {
             All = "Generic/All",
             Give = "Generic/Give",
             Get = "Generic/Get",
+            Expansion = "Generic/Expansion",
             Divider = "Generic/Divider",
             ItemWithPossessedQuantity = "Generic/ItemWithPossessedQuantity",
             ItemWithQuantity = "Generic/ItemWithQuantity",
@@ -146,6 +154,9 @@ namespace Awaken.TG.Main.Localization {
             Preview = "Generic/Preview",
             Buy = "Generic/Buy",
             Sell = "Generic/Sell",
+            SellAll = "Generic/SellAll",
+            Move = "Generic/Move",
+            MoveAll = "Generic/MoveAll",
             SellFromStash = "Generic/SellFromStash",
             BuyBack = "Generic/BuyBack",
             Unlock = "Generic/Unlock",
@@ -153,6 +164,7 @@ namespace Awaken.TG.Main.Localization {
             InStock = "Generic/InStock",
             Available = "Generic/Available",
             Equipped = "Generic/Equipped",
+            CurrentlyEquipped = "Generic/CurrentlyEquipped",
             Add = "Generic/Add",
             Subtract = "Generic/Subtract",
             Added = "Generic/Added",
@@ -182,6 +194,7 @@ namespace Awaken.TG.Main.Localization {
             Leave = "Generic/Leave",
             AtLeast = "Generic/AtLeast",
             UpTo = "Generic/UpTo",
+            Stash = "Generic/Stash",
             Rest = "Generic/Rest",
             Resting = "Generic/Resting",
             CurrentTime = "Generic/CurrentTime",
@@ -231,8 +244,12 @@ namespace Awaken.TG.Main.Localization {
             Random = "Generic/Random",
             MoveUp = "Generic/MoveUp",
             MoveDown = "Generic/MoveDown",
-
+            NewGamePlusAvailable = "Generic/NewGamePlusAvailable",
+            NewGamePlusAbbreviation = "Generic/NewGamePlusAbbreviation",
+            
             PortalBlockedByCombat = "Interaction/PortalBlockedByCombat",
+            
+            SarrasSickleNotCharged = "Interaction/SarrasSickleNotCharged",
             
             // --- Operands
             Less = "Operator/Less",
@@ -420,6 +437,7 @@ namespace Awaken.TG.Main.Localization {
             PickpocketHoldTimeModifier = "Stats/PickpocketHoldTimeModifier",
             PickpocketRecoveryChance = "Stats/PickpocketRecoveryChance",
             DualWieldHeavyAttackCostMultiplier = "Stats/DualWieldHeavyAttackCostMultiplier",
+            MaxHealthReservation = "Stats/MaxHealthReservation",
             MaxManaReservation = "Stats/MaxManaReservation",
             SummonLimit = "Stats/SummonLimit",
             
@@ -466,6 +484,9 @@ namespace Awaken.TG.Main.Localization {
             IntoxicatedEffectModifier = "Stats/IntoxicatedEffectModifier",
             FullBuildup = "Stats/FullBuildup",
             FullEffectModifier = "Stats/FullEffectModifier",
+            
+            PetrificationBuildup = "Stats/PetrificationBuildup",
+            PetrificationEffectModifier = "Stats/PetrificationEffectModifier",
             
             // --- Stats Summary
             MeleeDamageBonus = "StatsSummary/MeleeDamageBonus",
@@ -617,6 +638,7 @@ namespace Awaken.TG.Main.Localization {
             SettingsGraphicTab = "Settings/GraphicTab",
             SettingsControlsTab = "Settings/ControlsTab",
             SettingsAccessibilityTab = "Settings/AccessibilityTab",
+            SettingsDlcTab = "Settings/SettingsDlcTab",
 
             SettingsGraphicPreset = "Settings/GraphicsPreset",
             SettingsGeneral = "Settings/General",
@@ -642,6 +664,7 @@ namespace Awaken.TG.Main.Localization {
             SettingsUpScalingQuality = "Settings/UpScalingQuality",
             SettingsQuality = "Settings/Quality",
             SettingsMotionBlur = "Settings/MotionBlur",
+            SettingsVignette = "Settings/Vignette",
             SettingsMotionBlurIntensity = "Settings/MotionBlurIntensity",
             SettingsChromaticAberration = "Settings/ChromaticAberration",
             SettingsDOF = "Settings/DOF",
@@ -669,6 +692,17 @@ namespace Awaken.TG.Main.Localization {
             SettingWeakspotKillCamera = "Settings/WeakspotKillCamera",
             SettingsShowNewThings = "Settings/ShowNewThings",
             SettingsCollectData = "Settings/CollectData",
+            QrkoMountAppearance = "Settings/QrkoMountAppearance",
+            QrkoSkinNatural = "Settings/QrkoSkinNatural",
+            QrkoSkinPale = "Settings/QrkoSkinPale",
+            QrkoSkinMoss = "Settings/QrkoSkinMoss",
+            QrkoSkinMoonlight = "Settings/QrkoSkinMoonlight",
+            CaradocAppearance = "Settings/CaradocAppearance",
+            CaradocSkinKnightErrant = "Settings/CaradocSkinKnightErrant",
+            CaradocSkinKnightOfTheRealm = "Settings/CaradocSkinKnightOfTheRealm",
+            ArthurAppearance = "Settings/ArthurAppearance",
+            ArthurSkinTheOnceAndFutureKing = "Settings/ArthurSkinTheOnceAndFutureKing",
+            ArthurSkinConquerorOfAvalon =  "Settings/ArthurSkinConquerorOfAvalon",
             SettingsPrivacyPolicy = "Settings/PrivacyPolicy",
             SettingsCredits = "Settings/Credits",
             SettingsBugReporting = "Settings/BugReporting",
@@ -733,13 +767,15 @@ namespace Awaken.TG.Main.Localization {
             FovChangesSettingTooltip = "Settings/Tooltip/FovChanges",
             InvertedGlidingPitchSettingTooltip = "Settings/Tooltip/InvertedGlidingPitch",
             PerspectiveSettingTooltip = "Settings/Tooltip/Perspective",
-
+            SettingsBlurBackground = "Settings/BlurBackground",
+            
             SettingsUseToolsWithoutPrompt = "Settings/UseToolsWithoutPrompt",
             SettingsUseToolsWithoutPromptMining = "Settings/UseToolsWithoutPrompt/Mining",
             SettingsUseToolsWithoutPromptDigging = "Settings/UseToolsWithoutPrompt/Digging",
             SettingsUseToolsWithoutPromptLumbering = "Settings/UseToolsWithoutPrompt/Lumbering",
             SettingsUseToolsWithoutPromptFishing = "Settings/UseToolsWithoutPrompt/Fishing",
-            
+            SettingsUseToolsWithoutPromptCutting = "Settings/UseToolsWithoutPrompt/Cutting",
+
             SettingsDisableHeroHelmet = "Settings/DisableHeroHelmet",
 
             // --- Audio Settings
@@ -785,15 +821,23 @@ namespace Awaken.TG.Main.Localization {
             FontSizeMedium = "Settings/FontMedium",
             FontSizeBig = "Settings/FontBig",
             FontSizeHuge = "Settings/FontHuge",
+            FontSetting = "Settings/Font",
+            MainSansFont = "Settings/SansFont",
+            MainSerifFont = "Settings/SerifFont",
+            FontChooseSample = "Settings/FontChoose/Sample",
+            FontChooseInfoText = "Settings/FontChoose/InfoText",
+            FontChooseSettingsInfoText = "Settings/FontChoose/SettingsInfoText",
             DialogueSubtitlesColor = "Settings/DialogueSubtitlesColor",
             SubtitlesBackgroundOpacity = "Settings/SubtitlesBackgroundOpacity",
             HudBackground = "Settings/HudBackground",
             HudBackgroundOpacity = "Settings/HudBackgroundOpacity",
             SettingsPerspective = "Settings/Perspective",
+            SettingsHorsePerspective = "Settings/HorsePerspective",
             SettingsThirdPersonPopupTitle = "Settings/SettingsThirdPersonPopupTitle",
             SettingsThirdPersonPopupMessage = "Settings/SettingsThirdPersonPopupMessage",
             SettingsPerspectiveTPP = "Settings/PerspectiveTPP",
             SettingsPerspectiveFPP = "Settings/PerspectiveFPP",
+            SettingsCurrentPlayerPerspective = "Settings/CurrentPlayerPerspective",
             SettingsTppPerspectiveCameraDistance = "Settings/TppPerspectiveCameraDistance",
             SettingsScreenShakeAll = "Settings/SettingsScreenShakeAll",
             SettingsScreenShakeAllProactive = "Settings/ScreenShakeAll/Proactive",
@@ -870,7 +914,15 @@ namespace Awaken.TG.Main.Localization {
             StatusResilienceRushDesc = "Keyword/StatusResilienceRushDesc",
             StatusFrenzy = "Keyword/StatusFrenzy",
             StatusFrenzyDesc = "Keyword/StatusFrenzyDesc",
-            
+            StatusBrokenArmor = "Keyword/StatusBrokenArmor",
+            StatusBrokenArmorDesc = "Keyword/StatusBrokenArmorDesc",
+            StatusFrailty = "Keyword/StatusFrailty",
+            StatusFrailtyDesc = "Keyword/StatusFrailtyDesc",
+            StatusPetrification = "Keyword/StatusPetrification",
+            StatusPetrificationDesc = "Keyword/StatusPetrificationDesc",
+            StatusWet = "Keyword/StatusWet",
+            StatusWetDesc = "Keyword/StatusWetDesc",
+
             WeakSpot = "Keyword/WeakSpot",
             WeakSpotDesc = "Keyword/WeakSpotDesc",
             CriticalHit = "Keyword/CriticalHit",
@@ -881,6 +933,8 @@ namespace Awaken.TG.Main.Localization {
             StaggeredDesc = "Keyword/StaggeredDesc",
             ConsecutiveHit = "Keyword/ConsecutiveHit",
             ConsecutiveHitDesc = "Keyword/ConsecutiveHitDesc",
+            KnockDown = "Keyword/KnockDown",
+            KnockDownDesc = "Keyword/KnockDownDesc",
 
             ToolMining = "Keyword/ToolMining",
             ToolMiningDesc = "Keyword/ToolMiningDesc",
@@ -896,6 +950,8 @@ namespace Awaken.TG.Main.Localization {
             ToolGlidingDesc = "Keyword/ToolGlidingDesc",
             ToolLumbering = "Keyword/ToolLumbering",
             ToolLumberingDesc = "Keyword/ToolLumberingDesc",
+            ToolCutting = "Keyword/ToolCutting",
+            ToolCuttingDesc = "Keyword/ToolCuttingDesc",
 
             // --- Difficulties
             DifficultyStory = "Difficulty/Story",
@@ -937,6 +993,9 @@ namespace Awaken.TG.Main.Localization {
             CharacterStatsSummary = "CharacterTab/StatsSummary",
             CharacterTabWyrdArthur = "CharacterTab/WyrdArthur",
             CharacterTabWyrdArthurSouls = "CharacterTab/WyrdArthurSouls",
+            CharacterTabSarrasTalents = "CharacterTab/SarrasTalents",
+            CharacterTabQuestsDefault = "CharacterTab/QuestsDefault",
+            CharacterTabQuestsSarass = "CharacterTab/QuestsSarass",
 
             // --- Items Tabs
             ItemsTabAll = "ItemsTab/All",
@@ -1013,6 +1072,15 @@ namespace Awaken.TG.Main.Localization {
             ExceptedCraftingChanceForWorse = "Crafting/ExceptedCraftingChanceForWorse",
             ExceptedCraftingChanceForBetter = "Crafting/ExceptedCraftingChanceForBetter",
 
+            // --- Transmog
+            TransmogrifyTab = "Transmogrify/TabName",
+            TransmogConfirm = "Transmogrify/Confirm",
+            TransmogChange = "Transmogrify/Change",
+            TransmogRemove = "Transmogrify/Remove",
+            TransmogRestore = "Transmogrify/Restore",
+            EmptyTransmogrifyInfo = "Transmogrify/EmptyInfo",
+            EmptyTransmogrifyDesc = "Transmogrify/EmptyDesc",
+            
             // --- Relics Tabs
             RelicsPromptAddSlot = "Relics/RelicsPromptAddSlot",
             RelicsPromptAttach = "Relics/GemsPromptAttach",
@@ -1027,6 +1095,8 @@ namespace Awaken.TG.Main.Localization {
             PickAGem = "Relics/PickAGem",
             NoItemsAvailable = "Relics/NoItemsAvailable",
             NoGemsAvailable = "Relics/NoGemsAvailable",
+            ItemUpgradedInfo = "Relics/ItemUpgradedInfo",
+            ItemWeightReducedInfo = "Relics/ItemWeightReducedInfo",
             
             ManageRelicsTab = "Relics/Manage",
             AddRelicTab = "Relics/Add",
@@ -1052,6 +1122,7 @@ namespace Awaken.TG.Main.Localization {
             ItemsComparerByNewestAscending = "ItemsComparer/ByNewestAscending",
             ItemsComparerByNewestDescending = "ItemsComparer/ByNewestDescending",
             ItemsComparerByBlockDescending = "ItemsComparer/ByBlockDescending",
+            ItemsComparerByTransmogrifiedDescending = "ItemsComparer/ByTransmogrifiedDescending",
 
             // --- Recipe Tabs
             Recipes = "RecipeTabs/Recipes",
@@ -1191,8 +1262,38 @@ namespace Awaken.TG.Main.Localization {
             UITalentsAcquire = "UI/Talents/Acquire",
             UITalentsReset = "UI/Talents/Reset",
             UITalentFireplaceRequired = "UI/Talents/FireplaceRequired",
+            UITalentSarrasShrineRequired = "UI/Talents/SarrasShrineRequired",
             UITalentTreeLevel = "UI/Talents/TreeLevel",
             UITalentTreeRequireTreeLevel = "UI/Talents/RequireTreeLevel",
+            UITalentTreeChooseAsActive = "UI/Talents/ChooseAsActive",
+            
+            SkillTreeParry = "UI/SkillTree/Parry",
+            SkillTreeAttackSpeed = "UI/SkillTree/AttackSpeed",
+            SkillTreeMovement = "UI/SkillTree/Movement",
+            SkillTreeBows = "UI/SkillTree/Bows",
+            SkillTreeShields = "UI/SkillTree/Shields",
+            SkillTreeStamina = "UI/SkillTree/Stamina",
+            SkillTreeHealth = "UI/SkillTree/Health",
+            SkillTreeStealth = "UI/SkillTree/Stealth",
+            SkillTreeDaggers = "UI/SkillTree/Daggers",
+            SkillTreeCriticalHits = "UI/SkillTree/CriticalHits",
+            SkillTreeHealing = "UI/SkillTree/Healing",
+            SkillTreeCrafting = "UI/SkillTree/Crafting",
+            SkillTreeArmor = "UI/SkillTree/Armor",
+            SkillTreeStatuses = "UI/SkillTree/Statuses",
+            RedDeathCombat = "UI/SkillTree/RedDeathCombat",
+            RedDeathSurvival = "UI/SkillTree/RedDeathSurvival",
+            SkillTreeWands = "UI/SkillTree/Wands",
+            SkillTreeSummoning = "UI/SkillTree/Summoning",
+            SkillTreeCombat = "UI/SkillTree/Combat",
+            SkillTreeGeneralAndBuffs = "UI/SkillTree/GeneralAndBuffs",
+            SkillTreeOneHanded = "UI/SkillTree/OneHanded",
+            SkillTreeTwoHanded = "UI/SkillTree/TwoHanded",
+            SkillTreeGeneral = "UI/SkillTree/General",
+            SkillTreeUnarmed = "UI/SkillTree/Unarmed",
+            SkillTreeSarrasWarrior = "UI/SkillTree/SarrasWarrior",
+            SkillTreeSarrasMage = "UI/SkillTree/SarrasMage",
+            SkillTreeSarrasRogue = "UI/SkillTree/SarrasRogue",
 
             UIMapPlaceCustomMarker = "UI/Map/PlaceCustomMap",
             UIMapRemoveCustomMarker = "UI/Map/RemoveCustomMap",
@@ -1200,9 +1301,11 @@ namespace Awaken.TG.Main.Localization {
             UIMapZoom = "UI/Map/Zoom",
 
             UIShopCantAfford = "UI/Shop/CantAfford",
+            UISellAllGarbage = "UI/Shop/SellAllGarbage",
             
             UIStoragePut = "UI/Storage/Put",
             UIStorageTake = "UI/Storage/Take",
+            UIStorageMoveAllIngredients = "UI/Storage/MoveAllIngredients",
             
             UIItemsBag = "UI/Items/Bag",
             UIItemsShop = "UI/Items/Shop",
@@ -1215,11 +1318,16 @@ namespace Awaken.TG.Main.Localization {
             UIFileIntegrityFailedLinkGog = "UI/FileIntegrity/Link/Gog",
 
             UIShadersPreloadingProgress = "UI/ShadersPreloading/Progress",
+            
+            UISaveVerificationProgress = "UI/SaveVerification/Progress",
 
             UIStatFaster = "UI/StatFaster",
             UIStatSlower = "UI/StatSlower",
             UIStatNormal = "UI/StatNormal",
             
+            UIBlessingOfSarras = "UI/BlessingOfSarras",
+            UISarrasTreeChanged = "UI/SarrasTreeChanged",
+
             StatsUILeftTitle = "TitleLeft/StatsUI",
             QuestLogUILeftTitle = "TitleLeft/QuestLogUI",
             QuestTypeBase = "UI/QuestType",
@@ -1309,15 +1417,20 @@ namespace Awaken.TG.Main.Localization {
             EmptyQuestLogInfo = "EmptyContent/QuestLogInfo",
             EmptyQuestLogDesc = "EmptyContent/QuestLogDesc",
             
+            EmptyModManagerInfo = "EmptyContent/ModManagerInfo",
+            EmptyModManagerDesc = "EmptyContent/ModManagerDesc",
+            
             // --- Saving & Loading
             SaveGame = "Loading/SaveGame",
             LoadGame = "Loading/LoadGame",
+            LoadGameAndStartNewGamePlus = "Loading/LoadGameAndStartNewGamePlus",
             NewSave = "Loading/NewSave",
             QuickSave = "Loading/QuickSave",
             AutoSave = "Loading/AutoSave",
             Slot = "Loading/Slot",
             SlotNameLengthTooShort = "Loading/SlotNameLengthTooShort",
             SlotNameForbidden = "Loading/SlotNameForbidden",
+            SlotNameDlcInvalid = "Loading/SlotNameDlcInvalid",
 
             LoadingFailedSaveFile = "Loading/FailedSaveFile",
             SavingFailed = "Loading/SavingFailed",
@@ -1470,6 +1583,7 @@ namespace Awaken.TG.Main.Localization {
             CookDescription = "Fireplace/CookDescription",
             RestDescription = "Fireplace/RestDescription",
             LevelUpDescription = "Fireplace/LevelUpDescription",
+            StashDescription = "Fireplace/StashDescription",
             TalkWithForedwellerDescription = "Fireplace/TalkWithForedwellerDescription",
             BoostDescription = "Fireplace/BoostDescription",
             RestoreWyrdSkillDescription = "Fireplace/RestoreWyrdSkillDescription",
@@ -1507,7 +1621,24 @@ namespace Awaken.TG.Main.Localization {
             PreviousNextTrack = "OST/PreviousNextTrack",
             
             // --- Artbook
-            ArtOf = "Artbook/ArtOf"
+            ArtOf = "Artbook/ArtOf",
+            
+            // --- Expansion
+            ExpansionSanctuaryOfSarras = "Expansion/SanctuaryOfSarras",
+            ExpansionSanctuaryOfSarrasDesc =  "Expansion/SanctuaryOfSarrasDesc",
+            ExpansionFreeContentPack = "Expansion/FreeContentPack",
+            ExpansionFreeContentPackDesc = "Expansion/FreeContentPackDesc",
+            ExpansionDaysToRelease = "Expansion/DaysToRelease",
+            ExpansionTomorrowRelease = "Expansion/TomorrowRelease",
+            ExpansionTodayRelease = "Expansion/TodayRelease",
+            ExpansionAvailableNow = "Expansion/AvailableNow",
+            ExpansionAvailableSoon = "Expansion/AvailableSoon",
+            ExpansionFree = "Expansion/Free",
+            ExpansionReadMore = "Expansion/ReadMore",
+            ExpansionOpenStore = "Expansion/OpenStore",
+            
+            // --- Title Screen
+            TitleScreenJoinDiscord = "TitleScreen/JoinDiscord"
             ;
     }
 }

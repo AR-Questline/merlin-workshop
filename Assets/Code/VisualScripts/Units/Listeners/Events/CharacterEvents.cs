@@ -1,6 +1,9 @@
-﻿using Awaken.TG.Main.AI.SummonsAndAllies;
+﻿using Awaken.TG.Main.AI.Fights.Projectiles;
+using Awaken.TG.Main.AI.SummonsAndAllies;
 using Awaken.TG.Main.AI.Utils;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights.DamageInfo;
+using Awaken.TG.Main.Heroes.Stats.Controls;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.VisualScripts.Units.Listeners.Contexts;
 using Unity.VisualScripting;
@@ -36,6 +39,24 @@ namespace Awaken.TG.VisualScripts.Units.Listeners.Events {
     [UnityEngine.Scripting.Preserve]
     public class EvtCharacterParryBegun : EvtCharacter<ICharacter, ICharacter> {
         protected override Event<ICharacter, ICharacter> Event => ICharacter.Events.OnParryBegun;
+        protected override ICharacter Source(IListenerContext context) => context.Character;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class EvtHeroSummonKill : EvtCharacter<ICharacter, DamageOutcome> {
+        protected override Event<ICharacter, DamageOutcome> Event => HealthElement.Events.OnHeroSummonKill;
+        protected override ICharacter Source(IListenerContext context) => context.Character;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class EvtCharacterDeflectedProjectile : EvtDamage<ICharacter, Damage> {
+        protected override Event<ICharacter, Damage> Event => CharacterProjectileDeflection.Events.CharacterDeflectedProjectile;
+        protected override ICharacter Source(IListenerContext context) => context.Character;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class EvtCharacterStaminaRegenBlocked : GraphEvent<ICharacter, StaminaRegenBlockParams> {
+        protected override Event<ICharacter, StaminaRegenBlockParams> Event => IPreventStaminaRegen.Events.StaminaRegenBlocked;
         protected override ICharacter Source(IListenerContext context) => context.Character;
     }
 }

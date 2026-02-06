@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Saving;
@@ -6,6 +7,7 @@ using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.Utility.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
@@ -17,10 +19,14 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
         public LoadingType Type => LoadingType.NewGame;
         public SceneReference SceneToLoad => _sceneReference;
 
-        public IEnumerable<SceneReference> ScenesToUnload(SceneReference previousScene) => previousScene.Yield();
+        public virtual IEnumerable<SceneReference> ScenesToUnload(SceneReference previousScene) => previousScene.Yield();
         
         public NewGameLoading(SceneReference sceneReference = null) {
             _sceneReference = sceneReference;
+        }
+        
+        public virtual IEnumerator BeforeDroppingPreviousDomains() {
+            yield return new WaitForEndOfFrame();
         }
 
         public void DropPreviousDomains(SceneReference _) {
@@ -48,7 +54,7 @@ namespace Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes {
             return loadingOperation;
         }
 
-        public void OnComplete(IMapScene _) {
+        public virtual void OnComplete(IMapScene _) {
             // Construct gameplay from scratch
             GameplayConstructor.CreateGameplay();
         }

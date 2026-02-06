@@ -1,7 +1,5 @@
 ﻿using Awaken.TG.Main.AudioSystem.Notifications;
 using Awaken.TG.Main.Heroes.CharacterSheet;
-using Awaken.TG.Main.Heroes.CharacterSheet.Journal;
-using Awaken.TG.Main.Heroes.CharacterSheet.Journal.Tabs;
 using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Scenes.SceneConstructors;
@@ -25,8 +23,6 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Journal {
         BetterOutlinedLabel _unlockText;
         VisualPresenterKeyIcon _keyIcon;
         Prompt _openJournalPrompt;
-        JournalSubTabType _journalTabType;
-        string _journalEntryName;
         
         VisualElement IPresenterWithAccessibilityBackground.Host => Content;
         
@@ -38,7 +34,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Journal {
             _keyIcon = new VisualPresenterKeyIcon(contentRoot.Q<VisualElement>("key-icon"));
             
             var prompts = TargetModel.AddElement(new Prompts(null));
-            _openJournalPrompt = Prompt.Tap(KeyBindings.UI.HUD.OpenInventoryItemRead, LocTerms.Open.Translate(), () => OpenJournal(_journalEntryName, _journalTabType));
+            _openJournalPrompt = Prompt.Tap(KeyBindings.UI.HUD.OpenInventoryItemRead, LocTerms.Open.Translate(), () => CharacterSheetUI.ToggleCharacterSheet(CharacterSheetTabType.Journal));
             World.BindPresenter(TargetModel, _keyIcon, () => {
                 _keyIcon.Setup(_openJournalPrompt);
                 prompts.AddPrompt(_openJournalPrompt, TargetModel, this, false, false);
@@ -55,10 +51,8 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Journal {
 
         protected override void OnBeforeShow(JournalUnlockNotification notification){
             Content.transform.position = Vector3.right * Data.InitialXOffset;
-
-            _journalEntryName = notification.journalEntry;
-            _unlockText.text = _journalEntryName;
-            _journalTabType = notification.journalTabType;
+            
+            _unlockText.text = notification.journalEntry;
             
             RewiredHelper.VibrateLowFreq(VibrationStrength.VeryLow, VibrationDuration.Long);
             RewiredHelper.VibrateHighFreq(VibrationStrength.Medium, VibrationDuration.VeryShort);
@@ -75,12 +69,6 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Journal {
                 .Join(Content.DoMove(Vector3.zero, Data.MoveDuration))
                 .AppendInterval(Data.VisibilityDuration)
                 .Append(Content.DoFade(0f, Data.FadeDuration));
-        }
-
-        static void OpenJournal(string entryName, JournalSubTabType tabType) {
-            CharacterSheetUI.ToggleCharacterSheet(CharacterSheetTabType.Journal, afterViewSpawnedCallback: () => {
-                World.Only<JournalUI>().OverrideTabAndEntry(entryName, tabType);
-            });
         }
 
         // --- IPromptListener

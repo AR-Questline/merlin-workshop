@@ -14,7 +14,7 @@ namespace Awaken.TG.Main.Heroes.Housing {
         [Saved] LocationTemplate _furnitureTemplate;
 
         public string[] Tags => _itemTemplate.tags;
-        public ShareableSpriteReference FurnitureIcon => _itemTemplate.IconReference;
+        public ShareableSpriteReference FurnitureIcon => _itemTemplate.IconReference();
         public LocationTemplate FurnitureVariantTemplate => _furnitureTemplate;
         public string FurnitureName => _itemTemplate.itemName.Translate();
         public string FurnitureDescription => _itemTemplate.DescriptionLoc.Translate();

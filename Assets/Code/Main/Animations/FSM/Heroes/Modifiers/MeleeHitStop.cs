@@ -53,14 +53,14 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Modifiers {
         }
         
         // === Public API
-        public void ExitHitStop(bool instant) {
+        public void ExitHitStop(bool instant, bool fromDisable) {
             if (instant) {
                 RestoreAttackSpeeds();
                 Discard();
                 return;
             }
             
-            ExitHitStopInternal().Forget();
+            ExitHitStopInternal(fromDisable == false).Forget();
         }
 
         // === HitStop

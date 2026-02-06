@@ -39,6 +39,8 @@ namespace Awaken.TG.Main.Stories.Steps {
 
             [Saved] bool _revertable;
             
+            public override bool RequireVisualLoaded => true;
+            
             [JsonConstructor, Preserve]
             StepExecution() { }
             

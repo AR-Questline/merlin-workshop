@@ -77,12 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_triple
       ID: Template/description_locString_2543871262668956605_24d21aa71b006cf4aaee5d9e5d78fdb5
-  EDITOR_bakedDescription: 'Increases Spell Power by 20%.
-
-    Increases Physical
-    Damage by 20%.
-
-    Increases Critical Chance by 5%.'
+  EDITOR_bakedDescription: "Increases Spell Power by 20\_%.\nIncreases Physical Damage
+    by 20\_%.\nIncreases Critical Chance by 5\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -139,7 +135,7 @@ MonoBehaviour:
   basePrice: 1000
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 3
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -158,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -248,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -277,6 +280,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
+      value: 0.01
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -294,6 +299,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
+      value: 0.01
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -311,6 +318,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.05
     - name: GainValue
+      value: 0
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

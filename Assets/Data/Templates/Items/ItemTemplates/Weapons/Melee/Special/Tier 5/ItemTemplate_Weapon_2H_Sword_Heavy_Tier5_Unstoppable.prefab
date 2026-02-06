@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_onkill_restore
       ID: Template/description_locString_2543871262668956605_58857316f13b5c141bb8ee8774038724
-  EDITOR_bakedDescription: Attacks apply massive Poison buildup.
+  EDITOR_bakedDescription: Restores 50 Stamina after killing an enemy.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 7e41f135d04b9214191146e258e2f80d
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5105216457261439534
 MonoBehaviour:

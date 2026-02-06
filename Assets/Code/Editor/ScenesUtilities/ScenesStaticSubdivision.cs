@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Awaken.CommonInterfaces;
 using Awaken.ECS.DrakeRenderer.Authoring;
+using Awaken.ECS.Flocks.Authorings;
 using Awaken.ECS.MedusaRenderer;
 using Awaken.TG.Assets;
 using Awaken.TG.Editor.Assets;
@@ -39,6 +40,7 @@ using Path = System.IO.Path;
 using static Awaken.Utility.Editor.EditorScenesUtility;
 using Awaken.TG.Graphics.DayNightSystem;
 using Awaken.TG.Graphics.Statues;
+using Awaken.TG.Graphics.VFX;
 using Awaken.TG.Main.Heroes.FootSteps;
 using Awaken.TG.Main.Heroes.Interactions;
 using Awaken.TG.Main.Locations.Setup;
@@ -462,6 +464,7 @@ namespace Awaken.TG.Editor.Utility {
                 } else {
                     var collidersParent = new GameObject("Cl");
                     collidersParent.transform.SetParent(colliderGO.transform, false);
+                    collidersParent.layer = colliderGO.layer;
 
                     foreach (var collider in LocalCollidersBuffer) {
                         UnityEditorInternal.ComponentUtility.CopyComponent(collider);
@@ -552,6 +555,7 @@ namespace Awaken.TG.Editor.Utility {
                    || go.HasComponent<QualityController>()
                    || go.HasComponent<EditorOnlyTransform>()
                    || go.HasComponent<MutableGameObject>()
+                   || go.HasComponent<KeepHierarchy>()
                    ;
         }
 
@@ -566,7 +570,8 @@ namespace Awaken.TG.Editor.Utility {
                    || go.HasComponent<DistanceCullerGroup>()
                    || go.HasComponent<ScriptedEvent>()
                    || go.HasComponent<VolumeQualityController>()
-                   || go.HasComponent<IListenerOwner>()
+                   || go.HasComponent<IListenerOwner>() 
+                   || go.HasComponent<FlockGroup>() || go.HasComponent<FlockEntity>()
                    ;
         }
 

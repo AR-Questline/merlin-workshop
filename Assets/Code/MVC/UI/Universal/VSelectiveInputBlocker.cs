@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Settings.Windows;
 using Awaken.TG.Main.UI.Bugs;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.Menu;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Events;
@@ -18,6 +18,7 @@ namespace Awaken.TG.MVC.UI.Universal {
         float _initTime;
         
         public override Transform DetermineHost() => World.Services.Get<ViewHosting>().OnMainCanvas();
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             _initTime = Time.realtimeSinceStartup;

@@ -1,4 +1,5 @@
 using Awaken.TG.Main.UI.GamepadKeyboard.Keys;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -31,6 +32,8 @@ namespace Awaken.TG.Main.UI.GamepadKeyboard {
 
         Key[] _keyList;
         bool _capslockFlag, _shiftFlag;
+        
+        public bool IsValid => this.IsValidForUIHandle();
         
         protected override void OnInitialize() {
             _keyList = keys.GetComponentsInChildren<Key>();
@@ -86,7 +89,7 @@ namespace Awaken.TG.Main.UI.GamepadKeyboard {
             if (RewiredHelper.IsGamepad) {
                 Target.Trigger(Keyboard.Events.InputAccepted, true);
             }
-            if (!Target.HasBeenDiscarded) {
+            if (Target is { HasBeenDiscarded: false }) {
                 Target.Discard();
             }
         }

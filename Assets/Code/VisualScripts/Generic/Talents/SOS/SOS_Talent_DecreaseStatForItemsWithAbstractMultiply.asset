@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: SOS_Talent_DecreaseStatForItemsWithAbstractMultiply
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-317.4924,"y":49.50909},"zoom":1.0,"elements":[{"learn":true,"learnRepetitive":false,"equip":true,"equipRepetitive":false,"submit":true,"submitRepetitive":false,"chargeStepIncrease":true,"chargeLevelIncrease":true,"defaultValues":{},"position":{"x":-244.0,"y":-709.0},"guid":"40dec300-6c77-4dd4-bb6b-5c7f36e8495f","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Masters.SkillMasterUnit"},{"inputCount":2,"defaultValues":{"1":{"$content":1.0,"$type":"System.Single"}},"position":{"x":-457.0,"y":101.0},"guid":"9990b08c-4c1b-4b29-b349-09c53f6cb176","$version":"A","$type":"Unity.VisualScripting.ScalarSum","$id":"11"},{"name":"Abstract","defaultValues":{},"position":{"x":-754.0,"y":-109.0},"guid":"9236edec-277f-4395-8bf0-9f05ebdebcbc","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillItemTemplate","$id":"13"},{"name":"ModifyValue","defaultValues":{},"position":{"x":-848.0,"y":104.0},"guid":"8bc8a69f-7b72-4e2a-b9cc-571792597492","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.SkillVariable","$id":"15"},{"count":1,"Type":"Learn","defaultValues":{"type
+      0":{"$content":"Multiply","$type":"Awaken.TG.Main.Heroes.Stats.Tweaks.TweakPriority"},"modifier
+      0":{"$content":0.0,"$type":"System.Single"}},"position":{"x":-210.0,"y":-39.0},"guid":"3823a147-75d7-4e04-9e41-f6b693828adf","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Passives.ItemTypeTweakUnit","$id":"17"},{"name":"ItemStat","defaultValues":{},"position":{"x":-515.0,"y":-4.0},"guid":"16368b4a-8aae-4f5e-9a96-252c8cb380a3","$version":"A","$type":"Awaken.TG.Main.Skills.Units.Variables.StatTypeVariable","$id":"19"},{"count":1,"defaultValues":{},"position":{"x":-542.0,"y":-105.0},"guid":"2a6f5628-c88c-43c7-873f-2c19dfc7b34a","$version":"A","$type":"Awaken.TG.VisualScripts.Units.Utils.Items.FilterItemByAbstractUnit","$id":"21"},{"defaultValues":{"b":{"$content":-1.0,"$type":"System.Single"}},"position":{"x":-655.0,"y":105.0},"guid":"191714e6-d0a9-44b5-b651-81f58c7f576c","$version":"A","$type":"Unity.VisualScripting.ScalarMultiply","$id":"23"},{"sourceUnit":{"$ref":"13"},"sourceKey":"ItemTemplate","destinationUnit":{"$ref":"21"},"destinationKey":"abstract_0","guid":"6c9ab380-eba9-489b-871a-b0184807bdd8","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"21"},"sourceKey":"filter","destinationUnit":{"$ref":"17"},"destinationKey":"filter","guid":"cd70f833-1723-4e7a-a8fc-93d3c5525a58","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"sum","destinationUnit":{"$ref":"17"},"destinationKey":"modifier
+      0","guid":"855044e1-27fd-4616-af92-310393d4ad86","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"23"},"sourceKey":"product","destinationUnit":{"$ref":"11"},"destinationKey":"0","guid":"f1c5fa12-1a3e-4b60-968f-e6a6b7bd331f","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"15"},"sourceKey":"value","destinationUnit":{"$ref":"23"},"destinationKey":"a","guid":"9c2f737a-3504-4dc5-b401-c6c1c8564490","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"statType","destinationUnit":{"$ref":"17"},"destinationKey":"stat
+      0","guid":"4dcd7a3c-238e-4e26-acab-519b9c8611c2","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

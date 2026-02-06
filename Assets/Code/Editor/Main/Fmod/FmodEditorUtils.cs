@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Awaken.TG.Editor.Utility.Audio;
+using Awaken.Utility.Debugging;
 using FMOD;
 using FMOD.Studio;
 using FMODUnity;
 using Unity.Collections;
+using UnityEditor;
 using Debug = UnityEngine.Debug;
 using GUID = FMOD.GUID;
 
@@ -94,5 +98,62 @@ namespace Awaken.TG.Editor.Main.Fmod {
         //         eventsGuids.Add(guid);
         //     }
         // }
+
+        [MenuItem("TG/Audio/Validate VoiceOvers Banks Assignment")]
+        public static void ValidateAllStoryGraphsVoiceOvers() {
+            const string ForbiddenBankName = "VoiceOvers";
+            const string ForbiddenBankName2 = "UnusedVoiceOvers";
+            var voiceOvers = new List<VoiceOverData>();
+            EditorUtility.DisplayProgressBar("Validating VoiceOvers Banks Assignment", "Loading VoiceOvers Data", 0);
+            foreach (var audioFilePath in EditorAudioUtils.GetAllVoiceOverPaths()) {
+                voiceOvers.Add(new VoiceOverData(audioFilePath));
+            }
+
+            int i = 0;
+            var x = voiceOvers.GroupBy(v => v.StoryGraph).ToArray();
+            int graphsLength = x.Length;
+            foreach (var grouped in x) {
+                if (grouped.Key == null) {
+                    continue;
+                }
+                EditorUtility.DisplayProgressBar("Validating VoiceOvers Banks Assignment", $"Validating: {grouped.Key.name}, Progress: {i}/{graphsLength}", i/(float)graphsLength);
+
+                bool hasAudioReplacement = false;
+                HashSet<string> bankNames = new();
+                foreach (var voData in grouped) {
+                    try {
+                        if (voData.HasAudioReplacement) {
+                            hasAudioReplacement = true;
+                        }
+                        
+                        EditorAudioUtils.GetGuidAndFileIdFromAudioFileId(voData.ID, out string guid, out long fileId);
+                        // if (voData.TryFindMatchingEventRef(fileId.ToString(), guid, out var eventRef)) {
+                        //     foreach (var bankName in eventRef.Banks) {
+                        //         bankNames.Add(bankName.Name);
+                        //     }
+                        // }
+                    } catch (Exception) {
+                        // ignore
+                    }
+                }
+
+                if (bankNames.Count > 1) {
+                    Log.Critical?.Error($"StoryGraph: {grouped.Key.name}, with VO assigned to multiple banks: {string.Join(", ", bankNames)}", grouped.Key);
+                } else if (bankNames.Count == 1) {
+                    if (bankNames.First() == ForbiddenBankName) {
+                        Log.Critical?.Error($"StoryGraph: {grouped.Key.name}, with VO assigned to default bank: {ForbiddenBankName}", grouped.Key);
+                    } else if (bankNames.First() == ForbiddenBankName2) {
+                        Log.Critical?.Error($"StoryGraph: {grouped.Key.name}, with VO assigned to default bank: {ForbiddenBankName2}", grouped.Key);
+                    } else {
+                        Log.Important?.Warning($"StoryGraph: {grouped.Key.name}, with VO assigned to single bank: {string.Join(", ", bankNames)}", grouped.Key);
+                    }
+                } else if (hasAudioReplacement) {
+                    Log.Critical?.Error($"StoryGraph: {grouped.Key.name}, with no bank assigned!");
+                }
+
+                i++;
+            }
+            EditorUtility.ClearProgressBar();
+        }
     }
 }

@@ -157,6 +157,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +216,10 @@ MonoBehaviour:
     variables:
     - name: StatusDuration
       value: 3
+    - name: StatusDurationGain
+      value: 0.2
+    - name: StatusDurationCalculated
+      value: 0
     - name: LightCastRange
       value: 6
     - name: LightCastAngle
@@ -288,7 +296,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 0
   maxDamage: 0
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -321,8 +329,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 30
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 45
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 5
+  heavyCastManaCostPerSecondGain: 0.5
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-7863126784321866877
 MonoBehaviour:

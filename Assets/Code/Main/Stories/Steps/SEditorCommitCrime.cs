@@ -70,7 +70,8 @@ namespace Awaken.TG.Main.Stories.Steps {
         public override StepResult Execute(Story story) {
             if (crime is not SimpleCrimeType.None) {
                 var situation = CommitCrime.GetSituation(ignoreVisibility, instantReport: instantReport);
-                GetCrime(story).TryCommitCrime(situation);
+                using var realCrime = GetCrime(story);
+                realCrime.TryCommitCrime(situation);
             }
             return StepResult.Immediate;
         }

@@ -65,13 +65,13 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
 
             List<UniTask<GameObject>> tasks = new();
             foreach (var weapon in ParentModel.NpcItems.AllWeapons) {
-                if (TryLoadWeaponInternal(weapon, NPCAbstracts, npcGender, out var handle, out var itemToSpawn, out var itemEquip)) {
+                if (TryLoadWeaponInternal(weapon, NPCAbstracts, npcGender, out var handle, out var assetReference, out var itemEquip)) {
                     handle.OnComplete(h => {
                         if (itemEquip.HasBeenDiscarded) {
                             Log.Important?.Warning($"{weapon.DebugName} has been discarded during loading");
                             return;
                         }
-                        OnWeaponLoaded(h, GetBeltItemSocket(itemEquip), itemEquip, itemToSpawn.itemPrefab);
+                        OnWeaponLoaded(h, GetBeltItemSocket(itemEquip), itemEquip, assetReference);
                     });
                     tasks.Add(handle.ToUniTask());
                 }
@@ -91,7 +91,7 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
 
         public void LoadNewWeapon(Item weapon, bool equipAfterLoad, WeaponEquipHand overrideHand = WeaponEquipHand.None) {
             using var abstractTypes = ParentModel.Template.AbstractTypes;
-            if (!TryLoadWeaponInternal(weapon, abstractTypes, ParentModel.GetGender(), out var handle, out var itemToSpawn, out var itemEquip)) {
+            if (!TryLoadWeaponInternal(weapon, abstractTypes, ParentModel.GetGender(), out var handle, out var assetReference, out var itemEquip)) {
                 return;
             }
 
@@ -99,30 +99,32 @@ namespace Awaken.TG.Main.AI.Combat.Attachments {
 
             if (equipAfterLoad) {
                 handle.OnComplete(h => {
-                    OnWeaponLoaded(h, GetBeltItemSocket(itemEquip), itemEquip, itemToSpawn.itemPrefab);
+                    OnWeaponLoaded(h, GetBeltItemSocket(itemEquip), itemEquip, assetReference);
                     AttachWeaponToHand(itemEquip, overrideHand);
                 });
             } else {
                 handle.OnComplete(h =>
-                    OnWeaponLoaded(h, GetBeltItemSocket(itemEquip), itemEquip, itemToSpawn.itemPrefab));
+                    OnWeaponLoaded(h, GetBeltItemSocket(itemEquip), itemEquip, assetReference));
             }
         }
 
-        bool TryLoadWeaponInternal(Item weapon, List<NpcTemplate> npcAbstracts, Gender npcGender, out ARAsyncOperationHandle<GameObject> handle, out ItemRepresentationByNpc itemToSpawn, out ItemEquip itemEquip) {
+        bool TryLoadWeaponInternal(Item weapon, List<NpcTemplate> npcAbstracts, Gender npcGender, out ARAsyncOperationHandle<GameObject> handle, out ARAssetReference assetReference, out ItemEquip itemEquip) {
             if (!weapon.TryGetElement(out itemEquip)) {
-                itemToSpawn = default;
                 handle = default;
+                assetReference = null;
                 return false;
             }
 
-            itemToSpawn = itemEquip.MobItems.FirstOrDefault(m => ItemEquip.CanEquip(npcAbstracts, npcGender, weapon.EquippedInSlotOfType, m));
-            if (itemToSpawn.itemPrefab is not { IsSet: true }) {
+            var itemToSpawn = itemEquip.MobItems.FirstOrDefault(m => ItemEquip.CanEquip(npcAbstracts, npcGender, weapon.EquippedInSlotOfType, m));
+            if (itemToSpawn.ItemPrefabUnsafeToLoad is not { IsSet: true }) {
                 Log.Important?.Error($"Trying to equip empty weapon for {GenericParentModel}");
                 handle = default;
+                assetReference = null;
                 return false;
             }
 
-            handle = itemToSpawn.itemPrefab.LoadAsset<GameObject>();
+            assetReference = itemToSpawn.ItemPrefabDeepCopy;
+            handle = assetReference.LoadAsset<GameObject>();
             return true;
         }
 

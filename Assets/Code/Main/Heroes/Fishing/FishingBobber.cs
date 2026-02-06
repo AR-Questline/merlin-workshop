@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Awaken.TG.Code.Utility;
 using Awaken.TG.Main.AI.Fights.Archers;
 using Awaken.TG.Main.Animations.FSM.Heroes.Base;

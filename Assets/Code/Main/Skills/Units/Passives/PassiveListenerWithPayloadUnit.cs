@@ -26,7 +26,7 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
         protected virtual void Trigger(GraphReference reference, TPayload payload) {
             var flow = AutoDisposableFlow.New(reference);
             flow.flow.SetValue(_data, payload);
-            Trigger(flow);
+            Trigger(flow, 0);
         }
     }
 }

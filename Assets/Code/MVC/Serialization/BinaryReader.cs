@@ -41,10 +41,14 @@ namespace Awaken.TG.MVC.Serialization {
             }
         }
         
-        public void Read(byte* ptr, int length) {
+        public void Read(byte* ptr, int length, out bool separatorHit) {
+            separatorHit = false;
             for (int i = 0; i < length; i++) {
                 var result = TryRead(out ptr[i]);
-                if (result != ReadResult.Normal) {
+                if (result == ReadResult.SpecialSeparator) {
+                    separatorHit = true;
+                    return;
+                } else if (result != ReadResult.Normal) {
                     throw new Exception("Invalid byte sequence");
                 }
             }

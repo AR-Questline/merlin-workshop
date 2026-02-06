@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_307891a8c3370764d90e91ee8af3ea92
-  EDITOR_bakedDescription: Blocking regenerates 20% of the damage blocked as Mana.
+  EDITOR_bakedDescription: "Blocking regenerates 20\_% of the damage blocked as Mana."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -87,7 +87,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_307891a8c3370764d90e91ee8af3ea92
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -132,7 +132,7 @@ MonoBehaviour:
   basePrice: 100
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 100
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -151,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
@@ -201,7 +205,12 @@ MonoBehaviour:
           address: 
           subObjectName: 
     templates: []
-    assetReferences: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 
+          subObjectName: 
   type: 0
 --- !u!114 &7144849850712477817
 MonoBehaviour:

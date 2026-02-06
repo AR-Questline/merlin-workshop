@@ -1,8 +1,8 @@
 using System.Linq;
-using Awaken.TG.Graphics.Transitions;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.Main.Timing.ARTime.Modifiers;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.UI.Keys.Components;
@@ -39,6 +39,7 @@ namespace Awaken.TG.Graphics.Cutscenes {
         public Component DefaultFocus => this;
         
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
+        public bool IsValid => this.IsValidForUIHandle();
         
         // === Initialization
         protected override void OnInitialize() {
@@ -124,10 +125,12 @@ namespace Awaken.TG.Graphics.Cutscenes {
                     globalTime.AddTimeModifier(new OverrideTimeModifier(PauseSourceID, 0));
                     Target.AddElement(new AudioMuter());
                     pauseOverlay.SetActiveOptimized(true);
+                    Target.Paused();
                 } else {
                     globalTime.RemoveTimeModifiersFor(PauseSourceID);
                     Target.RemoveElementsOfType<AudioMuter>();
                     pauseOverlay.SetActiveOptimized(false);
+                    Target.Unpaused();
                 }
 
                 return UIResult.Accept;
@@ -146,7 +149,6 @@ namespace Awaken.TG.Graphics.Cutscenes {
             }
             return UIResult.Prevent;
         }
-        
         
         // === Discarding
         protected override IBackgroundTask OnDiscard() {

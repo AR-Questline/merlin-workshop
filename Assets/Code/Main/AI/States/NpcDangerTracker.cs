@@ -16,13 +16,16 @@ namespace Awaken.TG.Main.AI.States {
         public const float EventDangerLifetime = 10f;
         public const float CombatDangerLifetime = 10f;
         public const float HeroDangerLifetime = 10f;
+        public const float FleeingFromHeroLifetime = 15f;
         
         public static int FleeingFromHero { get; private set; }
+        public static float FleeingFromHeroTimer { get; private set; }
 
         public bool InEnviroDanger { get; private set; }
         public bool InDirectDanger { get; private set; }
         public bool FearfulsInDanger { get; private set; }
         public bool InAnyDanger => InEnviroDanger || InDirectDanger;
+        public bool InHeroCombatDanger => _directHeroDanger is { hero: not null, crimeType: SimpleCrimeType.Combat };
 
         NpcElement _owner;
         EnviroDanger _enviroDanger;
@@ -33,6 +36,7 @@ namespace Awaken.TG.Main.AI.States {
 
         public static class Events {
             public static readonly Event<NpcElement, DirectDangerData> CharacterDangerNearby = new(nameof(CharacterDangerNearby));
+            public static readonly Event<Hero, int> FleeingFromHeroChanged = new(nameof(FleeingFromHeroChanged));
         }
 
         public NpcDangerTracker(NpcElement npc) {
@@ -61,11 +65,18 @@ namespace Awaken.TG.Main.AI.States {
             InEnviroDanger = false;
             InDirectDanger = false;
         }
-        
+
         public void Update(bool enviroDanger, bool fearfulsInDanger, float deltaTime, NpcElement npc) {
             UpdateEnviroDanger(enviroDanger, deltaTime);
             UpdateDirectDanger(npc, deltaTime);
             FearfulsInDanger = InAnyDanger && fearfulsInDanger;
+
+            if (FleeingFromHeroTimer > 0) {
+                FleeingFromHeroTimer = math.max(0, FleeingFromHeroTimer - deltaTime);
+                if (FleeingFromHeroTimer <= 0) {
+                    Hero.Current.Trigger(Events.FleeingFromHeroChanged, FleeingFromHero);
+                }
+            }
         }
 
         public void OnPeasantNoticedCrime(CrimeArchetype crime) {
@@ -80,10 +91,11 @@ namespace Awaken.TG.Main.AI.States {
         
         void UpdateDirectDanger(NpcElement npc, float deltaTime) {
             InDirectDanger = false; 
-                
+            
             if (_directHeroDanger.hero is { } hero) {
+                bool isUnconscious = npc.IsUnconscious;
                 bool isDanger = hero.IsAlive && hero.NpcChunk == npc.NpcChunk;
-                if (UpdateDanger(ref _directHeroDanger.lifetime, isDanger, deltaTime, NpcDangerLifetime)) {
+                if (!isUnconscious && UpdateDanger(ref _directHeroDanger.lifetime, isDanger, deltaTime, NpcDangerLifetime)) {
                     InDirectDanger = true;
                 } else {
                     RemoveHeroDanger();
@@ -130,11 +142,17 @@ namespace Awaken.TG.Main.AI.States {
         void AddHeroDanger(Hero hero, in DirectDangerData data) {
             _directHeroDanger = new DirectHeroDanger(hero, data.crimeType);
             FleeingFromHero++;
+            FleeingFromHeroTimer = FleeingFromHeroLifetime;
+            Hero.Current.Trigger(Events.FleeingFromHeroChanged, FleeingFromHero);
         }
         
         void RemoveHeroDanger() {
             _directHeroDanger = default;
             FleeingFromHero--;
+            if (FleeingFromHero <= 0) {
+                FleeingFromHeroTimer = 0;
+            }
+            Hero.Current.Trigger(Events.FleeingFromHeroChanged, FleeingFromHero);
         }
         
         struct DirectNpcDanger {
@@ -150,7 +168,7 @@ namespace Awaken.TG.Main.AI.States {
         struct DirectHeroDanger {
             public Hero hero;
             public float lifetime;
-            [UnityEngine.Scripting.Preserve] SimpleCrimeType crimeType;
+            public SimpleCrimeType crimeType;
 
             public DirectHeroDanger(Hero hero, SimpleCrimeType crimeType = SimpleCrimeType.None) {
                 this.hero = hero;

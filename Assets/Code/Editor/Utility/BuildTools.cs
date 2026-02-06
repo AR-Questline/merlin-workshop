@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,11 +31,14 @@ using Awaken.Utility.Extensions;
 using JetBrains.Annotations;
 using Pathfinding;
 using System.Diagnostics;
+using Awaken.Babel;
+using Awaken.Babel.Editor;
 using Awaken.ECS.DrakeRenderer.Authoring;
 using Awaken.ECS.Editor.DrakeRenderer;
 using Awaken.ECS.Editor.MedusaRenderer;
 using Awaken.ECS.MedusaRenderer;
 using Awaken.Kandra.Managers;
+using Awaken.TG.Editor.Main.Templates;
 using Awaken.TG.Graphics.Culling;
 using Awaken.TG.Main.General.Caches;
 using Awaken.TG.Main.Skills;
@@ -51,6 +54,7 @@ using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEditor.Build;
 using UnityEditor.Build.Content;
 using UnityEditor.Build.Reporting;
@@ -69,7 +73,7 @@ using UnityEditor.PS5;
 
 namespace Awaken.TG.Editor.Utility {
     public static class BuildTools {
-        public static string ContentBuilderPath => PlatformUtils.IsConsole
+        public static string ContentBuilderPath => PlatformUtils.IsConsole || HasArgument("microsoft_pc")
             ? "Builds"
             : "Steamworks/tools/ContentBuilder/content";
 
@@ -85,19 +89,38 @@ namespace Awaken.TG.Editor.Utility {
             .Select(s => s.path)
             .ToArray();
 
-        public static readonly Dictionary<BuildTarget, BuildPathOption> BuildPaths = new() {
+        static readonly Dictionary<BuildTarget, BuildPathOption> NoMonoBuildPaths = new() {
             { BuildTarget.StandaloneWindows64, new BuildPathOption("windows_content", "Fall of Avalon.exe") },
             { BuildTarget.StandaloneLinux64, new BuildPathOption("linux_content", "Fall_of_Avalon.x86_64") },
             { BuildTarget.StandaloneOSX, new BuildPathOption("mac_content", "Fall of Avalon") },
             { BuildTarget.GameCoreXboxSeries, new BuildPathOption("xbox_content", "") },
             { BuildTarget.PS5, new BuildPathOption("ps5_content", "Fall of Avalon") },
         };
+        
+        static readonly BuildPathOption MonoBuildPath = new ("windows_mono_content", "Fall of Avalon.exe");
+        static readonly BuildPathOption MicrosoftPcBuildPath = new("ms_content", "Fall of Avalon.exe");
+        
+        public static BuildPathOption GetBuildPathOption(BuildTarget buildTarget) {
+            if (PlatformUtils.MonoBuildTarget) {
+                return MonoBuildPath;
+            }
+
+            if (HasArgument("microsoft_pc")) {
+                return MicrosoftPcBuildPath;
+            }
+            
+            if (NoMonoBuildPaths.TryGetValue(buildTarget, out var pathOption)) {
+                return pathOption;
+            }
+
+            throw new ArgumentException($"No build path option defined for {buildTarget}");
+        }
 
         static BuildPathOption s_paths;
         static string[] s_overridenArguments;
         static string s_extraDefines;
 
-        static readonly string
+        public static readonly string
             XboxConfigsPath = Application.dataPath + "/../ProjectSettings",
             XboxConfig = XboxConfigsPath + "/ScarlettGame.config",
             XboxDemoConfig = XboxConfigsPath + "/ScarlettGame_Demo.config",
@@ -149,7 +172,10 @@ namespace Awaken.TG.Editor.Utility {
 
             BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
             BuildTargetGroup buildTargetGroup = BuildTargetToGroup(buildTarget);
-            s_paths = BuildPaths[buildTarget];
+            var namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
+            
+            SetScriptingBackend(namedBuildTarget);
+            s_paths = GetBuildPathOption(buildTarget);
 
             BuildPlayerOptions options = new() {
                 target = buildTarget,
@@ -164,7 +190,11 @@ namespace Awaken.TG.Editor.Utility {
                 EditorUserBuildSettings.development = true;
                 options.options = BuildOptions.Development;
             }
-
+            
+            if (PlatformUtils.IsMicrosoft) {
+                XboxBuilder.SetGameCoreBuildSettingsForScriptsOnly();
+            }
+            
             if (PlatformUtils.IsPS5) {
                 PS5Builder.SetPS5BuildOptionsForScriptsOnly();
             }
@@ -296,28 +326,14 @@ namespace Awaken.TG.Editor.Utility {
 
             SetCopyPDB();
             var namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
-            if (HasArgument("il2cpp") || PlatformUtils.IsConsole) {
-                PlayerSettings.SetScriptingBackend(namedBuildTarget, ScriptingImplementation.IL2CPP);
-                var compilerConfig = Il2CppCompilerConfiguration.Release;
-                if (HasArgument("debug")) {
-                    compilerConfig = Il2CppCompilerConfiguration.Debug;
-                } else if (HasArgument("il2cpp_master")) {
-                    compilerConfig = Il2CppCompilerConfiguration.Master;
-                }
-
-                PlayerSettings.SetIl2CppCompilerConfiguration(namedBuildTarget, compilerConfig);
-                PlayerSettings.SetIl2CppCodeGeneration(namedBuildTarget, Il2CppCodeGeneration.OptimizeSpeed);
-            } else {
-                PlayerSettings.SetScriptingBackend(namedBuildTarget, ScriptingImplementation.Mono2x);
-            }
+            SetScriptingBackend(namedBuildTarget);
 
             if (PlatformUtils.IsConsole) {
                 EditorUserBuildSettings.explicitNullChecks = true;
                 EditorUserBuildSettings.explicitArrayBoundsChecks = true;
             }
 
-            CheckGamePass();
-            if (PlatformUtils.IsXbox) {
+            if (PlatformUtils.IsMicrosoft) {
                 XboxBuilder.SetGameCoreBuildSettings();
             }
 
@@ -331,13 +347,13 @@ namespace Awaken.TG.Editor.Utility {
                 EditorApplication.Exit(0);
             }
         }
-        
+
         public static bool PerformBuild(BuildPlayerOptions options, out string buildDirectory) {
             SceneProcessor.ResetAllScenesProcessedStatus();
             // Set Addressables to Use Asset Database
             AddressableAssetSettingsDefaultObject.Settings.ActivePlayModeDataBuilderIndex = 0;
-
-            s_paths = BuildPaths[options.target];
+            
+            s_paths = GetBuildPathOption(options.target);
             buildDirectory = s_paths.BuildDirectory;
 
             if (!Application.isBatchMode) {
@@ -625,16 +641,32 @@ namespace Awaken.TG.Editor.Utility {
         
         public static void PrepareAndBuildAddressables() {
             if (Application.isBatchMode || HasArgument("process_scenes_and_assets")) {
+                BabelBakerUtils.BakeAllLocalization();
+                RemoveUnityLocalization();
+
                 UnpackKandra();
                 BakeStory();
                 SkillGraphBuildTools.PrepareForBuild();
-                LocalizationTools.PrepareForBuild();
                 PrepareArchives();
                 AssetDatabase.Refresh();
             }
             BuildAddressables();
         }
 
+        [MenuItem("TG/Remove Unity Localization Entries", false, 2000)]
+        static void RemoveUnityLocalization() {
+            var languageTablesToRemove = AssetDatabase.FindAssets("", new[] { "Assets/Localizations/LanguageTables" });
+            var sharedTablesToRemove = AssetDatabase.FindAssets("t: SharedTableData");
+            
+            foreach (var guid in languageTablesToRemove) {
+                AddressableHelper.RemoveEntry(guid);
+            }
+            
+            foreach (var guid in sharedTablesToRemove) {
+                AddressableHelper.RemoveEntry(guid);
+            }
+        }
+        
         // === Build Steps
         [MenuItem("TG/Build/Baking/Unpack Kandra", false, -3000)]
         static void UnpackKandra() {
@@ -665,7 +697,7 @@ namespace Awaken.TG.Editor.Utility {
                 if (entry.MainAsset is StoryGraph graph) {
                     graph.GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(graph));
                     try {
-                        StoryGraphParser.Serialize(graph);
+                        StoryGraphParser.Serialize(graph, BabelManager.IdBaker);
                     } catch (Exception e) {
                         Log.Critical?.Error($"Exception below while baking Story {graph.name}({graph.GUID})");
                         Debug.LogException(e);
@@ -683,6 +715,7 @@ namespace Awaken.TG.Editor.Utility {
             MakeArchiveFromLibrary(MedusaPersistence.SubdirectoryName, MedusaPersistence.ArchiveFileName);
             MakeArchiveFromLibrary(StreamedSkillGraphs.SubdirectoryName, StreamedSkillGraphs.ArchiveFileName);
             MakeArchiveFromLibrary(StoryGraphRuntime.SubdirectoryName, StoryGraphRuntime.ArchiveFileName);
+            MakeArchiveFromLibrary(BabelPersistence.SubdirectoryName, BabelPersistence.ArchiveFileName);
             MakeArchiveFromStreamingAssets(StreamingManager.SubdirectoryName, StreamingManager.ArchiveFileName);
 
             if (!Application.isBatchMode) {
@@ -695,6 +728,48 @@ namespace Awaken.TG.Editor.Utility {
 
             void MakeArchiveFromStreamingAssets(string subdirectoryName, string archiveFileName) {
                 MakeArchive(Application.streamingAssetsPath, subdirectoryName, archiveFileName, true);
+            }
+
+            void MakeArchive(string startingPath, string subdirectoryName, string archiveFileName, bool removeInput) {
+                var bakingDirectoryPath = Path.Combine(startingPath, subdirectoryName);
+                if (!Directory.Exists(bakingDirectoryPath)) {
+                    return;
+                }
+                var inputPaths = Directory.EnumerateFiles(bakingDirectoryPath, "*", SearchOption.AllDirectories).ToArray();
+                var inputFiles = new ResourceFile[inputPaths.Length];
+                for (var i = 0; i < inputPaths.Length; i++) {
+                    var relativePath = Path.GetRelativePath(bakingDirectoryPath, inputPaths[i]).Replace('\\', '/');
+                    inputFiles[i] = new ResourceFile() {
+                        fileName = inputPaths[i],
+                        fileAlias = relativePath,
+                    };
+                }
+
+                var archivePathDirectory = Path.Combine(Application.streamingAssetsPath, subdirectoryName);
+                if (!Directory.Exists(archivePathDirectory)) {
+                    Directory.CreateDirectory(archivePathDirectory);
+                }
+                var archivePath = Path.Combine(archivePathDirectory, archiveFileName);
+                if (File.Exists(archivePath)) {
+                    File.Delete(archivePath);
+                }
+
+                ContentBuildInterface.ArchiveAndCompress(inputFiles, archivePath, BuildCompression.Uncompressed, true);
+
+                if (removeInput) {
+                    for (var i = 0; i < inputPaths.Length; i++) {
+                        File.Delete(inputPaths[i]);
+                    }
+                }
+            }
+        }
+
+        [MenuItem("TG/Build/Baking/Tests/Prepare BABEL archives", false, -3001)]
+        static void PrepareBabelArchives() {
+            MakeArchiveFromLibrary(BabelPersistence.SubdirectoryName, BabelPersistence.ArchiveFileName);
+
+            void MakeArchiveFromLibrary(string subdirectoryName, string archiveFileName) {
+                MakeArchive("Library", subdirectoryName, archiveFileName, false);
             }
 
             void MakeArchive(string startingPath, string subdirectoryName, string archiveFileName, bool removeInput) {
@@ -777,14 +852,43 @@ namespace Awaken.TG.Editor.Utility {
             }
             UnpackKandra_AnimatorsBuffer.Clear();
         }
-
+        
         static void BuildAddressables() {
+            TemplatesSearcher.EDITOR_RuntimeReset();
+            TemplatesChecker.CheckTemplates();
+
+            if (PlatformUtils.IsWindows) {
+                string[] schemasToPackTogether = {
+                    "AnimatorOverrides_BundledAssetGroupSchema",
+                    "Default Local Group_BundledAssetGroupSchema",
+                    "DrakeRenderer_BundledAssetGroupSchema",
+                    "DroppableItems_BundledAssetGroupSchema",
+                    "EnemyBehaviours_BundledAssetGroupSchema",
+                    "HLOD_BundledAssetGroupSchema",
+                    "IntroVideo_BundledAssetGroupSchema",
+                    "ItemsIcons_BundledAssetGroupSchema",
+                    "Locations_BundledAssetGroupSchema",
+                    "LODs_BundledAssetGroupSchema",
+                    "NPCs_BundledAssetGroupSchema",
+                    "UI_BundledAssetGroupSchema",
+                    "VFX_BundledAssetGroupSchema",
+                    "Weapons_BundledAssetGroupSchema",
+                };
+
+                foreach (var schemaName in schemasToPackTogether) {
+                    var schema = AssetDatabase.LoadAssetAtPath<BundledAssetGroupSchema>($"Assets/AddressableAssetsData/AssetGroups/Schemas/{schemaName}.asset");
+                    schema.BundleMode = BundledAssetGroupSchema.BundlePackingMode.PackTogether;
+                    EditorUtility.SetDirty(schema);
+                    AssetDatabase.SaveAssetIfDirty(schema);
+                }
+            }
+
             var addressableManager = AssetDatabase.LoadAssetAtPath<ARAddressableManager>(
                 AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("t:ARAddressableManager").First()));
             
             if (Application.isBatchMode || HasArgument("update_ar_addressables")) {
                 addressableManager.UpdateData();
-                if (!addressableManager.assignGroups) {
+                if (!addressableManager.config.assignGroups) {
                     addressableManager.AssignEntriesToAddressables();
                 }
             } else {
@@ -812,7 +916,24 @@ namespace Awaken.TG.Editor.Utility {
                 throw;
             }
         }
+        
+        static void SetScriptingBackend(NamedBuildTarget namedBuildTarget) {
+            if (HasArgument("il2cpp") || PlatformUtils.IsConsole) {
+                PlayerSettings.SetScriptingBackend(namedBuildTarget, ScriptingImplementation.IL2CPP);
+                var compilerConfig = Il2CppCompilerConfiguration.Release;
+                if (HasArgument("debug")) {
+                    compilerConfig = Il2CppCompilerConfiguration.Debug;
+                } else if (HasArgument("il2cpp_master")) {
+                    compilerConfig = Il2CppCompilerConfiguration.Master;
+                }
 
+                PlayerSettings.SetIl2CppCompilerConfiguration(namedBuildTarget, compilerConfig);
+                PlayerSettings.SetIl2CppCodeGeneration(namedBuildTarget, Il2CppCodeGeneration.OptimizeSpeed);
+            } else {
+                PlayerSettings.SetScriptingBackend(namedBuildTarget, ScriptingImplementation.Mono2x);
+            }
+        }
+        
         [MenuItem("TG/Build/Clear library artifacts", false, 110)]
         public static void ClearLibraryAssetsArtifacts() {
             // BuildProcess.ClearHLODsLibraryAssets();
@@ -1026,16 +1147,6 @@ namespace Awaken.TG.Editor.Utility {
         }
         
         // === Player preparation
-        static void CheckGamePass() {
-            if (HasArgument("gamepass")) {
-                PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out string[] defines);
-                Array.Resize(ref defines, defines.Length + 1);
-                defines[^1] = "MICROSOFT_GAME_CORE";
-                PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, defines);
-                SetCopyPDB();
-            }
-        }
-
         static void SetCopyPDB() {
             EditorUserBuildSettings.SetPlatformSettings("Standalone", "CopyPDBFiles", "true");
         }
@@ -1329,8 +1440,9 @@ namespace Awaken.TG.Editor.Utility {
                 PrepareHosOnlyScenes();
             }
 
-            if (PlatformUtils.IsXbox) {
+            if (PlatformUtils.IsMicrosoft || HasArgument("microsoft_pc")) {
                 PrepareGameCoreConfig();
+                XboxBuilder.PrepareScid(XboxConfig);
             }
 
             SaveGitInfo();
@@ -1360,6 +1472,15 @@ namespace Awaken.TG.Editor.Utility {
             updated |= ArrayUtils.AddUnique(ref defines, "ADDRESSABLES_BUILD");
             if (IsDemo()) {
                 updated |= ArrayUtils.AddUnique(ref defines, "AR_GAMEMODE_DEMO");
+            }
+
+            if (HasArgument("microsoft_pc")) {
+                updated |= ArrayUtils.AddUnique(ref defines, "MICROSOFT_GAME_CORE");
+                updated |= ArrayUtils.AddUnique(ref defines, "DISABLESTEAMWORKS");
+            }
+
+            if (PlatformUtils.IsConsole) {
+                updated |= ArrayUtils.TryRemove(ref defines, "ENABLE_JSON_CATALOG");
             }
 
             if (updated) {
@@ -1491,6 +1612,16 @@ namespace Awaken.TG.Editor.Utility {
         static string GitBranchName() {
             var injectedBranchArray = ExtractArguments("Branch:") ?? Array.Empty<string>();
             return injectedBranchArray.FirstOrFallback(GitUtils.GetBranchName());
+        }
+
+        public static string GetBuildDirectoryFromReport(BuildReport report) {
+            var buildPath = report.summary.outputPath;
+            if (File.Exists(buildPath)) {
+                var fileInfo = new FileInfo(buildPath);
+                return fileInfo.Directory.FullName;
+            } else {
+                return buildPath;
+            }
         }
 
         // -- Queries

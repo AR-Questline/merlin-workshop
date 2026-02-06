@@ -53,7 +53,7 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
         }
         
         public string DisplayText() {
-            return _choiceData.text;
+            return _choiceData.TranslatedText;
         }
 
         public string Tooltip() {

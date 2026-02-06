@@ -15,7 +15,7 @@ namespace Awaken.TG.VisualScripts.Units.General {
         protected override void Definition() {
             DefineSimpleAction(flow => {
                 if (LoadSave.Get.CanAutoSave()) {
-                    LoadSave.Get.Save(SaveSlot.GetAutoSave());
+                    LoadSave.Get.Save(SaveSlot.GetAutoSave(out bool createdNew), deleteSaveSlotIfSavingFailed: createdNew);
                 } else {
                     Log.Important?.Warning("Cannot save now! Graph: " + flow.stack.graph.title);
                 }

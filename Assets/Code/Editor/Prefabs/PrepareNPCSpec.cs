@@ -101,7 +101,7 @@ namespace Awaken.TG.Editor.Prefabs {
         }
 
         void DuplicatePrefabReference(LocationSpec spec) {
-            var oldReference = spec.prefabReference;
+            var oldReference = spec.PrefabReference;
             var assetPath = AssetDatabase.GUIDToAssetPath(oldReference.Address);
             var newAssetPath = DuplicateObject(assetPath, out var addressable);
             if (newAssetPath == null) {
@@ -109,14 +109,14 @@ namespace Awaken.TG.Editor.Prefabs {
                 return;
             }
 
-            spec.prefabReference = addressable;
+            spec.PrefabReference = addressable;
         }
         
         void SetupVisualPrefab(NpcAttachment npcAttachment) {
             ARAssetReference arAssetReference = null;
             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.GetSettings(false);
             if (settings != null) {
-                AddressableAssetEntry originalEntry = AddressableHelper.GetEntry(npcAttachment.VisualPrefab);
+                AddressableAssetEntry originalEntry = AddressableHelper.GetEntry(npcAttachment.VisualPrefab());
                 if (originalEntry != null) {
                     arAssetReference = AddressableHelper.MakeReference(visualPrefab, originalEntry.parentGroup.Name);
                 }

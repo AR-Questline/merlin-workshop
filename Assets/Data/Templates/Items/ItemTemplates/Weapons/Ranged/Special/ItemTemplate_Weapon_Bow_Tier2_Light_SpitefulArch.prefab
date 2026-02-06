@@ -52,7 +52,7 @@ MonoBehaviour:
   templateType: 0
   _isAbstract: 0
   _abstractTypes:
-  - _guid: fe4f5882fdcdd644ab10a48d82826f5e
+  - _guid: 76622a1274815384685e80c6cd2eb190
   - _guid: dcd64189d3cdf7044a4c6f44477ad9cd
   metadata:
     verifiedArt: 0
@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_f6750a6be19ae6e4b908dad1bd807e00
-  EDITOR_bakedDescription: Sneak attacks with this bow Blind the opponent for 5s.
+  EDITOR_bakedDescription: Sneak attacks with this bow <color=#04959A>Blind</color>
+    the opponent for 5s.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 374bb09c955d5f241bc0fee288be3e3c
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -246,8 +251,11 @@ MonoBehaviour:
   rangedZoomModifier: 0.7
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &6015039202292430541
 MonoBehaviour:
@@ -587,6 +595,10 @@ MonoBehaviour:
     variables:
     - name: Buildup
       value: 100
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
+      value: 0
     - name: Duration
       value: 5
     - name: ChanceToApply
@@ -596,7 +608,7 @@ MonoBehaviour:
     - name: ValuePreCalculated
       value: 0
     - name: DurationGainValue
-      value: 0.5
+      value: 0
     enums: []
     datums:
     - name: OnNormalAttack

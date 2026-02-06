@@ -8,6 +8,8 @@ using Cysharp.Threading.Tasks;
 namespace Awaken.TG.Main.General {
     public class LimitsGuardingService : IService {
         const float SafeLimit = 0.75f;
+
+        bool _waiting;
         
         bool KandraIsAboveSafeLimit => BonesManagerIsAboveSafeLimit || MeshManagerVerticesAreAboveSafeLimit || MeshManagerIndicesAreAboveSafeLimit
                                        || RigManagerIsAboveSafeLimit || SkinningManagerIsAboveSafeLimit || BlendShapesManagerIsAboveSafeLimit;
@@ -35,12 +37,20 @@ namespace Awaken.TG.Main.General {
             if (!KandraIsAboveSafeLimit) {
                 return;
             }
+            if (_waiting) {
+                return;
+            }
             WaitForCorrectFrameLifecycle().Forget();
         }
 
         async UniTaskVoid WaitForCorrectFrameLifecycle() {
+            _waiting = true;
             await UniTask.Yield(PlayerLoopTiming.Update);
-            RemoveNpcDummies();
+            try {
+                RemoveNpcDummies();
+            } finally {
+                _waiting = false;
+            }
         }
 
         void RemoveNpcDummies() {

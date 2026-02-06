@@ -53,6 +53,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 215fdd7c20cb19346a75b841bdfec939
+  - _guid: 5b8ff4dba6b2cce4595892af72058db8
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -78,8 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_39cdd3ed936bf9f4e8a8be94c12b7dfc
-  EDITOR_bakedDescription: Creates a fire rune that explodes when someone walks over
-    it.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -91,7 +92,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_39cdd3ed936bf9f4e8a8be94c12b7dfc
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -155,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -289,7 +294,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 30
   maxDamage: 35
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -322,8 +327,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 45
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 135
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0
 --- !u!114 &-3133018332611667374
 MonoBehaviour:

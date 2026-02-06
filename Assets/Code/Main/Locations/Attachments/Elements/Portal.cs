@@ -33,6 +33,8 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         static readonly SceneReference Hos = SceneReference.ByName(SpecialSceneNames.HornsOfTheSouth);
         static readonly SceneReference Cuanacht = SceneReference.ByName(SpecialSceneNames.Cuanacht);
         static readonly SceneReference Forlorn = SceneReference.ByName(SpecialSceneNames.Forlorn);
+        static readonly SceneReference Sarras = SceneReference.ByName(SpecialSceneNames.Sarras);
+        static readonly SceneReference SarrasChapel = SceneReference.ByName(SpecialSceneNames.SarrasChapel);
         
         public override ushort TypeForSerialization => SavedModels.Portal;
 
@@ -54,6 +56,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         bool _doNotAutoSaveAfterPortaling;
 
         public bool IsVisited => _targetScene?.Name != null && VisitedInGameplayMemory;
+        public bool TargetSceneIsAdditive => _targetScene.IsAdditive;
         bool VisitedInGameplayMemory => Services.Get<GameplayMemory>().Context(SceneService.VisitedSceneContextName).Get<bool>(_targetScene.Name);
         public PortalType Type => _portalType;
         public bool IsTo => _portalType is PortalType.To or PortalType.TwoWay;
@@ -108,12 +111,13 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             return FindAnyFromScene(scene);
         }
 
-        public static Portal FindAnyFromScene(SceneReference sourceScene, PortalType type = PortalType.None) {
+        public static Portal FindAnyFromScene(SceneReference sourceScene, PortalType type = PortalType.None, bool searchForNPC = false) {
             return World.All<Portal>().FirstOrDefault(p => {
                 bool isCorrectScene = p._targetScene == sourceScene;
                 bool requestedType = (type == PortalType.None || p._portalType == type);
                 bool sceneCheck = p.CurrentDomain == Domain.CurrentScene();
-                return isCorrectScene && requestedType && sceneCheck;
+                bool npcCheck = !searchForNPC || CanNpcFindPortal(p._npcInteractability, p._isHiddenFromUI, p._portalType, p._interaction);
+                return isCorrectScene && requestedType && sceneCheck && npcCheck;
             });
         }
 
@@ -157,12 +161,24 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             ScenesCache scenesCache = ScenesCache.Get;
             SceneReference targetRegion = scenesCache.GetOpenWorldRegion(scene);
             
-            // Final fallback for cases where the player starts tracking the quest in Forlorn but is currently in the HOS area, or vice versa.
+            // Final fallback for cases where the player starts tracking the quest in open world scene and target is on another open world scene
             if (sceneService.IsOpenWorld) {
                 var currentRegion = scenesCache.GetOpenWorldRegion(sceneService.MainSceneRef);
-                if ((currentRegion == Hos && targetRegion == Forlorn)
-                    || (currentRegion == Forlorn && targetRegion == Hos)) {
+
+                bool shouldDirectToCuanacht = (currentRegion == Hos && targetRegion == Forlorn) ||
+                                              (currentRegion == Forlorn && targetRegion == Hos) ||
+                                              (currentRegion == Hos && targetRegion == Sarras) ||
+                                              (currentRegion == Forlorn && targetRegion == Sarras);
+
+                if (shouldDirectToCuanacht) {
                     targetRegion = Cuanacht;
+                }
+
+                bool shouldDirectToSarrasChapel = (currentRegion == Cuanacht && targetRegion == Sarras) ||
+                                                  (currentRegion == Sarras && targetRegion != Sarras);
+
+                if (shouldDirectToSarrasChapel) {
+                    targetRegion = SarrasChapel;
                 }
             }
 
@@ -373,7 +389,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             if (teleportFrom.IsAdditive && !teleportTo.IsAdditive && FindForInstantReturnToCampaign(teleportFrom, teleportTo, tag) is { } targetPortal) {
                 ModelUtils.DoForFirstModelOfType<LoadingScreenUI>(
                     lsUI => lsUI.ListenTo(LoadingScreenUI.Events.AfterDroppedPreviousDomain,
-                        () => FastTravel.To(hero, targetPortal, withTransition: false).Forget(),
+                        () => FastTravel.To(hero, targetPortal, withTransition: false, fromAdditive: true).Forget(),
                         hero),
                     hero);
             } else {
@@ -386,7 +402,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             const float WaitInStepSeconds = 0.05f;
             const float StepOutSeconds = TransitionService.QuickFadeOut;
 
-            public static async UniTask To(Hero hero, Portal portal, bool withTransition = true) {
+            public static async UniTask To(Hero hero, Portal portal, bool withTransition = true, bool fromAdditive = false) {
                 if (withTransition) {
                     await FadeIn();
                 }
@@ -396,20 +412,21 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
                     portal.GetDestination(),
                     () => {
                         portal.ArrivedAtPortal(hero);
-                        hero.Trigger(Hero.Events.FastTraveled, hero);
-                    });
+                        hero.Trigger(Hero.Events.FastTraveled, fromAdditive);
+                    },
+                    fromAdditive: fromAdditive);
                 
                 if (withTransition) {
                     await FadeOut();
                 }
             }
 
-            public static async UniTaskVoid To(Hero hero, Vector3 position, bool withTransition = true) {
+            public static async UniTaskVoid To(Hero hero, Vector3 position, Quaternion? rotation = null, bool withTransition = true, bool fromAdditive = false) {
                 if (withTransition) {
                     await FadeIn();
                 }
 
-                hero.TeleportTo(position, afterTeleported: () => hero.Trigger(Hero.Events.FastTraveled, hero));
+                hero.TeleportTo(position, rotation, afterTeleported: () => hero.Trigger(Hero.Events.FastTraveled, fromAdditive));
 
                 if (withTransition) {
                     await FadeOut();

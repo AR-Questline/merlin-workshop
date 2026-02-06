@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Settings.Controls;
 using Awaken.TG.Main.Settings.Options.Views;
 using Awaken.TG.Main.Utility.UI;
-using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
 using Rewired;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Settings.Options {
@@ -18,24 +19,25 @@ namespace Awaken.TG.Main.Settings.Options {
         BindingData _previousBinding;
         BindingData _currentBinding;
         ActionElementMap _cachedActionElementMap;
+        Guid _controllerIdentifier;
         
         public Action onChange;
         public ToggleOption toggleOptionIsToggle;
         
+        public Guid ControllerIdentifier => _controllerIdentifier;
         public ActionElementMap CachedActionElementMap => _cachedActionElementMap;
-        public ControllerElementType Type => CachedActionElementMap.elementType;
-        public AxisRange AxisRange => _cachedActionElementMap.axisRange;
         public Pole AxisContribution => _cachedActionElementMap.axisContribution;
 
         public BindingData CurrentBinding => _currentBinding;
         public override bool WasChanged => _currentBinding != _previousBinding || (toggleOptionIsToggle?.WasChanged ?? false);
         public bool IsOriginal => _currentBinding == _originalBinding;
         
-        public KeyBindingOption(ControllerType controller, InputAction action, ActionElementMap actionElementMap) 
+        public KeyBindingOption(ControllerType controller, InputAction action, ActionElementMap actionElementMap, Guid controllerIdentifier) 
             : base(action.name, ConstructName(action, actionElementMap.axisContribution, controller), true) {
-            //Action = action;
-            //_cachedActionElementMap = actionElementMap;
-            //_currentBinding = _previousBinding = _originalBinding = new BindingData(controller, actionElementMap.elementIdentifierId, actionElementMap.keyCode, actionElementMap.elementType, actionElementMap.axisContribution);
+            // Action = action;
+            // _cachedActionElementMap = actionElementMap;
+            // _controllerIdentifier = controllerIdentifier;
+            // _currentBinding = _previousBinding = _originalBinding = new BindingData(controller, actionElementMap.elementIdentifierId, actionElementMap.keyCode, actionElementMap.elementType, actionElementMap.axisContribution);
         }
 
         public override void ForceChange() {
@@ -58,13 +60,20 @@ namespace Awaken.TG.Main.Settings.Options {
             toggleOptionIsToggle?.RestoreDefault();
         }
 
-        public void ChangeBinding(in BindingData binding) {
+        public void ChangeBinding(in BindingOverride bindingOverride) {
+            ChangeBinding(bindingOverride.Binding, bindingOverride.ControllerIdentifier);
+        }
+
+        public void ChangeBinding(in BindingData binding, Guid guid = default) {
             // foreach (var actionName in OverlappingControlsUtil.GetMergeGroup(Action.name)) {
-            //     var map = ActionElementMapFor(_currentBinding.Controller, actionName, AxisContribution);
-            //     if (map != null && map.controllerMap.enabled) {
-            //         ChangeBinding(map, binding, out var newMap);
-            //         if (newMap != null && map == _cachedActionElementMap && newMap.controllerMap.enabled) {
-            //             _cachedActionElementMap = newMap;
+            //     List<ActionElementMap> maps = ActionElementMapFor(_currentBinding.Controller, actionName, AxisContribution, guid).ToList();
+            //     for (int i = maps.Count - 1; i >= 0; i--) {
+            //         var map = maps[i];
+            //         if (map != null && map.controllerMap.enabled) {
+            //             ChangeBinding(map, binding, out var newMap);
+            //             if (newMap != null && map == _cachedActionElementMap && newMap.controllerMap.enabled) {
+            //                 _cachedActionElementMap = newMap;
+            //             }
             //         }
             //     }
             // }
@@ -95,78 +104,77 @@ namespace Awaken.TG.Main.Settings.Options {
             // }
         }
 
-        // static ControllerMap MapFor(ControllerType controller, int actionId) {
-        //     return RewiredHelper.Player.controllers.maps.GetFirstElementMapWithAction(controller, actionId, true).controllerMap;
-        // }
-        //
         // static ControllerMap MapFor(ControllerType controller) {
         //     return RewiredHelper.Player.controllers.maps.GetAllMaps(controller).First();
         // }
         
-        static ActionElementMap ActionElementMapFor(ControllerType controller, string actionName, Pole axisContribution) {
-            // int actionId = ReInput.mapping.GetAction(actionName).id;
-            // var controllerMap = MapFor(controller, actionId);
-            // return controllerMap.AllMaps.FirstOrDefault(m => m.actionId == actionId && m.axisContribution == axisContribution);
-            return null;
-        }
+        // static IEnumerable<ActionElementMap> ActionElementMapFor(ControllerType controller, string actionName, Pole axisContribution, Guid hardwareId) {
+        //     int actionId = ReInput.mapping.GetAction(actionName).id;
+        //     
+        //     IEnumerable<ControllerMap> controllerMaps = controller == ControllerType.Joystick ? 
+        //         RewiredHelper.Player.controllers.maps.GetAllMaps().Where(controllerMap => controllerMap.hardwareGuid == (hardwareId == default ? RewiredHelper.CurrentHardwareTypeGuid : hardwareId)) : 
+        //         RewiredHelper.Player.controllers.maps.GetFirstElementMapWithAction(controller, actionId, true).controllerMap.Yield();
+        //
+        //     return controllerMaps.SelectMany(controllerMap => controllerMap.AllMaps.Where(actionElementMap => actionElementMap.actionId == actionId && actionElementMap.axisContribution == axisContribution));
+        // }
         
         // static void ReplaceElementMap(ActionElementMap actionElementMap, KeyCode keyCode, out ActionElementMap newActionElementMap) {
-        //     // actionElementMap.controllerMap.ReplaceElementMap(
-        //     //     actionElementMap.id,
-        //     //     actionElementMap.actionId,
-        //     //     actionElementMap.axisContribution,
-        //     //     keyCode,
-        //     //     actionElementMap.modifierKeyFlags,
-        //     //     out newActionElementMap
-        //     // );
+        //     actionElementMap.controllerMap.ReplaceElementMap(
+        //         actionElementMap.id,
+        //         actionElementMap.actionId,
+        //         actionElementMap.axisContribution,
+        //         keyCode,
+        //         actionElementMap.modifierKeyFlags,
+        //         out newActionElementMap
+        //     );
         // }
         
         // static void ReplaceElementMap(ActionElementMap actionElementMap, int elementIdentifierId, out ActionElementMap newActionElementMap) {
-        //     // actionElementMap.controllerMap.ReplaceElementMap(
-        //     //     actionElementMap.id,
-        //     //     actionElementMap.actionId,
-        //     //     actionElementMap.axisContribution,
-        //     //     elementIdentifierId,
-        //     //     actionElementMap.elementType,
-        //     //     actionElementMap.axisRange,
-        //     //     actionElementMap.invert,
-        //     //     out newActionElementMap
-        //     // );
+        //     actionElementMap.controllerMap.ReplaceElementMap(
+        //         actionElementMap.id,
+        //         actionElementMap.actionId,
+        //         actionElementMap.axisContribution,
+        //         elementIdentifierId,
+        //         actionElementMap.elementType,
+        //         actionElementMap.axisRange,
+        //         actionElementMap.invert,
+        //         out newActionElementMap
+        //     );
         // }
         
         // static void ReplaceElementMap(ActionElementMap actionElementMap, int elementIdentifierId, ControllerElementType controllerElementType, out ActionElementMap newActionElementMap) {
-        //     // actionElementMap.controllerMap.ReplaceElementMap(
-        //     //     actionElementMap.id,
-        //     //     actionElementMap.actionId,
-        //     //     actionElementMap.axisContribution,
-        //     //     elementIdentifierId,
-        //     //     controllerElementType,
-        //     //     actionElementMap.axisRange,
-        //     //     actionElementMap.invert,
-        //     //     out newActionElementMap
-        //     // );
+        //     actionElementMap.controllerMap.ReplaceElementMap(
+        //         actionElementMap.id,
+        //         actionElementMap.actionId,
+        //         actionElementMap.axisContribution,
+        //         elementIdentifierId,
+        //         controllerElementType,
+        //         actionElementMap.axisRange,
+        //         actionElementMap.invert,
+        //         out newActionElementMap
+        //     );
         // }
 
         // static void CreateElementMap(ControllerType controller, ActionElementMap currentActionElementMap, KeyCode keyCode, out ActionElementMap newActionElementMap) {
-        //     // MapFor(controller).CreateElementMap(
-        //     //     currentActionElementMap.actionId, 
-        //     //     currentActionElementMap.axisContribution, 
-        //     //     keyCode, 
-        //     //     currentActionElementMap.modifierKeyFlags,
-        //     //     out newActionElementMap
-        //     // );  
+        //     MapFor(controller).CreateElementMap(
+        //         currentActionElementMap.actionId, 
+        //         currentActionElementMap.axisContribution, 
+        //         keyCode, 
+        //         currentActionElementMap.modifierKeyFlags,
+        //         out newActionElementMap
+        //     );  
         // }
-        
+
         // static void CreateElementMap(ControllerType controller, ActionElementMap currentActionElementMap, int elementIdentifierId, out ActionElementMap newActionElementMap) {
-        //     // MapFor(controller).CreateElementMap(
-        //     //     currentActionElementMap.actionId,
-        //     //     currentActionElementMap.axisContribution,
-        //     //     elementIdentifierId,
-        //     //     currentActionElementMap.elementType,
-        //     //     currentActionElementMap.axisRange,
-        //     //     currentActionElementMap.invert,
-        //     //     out newActionElementMap
-        //     // );
+        //     MapFor(controller).CreateElementMap(
+        //         currentActionElementMap.actionId,
+        //         currentActionElementMap.axisContribution,
+        //         elementIdentifierId,
+        //         currentActionElementMap.elementType,
+        //         currentActionElementMap.axisRange,
+        //         currentActionElementMap.invert,
+        //         out newActionElementMap
+        //     );
         // }
 
         static string ConstructName(InputAction action, Pole pole, ControllerType controller) {

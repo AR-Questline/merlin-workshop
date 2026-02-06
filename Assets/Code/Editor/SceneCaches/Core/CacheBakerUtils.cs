@@ -108,7 +108,7 @@ namespace Awaken.TG.Editor.SceneCaches.Core {
             }
 
             if (go.TryGetComponent(out SpawnerAttachment spawner)) {
-                yield return (spawner.storyOnAllKilled, spawner);
+                yield return (spawner.StoryOnAllKilled, spawner);
             }
 
             if (go.TryGetComponent(out StartStoryOnConditionAttachment condition)) {

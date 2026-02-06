@@ -44,7 +44,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Attachment {
                 }
             }
             
-            if (spec.prefabReference is { IsSet: true }) {
+            if (spec.PrefabReference is { IsSet: true }) {
                 for (int i = 0; i < transform.childCount; i++) {
                     var child = transform.GetChild(i);
                     if (child == spec.EditorPrefabInstance.transform) {

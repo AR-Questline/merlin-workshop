@@ -74,7 +74,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_cc5d52aaee7b67a4cb65b7241a3c7747
-  EDITOR_bakedDescription: Inflicts Burn on hit.
+  EDITOR_bakedDescription: Inflicts small amount of <color=#04959A>Burn</color> on
+    hit.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a6d2ea2951c0304418f55e86ff121b84
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &4573730755203723746
 MonoBehaviour:
@@ -241,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &3716150357415095985
 MonoBehaviour:

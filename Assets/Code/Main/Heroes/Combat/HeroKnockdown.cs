@@ -1,12 +1,17 @@
-﻿using Awaken.TG.Main.Animations.FSM.Heroes.Base;
+﻿using System.Threading;
+using Awaken.TG.Main.Animations.FSM.Heroes.Base;
 using Awaken.TG.Main.Animations.FSM.Heroes.Machines;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes.MovementSystems;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
+using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI.Handlers.States;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Combat {
@@ -14,6 +19,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
         public sealed override bool IsNotSaved => true;
 
         // === Fields
+        static CancellationTokenSource s_knockdownTokenSource;
+        
         readonly float _groundLoopDuration;
         bool _isInGroundLoop;
         float _groundLoopTimer;
@@ -33,10 +40,25 @@ namespace Awaken.TG.Main.Heroes.Combat {
         LegsFSM LegsFSM => ParentModel.CachedElement(ref _cachedLegsFSM);
         HeroAnimatorSubstateMachine KnockdownFSM => Hero.TppActive ? LegsFSM : OverridesFSM;
         
+        // === Events
+        public new static class Events {
+            public static readonly Event<Hero, bool> KnockdownEntered = new(nameof(KnockdownEntered));
+            public static readonly Event<Hero, bool> KnockdownExited = new(nameof(KnockdownExited));
+        }
+        
         // === Constructing
-        public static void EnterKnockdown(ICharacter damageDealer, Vector3 forceDirection, float forceStrength,
-            float groundLoopDuration = 0.25f) {
+        public static async UniTaskVoid EnterKnockdown(ICharacter damageDealer, Vector3 forceDirection, float forceStrength, float groundLoopDuration = 0.25f) {
             if (Hero.Current.HasElement<HeroKnockdown>()) {
+                return;
+            }
+            s_knockdownTokenSource?.Cancel();
+            s_knockdownTokenSource = new CancellationTokenSource();
+            
+            VHeroController vHeroController = Hero.Current.View<VHeroController>();
+            (bool isCancelled, bool result) = await AsyncUtil
+                .WaitWhile(Hero.Current, () => vHeroController.PerspectiveChangeInProgress, s_knockdownTokenSource)
+                .SuppressCancellationThrow();
+            if (isCancelled || !result) {
                 return;
             }
 
@@ -64,6 +86,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             }
             ParentModel.TrySetMovementType(out _knockdownMovement);
             ParentModel.GetOrCreateTimeDependent().WithUpdate(OnUpdate);
+            ParentModel.Trigger(Events.KnockdownEntered, true);
         }
 
         // === LifeCycle
@@ -107,6 +130,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             ParentModel.ReturnToDefaultMovement();
             ParentModel.GetTimeDependent()?.WithoutUpdate(OnUpdate);
             ParentModel.Show();
+            ParentModel.Trigger(Events.KnockdownExited, true);
         }
     }
 }

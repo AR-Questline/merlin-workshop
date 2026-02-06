@@ -11,7 +11,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
     public partial class Shadows : Setting, IGraphicSetting {
         const string ShadowsEnabledPrefId = "ShadowsEnabled";
         const string ShadowsDistancePrefId = "ShadowsDistance";
-        const string ContactShadowsEnabledPrefId = "ContactShadowsEnabled";
+        public const string ContactShadowsEnabledPrefId = "ContactShadowsEnabled";
 
         // === Options
         readonly DependentOption _mainOption;
@@ -52,8 +52,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
             _shadowsDistance = new(ShadowsDistancePrefId, LocTerms.SettingsShadowsDistance.Translate(), 0, 1, false,
                 NumberWithPercentFormat, 1, false);
 
-            _contactShadowsToggle = new(ContactShadowsEnabledPrefId, LocTerms.SettingsContactShadows.Translate(), true,
-                false);
+            _contactShadowsToggle = new(ContactShadowsEnabledPrefId, LocTerms.SettingsContactShadows.Translate(), !PlatformUtils.IsConsole, false);
             _contactShadowsToggle.AddTooltip(static () => LocTerms.SettingsTooltipContactShadows.Translate());
             
             var contactShadowsComposition = new DependentOption(_contactShadowsToggle);
@@ -73,7 +72,7 @@ namespace Awaken.TG.Main.Settings.Graphics {
                 _shadowsDistance.Value = 1f;
             }
             
-            _contactShadowsToggle.Enabled = preset.IsIn(_allowedForContactShadowPresets);
+            _contactShadowsToggle.Enabled = !PlatformUtils.IsConsole && preset.IsIn(_allowedForContactShadowPresets);
         }
 
         protected override void OnApply() {

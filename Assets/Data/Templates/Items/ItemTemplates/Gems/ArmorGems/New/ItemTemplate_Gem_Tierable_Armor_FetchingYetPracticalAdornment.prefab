@@ -74,7 +74,10 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_double
       ID: Template/description_locString_2543871262668956605_e6d1f5564cb67df458a403afc915de86
-  EDITOR_bakedDescription: Increases Lifesteal by 1%.
+  EDITOR_bakedDescription: 'Increases Mana Regeneration by 0.5.
+
+    Increases Max
+    Stamina by 3.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -131,7 +134,7 @@ MonoBehaviour:
   basePrice: 250
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 150
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -150,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
@@ -170,7 +177,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.5
     - name: GainValue
-      value: 0.01
+      value: 0.05
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -187,7 +196,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 3
     - name: GainValue
-      value: 0.01
+      value: 0.3
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

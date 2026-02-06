@@ -24,23 +24,23 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
         protected bool OnCorrectScene { get; private set; }
         
         // === Initialization
-        protected override void OnInitialize() {
-            CheckScene(World.Services.Get<SceneService>().ActiveSceneRef);
-        }
+        protected override void OnInitialize() { }
 
-        protected override void OnRestore() {
-            
-        }
+        protected override void OnRestore() { }
         
         protected override void OnFullyInitialized() {
             World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.SafeAfterSceneChanged, this, CheckScene);
             base.OnFullyInitialized();
         }
 
+        protected override void StartTracking() {
+            CheckScene(World.Services.Get<SceneService>().ActiveSceneRef, true);
+        }
+
         // === Operations
-        void CheckScene(SceneLifetimeEvents _) => CheckScene(World.Services.Get<SceneService>().ActiveSceneRef);
+        void CheckScene(SceneLifetimeEvents _) => CheckScene(World.Services.Get<SceneService>().ActiveSceneRef, false);
         
-        void CheckScene(SceneReference sceneReference) {
+        void CheckScene(SceneReference sceneReference, bool fromInitialCheck) {
             var onCorrectScene = sceneReference == TargetScene;
             if (onCorrectScene != OnCorrectScene) {
                 OnCorrectScene = onCorrectScene;
@@ -49,7 +49,12 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
                 } else {
                     OnCorrectSceneLeft();
                 }
-                CheckIfCompleted();
+
+                if (fromInitialCheck) {
+                    CheckIfCompletedInitial();
+                } else {
+                    CheckIfCompleted();
+                }
                 TriggerChange();
             }
         }

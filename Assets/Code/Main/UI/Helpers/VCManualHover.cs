@@ -13,6 +13,7 @@ namespace Awaken.TG.Main.UI.Helpers {
         // === Properties & Fields
 
         public bool IsHovered { get; private set; }
+        public bool IsValid => this.IsValidForUIHandle();
 
         Action<bool> _onHoverChange;
         int _lastHoveredFrame;

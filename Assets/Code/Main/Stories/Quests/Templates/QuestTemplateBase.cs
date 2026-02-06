@@ -51,7 +51,7 @@ namespace Awaken.TG.Main.Stories.Quests.Templates {
 
         [ShowInInspector, HideIf("@" + nameof(xpGainRange) + "==" + nameof(StatDefinedRange) + "." + nameof(StatDefinedRange.Custom))]
         [FoldoutGroup(ExpGroup)]
-        public FloatRange CalculatedExpRange => QuestUtils.CalculateXpRange(targetLvl, xpGainRange, experiencePoints);
+        public FloatRange CalculatedExpRange => QuestUtils.CalculateXpRange(targetLvl, xpGainRange, experiencePoints, true);
         
         public PooledList<ObjectiveSpecBase> ObjectiveSpecs {
             get {

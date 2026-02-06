@@ -18,5 +18,9 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
         public bool CanFindInteraction(IdleBehaviours behaviours, INpcInteraction interaction, bool ignoreInteractionRequirements) {
             return interaction == _interaction;
         }
+        
+        public string DebugInfo() {
+            return $"SpecificFinder interaction {_interaction?.GetType()} {_interaction}";
+        }
     }
 }

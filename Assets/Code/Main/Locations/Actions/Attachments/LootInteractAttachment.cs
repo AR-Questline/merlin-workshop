@@ -14,14 +14,15 @@ namespace Awaken.TG.Main.Locations.Actions.Attachments {
     public class LootInteractAttachment : MonoBehaviour, IAttachmentSpec {
         [SerializeField, RichEnumExtends(typeof(ToolType))] 
         RichEnumReference toolTypeRequired;
+        public bool overrideDefaultHealthTo3 = true;
         public LootTableWrapper lootTable;
 
         public ToolType ToolType => toolTypeRequired.EnumAs<ToolType>();
         
-        public Element SpawnElement() {
+        public virtual Element SpawnElement() {
             return new LootInteractAction();
         }
 
-        public bool IsMine(Element element) => element is LootInteractAction;
+        public virtual bool IsMine(Element element) => element is LootInteractAction;
     }
 }

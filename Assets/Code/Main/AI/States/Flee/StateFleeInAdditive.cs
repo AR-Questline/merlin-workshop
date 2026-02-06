@@ -49,7 +49,7 @@ namespace Awaken.TG.Main.AI.States.Flee {
         }
 
         void OnReachPortal() {
-            Movement.Controller.MoveToAbyss();
+            Npc.MoveToAbyss();
             Npc.AddElement<ChangeSceneHideCompassMarker>();
         }
     }

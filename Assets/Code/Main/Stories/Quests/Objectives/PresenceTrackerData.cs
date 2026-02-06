@@ -102,7 +102,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives {
                     return true;
                 }
             }
-            nextIntervalStartTime = dataSource[0].ThisDayStartTime(currentTime).AddDays(1);;
+            nextIntervalStartTime = dataSource[0].ThisDayStartTime(currentTime).AddDays(1);
             return true;
         }
     }

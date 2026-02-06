@@ -78,7 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_c0f970869c6968d48a1d025e2bdeb002
-  EDITOR_bakedDescription: Increases Max Stamina by 15.
+  EDITOR_bakedDescription: "Decreases Stamina Cost by 25\_%.\nYour attacks apply
+    a little bit of <color=#04959A>Poison</color> and <color=#04959A>Burn</color>."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -103,7 +104,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_0381d19d1fba69643adf0e21369d95f6
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_c0f970869c6968d48a1d025e2bdeb002
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,7 +129,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_0381d19d1fba69643adf0e21369d95f6
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_c0f970869c6968d48a1d025e2bdeb002
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -154,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4161498216366517121
 MonoBehaviour:
@@ -272,7 +280,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.25
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValueCalculated
       value: 0
     enums:

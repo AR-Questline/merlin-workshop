@@ -55,6 +55,7 @@ MonoBehaviour:
   - _guid: 939f8f626f06d9b4b93a76bb5071530b
   - _guid: dcd64189d3cdf7044a4c6f44477ad9cd
   - _guid: c7cb1c70a3c09864d9672f485df27af2
+  - _guid: a6f0e64b647872941a57e555b92e3d36
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -64,7 +65,7 @@ MonoBehaviour:
   - item:tier5
   iconReference:
     arSpriteReference:
-      address: 42f0fbaa3d861aa4bb3b399f9b9e19d7
+      address: fe195dcd72752754d81d154dc5e31a93
       subObjectName: 
   itemName:
     IdOverride: item_weapon_1h_IronTonic
@@ -79,7 +80,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_262bc42c0465baa4f8e4334fe6d91d78
-  EDITOR_bakedDescription: Increase damage by 1% per missing Health point.
+  EDITOR_bakedDescription: "Increases Physical Damage by 1\_% per missing Health
+    point."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,7 +156,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: 89509e2bf57ad6941937b3a81819a7a9
+      address: ea5c4223028e0644ebaf6f73fa7489cf
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -174,7 +180,7 @@ MonoBehaviour:
     gender: 0
     hand: 0
     itemPrefab:
-      address: e5156f1d1014e7d4caeade5485973915
+      address: d1fd94b1b44656c4291147067390a72f
       subObjectName: 
   equipmentType:
     _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentType, TG.Main, Version=0.0.0.0,
@@ -241,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-758967162914770704
 MonoBehaviour:
@@ -565,7 +574,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.01
     - name: ValueGain
-      value: 0.005
+      value: 0.001
     - name: ValueCalculated
       value: 0
     - name: ValuePreCalculated

@@ -41,7 +41,13 @@ namespace Awaken.TG.Main.Locations.Actions {
 
         protected override InteractRunType RunInteraction => InteractRunType.DontRun;
 
-        public override bool IsIllegal => Crime.Theft(_itemSpawningData, ParentModel).IsCrime();
+        public override bool IsIllegal {
+            get {
+                using var crime = Crime.Theft(_itemSpawningData, ParentModel);
+                return crime.IsCrime();
+            }
+        }
+
         bool IsBook => _itemSpawningData?.ItemTemplate?.GetAttachment<ItemReadSpec>() != null;
 
         public string ModifyName(string original) {

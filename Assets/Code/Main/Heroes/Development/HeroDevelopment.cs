@@ -2,6 +2,7 @@
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.General.StatTypes;
+using Awaken.TG.Main.Heroes.Development.SarrasPowers;
 using Awaken.TG.Main.Heroes.Development.WyrdPowers;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;
@@ -38,6 +39,7 @@ namespace Awaken.TG.Main.Heroes.Development {
         [Saved] public bool CanUseHeavyAttack { get; private set; }
         [Saved] public bool CanZoomBow { get; private set; }
         [Saved] public bool CanDash { get; private set; }
+        [Saved] public bool CanDashWhileExerted { get; private set; }
         [Saved] public bool CanSlide { get; private set; }
         [Saved] public bool CanSprintAttack { get; private set; }
         [Saved] public bool CanPommel { get; private set; }
@@ -59,6 +61,7 @@ namespace Awaken.TG.Main.Heroes.Development {
         // === Properties
         public WyrdSoulFragments WyrdSoulFragments => Element<WyrdSoulFragments>();
         public int WyrdSoulFragmentsCount => WyrdSoulFragments.UnlockedFragmentsCount;
+        public SarrasHeroTreeBranches SarrasHeroTreeBranches => Element<SarrasHeroTreeBranches>();
 
         [UnityEngine.Scripting.Preserve]
         public WyrdSkillActivation WyrdSkillActivation => Element<WyrdSkillActivation>();
@@ -68,6 +71,7 @@ namespace Awaken.TG.Main.Heroes.Development {
         public Stat WyrdWhispers => Hero.HeroStats.WyrdWhispers;
         [UnityEngine.Scripting.Preserve] public Stat WyrdMemoryShards => Hero.HeroStats.WyrdMemoryShards;
         public Stat TalentPoints => Hero.CharacterStats.TalentPoints;
+        public Stat CatalystPoints => Hero.CharacterStats.CatalystTalentPoints;
         public Stat BaseStatPoints => Hero.CharacterStats.BaseStatPoints;
         
         Hero Hero => ParentModel;
@@ -105,6 +109,7 @@ namespace Awaken.TG.Main.Heroes.Development {
         protected override void OnInitialize() {
             AddElement(new WyrdSoulFragments());
             AddElement(new WyrdSkillActivation());
+            AddElement(new SarrasHeroTreeBranches());
             Init();
         }
 
@@ -113,20 +118,20 @@ namespace Awaken.TG.Main.Heroes.Development {
         }
 
         void Init() {
-            ParentModel.ListenTo(Stat.Events.StatChanged(HeroStatType.XP), CheckNewLevel, this);
-            ParentModel.ListenTo(Stat.Events.ChangingStat(HeroStatType.XP), AnnounceXPChanged, this);
+            Hero.ListenTo(Stat.Events.StatChanged(HeroStatType.XP), CheckNewLevel, this);
+            Hero.ListenTo(Stat.Events.ChangingStat(HeroStatType.XP), AnnounceXPChanged, this);
             World.EventSystem.ListenTo(EventSelector.AnySource, StoryFlags.Events.FlagChanged, this, OnFlagChanged);
             World.EventSystem.ListenTo(EventSelector.AnySource, QuestUtils.Events.QuestCompleted, this, OnQuestCompleted);
             World.EventSystem.ListenTo(EventSelector.AnySource, QuestUtils.Events.ObjectiveCompleted, this, OnObjectiveCompleted);
-            ParentModel.ListenTo(Stat.Events.StatChangedBy(HeroStatType.WyrdWhispers), AnnounceWhisperChanged, this);
-            ParentModel.ListenTo(Stat.Events.StatChangedBy(HeroStatType.WyrdMemoryShards), AnnounceMemoryShardChanged, this);
+            Hero.ListenTo(Stat.Events.StatChangedBy(HeroStatType.WyrdWhispers), AnnounceWhisperChanged, this);
+            Hero.ListenTo(Stat.Events.StatChangedBy(HeroStatType.WyrdMemoryShards), AnnounceMemoryShardChanged, this);
 
             UnlockDefaultTalents();
         }
 
         // === Operations
-        public void RewardExpAsPercentOfNextLevel(float expPercent) {
-            XP.IncreaseBy(CalculateIncomingExpReward(expPercent));
+        public void RewardExpAsPercentOfNextLevel(float expPercent, IModel giver, ChangeReason reason) {
+            XP.IncreaseBy(CalculateIncomingExpReward(expPercent), new ContractContext(giver, Hero, reason));
         }
 
         public int CalculateIncomingExpReward(float expPercent) {
@@ -135,16 +140,16 @@ namespace Awaken.TG.Main.Heroes.Development {
         }
 
         void OnObjectiveCompleted(Objective objective) {
-            XP.IncreaseBy(objective.ExperiencePoints);
+            XP.IncreaseBy(objective.ExperiencePoints, new ContractContext(Hero, Hero, ChangeReason.Objective));
         }
 
         void OnQuestCompleted(QuestUtils.QuestStateChange questState) {
-            XP.IncreaseBy(questState.quest.ExperiencePoints);
+            XP.IncreaseBy(questState.quest.ExperiencePoints, new ContractContext(Hero, Hero, ChangeReason.Quest));
         }
 
         // === Callbacks
         void CheckNewLevel(Stat stat) {
-            if (_levelUpInProgress) {
+            if (_levelUpInProgress || !Hero.IsAlive) {
                 return;
             }
             
@@ -162,7 +167,7 @@ namespace Awaken.TG.Main.Heroes.Development {
                 return;
             }
 
-            AdvancedNotificationBuffer.Push<ExpNotificationBuffer>(new ExpNotification(gainedXP));
+            NotificationUtils.Push(new ExpNotification(gainedXP));
         }
         
         void AnnounceWhisperChanged(Stat.StatChange statChange) {
@@ -180,7 +185,7 @@ namespace Awaken.TG.Main.Heroes.Development {
         }
         
         void AnnounceWyrdInfo(string info) {
-            AdvancedNotificationBuffer.Push<WyrdInfoNotificationBuffer>(new WyrdInfoNotification(info));
+            NotificationUtils.Push(new WyrdInfoNotification(info));
         }
 
         void OnFlagChanged(string flag) {
@@ -227,15 +232,15 @@ namespace Awaken.TG.Main.Heroes.Development {
                 }
 
                 BaseStatPoints.IncreaseBy(1);
-                ParentModel.RefillBaseStats();
+                Hero.RefillBaseStats();
                 XPForNextLevel.SetTo(RequiredExpFor(NextLevelToPush));
 
                 this.AddMarkerElement(() => new HeroStatPointsAvailableMarker());
 
                 // events
-                ParentModel.Trigger(Hero.Events.LevelUp, newLevel);
+                Hero.Trigger(Hero.Events.LevelUp, newLevel);
                 if (withNotification) {
-                    AdvancedNotificationBuffer.Push<HeroLevelUpNotificationBuffer>(new HeroLevelUpNotification(newLevel));
+                    NotificationUtils.Push(new HeroLevelUpNotification(newLevel));
                 }
             }
 
@@ -245,6 +250,9 @@ namespace Awaken.TG.Main.Heroes.Development {
 
         public int LevelUpTo(int targetLevel) {
             int grantedExp = 0;
+            if (!Hero.IsAlive) {
+                return 0;
+            }
 
             if (Level.BaseInt >= targetLevel) {
                 return 0;
@@ -255,7 +263,7 @@ namespace Awaken.TG.Main.Heroes.Development {
                 PushNewLevel(NextLevelToPush, false);
             }
             
-            AdvancedNotificationBuffer.Push<HeroLevelUpNotificationBuffer>(new HeroLevelUpNotification(targetLevel));
+            NotificationUtils.Push(new HeroLevelUpNotification(targetLevel));
             
             return grantedExp;
         }
@@ -273,6 +281,7 @@ namespace Awaken.TG.Main.Heroes.Development {
         public void SetActiveHeavyAttacksUnlock(bool enable) => CanUseHeavyAttack = enable;
         public void SetActiveBowZoomUnlock(bool enable) => CanZoomBow = enable;
         public void SetActiveDashesUnlock(bool enable) => CanDash = enable;
+        public void SetActiveDashesWhileExertedUnlock(bool enable) => CanDashWhileExerted = enable;
         public void SetActiveSlidesUnlock(bool enable) => CanSlide = enable;
         public void SetActiveSprintAttacksUnlock(bool enable) => CanSprintAttack = enable;
         public void SetActivePommelUnlock(bool enable) => CanPommel = enable;
@@ -282,12 +291,12 @@ namespace Awaken.TG.Main.Heroes.Development {
 
         public void SetActiveHeavyArmorNoStaminaUsageIncrease(bool enable) {
             HeavyArmorNoStaminaUsageIncrease = enable;
-            ParentModel.HeroItems.Trigger(ICharacterInventory.Events.AfterEquipmentChanged, ParentModel.HeroItems);
+            Hero.HeroItems.Trigger(ICharacterInventory.Events.AfterEquipmentChanged, Hero.HeroItems);
         }
 
         public void SetActiveUnlockArmorReducedManaUsage(bool enable) {
             ArmorReducedManaUsage = enable;
-            ParentModel.HeroItems.Trigger(ICharacterInventory.Events.AfterEquipmentChanged, ParentModel.HeroItems);
+            Hero.HeroItems.Trigger(ICharacterInventory.Events.AfterEquipmentChanged, Hero.HeroItems);
         }
 
         public void SetActiveNoDealDamageToSummons(bool enable) => DontDealDamageToSummons = enable;

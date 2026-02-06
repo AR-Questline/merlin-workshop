@@ -1,4 +1,6 @@
-﻿using Awaken.TG.Main.Timing;
+﻿using System;
+using Awaken.TG.Main.Memories.Journal;
+using Awaken.TG.Main.Timing;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.VisualScripts.Units.Listeners.Contexts;
@@ -19,5 +21,11 @@ namespace Awaken.TG.VisualScripts.Units.Listeners.Events {
     public class EvtNightBegan : EvtWorld<GameRealTime, ARDateTime> {
         protected override Event<GameRealTime, ARDateTime> Event => GameRealTime.Events.NightBegan;
         protected override GameRealTime Source(IListenerContext context) => World.Only<GameRealTime>();
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class EvtJournalEntryUnlocked : EvtWorld<PlayerJournal, Guid> {
+        protected override Event<PlayerJournal, Guid> Event => PlayerJournal.Events.EntryUnlocked;
+        protected override PlayerJournal Source(IListenerContext context) => World.Only<PlayerJournal>();
     }
 }

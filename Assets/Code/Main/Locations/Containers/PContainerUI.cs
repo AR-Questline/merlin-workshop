@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.AI.Grid;
+using Awaken.TG.Main.Fights.Factions;
 using Awaken.TG.Main.Fights.Factions.Crimes;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.Utils;
@@ -10,6 +11,7 @@ using Awaken.TG.Main.Heroes.Thievery;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Actions.Lockpicking;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UIToolkit;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
@@ -18,6 +20,7 @@ using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.Utility;
 using Awaken.Utility;
+using Awaken.Utility.Collections;
 using Cysharp.Threading.Tasks;
 using EnhydraGames.BetterTextOutline;
 using UnityEngine;
@@ -31,6 +34,7 @@ namespace Awaken.TG.Main.Locations.Containers {
         public IVisualElementPromptHost ViewPromptHost { get; private set; }
         public int InputPriority => 1;
         public override string ContentName => "PContainerUI";
+        public bool IsValid => this.IsValidForUIHandle();
 
         public IEnumerable<KeyBindings> PlayerKeyBindings {
             get {
@@ -112,14 +116,24 @@ namespace Awaken.TG.Main.Locations.Containers {
                 var npc = NpcTemplate.FromNpcOrDummy(location);
                 var crimeOwners = target.Crime.Owners.AllOwners;
 
-                if (World.Services.Get<NpcGrid>()
-                         .GetNpcsInSphere(location.Coords, DistanceToSearchForTheftReactingNPCs)
-                         .All(nearbyNpcs => !crimeOwners.Any(o => {
-                             if (npc == null) {
-                                 return nearbyNpcs.GetCurrentCrimeOwnersFor(CrimeArchetype.Theft(_theftItem)).AllOwners.Contains(o);
-                             }
-                             return nearbyNpcs.GetCurrentCrimeOwnersFor(CrimeArchetype.Pickpocketing(_theftItem.CrimeValue, npc.CrimeValue)).AllOwners.Contains(o);
-                         }))) {
+                var shouldResetToZero = true;
+                if (npc == null) {
+                    foreach (var nearbyNpc in World.Services.Get<NpcGrid>().GetNpcsInSphere(location.Coords, DistanceToSearchForTheftReactingNPCs)) {
+                        if (AnyOwnerNoNpc(crimeOwners, nearbyNpc)) {
+                            shouldResetToZero = false;
+                            break;
+                        }
+                    }
+                } else {
+                    foreach (var nearbyNpc in World.Services.Get<NpcGrid>().GetNpcsInSphere(location.Coords, DistanceToSearchForTheftReactingNPCs)) {
+                        if (AnyOwnerWithNpc(crimeOwners, nearbyNpc, npc)) {
+                            shouldResetToZero = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (shouldResetToZero) {
                     _theftTakePrompt.HoldTime = 0;
                     _theftTakeAllKeyboardPrompt.HoldTime = 0;
                     return;
@@ -127,6 +141,28 @@ namespace Awaken.TG.Main.Locations.Containers {
 
                 _theftTakePrompt.HoldTime = ContainerHoldUtil.CalculateHoldTime(TargetModel, _theftItem);
                 _theftTakeAllKeyboardPrompt.HoldTime = ContainerHoldUtil.CalculateTakeAllHoldTime(TargetModel, _items);
+            }
+
+            bool AnyOwnerNoNpc(RentedArray<CrimeOwnerTemplate> crimeOwners, NpcElement nearbyNpc) {
+                using var npcCrimeOwners = nearbyNpc.GetCurrentCrimeOwnersFor(CrimeArchetype.Theft(_theftItem));
+                foreach (var crimeOwner in crimeOwners) {
+                    if (npcCrimeOwners.Contains(crimeOwner)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            bool AnyOwnerWithNpc(RentedArray<CrimeOwnerTemplate> crimeOwners, NpcElement nearbyNpc, NpcTemplate npc) {
+                using var npcCrimeOwners = nearbyNpc.GetCurrentCrimeOwnersFor(CrimeArchetype.Pickpocketing(_theftItem.CrimeValue, npc.CrimeValue));
+                foreach (var crimeOwner in crimeOwners) {
+                    if (npcCrimeOwners.Contains(crimeOwner)) {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
 

@@ -8,9 +8,6 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Views {
         [Space(10f)] 
         [SerializeField] InterpolatedLayoutAnchor tooltipToCompareLayoutAnchor;
         
-        TooltipPosition _position;
-        bool _comparerVisible;
-        Sequence _allAppearanceSequence;
         Sequence _toCompareAppearanceSequence;
         
         protected override void OnInitialize() {

@@ -58,6 +58,7 @@ MonoBehaviour:
   - item:important
   - item:gem
   - gems:t1
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 41763cdcd4bca4e47be3d838dce132e5
@@ -75,7 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_58ec867b64fc49d4683264affbf729fa
-  EDITOR_bakedDescription: On Crit, apply Haste.
+  EDITOR_bakedDescription: On Critical Hit applies Haste.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -135,9 +136,7 @@ MonoBehaviour:
   priceLevelMultiplier: 1
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
-  keywords:
-  - _enumRef: Awaken.TG.Main.Skills.Keyword, TG.Main, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null:StatusHaste
+  keywords: []
   levelBonus: 0
   weight: 0.2
   weightLoss: 0.5
@@ -153,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: f447da186916bad428837f35dfc7aa48
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
@@ -170,10 +173,10 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: 51ea023083ee0c8408f8dc3f9a1e4155
     variables:
-    - name: Buildup
-      value: 0
     - name: Chance
       value: 1
+    - name: Buildup
+      value: 0
     - name: Duration
       value: 10
     enums:

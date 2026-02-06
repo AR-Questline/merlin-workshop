@@ -43,6 +43,15 @@ MonoBehaviour:
         - loot:
             rid: 2257104434308317381
           weight: 1
+        - loot:
+            rid: 8991340383738527766
+          weight: 1
+        - loot:
+            rid: 8991340383738527767
+          weight: 1
+        - loot:
+            rid: 8991340383738527768
+          weight: 1
     - rid: 2257104434308317376
       type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
         asm: TG.Main}
@@ -89,6 +98,36 @@ MonoBehaviour:
       data:
         itemTemplateReference:
           _guid: f9833a1572b77ad41a53bdce53e01418
+        quantity: 1
+        itemLvl:
+          low: 2
+          high: 2
+    - rid: 8991340383738527766
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e402a49575318e3439cae8d60932a125
+        quantity: 1
+        itemLvl:
+          low: 2
+          high: 2
+    - rid: 8991340383738527767
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: e4088d6a4900cd749b8b7a0b403ca4d0
+        quantity: 1
+        itemLvl:
+          low: 2
+          high: 2
+    - rid: 8991340383738527768
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 7ec7497621492fa458a19266ebdb07fc
         quantity: 1
         itemLvl:
           low: 2

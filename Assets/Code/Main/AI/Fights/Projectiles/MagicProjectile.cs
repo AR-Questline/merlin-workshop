@@ -1,4 +1,5 @@
 using Awaken.TG.Assets;
+using Awaken.TG.Main.AI.Combat.Behaviours.Abstracts;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.DamageInfo;
@@ -98,6 +99,7 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             }
             
             SendVSEvent(VSCustomEvent.OnContact, FireStrength, owner, hitCollider, position, aliveHit, SphereEndRadius);
+            Owner?.Trigger(ICharacter.Events.OnProjectileContact, new ProjectileContactParams(this, hitCollider, aliveHit));
             
             MakeNoiseOnContact(hitCollider);
 
@@ -150,7 +152,7 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             DealExplosionDamage(position, DestructionSphereDamageDuration, DestructionSphereEndRadius);
         }
 
-        protected void DestroyProjectile(Vector3 position) {
+        protected virtual void DestroyProjectile(Vector3 position) {
             CustomTrailHolderBasedDestroy(position).Forget();
             
             _destroyed = true;
@@ -161,6 +163,11 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
         }
         
         void DealDirectDamage(Collider collider, Vector3 position) {
+            DamageParameters parameters = GetDirectHitParameters(collider, position);
+            DamageUtils.TryDoDamage(null, collider, RawDamageData, Owner, ref parameters, item: SourceWeapon, this);
+        }
+
+        protected virtual DamageParameters GetDirectHitParameters(Collider collider, Vector3 position) {
             DamageParameters parameters = DamageParameters.Default;
             parameters.PoiseDamage = _poiseDamage;
             parameters.ForceDamage = _forceDamage;
@@ -170,17 +177,24 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             parameters.Direction = parameters.ForceDirection;
             parameters.DamageTypeData = _damageTypeData;
             parameters.IsFromProjectile = true;
-            
-            DamageUtils.TryDoDamage(null, collider, RawDamageData, Owner, ref parameters, item: SourceWeapon, this);
+            if (_knockdownType != KnockdownType.None) {
+                parameters.KnockdownType = _knockdownType;
+                parameters.KnockdownStrength = _knockdownStrength;
+            }
+            return parameters;
         }
         
-        void DealExplosionDamage(Vector3 explosionPosition, float duration, float endRadius) {
+       void DealExplosionDamage(Vector3 explosionPosition, float duration, float endRadius) {
             var parameters = DamageParameters.Default;
             parameters.DamageTypeData = _damageTypeData;
             parameters.PoiseDamage = _poiseDamage;
             parameters.ForceDamage = _forceDamage;
             parameters.RagdollForce = _ragdollForce;
             parameters.Inevitable = false;
+            if (_knockdownType != KnockdownType.None) {
+                parameters.KnockdownType = _knockdownType;
+                parameters.KnockdownStrength = _knockdownStrength;
+            }
             
             var sphereDamageParameters = new SphereDamageParameters {
                 rawDamageData = RawDamageData,

@@ -28,12 +28,12 @@ namespace Awaken.TG.Main.Fights.NPCs {
             if (_showEnviroVfx) {
                 var damage = hook.Value;
                 var hitPoint =  damage.Position ?? damage.HitCollider?.transform.position;
-                if (!hitPoint.HasValue || damage.DamageDealer == null) {
+                if (!hitPoint.HasValue || damage.DamageDealerPure == null) {
                     return;
                 }
                 var rbHit = damage.HitCollider != null ? damage.HitCollider.GetComponentInParent<Rigidbody>() : null;
                 EnvironmentHitData hitData = new() { Location = ParentModel.ParentModel.LocationView, Item = damage.Item, Position = hitPoint.Value, Direction = damage.Direction ?? Vector3.zero, Rigidbody = rbHit, RagdollForce = 0};
-                damage.DamageDealer.Trigger(ICharacter.Events.HitEnvironment, hitData);
+                damage.DamageDealerPure.Trigger(ICharacter.Events.HitEnvironment, hitData);
             }
         }
     }

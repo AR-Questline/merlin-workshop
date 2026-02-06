@@ -78,7 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_22506fdc2ffab60409e9a39107c61a71
-  EDITOR_bakedDescription: Increases Armor by 1.
+  EDITOR_bakedDescription: "Decreases Incoming Damage by 20\_% when your Health is
+    below 10\_%.\nWhen you have full Health, deal 33\_% more Damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,7 +154,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: fd33dc5da49acd34481165e3463f8315
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -340,7 +348,7 @@ MonoBehaviour:
     - name: BonusDamageMultiplier
       value: 0.33
     - name: BonusDamageMultiplierGain
-      value: 0
+      value: 0.03
     - name: BonusDamageMultiplierCalculated
       value: 0
     enums:

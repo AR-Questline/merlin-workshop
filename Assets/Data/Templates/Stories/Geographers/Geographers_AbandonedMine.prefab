@@ -142,12 +142,17 @@ MonoBehaviour:
   canStack: 1
   cannotBeDropped: 0
   hiddenOnUI: 0
+  visibleOnUIForLoadout: 0
   damageSurfaceType:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
       address: dc25cad2b093536489bd677843bcc9d1
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4838591279151652239
 MonoBehaviour:
@@ -303,6 +308,13 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+      castFullyCharged:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
       castCancel:
         Guid:
           Data1: 0
@@ -317,6 +329,13 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+      castHeavyRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
       equipMagic:
         Guid:
           Data1: 0
@@ -325,6 +344,27 @@ MonoBehaviour:
           Data4: 0
         Path: 
       unEquipMagic:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldChargedIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      projectileIdle:
         Guid:
           Data1: 0
           Data2: 0
@@ -563,6 +603,13 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+      castFullyCharged:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
       castCancel:
         Guid:
           Data1: 0
@@ -577,6 +624,13 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+      castHeavyRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
       equipMagic:
         Guid:
           Data1: 0
@@ -585,6 +639,27 @@ MonoBehaviour:
           Data4: 0
         Path: 
       unEquipMagic:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      magicHeldChargedIdle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      projectileIdle:
         Guid:
           Data1: 0
           Data2: 0

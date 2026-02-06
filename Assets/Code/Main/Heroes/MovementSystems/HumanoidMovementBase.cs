@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Awaken.TG.Main.AI;
 using Awaken.TG.Main.AI.Barks;
 using Awaken.TG.Main.AI.Combat.Attachments;
@@ -30,11 +29,11 @@ using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Settings.Controls;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
-using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.Utility;
@@ -43,7 +42,6 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Heroes.MovementSystems {
     public abstract partial class HumanoidMovementBase : HeroMovementSystem, IUIPlayerInput {
@@ -98,7 +96,8 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         
         public bool IsSprinting { get; protected set; }
         protected float FallingSpeed { private get; set; }
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         HeroControllerData Data => Hero.Data;
         CharacterGroundedData GroundedData => Hero.GroundedData;
         
@@ -115,7 +114,8 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         bool CanSlide => Hero.Development.CanSlide && !IsPerformingAction && Stamina.ModifiedValue >= Data.slideStaminaCost;
         bool CanJump => _jumpAllowedTimeoutDelta <= 0.0f && !IsPerformingActionFull && (!Controller.IsCrouching || Controller.CanStandUp) && !SlidingOnSlope && !IsSwimming;
         bool CanWaterJump => (_jumpAllowedTimeoutDelta <= 0.0f || TouchingSurfaceValidForWaterJump) && !IsPerformingActionFull && Controller.currentWaterData.hasRaycastHit;
-        bool CanDash => Hero.Development.CanDash && !_isDashing && _dashCooldown <= 0 && !IsPerformingActionFull && CheckStaminaBeforeUse(DashCost) && !Controller.Encumbered && Controller.Grounded && !IsSwimming && DashBowCondition;
+        bool CanDash => Hero.Development.CanDash && !_isDashing && _dashCooldown <= 0 && !IsPerformingActionFull && DashAllowedByStamina && Controller.Grounded && !IsSwimming && DashBowCondition;
+        bool DashAllowedByStamina => Hero.Development.CanDashWhileExerted || (CheckStaminaBeforeUse(DashCost) && !Controller.Encumbered);
         
         float DashCost => Hero.HeroStats.DashStamina * Hero.HeroStats.DashCostMultiplier;
         bool SlidingOnSlope => !Controller.Grounded && CollidingWithSlope;
@@ -123,7 +123,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         bool TouchingSurfaceValidForWaterJump => (Controller.hitNormal != Vector3.zero && Controller.hitNormal.y >= 0);
         bool DashBowCondition => !_isDrawingBow || Hero.Development.CanDashWhileAiming || Hero.Current.LogicModifiers.DisableBowPullMovementPenalties;
         
-        GameControls GameControls => _gameControls ??= World.Any<SettingsMaster>()?.ControlsSettings.First();
+        GameControls GameControls => _gameControls ??= World.Any<SettingsMaster>()?.KeyboardControlsSettings.First();
         bool SettingsSprintIsToggle => GameControls.IsSprintToggle;
         bool SettingsWalkIsToggle => GameControls.IsWalkToggle;
         bool SettingsCrouchIsToggle => GameControls.IsCrouchToggle;
@@ -475,11 +475,13 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
                 FinishDashing();
             }
             
-            if (Controller.Input.GetButtonDown(KeyBindings.Gameplay.Dash) && CanDash && Stamina.DecreaseBy(DashCost)) {
+            if (Controller.Input.GetButtonDown(KeyBindings.Gameplay.Dash) && CanDash && PayDashCost()) {
                 Dash(GetDashInputVector());
                 RewiredHelper.VibrateLowFreq(VibrationStrength.VeryLow, VibrationDuration.Short);
             }
         }
+
+        bool PayDashCost() => Stamina.DecreaseBy(DashCost) || Hero.Development.CanDashWhileExerted;
 
         void LungeDash() {
             _inDashAttack = true;
@@ -487,6 +489,8 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         }
         
         void Dash(Vector2 dashInputVector) {
+            Hero.Trigger(Hero.Events.BeforeHeroDashed, _inDashAttack);
+            
             _dashVector = Vector3.Normalize(
                 Controller.Transform.right * dashInputVector.x + 
                 Controller.Transform.forward * dashInputVector.y);
@@ -495,7 +499,8 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             Hero.FoV.UpdateHeroDashedFoV(true);
             Hero.Trigger(CameraShakesFSM.Events.DashHeroCamera, dashInputVector);
             if (!_inDashAttack) {
-                CharacterInvulnerability.ApplyInvulnerability(Hero, new TimeDuration(Data.dashGodModeDurationSeconds));
+                float iFramesDuration = Data.dashGodModeDurationSeconds + Hero.HeroStats.DashIFramesBonus.ModifiedValue;
+                CharacterInvulnerability.ApplyInvulnerability(Hero, new TimeDuration(iFramesDuration), DamageNegateType.Dash);
             }
             _dashTime = 0f;
             _isDashing = true;
@@ -575,7 +580,8 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         }
         
         void ApplyAdditionalMovementFromGravityMarker(bool isPlayerMoving) {
-            if (Hero.TryGetElement<GravityMarker>(out var gravityMarker)) {
+            var gravityMarker = Hero.GravityMarker;
+            if (gravityMarker != null) {
                 Controller.additionalMoveVector += gravityMarker.Zone.GetDirectionTowardsCenter(Controller.Transform.position, isPlayerMoving);
             }
         }
@@ -612,7 +618,8 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         }
 
         void ApplyWaterMovement(ref Vector3 velocity, Vector3 desiredMovementVector, float targetSpeed, float deltaTime) {
-            velocity.y += FallingSpeed;
+            var tempVelocity = velocity;
+            tempVelocity.y += FallingSpeed;
             
             float waveImpactTopRange = Data.wavesImpactRange;
             float waveImpactBottomRange = waveImpactTopRange + Data.wavesImpactFalloff;
@@ -620,20 +627,24 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
                 Controller.currentWaterData.distanceToWaterSurface);
             float waterSurfaceVelocityOffset = _waterSurfaceAccumulatedVel * waveImpact;
             
-            velocity.y -= waterSurfaceVelocityOffset;
-            velocity.y -= _waterTopSwimAdjustmentVel;
+            tempVelocity.y -= waterSurfaceVelocityOffset;
+            tempVelocity.y -= _waterTopSwimAdjustmentVel;
             
+            // Calculate velocity changes for both velocities so we can have scaled X/Y and Y and than combine them.
+            ApplyDrag(ref tempVelocity, Data.waterDragCoefficient, Data.minWaterDrag, deltaTime);
+            ApplyAcceleratedMovement(ref tempVelocity, desiredMovementVector, Data.swimAcceleration, targetSpeed, deltaTime);
             ApplyDrag(ref velocity, Data.waterDragCoefficient, Data.minWaterDrag, deltaTime);
             ApplyAcceleratedMovement(ref velocity, desiredMovementVector, Data.swimAcceleration, targetSpeed, deltaTime);
-            
-            velocity.y += waterSurfaceVelocityOffset;
+
+            tempVelocity.y += waterSurfaceVelocityOffset;
             
             if (Controller.currentWaterData.hasRaycastHit) {
                 float maxSwimDistance = Controller.currentWaterData.distanceToWaterSurface - Data.swimmingOffset;
-                _waterTopSwimAdjustmentVel = Mathf.Min(0.0f, maxSwimDistance / deltaTime - velocity.y);
+                _waterTopSwimAdjustmentVel = Mathf.Min(0.0f, maxSwimDistance / deltaTime - tempVelocity.y);
             }
             
-            velocity.y += _waterTopSwimAdjustmentVel;
+            tempVelocity.y += _waterTopSwimAdjustmentVel;
+            velocity.y = tempVelocity.y;
         }
 
         void ApplyAirMovement(ref Vector3 velocity, Vector3 desiredMovementVector, float targetSpeed, float deltaTime) {
@@ -843,14 +854,6 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         }
         
         void HandleGravity(float deltaTime) {
-            if (IsSwimming) {
-                if (Controller.waterLeaveTimeout == 0 || Controller.verticalVelocity < 0) {
-                    Controller.verticalVelocity = 0.0f;
-                }
-
-                return;
-            }
-
             var gravityMarker = Hero.GravityMarker;
             if (gravityMarker != null) {
                 float newGravity = gravityMarker.Zone.GetGravityForce();
@@ -868,6 +871,14 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
                 float gravityLowerLimit = gravityLimit > 0 ? float.NegativeInfinity : gravityLimit;
                 float gravityUpperLimit = gravityLimit < 0 ? float.PositiveInfinity : gravityLimit;
                 Controller.verticalVelocity = math.clamp(Controller.verticalVelocity, gravityLowerLimit, gravityUpperLimit);
+
+                return;
+            }
+            
+            if (IsSwimming) {
+                if (Controller.waterLeaveTimeout == 0 || Controller.verticalVelocity < 0) {
+                    Controller.verticalVelocity = 0.0f;
+                }
 
                 return;
             }
@@ -961,7 +972,7 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
                     noiseRange *= MoveSoundRangeMultiplier;
                     Vector3 headPosition = Controller.Head.position;
                     float noiseMultiplier = Controller.IsCrouching ? Hero.HeroStats.CrouchNoiseMultiplier : Hero.HeroStats.NoiseMultiplier;
-                    float multipliers = Data.moveSoundMultiplier * noiseMultiplier;
+                    float multipliers = Data.moveSoundMultiplier * noiseMultiplier * Hero.HeroStats.FootstepsNoisiness;
                     float soundStrength;
                     
                     if (Controller.IsCrouching) {

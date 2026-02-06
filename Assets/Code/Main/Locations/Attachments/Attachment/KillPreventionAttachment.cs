@@ -7,6 +7,10 @@ using UnityEngine;
 namespace Awaken.TG.Main.Locations.Attachments.Attachment {
     [AttachesTo(typeof(LocationSpec), AttachmentCategory.Rare, "When defeated, NPC will fall and recover after a while, unless Hero executes him.")]
     public class KillPreventionAttachment : MonoBehaviour, IAttachmentSpec {
+        [SerializeField] bool disableUnconscious;
+
+        public bool DisableUnconscious => disableUnconscious;
+        
         public Element SpawnElement() => new KillPreventionElement();
 
         public bool IsMine(Element element) => element is KillPreventionElement;

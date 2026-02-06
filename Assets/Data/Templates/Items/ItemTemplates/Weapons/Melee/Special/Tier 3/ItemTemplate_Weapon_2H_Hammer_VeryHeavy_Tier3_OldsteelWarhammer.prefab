@@ -63,6 +63,7 @@ MonoBehaviour:
   tags:
   - item:important
   - item:tier3
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: c49c2eb26be6eb040903c6d7be59c49b
@@ -80,7 +81,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_1599a11131aad4448833e4e9015cccf5
-  EDITOR_bakedDescription: Heavy Attacks deal an additional 25% damage.
+  EDITOR_bakedDescription: "Heavy Attacks deal an additional 25\_% damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +158,10 @@ MonoBehaviour:
     arReference:
       address: 5fb4ae18805b80849a097616920ff84e
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +179,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: 5de0bebdcb75c90428c28f8b0aa34470
       subObjectName: 
@@ -242,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &1560007651186981918
 MonoBehaviour:

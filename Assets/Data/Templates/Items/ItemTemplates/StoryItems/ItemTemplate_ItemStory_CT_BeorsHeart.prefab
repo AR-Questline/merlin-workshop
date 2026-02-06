@@ -55,6 +55,7 @@ MonoBehaviour:
   tags:
   - quest:BeorsHeart
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 0003744bc353a314395f1834689e3c08
@@ -139,7 +140,7 @@ MonoBehaviour:
   upgradeChance: 0.5
   crimeItemValue: 0
   canStack: 0
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
@@ -148,6 +149,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a2f444a0034399840a0636907e71d3cb
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3145948608111139813
 MonoBehaviour:

@@ -10,7 +10,7 @@ namespace Awaken.TG.MVC {
     public class Services {
         // === The actual service registry
         const int ServicesCapacity = 100;
-        readonly Dictionary<RuntimeTypeHandle, IService> _serviceByType = new(ServicesCapacity);
+        readonly Dictionary<RuntimeTypeHandle, IService> _serviceByType = new(ServicesCapacity, RuntimeTypeHandleEqualityComparer.Instance);
         StructList<IDomainBoundService> _domainBoundServices = new(ServicesCapacity); 
         StructList<SerializedService> _serializedServices = new(ServicesCapacity); 
 
@@ -103,6 +103,18 @@ namespace Awaken.TG.MVC {
 
         public bool Has<T>() where T : class, IService {
             return _serviceByType.ContainsKey(typeof(T).TypeHandle);
+        }
+
+        class RuntimeTypeHandleEqualityComparer : IEqualityComparer<RuntimeTypeHandle> {
+            public static readonly RuntimeTypeHandleEqualityComparer Instance = new();
+
+            public bool Equals(RuntimeTypeHandle x, RuntimeTypeHandle y) {
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(RuntimeTypeHandle obj) {
+                return obj.GetHashCode();
+            }
         }
     }
 }

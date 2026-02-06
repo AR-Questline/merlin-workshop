@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_7b845428288bcba4a8fb7ae00fa0bf25
-  EDITOR_bakedDescription: Increases Critical Chance by 5%.
+  EDITOR_bakedDescription: "Increases Critical Chance by 5\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -147,6 +147,10 @@ MonoBehaviour:
   damageSurfaceType:
     _enumRef: 
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: 3da3b0d9e40d85f4ea771a0a58a5b894
       subObjectName: 
@@ -239,8 +243,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -268,6 +275,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.05
     - name: GainValue
+      value: 0.005
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

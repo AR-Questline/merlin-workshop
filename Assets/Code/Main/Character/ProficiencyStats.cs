@@ -49,6 +49,27 @@ namespace Awaken.TG.Main.Character {
 
         [Saved] Dictionary<StatType, float> _statXPDictionary = new();
         
+        IEnumerable<Stat> AllStats() {
+            yield return OneHanded;
+            yield return TwoHanded;
+            yield return Unarmed;
+            yield return Shield;
+            yield return Athletics;
+            yield return LightArmor;
+            yield return MediumArmor;
+            yield return HeavyArmor;
+            yield return Archery;
+            yield return Evasion;
+            yield return Acrobatics;
+            yield return Sneak;
+            yield return Theft;
+            yield return Magic;
+            yield return Alchemy;
+            yield return Cooking;
+            yield return Handcrafting;
+            yield return AnimalWeapon;
+        }
+        
         public const int ProficiencyBaseValue = 10;
         const int MinProficiencyLevel = 0;
         const int MaxProficiencyLevel = 100;
@@ -64,6 +85,15 @@ namespace Awaken.TG.Main.Character {
             hero.AddElement(stats);
         }
 
+        public void RecalculateAllStats(bool saveBefore = true) {
+            if (saveBefore) {
+                _wrapper.PrepareForSave(this);
+            }
+            _wrapper.Initialize(this);
+            foreach (var stat in AllStats()) {
+                stat.SetTo(stat.BaseValue);
+            }
+        }
 
         public void TryAddXP(ProfStatType targetStatToRaiseXPOf, float amountOfXPToAdd) {
             if(ParentModel.Stat(targetStatToRaiseXPOf).ModifiedInt >= MaxProficiencyLevel) {
@@ -95,10 +125,10 @@ namespace Awaken.TG.Main.Character {
                 
                 // Reward exp to Hero
                 float multi = World.Services.Get<GameConstants>().ProficiencyLvlHeroExpMulti;
-                ParentModel.Development.RewardExpAsPercentOfNextLevel(multi);
+                ParentModel.Development.RewardExpAsPercentOfNextLevel(multi, ParentModel, ChangeReason.Proficiency);
 
                 var proficiencyData = new ProficiencyData(targetStatToRaiseXPOf, retrievedFromParent.ModifiedInt);
-                AdvancedNotificationBuffer.Push<ProficiencyNotificationBuffer>(new ProficiencyNotification(proficiencyData));
+                NotificationUtils.Push(new ProficiencyNotification(proficiencyData));
             }
             
             _statXPDictionary[retrievedFromParent.Type] = tempXPQuantity;

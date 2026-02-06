@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,10 +11,12 @@ using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.LootTables;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving.Cloud.Services;
 using Awaken.TG.Main.Saving.LargeFiles;
 using Awaken.TG.Main.Scenes;
 using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.SocialServices;
 using Awaken.TG.Main.Stories.Quests;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
@@ -60,14 +62,18 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
         [Saved] public ARTimeSpan PlayRealTime { get; private set; }
         [Saved] public UnicodeString HeroLocation { get; private set; }
         [Saved] public int HeroLevel { get; private set; }
+        [Saved] public int NewGamePlusLevel { get; private set; }
         [Saved] public UnicodeString HeroName { get; private set; }
         [Saved] public Guid HeroId { get; private set; }
         [Saved] public bool Hardcore { get; private set; }
+        [Saved] public bool AllowNewGamePlus { get; private set; }
+        [Saved] public DlcCategoryFlags DlcsActiveInLastPlaythrough { get; private set; }
         [Saved] public UnicodeString ActiveQuestName { get; private set; }
         [Saved] byte[] _screenshotBytes;
         [Saved] public List<ItemSpawningData> ItemsToModifyOnLoad { get; [RequiredMember] private set; } = new();
         [Saved] public UnsafeBitmask usedLargeFilesIndices;
         [Saved] public int SavedDomainCount { get; private set; } = -1;
+        [Saved] public string[] SavedDomainNames { get; private set; } = Array.Empty<string>();
         
         public uint SlotIndex { get; private set; }
         public bool ChangedID { get; private set; }
@@ -83,8 +89,8 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
         public bool IsAutoSave => ID.Contains(AutoSaveIdPrefix);
 
         // === Static Creators
-        public static SaveSlot GetQuickSave(bool allowCreate = true, bool getNewest = true) => GetWithId(QuickSaveIdPrefix, allowCreate, LocTerms.QuickSave.Translate(), getNewest);
-        public static SaveSlot GetAutoSave(bool allowCreate = true, bool getNewest = false) => GetWithId(AutoSaveIdPrefix, allowCreate, LocTerms.AutoSave.Translate(), getNewest);
+        public static SaveSlot GetQuickSave(out bool createdNew, bool allowCreate = true, bool getNewest = true) => GetWithId(QuickSaveIdPrefix, allowCreate, LocTerms.QuickSave.Translate(), getNewest, out createdNew);
+        public static SaveSlot GetAutoSave(out bool createdNew, bool allowCreate = true, bool getNewest = false) => GetWithId(AutoSaveIdPrefix, allowCreate, LocTerms.AutoSave.Translate(), getNewest, out createdNew);
 
         public static SaveSlot LastSaveSlot => LastSaveSlotOfHero(null);
         public static SaveSlot LastSaveSlotOfCurrentHero => LastSaveSlotOfHero(Hero.Current);
@@ -96,7 +102,8 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
         static bool SaveSlotBelongsToHero(SaveSlot saveSlot, Hero hero) => hero == null || saveSlot.HeroId == hero.HeroID;
         public static bool SaveSlotBelongsToCurrentHero(SaveSlot saveSlot) => saveSlot.HeroId == Hero.Current.HeroID;
 
-        static SaveSlot GetWithId(string idPrefix, bool allowCreate, string defaultName, bool getNewest) {
+        static SaveSlot GetWithId(string idPrefix, bool allowCreate, string defaultName, bool getNewest, out bool createdNew) {
+            createdNew = false;
             var saveSlotsWithPrefix = World.All<SaveSlot>()
                 .Where(s => s.HeroId == Hero.Current.HeroID)
                 .Where(s => s.ID.Contains(idPrefix))
@@ -109,6 +116,7 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
                 save = new SaveSlot(defaultName);
                 save.AssignID(save.GenerateIDAndAssignIndex(idPrefix));
                 World.Add(save);
+                createdNew = true;
             }
 
             return save;
@@ -124,32 +132,16 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             IsCustomName = isCustomName;
         }
 
-        public static SaveSlot GetAndSave(string name, bool isCustomName = false) {
+        public static SaveSlot CreateAndSave(string name, bool isCustomName = false) {
             var saveSlot = new SaveSlot(name, isCustomName);
             World.Add(saveSlot);
-            LoadSave.Get.Save(saveSlot);
+            LoadSave.Get.Save(saveSlot, true);
             return saveSlot;
         }
 
-        public static SaveSlot OverrideAndSave(SaveSlot original) {
-            bool isCustomName = original.IsCustomName;
-            string name = isCustomName ? original.Name : SlotIdPrefix;
-            
-            var newSlot = new SaveSlot(name, isCustomName);
-
-            uint oSlotIndex = original.SlotIndex;
-            var lfsIndices = original.usedLargeFilesIndices;
-
-
-            original.Discard();
-            World.Add(newSlot);
-            LoadSave.Get.Save(newSlot);
-
-            return newSlot;
-        }
-
         // === Operations
-        public bool CanLoad() => !LoadingScreenUI.IsLoading && LoadSave.Get.LoadAllowedInMenu();
+        public bool CanLoad() => HasValidDLCs() && !LoadingScreenUI.IsLoading && LoadSave.Get.LoadAllowedInMenu();
+        public bool HasValidDLCs() => DlcCategoryExtensions.HasAllRequiredDLCs(DlcsActiveInLastPlaythrough);
 
         public void LoadingStarted() {
             World.EventSystem.LimitedListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.AfterSceneStoriesExecuted, this, 
@@ -168,13 +160,14 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             TriggerChange();
         }
 
-        public UniTask CaptureSlotInfo(int domainsCount) {
+        public UniTask<bool> CaptureSlotInfo(int domainsCount, string[] savedDomainNames) {
             SceneService sceneService = Services.Get<SceneService>();
             SceneRef = sceneService.MainSceneRef;
             AdditiveSceneRef = sceneService.AdditiveSceneRef;
             LastSavedTime = DateTime.Now;
             PlayRealTime = World.Only<GameRealTime>().PlayRealTime;
             ActiveQuestName = World.Only<QuestTracker>().ActiveQuest?.DisplayName;
+            DlcsActiveInLastPlaythrough = HeroDlcHandler.GetDlcsActiveInLastPlaythrough();
 
             var hero = Hero.Current;
             HeroLevel = hero.CharacterStats.Level.BaseInt;
@@ -183,7 +176,11 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             Hardcore = World.Only<DifficultySetting>().Difficulty.SaveRestriction.HasFlagFast(SaveRestriction.Hardcore);
             HeroLocation = sceneService.ActiveSceneDisplayName;
             
+            NewGamePlusLevel = NewGamePlusSystem.Level;
+            AllowNewGamePlus = NewGamePlusUtils.IsAvailable;
+            
             SavedDomainCount = domainsCount;
+            SavedDomainNames = savedDomainNames ?? Array.Empty<string>();
 
             return TakeGameplayScreenshot();
         }
@@ -207,13 +204,13 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             return Path.Combine(Domain.SaveSlot.ConstructSavePath(this), ID);
         }
 
-        async UniTask TakeGameplayScreenshot() {
+        async UniTask<bool> TakeGameplayScreenshot() {
             var camera = World.Only<GameCamera>().MainCamera;
             var screenshot = await TextureUtils.CreateTexture2DFromCameraPreview(camera, 320, 180, 16, TextureFormat.RGB24, RenderTextureFormat.ARGB32, Hero.Current.MainView);
             _screenshotBytes = screenshot.EncodeToJPG(18);
             screenShotTaken?.Invoke();
             screenShotTaken = null;
-            await LoadSave.Get.SaveMetadataDomainAsync(CurrentDomain);
+            return await LoadSave.Get.SaveMetadataDomainAsync(CurrentDomain);
         }
         
         public Texture2D RecreateGameplayScreenshot() {
@@ -235,6 +232,10 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
                 ApplyChanges();
             }
         }
+        
+        public void MarkAsNewGamePlusReady() {
+            AllowNewGamePlus = true;
+        }
 
         // === Validation
         internal override void EnsureIdIsValid() {
@@ -252,20 +253,72 @@ namespace Awaken.TG.Main.Saving.SaveSlots {
             Discard();
         }
 
-        public bool ValidateDomainAmount(SaveResult saveResult, out string errorMessage) {
-            if (saveResult.SupportsFileCounting == false || SavedDomainCount == -1) {
+        public bool ValidateDomainAmount(SaveResult saveResult, DomainAmountValidationType amountValidationType, out string errorMessage) {
+            if (Configuration.GetBoolExact("saving.do_not_validate_domains")) {
+                errorMessage = null;
+                return true;
+            }
+            
+            if (SavedDomainCount == -1) {
                 errorMessage = null;
                 return true;
             }
 
             int domainsCount = saveResult.FileCount - 1; // Don't count the metadata file
-            if (domainsCount != SavedDomainCount) {
-                errorMessage = $"Save slot {ID}: domain count ({SavedDomainCount}) doesn't equal domain files inside save folder ({domainsCount})\n" +
-                                       $"Please load the previous save slot.";
+
+            bool validationFailed = amountValidationType switch {
+                DomainAmountValidationType.Strict => domainsCount != SavedDomainCount,
+                DomainAmountValidationType.AllowMoreFiles => domainsCount < SavedDomainCount,
+                _ => true
+            };
+
+            if (validationFailed) {
+                errorMessage = $"Save slot {ID}: domain count ({SavedDomainCount}) doesn't equal domain files inside save folder ({domainsCount})";
+                CreateValidationErrorMessage(SavedDomainNames, saveResult.FileNames, ref errorMessage);
                 return false;
             }
+            
             errorMessage = null;
             return true;
+        }
+
+        static void CreateValidationErrorMessage(string[] savedDomainNames, string[] savedFileNames, ref string errorMessage) {
+            string[] domainNames = Array.Empty<string>();
+            string[] fileNames = Array.Empty<string>();
+            if (savedDomainNames != null) {
+                domainNames = savedDomainNames.Select(domainName => domainName.Split('.').Last()).ToArray();
+                string joinDomainNames = string.Join(", ", domainNames);
+                errorMessage += $"\nExpected: {joinDomainNames},";
+            } else {
+                errorMessage += "\nExpected: <empty>,";
+            }
+
+            if (savedFileNames != null) {
+                fileNames = savedFileNames.Select(Path.GetFileNameWithoutExtension).ToArray();
+                string joinFileNames = string.Join(", ", fileNames);
+                errorMessage += $"\nSaved: {joinFileNames},";
+            } else {
+                errorMessage += "\nSaved: <empty>,";
+            }
+
+            if (savedDomainNames != null && savedFileNames != null) {
+                var onlyInSavedDomainNames = domainNames.Except(fileNames).ToList();
+                var onlyInSaveFileNames = fileNames.Except(domainNames).ToList();
+                var resultBuilder = new StringBuilder();
+                if (onlyInSavedDomainNames.Any()) {
+                    resultBuilder.AppendLine($" Only in Expected: {string.Join(", ", onlyInSavedDomainNames)}");
+                }
+
+                if (onlyInSaveFileNames.Any()) {
+                    resultBuilder.AppendLine($" Only in Saved: {string.Join(", ", onlyInSaveFileNames)}");
+                }
+
+                string finalResult = resultBuilder.Length > 0
+                    ? resultBuilder.ToString().Trim()
+                    : "No differences found.";
+
+                errorMessage += $"\nDifference: \n{finalResult}";
+            }
         }
 
         // === Discard

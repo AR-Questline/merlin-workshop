@@ -19,6 +19,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
         [SerializeField] TextMeshProUGUI itemTypeText;
         [Title("Item Stats")]
         [SerializeField] GameObject sharedStatsAndDescriptionSection;
+        [SerializeField] GameObject statsAndDescriptionSeparator;
         [SerializeField] ItemTooltipStatsComponent stats;
         [SerializeField] ItemTooltipMagicStatsComponent magicStats;
         
@@ -26,22 +27,28 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
         public ref PartialVisibility Visibility => ref _visibility;
         PartialVisibility _visibility;
         public bool UseReadMore { get; private set; }
-        bool _hasSharedSection;
+        public bool UseReadMoreEnabled { get; set; }
         
         public void ToggleSectionActive(bool active) {
-            sharedStatsAndDescriptionSection.SetActiveOptimized(active);
+            sharedStatsAndDescriptionSection.TrySetActiveOptimized(active);
         }
         
         public void Refresh(IItemDescriptor descriptor, IItemDescriptor descriptorToCompare) {
             SetupIcon(descriptor, TargetView);
             SetupItemType(descriptor);
-            SetupStats(descriptor, descriptorToCompare);
+            
+            if (stats != null && magicStats != null) {
+                SetupStats(descriptor, descriptorToCompare);
+            }
         }
         
         public void Refresh(IItemDescriptor descriptor, IItemDescriptor descriptorToCompare, View view) {
             SetupIcon(descriptor, TargetView ? TargetView : view);
             SetupItemType(descriptor);
-            SetupStats(descriptor, descriptorToCompare);
+            
+            if (stats != null && magicStats != null) {
+                SetupStats(descriptor, descriptorToCompare);
+            }        
         }
 
         void SetupIcon(IItemDescriptor descriptor, View view) {
@@ -63,11 +70,16 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
         void SetupStats(IItemDescriptor descriptor, IItemDescriptor descriptorToCompare) {
             descriptor.TypeSpecificDescriptor?.SetupStatTexts(stats, magicStats, descriptorToCompare);
             
-            _hasSharedSection = sharedStatsAndDescriptionSection != null && 
-                                (HasSpecificDescriptor(descriptor.TypeSpecificDescriptor) ||
-                                 HasItemDescription(descriptor) ||
-                                 HasReadDescription(descriptor));
-            Visibility.SetInternal(_hasSharedSection);
+            bool hasStats = HasSpecificDescriptor(descriptor.TypeSpecificDescriptor);
+            bool hasDescription = HasItemDescription(descriptor) || HasReadDescription(descriptor);
+            bool hasSharedSection = sharedStatsAndDescriptionSection != null 
+                                    && hasStats || hasDescription;
+            
+            if (statsAndDescriptionSeparator != null) {
+                statsAndDescriptionSeparator.SetActiveOptimized((hasStats && hasDescription && !descriptor.ExistingItem.IsSoulCube));
+            }
+            
+            Visibility.SetInternal(hasSharedSection);
         }
         
         bool HasSpecificDescriptor(IItemTypeSpecificDescriptor itemTypeSpecificDescriptor) => itemTypeSpecificDescriptor is not (null or IItemTypeSpecificDescriptor.GenericDescriptor);

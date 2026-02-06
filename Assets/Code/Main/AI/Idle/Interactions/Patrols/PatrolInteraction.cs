@@ -10,6 +10,7 @@ using Awaken.TG.Main.AI.Movement;
 using Awaken.TG.Main.AI.Movement.Controllers;
 using Awaken.TG.Main.AI.Movement.States;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Fights.NPCs.Presences;
 using Awaken.TG.Utility.Attributes;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -39,13 +40,31 @@ namespace Awaken.TG.Main.AI.Idle.Interactions.Patrols {
         }
 
         public override Vector3? GetInteractionPosition(NpcElement npc) {
-            path.RetrieveClosestPathToPoint(npc.Coords, out var position, out _, out _);
+            if (!TryGetNpcPosition(npc, out var npcPosition)) {
+                return path.waypoints[0].position;
+            }
+            path.RetrieveClosestPathToPoint(npcPosition, out var position, out _, out _);
             return position;
         }
 
         public override Vector3 GetInteractionForward(NpcElement npc) {
-            path.RetrieveClosestPathToPoint(npc.Coords, out _, out var forward, out _);
+            if (!TryGetNpcPosition(npc, out var npcPosition)) {
+                return path.waypoints[0].forward;
+            }
+            path.RetrieveClosestPathToPoint(npcPosition, out _, out var forward, out _);
             return forward;
+        }
+
+        static bool TryGetNpcPosition(NpcElement npc, out Vector3 position) {
+            position = npc.Coords;
+            if (NpcPresence.InAbyss(position)) {
+                if (npc.NpcPresence is { } npcPresence) {
+                    position = npcPresence.DesiredPosition;
+                } else {
+                    return false;
+                }
+            }
+            return true;
         }
 
         protected override void OnStart(NpcElement npc, InteractionStartReason reason) {
@@ -120,6 +139,9 @@ namespace Awaken.TG.Main.AI.Idle.Interactions.Patrols {
         }
 
         void OnWaypointReached() {
+            if (_interactingNpc == null || this == null) {
+                return;
+            }
             _reachedIndex = _nextWaypoint;
             ref readonly var waypoint = ref path.GetWaypoint(_reachedIndex);
             if (waypoint.interactAround) {

@@ -74,6 +74,7 @@ MonoBehaviour:
   alwaysShowSeparately: 1
   invertProgressUI: 0
   overrideToAddForDifferentItems: 0
+  overrideToAddForUniqueItems: 0
   addType: 2
   addTypeOnStacking: 2
   timerShouldDeStack: 0
@@ -82,10 +83,10 @@ MonoBehaviour:
   fightValueFactor: 0
   skill:
     skillGraphRef:
-      _guid: 
+      _guid: a5b6c723613cdec44bc50a13304dc074
     variables:
-    - name: DamageModifier
-      value: 0.3
+    - name: MaxHealthDamage
+      value: 0.08
     - name: BaseDamagePerSecond
       value: 3
     enums:
@@ -125,4 +126,6 @@ MonoBehaviour:
   buildupDuration: 10
   buildupGainOverride: 0
   buildupGainMultiplier: 1
+  isEffectModifierUsingStatusStrengthModifier: 1
   isDecayUsingEffectModifier: 1
+  isDecayUsingStatusDurationModifier: 1

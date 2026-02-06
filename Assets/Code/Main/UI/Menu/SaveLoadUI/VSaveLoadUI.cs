@@ -1,3 +1,4 @@
+using System;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.Components;
@@ -78,7 +79,7 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
                 _focus.Select(prevElement.View<IVSaveLoadSlotUI>().SlotButton);
             }
         }
-        
+
         public void SetActiveSavingBlend(bool active) {
             savingBlend.SetActive(active);
         }

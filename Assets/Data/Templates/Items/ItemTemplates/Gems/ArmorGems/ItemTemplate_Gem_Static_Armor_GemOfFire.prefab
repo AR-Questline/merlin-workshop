@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_724b2b6b1648d934482e364d7fd92e7b
-  EDITOR_bakedDescription: Increases damage by 20% if enemy is Burning.
+  EDITOR_bakedDescription: "Increases damage by 20\_% if enemy is Burning."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -86,7 +86,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_724b2b6b1648d934482e364d7fd92e7b
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -151,6 +151,10 @@ MonoBehaviour:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +173,10 @@ MonoBehaviour:
     variables:
     - name: BonusDamageMultiplier
       value: 0.2
+    - name: BonusDamageGain
+      value: 0.01
+    - name: BonusDamageCalculated
+      value: 0
     enums:
     - name: StatEnum
       enumReference:
@@ -178,7 +186,7 @@ MonoBehaviour:
     templates:
     - name: StatusEnum
       templateReference:
-        _guid: 51cd95ee768105841982c4d6625b0e97
+        _guid: 57a6d652dd4c0c24ba955aaf51ab1b0b
     assetReferences: []
   type: 0
 --- !u!114 &-8466734848790168577

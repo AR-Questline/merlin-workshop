@@ -38,6 +38,7 @@ namespace Awaken.TG.Editor.DevToolkit {
             DrawMenuItemButton("Debug UI", "TG/Debug/Debug UI");
             DrawMenuItemButton("Unload unused Assets", "TG/Debug/UnloadUnused");
             DrawMenuItemButton("Force Reserialize Selected", "TG/Debug/ForceReserializeSelected");
+            DrawMenuItemButton("Force Domain Reload", "TG/Debug/ForceDomainReload");
             
             EditorGUILayout.Space();
             GUILayout.Label("Log Filter");

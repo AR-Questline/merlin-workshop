@@ -6,6 +6,7 @@ using Awaken.TG.Assets;
 using Awaken.TG.Code.Utility;
 using Awaken.TG.Main.AI.Combat.Attachments.Bosses;
 using Awaken.TG.Main.AI.Combat.Behaviours.Abstracts;
+using Awaken.TG.Main.AI.Idle;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.Animations.FSM.Npc.States.Combat;
 using Awaken.TG.Main.Fights;
@@ -114,14 +115,14 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.BossBehaviours.Mistbearer {
                 ParentModel.SpawnNewCopies(cloneDestinations);
             }
             
-            ParentModel.NpcMovement.Controller.TeleportTo(new TeleportDestination {
+            NpcTeleporter.Teleport(ParentModel.NpcElement, new TeleportDestination {
                 position = mistbearerTeleport.Coords,
                 Rotation = Quaternion.Euler(0, (targetPos - mistbearerTeleport.Coords).ToHorizontal2().Horizontal2ToAngle(), 0)
             });
-            ParentModel.ParentModel.ListenToLimited(GroundedEvents.AfterTeleported, g => AfterTeleported(g).Forget(), this);
+            AfterTeleported().Forget();
         }
 
-        async UniTaskVoid AfterTeleported(IGrounded _) {
+        async UniTaskVoid AfterTeleported() {
             // Wait unitl All Copies are fully loaded so the first attack isn't off-sync.
             if (!await AsyncUtil.WaitUntil(ParentModel, () => ParentModel.AllCopiesLoaded)) {
                 return;

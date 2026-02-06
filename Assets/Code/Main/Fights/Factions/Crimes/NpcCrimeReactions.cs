@@ -130,7 +130,8 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
                     if (_timeToNextGuardCall <= 0f) {
                         _timeToNextGuardCall = 0f;
                         CrimeArchetype crimeArchetype = CrimeArchetype.Combat(ParentModel.CrimeValue);
-                        CrimeReactionUtils.CallGuardsToHero(ParentModel.GetCurrentCrimeOwnersFor(crimeArchetype).PrimaryOwner);
+                        using var crimeOwners = ParentModel.GetCurrentCrimeOwnersFor(crimeArchetype);
+                        CrimeReactionUtils.CallGuardsToHero(crimeOwners.PrimaryOwner);
                     }
                 }
             } else {
@@ -156,20 +157,24 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
                 return;
             }
 
-            if (heroVisible) {
-                _seeingHeroLoseSightTime = null;
-                if (!_isSeeingHero) {
-                    _isSeeingHero = true;
-                    // Hostile Factions use Alert System not Crime System.
-                    // There's a need to use Faction to Faction check to ignore temporary antagonism.
-                    if (!ParentModel.Faction.IsHostileTo(Hero.Current.Faction)) {
-                        if (ParentModel.GetCurrentCrimeOwnersFor(CrimeArchetype.Theft(CrimeItemValue.High)) is {IsEmpty: false} 
-                            || ParentModel.GetCurrentCrimeOwnersFor(CrimeArchetype.Pickpocketing(CrimeItemValue.High, ParentModel.CrimeValue)) is {IsEmpty: false} 
-                            || ParentModel.GetCurrentCrimeOwnersFor(CrimeArchetype.Trespassing) is {IsEmpty: false}) {
-                            Hero.Current.Element<IllegalActionTracker>().AddWatchingNpc(this);
-                        }
-                    }
-                }
+            if (!heroVisible) {
+                return;
+            }
+            _seeingHeroLoseSightTime = null;
+            if (_isSeeingHero) {
+                return;
+            }
+            _isSeeingHero = true;
+            // Hostile Factions use Alert System not Crime System.
+            // There's a need to use Faction to Faction check to ignore temporary antagonism.
+            if (ParentModel.Faction.IsHostileTo(Hero.Current.Faction)) {
+                return;
+            }
+
+            if (ParentModel.HasCurrentCrimeOwnersFor(CrimeArchetype.Theft(CrimeItemValue.High)) ||
+                ParentModel.HasCurrentCrimeOwnersFor(CrimeArchetype.Pickpocketing(CrimeItemValue.High, ParentModel.CrimeValue)) ||
+                ParentModel.HasCurrentCrimeOwnersFor(CrimeArchetype.Trespassing)) {
+                Hero.Current.Element<IllegalActionTracker>().AddWatchingNpc(this);
             }
         }
         
@@ -235,14 +240,15 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
             }
 
             ParentModel.NpcAI.AlertStack.NewPoi((int) AlertStack.AlertStrength.Max * 2, Hero.Current);
-            CrimeReactionUtils.CallGuardsToHero(ParentModel.GetCurrentCrimeOwnersFor(archetype).PrimaryOwner);
+            using var crimeOwners = ParentModel.GetCurrentCrimeOwnersFor(archetype);
+            CrimeReactionUtils.CallGuardsToHero(crimeOwners.PrimaryOwner);
             _timeToNextGuardCall = ObservingTime;
         }
         
         public float Pickpocketing(float deltaTime, Item item) {
             _pickpocketingEndedDelay?.Cancel();
             _isBeingPickpocketed = true;
-            var crime = Crime.Pickpocket(item, ParentModel);
+            using var crime = Crime.Pickpocket(item, ParentModel);
             
             var pickpocketAlert = IncreasePickpocketAlert(crime, deltaTime);
             if (pickpocketAlert >= 1f) {
@@ -270,7 +276,8 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         }
 
         public bool ShouldReactToBeingPickpocketed(in Crime pickpocket) {
-            var template = ParentModel.GetCurrentCrimeOwnersFor(pickpocket.Archetype).PrimaryOwner;
+            using var crimeOwners = ParentModel.GetCurrentCrimeOwnersFor(pickpocket.Archetype);
+            var template = crimeOwners.PrimaryOwner;
             if (!CrimeUtils.IsCrimeFor(pickpocket, template)) {
                 return false;
             }
@@ -278,7 +285,8 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         }
 
         float IncreasePickpocketAlert(in Crime pickpocket, in float deltaTime) {
-            var template = ParentModel.GetCurrentCrimeOwnersFor(pickpocket.Archetype).PrimaryOwner;
+            using var crimeOwners = ParentModel.GetCurrentCrimeOwnersFor(pickpocket.Archetype);
+            var template = crimeOwners.PrimaryOwner;
             if (!CrimeUtils.IsCrimeFor(pickpocket, template)) {
                 return _pickpocketAlert;
             }

@@ -27,6 +27,10 @@ namespace Awaken.TG.Main.AI.Movement.States {
         public bool ActiveSelf => _active;
         bool ActiveLowestOverride => _override?.ActiveLowestOverride ?? _active;
 
+        public void OnNpcMovementCompletelyInitialized() {
+            OnEnter();
+        }
+        
         public void Enter() {
             NpcHistorian.NotifyMovement(Npc, $"Entered state {this}");
             _active = true;
@@ -36,7 +40,9 @@ namespace Awaken.TG.Main.AI.Movement.States {
                 _wasPushed = true;
             }
             if (_override == null) {
-                OnEnter();
+                if (Controller != null) {
+                    OnEnter();
+                }
             } else {
                 _override.Enter();
             }
@@ -44,7 +50,9 @@ namespace Awaken.TG.Main.AI.Movement.States {
         public void Exit(bool isBeingPop = false, bool isMainState = false) {
             NpcHistorian.NotifyMovement(Npc, $"Exited state {this}");
             if (_override == null) {
-                OnExit();
+                if (Controller != null) {
+                    OnExit();
+                }
             } else {
                 _override.Exit(isBeingPop);
             }

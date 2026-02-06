@@ -50,7 +50,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         public float FireStrength { get; private set; }
         public override bool PreventHidingWeapon => CurrentAnimatorState?.GeneralType == HeroGeneralStateType.BowDraw;
         public override HeroLayerType LayerType => HeroLayerType.BothHands;
-        public override HeroStateType DefaultState => HeroStateType.EquipWeapon;
+        public override HeroStateType DefaultState => DefaultEquipState;
         public CharacterBow HeroBow {
             get {
                 if (_bow is { HasBeenDiscarded: false }) {
@@ -104,9 +104,11 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
             if (vHeroController == null || vHeroController.PerspectiveChangeInProgress) {
                 return;
             }
-            
+
             UpdateArrowProjectile();
-            SetCurrentState(HeroStateType.EquipWeapon);
+            if (!IsInsideSafeZone) {
+                SetCurrentState(HeroStateType.EquipWeapon);
+            }
         }
 
         protected override void OnUIStateChanged(UIState state) {
@@ -316,7 +318,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
             projectile.FinalizeConfiguration();
 
             // --- Reducing projectile from inventory
-            using var suspendNotification = new AdvancedNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
+            using var suspendNotification = new ItemNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
             equippedArrows?.DecrementQuantity();
 
             FireStrength = 0;

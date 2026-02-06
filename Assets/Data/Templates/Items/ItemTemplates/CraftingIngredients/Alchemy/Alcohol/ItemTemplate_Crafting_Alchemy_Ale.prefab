@@ -59,6 +59,7 @@ MonoBehaviour:
   - alchemy:alcohol
   - item:alcohol
   - ingredients:basicalchemy
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 0f22b9f223c0cea459e8ab2183c1947e
@@ -153,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: 8acacc790f4505c4a8d0788705b0cf88
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &5128635444738983869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +182,7 @@ MonoBehaviour:
       _guid: 6219faf0de359c24894f4d983ee7d636
     variables:
     - name: Buildup
-      value: 100
+      value: 34
     enums:
     - name: StatEnum
       enumReference:

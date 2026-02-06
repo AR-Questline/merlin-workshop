@@ -38,7 +38,7 @@ namespace Awaken.TG.Main.Heroes.Statuses.Duration {
         }
         
         void Update(float deltaTime) {
-            if (!ParentModel.CanEvaluateTime) {
+            if (HasBeenDiscarded || !ParentModel.CanEvaluateTime) {
                 return;
             }
             
@@ -103,6 +103,9 @@ namespace Awaken.TG.Main.Heroes.Statuses.Duration {
         }
         
         protected override void OnDiscard(bool fromDomainDrop) {
+            if (fromDomainDrop) {
+                return;
+            }
             TimeModel.GetTimeDependent()?.WithoutAlwaysUpdate(_unscaledTime ? UpdateUnscaled : Update);
         }
 

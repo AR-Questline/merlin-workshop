@@ -18,6 +18,7 @@ namespace Awaken.TG.Main.Skills.Passives {
         readonly Func<Item, bool> _filter;
         readonly TweakData[] _datas;
         readonly Dictionary<Item, Tweak[]> _tweaksByItem = new();
+        public TweakData[] Datas => _datas;
 
         public PassiveItemTypeTweak(Func<Item, bool> filter, TweakData[] datas) {
             _filter = filter;

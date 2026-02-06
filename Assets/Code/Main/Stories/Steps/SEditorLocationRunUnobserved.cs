@@ -22,6 +22,8 @@ namespace Awaken.TG.Main.Stories.Steps {
         public LocationReference locationReference;
         [Space]
         public bool waitTime;
+        [ShowIf(nameof(waitTime))] 
+        public bool waitInRealTime;
         [ShowIf(nameof(waitTime))]
         public ARTimeSpan timeSpan;
         public StoryBookmark targetStory;
@@ -35,6 +37,7 @@ namespace Awaken.TG.Main.Stories.Steps {
                 requireDistance = requireDistance,
                 locationReference = locationReference,
                 waitTime = waitTime,
+                waitInRealTime = waitInRealTime,
                 timeSpan = timeSpan,
                 targetStory = targetStory,
                 useToPassReference = useToPassReference,
@@ -47,6 +50,7 @@ namespace Awaken.TG.Main.Stories.Steps {
         public bool requireDistance = true;
         public LocationReference locationReference;
         public bool waitTime;
+        public bool waitInRealTime;
         public ARTimeSpan timeSpan;
         public StoryBookmark targetStory;
         public bool useToPassReference;
@@ -55,8 +59,13 @@ namespace Awaken.TG.Main.Stories.Steps {
         public override StepResult Execute(Story story) {
             List<DeferredCondition> conditions = new();
             if (waitTime) {
-                ARDateTime targetTime = World.Only<GameRealTime>().WeatherTime + timeSpan;
-                conditions.Add(new DeferredTimeCondition(targetTime));
+                if (waitInRealTime) {
+                    ARTimeSpan targetTime = World.Only<GameRealTime>().PlayRealTime + timeSpan;
+                    conditions.Add(new DeferredRealTimeCondition(targetTime));
+                } else {
+                    ARDateTime targetTime = World.Only<GameRealTime>().WeatherTime + timeSpan;
+                    conditions.Add(new DeferredTimeCondition(targetTime));
+                }
             }
 
             if (requireDistance) {

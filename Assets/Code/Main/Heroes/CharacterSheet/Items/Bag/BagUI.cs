@@ -71,11 +71,11 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Bag {
                 _promptUnequip.SetActive(false);
                 _promptUse.SetActive(false);
             } else if (item.IsEquippable && !item.IsConsumable && !item.IsEdible) {
-                _promptUse.SetActive(item is { IsEquipped: false });
+                _promptUse.SetActive(item is { IsEquipped: false, Locked: false } && ParentModel.HeroItems.AllowEquipping);
                 _promptUse.ChangeName(LocTerms.UIItemsEquip.Translate());
-                _promptUnequip.SetActive(item is { IsEquipped: true });
+                _promptUnequip.SetActive(item is { IsEquipped: true, Locked: false } && ParentModel.HeroItems.AllowEquipping);
             } else {
-                _promptUse.SetActive(true);
+                _promptUse.SetActive(item is not { Locked: true, IsEquipped: false });
                 _promptUse.ChangeName(item.UseActionName);
                 _promptUnequip.SetActive(false);
             }
@@ -94,7 +94,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Bag {
         }
 
         void PerformItemAction() {
-            if (_hoveredItem is { Locked: false }) {
+            if (_hoveredItem is not { Locked: true, IsEquipped: false }) {
                 _hoveredItem.Use();
                 RefreshPrompts(_hoveredItem);
                 _tooltip.SetDescriptor(new ExistingItemDescriptor(_hoveredItem));

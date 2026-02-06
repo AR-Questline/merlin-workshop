@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Locations.Actions;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -21,6 +22,7 @@ namespace Awaken.TG.Main.Heroes.Interactions {
         
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnAlwaysVisibleHUD();
         public IEnumerable<KeyBindings> PlayerKeyBindings => KeyBindings.Gameplay.Interact.Yield();
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             FillInfo().Forget();

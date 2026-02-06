@@ -62,7 +62,7 @@ MonoBehaviour:
   - item:tier4
   iconReference:
     arSpriteReference:
-      address: 83131df8e5992e343b35b8a1013f1a83
+      address: aba2b36520ce2684e88b646c421544f2
       subObjectName: 
   itemName:
     IdOverride: 
@@ -77,8 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_3aedd008a1b13424aa827254b912de53
-  EDITOR_bakedDescription: Light armor with excellent protection and magical resistance.
-    Reduces mana regeneration to zero if any set piece is worn.
+  EDITOR_bakedDescription: <color=#04959A>Critical Hits</color> make your target
+    <color=#04959A>Bleed</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,14 +177,14 @@ MonoBehaviour:
     gender: 1
     hand: 0
     itemPrefab:
-      address: eda026557c830194fb2bb2101a008f74
+      address: 77c69f38009fa0d46a7521a95769bdbb
       subObjectName: 
   - abstractNpcTemplates:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
     itemPrefab:
-      address: a8670a25a1790ad4a9137510703912e7
+      address: c01e31c7aa6ab5c4084ceb2ca85bbcac
       subObjectName: 
   equipmentType:
     _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentType, TG.Main, Version=0.0.0.0,
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:

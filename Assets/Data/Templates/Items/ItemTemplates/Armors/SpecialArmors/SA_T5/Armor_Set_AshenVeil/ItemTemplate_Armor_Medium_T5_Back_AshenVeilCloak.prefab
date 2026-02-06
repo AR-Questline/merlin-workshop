@@ -77,12 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_triple
       ID: Template/description_locString_2543871262668956605_db6bc48db781bf549b7fe4237de979a8
-  EDITOR_bakedDescription: 'Increases Physical Damage by 20%.
-
-    Increases Attack
-    Speed by 20%.
-
-    Increases Critical Chance by 20%.'
+  EDITOR_bakedDescription: "Increases Physical Damage by 20\_%.\nIncreases Attack
+    Speed by 20\_%.\nIncreases Critical Chance by 5\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -158,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &551714228796248067
 MonoBehaviour:
@@ -248,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5170670584440967936
 MonoBehaviour:
@@ -589,6 +592,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
+      value: 0.02
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -606,6 +611,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
+      value: 0.02
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -621,8 +628,10 @@ MonoBehaviour:
       _guid: e699a32c4d76b8b48aa933b6586a5bca
     variables:
     - name: ModifyValue
-      value: 0.2
+      value: 0.05
     - name: GainValue
+      value: 0
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

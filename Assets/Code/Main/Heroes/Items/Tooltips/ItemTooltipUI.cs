@@ -5,6 +5,7 @@ using Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.Items.Tooltips.Base;
 using Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
@@ -22,6 +23,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
         public IItemDescriptor ConstantDescriptorToCompare { get; set; }
         static ICharacterInventory HeroInventory => Hero.Current.Inventory;
         
+        public bool IsValid => this.IsValidForUIHandle();
         readonly bool _comparerActive;
 
         public new static class Events {
@@ -73,8 +75,6 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
             
             var equippedItems = Hero.Current.HeroItems.EquippedItems();
             var possibleItems = new StructList<Item>(equippedItems.Count());
-            Item lowestLevelItem = null;
-            int minLevel = int.MaxValue;
             
             foreach (var otherEquippedItem in Hero.Current.HeroItems.EquippedItems()) {
                 // skip items that are hidden on UI (e.g., hero fists)
@@ -114,22 +114,12 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
                     continue;
                 }
                 
-                // skip item that are in current loadout
+                // skip items that are in current loadout
                 if (!isNotWeaponOrAmmo && currentItem.IsEquipped && HeroInventory.CurrentLoadout[currentSlot] == currentItem) {
                     continue;
                 }
                 
-                int itemLevel = otherEquippedItem.Level.ModifiedInt;
-                if (itemLevel < minLevel) {
-                    minLevel = itemLevel;
-                    lowestLevelItem = otherEquippedItem;
-                } else {
-                    possibleItems.Add(otherEquippedItem);
-                }
-            }
-
-            if (lowestLevelItem != null) {
-                possibleItems.Add(lowestLevelItem);
+                possibleItems.Add(otherEquippedItem);
             }
             
             return possibleItems.Count switch {
@@ -201,9 +191,22 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
         public UIResult Handle(UIEvent evt) {
             if (evt is UIKeyDownAction action) {
                 if (action.Name == KeyBindings.UI.Generic.ReadMore) {
+                    bool paginationHandled = false;
+                    
                     foreach (var view in Views) {
                         if (view is VCItemBaseTooltipUI itemBaseTooltip) {
-                            itemBaseTooltip.ToggleReadMore();
+                            if (itemBaseTooltip.HandlePagination()) {
+                                paginationHandled = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (!paginationHandled) {
+                        foreach (var view in Views) {
+                            if (view is VCItemBaseTooltipUI itemBaseTooltip) {
+                                itemBaseTooltip.ToggleReadMore();
+                            }
                         }
                     }
                 }

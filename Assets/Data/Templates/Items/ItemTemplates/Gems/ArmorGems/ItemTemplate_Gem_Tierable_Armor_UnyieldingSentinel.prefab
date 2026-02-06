@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_decrease_percent
       ID: Template/description_locString_2543871262668956605_c7a13bf480ec05648ae77352ae0bd057
-  EDITOR_bakedDescription: Reduces Stamina Cost by 4%.
+  EDITOR_bakedDescription: "Reduces Stamina Cost by 4\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -131,7 +131,7 @@ MonoBehaviour:
   basePrice: 100
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 150
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -148,6 +148,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: 848161df67ecede439359faf034f40fd
       subObjectName: 
@@ -170,7 +174,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.04
     - name: ValueGain
-      value: 0.02
+      value: 0.004
     - name: ValueCalculated
       value: 0
     enums:

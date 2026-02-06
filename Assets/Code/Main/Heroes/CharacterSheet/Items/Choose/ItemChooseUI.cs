@@ -15,7 +15,7 @@ using Awaken.TG.Utility;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Choose {
-    public interface IItemChooseUI : IItemsUIConfig, IModel { }
+    public interface IItemChooseUI : IItemsUIConfig { }
 
     public abstract partial class ItemChooseUI<TParent> : Element<TParent>, IItemChooseUI where TParent : IItemChooseParent {
         public sealed override bool IsNotSaved => true;

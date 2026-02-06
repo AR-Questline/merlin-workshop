@@ -7,6 +7,7 @@ using Awaken.TG.Main.Heroes.Development;
 using Awaken.TG.Main.Heroes.Stats.StatConfig;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Memories;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Stories.Quests.Objectives;
 using Awaken.TG.Main.Stories.Quests.Objectives.Specs;
 using Awaken.TG.Main.Stories.Quests.Objectives.Trackers;
@@ -197,7 +198,7 @@ namespace Awaken.TG.Main.Stories.Quests {
         
         // === Objectives
         
-        static void FinishActiveObjectives(Quest quest, bool asFailed) {
+        public static void FinishActiveObjectives(Quest quest, bool asFailed) {
             foreach (Objective obj in quest.Elements<Objective>()) {
                 if (obj.State == ObjectiveState.Active) {
                     ChangeObjectiveState(obj, asFailed ? ObjectiveState.Failed : ObjectiveState.Completed);
@@ -264,6 +265,9 @@ namespace Awaken.TG.Main.Stories.Quests {
         }
 
         public static void ChangeObjectiveState(Objective objective, ObjectiveState newState) {
+            if (objective.ParentModel.InFinalState && newState is ObjectiveState.Active) {
+               return;
+            }
             string contextId = ContextID(objective);
             ObjectiveState oldState = objective.State;
             World.Services.Get<GameplayMemory>().Context(contextId).Set("state", newState);
@@ -273,6 +277,9 @@ namespace Awaken.TG.Main.Stories.Quests {
 
         public static void ChangeObjectiveState(TemplateReference questRef, string objectiveGuid, ObjectiveState newState, bool allowChangeFromFinalStates = false) {
             Quest quest = Find(questRef);
+            if ((quest?.InFinalState ?? false) && newState is ObjectiveState.Active) {
+                return;
+            }
             string contextId = ContextID(questRef, objectiveGuid);
             Objective objective = quest?.Objectives.FirstOrDefault(obj => obj.ContextID == contextId);
             var oldState = objective?.State;
@@ -295,18 +302,28 @@ namespace Awaken.TG.Main.Stories.Quests {
             return memory.Context(ContextID(templateRef, objectiveGuid)).Get("state", ObjectiveState.Inactive);
         }
         
-        public static float CalculateXp(int questLvl, StatDefinedRange questMultiRange, float customPoints) {
+        public static float CalculateXp(int questLvl, StatDefinedRange questMultiRange, float customPoints, bool boostWithNgLevel) {
             if (questMultiRange == StatDefinedRange.Custom) return customPoints;
             
-            float randomPick = CalculateXpRange(questLvl, questMultiRange, customPoints).RandomPick();
+            float randomPick = CalculateXpRange(questLvl, questMultiRange, customPoints, boostWithNgLevel).RandomPick();
             return HeroDevelopment.RoundExp(randomPick);
         }
         
-        public static FloatRange CalculateXpRange(int questLvl, StatDefinedRange questMultiRange, float customPoints) {
+        public static FloatRange CalculateXpRange(int questLvl, StatDefinedRange questMultiRange, float customPoints, bool boostWithNgLevel) {
             if (questMultiRange == StatDefinedRange.Custom) {
-                return new FloatRange(customPoints, customPoints);
+                float points = customPoints;
+                if (points <= 0) {
+                    return new FloatRange(0, 0);
+                }
+                if (boostWithNgLevel) {
+                    points += NewGamePlusSystem.CalculatedBonusQuestXPValueIfCustom;
+                }
+                return new FloatRange(points, points);
             }
             FloatRange multiplierRange = StatDefinedValuesConfig.GetRange(HeroStatType.XP, questMultiRange) ?? new FloatRange(0f, 0f);
+            if (boostWithNgLevel) {
+                questLvl += NewGamePlusSystem.CalculatedBonusQuestXPLevel;
+            }
             float expForLvl = HeroDevelopment.RequiredExpFor(Mathf.Max(questLvl, 2));
             return multiplierRange * expForLvl;
         }

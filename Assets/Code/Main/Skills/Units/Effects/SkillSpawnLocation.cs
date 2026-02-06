@@ -22,6 +22,7 @@ namespace Awaken.TG.Main.Skills.Units.Effects {
             var overridenLocationName = FallbackARValueInput("overridenLocationName", _ => string.Empty);
             var spawnVFX = FallbackARValueInput<ShareableARAssetReference>("spawnVFX", _ => null);
             var vfxDuration = FallbackARValueInput("vfxDuration", _ => 5f);
+            var newGamePlusLevel = FallbackARValueInput("newGamePlusLevel", _ => -1);
 
             ValueOutput spawnedLocation = ValueOutput<Location>("spawnedLocation");
 
@@ -34,7 +35,7 @@ namespace Awaken.TG.Main.Skills.Units.Effects {
                 }
                 Quaternion rotation = rot.Value(flow);
                 Location location = template.SpawnLocation(position, rotation, null,
-                    assetReferenceOverride.Value(flow), overridenLocationName.Value(flow));
+                    assetReferenceOverride.Value(flow), overridenLocationName.Value(flow), newGamePlusLevel: newGamePlusLevel.Value(flow));
                 RepetitiveNpcUtils.Check(location);
 
                 var vfx = spawnVFX.Value(flow);

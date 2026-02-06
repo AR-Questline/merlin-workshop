@@ -81,10 +81,10 @@ MonoBehaviour:
     locString:
       IdOverride: Item_SoulCube_ThePyroclastCore_Desc
       ID: Template/description_locString_2543871262668956605_77f4f159109adc345853f83f634402ac
-  EDITOR_bakedDescription: 'Charged by dealing Fire Damage
+  EDITOR_bakedDescription: 'Charged by dealing Fire Damage 0/1000.
 
-    Summon a <color=#04959A>Burning</color>
-    rain of fire within an area for 12s.'
+    Summon a
+    <color=#04959A>Burning</color> rain of fire within an area for 12s.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -162,6 +162,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 021ee0698545fef4e9d554f7ccaf2223
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -323,8 +327,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

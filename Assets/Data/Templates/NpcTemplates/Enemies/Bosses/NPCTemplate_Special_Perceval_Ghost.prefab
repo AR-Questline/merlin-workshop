@@ -76,7 +76,7 @@ MonoBehaviour:
   staminaRegenPerTick: 5
   staminaUsageMultiplier: 1
   canBeWyrdEmpowered: 0
-  canEnterCombat: 1
+  canEnterCombat: 0
   meleeDamage: 60
   rangedDamage: 5
   magicDamage: 5
@@ -96,6 +96,7 @@ MonoBehaviour:
   heroKnockBack: 100
   statusStats:
     displayType: 0
+    invulnerableToStatuses: []
     _bleed:
       buildupThreshold: 3
       effectStrength: 2
@@ -150,7 +151,7 @@ MonoBehaviour:
       buildupName: Full
   crimeNpcValue: 4
   crimeReactionArchetype: 0
-  npcType: 5
+  npcType: 0
   expLevel: 0
   expTier: 0
   expReward: 0

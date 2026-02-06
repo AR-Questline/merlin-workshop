@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -14,6 +15,8 @@ namespace Awaken.TG.Main.Locations.Gems.GemManagement {
         
         [field: SerializeField] public Transform ChooseHost { get; private set; }
         
+        public bool IsValid => this.IsValidForUIHandle();
+
         public void UpdateCostValue(int cost, bool isVisible) {
             costParent.SetActive(isVisible);
         }

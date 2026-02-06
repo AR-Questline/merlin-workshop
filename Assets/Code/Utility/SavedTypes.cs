@@ -193,5 +193,13 @@ namespace Awaken.Utility {
         public const ushort DamageTypeData = 190;
         public const ushort DamageTypeDataPart = 191;
         public const ushort DamageParameters = 192;
+        public const ushort StepExecution_TriggerVFXSpawn = 193;
+        public const ushort StepExecution_NpcTurnCombatPrevention = 194;
+        public const ushort StepExecution_ToggleManualDissolve = 195;
+        public const ushort CachedLoadout = 196;
+        public const ushort StepExecution_StatusRemoveNpc = 197;
+        public const ushort DeferredRealTimeCondition = 198;
+        public const ushort StepExecution_LocationMaterialPropertyController = 199;
+        public const ushort LightLocString = 200;
     }
 }

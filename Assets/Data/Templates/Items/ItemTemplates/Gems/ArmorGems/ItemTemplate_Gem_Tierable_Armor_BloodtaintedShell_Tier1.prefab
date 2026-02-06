@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 2171448430345750879, guid: 4349b8eb0c326bb4088e47eadcc484e2,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[1].name
-      value: GainValue
+      value: ValueGain
       objectReference: {fileID: 0}
     - target: {fileID: 2171448430345750879, guid: 4349b8eb0c326bb4088e47eadcc484e2,
         type: 3}
@@ -32,6 +32,11 @@ PrefabInstance:
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[0].value
       value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: 4349b8eb0c326bb4088e47eadcc484e2,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[1].value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 4349b8eb0c326bb4088e47eadcc484e2,
         type: 3}
@@ -88,6 +93,11 @@ PrefabInstance:
         type: 3}
       propertyPath: itemName.IdOverride
       value: item_rune_armor_BloodtaintedShell
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 4349b8eb0c326bb4088e47eadcc484e2,
+        type: 3}
+      propertyPath: priceLevelMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 4349b8eb0c326bb4088e47eadcc484e2,
         type: 3}

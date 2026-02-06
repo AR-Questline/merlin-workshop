@@ -1,6 +1,7 @@
 ﻿using Awaken.Utility;
 using System;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Animations;
@@ -30,8 +31,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
             base.InitFromAttachment(spec, isRestored);
         }
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             ParentModel.AddElement(new PetShargAction());
             ParentModel.AfterFullyInitialized(() => NpcElement.ListenTo(IAlive.Events.BeforeDeath, ParentModel.RemoveElementsOfType<PetShargAction>), this);
         }

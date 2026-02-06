@@ -16,7 +16,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
 
         void OnEnable() {
-            if (invokeOnEnable) {
+            if (invokeOnEnable && Hero.Current is { IsFullyInitialized: true }) {
                 Hero.Current.Trigger(Events.InvokeShake, new DirectionalShakeData(force, transform.position, impulseSource));
             }
         }

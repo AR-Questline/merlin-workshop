@@ -61,6 +61,12 @@ MonoBehaviour:
   tags:
   - item:tier6
   - item:important
+  conditionalIconReference:
+  - requiredFlag: ArthurSkin:ConquerorOfAvalon
+    icon:
+      arSpriteReference:
+        address: 955ea725fd6bf0840aa846db7685bf99
+        subObjectName: 
   iconReference:
     arSpriteReference:
       address: 3e726a82efda4c3479011c564a70daa2
@@ -78,7 +84,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_3481278464381540875_d3c661850fed66845bd31501f83b75f9
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: "When Damage is taken, Physical Damage, Spell Power, Attack
+    Speed and Critical Damage increase by 5\_%. The effect disappears after 5s from
+    the last hit.\nYou deal increased Damage to Fore-Dweller enemies."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +163,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &65496477038166889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +184,23 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: eadeac3c2c3163e48bf0134dae607a59
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 2
+    hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: d5be790389a579848a1dbb9a60dc9253
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 1
+    hand: 0
+    flag: 
     itemPrefab:
       address: 0c4277caf17c43941b70ed5d982b319b
       subObjectName: 
@@ -179,6 +208,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: d61419f883298b9408c127e4522c50ba
       subObjectName: 
@@ -244,8 +274,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &1884240061462925180
 MonoBehaviour:
@@ -287,7 +320,7 @@ MonoBehaviour:
     - name: AddValueCalculated3
       value: 0
     - name: Gain
-      value: 0.01
+      value: 0.005
     - name: Duration
       value: 5
     enums:
@@ -306,7 +339,7 @@ MonoBehaviour:
     - name: StatEnum3
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:CriticalChance
+          Culture=neutral, PublicKeyToken=null:CriticalDamageMultiplier
     datums: []
     templates: []
     assetReferences: []

@@ -58,6 +58,7 @@ MonoBehaviour:
   tags:
   - potions:quest
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 59d3867857994734694997277e0b86f7
@@ -75,9 +76,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_235f7ed1994d1cc49b6e947c19fab873
-  EDITOR_bakedDescription: 'Does nothing.
-
-    Unless you don''t know that.'
+  EDITOR_bakedDescription: "Does nothing.\nUnless you don\u2019t know that."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -144,7 +143,7 @@ MonoBehaviour:
   upgradeChance: 0
   crimeItemValue: 4
   canStack: 1
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
@@ -153,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 116473962917af44293a519f2a30c2c6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

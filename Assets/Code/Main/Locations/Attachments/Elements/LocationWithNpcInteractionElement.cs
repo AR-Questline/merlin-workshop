@@ -6,8 +6,10 @@ using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Interactions;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Attachments.Attachment;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 
 namespace Awaken.TG.Main.Locations.Attachments.Elements {
@@ -26,10 +28,23 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         protected override void OnInitialize() {
             ParentModel.ListenTo(Location.Events.Interacted, OnHeroActionStarted, this);
             ParentModel.ListenTo(Location.Events.InteractionFinished, OnHeroActionFinished, this);
+            foreach (var interaction in _spec.Interactions) {
+                if (interaction == null) {
+                    Log.Important?.Error($"{nameof(LocationWithNpcInteractionElement)} has empty interaction on the list: {LogUtils.GetDebugName(this)}");
+                }
+            }
         }
 
         void OnHeroActionStarted(LocationInteractionData data) {
+            if (_spec == null) {
+                Log.Important?.Error($"{nameof(LocationWithNpcInteractionElement)} has null _spec on {(HasBeenDiscarded ? "discarded" : LogUtils.GetDebugName(this))}");
+                _cancellationTokenSource?.Cancel();
+                return;
+            }
             foreach (var interaction in _spec.Interactions) {
+                if (interaction == null) {
+                    continue;
+                }
                 interaction.Book(Hero.Current);
             }
             _cancellationTokenSource?.Cancel();
@@ -42,7 +57,13 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
 
         async UniTaskVoid RealTimeWait() {
             if (await AsyncUtil.DelayTime(this, RealTimeInteractionDelay, source: _cancellationTokenSource)) {
+                if (_spec == null) {
+                    return;
+                }
                 foreach (var interaction in _spec.Interactions) {
+                    if (interaction == null) {
+                        continue;
+                    }
                     interaction.Unbook(Hero.Current);
                 }
             }

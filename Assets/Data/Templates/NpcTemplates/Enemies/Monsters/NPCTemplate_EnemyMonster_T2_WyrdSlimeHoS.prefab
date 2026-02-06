@@ -54,7 +54,7 @@ MonoBehaviour:
     verifiedDesign: 0
     notes: 
   faction:
-    _guid: 93e4b60a008c9804cbc22a82727c8d07
+    _guid: 4c90d92d219d54a4f8918310ba9998a7
   defaultCrimeOwner:
     _guid: 
   level: 10
@@ -67,6 +67,7 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 0
+  BackToSpawnPointDistanceMultiplier: 1
   maxHealth: 150
   healthRegen: 0
   maxStamina: 100
@@ -147,6 +148,10 @@ MonoBehaviour:
       buildupThreshold: 1
       effectStrength: 1
       buildupName: Full
+    _petrification:
+      buildupThreshold: 3
+      effectStrength: 1
+      buildupName: Petrification
   crimeNpcValue: 4
   crimeReactionArchetype: 0
   npcType: 2
@@ -194,6 +199,10 @@ MonoBehaviour:
       address: 
       subObjectName: 
   tattooType: 0
+  corpseVFX:
+    arReference:
+      address: 
+      subObjectName: 
   dummyDeathClipTransition:
     address: 
     subObjectName: 

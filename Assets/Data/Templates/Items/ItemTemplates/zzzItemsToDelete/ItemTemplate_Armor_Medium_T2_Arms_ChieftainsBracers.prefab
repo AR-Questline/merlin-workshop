@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2543871262668956605}
   - component: {fileID: 1382325995290807351}
   - component: {fileID: -1342416209863646601}
-  - component: {fileID: -4047062517618786039}
   - component: {fileID: 215660845427092069}
   m_Layer: 0
   m_Name: ItemTemplate_Armor_Medium_T2_Arms_ChieftainsBracers
@@ -48,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc88cdec074e78e46bc67fe4e55b723d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  templateType: 3
+  templateType: 0
   _isAbstract: 0
   _abstractTypes:
   - _guid: 3b699d9093bf4fe4ca782c36d3196a8f
@@ -57,7 +56,9 @@ MonoBehaviour:
     verifiedArt: 0
     verifiedDesign: 0
     notes: 
-  tags: []
+  tags:
+  - item:tier2
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 0729370ed1e54a2489b27e13242ddfa1
@@ -71,9 +72,9 @@ MonoBehaviour:
       IdOverride: 
       ID: 
   description:
-    toggled: 1
+    toggled: 0
     locString:
-      IdOverride: description_generic_increase
+      IdOverride: 
       ID: Template/description_locString_2543871262668956605_1b08222c38c6edb41ba2baba78c8b0ab
   EDITOR_bakedDescription: Increases Max Stamina by 1.
   lightCastInfo:
@@ -129,7 +130,7 @@ MonoBehaviour:
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Normal
-  basePrice: 40
+  basePrice: 120
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 1
@@ -152,6 +153,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +174,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: 524a1b8eac04bb049877069dc2d3d659
       subObjectName: 
@@ -176,6 +182,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: 99183c28e4460404e859f7d4bc0b2dcc
       subObjectName: 
@@ -241,46 +248,12 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
---- !u!114 &-4047062517618786039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9174666264328438791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a781d35a7464364dae8f087ddc8a36b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionType:
-    _enumRef: Awaken.TG.Main.Heroes.Items.Attachments.ItemActionType, TG.Main, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null:Equip
-  chargeAble: 0
-  hasChargeSteps: 0
-  maxChargeSteps: 1
-  consumeOnUse: 0
-  skills:
-  - skillGraphRef:
-      _guid: e699a32c4d76b8b48aa933b6586a5bca
-    variables:
-    - name: ModifyValue
-      value: 1
-    - name: GainValue
-      value: 0
-    - name: ValueCalculated
-      value: 0
-    enums:
-    - name: StatEnum
-      enumReference:
-        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:MaxStamina
-    datums: []
-    templates: []
-    assetReferences: []
 --- !u!114 &215660845427092069
 MonoBehaviour:
   m_ObjectHideFlags: 0

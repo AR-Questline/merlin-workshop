@@ -3,6 +3,7 @@
 
 using System;
 using Awaken.Utility.Debugging;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using LogType = Awaken.Utility.Debugging.LogType;
 
@@ -15,9 +16,7 @@ namespace Awaken.Utility.SerializableTypeReference {
     public sealed class SerializableTypeReference : ISerializationCallbackReceiver {
 
         public static string GetClassRef(Type type) {
-            return type != null
-                ? type.FullName + ", " + type.Assembly.GetName().Name
-                : "";
+            return "";// TypeNameCache.SerializableName(type);
         }
 
         /// <summary>
@@ -46,7 +45,8 @@ namespace Awaken.Utility.SerializableTypeReference {
             Type = type;
         }
 
-        [SerializeField] private string _classRef;
+        [SerializeField, ReadOnly, PropertyOrder(2), Indent, LabelText("Saved Value")] 
+        private string _classRef;
 
         #region ISerializationCallbackReceiver Members
 
@@ -64,7 +64,8 @@ namespace Awaken.Utility.SerializableTypeReference {
         void ISerializationCallbackReceiver.OnBeforeSerialize() { }
 
         #endregion
-
+        
+        [ShowInInspector, LabelText("@" + nameof(TypeLabelTextNameOnly)), PropertyOrder(1)]
         private Type _type;
 
         /// <summary>
@@ -83,6 +84,8 @@ namespace Awaken.Utility.SerializableTypeReference {
                 _classRef = GetClassRef(value);
             }
         }
+        
+        string TypeLabelTextNameOnly => "Type: (None)";
 
         public static implicit operator string(SerializableTypeReference typeReference) {
             return typeReference._classRef;

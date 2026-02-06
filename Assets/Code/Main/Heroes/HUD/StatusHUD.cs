@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Heroes.Statuses;
-using Awaken.TG.Main.Heroes.Statuses.Duration;
-using Awaken.TG.Main.Skills;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;

@@ -88,7 +88,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
             if (OnStart()) {
                 _overrideMovementState = ParentModel.NpcMovement.ChangeMainState(OverrideMovementState, MovementStateOverriden);
                 ParentModel.SetAnimatorState(StateType, overrideCrossFadeTime: OverrideCrossFadeTime);
-                if (RequiresCombatSlot) {
+                if (RequiresCombatSlot && ParentModel.NpcElement.IsTargetingHero()) {
                     CombatDirector.BookAttackAction(ParentModel);
                 }
                 if (preventRotation) {
@@ -119,7 +119,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
         void ApplyStaminaCost() {
             if (StaminaCost > 0 && Stamina != null) {
                 Stamina.DecreaseBy(StaminaCost, new ContractContext(ParentModel.NpcElement, ParentModel.NpcElement, ChangeReason.AttackBehaviour));
-                PreventStaminaRegenDuration.Prevent(ParentModel.NpcElement, new TimeDuration(0.5f));
+                PreventStaminaRegenDuration.Prevent(ParentModel.NpcElement, StaminaRegenBlockType.AfterAction, new TimeDuration(0.5f));
             }
         }
 
@@ -130,6 +130,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.Abstracts {
         public override void BehaviourInterrupted() { }
         protected override void BehaviourExit() {            
             CombatDirector.UnBookAttackAction(ParentModel);
+            base.BehaviourExit();
         }
 
         protected virtual void OnAnimatorExitDesiredState() {

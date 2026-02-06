@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Main.Fights.Utils;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC.UI.Events;
 using Cysharp.Threading.Tasks;
 
@@ -7,6 +8,8 @@ namespace Awaken.TG.MVC.UI.Sources {
         readonly int _millisecondsDelay;
         readonly int _framesDelay;
 
+        public bool IsValid => this.IsValidForUIHandle();
+        
         // We need to delay the discard so don't pass owner to base constructor.
         public DisableInputHandler(IModel owner, int millisecondsDelay, int framesDelay) :
             base(UIContext.All, new InputBlock(), null, int.MaxValue) {
@@ -29,11 +32,14 @@ namespace Awaken.TG.MVC.UI.Sources {
         public UIResult Handle(UIEvent evt) {
             return UIResult.Prevent;
         }
-
+        
+        
         class InputBlock : IUIAware {
             public UIResult Handle(UIEvent evt) {
                 return UIResult.Prevent;
             }
+            
+            public bool IsValid => true;
         }
     }
 }

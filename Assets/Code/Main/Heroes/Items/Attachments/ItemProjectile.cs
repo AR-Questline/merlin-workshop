@@ -13,6 +13,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.Utility;
 using Awaken.Utility.Collections;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -38,6 +39,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
 
         public IEnumerable<Skill> Skills => Elements<Skill>().GetManagedEnumerator();
         public ICharacter Character => null;
+        public bool IsSetUp => VisualRef is { IsSet: true } && LogicRef is { IsSet: true };
 
         public void InitFromAttachment(ItemProjectileAttachment spec, bool isRestored) {
             _spec = spec;
@@ -45,6 +47,9 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 // Skills are not saved (see AllowElementSave)
                 var skill = skillRef.CreateSkill();
                 AddElement(skill);
+            }
+            if (!IsSetUp) {
+                Log.Important?.Error($"ItemProjectile is not set up properly. Check the attachment configuration for {spec.gameObject.name}.");
             }
         }
         
@@ -94,7 +99,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
             IPooledInstance instance = await PrefabPool.Instantiate(assetReference, Vector3.zero, Quaternion.identity, parent, Vector3.one, 
                 cancellationToken, startAutomatically);
 
-            if (instance.Instance != null) {
+            if (instance?.Instance != null) {
                 instance.Instance.GetComponentsInChildren<TrailRenderer>().ForEach(t => t.Clear());
                 var visualData = instance.Instance.GetComponentInChildren<ProjectileVisualData>();
                 if (visualData != null && visualData.trailHolder != null) {

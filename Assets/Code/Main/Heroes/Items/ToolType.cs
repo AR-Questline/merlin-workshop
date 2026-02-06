@@ -24,6 +24,7 @@ namespace Awaken.TG.Main.Heroes.Items {
             Fishing = new(nameof(Fishing), LocTerms.Fishing, LocTerms.Fish, true),
             Lumbering = new(nameof(Lumbering), LocTerms.Lumbering, LocTerms.Lumber, true),
             Sketching = new(nameof(Sketching), LocTerms.Sketching, LocTerms.Sketch, false),
-            Spyglassing = new(nameof(Spyglassing), LocTerms.Spyglassing, LocTerms.Look, false);
+            Spyglassing = new(nameof(Spyglassing), LocTerms.Spyglassing, LocTerms.Look, false),
+            Cutting = new(nameof(Cutting), LocTerms.Cutting, LocTerms.Cut, true);
     }
 }

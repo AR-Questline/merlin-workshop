@@ -71,9 +71,15 @@ namespace Awaken.TG.Main.AudioSystem {
             }
 
             _salsa.emoter = emphasisEmoter;
+            
+            if (emotion == SalsaEmotion.Dead) {
+                emphasisEmoter.useRandomEmotes = false;
+            }
+            
             // emphasisEmoter.UpdateExpressionControllers();
             // emphasisEmoter.UpdateEmoteLists();
             // emphasisEmoter.ManualEmote(emotion.Index, emotion.ExpressionHandler);
+            
         }
 
         // === Helpers

@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_double_increase_percent
       ID: Template/description_locString_2543871262668956605_2816c958b916cd049820c0f1f46dbe7b
-  EDITOR_bakedDescription: 'Increases Mana Cost by 50%.
-
-    Increases Spell Power
-    by 75%.'
+  EDITOR_bakedDescription: "Increases Mana Cost by 50\_%.\nIncreases Spell Power
+    by 76\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -137,7 +135,7 @@ MonoBehaviour:
   basePrice: 500
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 2fa5a55f54f6889439dc655827a48c9e
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -209,7 +211,7 @@ MonoBehaviour:
   pushStaminaCost: 15
   minDamage: 31
   maxDamage: 35
-  damageGain: 1
+  damageGain: 2
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
   backStabDamageMultiplier: 0
@@ -242,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &7743003170720526685
 MonoBehaviour:
@@ -270,7 +275,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.5
     - name: GainValue
-      value: 0.1
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -285,9 +292,11 @@ MonoBehaviour:
       _guid: e699a32c4d76b8b48aa933b6586a5bca
     variables:
     - name: ModifyValue
-      value: 0.75
+      value: 0.76
     - name: GainValue
-      value: 0.05
+      value: 0.02
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

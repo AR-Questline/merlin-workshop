@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Utility {
@@ -197,6 +198,60 @@ namespace Awaken.TG.Utility {
         
         public static float DistanceToRay(Ray ray, Vector3 point) {
             return Vector3.Cross(ray.direction, point - ray.origin).magnitude;
+        }
+
+        public static Vector3 ClosestPointOnUpLineSegmentToRay(Ray ray, Vector3 point, float height) => ClosestPointOnUpLineSegmentToRay(ray.origin, ray.direction, point, height);
+
+        public static Vector3 ClosestPointOnUpLineSegmentToRay(Vector3 rayCenter, Vector3 rayDirection, Vector3 lineSegmentBottom, float lineSegmentHeight) {
+            // squared Euclidean distance between a point on a ray and a point on a vertical line segment.
+            //
+            // t - scalar parameter along the ray
+            // s - scalar parameter along the line segment
+            // D(t,s) - squared distance between point on ray and point on segment
+            // u - normalized ray direction
+            // v - direction vector of the segment
+            // w0 - vector from the bottom of the segment to the ray center
+            //
+            // D(t,s) = w0 ⋅ w0 + 2t(u ⋅ w0) - 2s(v ⋅ w0) + t^2(u ⋅ u) + s^2(v ⋅ v) - 2ts(u ⋅ v)
+            //
+            // a - u ⋅ u
+            // b - u ⋅ v
+            // c - v ⋅ v
+            // d - u ⋅ w0
+            // e - v ⋅ w0
+            //
+            // D(t,s) = w0 ⋅ w0 + 2td - 2se + at^2 + cs^2 - 2tsb
+            //
+            // ∂D / ∂t = 2d + 2at - 2sb = 0
+            // d + at - sb == 0
+            //
+            // ∂D / ∂s = -2e + 2cs - 2tb = 0
+            // -e + cs - tb == 0
+            //
+            // a and c equal 1, so we can simplify the equations:
+            // d + t - sb == 0
+            // -e + s - tb == 0
+            
+            Vector3 dif = rayCenter - lineSegmentBottom;
+            
+            // float a = 1;
+            float b = Vector3.Dot(rayDirection, Vector3.up);
+            // float c = 1;
+            float d = Vector3.Dot(rayDirection, dif);
+            float e = Vector3.Dot(Vector3.up, dif);
+
+            float denominator = 1 - b * b;
+            float height;
+
+            // ray can be parallel to the segment
+            if (math.abs(denominator) < 1e-6f) {
+                height = e;
+            } else {
+                height = (e - b * d) / denominator;
+            }
+            
+            height = math.clamp(height, 0f, lineSegmentHeight);
+            return lineSegmentBottom + height * Vector3.up;
         }
         
         /// <summary>

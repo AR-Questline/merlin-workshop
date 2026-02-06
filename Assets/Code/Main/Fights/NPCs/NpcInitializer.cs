@@ -3,7 +3,6 @@ using Awaken.TG.Main.AI;
 using Awaken.TG.Main.AI.Barks;
 using Awaken.TG.Main.AI.Combat.Attachments;
 using Awaken.TG.Main.AI.Idle.Behaviours;
-using Awaken.TG.Main.AI.Idle.Interactions;
 using Awaken.TG.Main.AI.Movement;
 using Awaken.TG.Main.AI.Movement.Controllers;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
@@ -24,7 +23,6 @@ using Awaken.TG.Main.Locations.Mobs;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
-using Awaken.TG.Main.Utility.Animations.Gestures;
 using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using UnityEngine;
@@ -73,6 +71,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
             Npc.AddElement(new NpcTargetGrounded());
             Npc.AddElement(new NpcCrimeReactions());
             Npc.AddElement(new NpcHealthRegeneration());
+            Npc.AddElement(new NpcMovement());
             
             if (Npc.Actor.HasBarks) {
                 Npc.AddElement(new BarkElement());
@@ -84,6 +83,7 @@ namespace Awaken.TG.Main.Fights.NPCs {
             CharacterStats.Create(Npc);
             StatusStats.Create(Npc);
             NpcStats.CreateFromNpcTemplate(Npc);
+            Npc.TemplateBasedInitialization();
             
             Location.AddElement(new NpcItems());
             Npc.AddElement(new CharacterStatuses());
@@ -95,20 +95,21 @@ namespace Awaken.TG.Main.Fights.NPCs {
 
         void AddNotSavedElementsOnFullyInitialize() {
             Location.AddElement(new PickpocketAction());
+            InitNpcAI(new NpcElement.InitializationAccessor(Npc));
         }
 
         // === Visual Loaded
         
         public void NotifyVisualLoaded() {
-            var npcAccessor = new NpcElement.InitializationAccessor(Npc);
+            var initializationAccessor = new NpcElement.InitializationAccessor(Npc);
             
             InitAnimations();
-            InitWeaponsHandler(npcAccessor);
-            InitClothesAndBodyFeatures(npcAccessor);
+            InitWeaponsHandler(initializationAccessor);
+            InitClothesAndBodyFeatures(initializationAccessor);
             InitEnemyBaseClass();
-            InitWyrdConversion(npcAccessor);
-            InitMovement();
-            InitNpcAI(npcAccessor);
+            InitWyrdConversion(initializationAccessor);
+            Npc.Movement.InitializerInitialize();
+            Npc.NpcAI.InitializerInitialize();
             InitTimeDependent();
             InitCullingSystem();
             
@@ -166,19 +167,15 @@ namespace Awaken.TG.Main.Fights.NPCs {
                 npcAccessor.HandleWyrdEmpowerment();
             }
         }
-
-        void InitMovement() {
-            Npc.AddElement(new NpcMovement());
-        }
         
         void InitNpcAI(NpcElement.InitializationAccessor npcAccessor) {
             if (NpcElement.DEBUG_DoNotSpawnAI) {
                 return;
             }
-            var npcAI = new NpcAI(Npc.ParentTransform.gameObject);
+            var npcAI = new NpcAI();
             npcAccessor.NpcAI = npcAI;
             Npc.AddElement(npcAI);
-            npcAI.ListenTo(Model.Events.BeforeDiscarded, _ => npcAccessor.NpcAI = null, Npc);
+            npcAI.ListenTo(Model.Events.BeforeDiscarded, _ => { npcAccessor.NpcAI = null; }, Npc);
         }
 
         void InitTimeDependent() {

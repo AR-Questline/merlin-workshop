@@ -138,8 +138,8 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Quest {
         }
         
         void RefreshTrackButton() {
-            bool shouldBeActive = _questData is { questState: QuestState.Active, quest: { ShowNotificationTrackPrompt: true } }
-                                  && World.Only<QuestTracker>().ActiveQuest != _questData.quest;
+            bool shouldBeActive = _questData is { questState: QuestState.Active, quest: { ShowNotificationTrackPrompt: true } } && 
+                                  World.Only<QuestTracker>().ActiveQuest != _questData.quest;
             _trackQuestPrompt.SetupState(shouldBeActive, shouldBeActive);
         }
 

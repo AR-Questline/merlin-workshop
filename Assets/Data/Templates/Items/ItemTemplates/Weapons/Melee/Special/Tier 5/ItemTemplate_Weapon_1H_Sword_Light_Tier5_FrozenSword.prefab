@@ -66,7 +66,7 @@ MonoBehaviour:
   - item:tier5
   iconReference:
     arSpriteReference:
-      address: b065945c0ad441c488fa30eeddb70f9d
+      address: f5e3c9748337faa4f91ff91762ab1792
       subObjectName: 
   itemName:
     IdOverride: item_weapon_1h_sword_FrozenSword
@@ -81,7 +81,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_a0387ddb05948164bbe87fa1870ef019
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: Attacks heavily <color=#04959A>Chill</color> enemies.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,7 +156,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: ea16b1629e2cd5b4d9eb52607e409eb5
+      address: 1b1cfc7b72a0ddd4bb793ba4e36f92a2
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -175,7 +179,7 @@ MonoBehaviour:
     gender: 0
     hand: 0
     itemPrefab:
-      address: 8b101146e1a20474a9797203e71eb553
+      address: 3e9c243249d67da46a33e3009f3cc4a8
       subObjectName: 
   equipmentType:
     _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentType, TG.Main, Version=0.0.0.0,
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-758967162914770704
 MonoBehaviour:
@@ -583,6 +590,10 @@ MonoBehaviour:
     variables:
     - name: Buildup
       value: 80
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
+      value: 0
     - name: Duration
       value: 0
     - name: ChanceToApply

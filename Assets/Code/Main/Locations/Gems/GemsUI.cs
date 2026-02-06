@@ -1,18 +1,15 @@
-﻿using Awaken.TG.Main.Localization;
-using Awaken.TG.Main.UI.ButtonSystem;
+﻿using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Components.Tabs;
 using Awaken.TG.Main.UI.EmptyContent;
 using Awaken.TG.Main.UI.HUD;
-using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.MVC.UI.Universal;
-using Awaken.TG.Utility;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Locations.Gems {
-    public partial class GemsUI : Model, IUIStateSource, IPromptHost, IClosable, GemsUITabs.ITabParent<VGemsUI> {
+    public partial class GemsUI : Model, IUIStateSource, IPromptHost, GemsUITabs.ITabParent<VGemsUI> {
         public override Domain DefaultDomain => Domain.Gameplay;
         public sealed override bool IsNotSaved => true;
         public UIState UIState => UIState.ModalState(HUDState.MiddlePanelShown | HUDState.CompassHidden);
@@ -32,8 +29,7 @@ namespace Awaken.TG.Main.Locations.Gems {
         }
 
         protected override void OnFullyInitialized() {
-            var prompts = AddElement(new Prompts(this));
-            prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Cancel, LocTerms.UIGenericBack.Translate(), Close, Prompt.Position.Last), this);
+            AddElement(new Prompts(this));
             AddElement(new GemsUITabs());
         }
 
@@ -63,10 +59,6 @@ namespace Awaken.TG.Main.Locations.Gems {
         public void ShowEmptyInfo(bool contentActive, string title = null, string description = null) {
             View.EmptyInfoView.SetupLabels(title, description);
             this.Trigger(IEmptyInfo.Events.OnEmptyStateChanged, contentActive);
-        }
-
-        public void Close() {
-            Discard();
         }
     }
 }

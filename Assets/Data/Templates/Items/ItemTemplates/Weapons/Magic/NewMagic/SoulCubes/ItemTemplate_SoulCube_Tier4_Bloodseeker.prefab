@@ -82,10 +82,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_69404ced453a8c149ae8876450505782
-  EDITOR_bakedDescription: 'Charged by killing.
+  EDITOR_bakedDescription: 'Charged by killing 0/8.
 
     Shoots a slow-moving homing
-    projectile, dealing high damage to a single enemy.'
+    projectile, dealing high Damage to a single enemy.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -161,6 +161,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 76b0e3ec6ba93924dbabf91bfd1fb378
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -281,7 +285,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 150
   maxDamage: 180
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -314,8 +318,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5865221597280976396
 MonoBehaviour:

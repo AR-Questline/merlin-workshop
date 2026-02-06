@@ -203,4 +203,15 @@ MonoBehaviour:
     - rid: 1282951455478644935
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
-        array: []
+        array:
+        - rid: 8921153149973037186
+    - rid: 8921153149973037186
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: af663e6eb04a6784d97e0c2163c6bdfa
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0

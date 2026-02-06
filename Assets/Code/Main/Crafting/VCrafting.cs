@@ -88,6 +88,7 @@ namespace Awaken.TG.Main.Crafting {
 
         public void OnHoldKeyHeld(Prompt source, float percent) {
             if (source != _createPrompt) return;
+            CreateKeyHeld();
             craftProgressBar.SetPercent(percent);
             RewiredHelper.VibrateLowFreq(VibrationStrength.Low, VibrationDuration.Continuous);
         }
@@ -100,5 +101,7 @@ namespace Awaken.TG.Main.Crafting {
                 RewiredHelper.VibrateHighFreq(VibrationStrength.Medium, VibrationDuration.Short);
             }
         }
+
+        protected virtual void CreateKeyHeld() { }
     }
 }

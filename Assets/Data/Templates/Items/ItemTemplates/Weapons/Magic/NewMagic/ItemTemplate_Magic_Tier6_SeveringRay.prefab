@@ -53,6 +53,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 24ab22ae60216694cb5efd947c91de4d
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -60,6 +62,7 @@ MonoBehaviour:
   tags:
   - item:important
   - item:tier6
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: e0571f3743e61314eb31723dd48d7805
@@ -77,10 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_d2e13a6a1751fa240862e2dd0d8bbcc6
-  EDITOR_bakedDescription: 'Channel a beam of lightning, dealing heavy damage, but
-    hindering your movement.
-
-    Base damage: 80/sec'
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +157,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +178,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: 84081efb9df45d1408ce957f1607ff2b
       subObjectName: 
@@ -224,6 +229,8 @@ MonoBehaviour:
       value: 0
     - name: ChargedHeavyMaxDamageCalculated
       value: 0
+    - name: HeavyCastDecalSpawnPerSecond
+      value: 20
     enums: []
     datums:
     - name: Piercing
@@ -241,7 +248,7 @@ MonoBehaviour:
         id: 0
       value:
         simpleValue:
-          rawValue: 0
+          rawValue: 1
         stringValue: 
         assetValue:
           address: 
@@ -266,7 +273,7 @@ MonoBehaviour:
     - name: HeavyHitConfirm
       assetReference:
         arReference:
-          address: 33f50da55b5a489498b51358cd55f1a2
+          address: 527222ccf4defe74b9fc01f7474bdf47
           subObjectName: 
 --- !u!114 &-2769171108556335023
 MonoBehaviour:
@@ -290,7 +297,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 27
   maxDamage: 30
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -323,8 +330,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 40
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 50
+  heavyCastManaCostPerSecondGain: 1.5
   magicHeldSpeedMultiplier: 0
 --- !u!114 &-7863126784321866877
 MonoBehaviour:

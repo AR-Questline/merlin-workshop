@@ -66,6 +66,10 @@ namespace Awaken.TG.Main.Cameras {
             World.Only<CameraStateStack>().PushCamera(new CameraState(MainCamera, this));
         }
 
+        protected override void OnBeforeDiscard() {
+            World.Any<CameraStateStack>()?.ReleaseAllOwnedBy(this);
+        }
+
         // === Camera Control
         public void ChangeControlType(ControlType newType) {
             if (Control != newType) {

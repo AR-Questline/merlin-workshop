@@ -46,7 +46,6 @@ namespace Awaken.TG.MVC.UI.Handlers.Selections {
         // === Initialization
         protected override void OnInitialize() {
             UIStateStack.Instance.ListenTo(UIStateStack.Events.UIStateChanged, OnUIStateChange, this);
-            UIStateStack.Instance.ListenTo(UIStateStack.Events.UIStatePopped, OnUIStatePopped, this);
         }
 
         // === Select / Deselect
@@ -85,6 +84,13 @@ namespace Awaken.TG.MVC.UI.Handlers.Selections {
             Select(null);
         }
 
+        public void ClearSelectionLayer(int selectionLayer) {
+            _selectedByLayer.Remove(selectionLayer);
+            if (_listenersByLayer.Remove(selectionLayer, out var listener)) {
+                World.EventSystem.TryDisposeListener(ref listener);
+            }
+        }
+
         // === Callbacks
         void OnUIStateChange(UIState state) {
             if (state.SelectionLayer != ActiveLayer) {
@@ -100,14 +106,6 @@ namespace Awaken.TG.MVC.UI.Handlers.Selections {
                 }
             }
         }
-
-        void OnUIStatePopped(UIState state) {
-            _selectedByLayer.Remove(state.SelectionLayer);
-            if (_listenersByLayer.Remove(state.SelectionLayer, out var listener)) {
-                World.EventSystem.TryDisposeListener(ref listener);
-            }
-        }
-        
         
         // === UI event handling
         public UIResult AfterHandlingBy(IUIAware handler, UIEvent evt) {

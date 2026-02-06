@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -79,7 +79,7 @@ namespace Awaken.TG.Editor.Utility.Audio {
             AudioFilePath = audioFilePath;
             ID = Path.GetFileNameWithoutExtension(audioFilePath)
                 .Replace(EditorAudioUtils.VoiceOverIdSeparator, '/');
-            TableEntry = LocalizationHelper.GetTableEntry(ID, LocalizationSettings.ProjectLocale);
+            TableEntry = LocalizationHelper.EditorOnly_GetTableEntry(ID, LocalizationSettings.ProjectLocale);
             if (MissingEntry) {
                 dialogueLine = $"<color=#FF0000>Missing Entry!</color>";
                 return;
@@ -96,7 +96,7 @@ namespace Awaken.TG.Editor.Utility.Audio {
                 UsedInStory = EntriesOnDemand[StoryGraph].Any(scriptEntry => scriptEntry.id == ID);
             }
 
-            dialogueLine = LocalizationHelper.Translate(ID, LocalizationSettings.ProjectLocale);
+            dialogueLine = LocalizationHelper.Translate(ID, true);
             actor = TableEntry.GetMetadata<ActorMetaData>()?.ActorName ?? string.Empty;
             _audioMeta = TableEntry.GetMetadata<AudioReplacementName>();
         }
@@ -299,8 +299,8 @@ namespace Awaken.TG.Editor.Utility.Audio {
             EditorUtility.SetDirty(tableCollection.SharedData);
         }
         
-        // bool TryFindMatchingEventRef(string id, string guid, out EditorEventRef eventRef) {
-        //     // var eventsRefs = EventManager.Events;
+        // public bool TryFindMatchingEventRef(string id, string guid, out EditorEventRef eventRef) {
+        //     var eventsRefs = EventManager.Events;
         //     eventRef = null;
         //     for (int i = 0; i < eventsRefs.Count; i++) {
         //         var e = eventsRefs[i];

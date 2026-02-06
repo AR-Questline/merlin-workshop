@@ -81,6 +81,22 @@ namespace Awaken.Utility.Debugging.MemorySnapshots {
             ownPlace.Span[0] = new MemorySnapshot(name, size, size, ReadOnlyMemory<MemorySnapshot>.Empty);
         }
 
+        public static ulong HashMapSizeCapacity<T, U>(in UnsafeHashMap<T, U> target) where T : unmanaged, IEquatable<T> where U : unmanaged {
+            return HashMapSize<T, U>((uint)target.Capacity);
+        }
+
+        public static ulong HashMapSizeCapacity<T, U>(in NativeHashMap<T, U> target) where T : unmanaged, IEquatable<T> where U : unmanaged {
+            return HashMapSize<T, U>((uint)target.Capacity);
+        }
+
+        public static ulong HashMapSizeInUse<T, U>(in UnsafeHashMap<T, U> target) where T : unmanaged, IEquatable<T> where U : unmanaged {
+            return HashMapSize<T, U>((uint)target.Count);
+        }
+
+        public static ulong HashMapSizeInUse<T, U>(in NativeHashMap<T, U> target) where T : unmanaged, IEquatable<T> where U : unmanaged {
+            return HashMapSize<T, U>((uint)target.Count);
+        }
+
         public static ulong HashMapSize<T, U>(int length) where T : unmanaged, IEquatable<T> where U : unmanaged {
             return HashMapSize<T, U>((uint)length);
         }

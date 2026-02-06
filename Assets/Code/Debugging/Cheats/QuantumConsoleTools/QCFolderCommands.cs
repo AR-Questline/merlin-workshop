@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,13 +16,11 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
         static readonly StringBuilder s_sb = new();
         
         class FolderData {
-            public int CommandCount { get; private set; }
             public int folderCount = 0;
             public readonly List<string> commands = new();
             
             public void AddCommands(IEnumerable<string> commands) {
                 this.commands.AddRange(commands);
-                CommandCount = this.commands.Count;
             }
         }
 
@@ -44,7 +43,7 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
                 s_sb.AppendFormat("{0,-25}", folder.Key);
                 
                 s_sb.Append("(");
-                s_sb.Append(folder.Value.CommandCount);
+                s_sb.Append(folder.Value.commands.Count);
                 s_sb.Append(")");
                 
                 if (folder.Value.folderCount > 0) {
@@ -74,15 +73,21 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             GatherFolderData(parentFolder, folderData);
 
             bool odd = true;
-            foreach (var folder in folderData.OrderBy(f => f.Key)) {
+            foreach (var folder in folderData
+                                   .OrderBy(f => {
+                                        if (f.Key.StartsWith('\'')) return -1;
+                                        if (!f.Key.StartsWith(".")) return 0;
+                                        return 1;
+                                   })
+                                   .ThenBy(f => f.Key)) {
                 if (odd) {
                     s_sb.Append($"<color=#{ColorUtility.ToHtmlStringRGB(ARColor.LightGrey)}>");
                 }
-                s_sb.Append("   - ");
-                s_sb.AppendFormat("{0,-25}", folder.Key);
+                s_sb.Append("     ");
+                s_sb.AppendFormat("{0,-35}", folder.Key);
                 
                 s_sb.Append("(");
-                s_sb.Append(folder.Value.CommandCount);
+                s_sb.Append(folder.Value.commands.Count);
                 s_sb.Append(")");
                 
                 if (folder.Value.folderCount > 0) {
@@ -91,12 +96,27 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
                     s_sb.Append("]");
                 }
 
+                string enteredFolder = null;
                 foreach (string command in folder.Value.commands) {
-                    int lastFolderSeparator = command.LastIndexOf(FolderSeparator);
-                    var commandOnly = lastFolderSeparator > 0 ? command[lastFolderSeparator..] : command;
                     s_sb.AppendLine();
+                    
+                    int lastSeparator = command.LastIndexOf(FolderSeparator);
+                    if (lastSeparator > 0) {
+                        if (enteredFolder == null || !command.StartsWith(enteredFolder)) {
+                            enteredFolder = command[..lastSeparator];
+                            s_sb.Append("        ");
+                            s_sb.Append("<b>");
+                            s_sb.Append(enteredFolder);
+                            s_sb.Append("</b>");
+                            s_sb.AppendLine();
+                        }
+                        s_sb.Append("   ");
+                    } else {
+                        enteredFolder = null;
+                    }
+                    
                     s_sb.Append("      - ");
-                    s_sb.Append(commandOnly);
+                    s_sb.Append(command.AsSpan(lastSeparator + 1));
                 }
                 
                 if (odd) {
@@ -113,36 +133,39 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
         static void GatherFolderData(string parentFolder, Dictionary<string, FolderData> folderData) {
             // Gather all commands and group them by folder
             // var grouped = QuantumConsoleProcessor.UniqueUserCommandNames()
-            //                                      .Where(command => command.Contains(parentFolder))
-            //                                      .GroupBy(command => {
-            //                                          // Group by folder
-            //                                          int lastFolderSeparator = command.LastIndexOf(FolderSeparator);
-            //                                          return lastFolderSeparator > 0 ? command[..lastFolderSeparator] : "";
-            //                                      });
+            //                                      .Where(IsInsideTargetFolder)
+            //                                      .Select(c => {
+            //                                          int lastFolderSeparator = c.LastIndexOf(FolderSeparator);
+            //                                          string folder = lastFolderSeparator > 0 ? c[..lastFolderSeparator] : "";
+            //                                          
+            //                                          int folderLength = folder.Length;
+            //                                          int toRemove = folderLength > 0 
+            //                                                             ? folderLength + 1 
+            //                                                             : 0; // +1 for the separator
+            //                                          return (folder, command: c.Remove(0, toRemove));
+            //                                      }).GroupBy(command => command.folder);
+            //                                      
             //
             // foreach (var group in grouped) {
             //     // The root folder inside the ParentFolder we are displaying
             //     string folder;
-            //     // Is inside ParentFolder but in a subfolder
-            //     bool isSubFolder = false;
             //
+            //     // Is inside ParentFolder but in a subfolder
+            //     int subFolderCount = group.Key.Count(static s => s == FolderSeparator);
+            //     
             //     if (group.Key == parentFolder) {
             //         // Inside the folder we are browsing
             //         folder = "'Commands here: ";
             //     } else if (parentFolder.IsNullOrWhitespace()) {
-            //         // Display all root folders
-            //         string[] split = group.Key.Split(FolderSeparator);
-            //         folder = split[0];
-            //         // Child folder inside of folder
-            //         isSubFolder = split.Length > 1;
+            //         folder = group.Key;
             //     } else {
-            //         // Ignore folder structure above parentFolder
-            //         string[] strings = group.Key.Split(parentFolder + FolderSeparator);
-            //         string[] split = strings[1].Split(FolderSeparator);
-            //         // Folder inside of parentFolder
-            //         folder = split[0];
-            //         // Child folder inside of folder
-            //         isSubFolder = split.Length > 1;
+            //         int indexToCut = group.Key.IndexOf(parentFolder, StringComparison.Ordinal) + parentFolder.Length + 1;
+            //         folder = group.Key[indexToCut..];
+            //     }
+            //
+            //     if (subFolderCount > 0) {
+            //         // We want all commands to be shown in their root folder
+            //         folder = folder[..folder.IndexOf(FolderSeparator)];
             //     }
             //
             //     // save data
@@ -150,10 +173,29 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             //         folderData[folder] = data = new FolderData();
             //     }
             //
-            //     data.AddCommands(group);
-            //     if (isSubFolder) {
-            //         data.folderCount++;
+            //     if (subFolderCount == 0) {
+            //         data.AddCommands(group.Select(pair => pair.command));
+            //         continue;
             //     }
+            //     data.folderCount++;
+            //     
+            //     int prefixToRemove = folder.Length + 1; // +1 for the separator
+            //     data.AddCommands(group.Select(pair => pair.folder[prefixToRemove..] + FolderSeparator + pair.command));
+            // }
+            // return;
+            //
+            // bool IsInsideTargetFolder(string command) {
+            //     if (parentFolder.IsNullOrWhitespace()) {
+            //         return true;
+            //     }
+            //     int lastIndexOf = command.LastIndexOf(FolderSeparator);
+            //     if (lastIndexOf < 0) {
+            //         // No folder, just a command
+            //         return false;
+            //     }
+            //     var split = command[..lastIndexOf];
+            //
+            //     return split.StartsWith(parentFolder);
             // }
         }
 

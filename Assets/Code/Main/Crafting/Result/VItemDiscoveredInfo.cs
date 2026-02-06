@@ -1,4 +1,5 @@
 using Awaken.TG.Main.Heroes.Items.Tooltips;
+using Awaken.TG.Main.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
@@ -33,6 +34,7 @@ namespace Awaken.TG.Main.Crafting.Result {
         public void Show(string info, ItemDiscoveredTooltipSystemUI[] tooltips) { 
             infoText.text = info;
 
+            World.Add(new BlurBackground(Target, BlurConfig.NonOpaque)).ShowBackground(this);
             _sequence = DOTween.Sequence().SetUpdate(true)
                 .Append(itemInfoCanvasGroup.DOFade(1, ContentFadeTime));
 
@@ -44,6 +46,7 @@ namespace Awaken.TG.Main.Crafting.Result {
         }
         
         public void Hide() {
+            World.Only<BlurBackground>().HideBackground();
             _sequence.Kill();
             _tween = itemInfoCanvasGroup.DOFade(0, ContentFadeTime).SetUpdate(true);
         }

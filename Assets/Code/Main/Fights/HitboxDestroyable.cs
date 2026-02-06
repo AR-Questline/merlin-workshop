@@ -1,17 +1,23 @@
 using System;
 using Awaken.TG.Assets;
+using Awaken.TG.Main.AI.Combat.Attachments;
+using Awaken.TG.Main.AI.Combat.Behaviours.BaseBehaviours;
+using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Fights {
     public class HitboxDestroyable : ViewComponent<Location>, IHitboxMultiplier {
         [Range(0, 100), SerializeField] float destroyWhenPercentOfMaxHpConsumed = 25;
         [SerializeField] bool explodeOnOwnerDeath = true;
+        [SerializeField] bool enterPoiseBreakOnExplode;
+        [SerializeField, ShowIf(nameof(enterPoiseBreakOnExplode))] NpcStateType poiseBreakDirection = NpcStateType.PoiseBreakBack;
         [SerializeField] GameObject objectToDestroy;
         [SerializeField, ARAssetReferenceSettings(new[] { typeof(GameObject) }, group: AddressableGroup.VFX)] 
         ShareableARAssetReference destroyVFX;
@@ -67,6 +73,12 @@ namespace Awaken.TG.Main.Fights {
                 Transform myTransform = transform;
                 PrefabPool.InstantiateAndReturn(destroyVFX, myTransform.position, myTransform.rotation).Forget();
             }
+
+            if (enterPoiseBreakOnExplode && Target.TryGetElement(out EnemyBaseClass enemy) &&
+                enemy.HasElement<PoiseBreakBehaviour>()) {
+                enemy.EnterPoise(poiseBreakDirection, enemy.NpcAI?.InCombat ?? false);
+            }
+
             Destroyed = true;
         }
     }

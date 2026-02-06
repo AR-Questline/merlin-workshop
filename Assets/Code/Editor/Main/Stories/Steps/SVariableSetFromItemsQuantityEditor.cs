@@ -1,5 +1,4 @@
 ﻿using Awaken.TG.Editor.Main.Stories.Drawers;
-using Awaken.TG.Main.Heroes.Stats.StatConfig;
 using Awaken.TG.Main.Stories.Steps;
 using UnityEditor;
 
@@ -9,7 +8,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
 
         SEditorVariableSetFromItemsQuantity Target => (SEditorVariableSetFromItemsQuantity) target;
         
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawProperties();
             int index = Target.Parent.elements.IndexOf(Target);
             EditorGUILayout.BeginVertical();

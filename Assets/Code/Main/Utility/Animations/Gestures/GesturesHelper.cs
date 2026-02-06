@@ -14,7 +14,7 @@ namespace Awaken.TG.Main.Utility.Animations.Gestures {
         }
 
         public static GestureOverrides GetGenderSpecificGestures(Gender gender) {
-            return CommonReferences.GenderGestures.TryGetValue(gender, out GestureOverridesTemplate template)
+            return CommonReferences.GenderGestures?.TryGetValue(gender, out GestureOverridesTemplate template) ?? false
                 ? template.gestureOverrides
                 : null;
         }

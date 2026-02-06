@@ -96,7 +96,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 _lastFailNotification.Discard();
             }
             _lastFailNotification = new LowerFancyPanelNotification(LocTerms.SketchingFail.Translate(), typeof(VLowerFancyPanelNotification));
-            AdvancedNotificationBuffer.Push<LowerMiddleScreenNotificationBuffer>(_lastFailNotification);
+            NotificationUtils.PushExplicitly<LowerMiddleScreenNotificationBuffer, LowerFancyPanelNotification>(_lastFailNotification);
         }
 
         // === Animation Event Callbacks

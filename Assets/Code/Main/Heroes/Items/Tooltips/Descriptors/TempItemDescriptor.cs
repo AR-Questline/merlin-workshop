@@ -1,5 +1,4 @@
 using System;
-using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Crafting;
 using Awaken.TG.Main.Crafting.Recipes;
 using Awaken.TG.MVC;
@@ -25,7 +24,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
             _listener = owner.ListenTo(Model.Events.AfterDiscarded, DiscardItem);
         }
         
-        public TempItemDescriptor(ItemTemplate template, IModel owner, int quantity, int itemLevel, int weightLevel) : base(World.Add(new Item(template, quantity, itemLevel, weightLevel))) {
+       public TempItemDescriptor(ItemTemplate template, IModel owner, int quantity, int itemLevel, int weightLevel, int newGamePlusLevel) : base(World.Add(new Item(template, quantity, itemLevel, weightLevel, newGamePlusLevel))) {
             _listener = owner.ListenTo(Model.Events.AfterDiscarded, DiscardItem);
         }
 

@@ -36,7 +36,7 @@ namespace Awaken.TG.Main.AI.Grid.Iterators {
             readonly int _xMax;
             readonly int _yMin;
             readonly int _yMax;
-
+            
             int _xCurrent;
             int _yCurrent;
 
@@ -56,7 +56,7 @@ namespace Awaken.TG.Main.AI.Grid.Iterators {
                 _radiusSq = radius * radius;
 
                 NpcGridEnumerableUtils.SphereBounds(grid, center, radius, out _xMin, out _xMax, out _yMin, out _yMax);
-
+                
                 _xCurrent = _xMin;
                 _yCurrent = _yMin;
                 _minDistanceXSq = 0;
@@ -84,11 +84,22 @@ namespace Awaken.TG.Main.AI.Grid.Iterators {
                         continue;
                     }
 
-                    if (_currentEntries[_currentEntryIndex] is NpcElement { HasCompletelyInitialized: false }) {
+                    var npcElement = _currentEntries[_currentEntryIndex] as NpcElement;
+                    if (npcElement is { HasCompletelyInitialized: false }) {
                         continue;
                     }
                     
-                    var distanceSq = _currentEntries[_currentEntryIndex].Coords.SquaredDistanceTo(_center);
+                    float distanceSq;
+                    if (npcElement != null) {
+                        float minY = _currentEntries[_currentEntryIndex].Coords.y;
+                        float maxY = _currentEntries[_currentEntryIndex].Coords.y + npcElement.Height;
+                        float clampedY = Mathf.Clamp(_center.y, minY, maxY);
+                        var closestPointOnSegment = new Vector3(_currentEntries[_currentEntryIndex].Coords.x, clampedY, _currentEntries[_currentEntryIndex].Coords.z);
+                        distanceSq = closestPointOnSegment.SquaredDistanceTo(_center);
+                    } else {
+                        distanceSq = _currentEntries[_currentEntryIndex].Coords.SquaredDistanceTo(_center);
+                    }
+                    
                     if (distanceSq < _radiusSq) {
                         return true;
                     }

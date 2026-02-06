@@ -119,9 +119,7 @@ namespace Awaken.TG.Assets {
             if (!isHandleValid) {
                 _handle = new ARAsyncOperationHandle<T>(LoadFromLocation<T>());
             } else {
-#if UNITY_EDITOR
-                Log.Debug?.Warning($"Trying to use already used ARReference: {RuntimeKey}");
-#endif
+                LogOrThrow($"Trying to use already used ARReference: {RuntimeKey}");
             }
             return _handle.Convert<T>();
         }
@@ -149,6 +147,8 @@ namespace Awaken.TG.Assets {
         void ReleaseFromAddressables() {
             if (_handle.IsValid()) {
                 _handle.Release();
+            } else {
+                LogOrThrow($"Releasing not valid ARReference: {RuntimeKey}");
             }
             _handle = default;
         }
@@ -233,12 +233,32 @@ namespace Awaken.TG.Assets {
 #endif
         }
         
+#if UNITY_EDITOR || AR_DEBUG
+        const float ThrowCooldown = 5f;
+        static float s_lastExceptionThrowTime;
+#endif
+        
+        void LogOrThrow(string msg) {
+#if UNITY_EDITOR || AR_DEBUG
+            if (Time.time + ThrowCooldown > s_lastExceptionThrowTime) {
+                s_lastExceptionThrowTime = Time.time;
+                UnityEngine.Debug.LogException(new Exception(msg));
+            } else {
+                Log.Important?.Error(msg);
+            }
+#else
+            Log.Important?.Error(msg);
+#endif
+        }
+        
 #if UNITY_EDITOR
         static HashSet<string> s_editorUnusedGuids = new();
         
         public static bool EditorIsUnused(string guid) {
             return s_editorUnusedGuids.Contains(guid);
         }
+        
+        public static bool EditorIsUsed(string guid) => !EditorIsUnused(guid);
         
         public static void EditorAssignUnusedGuids(HashSet<string> unusedGuids) {
             s_editorUnusedGuids = unusedGuids;

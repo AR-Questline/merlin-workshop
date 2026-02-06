@@ -6,16 +6,24 @@ using Awaken.TG.MVC;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.Proficiency {
-    public partial class ProficiencyNotificationBuffer : AdvancedNotificationBuffer<ProficiencyNotification> {
-        public sealed override bool IsNotSaved => true;
-
+    public partial class ProficiencyNotificationBuffer : AdvancedNotificationBufferPresenter<ProficiencyNotification> {
         protected override VisualElement NotificationsParent => ParentModel.NotificationsContainerUI.ProficiencyNotificationsParent;
         protected override IEnumerable<Type> DependentBuffers {
             get {
                 yield return typeof(SpecialItemNotificationBuffer);
             }
         }
-        
+
+        protected override void MergeSimilarNotifications(ProficiencyNotification proficiencyNotification) {
+            int maxLevelInQueue = proficiencyNotification.proficiencyData.newSkillLevel;
+            while (notificationQueue.Count > 0) {
+                ProficiencyNotification queuedNotification = notificationQueue.Dequeue();
+                maxLevelInQueue = Math.Max(maxLevelInQueue, queuedNotification.proficiencyData.newSkillLevel);
+                queuedNotification.Discard();
+            }
+            proficiencyNotification.OverrideProficiencyLevel(maxLevelInQueue);
+        }
+
         protected override PBaseData RetrieveNotificationBaseData() {
             return PresenterDataProvider.proficiencyNotificationData.BaseData;
         }

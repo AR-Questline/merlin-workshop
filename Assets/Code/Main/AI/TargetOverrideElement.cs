@@ -10,16 +10,20 @@ namespace Awaken.TG.Main.AI {
     public partial class TargetOverrideElement : Element<ICharacter> {
         public sealed override bool IsNotSaved => true;
 
-        readonly ICharacter _target;
+        protected readonly ICharacter _target;
         protected readonly int _priority;
         protected readonly Status _status;
 
         protected bool _active;
         
-        protected virtual ICharacter Target => _active ? _target : null;
+        public virtual ICharacter Target => _active ? _target : null;
         protected virtual int Priority => _priority;
-
         public virtual bool IsValid => !_active || _target is { IsAlive: true, HasBeenDiscarded: false };
+        public virtual bool TemporarilyDisabled => false;
+        
+        public bool OwnedBy(Status status) {
+            return _status == status;
+        }
         
         [UnityEngine.Scripting.Preserve]
         public static TargetOverrideElement AddTargetOverride(ICharacter character, ICharacter target, int priority, Status status) {
@@ -35,17 +39,15 @@ namespace Awaken.TG.Main.AI {
         protected override void OnInitialize() {
             if (_target is NpcElement targetNpc) {
                 targetNpc.ListenTo(IAlive.Events.BeforeDeath, Discard, this);
-                if (!targetNpc.ParentModel.IsVisualLoaded) {
-                    targetNpc.ParentModel.OnVisualLoaded(Init);
-                    return;
-                }
+                targetNpc.OnCompletelyInitialized(Init);
+                return;
             }
 
-            _target.ListenTo(Events.BeforeDiscarded, Discard, this);
+            _target?.ListenTo(Events.BeforeDiscarded, Discard, this);
             Init(null);
         }
 
-        void Init(Transform _) {
+        protected virtual void Init(NpcElement _) {
             _active = true;
             
             if (GetTarget(ParentModel) == Target) {
@@ -60,6 +62,9 @@ namespace Awaken.TG.Main.AI {
             int maxPriority = -1;
             ICharacter target = null;
             foreach (var targetOverride in targetOverrides.Reverse()) {
+                if (targetOverride.TemporarilyDisabled) {
+                    continue;
+                }
                 if (!targetOverride.IsValid) {
                     targetOverride.Discard();
                     continue;

@@ -7,6 +7,8 @@ using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Saving.SaveSlots;
+using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.SocialServices;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.Main.UI.TitleScreen.Loading.LoadingTypes;
 using Awaken.TG.MVC;
@@ -16,6 +18,7 @@ using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Sources;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UniversalProfiling;
 #if !UNITY_GAMECORE && !UNITY_PS5
 using Awaken.TG.Main.RemoteEvents;
@@ -35,6 +38,7 @@ namespace Awaken.TG.Main.UI.RoguePreloader {
         // === Execution
         [UnityEngine.Scripting.Preserve] public static void StartNewGame() => StartNewGame(null);
         public static void StartNewGame(SceneReference sceneReference) => LoadScene(new NewGameLoading(sceneReference));
+        public static void StartNewGamePlus(SceneReference sceneReference, [CanBeNull] SaveSlot saveSlotToLoad, int newGamePlusLevel) => LoadScene(new NewGamePlusLoading(sceneReference, saveSlotToLoad, newGamePlusLevel));
 
         public static void Load(SaveSlot slot, string sourceInfo) {
             Log.Marking?.Warning($"Loading '{slot}' from '{sourceInfo}'");
@@ -61,6 +65,12 @@ namespace Awaken.TG.Main.UI.RoguePreloader {
         static void LoadScene(ILoadingOperation loadingOperation) {
             if (s_loadingOperation != null) {
                 throw new Exception("Trying to load new scene when another loading in process");
+            }
+
+            if (!SocialService.Get.HasDlc(DlcCategory.Sarras)) {
+                if (World.Services.Get<CommonReferences>().SceneConfigs.GetSceneConfig(loadingOperation.SceneToLoad).IsSarrasDlcScene) {
+                    loadingOperation = new TitleScreenLoading();
+                }
             }
 
             s_loadingOperation = loadingOperation;

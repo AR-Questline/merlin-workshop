@@ -6,11 +6,11 @@ using Awaken.TG.Main.Heroes.Development.Talents;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Skills;
 using Awaken.TG.Main.Heroes.Stats;
-using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Tutorials;
+using Awaken.TG.Main.UI.HUD.AdvancedNotifications;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.FancyPanel;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
@@ -110,16 +110,19 @@ namespace Awaken.TG.Main.Heroes.Development.WyrdPowers {
         public void LockAll() {
             foreach (var unlockedFragment in _unlockedFragments) {
                 if (GetFlag(unlockedFragment) is { } flagToUnlock) {
-                    Services.Get<GameplayMemory>().Context().Set(flagToUnlock, false);
+                    StoryFlags.Set(flagToUnlock, false);
                 }
             }
             RemoveElementsOfType<Skill>();
             _unlockedFragments.Clear();
+            bool notificationStateBefore = AdvancedNotificationBuffer.AllNotificationsSuspended;
+            AdvancedNotificationBuffer.AllNotificationsSuspended = true;
             foreach (var talentTable in Hero.Talents.Elements<TalentTable>()) {
                 if (talentTable.TreeTemplate.CurrencyStatType == HeroStatType.WyrdMemoryShards) {
                     talentTable.Reset();
                 }
             }
+            AdvancedNotificationBuffer.AllNotificationsSuspended = notificationStateBefore;
         }
 
         void InternalUnlock(WyrdSoulFragmentType fragmentType) {
@@ -129,7 +132,7 @@ namespace Awaken.TG.Main.Heroes.Development.WyrdPowers {
             AddElement(skill);
             skill.Learn();
             if (GetFlag(fragmentType) is { } flagToUnlock) {
-                Services.Get<GameplayMemory>().Context().Set(flagToUnlock, true);
+                StoryFlags.Set(flagToUnlock, true);
             }
             Hero.Trigger(Hero.Events.WyrdSoulFragmentCollected, fragmentType);
         }

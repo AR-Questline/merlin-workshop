@@ -8,7 +8,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 
 namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Overrides {
-    public partial class HeroThrowableThrow : HeroAnimatorState<HeroOverridesFSM> {
+    public partial class HeroThrowableThrow : HeroAnimatorState<HeroOverridesFSM>, IAnimatorStateHeroInteraction {
         IEventListener _quickUseItemUsedListener;
         bool _thrown;
         
@@ -16,6 +16,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Overrides {
         public override HeroStateType Type => HeroStateType.ThrowableThrow;
         public override bool CanPerformNewAction => false;
         public override bool CanReEnter => true;
+        public bool IsInInteraction { get; private set; } = true;
         
         protected override void AfterEnter(float previousStateNormalizedTime) {
             _thrown = false;
@@ -33,9 +34,11 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Overrides {
         
         protected override void OnExit(bool restarted) {
             Hero.Trigger(ItemThrowable.Events.ThrowableThrowAnimationEnded, true);
-            World.EventSystem.DisposeListener(ref _quickUseItemUsedListener);
-            if (!restarted) {
+            World.EventSystem.TryDisposeListener(ref _quickUseItemUsedListener);
+            if (!restarted && !Hero.IsWeaponEquipped) {
+                IsInInteraction = false;
                 Hero.Trigger(Hero.Events.ShowWeapons, true);
+                IsInInteraction = true;
             }
             base.OnExit(restarted);
         }

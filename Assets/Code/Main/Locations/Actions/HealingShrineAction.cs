@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Assets;
+using Awaken.TG.Graphics.VFX;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Interactions;
@@ -40,17 +41,14 @@ namespace Awaken.TG.Main.Locations.Actions {
         }
         
         protected override void OnRestore() {
-            if (!Available) {
-                if (_restoreTime > World.Any<GameRealTime>().WeatherTime) {
-                    _restoreEvent = new TimedEvent(_restoreTime.Date, RestoreShrine);
-                    World.Any<GameTimeEvents>().AddEvent(_restoreEvent);
-                    DisableShrineVisualUpdate();
-                } else {
-                    RestoreShrine();
-                    SetMaterialProperty(true);
-                }
+            if (_restoreTime != default && _restoreTime > World.Any<GameRealTime>().WeatherTime) {
+                _restoreEvent = new TimedEvent(_restoreTime.Date, RestoreShrine);
+                World.Any<GameTimeEvents>().AddEvent(_restoreEvent);
+                DisableShrineVisualUpdate();
+            } else {
+                RestoreShrine();
+                SetMaterialProperty(true);
             }
-            base.OnRestore();
         }
 
         protected override void OnFullyInitialized() {
@@ -131,9 +129,9 @@ namespace Awaken.TG.Main.Locations.Actions {
             _activeVfx ??= _spec.GetComponentInChildren<VisualEffect>();
             if (_activeVfx != null) {
                 if (active) {
-                    _activeVfx.Play();
+                    VFXUtils.PlayVfx(_activeVfx);
                 } else {
-                    _activeVfx.Stop();
+                    VFXUtils.StopVfx(_activeVfx);
                 }
             }
         }

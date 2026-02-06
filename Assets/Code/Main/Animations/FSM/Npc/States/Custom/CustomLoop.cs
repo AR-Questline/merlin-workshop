@@ -19,9 +19,9 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.States.Custom {
         
         protected override void OnUpdate(float deltaTime) {
             if (ParentModel.StoryLoopTalking) {
-                ParentModel.SetCurrentState(NpcStateType.CustomStoryLoopTalking, 0.6f);
+                ParentModel.SetCurrentState(NpcStateType.CustomStoryLoopTalking, 0.7f);
             } else if (ParentModel.StoryLoop) {
-                ParentModel.SetCurrentState(NpcStateType.CustomStoryLoop, 0.6f);
+                ParentModel.SetCurrentState(NpcStateType.CustomStoryLoop, 0.85f);
             }
 
             if (TimeElapsedNormalized % 1 >= 0.95f) {

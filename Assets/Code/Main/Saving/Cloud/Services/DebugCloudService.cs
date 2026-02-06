@@ -45,16 +45,25 @@ namespace Awaken.TG.Main.Saving.Cloud.Services {
             AtomicDirectoryWriter.Begin(Path.Combine(DataPath, directory));
         }
 
-        public override async UniTask<EndSaveDirectoryResult> EndSaveDirectory(string directory, bool failed) {
-            return new EndSaveDirectoryResult {
-                Success = await AtomicDirectoryWriter.End(Path.Combine(DataPath, directory)),
-                SaveResult = new SaveResult { FileCount = FileBasedSaveUtils.GetFileCount(directory) }
+        public override UniTask<bool> EndSaveDirectory(string directory) {
+            return AtomicDirectoryWriter.End(Path.Combine(DataPath, directory));
+        }
+
+        public override SaveResult SummarizeSavingResult(string directory) {
+            var path = AtomicDirectoryWriter.AdjustPath(Path.Combine(DataPath, directory));
+            return new SaveResult {
+                FileNames = FileBasedSaveUtils.GetFiles(path)
             };
         }
 
+        public override UniTask RollbackSaving(string directory) {
+            return AtomicDirectoryWriter.Cancel(Path.Combine(DataPath, directory));
+        }
+
         public override SaveResult BeginLoadDirectory(string directory) {
+            var path = AtomicDirectoryWriter.AdjustPath(Path.Combine(DataPath, directory));
             return new SaveResult {
-                FileCount = FileBasedSaveUtils.GetFileCount(directory),
+                FileNames = FileBasedSaveUtils.GetFiles(path)
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Main.Utility;
+﻿using Awaken.TG.Main.UI.Helpers;
+using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.RichEnums;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -14,7 +15,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.QuickUseWheels {
         [SerializeField] RichEnumReference keyBinding;
 
         KeyBindings KeyBinding => keyBinding.EnumAs<KeyBindings>();
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         protected override void OnAttach() {
             base.OnAttach();
 

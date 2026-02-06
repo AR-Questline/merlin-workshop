@@ -81,10 +81,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_77e47cd618ec72046a4404f4c15fdd5f
-  EDITOR_bakedDescription: 'Charged by killing.
+  EDITOR_bakedDescription: 'Charged by killing 0/5.
 
-    Stuns and pushes back all nearby
-    enemies.'
+    <color=#04959A>Stuns</color>
+    and pushes back all nearby enemies.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fbe81e3c4ebf77645a94136de8cc93e3
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -278,7 +282,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 10
   maxDamage: 20
-  damageGain: 0
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -311,8 +315,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

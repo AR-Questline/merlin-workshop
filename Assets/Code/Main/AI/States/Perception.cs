@@ -110,17 +110,27 @@ namespace Awaken.TG.Main.AI.States {
             if (_npc.HasElement<Invisibility>()) return;
 
             var hero = Hero.Current;
+            bool wasHeroVisible = _ai.HeroVisible;
+            
             CalculateHeroVisibility(hero, deltaTime, frameCount, out float heroVisibility);
-
+            
             bool? wantsToFightHero = null;
             bool WantsToFightHero() => wantsToFightHero ??= _npc.WantToFight(hero);
 
-            var heroFullyVisible = _ai.HeroVisible && heroVisibility > 0 && WantsToFightHero();
-            if (heroFullyVisible) {
-                float alertStrength = heroVisibility * deltaTime;
-                alertStrength *= _ai.InAlert ? _ai.AlertStack.AlertVisionGain : (int) AlertStack.AlertStrength.Strong;
-                alertStrength *= _ai.Data.alert.VisionAlertGainMultiplier;
-                _ai.AlertStack.NewPoi(alertStrength, hero);
+            bool heroFullyVisible = false;
+            if (_ai.HeroVisible) {
+                if (!wasHeroVisible && _npc.HasElement<HyperAggressiveToHero>()) {
+                    _ai.EnterCombatWith(hero, true);
+                    return;
+                }
+                
+                heroFullyVisible = heroVisibility > 0 && WantsToFightHero();
+                if (heroFullyVisible) {
+                    float alertStrength = heroVisibility * deltaTime;
+                    alertStrength *= _ai.InAlert ? _ai.AlertStack.AlertVisionGain : (int) AlertStack.AlertStrength.Strong;
+                    alertStrength *= _ai.Data.alert.VisionAlertGainMultiplier;
+                    _ai.AlertStack.NewPoi(alertStrength, hero);
+                }
             }
 
             DetectCorpses(frameCount);
@@ -129,9 +139,11 @@ namespace Awaken.TG.Main.AI.States {
                 (_npc.Coords - hero.Coords).sqrMagnitude < _perception.HeroRadarRangeSq && WantsToFightHero()) {
                 _ai.HeroVisibility = 1f;
                 _ai.AlertStack.NewPoi((int) AlertStack.AlertStrength.Max * deltaTime, hero);
-            } else if (heroFullyVisible && _ai.GetDistanceToLastIdlePointBand() < 2 && WantsToFightHero()) {
-                _ai.HeroVisibility += heroVisibility * HeroVisibilityGainSpeedMultiplier * deltaTime;
-            } else if (!heroFullyVisible && _ai.HeroVisibility > 0) {
+            } else if (heroFullyVisible) {
+                if (_ai.GetDistanceToLastIdlePointBand() < 2 && WantsToFightHero()) {
+                    _ai.HeroVisibility += heroVisibility * HeroVisibilityGainSpeedMultiplier * deltaTime;
+                }
+            } else if (_ai.HeroVisibility > 0) {
                 _ai.HeroVisibility -= deltaTime *
                                       (_ai.InCombat ? _ai.CombatAggroDecreaseModifierByDistanceToLastIdlePoint() : HeroVisibilityLoseSpeedMultiplier);
             }
@@ -264,6 +276,7 @@ namespace Awaken.TG.Main.AI.States {
                 _ai.MaxHeroVisibilityGain = 0;
             }
             _ai.HeroVisible = hero.IsAlive && heroVisibility > 0;
+            
             return heroVisibility;
         }
 

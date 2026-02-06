@@ -10,10 +10,16 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
             }
             
             Location loc = healthBarData.location;
-            if (loc == null) return;
+            if (loc == null) {
+                Clear();
+                return;
+            }
 
             NpcElement npcElement = loc.TryGetElement<NpcElement>();
-            if (!npcElement) return;
+            if (!npcElement) {
+                Clear();
+                return;
+            }
             
             Init(npcElement);
         }

@@ -1,27 +1,20 @@
-﻿using System;
-using Awaken.TG.Debugging.Cheats;
+﻿using Awaken.TG.Debugging.Cheats;
 using Awaken.TG.Main.General.Configs;
-using Awaken.TG.Main.Localization;
-using Awaken.TG.Main.UI.Components;
-using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Events;
-using Awaken.TG.Utility;
 using Awaken.Utility;
-using Awaken.Utility.GameObjects;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-#if UNITY_GAMECORE
-using Awaken.TG.Main.SocialServices.MicrosoftServices;
+
+#if UNITY_GAMECORE || MICROSOFT_GAME_CORE
+using Awaken.TG.Utility;
 #endif
 
 namespace Awaken.TG.Main.UI.TitleScreen {
     [UsesPrefab("TitleScreen/VTitleScreenOverlayUI")]
     public class VTitleScreenOverlayUI : View<TitleScreenUI> {
-        public JoinDiscordButton joinDiscordButton;
         public TextMeshProUGUI version;
         public TMP_Text gamerTag;
         public GameObject gitInfoPanel;
@@ -33,14 +26,14 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
 
         protected override void OnInitialize() {
-            joinDiscordButton.Initialize();
-
             UpdateGameVersion();
 
             if (gamerTag != null) {
-                gamerTag.gameObject.SetActive(PlatformUtils.IsXbox);
-#if UNITY_GAMECORE && !UNITY_EDITOR
-                gamerTag.text = LocTerms.Profile.Translate(MicrosoftManager.Instance.GamerName);
+                gamerTag.gameObject.SetActive(PlatformUtils.IsMicrosoft);
+#if (UNITY_GAMECORE || MICROSOFT_GAME_CORE) && !UNITY_EDITOR
+                var profileLocTerm = Awaken.TG.Main.Localization.LocTerms.Profile;
+                var microsoftManager = Awaken.TG.Main.SocialServices.MicrosoftServices.MicrosoftManager.Instance;
+                gamerTag.text = profileLocTerm.Translate(microsoftManager.GamerName);
 #endif
             }
             
@@ -93,22 +86,6 @@ namespace Awaken.TG.Main.UI.TitleScreen {
             }
 
             return gameVersion;
-        }
-
-        [Serializable]
-        public class JoinDiscordButton {
-            public string url;
-            [LocStringCategory(Category.UI)]
-            public LocString joinDiscord;
-            [SerializeField] ButtonConfig buttonConfig;
-            
-            public void Initialize() {
-                if (PlatformUtils.IsConsole) {
-                    buttonConfig.TrySetActiveOptimized(false);
-                }
-                
-                buttonConfig.InitializeButton(() => Application.OpenURL(url), joinDiscord.Translate());
-            }
         }
     }
 }

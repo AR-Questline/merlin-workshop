@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Awaken.TG.Graphics.VFX;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Executions;
 using Awaken.TG.Main.Fights.DamageInfo;
@@ -39,6 +40,8 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         [Saved] protected float? _tick;
         [Saved] LayerMask _hitMask;
         [Saved] float _buildupStrength;
+        [Saved] float _vfxDiscardDelay;
+        [Saved] bool _keepApplyingStatus;
         [Saved] Dictionary<WeakModelRef<ICharacter>, WeakModelRef<Status>> _characterStatuses = new();
         [Saved] WeakModelRef<ICharacter> _damageDealer;
         [Saved] WeakModelRef<Item> _sourceItem;
@@ -111,28 +114,30 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         readonly List<Action> _damageActions = new();
         public override IModel TimeModel => ParentModel;
         bool AppliesBuildupStatus => _statusTemplate != null && _statusTemplate.IsBuildupAble;
-        bool AppliesPersistentStatus => _statusTemplate != null && !_statusTemplate.IsBuildupAble;
+        bool AppliesOverTimeStatus => _statusTemplate != null && _keepApplyingStatus;
+        bool AppliesPersistentStatus => _statusTemplate != null && !_statusTemplate.IsBuildupAble && !_keepApplyingStatus;
         bool IsPositive => _statusTemplate != null && _statusTemplate.IsPositive;
         
         public static PersistentAoE AddPersistentAoE(Location location, float? tick, IDuration duration, StatusTemplate statusTemplate, float buildupStrength,
-            SkillVariablesOverride overrides, SphereDamageParameters? sphereDamageParameters, bool onlyOnGrounded, bool isRemovingOther, bool isRemovable, bool canApplyToSelf, bool discardParentOnEnd, bool discardOnDamageDealerDeath) {
+            SkillVariablesOverride overrides, SphereDamageParameters? sphereDamageParameters, bool onlyOnGrounded, bool isRemovingOther, bool isRemovable, bool canApplyToSelf, bool discardParentOnEnd, bool discardOnDamageDealerDeath, bool keepApplyingStatus = false) {
             if (location.TryGetElement<PersistentAoE>(out var aoe)) {
                 aoe.Discard();
                 Log.Minor?.Error($"Adding a new PersistentAoE to a location {location.DebugName} that already has one. Discarding the old one.");
             }
-            return location.AddElement(new PersistentAoE(tick, duration, statusTemplate, buildupStrength, overrides, sphereDamageParameters, onlyOnGrounded, isRemovingOther, isRemovable, canApplyToSelf, discardParentOnEnd, discardOnDamageDealerDeath));
+            return location.AddElement(new PersistentAoE(tick, duration, statusTemplate, buildupStrength, keepApplyingStatus, overrides, sphereDamageParameters, onlyOnGrounded, isRemovingOther, isRemovable, canApplyToSelf, discardParentOnEnd, discardOnDamageDealerDeath));
         }
 
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         protected PersistentAoE() { }
 
-        public PersistentAoE(float? tick, IDuration duration, StatusTemplate statusTemplate, float buildupStrength,
+        public PersistentAoE(float? tick, IDuration duration, StatusTemplate statusTemplate, float buildupStrength, bool keepApplyingStatus,
             SkillVariablesOverride overrides, SphereDamageParameters? damageParameters, bool onlyOnGrounded, 
-            bool isRemovingOther, bool isRemovable, bool canApplyToSelf, bool discardParentOnEnd, bool discardOnDamageDealerDeath) : base(duration) {
+            bool isRemovingOther, bool isRemovable, bool canApplyToSelf, bool discardParentOnEnd, bool discardOnDamageDealerDeath, float vfxDiscardDelay = 0) : base(duration) {
             _tick = tick;
 
             _statusTemplate = statusTemplate;
             _buildupStrength = buildupStrength;
+            _keepApplyingStatus = keepApplyingStatus;
             _overrides = overrides;
 
             _damageParameters = damageParameters;
@@ -143,6 +148,8 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             CanApplyToSelf = canApplyToSelf;
             DiscardParentOnEnd = discardParentOnEnd;
             DiscardOnDamageDealerDeath = discardOnDamageDealerDeath;
+            
+            _vfxDiscardDelay = vfxDiscardDelay;
         }
         
         protected override void OnInitialize() {
@@ -244,6 +251,10 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
                 foreach (var alive in _alivesInZone) {
                     ApplyBuildupStatus(alive);
                 }
+            } else if (AppliesOverTimeStatus) {
+                foreach (var alive in _alivesInZone) {
+                    ApplyOverTimeStatus(alive);
+                }
             }
             
             _lastTickTime = _tick!.Value;
@@ -296,6 +307,16 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
                 if (_damageDealer.TryGet(out ICharacter damageDealer) && !IsPositive && character is NpcElement npcElement) {
                     npcElement.NpcAI.ReceiveHostileAction(damageDealer, null, DamageType.Trap);
                 }
+            }
+        }
+
+        void ApplyOverTimeStatus(IAlive alive) {
+            if (alive is ICharacter character) {
+                StatusSourceInfo statusSourceInfo = StatusSourceInfo.FromStatus(_statusTemplate);
+                if (_damageDealer.TryGet(out var applier)) {
+                    statusSourceInfo = statusSourceInfo.WithCharacter(applier);
+                }
+                VGUtils.ApplyStatus(character.Statuses, _statusTemplate, statusSourceInfo, _buildupStrength, null, _overrides);
             }
         }
 
@@ -376,6 +397,11 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             if (ParentModel.HasBeenDiscarded) {
                 return;
             }
+
+            if (_vfxDiscardDelay > 0) {
+                VFXUtils.StopVfxAndDiscard(ParentModel.LocationView.gameObject, DiscardParentOnEnd ? ParentModel : this, _vfxDiscardDelay);
+                return;
+            }
             
             if (DiscardParentOnEnd) {
                 ParentModel.Discard();
@@ -387,17 +413,17 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         protected override void OnDiscard(bool fromDomainDrop) {
             ParentModel.GetTimeDependent()?.WithoutUpdate(ProcessUpdate);
             
+            foreach ((WeakModelRef<ICharacter> characterRef, WeakModelRef<Status> statusRef) in _characterStatuses) {
+                if (statusRef.TryGet(out Status status) && characterRef.TryGet(out ICharacter character)) {
+                    if (!character.HasBeenDiscarded && (!fromDomainDrop || !character.CurrentDomain.Equals(CurrentDomain))) {
+                        character.Statuses.RemoveStatus(status);
+                    }
+                }
+            }
             if (fromDomainDrop) {
                 return;
             }
             
-            foreach ((WeakModelRef<ICharacter> characterRef, WeakModelRef<Status> statusRef) in _characterStatuses) {
-                if (statusRef.TryGet(out Status status) 
-                    && characterRef.TryGet(out ICharacter character) 
-                    && !character.HasBeenDiscarded) {
-                    character.Statuses.RemoveStatus(status);
-                }
-            }
             _characterStatuses.Clear();
         }
 

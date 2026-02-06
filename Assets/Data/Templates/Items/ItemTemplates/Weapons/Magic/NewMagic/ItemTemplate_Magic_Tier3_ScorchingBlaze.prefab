@@ -55,6 +55,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 895e3e8901ae6ed478048c553bf5adef
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -158,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -275,6 +281,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 120
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 180
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -323,6 +333,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 150
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 220
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -371,6 +385,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 200
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 270
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -434,9 +452,9 @@ MonoBehaviour:
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 10
   pushStaminaCost: 0
-  minDamage: 80
-  maxDamage: 80
-  damageGain: 0
+  minDamage: 64
+  maxDamage: 64
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -468,9 +486,12 @@ MonoBehaviour:
   randomnessModifier: 1
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
-  lightCastManaCost: 90
-  heavyCastManaCost: 135
+  lightCastManaCost: 72
+  lightCastManaCostGain: 1.5
+  heavyCastManaCost: 106
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5473824909531456889
 MonoBehaviour:

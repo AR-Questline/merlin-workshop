@@ -67,16 +67,16 @@ MonoBehaviour:
   isSpellCaster: 0
   canDealDamageToFriendlies: 0
   returnToSpawnPointArchetype: 2
-  maxHealth: 700
+  maxHealth: 1200
   healthRegen: 0
   maxStamina: 75
   staminaRegenPerTick: 5
   staminaUsageMultiplier: 1
   canBeWyrdEmpowered: 0
   canEnterCombat: 1
-  meleeDamage: 30
-  rangedDamage: 15
-  magicDamage: 15
+  meleeDamage: 52
+  rangedDamage: 30
+  magicDamage: 30
   armor: 0
   armorMultiplier: 1
   damageReceivedMultipliers:
@@ -87,12 +87,12 @@ MonoBehaviour:
   - subType: 2
     takenDamagePercentageMultiplier: 80
   statusResistance: 0
-  forceStumbleThreshold: 140
-  npcWeight: 50
+  forceStumbleThreshold: 200
+  npcWeight: 80
   npcHitMask:
     serializedVersion: 2
     m_Bits: 2164260864
-  poiseThreshold: 140
+  poiseThreshold: 200
   blockValue: 50
   blockPenaltyMultiplier: 1
   combatSlotsLimit: 2

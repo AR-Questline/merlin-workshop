@@ -26,12 +26,12 @@ namespace Awaken.TG.Main.Locations {
 
         void OnDisable() {
             if (!HasBeenDiscarded) {
-                Services.TryGet<UnityUpdateProvider>()?.UnregisterLocationSpawner(Target);
+                UnityUpdateProvider.TryGet()?.UnregisterLocationSpawner(Target);
             }
         }
 
         protected override IBackgroundTask OnDiscard() {
-            Services.TryGet<UnityUpdateProvider>()?.UnregisterLocationSpawner(Target);
+            UnityUpdateProvider.TryGet()?.UnregisterLocationSpawner(Target);
             return base.OnDiscard();
         }
     }

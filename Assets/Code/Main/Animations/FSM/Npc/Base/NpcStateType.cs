@@ -115,6 +115,14 @@
         DialogueIdle = 126,
         ShieldManTurnMovement = 127,
         PhaseTransitionAlternate = 128,
+        TeleportIn = 129,
+        TeleportOut = 130,
+        
+        // --- Pet variant
+        PetVariantPet = 195,
+        PetVariantFeed = 196,
+        PetVariantTransition = 197,
+        PetVariantTransitionLarge = 198,
         
         // --- Customs
         CustomEnter = 199,

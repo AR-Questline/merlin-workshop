@@ -19,6 +19,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Attachment {
         
         [SerializeField] protected bool persistent;
         [SerializeField, HideIf(nameof(persistent))] protected float lifeTime = 20f;
+        [SerializeField, HideIf(nameof(persistent))] protected float vfxDisableTime = 0f;
         [SerializeField] protected bool onlyOnGrounded;
         [SerializeField, FoldoutGroup(AdvancedGroupName)] protected bool isRemovingOther = true;
         [SerializeField, FoldoutGroup(AdvancedGroupName)] protected bool isRemovable = true;
@@ -28,6 +29,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Attachment {
         [SerializeField, ShowIf(nameof(UsesTick))] protected float tickInterval = 0.5f;
         [SerializeField, FoldoutGroup(StatusGroupName), TemplateType(typeof(StatusTemplate))] TemplateReference statusTemplateRef;
         [SerializeField, FoldoutGroup(StatusGroupName), ShowIf(nameof(IsBuildupAble))] protected float buildupStrength;
+        [SerializeField, FoldoutGroup(StatusGroupName), HideIf(nameof(IsBuildupAble))] protected bool keepApplyingStatus;
         [SerializeField] protected bool dealsDamage;
         [SerializeField, FoldoutGroup(DamageGroupName), ShowIf(nameof(dealsDamage))] protected float damagePerSecond;
         [SerializeField, FoldoutGroup(DamageGroupName), ShowIf(nameof(dealsDamage))] protected float poiseDamage;
@@ -37,7 +39,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Attachment {
         [SerializeField, FoldoutGroup(DamageGroupName), ShowIf(nameof(dealsDamage))] protected DamageType damageType;
 
         protected StatusTemplate StatusTemplate => statusTemplateRef?.Get<StatusTemplate>();
-        protected bool UsesTick => IsBuildupAble || dealsDamage;
+        protected bool UsesTick => IsBuildupAble || dealsDamage || (StatusTemplate != null && keepApplyingStatus);
         bool IsBuildupAble {
             get {
                 if (statusTemplateRef == null || statusTemplateRef.GUID == string.Empty) {
@@ -50,7 +52,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Attachment {
         public virtual Element SpawnElement() {
             float? tick = UsesTick ? tickInterval : null;
             IDuration duration = persistent ? new UntilDiscarded() : new TimeDuration(lifeTime);
-            return new PersistentAoE(tick, duration, StatusTemplate, buildupStrength, null, GetDamageParameters(), onlyOnGrounded, isRemovingOther, isRemovable, canApplyToSelf, discardParentOnEnd, discardOnOwnerDeath);
+            return new PersistentAoE(tick, duration, StatusTemplate, buildupStrength, keepApplyingStatus, null, GetDamageParameters(), onlyOnGrounded, isRemovingOther, isRemovable, canApplyToSelf, discardParentOnEnd, discardOnOwnerDeath, vfxDisableTime);
         }
 
         public SphereDamageParameters? GetDamageParameters() {

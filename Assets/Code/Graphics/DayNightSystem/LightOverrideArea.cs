@@ -103,13 +103,13 @@ namespace Awaken.TG.Graphics.VFX {
                     for (int i = 0; i < lightsCount; i++) {
                         var data = lightsWithOverrides[i];
                         if (data.colorOverride.useOverride) {
-                            data.light.StartColorOverride();
+                            // data.light.StartColorOverride();
                         }
                         if (data.colorTemperatureOverride.useOverride) {
-                            data.light.StartColorTemperatureOverride();
+                            // data.light.StartColorTemperatureOverride();
                         }
                         if (data.daytimeIntensityMultiplier.useOverride || data.intensityOverride.useOverride) {
-                            data.light.StartIntensityOverride();
+                            // data.light.StartIntensityOverride();
                         }
                     }
                 }
@@ -127,13 +127,13 @@ namespace Awaken.TG.Graphics.VFX {
             for (int i = 0; i < lightsCount; i++) {
                 var data = lightsWithOverrides[i];
                 if (data.colorOverride.useOverride) {
-                    data.light.StopColorOverride();
+                    // data.light.StopColorOverride();
                 }
                 if (data.colorTemperatureOverride.useOverride) {
-                    data.light.StopColorTemperatureOverride();
+                    // data.light.StopColorTemperatureOverride();
                 }
                 if (data.intensityOverride.useOverride || data.daytimeIntensityMultiplier.useOverride) {
-                    data.light.StopIntensityOverride();
+                    // data.light.StopIntensityOverride();
                 }
             }
         }

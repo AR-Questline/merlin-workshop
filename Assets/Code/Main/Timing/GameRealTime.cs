@@ -29,26 +29,35 @@ namespace Awaken.TG.Main.Timing {
 
         float _weatherSecondsPerRealSecond;
         TimeDependentsCache _timeDependentsCache;
+        DateTime _gameStartTime;
         // Real time the player has spent in the game
         [Saved] public ARTimeSpan PlayRealTime { get; private set; }
         // Time used for NPC routines and weather, default is set from Game Constants
         [Saved] public ARDateTime WeatherTime { get; private set; }
-
+        
+        public int WeatherDaysSinceGameStart => 1 + (int) (WeatherTime - _gameStartTime).TotalDays;
         public float WeatherSecondsPerRealSecond => _weatherSecondsPerRealSecond;
         [UnityEngine.Scripting.Preserve] public double PlayRealTimeInSeconds => PlayRealTime.TotalSeconds;
+        public DateTime? DateTimeOverride { get; set; } = null;
 
         public event Action<bool> NightChanged;
-        public event Action TimeScaleChanged;
 
         // === Initialization
         protected override void OnInitialize() {
             GameConstants gc = Services.Get<GameConstants>();
-            WeatherTime = new DateTime(gc.gameStartYear, gc.gameStartMonth, gc.gameStartDay, gc.gameStartHour, gc.gameStartMinute, 0);
+            _gameStartTime = new DateTime(gc.gameStartYear, gc.gameStartMonth, gc.gameStartDay, gc.gameStartHour, gc.gameStartMinute, 0);
+            WeatherTime = _gameStartTime;
             AddElement<WeatherController>();
             Init();
         }
 
         protected override void OnRestore() {
+            GameConstants gc = Services.Get<GameConstants>();
+            _gameStartTime = new DateTime(gc.gameStartYear, gc.gameStartMonth, gc.gameStartDay, gc.gameStartHour, gc.gameStartMinute, 0);
+            if (DateTimeOverride.HasValue) {
+                WeatherTime = new ARDateTime(DateTimeOverride.Value);
+                DateTimeOverride = null;
+            }
             Init();
         }
 
@@ -189,19 +198,19 @@ namespace Awaken.TG.Main.Timing {
             _weatherSecondsPerRealSecond = 24f*60f/minutes;
         }
 
-        public bool WillSkipTimeBeInterrupted(float skipTimeInHours, bool safelySkipping, out float skipTimeInSecondsTillInterrupt) {
+        public bool WillSkipTimeBeInterrupted(float skipTimeInHours, bool safelySkipping, out float skipTimeInHoursTillInterrupt) {
             DateTime currentTime = (DateTime)WeatherTime;
             int hours = Mathf.FloorToInt(skipTimeInHours);
             int minutes = Mathf.FloorToInt((skipTimeInHours - hours) * 60f);
             if (WillSkipTimeBeInterrupted(currentTime, hours, minutes, safelySkipping, out DateTime interruptTime)) {
-                skipTimeInSecondsTillInterrupt = (float) (interruptTime - currentTime).TotalSeconds;
+                skipTimeInHoursTillInterrupt = (float) (interruptTime - currentTime).TotalHours;
                 return true;
             }
-            skipTimeInSecondsTillInterrupt = -1;
+            skipTimeInHoursTillInterrupt = -1;
             return false;
         }
 
-        public bool WillSkipTimeBeInterrupted(DateTime currentTime, int hours, int minutes, bool safelySkipping, out DateTime interruptTime)  {
+        bool WillSkipTimeBeInterrupted(DateTime currentTime, int hours, int minutes, bool safelySkipping, out DateTime interruptTime)  {
             interruptTime = currentTime;
             while (hours > 0 || minutes > 0) {
                 if (hours > 0) {
@@ -239,7 +248,9 @@ namespace Awaken.TG.Main.Timing {
         }
 
         void TriggerTimeScaleChanged() {
-            TimeScaleChanged?.Invoke();
+            foreach (var timeDependent in World.All<TimeDependent>()) {
+                timeDependent.RefreshTimeScale();
+            }
         }
         
         void TriggerTimeScaleChanged(float from, float to) {
@@ -284,7 +295,6 @@ namespace Awaken.TG.Main.Timing {
 
         protected override void OnDiscard(bool fromDomainDrop) {
             NightChanged = null;
-            TimeScaleChanged = null;
             base.OnDiscard(fromDomainDrop);
         }
 

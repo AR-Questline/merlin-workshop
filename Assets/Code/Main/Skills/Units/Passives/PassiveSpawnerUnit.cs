@@ -3,6 +3,8 @@ using Unity.VisualScripting;
 
 namespace Awaken.TG.Main.Skills.Units.Passives {
     public abstract class PassiveSpawnerUnit : PassiveUnit, IGraphElementWithData {
+        bool _isRefreshing;
+        
         protected abstract IPassiveEffect Passive(Skill skill, Flow flow);
         protected virtual bool IsModified(IPassiveEffect currentPassive, Flow flow, out IPassiveEffect newPassive) {
             newPassive = null;
@@ -10,12 +12,14 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
         }
 
         public override void Enable(Skill skill, Flow flow) {
-            EnableInternal(skill, flow, Passive(skill, flow));
+            var data = flow.stack.GetElementData<Data>(this);
+            if (data.passive != null) return;
+            EnableInternal(skill, data, Passive(skill, flow));
         }
 
-        void EnableInternal(Skill skill, Flow flow, IPassiveEffect passive) {
+        void EnableInternal(Skill skill, Data data, IPassiveEffect passive) {
             if (passive == null) return;
-            flow.stack.GetElementData<Data>(this).passive = passive;
+            data.passive = passive;
             skill.AddElement(passive);
         }
 
@@ -26,17 +30,24 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
         }
 
         void DisableInternal(Data data) {
-            data.passive.Discard();
+            var passive = data.passive;
             data.passive = null;
+            passive.Discard();
         }
         
         public void Refresh(Skill skill, Flow flow) {
+            if (_isRefreshing) {
+                return;
+            }
             var data = flow.stack.GetElementData<Data>(this);
             if (!IsModified(data.passive, flow, out var newPassive)) {
                 return;
             }
+
+            _isRefreshing = true;
             DisableInternal(data);
-            EnableInternal(skill, flow, newPassive);
+            EnableInternal(skill, data, newPassive);
+            _isRefreshing = false;
         }
         
         public IGraphElementData CreateData() {

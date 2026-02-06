@@ -57,6 +57,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: cb0f6e9edc556bc4c94651ab39bc1c09
@@ -72,9 +73,9 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: NameSkill_Consumable_FoodHealForDurationDesc
+      IdOverride: 
       ID: Template/description_locString_2543871262668956605_535a34c98b80fad49a7a0a17db8a7cd3
-  EDITOR_bakedDescription: Restores  health over s.
+  EDITOR_bakedDescription: It looks somewhat edible...
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +152,10 @@ MonoBehaviour:
     arReference:
       address: 4444799dca505b2408d5541777ee4418
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6723473617950232950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,13 +207,30 @@ MonoBehaviour:
     templates: []
     assetReferences: []
   - skillGraphRef:
-      _guid: 6219faf0de359c24894f4d983ee7d636
+      _guid: a837e47601d15e845b410704c66636bb
     variables:
+    - name: Stacks
+      value: 1
     - name: Buildup
-      value: 100
+      value: 0
+    - name: BuildupGain
+      value: 0
+    - name: Duration
+      value: 30
+    - name: DurationGain
+      value: 0
+    - name: BuildupCalculated
+      value: 0
+    - name: DurationPreCalculated
+      value: 0
+    - name: DurationCalculated
+      value: 0
     enums: []
     datums: []
-    templates: []
+    templates:
+    - name: Status
+      templateReference:
+        _guid: 14c4f199e7ca1eb44a17b0f163e6e4bc
     assetReferences: []
 --- !u!114 &7535430793584293263
 MonoBehaviour:

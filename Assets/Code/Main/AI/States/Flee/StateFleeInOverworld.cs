@@ -1,10 +1,12 @@
-﻿using Awaken.TG.Main.AI.Grid;
+﻿using Awaken.TG.Code.Utility;
+using Awaken.TG.Main.AI.Grid;
 using Awaken.TG.Main.AI.Movement;
 using Awaken.TG.Main.AI.Movement.Controllers;
 using Awaken.TG.Main.AI.Movement.States;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.MVC;
+using Awaken.Utility.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -12,6 +14,7 @@ namespace Awaken.TG.Main.AI.States.Flee {
     public class StateFleeInOverworld : NpcState<StateFlee> {
         Wander _wander;
         NpcChunk _destinationChunk;
+        bool _reached;
 
         public override void Init() {
             base.Init();
@@ -26,17 +29,20 @@ namespace Awaken.TG.Main.AI.States.Flee {
 
         void OnWanderReached() {
             Npc.SetAnimatorState(NpcFSMType.GeneralFSM, NpcStateType.Fear);
+            _reached = true;
         }
 
         public override void Update(float deltaTime) {
-            if (!HasSafeDestination()) {
+            if (!HasSafeDestination() || (_reached && !IsInSafeChunk())) {
                 AttemptToAssignNewDestination();
             }
         }
 
+        bool IsInSafeChunk() => Npc.NpcChunk is { Data: { HasDanger: false }};
         bool HasSafeDestination() => _destinationChunk is { Data: { HasDanger: false } };
 
         void AttemptToAssignNewDestination() {
+            _reached = false;
             if (TryGetNewPosition(out _destinationChunk, out var position)) {
                 Npc.SetAnimatorState(NpcFSMType.GeneralFSM, NpcStateType.Idle);
                 _wander.UpdateDestination(position, 0.8f);
@@ -55,14 +61,23 @@ namespace Awaken.TG.Main.AI.States.Flee {
         bool TryGetNewPosition(out NpcChunk safeChunk, out Vector3 safePosition) {
             if (Npc.NpcChunk is { } myChunk) {
                 var grid = World.Services.Get<NpcGrid>();
+                var validChunks = new StructList<NpcChunk>(8);
                 foreach (var chunk in grid.GetChunksByProximity(myChunk.Coords, 3)) {
-                    if (!chunk.Data.HasDanger) {
-                        safeChunk = chunk;
-                        var chunkCenter = (new float2(chunk.Coords) + new float2(0.5f)) * grid.ChunkSize;
-                        safePosition = new Vector3(chunkCenter.x, Npc.Coords.z, chunkCenter.y);
-                        safePosition = Ground.SnapToGround(safePosition);
-                        return true;
+                    if (chunk == _destinationChunk) {
+                        continue;
                     }
+                    if (!chunk.Data.HasDanger) {
+                        validChunks.Add(chunk);
+                    }
+                }
+
+                if (validChunks.Count > 0) {
+                    int index = RandomUtil.UniformInt(0, validChunks.Count - 1);
+                    safeChunk = validChunks[index];
+                    var chunkCenter = (new float2(validChunks[index].Coords) + new float2(0.5f)) * grid.ChunkSize;
+                    safePosition = new Vector3(chunkCenter.x, Npc.Coords.z, chunkCenter.y);
+                    safePosition = Ground.SnapToGround(safePosition);
+                    return true;
                 }
             }
             safeChunk = null;

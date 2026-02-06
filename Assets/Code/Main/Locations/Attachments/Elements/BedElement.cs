@@ -18,9 +18,10 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         BedAttachment _spec;
         string _interactLabel;
         
-        public override InfoFrame ActionFrame => !string.IsNullOrWhiteSpace(_interactLabel) ? 
-            new InfoFrame(_interactLabel, HeroHasRequiredItem()) : 
-            base.ActionFrame;
+        protected override bool DisableInCombat => true;
+        protected override InfoFrame ActionFrameInternal => !string.IsNullOrWhiteSpace(_interactLabel)
+                                                                ? new InfoFrame(_interactLabel, HeroHasRequiredItem()) 
+                                                                : base.ActionFrameInternal;
         
         public void InitFromAttachment(BedAttachment spec, bool isRestored) {
             _spec = spec;
@@ -28,7 +29,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         }
 
         public override ActionAvailability GetAvailability(Hero hero, IInteractableWithHero interactable) {
-            return hero.IsInCombat() ? ActionAvailability.Disabled : base.GetAvailability(hero, interactable);
+            return base.GetAvailability(hero, interactable);
         }
 
         protected override void OnStart(Hero hero, IInteractableWithHero interactable) {

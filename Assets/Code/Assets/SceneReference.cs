@@ -75,7 +75,7 @@ namespace Awaken.TG.Assets {
                 .FirstOrDefault(scene => scene != null);
         }
         
-        string RetrieveName() {
+        public string RetrieveName() {
             return string.IsNullOrEmpty(_addressableLocationKey)
                 ? ModService.GetAddressableLocation(reference?.RuntimeKey)?.PrimaryKey
                 : _addressableLocationKey;
@@ -95,6 +95,10 @@ namespace Awaken.TG.Assets {
 
         public override int GetHashCode() {
             return Name != null ? Name.GetHashCode() : 0;
+        }
+
+        public string GetDebugInfo() {
+            return $"(Name: {Name}. DomainName: {Domain.Name}. AddressableLocationKey: {_addressableLocationKey}. ReferenceAddress: {reference.Address})";
         }
 
         // === Operators

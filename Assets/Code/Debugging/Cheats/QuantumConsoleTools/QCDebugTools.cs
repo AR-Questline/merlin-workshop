@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Awaken.PackageUtilities.CommonInterfaces;
 using Awaken.TG.Assets;
 using Awaken.TG.Debugging.Cheats.QuantumConsoleTools.Suggestors;
 using Awaken.TG.Graphics;
+using Awaken.TG.Graphics.Transitions;
 using Awaken.TG.Main.AI.States;
 using Awaken.TG.Main.AudioSystem.Biomes;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes;
-using Awaken.TG.Main.Heroes.CharacterCreators.PresetSelection;
 using Awaken.TG.Main.Heroes.CharacterSheet.Map;
-using Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees;
 using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Development;
 using Awaken.TG.Main.Heroes.Development.Talents;
@@ -22,10 +22,13 @@ using Awaken.TG.Main.Heroes.MovementSystems;
 using Awaken.TG.Main.Locations.Attachments.Attachment;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Memories.FilePrefs;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving.Cloud.Conflicts;
+using Awaken.TG.Main.Saving.SaveSlots;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.Settings.FontChooseStartup;
+using Awaken.TG.Main.SocialServices;
 using Awaken.TG.Main.Stories.Quests.Templates;
-using Awaken.TG.Main.Stories.Steps.Helpers;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.UI;
@@ -42,6 +45,7 @@ using Awaken.Utility.Maths;
 using Cysharp.Threading.Tasks;
 using QFSW.QC;
 using UnityEngine;
+using UnityEngine.Localization;
 using Log = Awaken.Utility.Debugging.Log;
 using Object = UnityEngine.Object;
 
@@ -60,9 +64,27 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             
             QuantumConsole.Instance.LogToConsoleAsync("Debug shortcuts: " + (CheatController.CheatShortcutsEnabled ? "enabled" : "disabled"));
         }
+
+#if UNITY_EDITOR || AR_DEBUG || DLC_DEBUG
+        [Command("toggle.DLCs-enabled", "Toggles DLCs being enabled in the game. Options: All, None, SupporterPack, Sarras, ContentPack, or combinations (space-separated)")] [UnityEngine.Scripting.Preserve]
+        static void ToggleDLCsEnabled(params DlcCategoryFlags[] dlcFlagsArray) {
+            if (dlcFlagsArray.Length == 0) {
+                // Toggle between All and None
+                SocialService.debugDlcEnabled = SocialService.debugDlcEnabled == DlcCategoryFlags.All ? DlcCategoryFlags.None : DlcCategoryFlags.All;
+            } else {
+                DlcCategoryFlags result = DlcCategoryFlags.None;
+                foreach (DlcCategoryFlags flag in dlcFlagsArray) {
+                    result |= flag;
+                }
+                SocialService.debugDlcEnabled = result;
+            }
+            
+            QuantumConsole.Instance.LogToConsoleAsync("DLCs enabled: " + SocialService.debugDlcEnabled);
+        }
+#endif
         
         [Command("scene.change", "Changes the scene to the specified one", allowWhiteSpaces:true)][UnityEngine.Scripting.Preserve]
-        static void ChangeScene([SceneName] string sceneName) {
+        static void ChangeScene([Suggestors.SceneName] string sceneName) {
             if (Hero.Current == null) {
                 ScenePreloader.StartNewGame(SceneReference.ByName(sceneName));
                 return;
@@ -104,7 +126,7 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             Hero.Current.TrySetMovementType<NoClipMovement>();
         }
 
-        [Command("ss.capture", "Takes a screenshot without ui")][UnityEngine.Scripting.Preserve]
+        [Command("ss.capture", "Takes a screenshot without ui and copies image to clipboard")][UnityEngine.Scripting.Preserve]
         static async void TakeScreenshot(int supersize = 1) {
             var marvinMode = MarvinMode.GetOrCreateMarvin();
             
@@ -112,9 +134,19 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             marvinMode.HideUI();
             
             Directory.CreateDirectory(Application.persistentDataPath + "/Screenshots");
-            ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Screenshots/Screenshot_" + DateTime.UtcNow.ToString("yyyyMMdd_hhmmss") + ".png", supersize);
+            var fileName = "Screenshot_" + DateTime.UtcNow.ToString("yyyyMMdd_hhmmss") + ".png";
+            var filePath = Application.persistentDataPath + "/Screenshots/" + fileName;
+            ScreenCapture.CaptureScreenshot(filePath, supersize);
+
             await Awaitable.NextFrameAsync(); // Wait for the screenshot to capture before reenabling ui
             
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            if (File.Exists(filePath)) {
+                ClipboardUtility.CopyImageToClipboard(filePath);
+            } else {
+                Log.Important?.Warning($"Screenshot file was not created: {filePath}"); 
+            }
+#endif
             marvinMode.ShowUI();
             QuantumConsole.Instance.Activate();
         }
@@ -249,6 +281,26 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             QuantumConsole.Instance.LogToConsoleAsync("Debug Perception: " + (!currentValue ? "enabled" : "disabled"));
         }
         
+        [Command("toggle.transition.open-eyes", "Hides or shows open eyes in the Transition Service")][UnityEngine.Scripting.Preserve]
+        static void ToggleOpenEyes(bool transparent) {
+            var service = World.Services.Get<TransitionService>();
+            if (transparent) {
+                service.TransitionFromBlack(0).Forget();
+            } else {
+                service.TransitionToBlack(0).Forget();
+            }
+        }
+        
+        [Command("toggle.transition.fade-to-transparent", "Hides or shows black fade in the Transition Service")][UnityEngine.Scripting.Preserve]
+        static void ToggleFade(bool transparent) {
+            var service = World.Services.Get<TransitionService>();
+            if (transparent) {
+                service.ToCamera(0).Forget();
+            } else {
+                service.ToBlack(0).Forget();
+            }
+        }
+        
         static async UniTaskVoid DelayToggleDebugPerception(bool? setTo, bool vision, bool noise, bool target ) {
             await UniTask.DelayFrame(2);
             ToggleDebugPerception(setTo, vision, noise, target);
@@ -309,19 +361,20 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             conflictUI.Init(DateTime.Now, DateTime.Now, () => Object.Destroy(go), () => Object.Destroy(go));
         }
         
-        [Command("run-character-creator-debug", "Opens the character creator and load GameTestArena")][UnityEngine.Scripting.Preserve]
-        static void ShowCharacterCreator() {
+        [Command("show-font-choose-ui", "")][UnityEngine.Scripting.Preserve]
+        static void ShowFontChooseUI() {
             QuantumConsole.Instance.Deactivate();
-            SceneSets jailTutorial = CommonReferences.Get.presetSelectorConfig.JailTutorial;
-            
-            StartGameData data = new() {
-                withHeroCreation = true,
-                withTransitionToCamera = true,
-                sceneReference = SceneReference.ByName("GameplayTestArena"),
-                characterPresetData = jailTutorial.presets.FirstOrDefault(),
-            };
-            
-            TitleScreenUtils.StartNewGame(data);
+            FontChooseStartup.ShowFontChoose().Forget();
+        }
+        
+        [Command("hero.rerun-character-creator", "Opens the character creator and load GameTestArena")][UnityEngine.Scripting.Preserve]
+        static void ShowCharacterCreator() {
+            if (Hero.Current == null) {
+                QuantumConsole.Instance.LogToConsoleAsync("No hero found");
+                return;
+            }
+            QuantumConsole.Instance.Deactivate();
+            TitleScreenUtils.RerunCharacterCreator(Object.FindAnyObjectByType<MapScene>()).Forget();
         }
         
         [Command("hero.unlock-all-skills", "Unlocks all skills")][UnityEngine.Scripting.Preserve]
@@ -350,7 +403,31 @@ namespace Awaken.TG.Debugging.Cheats.QuantumConsoleTools {
             Hero.Current.RestoreStats();
         }
 
+        [Command("new-game-plus.start-now", "Starts new game plus with current character")][UnityEngine.Scripting.Preserve]
+        static void StartNewGamePlus() {
+            NewGamePlusUtils.StartNewGamePlusDuringGameplay();
+        }
+        
+        [Command("new-game-plus.allow-from-any-save", "Allows to start new game plus from any save")][UnityEngine.Scripting.Preserve]
+        static void AllowNewGamePlusFromAnySave() {
+            foreach (var saveSlot in World.All<SaveSlot>()) {
+                saveSlot.MarkAsNewGamePlusReady();
+            }
+        }
+        
+        [Command("new-game-plus.find-and-fix-old-saves", "Finds if there are NG+ ready saves that are not marked correctly")][UnityEngine.Scripting.Preserve]
+        static void FindAndFixSavesNotMarkedAsNgReady() {
+            NewGamePlusUtils.FindAndFixSavesNotMarkedAsNgReady(null);
+        }
+        
 #if UNITY_EDITOR
+        [Command("language-change", "Changes language")][UnityEngine.Scripting.Preserve]
+        static void LanguageChange([LanguageName] string language) {
+            var localeIdentifier = new LocaleIdentifier(language);
+            UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale = UnityEngine.Localization.Settings.LocalizationSettings.AvailableLocales.GetLocale(localeIdentifier);
+            ILocalizationManager.Current.SwitchLanguage(new LocaleIdentifier(language));
+        }
+        
         [Command("start-all-quests", "Starts all quest templates regardless of validity")][UnityEngine.Scripting.Preserve]
         static void StartAllQuests() {
             var allQuest = TemplatesProvider.EditorGetAllOfType<QuestTemplate>();

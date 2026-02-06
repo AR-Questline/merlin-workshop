@@ -38,7 +38,12 @@ namespace Awaken.TG.Main.Locations.Pickables {
         public string DisplayName => Template.ItemName;
         public GameObject InteractionVSGameObject => null;
         public Vector3 InteractionPosition => Coords;
-        public bool IsIllegal => Crime.Theft(_itemData, this).IsCrime();
+        public bool IsIllegal {
+            get {
+                using var crime = Crime.Theft(_itemData, this);
+                return crime.IsCrime();
+            }
+        }
 
         public bool IsValidAction => _itemData is { ItemTemplate: { } };
         public InfoFrame ActionFrame => new(DefaultActionName, true);
@@ -87,7 +92,8 @@ namespace Awaken.TG.Main.Locations.Pickables {
                 Object.Destroy(_spawnedRegrowablePart);
                 _spawnedRegrowablePart = null;
             }
-            if (_spec.TryGetValidPrefab(out var prefabReference)) {
+            if (_spec.TryGetObtainedPrefab(out var prefabReference)) {
+                _spec.ClearObtainedPrefab();
                 prefabReference.ReleaseAsset();
                 _itemData = null;
                 return;

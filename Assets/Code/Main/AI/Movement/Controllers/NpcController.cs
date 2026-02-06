@@ -6,6 +6,7 @@ using Awaken.TG.Main.AI.Idle;
 using Awaken.TG.Main.AI.Movement.Controllers.Rotation;
 using Awaken.TG.Main.AI.Movement.States;
 using Awaken.TG.Main.AI.States;
+using Awaken.TG.Main.Animations;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
@@ -26,6 +27,7 @@ using Awaken.TG.Main.Locations.Elevator;
 using Awaken.TG.Main.Locations.Views;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.MVC;
@@ -89,25 +91,25 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
         public Action onReached;
         DelayedAngle _rotation;
         float _rootMotionTrackingOffset;
-        HashSet<NpcStateType> _targetRootRotationActiveStates = new();
+        List<RootRotationProvider> _targetRootRotationProviders = new();
         float _timeSinceNoRootRotation;
 
         bool _initialized;
         bool _grounded = true;
-        bool _teleport;
         bool _forcedForwardMovementOnly;
         bool _destinationReached;
         bool _runningIntoWall;
-        bool _movingToAbyss;
         bool _hasInCombatParameter;
         bool _globalRichAIEnabled = true;
         bool _idleRichAIEnabled = true;
         float _runningIntoWallDuration;
         float _runningIntoWallProlong;
-        TeleportContext _teleportContext;
-        TeleportDestination _teleportDestination;
         RVOLayer _originalRvoCollisionLayer;
 
+        bool _customAcceleration;
+        float _customAccelerationValue;
+        float _customDecelerationValue;
+        
         Vector3 _slopeDir;
         Vector3 _hitNormal;
         Vector3 _rootBoneOffset;
@@ -125,7 +127,7 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
         float MinDistanceToTarget => DistancesToTargetHandler.MinDistanceToTarget(Npc);
         Vector3 PhysicsBasedPosition => Npc.IsInRagdoll ? RootBone.position - _rootBoneOffset : Target.Coords;
         float YPosition => RootBone.position.y - _rootBoneOffset.y;
-        bool TargetRootRotationInProgress => _targetRootRotationActiveStates.Count > 0;
+        bool TargetRootRotationInProgress => _targetRootRotationProviders.Count > 0;
         public float RootRotationTrackingOffset => _rootMotionTrackingOffset;
         public float TargetRotationDelta => Vector2.SignedAngle(LogicalForward, SteeringDirection) * -1.0f;
         public bool DisableOverlapRecovery => !forceAllowOverlapRecovery &&
@@ -185,7 +187,7 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
                 if (notNull && _movement.HasBeenDiscarded) {
                     return null;
                 }
-                return notNull ? _movement : _movement = Npc?.TryGetElement<NpcMovement>();
+                return notNull ? _movement : _movement = Npc?.Movement;
             }
         }
 
@@ -202,6 +204,10 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
         public float BackwardsTrotSpeed => overrideMovementSpeed ? backwardsTrotSpeed : DefaultTrotBackwardsSpeed;
         public float RunSpeed => overrideMovementSpeed ? runSpeed : DefaultRunSpeed;
         public float BackwardsRunSpeed => overrideMovementSpeed ? backwardsRunSpeed : DefaultRunBackwardsSpeed;
+        public float DefaultAccelerationSpeed => accelerationSpeed;
+        public float DefaultDecelerationSpeed => decelerationSpeed;
+        float AccelerationSpeed => _customAcceleration ? _customAccelerationValue : accelerationSpeed;
+        float DecelerationSpeed => _customAcceleration ? _customDecelerationValue : decelerationSpeed;
 
         // === Functionality
         protected override void OnAttach() {
@@ -296,9 +302,6 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
             }
             
             HeroOverlapRecoveryHandler.RemoveOverlapRecoveryProvider(this);
-            
-            // when we disable npc with active teleport request, the teleport will never occur unless we call it here
-            TryTeleport();
         }
 
         void OnEnable() {
@@ -340,6 +343,16 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
             HeroOverlapRecoveryHandler.RemoveOverlapRecoveryProvider(this);
         }
         
+        public void SetCustomAcceleration(float acceleration, float deceleration) {
+            _customAcceleration = true;
+            _customAccelerationValue = acceleration;
+            _customDecelerationValue = deceleration;
+        }
+
+        public void ResetCustomAcceleration() {
+            _customAcceleration = false;
+        }
+        
         public void ToggleGlobalRichAIActivity(bool state) {
             if (_globalRichAIEnabled == state && RichAI.enabled == RichAIEnabled) {
                 return;
@@ -377,7 +390,7 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
                 direction = AIUtils.LimitDeltaPositionTowardsTarget(currentTarget, RichAI.transform.position, direction, minDistanceToTarget);
             }
 
-            Vector3 desiredPosition = transform.position + direction;
+            Vector3 desiredPosition = RichAI.position + direction;
 
             if (RvoController != null && useCollisionAvoidance) {
                 CollisionAvoidanceMoveStep(direction);
@@ -406,24 +419,17 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
             RvoController.Move(_accumulatedVelocitySinceLastRvoUpdate);
         }
         
-        public void SetTargetRootRotationFromState(NpcStateType state, float targetRotation) {
+        public void AddTargetRootRotationProvider(RootRotationProvider provider) {
             if (!TargetRootRotationInProgress) {
                 ResetRootRotationOffset();
             }
-            _targetRootRotationActiveStates.Add(state);
-            UpdateRootRotationOffsetBy(targetRotation);
+            _targetRootRotationProviders.Add(provider);
+            UpdateRootRotationOffsetBy(provider.TargetRootRotation);
         }
         
         public void ResetTargetRootRotation() {
-            _targetRootRotationActiveStates.Clear();
+            _targetRootRotationProviders.Clear();
             ResetRootRotationOffset();
-        }
-        
-        public void UnmarkTargetRootRotationForState(NpcStateType state) {
-            _targetRootRotationActiveStates.Remove(state);
-            if (trackingVisualFallbackForce == 0f && !TargetRootRotationInProgress) {
-                ResetRootRotationOffset();
-            }
         }
 
         void UpdateRootRotationOffsetBy(float additionalOffset) {
@@ -453,18 +459,7 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
             }
 
             if (animator.deltaPosition.magnitude > 0.01f) {
-                Move(animator.deltaPosition);
-            }
-            
-            if (animator.deltaRotation != Quaternion.identity) {
-                float deltaAngle = Mathf.DeltaAngle(0, animator.deltaRotation.eulerAngles.y);
-
-                if (TargetRootRotationInProgress) {
-                    _rootMotionTrackingOffset -= deltaAngle;
-                } else {
-                    _rotation.SetValue(_rotation.Value + deltaAngle);
-                    RichAI.rotation *= Quaternion.Euler(0, deltaAngle, 0);
-                }
+                Move(animator.deltaPosition, false);
             }
         }
         
@@ -483,6 +478,9 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
                 return;
             }
             UpdateRotation(deltaTime);
+            if (Npc == null || Npc.HasBeenDiscarded) { // in case npc died from moving into something that killed it
+                return;
+            }
             bool isInIdle = !Npc.IsSummon && (Npc.NpcAI?.InIdle ?? false);
             bool inCombat = Npc.IsInCombat();
             float maxSpeed = CurrentMaxSpeed * Npc.CharacterStats.MovementSpeedMultiplier;
@@ -494,8 +492,10 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
                 RichAI.maxSpeed = 0f;
             } else if (deltaTime != 0 && RichAI.velocity == Vector3.zero) {
                 RichAI.maxSpeed = maxSpeed;
+            } else if (maxSpeed == 0) {
+                RichAI.maxSpeed = 0;
             } else {
-                float maxSpeedDelta = deltaTime * (maxSpeed > RichAI.maxSpeed ? accelerationSpeed : decelerationSpeed);
+                float maxSpeedDelta = deltaTime * (maxSpeed > RichAI.maxSpeed ? AccelerationSpeed : DecelerationSpeed);
                 RichAI.maxSpeed = Mathf.MoveTowards(RichAI.maxSpeed, maxSpeed, maxSpeedDelta);
             }
             
@@ -565,6 +565,9 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
         }
         
         void UpdateRotation(float deltaTime) {
+            UpdateRootRotationProviders();
+            CollectProvidedRootRotation(deltaTime);
+            
             if (Npc.IsStunned) {
                 RichAI.enableRotation = false;
                 return;
@@ -584,6 +587,45 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
             }
 
             Target.SafelyRotateTo(VisualRotation);
+        }
+
+        void UpdateRootRotationProviders() {
+            if (TargetRootRotationInProgress) {
+                for (int i = _targetRootRotationProviders.Count - 1; i >= 0; i--) {
+                    RootRotationProvider provider = _targetRootRotationProviders[i];
+                    if (!provider.IsActive) {
+                        _targetRootRotationProviders.RemoveAt(i);
+                        provider.Dispose();
+                    }
+                }
+            }
+            
+            if (trackingVisualFallbackForce == 0f && !TargetRootRotationInProgress) {
+                ResetRootRotationOffset();
+            }
+        }
+        
+        void CollectProvidedRootRotation(float deltaTime) {
+            if (!TargetRootRotationInProgress) {
+                return;
+            }
+            
+            float deltaAngle = 0.0f;
+            
+            foreach (RootRotationProvider provider in _targetRootRotationProviders) {
+                deltaAngle += provider.GetRootRotationDelta(deltaTime);
+            }
+
+            if (deltaAngle == 0f) {
+                return;
+            }
+
+            if (TargetRootRotationInProgress) {
+                _rootMotionTrackingOffset -= deltaAngle;
+            } else {
+                _rotation.SetValue(_rotation.Value + deltaAngle);
+                RichAI.rotation *= Quaternion.Euler(0, deltaAngle, 0);
+            }
         }
 
         void PerformRootMotionTrackingOffsetFallback(float deltaTime) {
@@ -644,26 +686,21 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
         // === Teleporting
         
         /// <summary>
-        /// Requests npc to teleport. It teleports in first FixedUpdate after request. <br/>
-        /// Cannot requests many teleports during one update unless context is same. <br/>
-        /// If context is the same former request will be overriden.
+        /// Teleports NPC synchronously
         /// </summary>
         public void TeleportTo(TeleportDestination destination, TeleportContext context = TeleportContext.None) {
-            if (_teleport && (_teleportContext == TeleportContext.None || _teleportContext != context)) {
-                Log.Minor?.Error(
-                    $"InvalidOperation: Cannot teleport ({context}). Another teleport ({_teleportContext}) is in progress"
-                );
-                return;
-            }
-            _teleportDestination = destination;
-            _teleportContext = context;
-            _teleport = true;
             DisableFallDamageForTeleport();
             
-            if (!gameObject.activeInHierarchy) {
-                // Try Teleport is performed on Npc Disabling, but when Npc is disabled already it will not happen till it's activated.
-                TryTeleportNextFrame().Forget();
+            // Teleport
+            var newPosition = destination.position;
+            Target.Trigger(GroundedEvents.BeforeTeleported, Target);
+            RichAI.ForceTeleport(newPosition);
+            Npc.ParentModel.View<VDynamicLocation>()?.SyncPositionAndRotation();
+            if (destination.Rotation != null) {
+                SetRotationInstant(destination.Rotation.Value);
             }
+            
+            Target.Trigger(GroundedEvents.AfterTeleported, Target);
         }
         
         public void DisableFallDamageFor(int frames) {
@@ -672,50 +709,10 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
         }
         public void DisableFallDamageForTeleport() => DisableFallDamageFor(5);
         public void DisableFallDamageForExitingRagdoll() => DisableFallDamageFor(5);
-
-        void FixedUpdate() {
-            TryTeleport();
-        }
         
         void ProcessOnElevatorFixedUpdate(float deltaTime, ElevatorPlatform elevatorPlatform) {
             Vector3 position = Position + elevatorPlatform.PositionChange;
             RichAI.FinalizeMovement(position, LogicalRotation, false);
-        }
-        
-        async UniTaskVoid TryTeleportNextFrame() {
-            if (!await AsyncUtil.DelayFrame(Npc)) {
-                return;
-            }
-            TryTeleport();
-        }
-
-        void TryTeleport() {
-            if (!_teleport) {
-                return;
-            }
-            
-            if (HasBeenDiscarded) {
-                return;
-            }
-            
-            var newPosition = _teleportDestination.position;
-		        
-            // Teleport
-            Target.Trigger(GroundedEvents.BeforeTeleported, Target);
-            RichAI.ForceTeleport(newPosition);
-            if (!gameObject.activeInHierarchy) {
-                Npc.ParentModel.View<VDynamicLocation>()?.SyncPositionAndRotation();
-            }
-            if (_teleportDestination.Rotation != null) {
-                SetRotationInstant(_teleportDestination.Rotation.Value);
-            }
-            
-            Target.Trigger(GroundedEvents.AfterTeleported, Target);
-
-            // Reset state
-            _teleport = false;
-            _teleportContext = TeleportContext.None;
-            _teleportDestination = TeleportDestination.Zero;
         }
 
         public void SetRotationInstant(Quaternion quaternion) => SetRotationInstant(quaternion.eulerAngles.y);
@@ -734,32 +731,6 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
                 };
                 TeleportTo(destination, TeleportContext.MinYCheck);
             }
-        }
-        
-        public void MoveToAbyss() {
-            if (_movingToAbyss) {
-                return;
-            }
-            Npc.ParentModel.SetInteractability(LocationInteractability.Hidden);
-            if (!NpcPresence.InAbyss(Npc.Coords)) {
-                _movingToAbyss = true;
-                MoveToAbyssAfterOneFrame().Forget();
-            }
-        }
-        
-        async UniTaskVoid MoveToAbyssAfterOneFrame() {
-            NpcPresence oldPresence = Npc.NpcPresence;
-            if (await AsyncUtil.DelayFrame(Npc) 
-                && (Npc.NpcPresence == null || Npc.NpcPresence == oldPresence) 
-                && _movingToAbyss) {
-                
-                Npc.ParentModel.SafelyMoveTo(NpcPresence.AbyssPosition, true);
-            }
-            _movingToAbyss = false;
-        }
-
-        public void AbortMoveToAbyss() {
-            _movingToAbyss = false;
         }
         
         // === Controlling
@@ -846,10 +817,11 @@ namespace Awaken.TG.Main.AI.Movement.Controllers {
         
         public Vector2 SteeringDirection {
             get {
-                return UseRichAIRotation switch {
-                    true => (RichAI.steeringTarget - Position).ToHorizontal2().normalized,
-                    false => Vector2Util.AngleToHorizontal2(_rotation.Target)
-                };
+                if (UseRichAIRotation) {
+                    var steeringDirection = (RichAI.steeringTarget - Position).ToHorizontal2();
+                    return steeringDirection.magnitude <= RichAI.endReachedDistance ? LogicalForward : steeringDirection.normalized;
+                }
+                return Vector2Util.AngleToHorizontal2(_rotation.Target);
             }
             set => Rotation = value.Horizontal2ToAngle();
         }

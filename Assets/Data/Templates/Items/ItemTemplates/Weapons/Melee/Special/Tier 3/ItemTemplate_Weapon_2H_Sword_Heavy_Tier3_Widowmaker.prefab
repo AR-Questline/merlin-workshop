@@ -159,6 +159,10 @@ MonoBehaviour:
     arReference:
       address: 5813f3a8058b30e41b5ba688ea846e4b
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-1898233628747547555
 MonoBehaviour:
@@ -283,7 +290,24 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null:Strength
     datums: []
     templates: []
-    assetReferences: []
+    assetReferences:
+    - name: WeaponVFX
+      assetReference:
+        arReference:
+          address: 6baaa58e140eb8a4599d9409382b4401
+          subObjectName: 
+  - skillGraphRef:
+      _guid: 46e9ec2a44472f043ad23e100b6be969
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 9d5a1ad05be186443be68e217160770c
+          subObjectName: 
 --- !u!114 &-4969879966689734120
 MonoBehaviour:
   m_ObjectHideFlags: 0

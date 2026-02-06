@@ -1,11 +1,10 @@
 ﻿using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes.Stats;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
-using Newtonsoft.Json;
 
 namespace Awaken.TG.Main.Character {
     public sealed partial class NpcStats : Element<NpcElement> {
@@ -25,9 +24,10 @@ namespace Awaken.TG.Main.Character {
         public LimitedStat MagicDamage { get; private set; }
         public LimitedStat ForceDamageMultiplier { get; private set; }
         public Stat HeroKnockBack { get; private set; }
+        public Stat BackToSpawnPointDistanceMultiplier { get; private set; }
         
         protected override void OnInitialize() {
-            _wrapper.Initialize(this);
+            _wrapper.Initialize(this, ParentModel.HeroLevelAtInitialization);
         }
 
         public static NpcStats CreateFromNpcTemplate(NpcElement npc) {
@@ -35,10 +35,15 @@ namespace Awaken.TG.Main.Character {
             return stats;
         }
         
+        public void RecalculateAllStats(int previousHereLevel, int newHeroLevel) {
+            _wrapper.PrepareForSave(this, previousHereLevel);
+            _wrapper.Initialize(this, newHeroLevel);
+        }
+        
         // === Persistence
 
         void OnBeforeWorldSerialize() {
-            _wrapper.PrepareForSave(this);
+            _wrapper.PrepareForSave(this, ParentModel.HeroLevelAtInitialization);
         }
         
         public partial struct NpcStatsWrapper {
@@ -59,28 +64,37 @@ namespace Awaken.TG.Main.Character {
             [Saved(0f)] float MagicDamageDif;
             [Saved(0f)] float ForceDamageMultiplierDif;
             [Saved(0f)] float HeroKnockBackDif;
+            [Saved(0f)] float BackToSpawnPointDistanceMultiplierDif;
 
-            public void Initialize(NpcStats stats) {
+            public void Initialize(NpcStats stats, int heroLevel) {
                 NpcElement npc = stats.ParentModel;
                 NpcTemplate template = npc.Template;
+                
+                int ngLevel = npc.NewGamePlusLevel;
+                NewGamePlusSystem.GetAllNpcStats(npc, template, ngLevel, heroLevel, out var meleeDamage, out var rangedDamage, out var magicDamage, out var poiseThreshold, out var forceStumbleThreshold);
                 
                 stats.Sight = new LimitedStat(npc, NpcStatType.Sight, DefaultPerceptionValues + SightDif, 0, 1);
                 stats.SightLengthMultiplier = new LimitedStat(npc, NpcStatType.SightLengthMultiplier, DefaultPerceptionValues + SightLengthMultiplierDif, 0, 2);
                 stats.Hearing = new LimitedStat(npc, NpcStatType.Hearing, DefaultPerceptionValues + HearingDif, 0, 1);
-                stats.PoiseThreshold = new LimitedStat(npc, NpcStatType.PoiseThreshold, DefaultPoiseValue + PoiseThresholdDif, 0, template.poiseThreshold, true);
-                stats.ForceStumbleThreshold = new LimitedStat(npc, NpcStatType.ForceStumbleThreshold, DefaultPoiseValue + ForceStumbleThresholdDif, 0, template.ForceStumbleThreshold, true);
+                stats.PoiseThreshold = new LimitedStat(npc, NpcStatType.PoiseThreshold, DefaultPoiseValue + PoiseThresholdDif, 0, poiseThreshold, true);
+                stats.ForceStumbleThreshold = new LimitedStat(npc, NpcStatType.ForceStumbleThreshold, DefaultPoiseValue + ForceStumbleThresholdDif, 0, forceStumbleThreshold, true);
                 
                 stats.Block = new LimitedStat(npc, NpcStatType.Block, template.blockValue + BlockDif, 0, 100);
                 stats.BlockPenaltyMultiplier = new LimitedStat(npc, NpcStatType.BlockPenaltyMultiplier, template.blockPenaltyMultiplier + BlockPenaltyMultiplierDif, 0, 2);
-                stats.MeleeDamage = new LimitedStat(npc, NpcStatType.MeleeDamage, template.meleeDamage + MeleeDamageDif, 1, float.MaxValue);
-                stats.RangedDamage = new LimitedStat(npc, NpcStatType.RangedDamage, template.rangedDamage + RangedDamageDif, 1, float.MaxValue);
-                stats.MagicDamage = new LimitedStat(npc, NpcStatType.MagicDamage, template.magicDamage + MagicDamageDif, 1, float.MaxValue);
+                stats.MeleeDamage = new LimitedStat(npc, NpcStatType.MeleeDamage, meleeDamage + MeleeDamageDif, 1, float.MaxValue);
+                stats.RangedDamage = new LimitedStat(npc, NpcStatType.RangedDamage, rangedDamage + RangedDamageDif, 1, float.MaxValue);
+                stats.MagicDamage = new LimitedStat(npc, NpcStatType.MagicDamage, magicDamage + MagicDamageDif, 1, float.MaxValue);
                 stats.ForceDamageMultiplier = new LimitedStat(npc, NpcStatType.ForceDamageMultiplier, 1 + ForceDamageMultiplierDif, 0, float.MaxValue);
-                stats.HeroKnockBack = new Stat(npc, NpcStatType.HeroKnockBack, template.heroKnockBack);
+                stats.HeroKnockBack = new Stat(npc, NpcStatType.HeroKnockBack, template.heroKnockBack + HeroKnockBackDif);
+                stats.BackToSpawnPointDistanceMultiplier = new Stat(npc, NpcStatType.BackToSpawnPointDistanceMultiplier, template.BackToSpawnPointDistanceMultiplier + BackToSpawnPointDistanceMultiplierDif);
             }
 
-            public void PrepareForSave(NpcStats npcStats) {
-                NpcTemplate template = npcStats.ParentModel.Template;
+            public void PrepareForSave(NpcStats npcStats, int heroLevel) {
+                NpcElement npc = npcStats.ParentModel;
+                NpcTemplate template = npc.Template;
+                
+                int ngLevel = npc.NewGamePlusLevel;
+                NewGamePlusSystem.GetAllNpcStats(npc, template, ngLevel, heroLevel, out var meleeDamage, out var rangedDamage, out var magicDamage, out _, out _);
                 
                 SightDif = npcStats.Sight.ValueForSave - DefaultPerceptionValues;
                 SightLengthMultiplierDif = npcStats.SightLengthMultiplier.ValueForSave - DefaultPerceptionValues;
@@ -90,11 +104,12 @@ namespace Awaken.TG.Main.Character {
                 
                 BlockDif = npcStats.Block.ValueForSave - template.blockValue;
                 BlockPenaltyMultiplierDif = npcStats.BlockPenaltyMultiplier.ValueForSave - template.blockPenaltyMultiplier;
-                MeleeDamageDif = npcStats.MeleeDamage.ValueForSave - template.meleeDamage;
-                RangedDamageDif = npcStats.RangedDamage.ValueForSave - template.rangedDamage;
-                MagicDamageDif = npcStats.MagicDamage.ValueForSave - template.magicDamage;
+                MeleeDamageDif = npcStats.MeleeDamage.ValueForSave - meleeDamage;
+                RangedDamageDif = npcStats.RangedDamage.ValueForSave - rangedDamage;
+                MagicDamageDif = npcStats.MagicDamage.ValueForSave - magicDamage;
                 ForceDamageMultiplierDif = npcStats.ForceDamageMultiplier.ValueForSave - 1;
                 HeroKnockBackDif = npcStats.HeroKnockBack.ValueForSave - template.heroKnockBack;
+                BackToSpawnPointDistanceMultiplierDif = npcStats.BackToSpawnPointDistanceMultiplier.ValueForSave - template.BackToSpawnPointDistanceMultiplier;
             }
         }
     }

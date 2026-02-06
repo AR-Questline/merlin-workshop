@@ -1,5 +1,6 @@
 ﻿using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Pets;
+using Awaken.TG.Main.Locations.Pets.Variants;
 using Awaken.TG.Main.Stories.Core.Attributes;
 using Awaken.TG.Main.Stories.Execution;
 using Awaken.TG.Main.Stories.Runtime;
@@ -25,26 +26,26 @@ namespace Awaken.TG.Main.Stories.Steps {
         
         public override StepResult Execute(Story story) {
             foreach (var location in locationRef.MatchingLocations(story)) {
-                if (location.TryGetElement(out PetElement pet)) {
-                    Interact(pet);
+                if (location.TryGetElement<PetVariantBase>(out var pet)) {
+                    InteractWithPetVariant(pet);
                 }
             }
             return StepResult.Immediate;
         }
 
-        void Interact(PetElement pet) {
+        void InteractWithPetVariant(PetVariantBase petVariant) {
             switch (interaction) {
                 case Interaction.Pet:
-                    pet.Pet();
+                    petVariant.PerformPetting();
                     break;
                 case Interaction.Taunt:
-                    pet.Taunt();
+                    petVariant.PerformTaunt();
                     break;
                 case Interaction.Follow:
-                    pet.SetFollowing(true);
+                    petVariant.SetFollowing(true);
                     break;
                 case Interaction.Stay:
-                    pet.SetFollowing(false);
+                    petVariant.SetFollowing(false);
                     break;
             }
         }

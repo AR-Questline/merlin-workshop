@@ -11,6 +11,7 @@ namespace Awaken.TG.MVC.Serialization {
         readonly char* _string;
 
         readonly SaveReaderContext _context;
+        bool _separatorHit = false;
         
         public SaveReader(Stream stream, in SaveReaderContext context) {
             _reader = new BinaryReader(stream);
@@ -24,8 +25,11 @@ namespace Awaken.TG.MVC.Serialization {
         }
         
         public void Read<T>(out T value) where T : unmanaged {
+            if (_separatorHit) {
+                throw new Exception("Invalid byte sequence");
+            }
             T temp;
-            _reader.Read((byte*)&temp, sizeof(T));
+            _reader.Read((byte*)&temp, sizeof(T), out _separatorHit);
             value = temp;
         }
         
@@ -93,6 +97,10 @@ namespace Awaken.TG.MVC.Serialization {
         }
 
         public void ReadToSeparator() {
+            if (_separatorHit) {
+                _separatorHit = false;
+                return;
+            }
             int indent = 0;
             while (true) {
                 var result = _reader.TryRead(out var b);

@@ -54,7 +54,7 @@ MonoBehaviour:
   _abstractTypes:
   - _guid: fb3f705c21071314b8d3a9fa554e0ed3
   - _guid: 00e2ecb9a87647c42b02d08d71fc9c48
-  - _guid: eb6d6040c82ce9046a5dd9adb20a7186
+  - _guid: 2ec1f2b91c4b91540a3d9d5544f2ad41
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   basePrice: 400
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 42583d38a1245534a9468d3a965810e9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -184,7 +188,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:None
   hitsToHitStop:
     _enumRef: Awaken.TG.Main.Animations.FSM.Heroes.Modifiers.HitsToHitStop, TG.Main,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Blunt
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null:Stab
 --- !u!114 &2208950746346123652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &705685050405466519
 MonoBehaviour:
@@ -270,6 +277,8 @@ MonoBehaviour:
       value: 10
     - name: GainValue
       value: 1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

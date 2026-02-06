@@ -32,6 +32,8 @@ namespace Awaken.TG.Main.Stories.Steps {
             // Npc to change
             [Saved] bool _startFight;
             [Saved] HostilityData _hostilityData;
+            
+            public override bool RequireVisualLoaded => true;
 
             [JsonConstructor, Preserve]
             StepExecution() { }

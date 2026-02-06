@@ -65,7 +65,7 @@ MonoBehaviour:
   - item:tier6
   iconReference:
     arSpriteReference:
-      address: 3d91f5f6987fa6c4abb38ba0dd3a583f
+      address: 52821f74b02f7c34398e9ebda6ed913e
       subObjectName: 
   itemName:
     IdOverride: specialweapon_QuietDeath
@@ -80,10 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_93163cf101017624eacc9630ad7ecab9
-  EDITOR_bakedDescription: 'Hitting a target has a 100% chance to restore 1 Health.
-
-    Hitting
-    a target has a 10% chance to restore 50 Stamina.'
+  EDITOR_bakedDescription: "Deals additional 200\_% Backstab Damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -158,7 +155,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: e6fab71239a5f1949a408d7f50943fb3
+      address: c94e0e6a8b8fe9f4fbe9ce30fa5fd6ab
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -245,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5872891149054577755
 MonoBehaviour:

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Awaken.TG.Main.Localization;
-using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Scenes;
 using Awaken.TG.Main.Stories.Quests.Objectives.Specs;
 using Awaken.TG.MVC;
@@ -41,6 +40,10 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
             if (RequiredObjectiveState != ObjectiveStateFlag.All) {
                 Quest.ListenTo(QuestUtils.Events.ObjectiveChanged, OnObjectiveChange, this);
             }
+            Quest.AfterFullyInitialized(StartTracking, this);
+        }
+
+        protected virtual void StartTracking() {
             if (SceneLifetimeEvents.Get.EverythingInitialized) {
                 CheckIfCompletedInitial();
             } else {
@@ -66,7 +69,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
             }
         }
 
-        void CheckIfCompletedInitial() {
+        protected void CheckIfCompletedInitial() {
             if (RequiredObjectiveState.HasThisState(ParentModel.State)) {
                 CheckIfCompletedInternal(false);
             }
@@ -96,7 +99,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
 
         void TryMapStateToFlag() {
             if (!FlagToMap.IsNullOrWhitespace()) {
-                Services.Get<GameplayMemory>().Context().Set(FlagToMap, _wasCompleted);
+                StoryFlags.Set(FlagToMap, _wasCompleted);
             }
         }
 

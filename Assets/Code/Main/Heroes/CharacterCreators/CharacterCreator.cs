@@ -23,6 +23,7 @@ using Awaken.TG.Main.UI.HeroCreator;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.UI.RawImageRendering;
+using Awaken.TG.Main.UI.TitleScreen;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
@@ -56,6 +57,7 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators {
         readonly BlendShape[] _shapes = new BlendShape[BlendShapesCount];
 
         bool _transitToCameraOnDiscard;
+        bool _onlyCharacterPanel;
         bool _changingLock;
         int? _presetIndex;
         CharacterPresetData _presetData;
@@ -89,12 +91,17 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators {
             public static readonly Event<CharacterCreator, CharacterCreator> CharacterCreated = new(nameof(CharacterCreated));
         }
         
-        public CharacterCreator(BodyFeatures features, MapScene mapScene, CharacterBuildPreset preset, CharacterCreatorTemplate template = null, bool transitToCameraOnDiscard = false) {
+        public CharacterCreator(BodyFeatures features, MapScene mapScene, CharacterBuildPreset preset, CharacterCreatorTemplate template = null, bool transitToCameraOnDiscard = false, bool onlyCharacterPanel = false) {
             _template = template ?? Services.Get<TemplatesProvider>().GetAllOfType<CharacterCreatorTemplate>().First();
             _features = features;
             _mapScene = mapScene;
             BuildPreset = preset;
             _transitToCameraOnDiscard = transitToCameraOnDiscard;
+            
+            if (onlyCharacterPanel) {
+                _transitToCameraOnDiscard = true;
+                _onlyCharacterPanel = true;
+            }
 
             World.EventSystem.LimitedListenTo(
                 EventSelector.AnySource,
@@ -159,7 +166,7 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators {
             var uiStateStack = UIStateStack.Instance;
             if (await AsyncUtil.WaitUntil(Hero.Current, () => uiStateStack.State.IsMapInteractive)) {
                 if (LoadSave.Get.CanAutoSave()) {
-                    LoadSave.Get.Save(SaveSlot.GetAutoSave());
+                    LoadSave.Get.Save(SaveSlot.GetAutoSave(out bool createdNew), deleteSaveSlotIfSavingFailed: createdNew);
                 }
             }
         }
@@ -181,6 +188,11 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators {
                 return;
             }
 
+            if (_onlyCharacterPanel) {
+                ActualSaveAndClose(null).Forget();
+                return;
+            }
+            
             DisplayPopup(LocTerms.CharacterCreatorApplyChanges.Translate(), () => ChooseDifficulty(popup));
             return;
 
@@ -245,7 +257,7 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators {
             
             if (await AsyncUtil.WaitWhile(this, () => HeroRenderer.IsLoading)) {
                 Discard();
-                chooseDifficulty.Discard();
+                chooseDifficulty?.Discard();
             }
         }
 

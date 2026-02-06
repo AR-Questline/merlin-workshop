@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Animancer;
+using Awaken.CommonInterfaces;
 using Awaken.TG.Assets;
 using Awaken.TG.Editor.Assets;
 using Awaken.TG.Editor.Main.Heroes.Items;
@@ -17,6 +18,7 @@ using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
     public static class NpcIconRenderingUtils {
@@ -28,8 +30,9 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
         static Entry s_currentEntry;
         static LocationTemplate s_currentLocationTemplate;
         static Location s_currentLocation;
+        static GameObject s_currentFallbackModel;
         static AnimancerState s_currentAnimancerState;
-        public static Action<LocationTemplate> locationIconRenderReady;
+        public static Action<Entry> entryReadyToRender;
         public static Action iconRenderComplete;
 
         static bool s_isLoadingPreview;
@@ -110,34 +113,77 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
             s_currentLocationTemplate = entry.GetLocationTemplate();
             s_currentEntry = entry;
 
-            if (s_currentLocationTemplate == null) {
-                Log.Important?.Error("Trying to spawn null template, are you sure Encounters Cache is properly baked?");
+            if (TrySpawnAsLocationTemplate()) {
                 return;
             }
+            
+            Log.Important?.Info("Trying to spawn null location template, fallback to Location spec prefab");
 
-            Vector3 spawnPoint = Vector3.zero;
+            if (FallbackToSpecPrefab(s_currentEntry.GetLocationSpec())) {
+                return;
+            }
+            
+            Log.Important?.Info("Tried to spawn location from Entry with no LocationTemplate or LocationSpec, fallback to just instantiating the GameObject");
+            
+            FallbackToGO();
 
-            s_isLoadingPreview = true;
-            s_currentLocation = s_currentLocationTemplate.SpawnLocation(spawnPoint);
-            s_currentLocation.OnVisualLoaded(_ => {
-                if (!s_currentLocation.TryGetElement(out NpcElement npcElement)) {
-                    return;
+            return;
+            
+            bool TrySpawnAsLocationTemplate() {
+                if (s_currentLocationTemplate != null) {
+                    Vector3 spawnPoint = Vector3.zero;
+
+                    s_isLoadingPreview = true;
+                    s_currentLocation = s_currentLocationTemplate.SpawnLocation(spawnPoint);
+                    s_currentLocation.OnVisualLoaded(_ => {
+                        if (!s_currentLocation.TryGetElement(out NpcElement npcElement)) {
+                            return;
+                        }
+
+                        SetAnimatorState(entry, npcElement);
+                        TryUpdateWeaponRenderers();
+                    });
+                    EnsureHudInvisibility();
+                    return true;
                 }
 
-                SetAnimatorState(entry, npcElement);
-                TryUpdateWeaponRenderers();
-            });
+                return false;
+            }
+            
+            bool FallbackToSpecPrefab(LocationSpec spec) {
+                if (spec != null) {
+                    var prefab = AddressableHelper.FindFirstEntry<Object>(spec.PrefabReference) as GameObject;
+                    var instantiateAsync = Object.InstantiateAsync(prefab, Vector3.zero, Quaternion.identity);
+                    instantiateAsync.completed += _ => {
+                        s_currentFallbackModel = instantiateAsync.Result[0] as GameObject;
+                        s_currentFallbackModel.SetUnityRepresentation(new IWithUnityRepresentation.Options { linkedLifetime = true });
+                        s_isLoadingPreview = false;
+                    };
+                    return true;
+                }
 
-            EnsureHudInvisibility();
+                return false;
+            }
+            
+            void FallbackToGO() {
+                var instantiateAsync = Object.InstantiateAsync(entry.GetModel(), Vector3.zero, Quaternion.identity);
+                instantiateAsync.completed += _ => {
+                    s_currentFallbackModel = instantiateAsync.Result[0] as GameObject;
+                    s_currentFallbackModel.SetUnityRepresentation(new IWithUnityRepresentation.Options { linkedLifetime = true });
+                    s_isLoadingPreview = false;
+                };
+            
+                s_isLoadingPreview = false;
+            }
         }
 
         static void SetAnimatorState(Entry entry, NpcElement npcElement) {
             npcElement.SetAnimatorState(NpcFSMType.GeneralFSM, entry.StateType, Mathf.Infinity);
             var substateMachine = npcElement.GetAnimatorSubstateMachine(NpcFSMType.GeneralFSM);
-            SetAndPauseAnimAsync(substateMachine, entry.AnimDeltaTime, s_currentLocationTemplate).Forget();
+            SetAndPauseAnimAsync(substateMachine, entry.AnimDeltaTime, entry).Forget();
         }
 
-        static async UniTask SetAndPauseAnimAsync(NpcAnimatorSubstateMachine substateMachine, float animDeltaTime, LocationTemplate locationTemplate) {
+        static async UniTask SetAndPauseAnimAsync(NpcAnimatorSubstateMachine substateMachine, float animDeltaTime, Entry entry) {
             await UniTask.WaitUntil(() => substateMachine.CurrentAnimatorState != null && substateMachine.CurrentAnimatorState.CurrentState != null);
 
             // Set and pause animation
@@ -159,19 +205,23 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
 
             // Notify that preview is ready
             s_isLoadingPreview = false;
-            locationIconRenderReady?.Invoke(locationTemplate);
+            entryReadyToRender?.Invoke(entry);
         }
 
-        public static void RenderAndAssignIcon(LocationTemplate locationTemplate) {
-            if (!locationTemplate.TryGetComponent(out NpcAttachment npcAttachment)) {
-                Log.Important?.Error("Tried to render icon for location without NpcAttachment");
-                return;
+        public static void RenderAndAssignIcon(Entry entry) {
+            string name = entry.GetModel().name;
+            var locationTemplate = entry.GetLocationTemplate();
+            
+            NpcAttachment npcAttachment = locationTemplate != null ? locationTemplate.GetComponent<NpcAttachment>() : null;
+            if (!npcAttachment) {
+                Log.Important?.Warning("Tried to render icon for location without NpcAttachment");
             }
 
             Render(out string assetPath);
             TryAssignIconToTemplate(assetPath);
 
             iconRenderComplete?.Invoke();
+            return;
 
             void Render(out string path) {
                 // render
@@ -186,9 +236,9 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
                 Camera.main.targetTexture = null;
                 RenderTexture.DiscardContents();
                 byte[] bytes = texture2D.EncodeToPNG();
-                path = $"{IconsOutputDir}/{locationTemplate.name}_icon.png";
+                path = $"{IconsOutputDir}/{name}_icon.png";
                 File.WriteAllBytes(path, bytes);
-                UnityEngine.Object.DestroyImmediate(texture2D);
+                Object.DestroyImmediate(texture2D);
             }
 
             void TryAssignIconToTemplate(string iconPath) {
@@ -219,7 +269,7 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
                         .WithLabels(ItemTemplateEditor.Labels)
                         .Build());
 
-                npcAttachment.EDITOR_SetRenderIcon(new ShareableSpriteReference(guid));
+                npcAttachment?.EDITOR_SetRenderIcon(new ShareableSpriteReference(guid));
             }
         }
 
@@ -227,6 +277,11 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
             s_isLoadingPreview = false;
             s_currentLocationTemplate = null;
             s_currentAnimancerState = null;
+            if(s_currentFallbackModel != null) {
+                Object.DestroyImmediate(s_currentFallbackModel);
+                s_currentFallbackModel = null;
+            }
+            
             s_currentLocation?.Discard();
             s_currentLocation = null;
         }

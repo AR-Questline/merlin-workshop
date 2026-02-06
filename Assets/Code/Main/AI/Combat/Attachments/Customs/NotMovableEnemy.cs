@@ -21,8 +21,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
             base.InitFromAttachment(spec, isRestored);
         }
         
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             _noMove = new NoMove();
             _noMoveAndRotate = new NoMoveAndRotateTowardsTarget();
         }
@@ -38,7 +38,16 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
         }
 
         void SetMovementState() {
-            NpcElement.Movement?.InterruptState(canRotate ? _noMoveAndRotate : _noMove);
+            if (NpcElement.Movement == null) {
+                return;
+            }
+
+            MovementState desiredState = canRotate ? _noMoveAndRotate : _noMove;
+            if (NpcElement.Movement.CurrentState == desiredState) {
+                return;
+            }
+            
+            NpcElement.Movement?.ChangeMainState(desiredState);
         }
     }
 }

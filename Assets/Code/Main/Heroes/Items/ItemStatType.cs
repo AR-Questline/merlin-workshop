@@ -58,8 +58,11 @@ namespace Awaken.TG.Main.Heroes.Items {
             RangedZoomModifier = new (nameof(RangedZoomModifier), "", h => h.ItemStats?.RangedZoomModifier, "Misc"),
             RangedDrawSpeedModifier = new (nameof(RangedDrawSpeedModifier), "", h => h.ItemStats?.RangedDrawSpeedModifier, "Misc"),
             LightCastManaCost = new (nameof(LightCastManaCost), "", h => h.ItemStats?.LightCastManaCost, "Magic"),
+            LightCastManaCostGain = new (nameof(LightCastManaCostGain), "", h => h.ItemStats?.LightCastManaCostGain, "Magic"),
             HeavyCastManaCost = new (nameof(HeavyCastManaCost), "", h => h.ItemStats?.HeavyCastManaCost, "Magic"),
+            HeavyCastManaCostGain = new (nameof(HeavyCastManaCostGain), "", h => h.ItemStats?.HeavyCastManaCostGain, "Magic"),
             HeavyCastManaCostPerSecond = new (nameof(HeavyCastManaCostPerSecond), "", h => h.ItemStats?.HeavyCastManaCostPerSecond, "Magic"),
+            HeavyCastManaCostPerSecondGain = new (nameof(HeavyCastManaCostPerSecondGain), "", h => h.ItemStats?.HeavyCastManaCostPerSecondGain, "Magic"),
             ChargeAmount = new (nameof(ChargeAmount), "", h => h.ItemStats?.ChargeAmount, "Magic"),
             MagicHeldSpeedMultiplier = new (nameof(MagicHeldSpeedMultiplier), "", h => h.ItemStats?.MagicHeldSpeedMultiplier, "Magic");
         

@@ -196,15 +196,19 @@ namespace Awaken.TG.Main.UI.Components {
                 Resize();
             } else {
                 var toRemoveIndex = _viewsWithRectTransforms.FindIndex(v => v.view.RecyclableTarget.IsNotIn(_models));
-                var toRemoveView = _viewsWithRectTransforms[toRemoveIndex].view;
-                toRemoveView.Discard();
+
+                //Remove when view out of viewports bounds
+                if (toRemoveIndex != -1) {
+                    var toRemoveView = _viewsWithRectTransforms[toRemoveIndex].view;
+                    toRemoveView.Discard();
                 
-                var spawned = Instantiate(_prefab, container.transform);
+                    var spawned = Instantiate(_prefab, container.transform);
 
-                RectTransform rectTransform = spawned.GetComponent<RectTransform>();
-                SetupRectTransform(rectTransform);
+                    RectTransform rectTransform = spawned.GetComponent<RectTransform>();
+                    SetupRectTransform(rectTransform);
 
-                _viewsWithRectTransforms[toRemoveIndex] = new(spawned, rectTransform);
+                    _viewsWithRectTransforms[toRemoveIndex] = new(spawned, rectTransform);
+                }
             }
             
             UpdatePlacing();

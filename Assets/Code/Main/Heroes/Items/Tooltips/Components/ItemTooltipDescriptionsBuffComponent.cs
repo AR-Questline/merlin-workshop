@@ -10,26 +10,20 @@ using Awaken.TG.Utility;
 namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
     [Serializable]
     public class ItemTooltipDescriptionsBuffComponent : ItemTooltipDescriptionsBaseComponent<AppliedItemBuff> {
-        bool _hasContent;
-        
-        public ItemTooltipDescriptionsBuffComponent(DescriptionComponentConfig config) : base(config) { }
-        
         public override void ToggleSectionActive(bool active) {
-            if (_hasContent) {
-                SetParentSectionVisibility(active);
-            }
+            SetParentSectionVisibility(active);
         }
 
         protected override void Setup(IItemDescriptor descriptor, View view) {
-            _hasContent = descriptor.Buffs.Any();
+            bool hasContent = descriptor.Buffs.Any();
             PrepareDescription(descriptor.Buffs, view);
             
-            SetParentSectionVisibility(_hasContent);
-            UseReadMore = _hasContent;
+            UseReadMore = hasContent;
+            Visibility.SetInternal(hasContent);
         }
         
         protected override void PrepareItemDescription(AppliedItemBuff item, ItemDescriptionElement descriptionElement, View view) {
-            Item buffItem = descriptionElement.AddItemIcon(item.Template, view);
+            Item buffItem = descriptionElement.AddItemIcon(item.Template, view, item.BuffItemLevel, item.BuffNgPlusLevel);
             ExistingItemDescriptor descriptor = new (buffItem);
             
             string nameLabel = $"{item.DisplayName} ({item.SecondsLeft}{LocTerms.SecondsAbbreviation.Translate()})";

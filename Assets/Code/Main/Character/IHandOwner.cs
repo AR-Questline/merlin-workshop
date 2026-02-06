@@ -11,7 +11,8 @@ namespace Awaken.TG.Main.Character {
         LayerMask HitLayerMask { get; } 
         void OnFinisherRelease(Vector3 weaponPosition);
         void OnBackStabRelease();
-
+        void SetActiveWeakspot(bool active);
+        
         public void OnAttackRelease(ARAnimationEventData eventData) {
             ParentModel.Trigger(ICharacter.Events.OnAttackRelease, eventData);
         }

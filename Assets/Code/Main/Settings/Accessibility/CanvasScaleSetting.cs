@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Settings.Options;
 using Awaken.Utility.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +32,11 @@ namespace Awaken.TG.Main.Settings.Accessibility {
         }
 
         protected void ResizeCanvasScaler(Canvas canvas) {
-            if (canvas != null) {
+            ResizeDelayed(canvas).Forget();
+        }
+
+        async UniTaskVoid ResizeDelayed(Canvas canvas) {
+            if (await AsyncUtil.DelayFrame(this) && canvas != null) {
                 canvas.GetComponent<CanvasScaler>().referenceResolution = CurrentScale;
             }
         }

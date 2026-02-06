@@ -14,7 +14,7 @@ namespace Awaken.TG.Main.Heroes.Animations {
         
         protected override void OnInitialize() {
             Item item = ParentModel.HeroItems.Add(new Item(CommonReferences.Get.HandCutOffItemTemplate));
-            item.AddElement<LockItemSlot>();
+            item.AddElement(new LockItemSlot(false, LockItemSlot.LockSource.CutOffHand));
             foreach (var loadout in ParentModel.HeroItems.Loadouts) {
                 loadout.EquipItem(EquipmentSlotType.OffHand, item);
                 loadout.AddElement(new HeroLoadoutSlotLocker(EquipmentSlotType.OffHand));
@@ -39,6 +39,27 @@ namespace Awaken.TG.Main.Heroes.Animations {
             var animPP = ParentModel.VHeroController.BodyData.GetComponentInChildren<AnimationPostProcessing>();
             if (animPP != null) {
                 animPP.ChangeAdditionalEntries(new[] { new AnimationPostProcessing.Entry(CommonReferences.Get.noLeftArmPP) });
+            }
+        }
+
+        protected override void OnDiscard(bool fromDomainDrop) {
+            if (fromDomainDrop) {
+                return;
+            }
+
+            var cutoffHandTemplate = CommonReferences.Get.HandCutOffItemTemplate;
+            foreach (var loadout in ParentModel.HeroItems.Loadouts) {
+                foreach (var slotLocker in loadout.Elements<HeroLoadoutSlotLocker>().ToArraySlow()) {
+                    if (slotLocker.SlotTypeLocked == EquipmentSlotType.OffHand) {
+                        slotLocker.Discard();
+                    }
+                }
+
+                var offHandItem = loadout[EquipmentSlotType.OffHand];
+                if (offHandItem != null && offHandItem.Template == cutoffHandTemplate) {
+                    loadout.EquipItem(EquipmentSlotType.OffHand, ParentModel.HeroItems.GetOffHandFist());
+                    offHandItem.Discard();
+                }
             }
         }
     }

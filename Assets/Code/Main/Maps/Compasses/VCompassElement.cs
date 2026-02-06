@@ -12,7 +12,7 @@ using UnityEngine.UI;
 namespace Awaken.TG.Main.Maps.Compasses {
     public class VCompassElement : MonoBehaviour {
         public const float MinFactorValue = 0.5f;
-        const float MaxVisibleAngle = 26.7f;
+        const float MaxVisibleAngle = 23.4f;
 
         [SerializeField] Image icon;
         [SerializeField] TextMeshProUGUI topText;

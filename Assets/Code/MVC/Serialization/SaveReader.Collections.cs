@@ -51,6 +51,11 @@ namespace Awaken.TG.MVC.Serialization {
         
         public void ReadStructList<T>(out StructList<T> value, NestedReader<T> reader) {
             Read(out int length);
+            if (length == -1) {
+                value = new StructList<T>(0);
+                value.Uncreate();
+                return;
+            }
             value = new StructList<T>(length);
             for (int i = 0; i < length; i++) {
                 value.Add(reader(this));

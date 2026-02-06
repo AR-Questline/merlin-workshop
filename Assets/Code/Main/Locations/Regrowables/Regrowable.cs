@@ -49,7 +49,12 @@ namespace Awaken.TG.Main.Locations.Regrowables {
         public string DisplayName => Template.ItemName;
         public GameObject InteractionVSGameObject => _spec.gameObject;
         public Vector3 InteractionPosition => Coords;
-        public bool IsIllegal => Crime.Theft(_regrownItemData, this).IsCrime();
+        public bool IsIllegal {
+            get {
+                using var crime = Crime.Theft(_regrownItemData, this);
+                return crime.IsCrime();
+            }
+        }
 
         public bool IsValidAction => _regrownItemData is { ItemTemplate: not null};
         

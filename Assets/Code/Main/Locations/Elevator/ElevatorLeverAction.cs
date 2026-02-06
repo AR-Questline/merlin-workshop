@@ -20,6 +20,9 @@ namespace Awaken.TG.Main.Locations.Elevator {
         [Saved] bool _currentState;
         List<WeakModelRef<ElevatorCallerAction>> _platformCallers;
         WeakModelRef<ElevatorPlatform> _owner;
+        
+        public int CurrentIndex => _currentIndex;
+        public ElevatorPlatform Owner => _owner.Get();
 
         protected override void OnLateInit() {
             _platformCallers = new List<WeakModelRef<ElevatorCallerAction>>();
@@ -104,7 +107,11 @@ namespace Awaken.TG.Main.Locations.Elevator {
                 return;
             }
             
-            _currentIndex = (_currentIndex + 1) % _platformCallers.Count;
+            RequestMoveToCaller(platform, (_currentIndex + 1) % _platformCallers.Count);
+        }
+
+        public void RequestMoveToCaller(ElevatorPlatform platform, int callerIndex) {
+            _currentIndex = callerIndex;
             _platformCallers[_currentIndex].Get().ParentModel.SetInteractability(LocationInteractability.Active);
             platform.Trigger(ElevatorPlatform.Events.PlatformMoveRequested, new ElevatorData(_platformCallers[_currentIndex].Get().TargetPosition));
         }

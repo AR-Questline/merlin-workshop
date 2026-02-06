@@ -47,7 +47,7 @@ namespace Awaken.TG.MVC.Domains {
                     }
                 }
 
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
                 // If we detect a need for folder change we move them to temporary folders as to not overwrite any existing save slots
                 if (!Configuration.GetBool(ApplicationScene.IsGoG)) {
                     MoveMismatchedFoldersToTemp(loadedSaveSlots);
@@ -136,13 +136,7 @@ namespace Awaken.TG.MVC.Domains {
         }
 
         static SaveSlot LatestSaveSlot() {
-            var allInOrder = World.AllInOrder();
-            for (int i = allInOrder.Count - 1; i >= 0; i--) {
-                if (allInOrder[i] is SaveSlot slotModel) {
-                    return slotModel;
-                }
-            }
-            return null;
+            return World.LastOrNull<SaveSlot>();
         }
 
         // === Domain Queries

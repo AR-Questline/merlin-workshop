@@ -5,6 +5,7 @@ using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.MVC;
 using Awaken.Utility.Debugging;
+using GameAnalyticsSDK;
 
 namespace Awaken.TG.Main.Analytics {
     public static class AnalyticsUtils {
@@ -83,6 +84,22 @@ namespace Awaken.TG.Main.Analytics {
         public static void SendDesignEvent(string eventId) {
             //GameAnalytics.NewDesignEvent(eventId);
         }
+        
+        public static void TrySendProgressionEvent(GAProgressionStatus progression, string id1, int value) {
+            if (DisableProgressionEvents) {
+                return;
+            }
+            Log.Minor?.Info($"[PROGRESS] {progression.ToString()}/{id1} = {value}");
+            // GameAnalytics.NewProgressionEvent(progression, id1, value);
+        }
+        
+        public static void TrySendProgressionEvent(GAProgressionStatus progression, string id1, string id2, int value) {
+            if (DisableProgressionEvents) {
+                return;
+            }
+            Log.Minor?.Info($"[PROGRESS] {progression.ToString()}/{id1}/{id2} = {value}");
+            // GameAnalytics.NewProgressionEvent(progression, id1, id2, value);
+        }
 
         public static void TrySendProgressionEvent(GAProgressionStatus progression, string id1, string id2, string id3, int value) {
             if (DisableProgressionEvents) {
@@ -95,14 +112,6 @@ namespace Awaken.TG.Main.Analytics {
         public static void CheatsEnabled(bool enabled) {
             s_cheatsWasEnabledForHero = enabled;
         }
-    }
-    
-    public enum GAProgressionStatus
-    {
-        Undefined = 0,
-        Start = 1,
-        Complete = 2,
-        Fail = 3
     }
 }
 #endif

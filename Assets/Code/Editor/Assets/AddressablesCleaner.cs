@@ -125,9 +125,13 @@ namespace Awaken.TG.Editor.Assets {
                                 }
                                 
                                 foreach (var path in GUIDCache.Instance.GetDependent(nextAsset.obj, true)) {
-                                    var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+                                    var temp = path;
+                                    if (temp.EndsWith("meta")) {
+                                        temp = path[..^5];
+                                    }
+                                    var asset = AssetDatabase.LoadAssetAtPath<Object>(temp);
                                     if (visited.Add(asset)) {
-                                        usages.Add((path, asset));
+                                        usages.Add((temp, asset));
                                     }
                                 }
                             }

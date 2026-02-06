@@ -31,9 +31,11 @@ namespace Awaken.TG.Main.UI.Menu.ModManager {
 
         void OnHover(bool hover) {
             if (!RewiredHelper.IsGamepad) {
+                buttonConfig.UpdateHovered(hover);
                 return;
             }
 
+            buttonConfig.UpdateHovered(false, true);
             if (hover && !Target.IsSelected) {
                 Target.Select();
             }
@@ -45,6 +47,7 @@ namespace Awaken.TG.Main.UI.Menu.ModManager {
             modeVersionText.SetText(meta.version);
             modAuthorText.SetText(meta.author);
             modTagsText.SetText(ExtractTags(meta.tags));
+            buttonConfig.UpdateHovered(buttonConfig.button.Hovering && Target.IsSelected, true);
             RefreshSelection();
             RefreshModActiveText();
         }

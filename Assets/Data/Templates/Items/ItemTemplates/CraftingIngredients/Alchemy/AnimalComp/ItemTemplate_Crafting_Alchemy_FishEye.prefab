@@ -58,6 +58,7 @@ MonoBehaviour:
   tags:
   - alchemy:AnimalComp
   - ingredients:advancedalchemy
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: a809879b580cacd4bb562bee8de9f20a
@@ -152,6 +153,10 @@ MonoBehaviour:
     arReference:
       address: aba09308e74d2294b99293f31ea17138
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &5128635444738983869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,15 +180,15 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: 7191459edbd5a2f4d8d9c324f5f105ad
     variables:
-    - name: Gain
-      value: 0
     - name: AddValue
       value: 5
+    - name: Gain
+      value: 0
     - name: Duration
       value: 60
-    - name: AddValueCalculated
-      value: 0
     - name: DurationGain
+      value: 0
+    - name: AddValueCalculated
       value: 0
     - name: DurationCalculated
       value: 0

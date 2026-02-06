@@ -15,7 +15,9 @@ namespace Awaken.TG.Main.UI {
         [field: Required, SerializeField] public CanvasService CanvasServices { get; private set; }
         [field: Required, SerializeField] public Transform SpawnRoot { get; private set; }
         [field: Required, SerializeField] public MapStickerUI MapStickerUI { get; private set; }
-
+        [field: Title("Texts")]
+        [field: Required, SerializeField] public TextSettingsProvider TextSettingsProvider { get; private set; }
+        
         static Services Services => World.Services;
         
         public void InitAfterServices() {
@@ -34,6 +36,8 @@ namespace Awaken.TG.Main.UI {
             // stickers: for handling UI that is attached to a world object
             Services.Register(MapStickerUI);
             MapStickerUI.Init();
+            Services.Register(TextSettingsProvider);
+            TextSettingsProvider.Init();
             CanvasServices.HandleAspectRatioScaler(World.Only<GameCamera>());
         }
     }

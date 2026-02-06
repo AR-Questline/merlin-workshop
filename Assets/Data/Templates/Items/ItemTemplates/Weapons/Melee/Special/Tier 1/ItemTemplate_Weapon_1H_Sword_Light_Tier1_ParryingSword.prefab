@@ -81,7 +81,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_d9c7a0a9e980a1c42ad56c346b35deb1
-  EDITOR_bakedDescription: "Successful Parries deplete 100% more of the attacker\u2019s
+  EDITOR_bakedDescription: "Successful Parries deplete 100\_% more of the attacker\u2019s
     stamina."
   lightCastInfo:
     magicType:
@@ -158,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 3a3c022a930de794487ec81b5cb24a7c
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-2997544095758177936
 MonoBehaviour:
@@ -601,4 +608,21 @@ MonoBehaviour:
       assetReference:
         arReference:
           address: 012edcc7eba69f341811c83ccef5fbb2
+          subObjectName: 
+  - skillGraphRef:
+      _guid: 46e9ec2a44472f043ad23e100b6be969
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 5edd405ebd945eb4e9e0edee567ea83b
+          subObjectName: 
+    - name: WeaponVFX
+      assetReference:
+        arReference:
+          address: ab02de96fb606c24388f4494bdd4ccbe
           subObjectName: 

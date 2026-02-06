@@ -61,6 +61,12 @@ MonoBehaviour:
   tags:
   - item:tier6
   - item:important
+  conditionalIconReference:
+  - requiredFlag: ArthurSkin:ConquerorOfAvalon
+    icon:
+      arSpriteReference:
+        address: e0357c4a8aa534041993fbd771e1bb48
+        subObjectName: 
   iconReference:
     arSpriteReference:
       address: 33dfd99426046124099d41987f76a7e7
@@ -78,7 +84,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_6886983701623480970_2dc6a60e2520be147b7699bebc0ce8a5
-  EDITOR_bakedDescription: Increases Max Stamina by 5.
+  EDITOR_bakedDescription: "Increases Critical Damage by up to 100\_%, depending
+    on missing Health.\nYou deal increased Damage to Fore-Dweller enemies."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +162,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &7996534440053739254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +183,23 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: 0a0506646ae2d374cb917f3a5672b1b3
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 2
+    hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: af8fce80418234645943d8b338861df3
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 1
+    hand: 0
+    flag: 
     itemPrefab:
       address: 570fd155949d41946893fe7c4d6daceb
       subObjectName: 
@@ -179,6 +207,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: 7910567a7bd415c4db6cf16ac42ebffc
       subObjectName: 
@@ -244,8 +273,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &4046343045355779395
 MonoBehaviour:
@@ -276,6 +308,78 @@ MonoBehaviour:
       value: 0
     - name: ValueCalculated
       value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValueCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValuePreCalculated
       value: 0
     enums:
@@ -287,6 +391,150 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: StatToCheck
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Health
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
+    - name: ReferencedStat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:MaxHealth
     - name: ReferencedStat
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,

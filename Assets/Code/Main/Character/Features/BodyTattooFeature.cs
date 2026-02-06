@@ -20,5 +20,11 @@ namespace Awaken.TG.Main.Character.Features {
         protected override UniTask<Texture> LoadNormalMapTexture() {
             return _config.TorsoNormal?.LoadAsset<Texture>().ToUniTask() ?? new UniTask<Texture>(null);
         }
+
+        protected override void FinalizeCleanup() {
+            _config.Torso?.ReleaseAsset();
+            _config.TorsoNormal?.ReleaseAsset();
+            base.FinalizeCleanup();
+        }
     }
 }

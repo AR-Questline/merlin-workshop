@@ -88,7 +88,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_25cefc71b74bc5e4abbcd24aafab68a1
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -101,7 +101,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_25cefc71b74bc5e4abbcd24aafab68a1
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -113,7 +113,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_effectOverridenToken_locString_2543871262668956605_25cefc71b74bc5e4abbcd24aafab68a1
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -126,11 +126,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_25cefc71b74bc5e4abbcd24aafab68a1
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 250
+  basePrice: 40
   overrideBuyPrice: 0
   buyPrice: 2
   priceLevelMultiplier: 0
@@ -152,6 +152,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: ce6fe3ff1bc44934bbbdfc9630644abb
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-2910004355892016921
 MonoBehaviour:
@@ -203,8 +207,8 @@ MonoBehaviour:
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 10
   pushStaminaCost: 0
-  minDamage: 30
-  maxDamage: 30
+  minDamage: 40
+  maxDamage: 40
   damageGain: 0
   heavyAttackDamageMultiplier: 2
   pushDamageMultiplier: 0.1
@@ -238,8 +242,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5751457134966460363
 MonoBehaviour:
@@ -594,6 +601,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0
     - name: GainValue
+      value: 0
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

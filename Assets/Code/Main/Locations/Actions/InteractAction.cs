@@ -15,10 +15,11 @@ namespace Awaken.TG.Main.Locations.Actions {
         EventReference _interactionSound;
         bool _blockInCombat;
         bool _waitForManualFinishAction;
-
-        public override InfoFrame ActionFrame => !string.IsNullOrWhiteSpace(_interactLabel) ? 
-            new InfoFrame(_interactLabel, HeroHasRequiredItem()) : 
-            base.ActionFrame;
+        
+        protected override bool DisableInCombat => _blockInCombat;
+        protected override InfoFrame ActionFrameInternal => !string.IsNullOrWhiteSpace(_interactLabel) 
+                                                    ? new InfoFrame(_interactLabel, HeroHasRequiredItem())
+                                                    : base.ActionFrameInternal;
 
         public void InitFromAttachment(InteractAttachment spec, bool isRestored) {
             _interactLabel = spec.customInteractLabel.ToString();
@@ -38,9 +39,7 @@ namespace Awaken.TG.Main.Locations.Actions {
         }
 
         public override ActionAvailability GetAvailability(Hero hero, IInteractableWithHero interactable) {
-            return _blockInCombat && hero.IsInCombat() 
-                ? ActionAvailability.Disabled 
-                : base.GetAvailability(hero, interactable);
+            return base.GetAvailability(hero, interactable);
         }
     }
 }

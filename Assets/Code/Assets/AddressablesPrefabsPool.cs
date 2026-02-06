@@ -10,20 +10,34 @@ namespace Awaken.TG.Assets {
         Dictionary<string, List<AddressablesPooledInstance>> _addressablesPool = new();
         
         public void RemoveOldReferences(bool forceClean = false) {
+            if (forceClean) {
+                ForceRemoveAllReferences();
+            } else {
+                TryToRemoveOldReferences();
+            }
+        }
+
+        void ForceRemoveAllReferences() {
+            foreach (var pooledInstances in _addressablesPool.Values) {
+                foreach (var instance in pooledInstances) {
+                    instance.Release();
+                }
+            }
+            _lastTimeUsed.Clear();
+            _addressablesPool.Clear();
+        }
+
+        void TryToRemoveOldReferences() {
             for (int i = _lastTimeUsed.Count - 1; i >= 0; i--) {
                 (string assetRuntimeKey, float lastTimeUsed) = _lastTimeUsed.ElementAt(i);
-                if (lastTimeUsed + PrefabPool.RemovingOldReferencesInterval < Time.realtimeSinceStartup || forceClean) {
+                if (lastTimeUsed + PrefabPool.RemovingOldReferencesInterval < Time.realtimeSinceStartup) {
                     _lastTimeUsed.Remove(assetRuntimeKey);
                     foreach (var instance in _addressablesPool[assetRuntimeKey]) {
                         instance.Release();
                     }
+
                     _addressablesPool.Remove(assetRuntimeKey);
                 }
-            }
-
-            if (forceClean) {
-                _lastTimeUsed.Clear();
-                _addressablesPool.Clear();
             }
         }
         
@@ -59,12 +73,15 @@ namespace Awaken.TG.Assets {
         }
         
         public void Return(AddressablesPooledInstance pooledInstance, Transform root) {
+            if (pooledInstance.Instance == null) {
+                pooledInstance.Release();
+                return;
+            }
+            
             if (_addressablesPool.TryGetValue(pooledInstance.ShareAbleAssetReference.RuntimeKey, out var list)) {
                 list.Add(pooledInstance);
-                if (pooledInstance.Instance != null) {
-                    pooledInstance.Instance.transform.SetParent(root.transform);
-                    pooledInstance.Instance.SetActive(false);
-                }
+                pooledInstance.Instance.transform.SetParent(root.transform);
+                pooledInstance.Instance.SetActive(false);
             } else {
                 pooledInstance.Release();
             }

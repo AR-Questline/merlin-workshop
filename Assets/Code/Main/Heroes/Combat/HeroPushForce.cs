@@ -48,7 +48,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
             }
 
             float ragdollForce = damageOutcome.Damage.RagdollForce;
-            if (damageOutcome.Damage.DamageDealer is NpcElement npc) {
+            if (damageOutcome.Damage.DamageDealerPure is NpcElement { HasBeenDiscarded: false } npc) {
                 ragdollForce = npc.NpcStats.HeroKnockBack;
             }
             

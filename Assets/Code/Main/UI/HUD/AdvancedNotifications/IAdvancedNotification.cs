@@ -9,9 +9,4 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
         bool IsValid => true;
         void Show() { } //TODO: remove this method when we rewrite advanced notifications to UIToolkit
     }
-
-    public interface IAdvancedNotificationsView {
-        public EventReference NotificationSound { get; }
-    }
-    
 }

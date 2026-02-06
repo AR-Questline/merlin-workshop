@@ -60,6 +60,7 @@ MonoBehaviour:
   - ingredients:cooking
   - item:edible
   - craft:special
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 8faf3eee2209c7147a4fd8ae053f1f6b
@@ -77,7 +78,7 @@ MonoBehaviour:
     locString:
       IdOverride: desc_fishing_BlackSole
       ID: Template/description_locString_2543871262668956605_5371f3dbb49473843be01824a124a79b
-  EDITOR_bakedDescription: Restores 3 health over 10s.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 4c25601ca43f42145b3e4245185e4395
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4234476124961808661
 MonoBehaviour:

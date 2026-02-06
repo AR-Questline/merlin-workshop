@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Code.Utility;
 using Awaken.TG.Main.General;
@@ -22,9 +23,11 @@ namespace Awaken.TG.Main.Locations.Shops.Stocks {
         [Saved] int Capacity { get; set; }
         [Saved] bool RemoveAllOnRestock { get; set; }
         [Saved] IntRange RemoveOnRestock { get; set; }
+        [Saved] List<ItemSpawningDataRuntime> _compressedItems = new List<ItemSpawningDataRuntime>();
         
-        public int Count => Items.Select(item => item.Quantity).Sum();
+        public int Count => _isCompressed ? _compressedItems.Sum(data => data.quantity) : Items.Sum(item => item.Quantity);
         public override bool RestockOnce => RemoveAllOnRestock;
+        protected override List<ItemSpawningDataRuntime> CompressedItems => _compressedItems;
 
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         RestockableStock() {}
@@ -42,9 +45,9 @@ namespace Awaken.TG.Main.Locations.Shops.Stocks {
             if (Count < Capacity) {
                 try {
                     var items = LootTable?.PopLoot().items ?? Enumerable.Empty<ItemSpawningDataRuntime>();
-                    foreach (var itemTemplateReference in items) {
-                        if (itemTemplateReference.ItemTemplate == null) continue;
-                        AddItem(new Item(itemTemplateReference));
+                    foreach (var itemData in items) {
+                        if (itemData.ItemTemplate == null) continue;
+                        AddItemData(itemData);
                     }
                 } catch (Exception e) {
                     Log.Important?.Error($"Exception below happened on popping loot from RestockableStock of ShopTemplate ({ParentModel.Template.GUID})", ParentModel.Template);
@@ -55,12 +58,10 @@ namespace Awaken.TG.Main.Locations.Shops.Stocks {
 
         void TryRemoveOnRestock() {
             if (RemoveAllOnRestock) {
-                foreach (var item in Items.ToList()) {
-                    RemoveItem(item, true);
-                }
+                CompressedItems.Clear();
             } else {
-                foreach (var item in RandomUtil.UniformSelectMultiple(Items.ToList(), RemoveOnRestock.RandomPick())) {
-                    RemoveItem(item, true);
+                foreach (var itemData in RandomUtil.UniformSelectMultiple(CompressedItems.ToList(), RemoveOnRestock.RandomPick())) {
+                    CompressedItems.Remove(itemData);
                 }
             }
         }

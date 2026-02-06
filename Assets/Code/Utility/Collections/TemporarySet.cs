@@ -19,6 +19,10 @@ namespace Awaken.Utility.Collections {
             AddTask(value, duration).Forget();
         }
 
+        public void ClearChangedListeners() {
+            changed = null;
+        }
+
         async UniTaskVoid AddTask(T value, UniTask duration) {
             int index = FindFree();
             _array[index] = value;

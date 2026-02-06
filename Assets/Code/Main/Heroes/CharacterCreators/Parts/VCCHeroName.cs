@@ -1,6 +1,7 @@
 ﻿using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.UI.Keys;
@@ -26,7 +27,8 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.Parts {
         Prompt _writePrompt;
 
         public ARInputField InputField => inputField;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         protected override void OnInitialize() {
             World.Only<GameUI>().AddElement(new AlwaysPresentHandlers(UIContext.Keyboard, inputField, Target));
             inputField.Initialize(LocTerms.CharacterCreationEnterNamePlaceholder.Translate(), Target.SavedValue, ChangeValue);
@@ -60,7 +62,7 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.Parts {
                 inputField.TMPInputField.ActivateInputField();
                 _isFocusedOnConsole = true;
             } else if (PlatformUtils.IsSteamDeck && !_isFocusedOnConsole) {
-#if !UNITY_GAMECORE && !UNITY_PS5
+#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
                 // var mode = Steamworks.EFloatingGamepadTextInputMode.k_EFloatingGamepadTextInputModeModeSingleLine;
                 // HeathenEngineering.SteamworksIntegration.API.Utilities.Client.ShowVirtualKeyboard(mode, float2.zero, float2.zero);
                 inputField.TMPInputField.ActivateInputField();

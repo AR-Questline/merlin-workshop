@@ -4,6 +4,7 @@ using Awaken.TG.Main.AI.Idle.Data.Runtime;
 using Awaken.TG.Main.AI.Idle.Finders;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
+using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Grounds.CullingGroupSystem;
 using Awaken.TG.Main.Grounds.CullingGroupSystem.CullingGroups;
 using Awaken.TG.Main.Locations;
@@ -29,6 +30,8 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
 
         public static readonly Vector3 AbyssPosition = new(-5000, -5000, -5000);
         static NpcRegistry NpcRegistry => World.Services.Get<NpcRegistry>();
+        static UniqueNpcStash NpcStash => World.Services.Get<UniqueNpcStash>();
+        [CanBeNull] static UniqueNpcStash TryGetNpcStash => World.Services.TryGet<UniqueNpcStash>();
 
         NpcPresenceAttachment _spec;
 
@@ -45,6 +48,7 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
         bool? _manualAvailabilityOneSession;
 
         bool _listenersAdded;
+        bool _forcedTemporaryDistanceBand;
         
         public LocationTemplate Template { get; private set; }
         IdleDataElement IdleData => ParentModel.Element<IdleDataElement>();
@@ -92,6 +96,7 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
 
         void InitNpc() {
             Npc = GetOrCreateNpc();
+            NpcStash.MarkUsed(Npc);
             ParentModel.StickToReferenceOverride = Npc?.ParentModel.LocationView;
             UniqueNpcUtils.Check(Npc);
             _flagBasedAvailability = _spec.FlagAvailability.Get(true);
@@ -136,17 +141,22 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
         }
 
         NpcElement GetOrCreateNpc() {
-            if (!NpcRegistry.TryGetNpc(Template, out var npc)) {
-                var transform = _spec.transform;
-                var location = Template.SpawnLocation(AbyssPosition, transform.rotation, Template.transform.localScale);
+            if (NpcRegistry.TryGetNpc(Template, out var npc)) {
+                return npc;
+            }
+            if (NpcStash.TryUnstash(Template, out npc)) {
+                return npc;
+            }
+            
+            var transform = _spec.transform;
+            var location = Template.SpawnLocation(AbyssPosition, transform.rotation, Template.transform.localScale);
 
-                location.MoveToDomain(Domain.Gameplay);
+            location.MoveToDomain(Domain.Gameplay);
 
-                npc = location.Element<NpcElement>();
-                if (npc.ParentModel.TryGetElement(out IdleDataElement data)) {
-                    Log.Minor?.Error($"Npc ({LogUtils.GetDebugName(npc)}) with unique presence cannot have IdleDataAttachment!", npc.ParentModel.Spec);
-                    data.Discard();
-                }
+            npc = location.Element<NpcElement>();
+            if (npc.ParentModel.TryGetElement(out IdleDataElement data)) {
+                Log.Minor?.Error($"Npc ({LogUtils.GetDebugName(npc)}) with unique presence cannot have IdleDataAttachment!", npc.ParentModel.Spec);
+                data.Discard();
             }
 
             return npc;
@@ -156,10 +166,19 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
             if (_attached && IsNpcAlive() && !Npc.HasBeenDiscarded) {
                 Npc.ResetNpcPresence();
             }
+
+            if (Npc is { HasBeenDiscarded: false }) {
+                TryGetNpcStash?.MarkUnused(Npc);
+                Npc = null;
+            }
         }
 
         void OnBandChanged(int band) {
             _inBand = LocationCullingGroup.InNpcVisibilityBand(band);
+            if (!_forcedTemporaryDistanceBand && Npc != null && _inBand && !Npc.HasCompletelyInitialized) {
+                Npc.SetTemporaryDistanceBand(0, AsyncUtil.WaitUntil(Npc, () => Npc.HasCompletelyInitialized));
+                _forcedTemporaryDistanceBand = true;
+            }
             Refresh(false);
         }
 
@@ -212,7 +231,11 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
 
         public void Attach(NpcElement npc) {
             _attached = true;
-            Npc = npc;
+            if (Npc != npc) {
+                NpcStash.MarkUnused(Npc);
+                Npc = npc;
+                NpcStash.MarkUsed(Npc);
+            }
 
             Npc.ParentModel.SetInteractability(LocationInteractability.Active);
             this.Trigger(Events.AttachedNpc, Npc);
@@ -228,7 +251,7 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
             Npc.ParentModel.Trigger(IIdleDataSource.Events.InteractionIntervalChanged, null);
 
             if (reason == NpcPresenceDetachReason.MySceneUnloading) {
-                npc.Movement?.Controller?.MoveToAbyss();
+                npc.MoveToAbyss();
             }
             
             this.Trigger(Events.DetachedNpc, Npc);
@@ -259,12 +282,7 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
                 return;
             }
 
-            if (!IsNpcAlive()) {
-                return;
-            }
-
-            if (!Npc.HasCompletelyInitialized) {
-                Npc.OnCompletelyInitialized(_ => Refresh(forceTeleport));
+            if (Npc == null || !IsNpcAlive()) {
                 return;
             }
 
@@ -275,12 +293,20 @@ namespace Awaken.TG.Main.Fights.NPCs.Presences {
             if (Available && !_attached && (_inBand || Npc.NpcPresence == null)) {
                 if (forceTeleport) {
                     NpcTeleporter.Teleport(Npc, _spec.transform.position, TeleportContext.PresenceRefresh);
-                    Npc.Movement?.Controller?.SetRotationInstant(_spec.transform.rotation);
+                    if (Npc.Movement != null && Npc.Movement.Controller != null) {
+                        Npc.Movement.Controller.SetRotationInstant(_spec.transform.rotation);
+                    } else {
+                        Npc.ParentModel.SafelyRotateTo(_spec.transform.rotation);
+                    }
                 }
                 Npc.ChangeNpcPresence(this);
             } else if (_attached && !Available) {
                 if (forceTeleport) {
-                    Npc.Movement.Controller.MoveToAbyss();
+                    if (Npc.Movement != null && Npc.Movement.Controller != null) {
+                        Npc.MoveToAbyss();
+                    } else {
+                        Npc.ParentModel.SafelyMoveTo(NpcPresence.AbyssPosition, true);
+                    }
                 }
 
                 Npc.ResetNpcPresence();

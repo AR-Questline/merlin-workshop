@@ -45,7 +45,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4443325589952417686}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74383b275a1c400baf84b424df3e5821, type: 3}
   m_Name: 
@@ -63,6 +63,7 @@ MonoBehaviour:
   - special:falseallmother
   startInteractabilityReference:
     _enumRef: 
+  conditionalPrefabReferences: []
   prefabReference:
     address: d820785f7c7fec643bbb3a6ed5a08685
     subObjectName: 
@@ -108,6 +109,7 @@ MonoBehaviour:
     guid: de12e1e4-06bc-420e-9194-fc73b01334b6
   storyOnDeath:
     _guid: 
+  conditionalVisualPrefabs: []
   visualPrefab:
     address: 219d88b2f33f9fe48a1de8821f3653ef
     subObjectName: 
@@ -324,6 +326,89 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+  usesExplicitWyrdConvertedAudio: 0
+  wyrdConvertedAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
 --- !u!1 &5212628789362807687
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,8 +475,6 @@ MonoBehaviour:
       _guid: f26173082906e904ea77f8b7fb672280
     chapterName: 
   gesturesWrapper:
-    embedOverrides:
-      gestures: []
     explicitOverrides:
       _guid: 
   viewFocus: {fileID: 0}

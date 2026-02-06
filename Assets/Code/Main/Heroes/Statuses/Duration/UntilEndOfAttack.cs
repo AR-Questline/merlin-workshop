@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Awaken.TG.Main.AI.Combat.Attachments;
+using Awaken.TG.Main.AI.Combat.Behaviours.Abstracts;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.MVC;
@@ -29,6 +31,9 @@ namespace Awaken.TG.Main.Heroes.Statuses.Duration {
         protected override void OnFullyInitialized() {
             Character.ListenTo(ICharacter.Events.OnAttackEnd, _ => DiscardAfter().Forget(), this);
             Character.ListenTo(EnemyBaseClass.Events.AttackInterrupted, _ => DiscardAfter().Forget(), this);
+            if (Character is NpcElement npcElement) {
+                npcElement.EnemyBaseClass.ListenTo(CombatEnemyBehaviourBase.Events.CombatBehaviourExited, _ => DiscardAfter().Forget(), this);
+            }
         }
 
         async UniTaskVoid DiscardAfter() {

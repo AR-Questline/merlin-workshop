@@ -12,8 +12,11 @@ using Awaken.TG.MVC.Events;
 
 namespace Awaken.TG.Main.Fights.Duels {
     public partial class NpcDuelistElement : DuelistElement, INpcCombatLeaveBlocker {
+        const float SafetyTimeAfterDuelEnd = 2f;
+        
         DuelistCrimeDisabler _crimeDisabler;
         bool _removedKilledPrevention;
+        bool _toggledOffCombatPrevention;
         NpcElement _parentNpc;
         InteractionOverride _interactionOverride;
         
@@ -27,6 +30,12 @@ namespace Awaken.TG.Main.Fights.Duels {
             _parentNpc = ParentModel as NpcElement;
             base.OnInitialize();
             _crimeDisabler = NpcElement.ParentModel.AddElement(new DuelistCrimeDisabler(Settings.fightToDeath, DuelController));
+            if (NpcElement.ParentModel.TryGetElement<CombatPreventionElement>(out var combatPreventionElement)) {
+                if (combatPreventionElement.Enabled) {
+                    _toggledOffCombatPrevention = true;
+                    combatPreventionElement.Toggle(false);
+                }
+            }
             if (Settings.fightToDeath && NpcElement.ParentModel.TryGetElement<KillPreventionElement>(out var killPrevention)) {
                 killPrevention.Discard();
                 _removedKilledPrevention = true;
@@ -49,12 +58,8 @@ namespace Awaken.TG.Main.Fights.Duels {
             if (!ValidateNpc()) {
                 return;
             }
-            
-            var target = NpcElement.GetOrSearchForTarget();
-            if (target == null && GroupId != 0) {
-                target = DuelController.FindFirstTargetForNpc(NpcElement, GroupId);
-            }
-            
+
+            var target = NpcElement.GetOrSearchForTarget() ?? DuelController.FindFirstTargetForNpc(NpcElement, GroupId);
             if (target != null) {
                 NpcElement.NpcAI.EnterCombatWith(target, true);
             } else {
@@ -89,8 +94,15 @@ namespace Awaken.TG.Main.Fights.Duels {
             base.AfterDuelCleanup();
             _crimeDisabler?.Discard();
             _interactionOverride?.Discard();
-            if (_removedKilledPrevention && NpcElement is { IsAlive: true, HasBeenDiscarded: false, ParentModel: { HasBeenDiscarded: false } location }) {
-                location.AddElement<KillPreventionElement>();
+            if (NpcElement is { IsAlive: true, HasBeenDiscarded: false, ParentModel: { HasBeenDiscarded: false } location }) {
+                if (_removedKilledPrevention) {
+                    location.AddElement<KillPreventionElement>();
+                }
+                if (_toggledOffCombatPrevention) {
+                    location.TryGetElement<CombatPreventionElement>()?.Toggle(true);
+                }
+                NpcElement.NpcAI.CancelAllHitNoises();
+                location.AddElement(new CombatPreventionTimedElement(SafetyTimeAfterDuelEnd));
             }
         }
 

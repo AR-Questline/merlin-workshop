@@ -110,6 +110,8 @@ namespace Awaken.TG.Main.Scenes {
             // Scene lifetime end
             public static readonly Event<SceneLifetimeEvents, SceneLifetimeEventData> AfterSceneDiscarded = new(nameof(AfterSceneDiscarded));
             public static readonly Event<SceneLifetimeEvents, SceneLifetimeEventData> AfterDomainDrop = new(nameof(AfterDomainDrop));
+            
+            public static readonly Event<SceneLifetimeEvents, SceneLifetimeEventData> PathfindingRestored = new(nameof(PathfindingRestored));
         }
         
         public void ValidateDomain(SceneReference sceneReference, bool isAdditive) {

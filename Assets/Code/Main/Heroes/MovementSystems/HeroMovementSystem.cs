@@ -20,7 +20,8 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
         [UnityEngine.Scripting.Preserve] SnapToPosition,
         [UnityEngine.Scripting.Preserve] DialogueNavmeshBased,
         [UnityEngine.Scripting.Preserve] Finisher,
-        [UnityEngine.Scripting.Preserve] HeroKnockdown
+        [UnityEngine.Scripting.Preserve] HeroKnockdown,
+        [UnityEngine.Scripting.Preserve] FastTravel
     }
     public abstract partial class HeroMovementSystem : Element<Hero> {
         public abstract MovementType Type { get; }

@@ -8,6 +8,11 @@ namespace Awaken.TG.Main.Stories.Quests.UI {
         [UnityEngine.Scripting.Preserve] Achievement = 3,
         [UnityEngine.Scripting.Preserve] Misc = 4,
     };
+
+    public enum QuestCategory : byte {
+        Default = 0,
+        Sarras = 1,
+    }
     
     [Flags]
     public enum QuestListType {

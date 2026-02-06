@@ -1,33 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Awaken.TG.Editor.Assets.Grouping.Modifiers;
-using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
-using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Editor.Assets.Grouping {
     public class ARAddressableManager : ScriptableObject {
-        public AssetGroupMostUsagesSplitModifier mostUsagesSplitModifier;
-        [HideInInspector]
-        public AssetGroupTypeSplitModifier typeSplitModifier = new();
-        [HideInInspector]
-        public AssetGroupPrefabsExcludeModifier prefabsExcludeModifier = new();
-        [HideInInspector]
-        public AssetGroupScenesExcludeModifier scenesExcludeModifier = new();
-        [HideInInspector]
-        public AssetGroupUsagesSplitModifier commonUsagesModifier = new();
-        [HideInInspector]
-        public AssetGroupUnityAssetsExcludeModifier unityAssetsExcludeModifier = new();
-        public AssetGroupSplitModifier splitModifier;
-        public AssetGroupMergeModifier mergeModifier;
-
-        public bool assignGroups;
+        public ARAddressableManagerConfig config;
 
         [ReadOnly] public AddressableData data;
 
@@ -35,28 +17,28 @@ namespace Awaken.TG.Editor.Assets.Grouping {
 
         IEnumerable<IAssetGroupModifier> Modifiers {
             get {
-                yield return mostUsagesSplitModifier;
-                yield return typeSplitModifier;
-                yield return prefabsExcludeModifier;
-                yield return scenesExcludeModifier;
-                yield return commonUsagesModifier;
-                yield return splitModifier;
-                yield return mergeModifier;
+                yield return config.mostUsagesSplitModifier;
+                yield return config.typeSplitModifier;
+                yield return config.prefabsExcludeModifier;
+                yield return config.scenesExcludeModifier;
+                yield return config.commonUsagesModifier;
+                yield return config.splitModifier;
+                yield return config.mergeModifier;
             }
         }
 
         IEnumerable<IAssetGroupModifier> UpdateModifiers {
             get {
-                yield return typeSplitModifier;
-                yield return prefabsExcludeModifier;
-                yield return scenesExcludeModifier;
-                yield return mergeModifier;
+                yield return config.typeSplitModifier;
+                yield return config.prefabsExcludeModifier;
+                yield return config.scenesExcludeModifier;
+                yield return config.mergeModifier;
             }
         }
 
         IEnumerable<IAssetGroupModifier> AfterAssignEntriesModifiers{
             get {
-                yield return unityAssetsExcludeModifier;
+                yield return config.unityAssetsExcludeModifier;
             }
         }
 
@@ -74,8 +56,8 @@ namespace Awaken.TG.Editor.Assets.Grouping {
 
         float AllStepsUpdateSteps {
             get {
-                const float steps = 4f;
-                var allSteps = steps + UpdateModifiers.Count();
+                const float Steps = 4f;
+                var allSteps = Steps + UpdateModifiers.Count();
                 return allSteps;
             }
         }
@@ -102,7 +84,7 @@ namespace Awaken.TG.Editor.Assets.Grouping {
                 modifier.Modify(this);
             }
 
-            if(assignGroups)
+            if (config.assignGroups)
                 AssignEntriesToAddressables();
 
             EditorUtility.SetDirty(this);
@@ -117,7 +99,7 @@ namespace Awaken.TG.Editor.Assets.Grouping {
             completedSteps = UpdateData_AssignEntryToGroup(completedSteps, false);
             completedSteps = UpdateData_RunModifiers(completedSteps, false);
 
-            if(assignGroups)
+            if (config.assignGroups)
                 AssignEntriesToAddressables();
 
             EditorUtility.DisplayProgressBar("UpdateData", $"Finalising", completedSteps/AllStepsUpdateSteps);
@@ -264,7 +246,7 @@ namespace Awaken.TG.Editor.Assets.Grouping {
         void AssignEntryToGroup(AssetEntry entry) {
             var assetPath = AssetDatabase.GUIDToAssetPath(entry.guid);
             var type = AssetGroup.GetGroupType(AssetDatabase.GetMainAssetTypeAtPath(assetPath), assetPath);
-            var maxGroupSize = splitModifier.GetMaxSize(type);
+            var maxGroupSize = config.splitModifier.GetMaxSize(type);
 
             var commonUsageEntries = entry.usages.SelectMany(g => data[g].dependencies);
             var commonDependencyEntries = entry.dependencies.SelectMany(g => data[g].usages);

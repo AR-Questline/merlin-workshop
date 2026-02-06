@@ -8,7 +8,7 @@ namespace Awaken.TG.Main.AI {
     public partial class TargetBlindedElement : TargetOverrideElement {
         ImaginaryTarget _imaginaryTarget;
         
-        protected override ICharacter Target => _imaginaryTarget;
+        public override ICharacter Target => _imaginaryTarget;
         
         public override bool IsValid => true;
         
@@ -21,6 +21,10 @@ namespace Awaken.TG.Main.AI {
 
         protected override void OnInitialize() {
             CreateImaginaryTarget();
+            base.OnInitialize();
+        }
+
+        protected override void Init(NpcElement _) {
             _active = true;
         }
 

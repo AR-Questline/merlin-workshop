@@ -8,13 +8,18 @@ namespace Awaken.TG.Assets {
         public bool preserveAspect;
         [ARAssetReferenceSettings(new []{typeof(Sprite), typeof(Texture2D)}, true)]
         public ARAssetReference arSpriteReference;
+        [SerializeField] bool preserveOnDisable;
         
         SpriteReference _spriteReference;
 
         // === Unity lifetime
         void OnEnable() {
-            _spriteReference ??= new SpriteReference {arSpriteReference = arSpriteReference};
-            SetSprite();
+            if (_spriteReference == null) {
+                _spriteReference = new SpriteReference {arSpriteReference = arSpriteReference};
+                SetSprite();
+            } else if (!preserveOnDisable) {
+                SetSprite();
+            }
         }
 
         void SetSprite() {
@@ -24,9 +29,21 @@ namespace Awaken.TG.Assets {
                 }
             });
         }
+        
+        void ReleaseSprite() {
+            image.sprite = null;
+            _spriteReference?.Release();
+            _spriteReference = null;
+        }
 
         void OnDisable() {
-            _spriteReference.Release();
+            if (!preserveOnDisable) {
+                ReleaseSprite();
+            }
+        }
+
+        void OnDestroy() {
+            ReleaseSprite();
         }
     }
 }

@@ -17,6 +17,7 @@ using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Grounds.CullingGroupSystem.CullingGroups;
+using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Api;
 using Awaken.TG.Main.Templates.Attachments;
@@ -76,6 +77,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
 
         ARInteractionAnimations _arInteractionAnimations;
         IEventListener _unloadOverridesListener;
+        IEventListener _ragdollForcedExitListener;
         IEventListener _customEquipEnteredListener;
         
         CancellationTokenSource _delayedEnterToken, _delayExitToken;
@@ -141,6 +143,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
 #endif
             {
                 World.EventSystem.TryDisposeListener(ref _unloadOverridesListener);
+                World.EventSystem.TryDisposeListener(ref _ragdollForcedExitListener);
                 World.EventSystem.TryDisposeListener(ref _customEquipEnteredListener);
             }
         }
@@ -202,6 +205,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
                 Log.Critical?.Error($"NPC {npc} is starting interaction which is still waiting for animations to end for {_arInteractionAnimations.Npc}");
                 _arInteractionAnimations.UnloadOverride();
                 World.EventSystem.TryDisposeListener(ref _unloadOverridesListener);
+                World.EventSystem.TryDisposeListener(ref _ragdollForcedExitListener);
             }
             _arInteractionAnimations = new ARInteractionAnimations(npc, _shareableOverrides);
             _arInteractionAnimations.LoadOverride();
@@ -251,6 +255,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             _delayedEnterToken = null;
             
             World.EventSystem.TryDisposeListener(ref _unloadOverridesListener);
+            World.EventSystem.TryDisposeListener(ref _ragdollForcedExitListener);
             if (fastSnap) {
                 npc.SetAnimatorState(NpcFSMType.CustomActionsFSM, NpcStateType.CustomLoop, 0f);
                 npc.Controller.ARNpcAnimancer.Playable.Evaluate(0.1f);
@@ -340,9 +345,8 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
                         World.EventSystem.TryDisposeListener(ref _customEquipEnteredListener);
                     });
                 }
-                World.EventSystem.TryDisposeListener(ref _unloadOverridesListener);
-                _isStopping = true;
-                _unloadOverridesListener = npc.ListenTo(NpcCustomActionsFSM.Events.CustomStateExited, () => DelayExit(npc).Forget());
+
+                ListenForUnloadOverrides(npc);
                 return;
             }
             
@@ -361,9 +365,7 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
                 DelayExit(npc).Forget();
             } else if (useExitAnimation && !skipExit) {
                 npc.SetAnimatorState(NpcFSMType.CustomActionsFSM, NpcStateType.CustomExit);
-                World.EventSystem.TryDisposeListener(ref _unloadOverridesListener);
-                _isStopping = true;
-                _unloadOverridesListener = npc.ListenTo(NpcCustomActionsFSM.Events.CustomStateExited, () => DelayExit(npc).Forget());
+                ListenForUnloadOverrides(npc);
             } else {
                 npc.SetAnimatorState(NpcFSMType.CustomActionsFSM, NpcStateType.None, exitDuration);
                 DelayExit(npc, exitDuration).Forget();
@@ -373,15 +375,24 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
             CustomEvent.Trigger(gameObject, "InteractionEnded");
         }
 
+        void ListenForUnloadOverrides(NpcElement npc) {
+            World.EventSystem.TryDisposeListener(ref _unloadOverridesListener);
+            World.EventSystem.TryDisposeListener(ref _ragdollForcedExitListener);
+            _isStopping = true;
+            _unloadOverridesListener = npc.ListenTo(NpcCustomActionsFSM.Events.CustomStateExited, () => DelayExit(npc).Forget());
+            _ragdollForcedExitListener = npc.ListenTo(DeathElement.Events.RagdollToggled, () => DelayExit(npc, canExitRagdoll: false).Forget());
+        }
+
         protected virtual void BeforeDelayExit(NpcElement npc, InteractionStopReason reason) {}
 
-        async UniTaskVoid DelayExit(NpcElement npc, float exitTime = 0) {
+        async UniTaskVoid DelayExit(NpcElement npc, float exitTime = 0, bool canExitRagdoll = true) {
             _isStopping = true;
             World.EventSystem.TryDisposeListener(ref _unloadOverridesListener);
+            World.EventSystem.TryDisposeListener(ref _ragdollForcedExitListener);
             _delayExitToken?.Cancel();
             _delayExitToken = new CancellationTokenSource();
             if (exitTime == 0 || await AsyncUtil.DelayTime(npc, exitTime, source: _delayExitToken)) {
-                OnCustomStateExited(npc);
+                OnCustomStateExited(npc, canExitRagdoll);
             } else if (npc.HasBeenDiscarded) {
                 _arInteractionAnimations?.UnloadOverride();
                 _arInteractionAnimations = null;
@@ -393,13 +404,15 @@ namespace Awaken.TG.Main.AI.Idle.Interactions {
         
         protected virtual void AfterDelayExit() {}
 
-        void OnCustomStateExited(NpcElement npc) {
+        void OnCustomStateExited(NpcElement npc, bool canExitRagdoll = true) {
             npc.RemoveElementsOfType<SimpleInteractionExitMarker>();
             NpcMovement npcMovement = npc.Movement;
             if (npcMovement?.HasBeenDiscarded ?? true) return;
             
             if (npcMovement.CurrentState is RagdollMovement ragdollMovement) {
-                ragdollMovement.ExitRagdoll(instant: true);
+                if (canExitRagdoll) {
+                    ragdollMovement.ExitRagdoll(instant: true);
+                }
             } else {
                 npcMovement.StopInterrupting();
             }

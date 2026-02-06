@@ -34,7 +34,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Magic {
             ParentModel.ResetBlockProlong();
             
             ParentModel.PlayAudioClip(ItemAudioType.CastBegun.RetrieveFrom(ParentModel.Item));
-            Hero.VHeroController?.CastingBegun(ParentModel.CastingHand);
+            Hero.VHeroController?.CastingBegun(ParentModel.CastingHand, true);
             Hero.Current.Trigger(GamepadEffects.Events.TriggerVibrations, new TriggersVibrationData {effects = GameConstants.Get.magicLightXboxVibrations, handsAffected = ParentModel.CastingHand});
         }
 
@@ -62,7 +62,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.States.Magic {
                 : DefaultNextCastPerformDelay;
             
             ParentModel.PlayAudioClip(ItemAudioType.CastRelease.RetrieveFrom(ParentModel.Item));
-            ParentModel.OnPerformCast();
+            ParentModel.OnPerformCast(true);
         }
 
         protected override void OnExit(bool restarted) {

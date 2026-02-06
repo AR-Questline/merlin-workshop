@@ -81,7 +81,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_5228a0436a24d0e43af3b7e0ffe40149
-  EDITOR_bakedDescription: Increases Lifesteal by 5%.
+  EDITOR_bakedDescription: "Attack has a 50\_% chance to apply <color=#04959A>Chill</color>
+    or  <color=#04959A>Burn</color>."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -159,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 0abeddaab185e6d4ba0700325cd866ff
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -245,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3703321390094364147
 MonoBehaviour:

@@ -6,5 +6,6 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
     public struct CastSpellData {
         public CastingHand CastingHand { get; set; }
         public Item Item { [UnityEngine.Scripting.Preserve] get; set; }
+        public bool HeavyCast { get; set; }
     }
 }

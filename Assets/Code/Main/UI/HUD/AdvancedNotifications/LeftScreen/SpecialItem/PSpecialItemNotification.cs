@@ -1,6 +1,5 @@
 using System.Text;
 using Awaken.TG.Main.AudioSystem.Notifications;
-using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Localization;
@@ -29,7 +28,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.SpecialItem {
         VisualElement _itemIcon;
         VisualPresenterKeyIcon _keyIcon;
         bool _isReadable;
-        StringBuilder _stringBuilder = new();
+        readonly StringBuilder _stringBuilder = new();
         
         VisualElement IPresenterWithAccessibilityBackground.Host => Content;
         
@@ -83,7 +82,8 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.LeftScreen.SpecialItem {
                 iconRef.RegisterAndSetup(this, _itemIcon);
             }
             
-            _readPrompt.SetupState(_isReadable, _isReadable);
+            bool isActive = _isReadable && !World.Any<Story>();
+            _readPrompt.SetupState(isActive, isActive);
         }
 
         protected override Sequence ShowSequence() {

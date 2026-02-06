@@ -12,6 +12,8 @@ using UniversalProfiling;
 
 namespace Awaken.TG.Main.Saving {
     public class LoadSaveDomainsCache {
+        static readonly UniversalProfilerMarker SaveDomainFileSizeAndStartVerificationMarker = new($"LoadSaveDomainsCache.SaveDomainFileSizeAndStartVerification");
+
         static string CachedDomainsDirName {
             get {
 #if UNITY_EDITOR
@@ -21,7 +23,7 @@ namespace Awaken.TG.Main.Saving {
 #endif
             }
         }
-        static readonly UniversalProfilerMarker SaveDomainFileSizeAndStartVerificationMarker = new($"LoadSaveDomainsCache.SaveDomainFileSizeAndStartVerification");
+        static string CachedDomainsDirectoryPath { get; } = Path.Combine(Application.persistentDataPath, CachedDomainsDirName);
 
         Dictionary<Domain, uint> _cachedDomainsFilesSizes = new();
 
@@ -56,8 +58,9 @@ namespace Awaken.TG.Main.Saving {
                 World.Services.Get<CachedDomainsVerificationService>().InformThatSavingCachedDomainFailed(domain, e.Message, domainDataSource);
             }
         }
-
-        public bool TryGetCachedUncompressedSaveData(Domain domain, out Stream stream) {
+        
+        /// <param name="stream">DeflateStream of FileStream, needs to be handled and disposed properly</param>
+        public bool TryGetCachedUncompressedSaveData(Domain domain, out DeflateStream stream) {
             var cachedDomainFilePath = GetCachedDomainFilePath(domain);
             if (TryGetCachedCompressedDomainStream(domain, cachedDomainFilePath, out _).TryGetValue(out var fileStream)) {
                 stream = new DeflateStream(fileStream, CompressionMode.Decompress);
@@ -147,7 +150,7 @@ namespace Awaken.TG.Main.Saving {
         }
 
         public static string GetCachedDomainFilePath(Domain domain) {
-            return Path.Combine(GetCachedDomainsDirectoryPath(), domain.FullName + ".data");
+            return Path.Combine(CachedDomainsDirectoryPath, domain.FileFullName);
         }
 
         static void DeleteCachedDomainFile(Domain domain) {
@@ -158,22 +161,18 @@ namespace Awaken.TG.Main.Saving {
         }
 
         static void DeleteAndCreateCachedDomainsDirectory() {
-            var cachedDomainsDir = GetCachedDomainsDirectoryPath();
-            if (Directory.Exists(cachedDomainsDir)) {
-                Directory.Delete(cachedDomainsDir, true);
+            if (Directory.Exists(CachedDomainsDirectoryPath)) {
+                Directory.Delete(CachedDomainsDirectoryPath, true);
             }
 
-            Directory.CreateDirectory(cachedDomainsDir);
+            Directory.CreateDirectory(CachedDomainsDirectoryPath);
         }
 
         static void EnsureCachedDomainsDirectoryExists() {
-            var cachedDomainsDir = GetCachedDomainsDirectoryPath();
-            if (Directory.Exists(cachedDomainsDir) == false) {
-                Directory.CreateDirectory(cachedDomainsDir);
+            if (Directory.Exists(CachedDomainsDirectoryPath) == false) {
+                Directory.CreateDirectory(CachedDomainsDirectoryPath);
             }
         }
-
-        static string GetCachedDomainsDirectoryPath() => Path.Combine(Application.persistentDataPath, CachedDomainsDirName);
 
         public long CalculateDataSize() {
             long dataSize = 0;
@@ -187,7 +186,6 @@ namespace Awaken.TG.Main.Saving {
                 }
             }
 
-            dataSize += 50_000; // Reserve some space for metadata
             return dataSize;
         }
     }

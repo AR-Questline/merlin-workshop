@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_8f8c51589af906b4fa8a1a4f9e3d54f3
-  EDITOR_bakedDescription: On Block, gain 5% damage for 5s.
+  EDITOR_bakedDescription: "On Block, gain 5\_% Damage for 5s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -102,7 +102,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_8f8c51589af906b4fa8a1a4f9e3d54f3
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +127,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_8f8c51589af906b4fa8a1a4f9e3d54f3
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 921e28224b1c8c541b0a82cce0afb580
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -202,15 +206,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 5
+  heavyAttackStaminaCost: 8
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 1
   parryStaminaCost: 15
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 4
+  minDamage: 5
   maxDamage: 8
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
@@ -228,7 +232,7 @@ MonoBehaviour:
     calculatedPercentage: 1
   armor: 15
   armorGain: 0
-  blockDamageReductionPercent: 75
+  blockDamageReductionPercent: 70
   blockAngle: 90
   blockGain: 1
   forceDamage: 4
@@ -245,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &705685050405466519
 MonoBehaviour:
@@ -274,7 +281,7 @@ MonoBehaviour:
     - name: AddValue
       value: 0.05
     - name: ValueGain
-      value: 0
+      value: 0.01
     - name: Duration
       value: 5
     - name: ValueCalculated

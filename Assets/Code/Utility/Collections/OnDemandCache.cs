@@ -47,8 +47,8 @@ namespace Awaken.Utility.Collections
         public bool TryGetValue(TKey key, out TValue value) => _mapping.TryGetValue(key, out value);
         public void Remove(TKey key) => _mapping.Remove(key);
         public void Clear() => _mapping.Clear();
-        public IEnumerable<TKey> Keys => _mapping.Keys;
-        public IEnumerable<TValue> Values => _mapping.Values;
+        public Dictionary<TKey, TValue>.KeyCollection Keys => _mapping.Keys;
+        public Dictionary<TKey, TValue>.ValueCollection Values => _mapping.Values;
         public int Count => _mapping.Count;
 
         public Dictionary<TKey, TValue>.Enumerator GetEnumerator() => _mapping.GetEnumerator();

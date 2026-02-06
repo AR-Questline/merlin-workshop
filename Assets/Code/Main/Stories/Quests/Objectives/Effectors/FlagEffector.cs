@@ -18,7 +18,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Effectors {
 
         public void OnStateUpdate(QuestUtils.ObjectiveStateChange stateChange) {
             if (stateChange.newState == RunOnState) {
-                Services.Get<GameplayMemory>().Context().Set(Flag, true);
+                StoryFlags.Set(Flag, true);
                 Discard();
             }
         }

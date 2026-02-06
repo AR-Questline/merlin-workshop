@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Character;
@@ -119,12 +119,12 @@ namespace Awaken.TG.Main.AudioSystem {
             // }
         }
 
-//        static void SetEventInstanceParams(GUID eventGuid, EventInstance instance, EventDescription eventDescription, FMODParameter[] eventParams) {
+//         static void SetEventInstanceParams(GUID eventGuid, EventInstance instance, EventDescription eventDescription, FMODParameter[] eventParams) {
 //             if (eventParams == null || eventParams.Length == 0) {
 //                 return;
 //             }
 //
-// #if UNITY_EDITOR || AR_DEBUG
+// #if UNITY_EDITOR
 //             var eventPath = RuntimeManager.DEBUG_GetEventPath(eventGuid);
 // #endif
 //             eventDescription.getParameterDescriptionCount(out int eventParamsRealCount);
@@ -138,23 +138,23 @@ namespace Awaken.TG.Main.AudioSystem {
 //                             instance.setParameterByName(param.name, param.value);
 //                         }
 //                     } else {
-// #if UNITY_EDITOR || AR_DEBUG
-//                         Log.Minor?.Warning($"[FMOD] Trying to set param {param.name} for fmod event {eventPath} but event does not have this param");
+// #if UNITY_EDITOR
+//                         Log.Debug?.Warning($"[FMOD] Trying to set param {param.name} for fmod event {eventPath} but event does not have this param");
 // #endif
 //                     }
 //                 }
 //             }
-// #if UNITY_EDITOR || AR_DEBUG
+// #if UNITY_EDITOR
 //             else {
 //                 foreach (FMODParameter param in eventParams) {
 //                     if (param.name == "") {
 //                         continue;
 //                     }
-//                     Log.Minor?.Warning($"[FMOD] Trying to set param {param.name} for fmod event {eventPath} but event does not have this param");
+//                     Log.Debug?.Warning($"[FMOD] Trying to set param {param.name} for fmod event {eventPath} but event does not have this param");
 //                 }
 //             }
 // #endif
-//        }
+//         }
 
         public static void PlayBlockAudio(Item item, IAlive damageReceiver, Item itemDealingDamage, bool isParry = false) {
             if (item == null) {

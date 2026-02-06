@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_da80d847687f5f345a2359e07fe184db
-  EDITOR_bakedDescription: Restores 80% Health and gets one Drunk.
+  EDITOR_bakedDescription: "Restores 80\_% Health and gets one Drunk."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 116473962917af44293a519f2a30c2c6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

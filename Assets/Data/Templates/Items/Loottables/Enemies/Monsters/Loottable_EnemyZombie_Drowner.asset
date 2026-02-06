@@ -99,7 +99,6 @@ MonoBehaviour:
         - rid: 407485066785850319
         - rid: 3304492504050303106
         - rid: 1933283762895323244
-        - rid: 6781946396723380327
     - rid: 5152521936353099954
       type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
         asm: TG.Main}
@@ -108,24 +107,6 @@ MonoBehaviour:
           rid: 7934970157413957653
         chance: 0.4
         useLootChanceMultiplier: 1
-    - rid: 6781946396723380327
-      type: {class: LootWithDropChance, ns: Awaken.TG.Main.Heroes.Items.LootTables,
-        asm: TG.Main}
-      data:
-        loot:
-          rid: 6781946396723380328
-        chance: 0.6
-        useLootChanceMultiplier: 1
-    - rid: 6781946396723380328
-      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
-        asm: TG.Main}
-      data:
-        itemTemplateReference:
-          _guid: 
-        quantity: 1
-        itemLvl:
-          low: 0
-          high: 0
     - rid: 7934970157413957653
       type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
         asm: TG.Main}

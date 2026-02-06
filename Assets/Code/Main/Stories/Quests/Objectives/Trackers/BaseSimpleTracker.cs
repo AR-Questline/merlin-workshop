@@ -11,14 +11,18 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
         float Percent => 100f * Current / Max;
 
         // === Operations
-        protected void ChangeBy(float value) {
-            SetTo(Current + value);
+        protected void ChangeBy(float value, bool fromInitialCheck = false)  {
+            SetTo(Current + value, fromInitialCheck);
         }
 
-        protected void SetTo(float value) {
+        protected void SetTo(float value, bool fromInitialCheck = false) {
             if (Current != value) {
                 Current = Mathf.Clamp(value, 0, Max);
-                CheckIfCompleted();
+                if (fromInitialCheck) {
+                    CheckIfCompletedInitial();
+                } else {
+                    CheckIfCompleted();
+                }
                 TriggerChange();
             }
         }

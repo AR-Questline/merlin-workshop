@@ -63,7 +63,7 @@ MonoBehaviour:
   - item:tier5
   iconReference:
     arSpriteReference:
-      address: 15600520447ee3e4d8f2faebae7afa1c
+      address: 2ea663c99fa9a9b46a4d28783f51b428
       subObjectName: 
   itemName:
     IdOverride: item_jewelry_necklace_DruidicAmuletForlorn
@@ -76,9 +76,10 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: description_generic_increase_triple
+      IdOverride: Template/description_locString_2543871262668956605_f1432fa99d5da1c48a94c0d791401cf9
       ID: Template/description_locString_2543871262668956605_8f547a0316a62ed48a386226f35aa9f5
-  EDITOR_bakedDescription: Increases Armor by 1.
+  EDITOR_bakedDescription: "Increases Spell Power by 20\_%.\nIncreases Magic Critical
+    Chance by 20\_%.\nIncreases Max Mana by 20\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -154,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 5d9da2e7b00ca5a44ae62215243a2307
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -274,6 +282,8 @@ MonoBehaviour:
       value: 0.2
     - name: GainValue
       value: 0.02
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -290,7 +300,9 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.2
     - name: GainValue
-      value: 0.02
+      value: 0
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

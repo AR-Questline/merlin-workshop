@@ -18,6 +18,7 @@ using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.NPCs.Presences;
 using Awaken.TG.Main.General.Caches;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees;
 using Awaken.TG.Main.Heroes.Development;
 using Awaken.TG.Main.Heroes.Fishing;
 using Awaken.TG.Main.Heroes.Items;
@@ -51,8 +52,10 @@ using Awaken.Utility.Graphics;
 using Awaken.Utility.UI;
 using QFSW.QC;
 using Unity.Jobs.LowLevel.Unsafe;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.ResourceManagement;
 using UnityEngine.UIElements;
 using Log = Awaken.Utility.Debugging.Log;
 using Volume = UnityEngine.Rendering.Volume;
@@ -256,14 +259,19 @@ namespace Awaken.TG.Debugging.Cheats {
         [MarvinButton(state: nameof(IsDebugFishingActive))]
         void ToggleDebugFishing() {
             DebugFishing debugFishing = Services.TryGet<DebugFishing>();
-            if (debugFishing == null) {
+            if (debugFishing == null || Hero.Current == null) {
                 return;
             }
             
             if (!debugFishing.IsEnabled) {
                 debugFishing.Enable();
+                
+                if (!World.HasAny<DebugFishingUI>()) {
+                    World.Add(new DebugFishingUI());
+                }
             } else {
                 debugFishing.Disable();
+                World.Any<DebugFishingUI>()?.Discard();
             }
         }
         
@@ -702,6 +710,11 @@ namespace Awaken.TG.Debugging.Cheats {
         static void OpenStorage() {
             Hero.Current.Storage.Open();
         }
+        
+        [Command("ui.hero-switch-talent-upgrade-anywhere", "Allows to upgrade talent trees anywhere")][UnityEngine.Scripting.Preserve]
+        static void SwitchTalentUpgradeAnywhere() {
+            TalentTree.DebugUpgradeAnywhere = !TalentTree.DebugUpgradeAnywhere;
+        }
 
         [Command("jobs.set-workers", "Sets job workers count")][UnityEngine.Scripting.Preserve]
         static void SetJobWorkersCount(int count) => JobsUtility.JobWorkerCount = count;
@@ -738,6 +751,33 @@ namespace Awaken.TG.Debugging.Cheats {
         [Command("debug.crash", "Crashes the game")][UnityEngine.Scripting.Preserve]
         static void Crash() {
             DebugUtils.Crash();
+        }
+
+#if UNITY_EDITOR || DEBUG || AR_DEBUG
+        [MarvinButton]
+        void AddressablesLoggerPrintOperations(bool withDestroyed, bool withBundles) {
+            // Addressables.ResourceManager.PrintAliveOperations(withDestroyed, withBundles);
+        }
+
+        [MarvinButton]
+        void AddressablesLoggerBlacklistCurrent() {
+            // Addressables.ResourceManager.BlacklistCurrent();
+        }
+
+        [MarvinButton]
+        void AddressablesLoggerEnable() {
+            // Addressables.ResourceManager.EnableLogger();
+        }
+
+        [MarvinButton]
+        void AddressablesLoggerDisable() {
+            // Addressables.ResourceManager.DisableLogger();
+        }
+#endif
+
+        [MarvinButton]
+        void LoadTemplates() {
+            Services.Get<TemplatesProvider>().StartLoading();
         }
     }
 }

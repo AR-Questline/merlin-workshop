@@ -52,8 +52,7 @@ MonoBehaviour:
     verifiedArt: 0
     verifiedDesign: 0
     notes: 
-  tags:
-  - craft:glass
+  tags: []
   iconReference:
     arSpriteReference:
       address: dbd13dafa583f254f8f92a8f264e53ed
@@ -96,7 +95,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_26bb43b1f995f0f4d9e1ecb16b4e3c51
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -121,7 +120,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_26bb43b1f995f0f4d9e1ecb16b4e3c51
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Garbage
@@ -147,6 +146,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 406da841400ee9f439f94dc2cd52d32a
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-2760269724528547174
 MonoBehaviour:

@@ -5,6 +5,7 @@ using System;
 using Animancer;
 using Awaken.TG.Main.Animations.FSM.Heroes.Base;
 using Awaken.TG.Main.Animations.FSM.Heroes.Machines;
+using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Timing.ARTime;
 using Awaken.Utility.LowLevel.Collections;
@@ -12,6 +13,7 @@ using Awaken.Utility.Maths;
 using Awaken.Utility.Maths.Data;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Serialization;
@@ -20,6 +22,10 @@ namespace Awaken.TG.Main.Animations.IK {
     [RequireComponent(typeof(ARHeroAnimancer))]
     public unsafe class VCTppSpineIK : ViewComponent<Hero> {
         const float BottomClampUpdateSpeed = 50f;
+        const float WeightLerpSpeed = 2f;
+        const float FullyActiveIkWeight = 1f;
+        const float OutOfFightIkWeight = 0.33f;
+        const float DisabledIkWeight = 0f;
         [SerializeField] SpineRotationSetup[] transformsToRotate = Array.Empty<SpineRotationSetup>();
         
         ARHeroSpineGeneralIKData* _generalData; // shared data
@@ -28,6 +34,7 @@ namespace Awaken.TG.Main.Animations.IK {
         AnimationScriptPlayable _jobPlayable;
 
         DelayedValue _bottomClamp;
+        bool _isProcessingAnimationSpeed;
         bool _created;
 
         protected override void OnAttach() {
@@ -35,6 +42,7 @@ namespace Awaken.TG.Main.Animations.IK {
             ARHeroAnimancer heroAnimancer = GetComponent<ARHeroAnimancer>();
             
             _generalData = (ARHeroSpineGeneralIKData*)UnsafeUtility.Malloc(UnsafeUtility.SizeOf<ARHeroSpineGeneralIKData>(), UnsafeUtility.AlignOf<ARHeroSpineGeneralIKData>(), Allocator.Persistent);
+            _generalData->ikStrength = 1;
             
             var uCount = (uint)transformsToRotate.Length;
             _spineData = new UnsafeArray<ARHeroSpineIKData>(uCount, Allocator.Persistent);
@@ -50,6 +58,7 @@ namespace Awaken.TG.Main.Animations.IK {
                     weightY = spineRotationSetup.weightY,
                     weightZ = spineRotationSetup.weightZ,
                     constraint = spineRotationSetup.constraint,
+                    baseWeight = 1,
                 };
             }
             
@@ -61,6 +70,9 @@ namespace Awaken.TG.Main.Animations.IK {
             Target.GetOrCreateTimeDependent().WithLateUpdate(OnLateUpdate);
             
             _bottomClamp.SetInstant(Target.Data.tppBottomClamp);
+
+            Target.ListenTo(Hero.Events.ProcessAnimationSpeed, () => _isProcessingAnimationSpeed = true, this);
+            Target.ListenTo(Hero.Events.StopProcessingAnimationSpeed, () => _isProcessingAnimationSpeed = false, this);
             
             _created = true;
         }
@@ -87,14 +99,21 @@ namespace Awaken.TG.Main.Animations.IK {
             pitch = GeneralUtils.ClampAngle(pitch, _bottomClamp.Value, Target.Data.tppTopClamp);
             _generalData->cameraPitch = pitch;
 
+            
+            float desiredIkStrength = Target.IsInCombat() || isDrawingBow || _isProcessingAnimationSpeed 
+                ? FullyActiveIkWeight
+                : OutOfFightIkWeight;
+            _generalData->ikStrength = math.lerp(_generalData->ikStrength, desiredIkStrength, deltaTime * WeightLerpSpeed);
+            
             for (uint i = 0; i < _spineData.Length; i++) {
                 var data = _spineData[i];
-                data.isActive = data.constraint switch {
-                    SpineIKConstraint.BowAimOnly => isDrawingBow,
-                    SpineIKConstraint.TwoHandedOnly => isUsingTwoHanded,
-                    SpineIKConstraint.OffHandSpearOrFist => offHandSpearOrFist,
-                    _ => true
+                float desiredWeight = data.constraint switch {
+                    SpineIKConstraint.BowAimOnly => isDrawingBow ? FullyActiveIkWeight : DisabledIkWeight,
+                    SpineIKConstraint.TwoHandedOnly => isUsingTwoHanded ? FullyActiveIkWeight : DisabledIkWeight,
+                    SpineIKConstraint.OffHandSpearOrFist => offHandSpearOrFist ? FullyActiveIkWeight : DisabledIkWeight,
+                    _ => FullyActiveIkWeight
                 };
+                data.baseWeight = math.lerp(data.baseWeight, desiredWeight, deltaTime * WeightLerpSpeed);
                 _spineData[i] = data;
             }
         }

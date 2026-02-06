@@ -331,6 +331,14 @@ namespace Awaken.TG.Main.Fights.Utils {
             return AsyncUtil.WaitWhile(model, static () => true);
         }
 
+        public static async UniTask<bool> GameObjectDisableDelay(GameObject go, float delay) {
+            if (!await AsyncUtil.DelayTime(go, delay)) {
+                return false;
+            }
+            go.SetActive(false);
+            return true;
+        }
+
         public static void Forget(this Tween _) {
             //This method is empty because it is used to suppress the warning that the tween is not awaited
         }

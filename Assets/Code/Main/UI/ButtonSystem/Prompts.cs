@@ -1,11 +1,14 @@
 using Awaken.TG.Main.UI.Components.PadShortcuts;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
-using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
 using Awaken.TG.MVC.UI.Sources;
+using Awaken.Utility;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.SerializableTypeReference;
+using UnityEngine;
 
 namespace Awaken.TG.Main.UI.ButtonSystem {
     /// <summary>
@@ -13,6 +16,7 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
     /// </summary>
     public partial class Prompts : Element, IShortcut, IUIAware {
         public sealed override bool IsNotSaved => true;
+        public bool IsValid => this.IsValidForUIHandle();
 
         readonly IPromptHost _host;
         readonly ButtonsHandler _handler = new();
@@ -38,15 +42,20 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
         }
 
         /// <summary> Add new Prompt and spawn its view </summary>
-        public TPrompt AddPrompt<TPrompt, TPromptView>(TPrompt prompt, IModel owner, bool active = true, bool visible = true, PromptAudio audio = null, bool useDefaultAudio = false) 
+        public TPrompt AddPrompt<TPrompt, TPromptView>(TPrompt prompt, IModel owner, bool active = true, bool visible = true, PromptAudio audio = null, bool useDefaultAudio = false, Transform host = null) 
             where TPrompt : Prompt where TPromptView : View, IPromptListener {
             InitPrompt(prompt, owner);
-            var view = World.SpawnView<TPromptView>(prompt, true, true, _host.PromptsHost);
+            var view = World.SpawnView<TPromptView>(prompt, true, true, host ?? _host.PromptsHost);
             prompt.AddListener(view);
             prompt.SetupState(visible, active);
             RefreshPromptsPositions();
             prompt.RefreshState();
             return prompt;
+        }
+        
+        /// <summary> Add new Prompt with custom host for the view </summary>
+        public Prompt AddPrompt(Prompt prompt, IModel owner, Transform host, bool active = true, bool visible = true, PromptAudio audio = null, bool useDefaultAudio = false) {
+            return AddPrompt<Prompt, VGenericPromptUI>(prompt, owner, active, visible, host: host);
         }
         
         /// <summary> Add new Prompt and spawn its view </summary>
@@ -102,7 +111,7 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
         }
 
         public UIResult Handle(UIEvent evt) {
-            if (this.IsActive() && GenericParentModel != null && evt is UIKeyAction action) {
+            if (this.IsActive() && evt is UIKeyAction action) {
                 return _handler.Handle(Elements<Prompt>(), action);
             }
 

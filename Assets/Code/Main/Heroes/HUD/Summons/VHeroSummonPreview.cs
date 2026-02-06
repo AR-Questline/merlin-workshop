@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Heroes.HUD.Summons {
         [SerializeField] SimpleBar durationBar;
         [SerializeField] GlowingBar hpBar;
 
-        public override Transform DetermineHost() => Hero.Current.View<VHeroHUD>().heroSummonsParent;
+        public override Transform DetermineHost() => Hero.Current.View<VHeroHUD>().HeroSummonsParent;
         NpcElement NpcElement => Target.ParentModel;
         Material _greyoutMaterial;
 
@@ -24,8 +24,7 @@ namespace Awaken.TG.Main.Heroes.HUD.Summons {
             _greyoutMaterial.SetFloat("_Grayscale", 1f);
             greyoutIcon.material = _greyoutMaterial;
             
-            NpcElement.NpcIcon.RegisterAndSetup(this, icon);
-            NpcElement.NpcIcon.RegisterAndSetup(this, greyoutIcon);
+            NpcElement.NpcIcon.RegisterAndSetup(this, icon, (image, sprite) => greyoutIcon.sprite = sprite);
             
             hpBar.SetPercentInstant(0);
             durationBar.SetPercentInstant(0);

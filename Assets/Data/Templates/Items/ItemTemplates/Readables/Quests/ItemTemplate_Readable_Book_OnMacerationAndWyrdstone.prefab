@@ -56,6 +56,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 40daa42350b4f3240acc3980a4581f0b
@@ -72,7 +73,7 @@ MonoBehaviour:
     toggled: 0
     locString:
       IdOverride: 
-      ID: Template/description_locString_2543871262668956605_8d2d01c4aae48854199e9b74618ddacf
+      ID: Template/description_locString_2543871262668956605_f1d80b98793ac374da7d9a625fcf17a3
   EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
@@ -98,7 +99,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_f1d80b98793ac374da7d9a625fcf17a3
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -123,7 +124,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_f1d80b98793ac374da7d9a625fcf17a3
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Quest
@@ -140,7 +141,7 @@ MonoBehaviour:
   upgradeChance: 0
   crimeItemValue: 4
   canStack: 1
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
@@ -149,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 766752d7592871a419c36ab2a395979c
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4838591279151652239
 MonoBehaviour:

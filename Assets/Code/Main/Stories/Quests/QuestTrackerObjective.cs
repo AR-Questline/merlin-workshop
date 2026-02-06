@@ -15,7 +15,7 @@ namespace Awaken.TG.Main.Stories.Quests {
         }
 
         public void TryToDiscard() {
-            if (objective.State is ObjectiveState.Active or ObjectiveState.Completed or ObjectiveState.Failed) {
+            if (objective is { HasBeenDiscarded: false, State: ObjectiveState.Active or ObjectiveState.Completed or ObjectiveState.Failed }) {
                 return;
             }
             Discard();

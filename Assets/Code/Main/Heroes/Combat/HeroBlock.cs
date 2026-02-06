@@ -64,7 +64,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 hook.Value.RawData.MultiplyMultModifier(damageAmountMultiplier);
                 
                 ParentModel.HealthElement.Trigger(HealthElement.Events.OnDamageBlocked, hook.Value);
-                ICharacter damageDealer = hook.Value.DamageDealer;
+                ICharacter damageDealer = hook.Value.DamageDealerPure;
                 damageDealer?.Trigger(HealthElement.Events.OnMyDamageBlocked, hook.Value);
                 // --- Deal Stamina Damage
                 var damageParameters = hook.Value.Parameters;
@@ -111,8 +111,15 @@ namespace Awaken.TG.Main.Heroes.Combat {
             statsItem = GetStatsItem(hero);
             Stat blockAngle = statsItem?.ItemStats?.BlockAngle;
             float blockAngleValue = blockAngle?.ModifiedValue ?? 0;
-            
-            direction = (damage.DamageDealer.Coords - hero.Coords).ToHorizontal3();
+
+            var damagePosition = damage.DamageDealer is { HasBeenDiscarded: false }
+                ? damage.DamageDealer.Coords
+                : damage.Position;
+            if (!damagePosition.HasValue) {
+                // If Damage Dealer died while dealing damage, we can't calculate the angle, so it's better for player to allow block.
+                return true;
+            }
+            direction = (damagePosition.Value - hero.Coords).ToHorizontal3();
             float angle = Vector3.Angle(hero.Forward(), direction);
             return angle < blockAngleValue;
         }
@@ -120,9 +127,11 @@ namespace Awaken.TG.Main.Heroes.Combat {
         public static bool CanDamageBeParried(Hero hero, Damage damage, out Item statsItem, out Vector3 direction) {
             bool cantDeflectProjectiles = !hero.Development.CanParryDeflectProjectiles;
             if (damage.Type == DamageType.MagicalHitSource && (!damage.Parameters.IsFromProjectile || cantDeflectProjectiles)) {
-                statsItem = null;
-                direction = Vector3.zero;
-                return false;
+                statsItem = GetStatsItem(hero);
+                if (!statsItem.CanParryMagicProjectiles) {
+                    direction = Vector3.zero;
+                    return false;
+                }
             }
             return CanDamageBeBlocked(hero, damage, out statsItem, out direction);
         }

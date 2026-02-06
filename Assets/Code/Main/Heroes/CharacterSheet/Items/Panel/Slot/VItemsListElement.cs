@@ -1,5 +1,6 @@
 ﻿using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List;
 using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
@@ -12,6 +13,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
         Item Item => Target.Item;
         ItemSlotUI _slot;
         
+        public bool IsValid => this.IsValidForUIHandle();
+
         protected override void OnFirstInit() {
             _slot = GetComponent<ItemSlotUI>();
             _slot.SetVisibilityConfig(ItemSlotUI.VisibilityConfig.All);
@@ -57,10 +60,6 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
         }
 
         public UIResult Handle(UIEvent evt) {
-            if (Target == null) {
-                return UIResult.Ignore;
-            }
-            
             if (evt is UINaviAction naviAction) {
                 switch (Target.ItemsListUI.ParentModel.Config.TabsPosition){
                     case LayoutPosition.Top or LayoutPosition.Bottom:

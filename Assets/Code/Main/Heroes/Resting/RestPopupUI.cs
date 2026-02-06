@@ -36,7 +36,7 @@ namespace Awaken.TG.Main.Heroes.Resting {
         public bool WillBeSurprisedByWyrdNight => !Hero.Current.HeroWyrdNight.IsHeroInWyrdness && !IsSafelyResting;
 
         public bool IsSafelyResting => World.Services.Get<WyrdnessService>().IsInRepeller(Hero.Current.Coords) ||
-                                       !World.Services.Get<SceneService>().IsOpenWorld ||
+                                       !World.Services.Get<SceneService>().AllowsWyrdnight ||
                                        !RestingThroughTheNight();
         ARDateTime WeatherTime { get; }
         GameRealTime GameRealTime { get; }
@@ -74,24 +74,26 @@ namespace Awaken.TG.Main.Heroes.Resting {
             bool willBeSurprisedByWyrdNight = WillBeSurprisedByWyrdNight;
             bool isSafelyResting = IsSafelyResting;
             float timeUntilNight = ARDateTime.HoursTillNightStart(GameRealTime.WeatherTime.Date);
-            float restDuration = willBeSurprisedByWyrdNight ? timeUntilNight : HourValueChange;
+            float restDurationInHours = willBeSurprisedByWyrdNight ? timeUntilNight : HourValueChange;
             
-            if (RestInterruptedCheck(restDuration, out float restDurationToInterrupt)) {
-                restDuration = restDurationToInterrupt;
-                SkipTime(restDuration, isSafelyResting);
+            if (RestInterruptedCheck(restDurationInHours, out float restDurationToInterruptInHours)) {
+                restDurationInHours = restDurationToInterruptInHours;
+                SkipTime(restDurationInHours, isSafelyResting);
                 ShowRestInterruptedPopup();
                 this.Trigger(Events.RestingInterrupted, this);
             } else if (willBeSurprisedByWyrdNight) {
-                restDuration = timeUntilNight;
+                restDurationInHours = timeUntilNight;
                 ShowSurprisedByWyrdNightPopup();
-                SkipTime(restDuration, false);
+                SkipTime(restDurationInHours, false);
             } else {
-                SkipTime(restDuration, isSafelyResting);
+                SkipTime(restDurationInHours, isSafelyResting);
             }
 
-            this.Trigger(Events.RestingInitiated, restDuration);
+            this.Trigger(Events.RestingInitiated, restDurationInHours);
             foreach (var heroSummon in World.All<NpcHeroSummon>().Reverse()) {
-                heroSummon.Destroy();
+                if (heroSummon.DestroyOnRest) {
+                    heroSummon.Destroy();
+                }
             }
             Close();
             return;

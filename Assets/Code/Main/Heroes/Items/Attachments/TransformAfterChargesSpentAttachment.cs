@@ -11,9 +11,13 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
     public class TransformAfterChargesSpentAttachment : MonoBehaviour, IAttachmentSpec {
         [field: SerializeField] public int ChargesToSpend { get; private set; } = 1;
         [SerializeField] ItemSpawningData transformsInto;
+        [SerializeField, Tooltip("Gems, Gem Slots, Crime data")] bool copyItemElementsData = true;
+        [SerializeField, Tooltip("Item Level, Weight Level, NG Level ")] bool useItemLevels = true;
 
         
         public ItemSpawningDataRuntime TransformsInto => transformsInto.PopLoot(this).items.FirstOrDefault();
+        public bool CopyItemElementsData => copyItemElementsData;
+        public bool UseItemLevels => useItemLevels;
 
         public Element SpawnElement() => new TransformAfterChargesSpent();
 

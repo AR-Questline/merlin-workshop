@@ -6,7 +6,7 @@ namespace Awaken.TG.Main.Heroes.Crosshair {
     public class VCrosshairPart<T> : View<T> where T : CrosshairPart {
         [SerializeField] Image colorableCrosshairImage;
         public Hero Hero => Target.Hero;
-        public override Transform DetermineHost() => Hero.View<VHeroHUD>().crosshairParent;
+        public override Transform DetermineHost() => Hero.View<VHeroHUD>().CrosshairParent;
 
         protected override void OnInitialize() {
             if (colorableCrosshairImage != null) {

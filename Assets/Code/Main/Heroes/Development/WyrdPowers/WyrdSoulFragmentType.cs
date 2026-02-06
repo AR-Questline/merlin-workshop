@@ -1,5 +1,5 @@
 ﻿namespace Awaken.TG.Main.Heroes.Development.WyrdPowers {
-    public enum WyrdSoulFragmentType {
+    public enum WyrdSoulFragmentType : byte {
         [UnityEngine.Scripting.Preserve] Prologue = 0,
         [UnityEngine.Scripting.Preserve] Excalibur = 1,
         [UnityEngine.Scripting.Preserve] Shield = 2,

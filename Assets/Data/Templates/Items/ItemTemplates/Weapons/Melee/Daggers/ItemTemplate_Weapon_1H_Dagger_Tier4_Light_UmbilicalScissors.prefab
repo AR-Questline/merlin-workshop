@@ -80,7 +80,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_cbda401afe08c6f43b63032483117a86
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: "Increases the enemy\u2019s Incoming Damage by 10% for
+    5 seconds.\nDeals 100\_% more Damage if the enemy is below 25\_% Max Health."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +157,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 1f8a19be77bc365478e2d5587ebe9721
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -242,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5872891149054577755
 MonoBehaviour:

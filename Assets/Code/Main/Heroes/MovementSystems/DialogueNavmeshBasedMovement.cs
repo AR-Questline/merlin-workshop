@@ -67,7 +67,11 @@ namespace Awaken.TG.Main.Heroes.MovementSystems {
             }
             
             var from = ParentModel.Coords;
-            from.y = Ground.HeightAt(from, findClosest: true);
+            if (AstarPath.active.GetNearest(from) is {node: not null} nearest) {
+                from = nearest.position;
+            } else {
+                from.y = Ground.HeightAt(from, findClosest: true);
+            }
             var to = targetPlace.Position;
             to.y = Ground.HeightAt(targetPlace.Position, findClosest: true);
             

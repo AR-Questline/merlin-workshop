@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_f9833a1572b77ad41a53bdce53e01418
-  EDITOR_bakedDescription: If enemy is frozen, increase damage by 40%.
+  EDITOR_bakedDescription: "If enemy is frozen, increase damage by 40\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,6 +152,10 @@ MonoBehaviour:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +174,10 @@ MonoBehaviour:
     variables:
     - name: BonusDamageMultiplier
       value: 0.4
+    - name: BonusDamageGain
+      value: 0.02
+    - name: BonusDamageCalculated
+      value: 0
     enums:
     - name: StatEnum
       enumReference:

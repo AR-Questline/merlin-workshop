@@ -13,13 +13,17 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         public override ushort TypeForSerialization => SavedModels.ItemToCurrency;
 
         [Saved] public CurrencyStatType stat;
+        bool _showMultipliedByCurrencyStatMultiplier;
         float _multiplier;
 
+        public bool ShowMultipliedByCurrencyStatMultiplier => _showMultipliedByCurrencyStatMultiplier;
+        public float CurrencyMultiplier => stat == CurrencyStatType.Wealth ? Hero.Current.Stat(HeroMultStatType.WealthMultiplier).ModifiedValue : 1f;
         Item Item => ParentModel;
 
         public void InitFromAttachment(ItemToCurrencySpec spec, bool isRestored) {
             stat = spec.Currency;
             _multiplier = spec.multiplier;
+            _showMultipliedByCurrencyStatMultiplier = spec.showMultipliedByCurrencyStatMultiplier;
         }
 
         protected override void OnInitialize() {

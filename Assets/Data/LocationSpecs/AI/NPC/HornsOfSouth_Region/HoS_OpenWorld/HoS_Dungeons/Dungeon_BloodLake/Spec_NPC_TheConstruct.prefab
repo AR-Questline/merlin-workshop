@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5015677942313754530}
   - component: {fileID: -4091291826401044032}
   - component: {fileID: 2152011970379077156}
+  - component: {fileID: 4948480497137918072}
   m_Layer: 0
   m_Name: Spec_NPC_TheConstruct
   m_TagString: Untagged
@@ -307,3 +308,39 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+--- !u!114 &4948480497137918072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0b19dec2bb2694cbe97e9d85d5ddf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponsAlwaysEquipped: 0
+  <CustomCombatBaseClass>k__BackingField:
+    rid: 3175349116955525122
+  references:
+    version: 2
+    RefIds:
+    - rid: 3175349116955525122
+      type: {class: NotMovableEnemy, ns: Awaken.TG.Main.AI.Combat.Attachments.Customs,
+        asm: TG.Main}
+      data:
+        DEBUG_Disable: 0
+        overrideDistanceToReleaseCombatSlotAt: 0
+        releaseCombatSlotAtDistance: 15
+        canBeSlidInto: 0
+        startInSpawn: 0
+        canMoveInSpawn: 0
+        usesCombatMovementAnimations: 0
+        usesAlertMovementAnimations: 0
+        useRandomDelayOnCombatEnter: 1
+        randomDelayOnCombatEnter:
+          min: 0
+          max: 0.6
+        canBePushed: 0
+        canRotate: 1

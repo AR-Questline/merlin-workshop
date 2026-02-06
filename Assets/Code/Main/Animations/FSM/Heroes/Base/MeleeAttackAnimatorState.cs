@@ -2,19 +2,18 @@
 using Awaken.TG.Main.Animations.FSM.Heroes.Machines;
 using Awaken.TG.Main.Animations.FSM.Heroes.Modifiers;
 using Awaken.TG.Main.Animations.FSM.Heroes.States.Shared;
-using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Heroes;
-using Awaken.TG.Main.Heroes.Animations;
 using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments.Audio;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Animations.HitStops;
 using Awaken.TG.Main.Utility.Audio;
+using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.VFX;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
@@ -96,8 +95,12 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
         
         // === HitStops
         void OnAliveHit(bool isHeavyAttack) {
-            Hero.Current.Trigger(GamepadEffects.Events.TriggerVibrations, new TriggersVibrationData {effects = GameConstants.Get.meleeNpcHitXboxVibrations, handsAffected = GetHandForMeleeVibrations});
-            
+            if (RewiredHelper.IsXboxOneOrSeries) {
+                Hero.Current.Trigger(GamepadEffects.Events.TriggerVibrations, new TriggersVibrationData { effects = GameConstants.Get.meleeNpcHitXboxVibrations, handsAffected = GetHandForMeleeVibrations });
+            } else {
+                RewiredHelper.VibrateLowFreq(VibrationStrength.Low, VibrationDuration.VeryShort);
+            }
+
             int? hitsRequiredToHitStop = ParentModel.StatsItem.HitsToHitStop.HitsRequired;
             if (!isHeavyAttack && !hitsRequiredToHitStop.HasValue) {
                 return;
@@ -117,21 +120,36 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
                 hitData.Rigidbody.AddForce(hitData.Direction * hitData.RagdollForce, ForceMode.Impulse);
             }
             // --- VFX
-            Item item = hitData.Item;
-            NpcDummy npcDummy = hitData.Location != null ? hitData.Location.Target?.TryGetElement<NpcDummy>() : null;
-            SurfaceType surfaceType = npcDummy != null ? npcDummy.Template.SurfaceType : SurfaceType.HitStone;
-            VFXManager.SpawnCombatVFX(item.DamageSurfaceType, surfaceType, hitData.Position, hitData.Direction, null, null);
-            // --- Audio
-            ItemAudio itemAudio = item.TryGetElement<ItemAudio>();
-            EventReference eventReference = ItemAudioType.MeleeHit.RetrieveFrom(item);
-            if (itemAudio?.AudioContainer is { audioType: ItemAudioContainer.AudioType.Magic }) {
-                eventReference = ItemAudioType.MagicHit.RetrieveFrom(item);
+            Item item;
+            SurfaceType itemSurfaceType;
+            if (hitData.Item is { HasBeenDiscarded: false }) {
+                item = hitData.Item;
+                itemSurfaceType = item.DamageSurfaceType;
+            } else {
+                item = null;
+                itemSurfaceType = SurfaceType.DamageOrganic;
             }
-            SurfaceType audioSurfaceType = npcDummy != null ? npcDummy.Template.SurfaceType : SurfaceType.HitGround;
-            
-            FMODParameter[] parameters = { audioSurfaceType, new("Heavy", IsHeavy) };
-            item.PlayAudioClip(eventReference, true, parameters);
-            Hero.Current.Trigger(GamepadEffects.Events.TriggerVibrations, new TriggersVibrationData {effects = GameConstants.Get.meleeEnviroHitFirstXboxVibrations, handsAffected = GetHandForMeleeVibrations});
+            NpcDummy npcDummy = hitData.Location != null ? hitData.Location.Target?.TryGetElement<NpcDummy>() : null;
+            SurfaceType surfaceType = npcDummy != null && npcDummy.Template != null ? npcDummy.Template.SurfaceType : SurfaceType.HitStone;
+            VFXManager.SpawnCombatVFX(itemSurfaceType, surfaceType, hitData.Position, hitData.Direction, null, null);
+            // --- Audio
+            if (item != null) {
+                ItemAudio itemAudio = item.TryGetElement<ItemAudio>();
+                EventReference eventReference = ItemAudioType.MeleeHit.RetrieveFrom(item);
+                if (itemAudio?.AudioContainer is { audioType: ItemAudioContainer.AudioType.Magic }) {
+                    eventReference = ItemAudioType.MagicHit.RetrieveFrom(item);
+                }
+                SurfaceType audioSurfaceType = npcDummy != null ? npcDummy.Template.SurfaceType : SurfaceType.HitGround;
+                
+                FMODParameter[] parameters = { audioSurfaceType, new("Heavy", IsHeavy) };
+                item.PlayAudioClip(eventReference, true, parameters);
+            }
+
+            if (RewiredHelper.IsXboxOneOrSeries) {
+                Hero.Current?.Trigger(GamepadEffects.Events.TriggerVibrations, new TriggersVibrationData {effects = GameConstants.Get.meleeEnviroHitFirstXboxVibrations, handsAffected = GetHandForMeleeVibrations});
+            } else {
+                RewiredHelper.VibrateLowFreq(VibrationStrength.VeryLow, VibrationDuration.VeryShort);
+            }
         }
 
         void RemoveHitsListener() {

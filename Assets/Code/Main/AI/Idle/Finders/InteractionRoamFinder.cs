@@ -17,9 +17,7 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
         [Saved] FloatRange _waitTime;
         [Saved] IdleDataElement _data;
         
-        RoamInteraction _roamInteraction;
-        RoamInteraction RoamInteraction => _roamInteraction ??= new RoamInteraction(_position, _range, _waitTime, _data);
-        public override INpcInteraction Interaction(NpcElement npc) => RoamInteraction;
+        public override INpcInteraction Interaction(NpcElement npc) => new RoamInteraction(_position, _range, _waitTime, _data);
         
         [JsonConstructor, UnityEngine.Scripting.Preserve] InteractionRoamFinder() { }
         public InteractionRoamFinder(IdlePosition position, float range, FloatRange waitTime, IdleDataElement data) {
@@ -29,10 +27,10 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
             _data = data;
         }
         
-        public override Vector3 GetDesiredPosition(IdleBehaviours behaviours) => RoamInteraction.GetRoamCenter(behaviours);
-        public override float GetInteractionRadius(IdleBehaviours behaviours) => RoamInteraction.GetRoamRadius();
+        public override Vector3 GetDesiredPosition(IdleBehaviours behaviours) => _position.WorldPosition(behaviours.Location, _data); 
+        public override float GetInteractionRadius(IdleBehaviours behaviours) => _range;
         public override bool CanFindInteraction(IdleBehaviours behaviours, INpcInteraction interaction, bool ignoreInteractionRequirements) {
-            return interaction == Interaction(behaviours.Npc);
+            return interaction is RoamInteraction roamInteraction && roamInteraction.GetRoamCenter(behaviours) == GetDesiredPosition(behaviours) && roamInteraction.GetRoamRadius() == _range;
         }
     }
 }

@@ -53,6 +53,7 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 70542f872371398478d541b176cd91a2
+  - _guid: 4e1fddd5b7d0e324e99692b46e9e21d6
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -155,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +221,8 @@ MonoBehaviour:
       value: 40
     - name: StatusBuildupPerSecond
       value: 25
+    - name: NGStatusBuildupPerSecond
+      value: 100
     - name: ItemCount
       value: 1
     enums:
@@ -268,7 +275,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 0
   maxDamage: 0
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -301,8 +308,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 8
+  heavyCastManaCostPerSecondGain: 1.5
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-7863126784321866877
 MonoBehaviour:

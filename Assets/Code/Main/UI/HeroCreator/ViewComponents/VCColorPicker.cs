@@ -1,4 +1,5 @@
 ﻿using System;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -17,6 +18,7 @@ namespace Awaken.TG.Main.UI.HeroCreator.ViewComponents {
         public Transform cursor;
 
         public event Action<Color> onColorChanged; 
+        public bool IsValid => this.IsValidForUIHandle();
 
         bool _isFocused;
         Texture2D _texture;

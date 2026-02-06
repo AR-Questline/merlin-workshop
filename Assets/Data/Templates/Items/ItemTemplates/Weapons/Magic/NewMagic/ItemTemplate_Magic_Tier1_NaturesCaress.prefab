@@ -156,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +215,16 @@ MonoBehaviour:
     variables:
     - name: LightCastHealValue
       value: 10
+    - name: LightCastHealGain
+      value: 1
+    - name: LightCastHealCalculated
+      value: 0
     - name: HeavyCastHealPerSecond
       value: 2
+    - name: HeavyCastHealPerSecondGain
+      value: 0.1
+    - name: HeavyCastHealPerSecondCalculated
+      value: 0
     - name: MaxHealMultiplier
       value: 1.5
     - name: MaxHealDelay
@@ -283,8 +295,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 20
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 5
+  heavyCastManaCostPerSecondGain: 1.5
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-2264683829725304903
 MonoBehaviour:

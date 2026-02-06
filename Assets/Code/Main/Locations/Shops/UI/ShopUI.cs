@@ -30,6 +30,7 @@ namespace Awaken.TG.Main.Locations.Shops.UI {
         public Tabs<ShopUI, VShopUITabs, ShopUITabType, IShopUITab> TabsController { get; set; }
         public Prompts Prompts => Element<Prompts>();
         public Transform PromptsHost => View.PromptsHost;
+        public Transform DoublePromptsHost => View.DoublePromptsHost;
 
         // === Creation and initialization
 
@@ -38,7 +39,6 @@ namespace Awaken.TG.Main.Locations.Shops.UI {
             
             var prompts = AddElement(new Prompts(this));
             prompts.AddPrompt(Prompt.Tap(KeyBindings.UI.Generic.Cancel, LocTerms.UIGenericBack.Translate(), Close, Prompt.Position.Last), this);
-            
             AddElement(new ShopUITabs());
         }
 

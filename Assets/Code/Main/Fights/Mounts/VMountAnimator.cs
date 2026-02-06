@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Awaken.TG.Main.Fights.Mounts {
     public class VMountAnimator {
         public const float ForwardMovementAnimatorScalar = 0.5f;
-        public const float TurningMovementAnimatorScalar = 1.0f;
+        public const float TurningMovementAnimatorScalar = 0.5f;
         
         const float DefaultIdleAnimationInterval = 6.3f;
         const float CustomIdleAnimationInterval = 3.150f;
@@ -22,6 +22,9 @@ namespace Awaken.TG.Main.Fights.Mounts {
         static readonly int AnimState = Animator.StringToHash("State");
         static readonly int Grounded = Animator.StringToHash("Grounded");
         static readonly int LastAnimState = Animator.StringToHash("LastState");
+        static readonly int IsJumping = Animator.StringToHash("IsJumping");
+        static readonly int TransformTrigger = Animator.StringToHash("Transform");
+        static readonly int PetTrigger = Animator.StringToHash("Pet");
 
         public enum State : byte {
             [UnityEngine.Scripting.Preserve] Idle = 0,
@@ -32,6 +35,11 @@ namespace Awaken.TG.Main.Fights.Mounts {
             [UnityEngine.Scripting.Preserve] Fly = 6,
             [UnityEngine.Scripting.Preserve] Neigh = 7,
             [UnityEngine.Scripting.Preserve] Death = 10,
+        }
+
+        public enum Trigger : byte {
+            Transition = 0,
+            Pet = 1,
         }
 
         float _midairTime;
@@ -90,12 +98,15 @@ namespace Awaken.TG.Main.Fights.Mounts {
             
             bool modelGrounded = _midairTime <= GroundedAnimationBufferTime;
             _animator.SetBool(Grounded, modelGrounded);
+            _animator.SetBool(IsJumping, _mount.IsInJump());
 
-            _animator.SetFloat(Forward, _mount.RunningVelocity * ForwardMovementAnimatorScalar);
-            _animator.SetFloat(Horizontal, _mount.TurningVelocity * TurningMovementAnimatorScalar);
+            _animator.SetFloat(Forward, _mount.AnimatorParams.x);
+            _animator.SetFloat(Horizontal, _mount.AnimatorParams.y);
 
             if (_mount.InWater) {
                 UpdateState(State.Swim);
+            } else if (_mount.IsFlying) {
+                UpdateState(State.Fly);
             } else if (!_mount.IsInJump()) {
                 if (!modelGrounded) {
                     UpdateState(State.Fall);
@@ -109,6 +120,18 @@ namespace Awaken.TG.Main.Fights.Mounts {
             }
         }
 
+        public void TriggerAnimation(Trigger trigger) {
+            int triggerInt = trigger switch {
+                Trigger.Transition => TransformTrigger,
+                Trigger.Pet => PetTrigger,
+                _ => 0
+            };
+            
+            if (triggerInt != 0) {
+                _animator.SetTrigger(triggerInt);
+            }
+        }
+
         public void UpdateState(State newState) {
             int newStateInt = (int)newState;
             int lastState = _animator.GetInteger(AnimState);
@@ -117,7 +140,7 @@ namespace Awaken.TG.Main.Fights.Mounts {
                 _animator.SetInteger(AnimState, newStateInt);
             }
         }
-
+        
         void UpdateMidairTimer(float deltaTime) {
             if (_mount.Grounded) {
                 _midairTime = 0.0f;

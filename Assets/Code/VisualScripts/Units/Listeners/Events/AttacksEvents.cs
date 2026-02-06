@@ -57,6 +57,12 @@ namespace Awaken.TG.VisualScripts.Units.Listeners.Events {
     }
     
     [UnityEngine.Scripting.Preserve]
+    class EvtOnProjectileContact : EvtAttack<ICharacter, ProjectileContactParams> {
+        protected override Event<ICharacter, ProjectileContactParams> Event => ICharacter.Events.OnProjectileContact;
+        protected override ICharacter Source(IListenerContext context) => context.Character;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
     public class EvtOnBowZoomStart : EvtAttack<ICharacter, ICharacter> {
         protected override Event<ICharacter, ICharacter> Event => ICharacter.Events.OnBowZoomStart;
         protected override ICharacter Source(IListenerContext context) => context.Character;

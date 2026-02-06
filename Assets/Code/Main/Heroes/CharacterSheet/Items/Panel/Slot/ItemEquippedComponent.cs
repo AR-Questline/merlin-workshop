@@ -2,7 +2,6 @@
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Loadouts;
 using Awaken.TG.Main.Heroes.Items;
-using Awaken.TG.Main.Heroes.Items.Loadouts;
 using Awaken.TG.MVC;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {

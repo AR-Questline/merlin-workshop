@@ -7,6 +7,7 @@ using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Stats;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.MVC;
 using Awaken.Utility.Collections;
 using UnityEngine;
@@ -89,6 +90,10 @@ namespace Awaken.TG.Main.Crafting {
             float bonusItemLevel = bonusLevel + Hero.Current.HeroStats.CraftingSkillBonus;
             float difficulty = recipe.ItemCraftingDifficulty;
             return itemLvlFromProficiency + bonusItemLevel - difficulty;
+        }
+
+        public static int CorrectNewGamePlusCraftedItemLevel(int itemLvl) {
+            return itemLvl + NewGamePlusSystem.CalculatedBonusItemLevel;
         }
 
         public static float CalculateBonusLevelFromIngredients(IRecipe recipe, IEnumerable<CraftingItem> currentIngredients) {

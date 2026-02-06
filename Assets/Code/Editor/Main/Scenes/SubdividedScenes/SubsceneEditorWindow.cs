@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Awaken.TG.Editor.Main.Scenes.SubdividedScenes {
     public class SubsceneEditorWindow : EditorWindow {
+        SerializedObject _serializedObject;
         
         [MenuItem("TG/Scene Tools/Subscenes")]
         public static void ShowWindow() {
@@ -10,22 +11,37 @@ namespace Awaken.TG.Editor.Main.Scenes.SubdividedScenes {
             window.titleContent = new GUIContent("Subscenes");
         }
 
+        void OnEnable() {
+            _serializedObject = null;
+        }
+
         void OnGUI() {
-            var rect = new Rect(0, 0, Screen.width, Screen.height);
-            
             if (Application.isPlaying) {
-                EditorGUI.LabelField(rect, "Works only in edit mode");
+                EditorGUILayout.LabelField("Works only in edit mode");
                 return;
             }
 
             if (!SubdividedSceneTracker.TryGet(out var scene, out var error)) {
-                EditorGUI.LabelField(rect, error);
+                EditorGUILayout.LabelField(error);
                 return;
             }
             
-            SerializedObject serializedObject = new(scene);
-            SerializedProperty serializedProperty = serializedObject.FindProperty("serializedSubscenesData");
-            SerializedSubscenesDataDrawer.DrawGUI(rect, serializedProperty);
+            // Cache serialized object to maintain consistency across frames
+            if (_serializedObject == null || _serializedObject.targetObject != scene) {
+                _serializedObject = new SerializedObject(scene);
+            }
+            
+            _serializedObject.Update();
+            
+            SerializedProperty serializedProperty = _serializedObject.FindProperty("serializedSubscenesData");
+            
+            if (serializedProperty != null) {
+                // Create rect with proper window dimensions
+                var rect = new Rect(0, 0, position.width, position.height);
+                SerializedSubscenesDataDrawer.DrawGUI(rect, serializedProperty);
+            }
+            
+            _serializedObject.ApplyModifiedProperties();
         }
     }
 }

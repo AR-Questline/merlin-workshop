@@ -62,7 +62,7 @@ MonoBehaviour:
   - item:tier2
   iconReference:
     arSpriteReference:
-      address: ec1d35a5772385d49ad4a97bd7598dfd
+      address: 0bc9f2833a80b4c4b97a6855cac37db4
       subObjectName: 
   itemName:
     IdOverride: item_jewelry_ring_BloodRing
@@ -102,7 +102,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_065907e83e80d574c9064b869aa13be2
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +127,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_065907e83e80d574c9064b869aa13be2
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -155,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fdb0a0930e9a91b47ac70663554765cc
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:

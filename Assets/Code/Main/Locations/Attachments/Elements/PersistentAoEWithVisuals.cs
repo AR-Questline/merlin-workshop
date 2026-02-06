@@ -18,7 +18,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         public PersistentAoEWithVisuals(float? tick, IDuration duration, StatusTemplate statusTemplate, float buildupStrength,
             SkillVariablesOverride overrides, SphereDamageParameters? damageParameters, bool onlyOnGrounded, bool isRemovingOther, bool isRemovable, 
             bool canApplyToSelf, bool discardParentOnEnd, bool discardOnDamageDealerDeath)
-            : base(tick, duration, statusTemplate, buildupStrength, overrides, damageParameters, onlyOnGrounded, isRemovingOther, isRemovable, 
+            : base(tick, duration, statusTemplate, buildupStrength, false, overrides, damageParameters, onlyOnGrounded, isRemovingOther, isRemovable, 
                 canApplyToSelf, discardParentOnEnd, discardOnDamageDealerDeath) {
         }
 
@@ -30,11 +30,16 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         }
 
         protected override void End() {
-            if (!DiscardParentOnEnd || _discardParentOnEndDelay <= 0) {
-                base.End();
+            if (ParentModel.HasBeenDiscarded) {
+                return;
             }
             
             VFXUtils.StopVfx(ParentModel.ViewParent.gameObject);
+            
+            if (!DiscardParentOnEnd || _discardParentOnEndDelay <= 0) {
+                base.End();
+                return;
+            }
 
             var parent = ParentModel;
             Discard();

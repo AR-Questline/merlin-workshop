@@ -1,7 +1,7 @@
 using Awaken.TG.Debugging.Cheats;
-using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Heroes.Stats.Tweaks;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
@@ -10,11 +10,11 @@ using Awaken.TG.MVC.UI.Sources;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Heroes.MovementSystems {
     public partial class NoClipMovement : HeroMovementSystem, IUIAware {
         public override ushort TypeForSerialization => SavedModels.NoClipMovement;
+        public bool IsValid => this.IsValidForUIHandle();
 
         const float DefaultSpeedModifier = 1.8f;
         const float MaxSpeedModifier = 10f;

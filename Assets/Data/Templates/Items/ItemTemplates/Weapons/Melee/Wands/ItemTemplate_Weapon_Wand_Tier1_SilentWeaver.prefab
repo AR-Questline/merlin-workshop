@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_decrease_percent
       ID: Template/description_locString_2543871262668956605_d748a3e6fea6add4099aa691f838413d
-  EDITOR_bakedDescription: Reduces Mana Cost by 15%.
+  EDITOR_bakedDescription: "Reduces Mana Cost by 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -134,7 +134,7 @@ MonoBehaviour:
   basePrice: 150
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: f35d62084cea14a409030bc1f310298a
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -239,8 +243,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3457434467940587239
 MonoBehaviour:

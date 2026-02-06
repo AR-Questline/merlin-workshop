@@ -5,7 +5,7 @@ using UnityEditor;
 namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(CEditorVariable))]
     public class CVariableEditor : ElementEditor {
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawProperties();
 
             CEditorVariable cEditorVar = Target<CEditorVariable>();

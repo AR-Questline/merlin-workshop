@@ -1,4 +1,5 @@
 ﻿using System;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -10,7 +11,8 @@ namespace Awaken.TG.Main.Tutorials.Steps.Composer.Helpers {
 
         bool _hovered;
         int _lastHoverFrame;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         public UIResult Handle(UIEvent evt) {
             if (evt is UIEPointTo) {
                 _lastHoverFrame = Time.frameCount;

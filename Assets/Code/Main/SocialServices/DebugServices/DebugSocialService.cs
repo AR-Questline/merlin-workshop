@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.Utility.Enums;
+using Cysharp.Threading.Tasks;
 
 namespace Awaken.TG.Main.SocialServices.DebugServices {
     public class DebugSocialService : SocialService {
@@ -36,6 +37,14 @@ namespace Awaken.TG.Main.SocialServices.DebugServices {
             leaderboard.AfterInitialized(_ => {
                 callback.Invoke(leaderboard.PlayerEntry.Score);
             });
+        }
+
+        public override UniTask ShowStorePage(DlcId dlcId) {
+            throw new NotImplementedException();
+        }
+
+        public override UniTask<PurchaseResult> ShowPurchaseDialog(DlcId dlcId) {
+            return UniTask.FromResult(PurchaseResult.Purchased);
         }
 
         protected override bool HasDlc_Internal(DlcId dlcId) => true;

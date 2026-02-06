@@ -27,10 +27,14 @@ namespace Awaken.TG.Main.Utility.Animations.ARAnimator {
         }
         
         [Button, HorizontalGroup("Helpers")]
-        void ResampleRootRotationDeltas() {
+        void ResampleHorizontalRootRotation() {
+            EDITOR_ResampleHorizontalRootRotation();
+        }
+        
+        public void EDITOR_ResampleHorizontalRootRotation() {
             foreach (var entry in entries) {
                 foreach (var clipTransition in entry.clipTransitions) {
-                    clipTransition.SampleRootRotationDelta();
+                    clipTransition.SampleRootHorizontalRotation();
                 }
             }
         }

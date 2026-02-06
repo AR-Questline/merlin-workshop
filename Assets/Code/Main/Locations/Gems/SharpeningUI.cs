@@ -11,6 +11,7 @@ using Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors;
 using Awaken.TG.Main.Heroes.Items.Tooltips.Views;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Shops;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
@@ -22,18 +23,17 @@ namespace Awaken.TG.Main.Locations.Gems {
         protected Item _upgradedItem;
         
         public override string ContextTitle => LocTerms.SharpenTab.Translate();
-        public override IEnumerable<CountedItem> Ingredients => ClickedItem == null ? null : GetIngredientsFromConfig(ItemUpgradeConfigConfig, ClickedItem.Level.ModifiedInt);
+        public override IEnumerable<CountedItem> Ingredients => ClickedItem == null ? null : GetIngredientsFromConfig(ItemUpgradeConfigConfig, ClickedItem.ModifiedLevelWithoutNewGamePlus);
         public override int ServiceCost {
             get {
-                int serviceCost = base.ServiceCost + (ItemUpgradeConfigConfig?.GetPrice(CurrencyType.Money, ClickedItem.Level.ModifiedInt) ?? 0);
-                return (int)((1 - Hero.HeroStats.UpgradeDiscount.ModifiedValue) * serviceCost);
+                int serviceCost = base.ServiceCost + (ItemUpgradeConfigConfig?.GetPrice(CurrencyType.Money, ClickedItem.ModifiedLevelWithoutNewGamePlus) ?? 0);
+                return (int)((1 - Hero.HeroStats.UpgradeDiscount.ModifiedValue) * serviceCost * NewGamePlusSystem.GetItemUpgradeServiceCostMultiplier(ClickedItem?.NewGamePlusLevel ?? 0));
             }
         }
         public override int CobwebServiceCost {
             get {
-                int serviceCost = base.CobwebServiceCost + (ItemUpgradeConfigConfig?.GetPrice(CurrencyType.Cobweb, ClickedItem.Level.ModifiedInt) ?? 0);
-                return (int)((1 - Hero.HeroStats.UpgradeDiscount.ModifiedValue) * serviceCost);
-            
+                int serviceCost = base.CobwebServiceCost + (ItemUpgradeConfigConfig?.GetPrice(CurrencyType.Cobweb, ClickedItem.ModifiedLevelWithoutNewGamePlus) ?? 0);
+                return (int)((1 - Hero.HeroStats.UpgradeDiscount.ModifiedValue) * serviceCost * NewGamePlusSystem.GetItemUpgradeCobwebCostMultiplier(ClickedItem?.NewGamePlusLevel ?? 0));
             }
         }
         public override Type ItemsListUIView => typeof(VItemsListSimpleUI);
@@ -45,10 +45,16 @@ namespace Awaken.TG.Main.Locations.Gems {
         protected override bool TooltipComparerActive => true;
         protected override string GemActionName => LocTerms.RelicsPromptSharpen.Translate();
         protected override int ServiceBaseCost => Services.Get<GameConstants>().sharpeningBaseCost;
-        protected override int CostMultiplier => Mathf.Max(_upgradedItem?.Level.ModifiedInt ?? 1, 1);
+        protected override int CostMultiplier => Mathf.Max(_upgradedItem?.ModifiedLevelWithoutNewGamePlus ?? 1, 1);
+        
+        protected abstract string UpgradedInfo { get; }
         protected virtual ItemUpgradeConfigData ItemUpgradeConfigConfig => ClickedItem != null ? GetSharpeningConfig(ClickedItem) : null;
 
         VItemsListElement VItemsListElement => ItemsListElementUI is {HasBeenDiscarded: false} ? ItemsListElementUI.View<VItemsListElement>() : null;
+
+        protected void TriggerAfterUpgradedEvent() {
+            this.Trigger(IGemBase.Events.AfterUpgraded, UpgradedInfo);
+        }
 
         [UnityEngine.Scripting.Preserve]
         public void RefreshFocus() {
@@ -109,7 +115,7 @@ namespace Awaken.TG.Main.Locations.Gems {
 
         protected virtual void CreateUpgradedItemPreview(Item item) {
             _upgradedItem?.Discard();
-            _upgradedItem = World.Add(new Item(item.Template, 1, item.Level.ModifiedInt));
+            _upgradedItem = World.Add(new Item(item.Template, 1, item.Level.ModifiedInt, item.WeightLevel.ModifiedInt, item.NewGamePlusLevel));
             ItemUtils.CopyItemStats(item, _upgradedItem);
             _upgradedItem.Level.IncreaseBy(1);
         }
@@ -120,6 +126,7 @@ namespace Awaken.TG.Main.Locations.Gems {
 
         protected sealed override void OnTabChanged(ItemsListUI itemsListUI) {
             View.HideRightSide();
+            ItemTooltipUI.SetDescriptor(null);
         }
 
         protected virtual ItemUpgradeConfigData GetSharpeningConfig(Item item) {
@@ -147,7 +154,9 @@ namespace Awaken.TG.Main.Locations.Gems {
 
     public partial class SharpeningUI : SharpeningUI<VSharpeningUI> {
         PopupUI _popup;
-        
+
+        protected override string UpgradedInfo => LocTerms.ItemUpgradedInfo.Translate();
+
         protected override void GemAction() {
             if (!ClickedItem) {
                 return;
@@ -158,11 +167,12 @@ namespace Awaken.TG.Main.Locations.Gems {
             ClickedItem.Level.IncreaseBy(1);
             ClickedItem.Trigger(Item.Events.ItemSharpened, new SharpeningChangeData(
                 ClickedItem, ClickedItem.Level.ModifiedInt, 
-                GetIngredientsFromConfig(ItemUpgradeConfigConfig, ClickedItem.Level.ModifiedInt - 1))
+                GetIngredientsFromConfig(ItemUpgradeConfigConfig, ClickedItem.ModifiedLevelWithoutNewGamePlus - 1))
             );
             
             ReequipIfNecessary();
             Refresh();
+            TriggerAfterUpgradedEvent();
         }
     }
 }

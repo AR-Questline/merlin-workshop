@@ -35,7 +35,11 @@ namespace Awaken.TG.Main.AI.Idle {
 
         public readonly Vector3 WorldPosition(Location location, IIdleDataSource data = null) {
             return IdleSpace switch {
-                Space.NpcSpawn => UseAttachmentSpace(data) ? ByAttachment(data, position) : BySpawn(location, position),
+                Space.NpcSpawn => data is { HasBeenDiscarded: true } 
+                    ? location.Coords
+                    : UseAttachmentSpace(data)
+                        ? ByAttachment(data, position)
+                        : BySpawn(location, position),
                 Space.World => position,
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -50,7 +54,11 @@ namespace Awaken.TG.Main.AI.Idle {
         
         public readonly Vector3 WorldForward(Location location, IIdleDataSource data = null) {
             return IdleSpace switch {
-                Space.NpcSpawn => UseAttachmentSpace(data) ? ByAttachment(data) : BySpawn(location),
+                Space.NpcSpawn => data is { HasBeenDiscarded: true } 
+                    ? location.Forward()
+                    : UseAttachmentSpace(data) 
+                        ? ByAttachment(data) 
+                        : BySpawn(location),
                 Space.World => position,
                 _ => throw new ArgumentOutOfRangeException()
             };

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Fights.Utils;
+using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Memories;
+using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.Main.Settings.Audio;
 using Awaken.TG.Main.Settings.Controls;
@@ -12,6 +14,8 @@ using Awaken.TG.Main.Settings.Debug;
 using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.Settings.Graphics;
 using Awaken.TG.Main.Settings.Options;
+using Awaken.TG.Main.Settings.Other;
+using Awaken.TG.Main.SocialServices;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.UI.Keys;
@@ -23,6 +27,7 @@ using Awaken.TG.MVC.UI.Handlers.Focuses;
 using Awaken.TG.Utility;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.Enums;
 using Cysharp.Threading.Tasks;
 using Rewired;
 using UnityEngine.Rendering;
@@ -45,22 +50,25 @@ namespace Awaken.TG.Main.Settings {
         public IEnumerable<ISetting> AudioSettings => _audioSettings;
         public IEnumerable<ISetting> GeneralSettings => _generalSettings;
         public IEnumerable<ISetting> AccessibilitySettings => _accessibilitySettings;
-        public IEnumerable<GameControls> ControlsSettings => _controlsSettings;
+        public IEnumerable<ISetting> DlcSettings => _dlcSettings;
+        public IEnumerable<GameControls> KeyboardControlsSettings => _keyboardControlsSettings;
         public IEnumerable<GameControls> GamepadControlsSettings => _gamepadControlsSettings;
         public IEnumerable<ISetting> GameplaySettings => _gameplaySettings;
-        //Player.ControllerHelper ControllerHelper => RewiredHelper.Player.controllers;
         
         List<ISetting> _graphicSettings = new();
         List<ISetting> _displaySettings = new();
         List<ISetting> _audioSettings = new();
         List<ISetting> _generalSettings = new();
         List<ISetting> _accessibilitySettings = new();
-        List<GameControls> _controlsSettings = new();
+        List<ISetting> _dlcSettings = new();
+        List<GameControls> _keyboardControlsSettings = new();
         List<GameControls> _gamepadControlsSettings = new();
         List<ISetting> _gameplaySettings = new();
 
         ToggleOption _initialSettingsApplied = new("InitialSettingsApplied", "", false, false);
         readonly Preset _defaultPreset;
+        
+        public Preset DefaultPreset => _defaultPreset;
         
         public SettingsMaster(Preset defaultPreset = null) {
             _defaultPreset = defaultPreset;
@@ -86,12 +94,16 @@ namespace Awaken.TG.Main.Settings {
                 AddGraphicSetting(new FOVSetting());
                 AddGraphicSetting(new ContrastSetting());
                 AddGraphicSetting(new MotionBlurSetting());
+                AddGraphicSetting(new ChromaticAberrationSetting());
+                AddGraphicSetting(new VignetteSetting());
                 AddGraphicSetting(new GammaSetting());
             } else {
                 AddDisplaySetting(new ScreenResolution());
                 AddDisplaySetting(new ScreenDisplay());
                 AddDisplaySetting(new FOVSetting());
                 AddDisplaySetting(new MotionBlurSetting());
+                AddDisplaySetting(new ChromaticAberrationSetting());
+                AddDisplaySetting(new VignetteSetting());
                 AddDisplaySetting(new ContrastSetting());
                 AddDisplaySetting(new GammaSetting());
                 
@@ -113,7 +125,6 @@ namespace Awaken.TG.Main.Settings {
             AddGraphicSetting(new VfxQuality());
             AddGraphicSetting(new FogQuality());
             AddGraphicSetting(new SSAO());
-            AddGraphicSetting(new ChromaticAberrationSetting());
             AddGraphicSetting(new Shadows());
             AddGraphicSetting(new Reflections());
             AddGraphicSetting(new SSS());
@@ -123,6 +134,7 @@ namespace Awaken.TG.Main.Settings {
             AddGameplaySetting(new ShowTutorials());
             AddGameplaySetting(new AutoSaveSetting());
             AddGameplaySetting(new PerspectiveSetting());
+            AddGameplaySetting(new HorsePerspectiveSetting());
             AddGameplaySetting(new TppCameraDistanceSetting());
             AddGameplaySetting(new CameraSensitivity());
             AddGameplaySetting(new InvertCameraY());
@@ -149,9 +161,11 @@ namespace Awaken.TG.Main.Settings {
             AddAccessibilitySetting(new HUDScale());
             AddAccessibilitySetting(new HudBackgroundsIntensity());
             AddAccessibilitySetting(new ConsoleUISetting());
+            AddAccessibilitySetting(new FontChooseSetting());
             AddAccessibilitySetting(new FontSizeSetting());
             AddAccessibilitySetting(new SubtitlesSetting());
             AddAccessibilitySetting(new DialogueAutoAdvance());
+            AddAccessibilitySetting(new BlurBackgroundSetting());
             // audio
             AddAudioSetting(new Volume(AudioGroup.MASTER));
             AddAudioSetting(new Volume(AudioGroup.MUSIC, 0.7f));
@@ -168,30 +182,35 @@ namespace Awaken.TG.Main.Settings {
             AddGeneralSetting(new ShowCreditsSetting());
             AddGeneralSetting(new PrivacyPolicy());
             AddGeneralSetting(new FlickerFixSetting());
+            
+            // dlc
+            AddDlcSetting(new SkinSetting(LocTerms.QrkoMountAppearance.Translate(), "QrkoSkinSetting", RichEnum.AllValuesOfType<Skin.QrkoSkin>(), Skin.QrkoSkin.Natural, DlcCategory.ContentPack));
+            AddDlcSetting(new SkinSetting(LocTerms.CaradocAppearance.Translate(), "CaradocSkinSetting", RichEnum.AllValuesOfType<Skin.CaradocSkin>(), Skin.CaradocSkin.KnightErrant, DlcCategory.ContentPack));
+            AddDlcSetting(new SkinSetting(LocTerms.ArthurAppearance.Translate(), "ArthurSkinSetting", RichEnum.AllValuesOfType<Skin.ArthurSkin>(), Skin.ArthurSkin.TheOnceAndFutureKing, DlcCategory.ContentPack));
 
             this.ListenTo(Events.AfterFullyInitialized, AfterInit, this);
         }
 
         void AfterInit() {
             AfterInitWhenPipelineCreated().Forget();
-            World.EventSystem.ListenTo(EventSelector.AnySource, Focus.Events.ControllerChanged, this, () => InitOptionsForConnectedController());
+            World.EventSystem.ListenTo(EventSelector.AnySource, Focus.Events.ControllerConnected, this, InitOptionsForConnectedController);
 
-            // foreach (var controller in ControllerHelper.Controllers.Where(c => c.type == ControllerType.Joystick)) {
-            //     InitOptionsForConnectedController(controller);
-            // }
+            InitOptionsForConnectedController();
         }
         
-        public void InitOptionsForConnectedController(Controller controller = null) {
-            // var newController = controller ?? ControllerHelper.GetLastActiveController();
+        public void InitOptionsForConnectedController() {
+            // foreach (var controller in RewiredHelper.Player.controllers.Controllers) {
+            //     if (controller is not { type: ControllerType.Joystick }) {
+            //         continue;
+            //     }
             //
-            // if (newController is not { type: ControllerType.Joystick }) {
-            //     return;
-            // }
+            //     bool alreadyRegistered = _gamepadControlsSettings.Any(setting => setting.controllerIdentifier == controller.hardwareTypeGuid);
             //
-            // bool alreadyRegistered = _gamepadControlsSettings.Any(setting => setting.controllerIdentifier == newController.hardwareTypeGuid);
-            //
-            // if (!alreadyRegistered) {
-            //     AddControlsSetting(new GameControls(ControlScheme.Gamepad, newController.id, newController.hardwareTypeGuid));
+            //     if (!alreadyRegistered) {
+            //         AddControlsSetting(new GameControls(ControlScheme.Gamepad, controller.id, controller.hardwareTypeGuid));
+            //     } else {
+            //         _gamepadControlsSettings.Single(gameControls => gameControls.controllerIdentifier == controller.hardwareTypeGuid).LoadAll();
+            //     }
             // }
         }
 
@@ -207,7 +226,9 @@ namespace Awaken.TG.Main.Settings {
                 _initialSettingsApplied.Apply();
             }
             foreach (var setting in Settings) {
-                setting.InitialApply();
+                if (setting is not GameControls) {
+                    setting.InitialApply();
+                }
             }
         }
 
@@ -226,6 +247,22 @@ namespace Awaken.TG.Main.Settings {
                 PopupUI.SpawnNoChoicePopup(typeof(VSmallPopupUI), LocTerms.SettingsRestartRequiredDesc.Translate(settingNames), LocTerms.SettingsRestartRequired.Translate(settingNames));
             }
             PrefMemory.Save();
+            ReconnectController().Forget();
+        }
+        
+        async UniTaskVoid ReconnectController() {
+            // var controllerHelper = RewiredHelper.Player.controllers;
+            // var lastController = controllerHelper.GetLastActiveController();
+            //
+            // if (lastController.type != ControllerType.Joystick) {
+            //     return;
+            // }
+            //
+            // controllerHelper.RemoveController(lastController);
+            //
+            // if (await AsyncUtil.DelayFrame(this, 2)) {
+            //     controllerHelper.AddController(lastController, false);
+            // }
         }
 
         public void Cancel() {
@@ -281,12 +318,17 @@ namespace Awaken.TG.Main.Settings {
             _accessibilitySettings.Add(setting);
         }
 
+        void AddDlcSetting(Setting setting) {
+            AddElement(setting);
+            _dlcSettings.Add(setting);
+        }
+
         void AddControlsSetting(GameControls controls) {
             AddElement(controls);
             if (controls.ControlScheme == ControlScheme.Gamepad) {
                 _gamepadControlsSettings.Add(controls);
             } else {
-                _controlsSettings.Add(controls);
+                _keyboardControlsSettings.Add(controls);
             }
         }
 

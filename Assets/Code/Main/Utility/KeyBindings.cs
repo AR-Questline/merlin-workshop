@@ -117,7 +117,9 @@ namespace Awaken.TG.Main.Utility {
                     SecondaryAction = new(nameof(SecondaryAction)),
                     ScrollVertical = new(nameof(ScrollVertical)),
                     ScrollHorizontal = new(nameof(ScrollHorizontal)),
-                    ReadMore = new(nameof(ReadMore));
+                    ReadMore = new(nameof(ReadMore)),
+                    JoinDiscord = new(nameof(JoinDiscord)),
+                    Unbind = new(nameof(Unbind));
                 
                 Generic(string enumName) : base(enumName) { }
             }
@@ -161,7 +163,8 @@ namespace Awaken.TG.Main.Utility {
                     OpenSkillTree = new(nameof(OpenSkillTree)),
                     OpenInventoryItemRead = new(nameof(OpenInventoryItemRead)),
                     OpenRestPopup = new(nameof(OpenRestPopup)),
-                    TrackNewQuest = new(nameof(TrackNewQuest));
+                    TrackNewQuest = new(nameof(TrackNewQuest)),
+                    ChangeActiveSarrasBranch = new(nameof(ChangeActiveSarrasBranch));
                 
                 HUD(string enumName) : base(enumName) { }
             }
@@ -183,7 +186,8 @@ namespace Awaken.TG.Main.Utility {
                 public static readonly Talents
                     AcquireTalent = new(nameof(AcquireTalent)),
                     ResetTalent = new(nameof(ResetTalent)),
-                    ConfirmTalents = new(nameof(ConfirmTalents));
+                    ConfirmTalents = new(nameof(ConfirmTalents)),
+                    ChooseTreeBranchAsActive = new(nameof(ChooseTreeBranchAsActive));
                 
                 Talents(string enumName) : base(enumName) { }
             }
@@ -246,6 +250,14 @@ namespace Awaken.TG.Main.Utility {
                     ModDown = new(nameof(ModDown));
                 
                 Mods(string enumName) : base(enumName) { }
+            }
+            
+            public class Expansion : UI {
+                public static readonly Expansion
+                    DlcReadMore = new(nameof(DlcReadMore)),
+                    OpenStore = new(nameof(OpenStore));
+                
+                Expansion(string enumName) : base(enumName) { }
             }
             
             UI(string enumName) : base(enumName) { }

@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.MVC.Attributes;
+using Awaken.Utility.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,11 @@ namespace Awaken.TG.Main.Heroes.CharacterCreators.Parts {
             } else {
                 gameObject.SetActive(false);
             }
+        }
+
+        protected override IBackgroundTask OnDiscard() {
+            icon.sprite = null;
+            return base.OnDiscard();
         }
     }
 }

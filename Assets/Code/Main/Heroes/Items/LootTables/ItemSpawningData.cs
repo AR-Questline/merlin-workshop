@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Awaken.TG.Main.General;
 using Awaken.TG.Main.Heroes.Items.Tools;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Templates;
 using Awaken.TG.Utility.Attributes;
 using Newtonsoft.Json;
@@ -25,7 +26,7 @@ namespace Awaken.TG.Main.Heroes.Items.LootTables {
             this.quantity = quantity;
         }
 
-        public int ItemLvl => itemLvl.RandomPick();
+        public int ItemLvl => itemLvl.RandomPick() + NewGamePlusSystem.CalculatedBonusItemLevel;
 
         public ItemTemplate ItemTemplate(object debugTarget) => itemTemplateReference.Get<ItemTemplate>(debugTarget);
         public LootTableResult PopLoot(object debugTarget) {

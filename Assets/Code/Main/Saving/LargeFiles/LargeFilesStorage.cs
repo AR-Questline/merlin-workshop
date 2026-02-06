@@ -52,7 +52,7 @@ namespace Awaken.TG.Main.Saving.LargeFiles {
             foreach (int fileIndex in saveSlotUsedLargeFiles.EnumerateOnes()) {
                 try {
                     if (fileIndex >= _filesReferencingSlots.Count) {
-                        Log.Important?.Error($"Save slot {saveSlotIndex} has a reference to large file {fileIndex} which was deleted");
+                        Log.Important?.Error($"SetSaveSlotUsedFilesData: Save slot {saveSlotIndex} has a reference to large file {fileIndex} which was deleted", null, LogOption.NoStacktrace);
                         continue;
                     }
 
@@ -72,7 +72,7 @@ namespace Awaken.TG.Main.Saving.LargeFiles {
             foreach (int fileIndex in saveSlotUsedLargeFiles.EnumerateOnes()) {
                 try {
                     if (fileIndex >= _filesReferencingSlots.Count) {
-                        Log.Important?.Error($"Save slot {saveSlotIndex} has a reference to large file {fileIndex} which was deleted");
+                        Log.Important?.Error($"RemoveSaveSlotUsedFilesData: Save slot {saveSlotIndex} has a reference to large file {fileIndex} which was deleted", null, LogOption.NoStacktrace);
                         continue;
                     }
 
@@ -107,7 +107,16 @@ namespace Awaken.TG.Main.Saving.LargeFiles {
                 if (fileIndex == 0) {
                     continue;
                 }
+                if (fileIndex >= _runtimeUsedLargeFilesIndices.ElementsLength) {
+                    Log.Important?.Error($"Changed file index {fileIndex} is out of _runtimeUsedLargeFilesIndices range [0; {_runtimeUsedLargeFilesIndices.ElementsLength - 1}]");
+                    continue;
+                }
                 if (_runtimeUsedLargeFilesIndices[(uint)fileIndex] == false) {
+                    if (fileIndex >= _filesReferencingSlots.Count) {
+                        Log.Important?.Error($"File with fileIndex out of bounds will be removed. If player manually removed or added files it is expected and okay, otherwise, treat it as an important error");
+                        RemoveFile(fileIndex, shouldExist: false);
+                        continue;
+                    }
                     if (_filesReferencingSlots[fileIndex].HasOnes() == false) {
                         RemoveFile(fileIndex);
                     }
@@ -225,7 +234,13 @@ namespace Awaken.TG.Main.Saving.LargeFiles {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        void RemoveFile(int fileIndex) {
+        void RemoveFile(int fileIndex, bool shouldExist = true) {
+            if (fileIndex < 0 || fileIndex >= _filesDatas.Count) {
+                if (shouldExist) {
+                    Log.Important?.Error($"Tried to remove file at index {fileIndex} which is out of _filesDatas range [0-{_filesDatas.Count - 1}]");
+                }
+                return;
+            }
             var fileData = _filesDatas[fileIndex];
             if (fileData.IsValid == false) {
                 return;
@@ -320,15 +335,27 @@ namespace Awaken.TG.Main.Saving.LargeFiles {
 #endif
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static bool TryLoadFile(string folder, string fileName, out byte[] data) {
-            return CloudService.Get.TryLoadSingleFile(folder, fileName, out data);
+            try {
+                return CloudService.Get.TryLoadSingleFile(folder, fileName, out data);
+            } catch (Exception ex) {
+                Log.Critical?.Error($"Failed to load LFS file {fileName}", null, LogOption.NoStacktrace);
+                Debug.LogException(ex);
+                data = Array.Empty<byte>();
+                return false;
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static void DeleteFile(string folder, string fileName) {
-            CloudService.Get.DeleteGlobalFile(folder, fileName);
+            try {
+                CloudService.Get.DeleteGlobalFile(folder, fileName);
+            } catch (Exception ex) {
+                Log.Critical?.Error($"Failed to delete LFS file {fileName}", null, LogOption.NoStacktrace);
+                Debug.LogException(ex);
+            }
         }
 
 #if UNITY_EDITOR

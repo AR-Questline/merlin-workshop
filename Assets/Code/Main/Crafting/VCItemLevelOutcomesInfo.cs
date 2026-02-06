@@ -6,6 +6,7 @@ using Awaken.TG.Main.Crafting.Recipes;
 using Awaken.TG.Main.Crafting.Slots;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility;
@@ -45,12 +46,13 @@ namespace Awaken.TG.Main.Crafting {
 
         void OnRecipeChanged(IRecipe recipe) {
             gameObject.SetActive(recipe.CanHaveItemLevel);
-            CurrentDrawnItemLevel = 0;
+            CurrentDrawnItemLevel = NewGamePlusSystem.CalculatedBonusItemLevel;
             CurrentDrawnItemLevelQuality = CraftingResultQuality.Regular;
-            Target.RefreshTooltipDescriptor(0);
-
+            
             if (recipe.CanHaveItemLevel) {
                 UpdateLevelChances();
+            } else {
+                Target.RefreshTooltipDescriptor(CurrentDrawnItemLevel);
             }
         }
 
@@ -58,6 +60,7 @@ namespace Awaken.TG.Main.Crafting {
             bool validRecipe = Target.CurrentRecipe is { CanHaveItemLevel: true };
             
             if (!validRecipe || !CraftingUtils.IsRecipeCraftable(Target.CurrentRecipe, Target)) {
+                Target.RefreshTooltipDescriptor(0);
                 SetupDefaultTitle();
                 return;
             }

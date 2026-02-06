@@ -2,6 +2,7 @@
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot;
 using Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -20,7 +21,8 @@ namespace Awaken.TG.Main.Crafting.HandCrafting {
         
         public Component FocusTarget => slotButton;
         bool IsCraftable => Target.IsCraftable;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         TempItemDescriptor _tempItemDescriptor;
         
         protected override void OnNewTarget() {

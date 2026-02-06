@@ -7,7 +7,6 @@ using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.Factions.Crimes;
 using Awaken.TG.Main.Fights.Utils;
-using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.General.NewThings;
 using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items.Attachments;
@@ -25,10 +24,8 @@ using Awaken.TG.Main.Heroes.Thievery;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Gems;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Stories.Tags;
-using Awaken.TG.Main.UI.HUD.AdvancedNotifications;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.Item;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Audio;
@@ -49,7 +46,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using UnityEngine;
-using Awaken.TG.Main.Memories.FilePrefs;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using FMODUnity;
 
@@ -60,7 +57,7 @@ namespace Awaken.TG.Main.Heroes.Items {
     /// Can hold any quantity of itself.
     /// It's effects are implemented as skills assigned to template, categorized by possible actions (use, drop, equip)
     /// </summary>
-    public sealed partial class Item : Model, ITagged, INamed, ITextVariablesContainer, IWithStats, IModelNewThing {
+    public sealed partial class Item : Model, ITagged, INamed, ITextVariablesContainer, IWithStats, IModelNewThing, IWithNewGamePlusLevel{
         public override ushort TypeForSerialization => SavedModels.Item;
 
         public override Domain DefaultDomain => Domain.Gameplay;
@@ -68,6 +65,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         // === Fields
         [Saved] public ItemTemplate Template { get; private set; }
         [Saved] public int Quantity { get; private set; }
+        [Saved] public int NewGamePlusLevel { get; private set; }
         [Saved] public Stat Level { get; private set; }
         [Saved] public Stat WeightLevel { get; private set; }
         [Saved] public long PickupTimestamp { get; private set; }
@@ -85,6 +83,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         List<Skill> _cachedSkills = new();
         ItemSpawningDataRuntime _itemSpawningData;
         bool _awaitingSetupTexts;
+        bool _hiddenOnUI;
         ItemSkillsInvoker _skillsInvoker;
 
         // === Properties
@@ -96,7 +95,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         [CanBeNull] public EquipmentSlotType EquippedInSlotOfType => _equippedInSlots.FirstOrDefault();
         public FrugalList<EquipmentSlotType> EquippedInSlotOfTypes => _equippedInSlots;
 
-        public string DisplayName => GetDisplayName();
+        public string DisplayName => ItemUtils.GetDisplayName(Template, ModifiedLevelWithoutNewGamePlus, _itemName?.GetValue(Character, this));
         public string DebugName => Template?.GUID ?? "Template Null";
         public IEnumerable<Keyword> Keywords => Template.Keywords.Concat(ActiveSkills.SelectMany(s => s.Keywords));
         public ItemQuality Quality => Template.Quality;
@@ -107,12 +106,13 @@ namespace Awaken.TG.Main.Heroes.Items {
         public string RequirementsDescriptionFor(ICharacter character) => _requirementsDescription.GetValue(character, this);
         [UnityEngine.Scripting.Preserve] public TooltipConstructor TooltipDescription => _tooltip.GetTooltip(Character, this);
         public bool CanStack => Template.CanStack;
-        public ShareableSpriteReference Icon => Template.IconReference;
+        public ShareableSpriteReference Icon => Template.IconReference();
         public EquipmentType EquipmentType => TryGetElement<ItemEquip>()?.EquipmentType; //?? throw new Exception();
         [UnityEngine.Scripting.Preserve] public Tool Tool => TryGetElement<Tool>();
         public bool IsEquipped => _equippedInSlots.Count > 0;
         public ICollection<string> Tags => Template.Tags;
-
+        public bool IsUnread => TryGetElement<ItemRead>()?.IsUnread == true;
+        
         public FinisherType FinisherType => TryGetElement<ItemEquip>()?.FinisherType ?? FinisherType.None;
         public HitsToHitStop HitsToHitStop => TryGetElement<ItemEquip>()?.HitsToHitStop ?? HitsToHitStop.Blunt;
         public SurfaceType DamageSurfaceType => Template.DamageSurfaceType;
@@ -139,6 +139,10 @@ namespace Awaken.TG.Main.Heroes.Items {
         [UnityEngine.Scripting.Preserve] public bool IsBlocking => IsShield || IsRod;
         [UnityEngine.Scripting.Preserve] public bool CanBeUsedAsShield => IsBlocking || IsFists;
         [UnityEngine.Scripting.Preserve] public bool IsRanged => Template.IsRanged;
+        [UnityEngine.Scripting.Preserve] public bool IsSickle => HasElement<SarrasSickle>();
+        [UnityEngine.Scripting.Preserve] public bool IsShortBow => Template.IsShortBow;
+        [UnityEngine.Scripting.Preserve] public bool IsMediumBow => Template.IsMediumBow;
+        [UnityEngine.Scripting.Preserve] public bool IsHeavyBow => Template.IsHeavyBow;
         [UnityEngine.Scripting.Preserve] public bool IsArrow => Template.IsArrow;
         [UnityEngine.Scripting.Preserve] public bool IsThrowable => Template.IsThrowable;
         [UnityEngine.Scripting.Preserve] public bool IsSpectralWeapon => Template.IsSpectralWeapon;
@@ -173,14 +177,18 @@ namespace Awaken.TG.Main.Heroes.Items {
         [UnityEngine.Scripting.Preserve] public bool IsQuestItem => Template.IsQuestItem();
         [UnityEngine.Scripting.Preserve] public bool IsUnidentified => HasElement<UnidentifiedItem>();
         [UnityEngine.Scripting.Preserve] public bool IsStashed => Inventory is HeroStorage;
-        [UnityEngine.Scripting.Preserve] public bool CannotBeDropped => Template.CannotBeDropped || IsQuestItem;
+        [UnityEngine.Scripting.Preserve] public bool CannotBeDropped => Template.CannotBeDropped || IsQuestItem || Locked;
         [UnityEngine.Scripting.Preserve] public bool HasCharges => HasElement<IItemWithCharges>();
-        [UnityEngine.Scripting.Preserve] public bool HiddenOnUI => Template.HiddenOnUI;
-        [UnityEngine.Scripting.Preserve] public bool VisibleOnUIForLoadout => Template.VisibleOnUIForLoadout;
+        [UnityEngine.Scripting.Preserve] public bool HiddenOnUI => _hiddenOnUI;
+        [UnityEngine.Scripting.Preserve] public bool VisibleOnUIForLoadout => !_hiddenOnUI || Template.VisibleOnUIForLoadout;
         [UnityEngine.Scripting.Preserve] public bool Locked => HasElement<LockItemSlot>();
+        [UnityEngine.Scripting.Preserve] public bool CanParryMagicProjectiles => Template.CanParryMagicProjectiles;
+        public bool IsLockpick => HasElement<Lockpick>();
+        public bool IsTransmogrified => TryGetElement<ItemTransmog>()?.IsTransmogrified ?? false;
         public ItemStats ItemStats => TryGetElement<ItemStats>();
         public ItemStatsRequirements StatsRequirements => TryGetElement<ItemStatsRequirements>();
-        public float Weight => ItemStats?.Weight.ModifiedValue ?? Template.Weight;
+        public int ModifiedLevelWithoutNewGamePlus => Level.ModifiedInt - NewGamePlusSystem.CalculateBonusItemLevelValue(NewGamePlusLevel);
+        public float Weight => HiddenOnUI ? 0f : ItemStats?.Weight.ModifiedValue ?? Template.Weight;
         public float WeightLoss => Template.WeightLoss;
         public MagicItemTemplateInfo LightCastInfo => Template.LightCastInfo;
         public MagicItemTemplateInfo HeavyCastInfo => Template.HeavyCastInfo;
@@ -190,6 +198,7 @@ namespace Awaken.TG.Main.Heroes.Items {
         public bool CanHaveRelics => (IsWeapon || IsArmor) && MaxGemSlots > 0;
         public int MaxGemSlots => TryGetElement<ItemEquip>()?.MaxGemSlots ?? 0;
         public int FreeGemSlots => TryGetElement<ItemGems>()?.FreeSlots ?? 0;
+        [UnityEngine.Scripting.Preserve] public int UnlockedGemSlots => TryGetElement<ItemGems>()?.AvailableSlots ?? 0;
         
         // --- Actions
         IEnumerable<ItemActionType> DefinedActionTypes => Elements<IItemAction>()
@@ -227,6 +236,7 @@ namespace Awaken.TG.Main.Heroes.Items {
 
             public static readonly Event<Item, EquipmentSlotType> Equipped = new(nameof(Equipped));
             public static readonly Event<Item, EquipmentSlotType> Unequipped = new(nameof(Unequipped));
+            public static readonly Event<Item, ItemEquip> PerspectiveChangeUnequip = new(nameof(PerspectiveChangeUnequip));
         }
         
         // === Constructors
@@ -239,16 +249,18 @@ namespace Awaken.TG.Main.Heroes.Items {
             Quantity = Template.CanStack ? quantity : 1;
             Level = new Stat(this, ItemStatType.Level, template.LevelBonus);
             WeightLevel = new Stat(this, ItemStatType.ItemWeightLevel, 0);
+            NewGamePlusLevel = NewGamePlusSystem.Level;
         }
 
-        public Item(ItemTemplate template, int quantity, int itemLevel, int weightLevel = 0) {
+        public Item(ItemTemplate template, int quantity, int itemLevel, int weightLevel = 0, int newGamePlusLevel = -1) {
             Template = template;
             Quantity = Template.CanStack ? quantity : 1;
             Level = new Stat(this, ItemStatType.Level, itemLevel);
             WeightLevel = new Stat(this, ItemStatType.ItemWeightLevel, weightLevel);
+            NewGamePlusLevel = newGamePlusLevel >= 0 ? newGamePlusLevel : NewGamePlusSystem.Level;
         }
         
-        public Item(ItemSpawningDataRuntime itemSpawningData) : this(itemSpawningData.ItemTemplate, itemSpawningData.quantity, itemSpawningData.itemLvl, itemSpawningData.weightLvl) {
+        public Item(ItemSpawningDataRuntime itemSpawningData) : this(itemSpawningData.ItemTemplate, itemSpawningData.quantity, itemSpawningData.itemLvl, itemSpawningData.weightLvl, itemSpawningData.newGamePlusLvl) {
             _itemSpawningData = itemSpawningData;
         }
 
@@ -289,9 +301,13 @@ namespace Awaken.TG.Main.Heroes.Items {
             return Owner is { HasBeenDiscarded: false };
         }
 
+        protected override void OnFullyInitialized() {
+            SetupTexts();
+        }
+
         void Init() {
+            _hiddenOnUI = Template.HiddenOnUI;
             _skillsInvoker = AddElement(new ItemSkillsInvoker());
-            this.ListenTo(Model.Events.AfterFullyInitialized, SetupTexts, this);
             this.ListenTo(IItemOwner.Relations.OwnedBy.Events.AfterAttached, AfterOwnerAdded, this);
             this.ListenTo(IItemOwner.Relations.OwnedBy.Events.BeforeDetached, BeforeOwnerRemoved, this);
             this.ListenTo(Stats.Stat.Events.StatChanged(ItemStatType.Level), SetupTexts, this);
@@ -301,12 +317,18 @@ namespace Awaken.TG.Main.Heroes.Items {
             MoveToDomain(data.to.CurrentDomain);
             _itemSpawningData?.TryToRetrieveElements(this);
             _itemSpawningData = null;
+            foreach (var element in Elements<IItemOwnerRelatedElement>()) {
+                element.AfterOwnerAdded(data);
+            }
             TriggerChange();
         }
 
         void BeforeOwnerRemoved(RelationEventData data) {
             if (HasBeenDiscarded) return;
             MoveToDomain(Domain.CurrentScene());
+            foreach (var element in Elements<IItemOwnerRelatedElement>()) {
+                element.BeforeOwnerRemoved(data);
+            }
             TriggerChange();
         }
 
@@ -416,28 +438,6 @@ namespace Awaken.TG.Main.Heroes.Items {
             }
         }
 
-        string GetDisplayName() {
-            string displayName;
-            
-            if (DebugProjectNames.Basic) {
-                displayName = Template.name.Replace("ItemTemplate_", "");
-            } else {
-                displayName = _itemName?.GetValue(Character, this);
-            }
-
-            if (Template.CanHaveItemLevel) {
-                if (GameConstants.Get.ItemLevelDatas.TryGetValue(Level.ModifiedInt, out ItemLevelData data)) {
-                    return RichTextUtil.SmartFormatParams(data.itemNameAffix.ToString(), displayName);
-                }
-
-                if (Level.ModifiedInt != 0) {
-                    return $"{displayName} {Level.ModifiedInt:+#;-#}";
-                }
-            }
-            
-            return displayName ?? "ItemName Null";
-        }
-
         void PlayUseAudio() {
             if (IsEquippable && EquipmentType != EquipmentType.QuickUse) return;
             
@@ -484,12 +484,12 @@ namespace Awaken.TG.Main.Heroes.Items {
 
         [UnityEngine.Scripting.Preserve]
         public void IncrementQuantityWithoutNotification() {
-            using var suspendNotification = new AdvancedNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
+            using var suspendNotification = new ItemNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
             IncrementQuantity();
         }
         
         public void DecrementQuantityWithoutNotification() {
-            using var suspendNotification = new AdvancedNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
+            using var suspendNotification = new ItemNotificationBuffer.SuspendNotifications<ItemNotificationBuffer>();
             DecrementQuantity();
         }
         
@@ -507,7 +507,7 @@ namespace Awaken.TG.Main.Heroes.Items {
             if (CanStack) {
                 Quantity += amount;
                 if (Inventory is HeroItems heroInv) {
-                    ItemUtils.AnnounceGettingItem(Template, amount, heroInv.ParentModel);
+                    ItemUtils.AnnounceGettingItem(this, amount);
                 }
             } else {
                 Template.ChangeQuantity(Inventory, amount, this);
@@ -565,6 +565,8 @@ namespace Awaken.TG.Main.Heroes.Items {
                 foreach (var gem in gems) {
                     data.gemData.Add(new GemTemplateWithSkills {
                         gemTemplate = gem.Template,
+                        gemLevel = gem.GemLevel,
+                        gemNgPlusLevel = gem.GemNgPlusLevel,
                         skillReferences = gem.SkillRefs
                     });
                 }
@@ -578,6 +580,11 @@ namespace Awaken.TG.Main.Heroes.Items {
             if (TryGetElement(out Sketch sketch)) {
                 anyData = true;
                 data.sketchIndex = sketch.SketchIndex;
+            }
+            
+            if (TryGetElement(out ItemTransmog itemTransmog)) {
+                anyData = true;
+                data.transmogrifiedTemplate = itemTransmog.Template;
             }
             
             return anyData ? data : null;
@@ -625,6 +632,10 @@ namespace Awaken.TG.Main.Heroes.Items {
         
         public void SetPickedTimestamp() {
             PickupTimestamp = DateTime.UtcNow.Ticks;
+        }
+        
+        public void SetHiddenOnUI(bool hidden) {
+            _hiddenOnUI = hidden;
         }
     }
     

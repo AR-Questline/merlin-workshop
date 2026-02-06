@@ -4,9 +4,10 @@ using Awaken.TG.Main.Stories.Conditions.Core;
 using Awaken.TG.Main.Stories.Core.Attributes;
 using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
+using Vendor.xNode.Scripts.Attributes;
 
 namespace Awaken.TG.Main.Stories.Conditions {
-    [Element("Location/Location: Is busy")]
+    [Element("Location/Location: Is busy"), NodeSupportsOdin]
     public class CEditorIsLocationBusy : EditorCondition {
         public LocationReference locationReference;
 

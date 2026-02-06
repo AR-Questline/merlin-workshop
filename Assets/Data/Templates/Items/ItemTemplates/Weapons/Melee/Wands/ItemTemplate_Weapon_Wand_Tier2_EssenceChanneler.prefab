@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_e8c3644334af875469d42899e5c71a1e
-  EDITOR_bakedDescription: 'Blocking regenerates 100% of the magical damage blocked
-    as Mana.
-
-    Attacks regenerate 10% of damage dealt as Mana.'
+  EDITOR_bakedDescription: "Blocking regenerates 100\_% of the magical damage blocked
+    as Mana.\nAttacks regenerate 10\_% of damage dealt as Mana."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -137,7 +135,7 @@ MonoBehaviour:
   basePrice: 150
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a002d4a27a33954409e14e32afa323a9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -242,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3457434467940587239
 MonoBehaviour:
@@ -300,7 +305,12 @@ MonoBehaviour:
           address: 
           subObjectName: 
     templates: []
-    assetReferences: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 2ec752fee249bfb42ac0cb2da84c1a54
+          subObjectName: 
   - skillGraphRef:
       _guid: 0bd82a8a2c09e7a4eaab439ac5bffbd6
     variables:

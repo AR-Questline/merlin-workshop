@@ -50,7 +50,8 @@ namespace Awaken.TG.Main.Heroes.Statuses {
 
             Drunk = new(nameof(Drunk), StatusStatType.DrunkBuildup, StatusStatType.DrunkEffectModifier),
             Intoxicated = new(nameof(Intoxicated), StatusStatType.IntoxicatedBuildup, StatusStatType.IntoxicatedEffectModifier),
-            Full = new(nameof(Full), StatusStatType.FullBuildup, StatusStatType.FullEffectModifier);
+            Full = new(nameof(Full), StatusStatType.FullBuildup, StatusStatType.FullEffectModifier),
+            Petrification = new(nameof(Petrification), StatusStatType.PetrificationBuildup, StatusStatType.PetrificationEffectModifier);
 
         protected BuildupStatusType(string enumName, StatType buildupStatType, StatType effectModifierType) : base(enumName) {
             BuildupStatType = buildupStatType;

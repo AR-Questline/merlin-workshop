@@ -57,19 +57,9 @@ namespace Awaken.TG.Main.AI.Idle.Data.Runtime {
         protected override void OnInitialize() {
             OnIntervalChanged();
             OneShotsInit();
-            World.Only<WeatherController>().HeavyRainStateChanged += OnPrecipitationInteractionStateChanged;
-        }
-
-        void OnPrecipitationInteractionStateChanged() {
-            ParentModel.Trigger(IIdleDataSource.Events.InteractionIntervalChanged, this);
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
-            var weatherController = World.Any<WeatherController>();
-            if (weatherController != null) {
-                weatherController.HeavyRainStateChanged -= OnPrecipitationInteractionStateChanged;
-            }
-
             var gameTimeEvents = World.Any<GameTimeEvents>();
             if (gameTimeEvents != null) {
                 gameTimeEvents.RemoveEvent(_nextIntervalEvent);

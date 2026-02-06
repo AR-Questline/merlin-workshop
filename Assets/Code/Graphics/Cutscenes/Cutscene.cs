@@ -148,6 +148,15 @@ namespace Awaken.TG.Graphics.Cutscenes {
             View<VCutsceneBase>().CutsceneCamera.Priority = CutsceneCameraLowestPriority;
             heroController.Show();
         }
+        
+        // === Pause
+        public void Paused() {
+            View<VCutsceneBase>().Paused();
+        }
+
+        public void Unpaused() {
+            View<VCutsceneBase>().Unpaused();
+        }
 
         // === Discarding
         protected override void OnDiscard(bool fromDomainDrop) {

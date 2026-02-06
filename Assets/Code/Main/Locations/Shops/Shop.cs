@@ -5,6 +5,7 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Grounds.CullingGroupSystem;
 using Awaken.TG.Main.Grounds.CullingGroupSystem.CullingGroups;
+using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments.Interfaces;
 using Awaken.TG.Main.Heroes.Stats;
@@ -87,7 +88,7 @@ namespace Awaken.TG.Main.Locations.Shops {
             }
             _isRestockDistanceMet = true;
         }
-
+        
         protected override void OnRestore() { }
 
         protected override void OnFullyInitialized() {
@@ -97,8 +98,8 @@ namespace Awaken.TG.Main.Locations.Shops {
         }
 
         void OnDeath() {
-            foreach (Item item in Items.ToList()) {
-                item.Discard();
+            foreach (var stock in Elements<Stock>()) {
+                stock.OnDeath();
             }
             Discard();
         }
@@ -106,8 +107,12 @@ namespace Awaken.TG.Main.Locations.Shops {
         // === Show UI
         
         public ShopUI OpenShop() {
+            Hero.Current.Storage.RequestItems();
             this.Trigger(Events.ShopOpened, this);
             Restock();
+            foreach (var stock in Elements<Stock>()) {
+                stock.ShopOpened();
+            }
             ShopUI shopUI = new();
             AddElement(shopUI);
             shopUI.ListenTo(Model.Events.AfterDiscarded, OnShopClosed, this);
@@ -115,7 +120,12 @@ namespace Awaken.TG.Main.Locations.Shops {
         }
 
         void OnShopClosed(Model _) {
+            foreach (var stock in Elements<Stock>()) {
+                stock.ShopClosed();
+            }
             this.Trigger(Events.ShopClosed, this);
+            Hero.Current.Storage.ReleaseItems();
+
         }
 
         // == Operations

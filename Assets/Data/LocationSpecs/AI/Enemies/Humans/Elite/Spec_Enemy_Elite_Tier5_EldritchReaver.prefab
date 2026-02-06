@@ -43,6 +43,26 @@ PrefabInstance:
       propertyPath: criticalHitVFXReference.arReference.address
       value: d7d85a8fd58455f479adde30cbd5c7b7
       objectReference: {fileID: 0}
+    - target: {fileID: 1622802746096522158, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: fallbackInteractionData.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622802746096522158, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: fallbackInteractionData.range
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622802746096522158, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: data.behaviours.Array.data[0].range
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622802746096522158, guid: 2586270717a8a4c459d7e73d283022cb,
+        type: 3}
+      propertyPath: data.behaviours.Array.data[0].interactionTag
+      value: MonsterInteraction:Wyrdspawn
+      objectReference: {fileID: 0}
     - target: {fileID: 2021669738542613278, guid: 2586270717a8a4c459d7e73d283022cb,
         type: 3}
       propertyPath: _abstractTypes.Array.size

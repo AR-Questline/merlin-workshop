@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Awaken.TG.MVC.Events {
-    public class LimitedEventListener<T> : IDisposableEventListener {
+    public class LimitedEventListener<T> : IEventListener<T> {
         public IListenerOwner Owner { get; }
         public EventSelector Selector { get; }
         public int Charges { get; private set; }
@@ -20,7 +20,11 @@ namespace Awaken.TG.MVC.Events {
         }
 
         public void InvokeWith(object payload) {
-            _callback((T) payload);
+            InvokeWith((T) payload);
+        }
+
+        public void InvokeWith(T payload) {
+            _callback(payload);
             Charges--;
         }
     }

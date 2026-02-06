@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: NameSkill_Consumable_StatIncreasePercForDurationDesc
       ID: Template/description_locString_2543871262668956605_b59e35fc64567bd40b36dbd7a97ef979
-  EDITOR_bakedDescription: Increases Critical Chance by 25% for 30s.
+  EDITOR_bakedDescription: "Increases Critical Chance by 25\_% for 30s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

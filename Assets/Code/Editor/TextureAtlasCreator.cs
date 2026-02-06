@@ -12,6 +12,7 @@ namespace Awaken.TG.Editor {
         const string DefaultIconsLocation = "Assets/2DAssets/UI/_REWORK ROOT - put new assets here/KeyIcons";
         
         [SerializeField] List<string> inputFolders = new();
+        [SerializeField] List<Texture2D> additionalSprites = new();
         [SerializeField] string outputTexturePath = DefaultIconsLocation;
         [SerializeField] string outputTextureName = "KeyIconsAtlas";
         [SerializeField] int iconSize = 64;
@@ -43,9 +44,29 @@ namespace Awaken.TG.Editor {
                 }
             }
 
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Additional Sprites", EditorStyles.boldLabel);
+            
+            for (int i = 0; i < additionalSprites.Count; i++) {
+                EditorGUILayout.BeginHorizontal();
+                additionalSprites[i] = (Texture2D)EditorGUILayout.ObjectField($"Sprite {i + 1}:", additionalSprites[i], typeof(Texture2D), false);
+                if (GUILayout.Button("Remove", GUILayout.Width(60))) {
+                    additionalSprites.RemoveAt(i);
+                    --i;
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+            
+            if (GUILayout.Button("Add Additional Sprite")) {
+                additionalSprites.Add(null);
+            }
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Output Settings", EditorStyles.boldLabel);
+            
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Output atlas path:", outputTexturePath);
-            if (GUILayout.Button("Choose", GUILayout.Width(60))) {
+            outputTexturePath = EditorGUILayout.TextField("Output atlas path:", outputTexturePath);
+            if (GUILayout.Button("Browse", GUILayout.Width(60))) {
                 string chosenPath = EditorUtility.OpenFolderPanel("Select output folder", DefaultIconsLocation, "");
                 if (!string.IsNullOrWhiteSpace(chosenPath)) {
                     int index = chosenPath.IndexOf("Assets", StringComparison.OrdinalIgnoreCase);
@@ -59,11 +80,11 @@ namespace Awaken.TG.Editor {
             margin = EditorGUILayout.IntField("Margin between icons:", margin);
 
             if (GUILayout.Button("Generate Atlas")) {
-                GenerateTextureAtlas(inputFolders.ToArray(), outputTexturePath, outputTextureName, iconSize, margin);
+                GenerateTextureAtlas(inputFolders.ToArray(), additionalSprites.ToArray(), outputTexturePath, outputTextureName, iconSize, margin);
             }
         }
 
-        static void GenerateTextureAtlas(string[] inputFolders, string outputPath, string outputName, int iconSize, int margin) {
+        static void GenerateTextureAtlas(string[] inputFolders, Texture2D[] additionalSprites, string outputPath, string outputName, int iconSize, int margin) {
             string filePath = $"{outputPath}/{outputName}.png";
             if (File.Exists(filePath)) {
                 File.Delete(filePath);
@@ -78,8 +99,21 @@ namespace Awaken.TG.Editor {
                 spriteGuidsList.AddRange(spriteGuids);
             }
             
+            // Add additional sprites
+            List<string> additionalSpriteGuids = new();
+            foreach (Texture2D sprite in additionalSprites) {
+                if (sprite != null) {
+                    string spritePath = AssetDatabase.GetAssetPath(sprite);
+                    string spriteGuid = AssetDatabase.AssetPathToGUID(spritePath);
+                    if (!string.IsNullOrEmpty(spriteGuid) && !spriteGuidsList.Contains(spriteGuid)) {
+                        additionalSpriteGuids.Add(spriteGuid);
+                    }
+                }
+            }
+            spriteGuidsList.AddRange(additionalSpriteGuids);
+            
             if (spriteGuidsList.Count == 0) {
-                Log.Minor?.Error("No textures found in the specified folders.");
+                Log.Minor?.Error("No textures found in the specified folders or additional sprites.");
                 return;
             }
             
@@ -101,18 +135,24 @@ namespace Awaken.TG.Editor {
                 string assetPath = AssetDatabase.GUIDToAssetPath(guid);
 
                 string spriteName = Path.GetFileNameWithoutExtension(assetPath);
-                Texture2D texture = ResizeTexture(AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath), iconSize, iconSize);
+                Texture2D originalTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
                 SetTextureReadable(assetPath, true);
+                
+                var (resizedTexture, actualWidth, actualHeight) = ResizeTexturePreserveAspect(originalTexture, iconSize, iconSize);
                 
                 int x = i % columnsCount * iconWithMargin;
                 int y = i / columnsCount * iconWithMargin;
                 
-                Color[] iconPixels = texture.GetPixels();
-                atlasTexture.SetPixels(x, y, iconSize, iconSize, iconPixels);
+                // Center the resized texture within the icon slot
+                int offsetX = (iconSize - actualWidth) / 2;
+                int offsetY = (iconSize - actualHeight) / 2;
+                
+                Color[] iconPixels = resizedTexture.GetPixels();
+                atlasTexture.SetPixels(x + offsetX, y + offsetY, actualWidth, actualHeight, iconPixels);
                 
                 atlasMetaData[i] = new SpriteMetaData {
                     name = spriteName,
-                    rect = new Rect(x, y, iconSize, iconSize),
+                    rect = new Rect(x + offsetX, y + offsetY, actualWidth, actualHeight),
                     alignment = (int) SpriteAlignment.Center,
                     pivot = new Vector2(0.5f, 0.5f)
                 };
@@ -157,6 +197,36 @@ namespace Awaken.TG.Editor {
             if (importer != null) {
                 importer.isReadable = isReadable;
             }
+        }
+
+        static (Texture2D texture, int actualWidth, int actualHeight) ResizeTexturePreserveAspect(Texture2D source, int maxWidth, int maxHeight) {
+            float sourceAspect = (float)source.width / source.height;
+            float targetAspect = (float)maxWidth / maxHeight;
+            
+            int actualWidth, actualHeight;
+            
+            if (sourceAspect > targetAspect) {
+                // Source is wider - fit to width
+                actualWidth = maxWidth;
+                actualHeight = Mathf.RoundToInt(maxWidth / sourceAspect);
+            } else {
+                // Source is taller - fit to height
+                actualHeight = maxHeight;
+                actualWidth = Mathf.RoundToInt(maxHeight * sourceAspect);
+            }
+            
+            RenderTexture rt = RenderTexture.GetTemporary(actualWidth, actualHeight, 0, RenderTextureFormat.ARGB32);
+            RenderTexture.active = rt;
+            UnityEngine.Graphics.Blit(source, rt);
+
+            Texture2D resized = new(actualWidth, actualHeight, TextureFormat.RGBA32, false);
+            resized.ReadPixels(new Rect(0, 0, actualWidth, actualHeight), 0, 0);
+            resized.Apply();
+
+            RenderTexture.active = null;
+            RenderTexture.ReleaseTemporary(rt);
+
+            return (resized, actualWidth, actualHeight);
         }
 
         static Texture2D ResizeTexture(Texture2D source, int targetWidth, int targetHeight) {

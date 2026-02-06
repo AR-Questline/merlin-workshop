@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_f13f0767cfb20f545af2b9b507d94a84
-  EDITOR_bakedDescription: "Instant Healing Spell. \nHealing Value: 45"
+  EDITOR_bakedDescription: "Instant Healing Spell. \nHealing Value:"
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -127,7 +127,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_f13f0767cfb20f545af2b9b507d94a84
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -206,7 +210,15 @@ MonoBehaviour:
   skills:
   - skillGraphRef:
       _guid: 7f9a004e1e98fa342a0778c81b0a4390
-    variables: []
+    variables:
+    - name: LightCastHealValue
+      value: 30
+    - name: HeavyCastHealPerSecond
+      value: 10
+    - name: MaxHealMultiplier
+      value: 1.5
+    - name: MaxHealDelay
+      value: 4
     enums:
     - name: StatEnum
       enumReference:
@@ -273,8 +285,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3476038596751581659
 MonoBehaviour:

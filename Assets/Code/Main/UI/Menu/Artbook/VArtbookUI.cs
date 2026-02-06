@@ -2,6 +2,7 @@
 using Awaken.TG.Assets;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.ButtonSystem;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
@@ -35,7 +36,8 @@ namespace Awaken.TG.Main.UI.Menu.Artbook {
         
         public Transform PromptsHost => promptHost;
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         bool IsFirstArt => _currentIndex == 0;
         bool IsLastArt => _currentIndex == artSpriteReferences.Length - 1;
 

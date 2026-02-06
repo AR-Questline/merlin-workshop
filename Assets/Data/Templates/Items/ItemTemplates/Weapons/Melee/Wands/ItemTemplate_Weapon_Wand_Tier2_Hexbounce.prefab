@@ -137,7 +137,7 @@ MonoBehaviour:
   basePrice: 250
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -156,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 9ddaf6c3b8d835d418e1a5fb30eff9fa
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -242,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 10
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5224496351014600131
 MonoBehaviour:
@@ -309,7 +316,12 @@ MonoBehaviour:
           address: 
           subObjectName: 
     templates: []
-    assetReferences: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: b6260e22ddc31d647955b9aa51e88c37
+          subObjectName: 
 --- !u!114 &-6989067617575907723
 MonoBehaviour:
   m_ObjectHideFlags: 0

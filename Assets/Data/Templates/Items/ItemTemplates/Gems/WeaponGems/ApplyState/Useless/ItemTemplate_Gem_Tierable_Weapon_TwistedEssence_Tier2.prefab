@@ -10,8 +10,68 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
         type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[1].name
+      value: BuildupGain
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[2].name
+      value: BuildupCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[3].name
+      value: Duration
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[4].name
+      value: ChanceToApply
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[5].name
+      value: StackCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[6].name
+      value: ValuePreCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[7].name
+      value: DurationGainValue
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[0].value
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[2].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[3].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[4].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171448430345750879, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[5].value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: e2dd4dc32470f6845bb11b00967d6893,
         type: 3}
@@ -67,6 +127,11 @@ PrefabInstance:
         type: 3}
       propertyPath: description.locString.ID
       value: Template/description_locString_6257081562941253999_c53b4832265b9864eb660abf59d008a9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: e2dd4dc32470f6845bb11b00967d6893,
+        type: 3}
+      propertyPath: lightCastInfo.effectOverridenToken.locString.ID
+      value: Template/lightCastInfo_effectOverridenToken_locString_6257081562941253999_c53b4832265b9864eb660abf59d008a9
       objectReference: {fileID: 0}
     - target: {fileID: 7123199763436368482, guid: e2dd4dc32470f6845bb11b00967d6893,
         type: 3}

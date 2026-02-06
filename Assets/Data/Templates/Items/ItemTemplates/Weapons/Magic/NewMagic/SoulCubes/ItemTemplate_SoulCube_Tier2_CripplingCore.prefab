@@ -81,10 +81,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_d6aeef339a2c32c4b824412825955d15
-  EDITOR_bakedDescription: 'Charged by dealing damage to enemies.
+  EDITOR_bakedDescription: 'Charged by dealing Damage to enemies 0/1000.
 
     Instantly
-    <color=#04959A>Stagger</color> the selected enemy for 8s and increase damage
+    <color=#04959A>Stagger</color> the selected enemy for 8s and increase Damage
     dealt to them by 33% until they recover.'
   lightCastInfo:
     magicType:
@@ -161,6 +161,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: a690318883ef2f1429f63e5e171b530d
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -316,8 +320,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

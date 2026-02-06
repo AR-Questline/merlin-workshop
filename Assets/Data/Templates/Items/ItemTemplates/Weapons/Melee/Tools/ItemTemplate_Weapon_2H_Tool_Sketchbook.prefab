@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_tool_sketching
       ID: Template/description_locString_2543871262668956605_08630093b8008694786bd3115a2788c2
-  EDITOR_bakedDescription: Allows sketching.
+  EDITOR_bakedDescription: Allows <color=#04959A>Sketching</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: b452b2f04ebd39743992fe13f4b9a610
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-5451238795681826495
 MonoBehaviour:
@@ -553,6 +557,9 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3

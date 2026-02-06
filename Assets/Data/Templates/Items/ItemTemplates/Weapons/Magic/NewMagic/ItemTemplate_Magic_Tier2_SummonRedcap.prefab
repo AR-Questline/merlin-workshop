@@ -53,6 +53,7 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 215fdd7c20cb19346a75b841bdfec939
+  - _guid: 54fe236d28dfce64da4171872ef39571
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -115,7 +116,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/heavyCastInfo_effectOverridenToken_locString_2543871262668956605_3bd577472a0191c44bf298a82553cf3b
+        ID: Template/heavyCastInfo_effectOverridenToken_locString_2543871262668956605_2fd5cb39f6fd1824d9140dd0c9254b9a
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -154,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -254,7 +259,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 0
   maxDamage: 0
-  damageGain: 0
+  damageGain: 2
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -287,8 +292,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 25
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &789031706629640155
 MonoBehaviour:

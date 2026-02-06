@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_tool_pickaxe
       ID: Template/description_locString_2543871262668956605_6d04da2e2d3213743913eaa933b276e2
-  EDITOR_bakedDescription: Allows mining.
+  EDITOR_bakedDescription: Allows <color=#04959A>Mining</color>.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -144,7 +144,7 @@ MonoBehaviour:
   - _enumRef: Awaken.TG.Main.Skills.Keyword, TG.Main, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null:ToolMining
   levelBonus: 0
-  weight: 2.2
+  weight: 0.5
   weightLoss: 0.5
   upgradeChance: 0.5
   crimeItemValue: 4
@@ -158,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 72c01ec48ab97544b92f5c1f32fd79a3
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2472755184678981686
 MonoBehaviour:
@@ -251,8 +255,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &120668372761239886
 MonoBehaviour:

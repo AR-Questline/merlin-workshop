@@ -77,10 +77,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_384e2021f4a0b8b4da35d80045c74d5f
-  EDITOR_bakedDescription: 'All Electric Damage has a 33% chance of dealing 50% of
-    its damage to up to 6 targets.
-
-    Attacks have a 10% chance to Stun targets.'
+  EDITOR_bakedDescription: "All Lightning Damage has a 33\_% chance of dealing 50\_%
+    of its Damage to up to 6 targets.\nAttacks have a 10\_% chance to <color=#04959A>Stun</color>
+    targets."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -137,7 +136,7 @@ MonoBehaviour:
   basePrice: 350
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -156,6 +155,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 73f93c01c423b7e4fb20253e6f92522a
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -209,7 +212,7 @@ MonoBehaviour:
   pushStaminaCost: 15
   minDamage: 31
   maxDamage: 35
-  damageGain: 1
+  damageGain: 2
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
   backStabDamageMultiplier: 0
@@ -242,8 +245,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-1234241059464074794
 MonoBehaviour:

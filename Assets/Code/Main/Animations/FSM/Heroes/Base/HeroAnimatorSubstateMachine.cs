@@ -53,6 +53,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
         public HeroStateType CurrentStateToEnterType => CurrentAnimatorState?.StateToEnter ?? HeroStateType.Empty;
         public HeroAnimatorState CurrentAnimatorState { get; private set; }
         public abstract HeroStateType DefaultState { get; }
+        protected HeroStateType DefaultEquipState => IsInsideSafeZone ? HeroStateType.UnEquipWeapon : HeroStateType.EquipWeapon;
         protected override int LayerIndex => (int)LayerType;
         protected bool IsInsideSafeZone => ParentModel.HasElement<PacifistMarker>();
         protected virtual bool CanBeUpdatedInSafeZone => false;
@@ -245,6 +246,9 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Base {
         }
         
         protected virtual void OnShowWeapons(bool instant) {
+            if (IsInsideSafeZone) {
+                return;
+            }
             SetCurrentState(HeroStateType.EquipWeapon, instant ? 0 : null);
         }
 

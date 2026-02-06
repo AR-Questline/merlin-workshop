@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_multiply_percent
       ID: Template/description_locString_2543871262668956605_0f0dc58bc325fd4419fcbe8e22338fea
-  EDITOR_bakedDescription: Increases Max Mana by 10%.
+  EDITOR_bakedDescription: "Increases Max Mana by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -134,7 +134,7 @@ MonoBehaviour:
   basePrice: 60
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 3
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -153,6 +153,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3443842606788812044
 MonoBehaviour:
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8054079048784367801
 MonoBehaviour:
@@ -567,7 +574,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: GainValue
-      value: 0
+      value: 0.01
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated

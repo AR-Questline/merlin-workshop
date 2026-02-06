@@ -157,14 +157,14 @@ MonoBehaviour:
   data:
     positionRange: 0.8
     behaviours:
-    - name: StandOnSpawn
+    - name: Interactions
       startHour: 0
       startMinutes: 0
       startDeviation: 0
       subdivide: 0
       intervalMinutes: 0
       intervalDeviation: 0
-      type: 1
+      type: 2
       position:
         space: 1
         position: {x: 0, y: 0, z: 0}
@@ -172,7 +172,7 @@ MonoBehaviour:
         space: 0
         position: {x: 0, y: 0, z: 0}
       range: 15
-      interactionTag: 
+      interactionTag: MonsterInteraction:Wyrdspawn
       allowInteractionRepeat: 0
       waitTime:
         min: 2
@@ -189,8 +189,8 @@ MonoBehaviour:
   template:
     _guid: 
   fallbackInteractionData:
-    type: 0
-    range: 0
+    type: 1
+    range: 15
     waitTime:
       min: 0.5
       max: 1.5

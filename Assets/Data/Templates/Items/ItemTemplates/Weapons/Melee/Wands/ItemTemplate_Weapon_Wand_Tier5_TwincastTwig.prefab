@@ -77,7 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_907a1b937a1995c468434e96817921f1
-  EDITOR_bakedDescription: Has a 50% chance to duplicate all magic projectiles shot.
+  EDITOR_bakedDescription: "Has a 50\_% chance to duplicate all magic projectiles
+    shot."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -134,7 +135,7 @@ MonoBehaviour:
   basePrice: 400
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 73549502bd9e6b447ace9f70cdfd9148
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -206,7 +211,7 @@ MonoBehaviour:
   pushStaminaCost: 15
   minDamage: 40
   maxDamage: 46
-  damageGain: 1
+  damageGain: 2
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
   backStabDamageMultiplier: 0
@@ -239,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-1234241059464074794
 MonoBehaviour:

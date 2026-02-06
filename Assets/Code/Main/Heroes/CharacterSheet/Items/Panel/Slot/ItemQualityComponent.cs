@@ -10,7 +10,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Slot {
 
         protected override void Refresh(Item item, View view, ItemDescriptorType itemDescriptorType) {
             float alpha = image.color.a;
-            image.color = item.Quality.BgColor.Color.WithAlpha(alpha);
+            image.color = item.Quality.BgColor.WithAlpha(alpha);
             SetInternalVisibility(true);
         }
     }

@@ -163,7 +163,12 @@ MonoBehaviour:
       _guid: 
     table:
       rid: 383214509789544461
-  lootTables: []
+  lootTables:
+  - lootType: 0
+    lootReference:
+      _guid: f294f22c3d001c74e8d8a090bf4360ef
+    table:
+      rid: -2
   corpseLootTables: []
   wyrdConvertedLootTables: []
   tags:
@@ -185,6 +190,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 383214509789544461
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:

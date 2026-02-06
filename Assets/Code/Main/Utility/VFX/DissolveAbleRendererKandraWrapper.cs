@@ -61,7 +61,7 @@ namespace Awaken.TG.Main.Utility.VFX {
                 _renderer.ChangeOriginalMaterials(_dar.dissolveAbleMaterials);
                 _instancedMaterials = _renderer.UseInstancedMaterials();
             } else {
-                LoadAndChangeMaterials(_dar.dissolveAbleMaterialRefs).Forget();
+                LoadAndChangeMaterials(_dar.DissolveAbleMaterialRefsDeepCopy).Forget();
             }
         }
 
@@ -125,7 +125,7 @@ namespace Awaken.TG.Main.Utility.VFX {
             
             var materials = new Material[handles.Length];
             for (int i = 0; i < materials.Length; i++) {
-                if (handles[i].Result == null) {
+                if (!handles[i].IsValid() || handles[i].Result == null) {
                     ReleaseHandles(ref handles);
                     return;             
                 }

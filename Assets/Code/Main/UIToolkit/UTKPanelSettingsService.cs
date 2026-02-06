@@ -1,7 +1,6 @@
 ﻿using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.MVC;
-using Awaken.Utility;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -58,7 +57,7 @@ namespace Awaken.TG.Main.UIToolkit {
         
 #if UNITY_EDITOR
         [Button]
-        public static void DebugConsole(bool isConsolePlatform) {
+        public static void DebugConsole() {
             World.Services.Get<UTKPanelSettingsService>().RefreshTheme();
         }
 #endif

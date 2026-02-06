@@ -46,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
         type: 3}
       propertyPath: weightLoss
-      value: 0.09
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
         type: 3}
@@ -97,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
         type: 3}
+      propertyPath: EDITOR_bakedDescription
+      value: "Increases Attack Speed by 10\_%."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
       propertyPath: description.locString.ID
       value: Template/description_locString_4743978107341280612_c29f984c2ac8e4c4f8df2dffd3f7bc3b
       objectReference: {fileID: 0}
@@ -115,6 +120,16 @@ PrefabInstance:
         type: 3}
       propertyPath: iconReference.arSpriteReference.address
       value: 4e52ca881c10aff45bf36cddd2c8aee2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: heavyCastInfo.magicDescription.locString.ID
+      value: Template/heavyCastInfo_magicDescription_locString_4743978107341280612_c29f984c2ac8e4c4f8df2dffd3f7bc3b
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: f8855afa082ed064e86a4591bb52bd71,
+        type: 3}
+      propertyPath: lightCastInfo.magicDescription.locString.ID
+      value: Template/lightCastInfo_magicDescription_locString_4743978107341280612_c29f984c2ac8e4c4f8df2dffd3f7bc3b
       objectReference: {fileID: 0}
     - target: {fileID: 7123199763436368482, guid: f8855afa082ed064e86a4591bb52bd71,
         type: 3}
@@ -221,7 +236,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: GainValue
-      value: 0
+      value: 0.01
     - name: ValueCalculated
       value: 0
     enums:

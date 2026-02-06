@@ -71,14 +71,9 @@ namespace Awaken.TG.Main.Timing.ARTime {
         protected override void OnInitialize() {
             _parentDisabler = GenericParentModel as ITimeDependentDisabler;
             TimeScaleModifier = 1;
-            ModelUtils.DoForFirstModelOfType<GameRealTime>(OnGameRealTimeSpawned, this);
             // Time Components
             OnFixedUpdate += TCFixedUpdate;
             OnTimeScaleChanged += TCTimeScaleChanged;
-        }
-
-        void OnGameRealTimeSpawned(GameRealTime gameRealTime) {
-            gameRealTime.TimeScaleChanged += RefreshTimeScale;
         }
 
         // == TimeComponent callbacks
@@ -339,10 +334,6 @@ namespace Awaken.TG.Main.Timing.ARTime {
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
-            var gameRealTime = World.Any<GameRealTime>();
-            if (gameRealTime != null) {
-                gameRealTime.TimeScaleChanged -= RefreshTimeScale;
-            }
             base.OnDiscard(fromDomainDrop);
             _timeComponents.Clear();
         }

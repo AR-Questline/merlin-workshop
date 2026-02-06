@@ -39,11 +39,11 @@ namespace Awaken.TG.Main.Locations.Actions.Attachments {
             _ => throw new ArgumentOutOfRangeException()
         };
         
-        public Element SpawnElement() {
+        public virtual Element SpawnElement() {
             return new DialogueAction();
         }
 
-        public bool IsMine(Element element) {
+        public virtual bool IsMine(Element element) {
             return element is DialogueAction;
         }
 

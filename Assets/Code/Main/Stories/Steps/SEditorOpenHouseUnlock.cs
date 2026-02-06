@@ -38,8 +38,8 @@ namespace Awaken.TG.Main.Stories.Steps {
             return new SOpenHouseUnlock {
                 homeKeyItem = homeKeyItem,
                 houseSprite = houseSprite,
-                houseName = houseName,
-                houseDescription = houseDescription,
+                houseName = parser.GetLightLocString(houseName),
+                houseDescription = parser.GetLightLocString(houseDescription),
                 price = price,
                 portalLocation = portalLocation,
                 disappearAfterUnlock = disappearAfterUnlock,
@@ -51,8 +51,8 @@ namespace Awaken.TG.Main.Stories.Steps {
     public partial class SOpenHouseUnlock : StoryStep {
         public ItemSpawningData homeKeyItem;
         public ShareableSpriteReference houseSprite;
-        public LocString houseName;
-        public LocString houseDescription;
+        public LightLocString houseName;
+        public LightLocString houseDescription;
         public int price;
         public LocationReference portalLocation;
         public bool disappearAfterUnlock = true;

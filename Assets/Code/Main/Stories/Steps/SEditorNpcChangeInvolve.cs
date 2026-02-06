@@ -1,4 +1,6 @@
-﻿using Awaken.TG.Main.Fights.NPCs;
+﻿using System;
+using System.Threading;
+using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Stories.Actors;
 using Awaken.TG.Main.Stories.Core.Attributes;
 using Awaken.TG.Main.Stories.Execution;
@@ -6,6 +8,8 @@ using Awaken.TG.Main.Stories.Interfaces;
 using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
 using Awaken.TG.Main.Stories.Steps.Helpers;
+using Awaken.TG.Main.Utility.Debugging;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -61,9 +65,16 @@ namespace Awaken.TG.Main.Stories.Steps {
         async UniTaskVoid AddLocationsToStory(Story api, StepResult result) {
             Actor actor = actorRef.Get();
             if (StoryUtils.FindCharacter(api, actor, false) is NpcElement npc) {
-                var task = api.SetupLocation(npc.ParentModel, invulnerability, involve, rotReturnToInteraction, rotToHero, forceExitInteraction);
-                if (waitForInvolvement) {
-                    await task;
+                try {
+                    var task = api.SetupLocation(npc.ParentModel, invulnerability, involve, rotReturnToInteraction,
+                        rotToHero, forceExitInteraction);
+                    if (waitForInvolvement) {
+                        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                        await task.AttachExternalCancellation(cts.Token);
+                    }
+                } catch (Exception e) {
+                    Log.Important?.Error($"Failed to change involve from story {LogUtils.GetDebugName(api)}! Exception below.");
+                    Debug.LogException(e);
                 }
             }
             

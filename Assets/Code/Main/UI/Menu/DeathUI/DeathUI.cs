@@ -6,6 +6,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.MVC.UI.Universal;
+using Awaken.Utility.Debugging;
 
 namespace Awaken.TG.Main.UI.Menu.DeathUI {
     public partial class DeathUI : Model, IUIStateSource {
@@ -44,6 +45,7 @@ namespace Awaken.TG.Main.UI.Menu.DeathUI {
         }
 
         public void Revive() {
+            Log.Critical?.Error($"Hero Died and was Revived, further errors may be caused by this debug behaviour");
             World.Only<HeroDeath>().Revive();
             Discard();
         }

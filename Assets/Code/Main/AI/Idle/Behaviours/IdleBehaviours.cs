@@ -51,7 +51,7 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         public NpcElement Npc => ParentModel;
         public Location Location => Npc.ParentModel;
         NpcInteractor Interactor => Npc.Interactor;
-        bool CanInteract => Npc is { Movement: not null, Interactor: not null };
+        bool CanInteract => Npc is { Movement: { Controller: not null }, Interactor: not null };
         [CanBeNull] IIdleDataSource IdleDataSource => Location.Elements<IIdleDataSource>().MaxBy(source => source.Priority);
         public INpcInteraction CurrentInteraction => Interactor.CurrentInteraction;
         public INpcInteraction CurrentUnwrappedInteraction => InteractionUtils.GetUnwrappedInteraction(Interactor.CurrentInteraction);
@@ -59,6 +59,8 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         public IInteractionFinder CurrentFinder => _idleStack.Source?.Finder;
         public bool HasAnchor => _idleStack.HasAnchor;
         public float PositionRange => IdleDataSource?.PositionRange ?? 0.8f;
+        public bool CanBeInterrupted => _idleStack.CanBeDroppedNow;
+        public string CurrentStackInfo => _idleStack.CurrentStackInfo;
 
         protected override void OnInitialize() {
             _idleStack = new IdleStack(this);
@@ -236,9 +238,16 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
                 }
                 
                 // pause interaction if the AI was deactivated
-                if (_refreshParams.startReason == InteractionStartReason.NPCDeactivated) {
+                if (_refreshParams.startReason is InteractionStartReason.NPCDeactivated) {
                     Interactor.Stop(GetStopReason(_refreshParams.startReason), true);
+                    _refreshParams = default;
                     return;
+                }
+
+                // because of async some interaction may be in incorrect state if the NPC was deactivated and reactivated in the same refresh cycle
+                if (_refreshParams.startReason is InteractionStartReason.NPCDeactivatedAndActivated) {
+                    Interactor.Stop(InteractionStopReason.NPCDeactivated, true);
+                    _refreshParams.startReason = InteractionStartReason.NPCActivated;
                 }
 
                 // no need to drop if we are using the same source
@@ -370,7 +379,7 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
             if (CurrentInteraction is { CanBeInterrupted: false }) {
                 return false;
             }
-            if (!_idleStack.Source?.Finder?.CanFindInteraction(this, interaction, ignoreInteractionRequirements) ?? true) {
+            if (!_idleStack.WaitingOrCurrentSource?.Finder?.CanFindInteraction(this, interaction, ignoreInteractionRequirements) ?? true) {
                 return false;
             }
 
@@ -397,8 +406,13 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         }
         
         public void RefreshCurrentBehaviour(bool forceDrop = false, InteractionStartReason startReason = InteractionStartReason.ChangeInteraction) {
-            if (_refreshParams.startReason == InteractionStartReason.NPCReactivatedFromGameLoad) {
-                startReason = InteractionStartReason.NPCReactivatedFromGameLoad;
+            switch (_refreshParams.startReason) {
+                case InteractionStartReason.NPCReactivatedFromGameLoad:
+                    startReason = InteractionStartReason.NPCReactivatedFromGameLoad;
+                    break;
+                case InteractionStartReason.NPCDeactivated when startReason == InteractionStartReason.NPCActivated:
+                    startReason = InteractionStartReason.NPCDeactivatedAndActivated;
+                    break;
             }
             _refreshParams.Append(new RefreshParams{
                 forceDrop = forceDrop,
@@ -442,7 +456,7 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
                 case InteractionStartReason.NPCReactivatedFromGameLoad:
                     stopReason = InteractionStopReason.NPCDeactivated;
                     if (Npc is { IsUnique: true, NpcPresence: null, Controller: not null }) {
-                        Npc.Controller.MoveToAbyss();
+                        Npc.MoveToAbyss();
                     }
                     break;
                 case InteractionStartReason.NPCPresenceDisabled:

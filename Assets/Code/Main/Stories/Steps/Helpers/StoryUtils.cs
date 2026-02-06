@@ -19,6 +19,7 @@ using Awaken.TG.Main.Heroes.Items.LootTables;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Attachments.Elements;
+using Awaken.TG.Main.Memories;
 using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.Main.Stories.Actors;
 using Awaken.TG.Main.Stories.Choices;
@@ -33,7 +34,6 @@ using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
-using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
@@ -255,9 +255,42 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
         /// <summary>
         /// Construct WorldMemory context using both string ids and Context objects.
         /// </summary>
-        public static string[] Context([CanBeNull] Story story, ICollection<string> stringContexts, ICollection<Context> contexts) {
-            stringContexts ??= Array.Empty<string>();
-            return stringContexts.Concat(contexts.Select(c => c.ToContextID(story))).ToArray();
+        public static StringCollectionSelector Context([CanBeNull] Story story, string[] stringContexts, Context[] contexts) {
+            var outputCount = stringContexts?.Length ?? 0;
+            if (contexts != null) {
+                foreach (var context in contexts) {
+                    var contextId = context.ToContextID(story);
+                    if (string.IsNullOrEmpty(contextId) == false) {
+                        outputCount++;
+                    }
+                }
+            }
+            if (outputCount == 0) {
+                return StringCollectionSelector.Empty;
+            }
+
+            if (outputCount == 1) {
+                if (stringContexts != null && stringContexts.Length != 0) {
+                    return new StringCollectionSelector(stringContexts[0]);
+                }
+            }
+
+            var returnContexts = new string[outputCount];
+            int i = 0;
+            if (stringContexts != null) {
+                foreach (var str in stringContexts) {
+                    returnContexts[i++] = str;
+                }
+            }
+            if (contexts != null) {
+                foreach (var context in contexts) {
+                    var contextId = context.ToContextID(story);
+                    if (string.IsNullOrEmpty(contextId) == false) {
+                        returnContexts[i++] = contextId;
+                    }
+                }
+            }
+            return new StringCollectionSelector(returnContexts);
         }
         
         /// <summary>
@@ -290,7 +323,7 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
         }
         
         public static IWithActor FindIWithActor(Story api, Actor actor, bool allowDefault = true) {
-            if (actor == DefinedActor.Hero.Retrieve()) {
+            if (actor == DefinedActor.Hero.Retrieve() || actor.IsCosplayingHero) {
                 return Hero.Current;
             }
 
@@ -396,7 +429,9 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             story?.DropChildren();
             api.Discard();
             story?.SetIsEnding(false);
-            locationToSayGoodbye?.TryGetElement<NpcElement>()?.TryGetElement<BarkElement>()?.TrySayGoodbyeOnStoryEnd(api);
+            if (locationToSayGoodbye is { HasBeenDiscarded: false }) {
+                locationToSayGoodbye.TryGetElement<NpcElement>()?.TryGetElement<BarkElement>()?.TrySayGoodbyeOnStoryEnd(api);
+            }
         }
         
         [UsedImplicitly]
@@ -419,7 +454,7 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             }
         }
         
-        public static void AnnounceGettingStat(StatType stat, int statChangeValue, IModel relatedModel, bool isHeroTarget = false) {
+        public static void AnnounceGettingStat(StatType stat, int statChangeValue, bool isHeroTarget = false) {
             if (statChangeValue == 0 || stat == CurrencyStatType.Wealth || !isHeroTarget) {
                 return;
             }
@@ -427,14 +462,13 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             if (stat is ProfStatType profStatType) {
                 Stat currentStatValue = profStatType.RetrieveFrom(Hero.Current);
                 var proficiencyData = new ProficiencyData(profStatType, currentStatValue.ModifiedInt);
-                AdvancedNotificationBuffer.Push<ProficiencyNotificationBuffer>(new ProficiencyNotification(proficiencyData));
+                NotificationUtils.Push(new ProficiencyNotification(proficiencyData));
                 
                 return; 
             }
             
-            char changeSign = statChangeValue > 0 ? '+' : ' ';
-            var statData = new ItemData(stat.DisplayName, statChangeValue, ARColor.MainGrey, changeSign);
-            AdvancedNotificationBuffer.Push<ItemNotificationBuffer>(new ItemNotification(statData));
+            var statData = new ItemData(stat.DisplayName, statChangeValue);
+            NotificationUtils.PushWithFiltering(new ItemNotification(statData));
         }
         
         [UnityEngine.Scripting.Preserve]
@@ -443,7 +477,13 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             return factionTemplate != null;
         }
         public static bool TryGetCrimeOwnerTemplate(Story api, LocationReference locationRef, out CrimeOwnerTemplate crimeOwner) {
-            crimeOwner = locationRef.FirstOrDefault(api)?.TryGetElement<NpcElement>()?.GetCurrentCrimeOwnersFor(CrimeArchetype.None).PrimaryOwner;
+            var npc = locationRef.FirstOrDefault(api)?.TryGetElement<NpcElement>();
+            if (npc == null) {
+                crimeOwner = null;
+            } else {
+                using var crimeOwners = npc.GetCurrentCrimeOwnersFor(CrimeArchetype.None);
+                crimeOwner = crimeOwners.PrimaryOwner;
+            }
             return crimeOwner != null;
         }
         
@@ -453,6 +493,39 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
                     yield return loc;
                 }
             }
+        }
+
+        public static void MatchActorLocations(Actor actor, List<Location> locations) {
+            foreach (var withActor in World.All<IWithActor>()) {
+                if (withActor.Actor == actor && withActor is Element { GenericParentModel: Location loc }) {
+                    locations.Add(loc);
+                }
+            }
+        }
+
+        public const string ReadStoriesContext = "ReadStories";
+
+        public static void MarkStoryAsRead(StoryBookmark bookmark) {
+            if (!bookmark.IsValid) {
+                Log.Important?.Error($"Cannot mark story as read, bookmark is null or invalid: {bookmark}");
+                return;
+            }
+
+            var memory = World.Services.Get<GameplayMemory>();
+            memory.Context(ReadStoriesContext).Set(bookmark.GUID, true);
+        }
+
+        /// <summary>
+        /// if bookmark is not valid we assume it as read
+        /// </summary>
+        public static bool IsStoryRead(StoryBookmark bookmark) {
+            if (!bookmark.IsValid) {
+                Log.Important?.Error($"Cannot check if story is read, bookmark is null or invalid: {bookmark}");
+                return true;
+            }
+
+            var memory = World.Services.Get<GameplayMemory>();
+            return memory.Context(ReadStoriesContext).Get(bookmark.GUID, false);
         }
     }
 }

@@ -13,38 +13,41 @@ namespace Awaken.TG.Main.Tutorials.TutorialPopups {
         public sealed override bool IsNotSaved => true;
         public UIState UIState => UIState.ModalState(HUDState.MiddlePanelShown).WithPauseTime();
 
-        public string TitleText { get; }
-        public string ContentText { get; }
+        public string TitleText => TutorialDataOwner.GetTranslatedTitleText();
+        public string ContentText => TutorialDataOwner.GetTranslatedContentText();
         public bool DisableOtherCanvases { get; }
         public ViewContext Context { get; }
         public Action CloseCallback { get; [UnityEngine.Scripting.Preserve] set; }
+        ITutorialDataOwner TutorialDataOwner { get; }
         
-        protected TutorialText(string titleText, string contentText, bool disableOtherCanvases, ViewContext viewContext) {
-            TitleText = titleText;
-            ContentText = contentText;
+        protected TutorialText(ITutorialDataOwner tutorialDataOwner, bool disableOtherCanvases, ViewContext viewContext) {
+            TutorialDataOwner = tutorialDataOwner;
             DisableOtherCanvases = disableOtherCanvases;
             Context = viewContext;
         }
         
         public static TutorialText Show(TutorialConfig.TextTutorial dataOwner, bool disableOtherCanvases = true, ViewContext viewContext = ViewContext.Gameplay) {
-            TutorialText tutorial = World.Add(new TutorialText(dataOwner.title, dataOwner.text, disableOtherCanvases, viewContext));
+            TutorialText tutorial = World.Add(new TutorialText(dataOwner, disableOtherCanvases, viewContext));
             return TryShow(tutorial, typeof(VTutorialText));
         }
 
         protected static T TryShow<T>(T tutorial, Type view) where T : TutorialText {
             var tutorialMaster = World.Only<TutorialMaster>();
             if (tutorialMaster.tutorialTextBuffer.Any() && tutorialMaster.tutorialTextBuffer.Last() is { } lastTutorial) {
-                lastTutorial.ListenTo(Events.AfterDiscarded, () => {
-                    World.SpawnView<VModalBlocker>(tutorial);
-                    ((VTutorialText<T>)World.SpawnView(tutorial, view, true)).Show(true);
-                }, tutorial);
+                lastTutorial.ListenTo(Events.AfterDiscarded, ShowTutorial, tutorial);
             } else {
-                World.SpawnView<VModalBlocker>(tutorial);
-                ((VTutorialText<T>)World.SpawnView(tutorial, view, true)).Show(true);
+                ShowTutorial();
             }
             
             tutorialMaster.tutorialTextBuffer.Add(tutorial);
             return tutorial;
+
+            void ShowTutorial() {
+                World.SpawnView<VModalBlocker>(tutorial);
+                var spawnedView = ((VTutorialText<T>)World.SpawnView(tutorial, view, true));
+                spawnedView.Show(true);
+                World.Add(new BlurBackground(tutorial, BlurConfig.WithBlurVolume)).ShowBackground(spawnedView);
+            }
         }
 
         public void Close() {

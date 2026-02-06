@@ -3,6 +3,8 @@ using Awaken.TG.Main.Cameras;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Loadouts;
+using Awaken.TG.Main.Locations.Gems;
+using Awaken.TG.Main.Transmogrify;
 using Awaken.TG.Main.UI.Components;
 using Awaken.TG.Main.UI.HeroCreator.ViewComponents;
 using Awaken.TG.Main.UI.HeroRendering;
@@ -10,12 +12,16 @@ using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Animations;
+using Awaken.Utility.Debugging;
 using Awaken.Utility.GameObjects;
+using Awaken.Utility.Graphics;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 namespace Awaken.TG.Main.UI.RawImageRendering {
     [UsesPrefab("UI/RawImageRendering/VHeroRenderer")]
@@ -26,19 +32,24 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
         [SerializeField] Transform enviroHost;
         [SerializeField] CinemachineVirtualCamera enviroCam;
         [SerializeField] Material foregroundQuadMaterial;
-        
+
         [SerializeField, BoxGroup("Camera")] Transform cameraTransform;
         [SerializeField, BoxGroup("Camera")] float cameraTransitionTime;
         [SerializeField, BoxGroup("Camera")] ViewTargets viewTargets;
-        
+
+        [SerializeField, BoxGroup("Shadows")] Volume shadowVolume;
+        [SerializeField, BoxGroup("Shadows")] MaxShadowDistance maxShadowDistance;
+
         Tween _fadeTween;
         RotatableObject _rotatable;
         HeroRenderer.Target _currentTarget;
         Sequence _cameraSequence;
+        HDShadowSettings _shadowSettings;
+
         bool _equipmentChanged;
 
         [UnityEngine.Scripting.Preserve] PartialVisibility _heroVisibility = PartialVisibility.Visible;
-        
+
         public Camera Camera => World.Only<GameCamera>().MainCamera;
         protected override int BodyInstanceLayer => RenderLayers.UI;
 
@@ -46,12 +57,22 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
         protected override void OnInitialize() {
             base.OnInitialize();
             TeleportEnviroToHeroPosition().Forget();
-            
+
             if (Target.UseLoadoutAnimations) {
                 InitializeLoadoutEvents();
+                
+                if(_transmogrifyUI != null) {
+                    InitializeTransmogrifyEvents();
+                }
+            }
+
+            if (!shadowVolume.GetSharedOrInstancedProfile().TryGet(out _shadowSettings)) {
+                Log.Important?.Error(
+                    "Tried to access character volume max shadow distance, but the HDShadowSettings component was not found in the shadow volume profile. " +
+                    "Make sure to add it to the Volume Profile used by the shadow volume.", this);
             }
         }
-        
+
         async UniTaskVoid TeleportEnviroToHeroPosition() {
             enviroHost.position = Hero.Current?.Coords ?? Vector3.zero;
             await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
@@ -67,13 +88,18 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
                 }
             }
         }
-        
+
+        void InitializeTransmogrifyEvents() {
+            _transmogrifyUI.ListenTo(IGemBase.Events.ClickedItemChanged, _ => _equipmentChanged = true, this);
+            _transmogrifyUI.ListenTo(TransmogrifyUI.Events.TransmogrifyPreviewChanged, _ => _equipmentChanged = true, this);
+        }
+
         void OnLoadoutChanged(Change<int> loadoutIndexChange) {
             var heroItems = Target.Hero.HeroItems;
-            
+
             var oldLoadout = heroItems.LoadoutAt(loadoutIndexChange.from);
             var newLoadout = heroItems.LoadoutAt(loadoutIndexChange.to);
-            
+
             foreach (var s in EquipmentSlotType.Hands) {
                 if (oldLoadout[s]?.Template != newLoadout[s]?.Template) {
                     _equipmentChanged = true;
@@ -86,7 +112,7 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
             if (itemChange.to == null || !itemChange.to.Template.IsEquippable) {
                 return;
             }
-            
+
             var heroItems = Target.Hero.HeroItems;
             if (itemChange.loadout != heroItems?.CurrentLoadout) {
                 return;
@@ -99,7 +125,7 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
             _rotatable = instance.GetOrAddComponent<RotatableObject>();
             NewTarget.SetupRotatableArea(_rotatable);
         }
-        
+
         // === LifeCycle
         protected override void OnUpdate() {
             if (_equipmentChanged) {
@@ -107,11 +133,11 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
                 _equipmentChanged = false;
             }
         }
-        
+
         public void SetExternalHeroVisibility(bool visible) {
             SetViewTargetInstantWithoutChangeCurrent(visible ? _currentTarget : HeroRenderer.Target.OutOfScreen);
             SetRotatableState(visible);
-            
+
             if (visible) {
                 InitializeAnimationPlayback();
             }
@@ -125,16 +151,25 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
 
                 _cameraSequence = DOTween.Sequence()
                     .Append(DOTween.To(() => cameraTransform.position, position => cameraTransform.position = position, target.position, cameraTransitionTime))
-                    .Join(DOTween.To(() => cameraTransform.rotation, rotation => cameraTransform.rotation = rotation, target.rotation.eulerAngles, cameraTransitionTime))
+                    .Join(DOTween.To(() => cameraTransform.rotation, rotation => cameraTransform.rotation = rotation, target.rotation.eulerAngles,
+                        cameraTransitionTime))
                     .SetEase(Ease.InOutQuad)
                     .SetUpdate(true);
+
+                if (_shadowSettings) {
+                    var newMaxShadowDistance = maxShadowDistance.Get(_currentTarget);
+                    _cameraSequence.Join(DOTween.To(() => _shadowSettings.maxShadowDistance.value,
+                        value => _shadowSettings.maxShadowDistance.value = value,
+                        newMaxShadowDistance,
+                        cameraTransitionTime));
+                }
             }
 
             if (_rotatable != null && !allowRotation) {
                 _rotatable.transform.DOLocalRotate(Vector3.zero, 0.5f).SetUpdate(true);
             }
         }
-        
+
         public void SetViewTargetInstant(HeroRenderer.Target viewTarget) {
             if (_currentTarget != viewTarget) {
                 _currentTarget = viewTarget;
@@ -145,13 +180,14 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
         public void SetViewTargetInstantWithoutChangeCurrent(HeroRenderer.Target viewTarget) {
             SetViewTargetInstant(viewTargets.Get(viewTarget));
         }
-        
+
         void SetViewTargetInstant(Transform target) {
             _cameraSequence.Kill();
             cameraTransform.position = target.position;
             cameraTransform.rotation = target.rotation;
+            _shadowSettings.maxShadowDistance.value = maxShadowDistance.Get(_currentTarget);
         }
-        
+
         public void SetRotatableState(bool state) {
             if (_rotatable != null) {
                 _rotatable.SetCanRotate(state);
@@ -175,11 +211,11 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
                 SetViewTarget(HeroRenderer.Target.HeroUIInventory);
             }
         }
-        
+
         public void ShowForegroundQuad() {
             foregroundQuadMaterial.SetColor(BaseColor, new Color(0, 0, 0, 1f));
         }
-        
+
         public void HideForegroundQuad() {
             foregroundQuadMaterial.SetColor(BaseColor, Color.clear);
         }
@@ -210,7 +246,7 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
             [SerializeField] Transform CCHead;
             [SerializeField] Transform heroUIInventory;
             [SerializeField] Transform heroUIStatus;
-            [SerializeField] Transform heroUIStatsSummary;
+            [SerializeField] Transform heroUITransmog;
             [SerializeField] Transform outOfScreen;
 
             public Transform Get(HeroRenderer.Target target) {
@@ -226,7 +262,43 @@ namespace Awaken.TG.Main.UI.RawImageRendering {
                     HeroRenderer.Target.CCHead => CCHead,
                     HeroRenderer.Target.HeroUIInventory => heroUIInventory,
                     HeroRenderer.Target.HeroUIStatus => heroUIStatus,
-                    HeroRenderer.Target.HeroUIStatsSummary => heroUIStatsSummary,
+                    HeroRenderer.Target.HeroUITransmog => heroUITransmog,
+                    HeroRenderer.Target.OutOfScreen => outOfScreen,
+                    _ => throw new ArgumentOutOfRangeException(nameof(target), target, null)
+                };
+            }
+        }
+
+        [Serializable]
+        struct MaxShadowDistance {
+            [SerializeField] float hero;
+            [SerializeField] float head;
+            [SerializeField] float hand;
+            [SerializeField] float legs;
+            [SerializeField] float feet;
+            [SerializeField] float chest;
+            [SerializeField] float back;
+            [SerializeField] float CCBody;
+            [SerializeField] float CCHead;
+            [SerializeField] float heroUIInventory;
+            [SerializeField] float heroUIStatus;
+            [SerializeField] float heroUITransmog;
+            [SerializeField] float outOfScreen;
+
+            public float Get(HeroRenderer.Target target) {
+                return target switch {
+                    HeroRenderer.Target.Hero => hero,
+                    HeroRenderer.Target.Head => head,
+                    HeroRenderer.Target.Hand => hand,
+                    HeroRenderer.Target.Legs => legs,
+                    HeroRenderer.Target.Feet => feet,
+                    HeroRenderer.Target.Chest => chest,
+                    HeroRenderer.Target.Back => back,
+                    HeroRenderer.Target.CCBody => CCBody,
+                    HeroRenderer.Target.CCHead => CCHead,
+                    HeroRenderer.Target.HeroUIInventory => heroUIInventory,
+                    HeroRenderer.Target.HeroUIStatus => heroUIStatus,
+                    HeroRenderer.Target.HeroUITransmog => heroUITransmog,
                     HeroRenderer.Target.OutOfScreen => outOfScreen,
                     _ => throw new ArgumentOutOfRangeException(nameof(target), target, null)
                 };

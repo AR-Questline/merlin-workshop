@@ -159,7 +159,7 @@ namespace Awaken.TG.Editor.Utility.StoryGraphs.Toolset {
         bool HasMissingClip(SEditorText sText, out string audioClipName) {
             var audioFilePath = sText.GetAudioFilePath();
             var id = Path.GetFileNameWithoutExtension(audioFilePath).Replace(EditorAudioUtils.VoiceOverIdSeparator, '/');
-            TableEntry tableEntry = LocalizationHelper.GetTableEntry(id, LocalizationSettings.ProjectLocale);
+            TableEntry tableEntry = LocalizationHelper.EditorOnly_GetTableEntry(id, LocalizationSettings.ProjectLocale);
             var audioMeta = tableEntry.GetMetadata<AudioReplacementName>();
             audioClipName = audioMeta != null ? audioMeta.AudioReplacement : string.Empty;
             return string.IsNullOrEmpty(audioClipName);

@@ -53,7 +53,7 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
         }
 
         void OnDamageDealt(DamageOutcome outcome) {
-            if (_consumedStatus != null && outcome.Target is { IsAlive: true } and ICharacter character) {
+            if (_consumedStatus != null && outcome.TargetPure is { IsAlive: true } and ICharacter character) {
                 VGUtils.ApplyStatus(character.Statuses, _consumedStatus, SourceInfo, _buildupStrength, null, null);
             }
         }

@@ -8,6 +8,7 @@ using Awaken.TG.Main.Heroes.CharacterSheet.Map;
 using Awaken.TG.Main.Heroes.CharacterSheet.Map.Markers;
 using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
 using Awaken.TG.Main.Heroes.Interactions;
+using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Attachments;
@@ -27,6 +28,7 @@ using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.Extensions;
+using Awaken.Utility.Maths;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using LogType = Awaken.Utility.Debugging.LogType;
@@ -37,6 +39,7 @@ namespace Awaken.TG.Main.Locations.Discovery {
 
         [Saved] public bool Discovered { get; private set; }
 
+        bool _registeredToUpdate;
         IAreaPrimitive[] _primitives;
         Bounds? _bounds;
         string _flag;
@@ -81,7 +84,26 @@ namespace Awaken.TG.Main.Locations.Discovery {
         }
 
         protected override void OnFullyInitialized() {
-            World.Services.Get<UnityUpdateProvider>().RegisterLocationDiscovery(this);
+            ParentModel.ListenTo(Location.Events.LocationVisibilityChanged, OnLocationVisibilityChanged, this);
+            OnLocationVisibilityChanged();
+        }
+
+        void OnLocationVisibilityChanged() {
+            if (ParentModel.VisibleToPlayer) {
+                if (_registeredToUpdate) {
+                    return;
+                }
+
+                _registeredToUpdate = true;
+                World.Services.Get<UnityUpdateProvider>().RegisterLocationDiscovery(this);
+            } else {
+                if (!_registeredToUpdate) {
+                    return;
+                }
+
+                _registeredToUpdate = false;
+                World.Services.TryGet<UnityUpdateProvider>()?.UnregisterLocationDiscovery(this);
+            }
         }
 
         public void UnityUpdate(Hero hero) {
@@ -148,13 +170,13 @@ namespace Awaken.TG.Main.Locations.Discovery {
                 ParentModel.DisplayName
             );
 
-            Hero.Current.Development.RewardExpAsPercentOfNextLevel(_expMulti);
+            Hero.Current.Development.RewardExpAsPercentOfNextLevel(_expMulti, this, ChangeReason.Exploration);
             CreateMarker(); 
         }
 
         void AnnounceDiscovery(string discoveryTitle, string discoveryMessage) {
             var discoveryData = new NewLocationNotificationData(ParentModel, discoveryTitle, discoveryMessage, _expMulti, IsFastTravel ? CommonReferences.Get.FastTravelIcon : null);
-            AdvancedNotificationBuffer.Push<LocationDiscoveryBuffer>(new NewLocationNotification(discoveryData));
+            NotificationUtils.Push(new NewLocationNotification(discoveryData));
         }
 
         void SetupPrimitives(GameObject spec) {
@@ -193,7 +215,8 @@ namespace Awaken.TG.Main.Locations.Discovery {
             var characterSheetUI = World.Any<CharacterSheetUI>();
             characterSheetUI?.DiscardWithoutTransition();
             var hero = Hero.Current;
-            Portal.FastTravel.To(hero, FastTravelPoint).Forget();
+            var rotation = Quaternion.LookRotation(FastTravelPoint.X0Z() - ParentModel.Coords.X0Z());
+            Portal.FastTravel.To(hero, FastTravelPoint, rotation).Forget();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Awaken.TG.Main.General.NewThings;
+using Awaken.TG.Main.Heroes.CharacterSheet.Items.Bag;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Localization;
@@ -11,8 +12,12 @@ using Awaken.Utility.Collections;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs {
     public partial class ItemsTabs : Tabs<ItemsUI, VItemsTabs, ItemsTabType, ItemsListUI> {
-        protected override KeyBindings Previous => KeyBindings.UI.Generic.DecreaseValueAlt;
-        protected override KeyBindings Next => KeyBindings.UI.Generic.IncreaseValueAlt;
+        protected override KeyBindings Previous => World.HasAny<BagUI>() 
+            ? KeyBindings.UI.Generic.DecreaseValueAlt 
+            : KeyBindings.UI.Generic.PreviousAlt;
+        protected override KeyBindings Next => World.HasAny<BagUI>() 
+            ? KeyBindings.UI.Generic.IncreaseValueAlt
+            : KeyBindings.UI.Generic.NextAlt;
 
         protected override void OnInitialize() {
             base.OnInitialize();
@@ -22,9 +27,14 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs {
         public void Refresh() {
             int currentTabIndex = VisibleTabs.IndexOf(ParentModel.CurrentType);
             TriggerChange();
-                
+            
             if (!ParentModel.CurrentType.IsVisible(ParentModel)) {
                 var visibleTabs = VisibleTabs.ToArray();
+                
+                if (visibleTabs.Length == 0) {
+                    return;
+                }
+                
                 currentTabIndex = Math.Max(0, currentTabIndex - 1);
                 ChangeTab(visibleTabs[currentTabIndex]);
             } 
@@ -45,8 +55,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs {
         public bool ContainsInGrid(Item item) => _filter(item) && !_gridException(item);
         public ItemsTabType[] SubTabs { get; }
 
-        bool AllVisible(ItemsUI target) => this == All && !target.Tabs.Contains(AllWithRecent);
-        bool AllWithRecentVisible(ItemsUI target) => this == AllWithRecent && !target.Tabs.Contains(All);
+        bool AllVisible(ItemsUI target) => this == All && target.Tabs.Contains(All) && !target.Tabs.Contains(AllWithRecent);
+        bool AllWithRecentVisible(ItemsUI target) => this == AllWithRecent && target.Tabs.Contains(AllWithRecent) && !target.Tabs.Contains(All);
 
         ItemsTabType(string enumName, Func<Item, bool> filter, string titleID = "", ItemsTabType[] subTabs = null, Func<Item, bool> gridException = null) : base(enumName, titleID) {
             _filter = filter;
@@ -83,15 +93,16 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs {
             Dish = new(nameof(Dish), i => i.IsDish, LocTerms.ItemTypeDish),
             Potion = new(nameof(Potion), i => i.IsPotion, LocTerms.ItemTypePotion),
             BuffApplier = new(nameof(BuffApplier), i => i.IsBuffApplier, LocTerms.ItemTypeBuffApplier),
+            RestConsumables = new(nameof(RestConsumables), i => i.IsConsumable && !i.IsPotion && !i.IsCrafting && !i.IsDish && !i.IsBuffApplier, LocTerms.ItemTypeOther),
 
             Crafting = new(nameof(Crafting), i => i.IsCrafting, LocTerms.ItemsTabCrafting, new [] { All, CommonComponents, CookingComponents, CraftingComponents, AlchemyComponents }),
-            Consumable = new(nameof(Consumable), i => i.IsConsumable && !i.IsPotion && !i.IsCrafting, LocTerms.ItemsTabConsumable, new [] { All, Dish, BuffApplier }, i => i.IsDish || i.IsBuffApplier),
+            Consumable = new(nameof(Consumable), i => i.IsConsumable && !i.IsPotion && !i.IsCrafting, LocTerms.ItemsTabConsumable, new [] { All, Dish, BuffApplier, RestConsumables }, i => i.IsDish || i.IsBuffApplier),
             EquippableConsumable = new(nameof(EquippableConsumable), i => i.IsConsumable, LocTerms.ItemsTabConsumable, new [] { All, Dish, Potion, BuffApplier }, i => i.IsDish || i.IsPotion || i.IsBuffApplier),
             Readable = new(nameof(Readable), i => i.IsReadable && !i.IsRecipe, LocTerms.ItemsTabReadable),
-            Stolen = new(nameof(Stolen), i => i.IsStolen, LocTerms.StolenItem),
             Keys = new(nameof(Keys), i => i.IsKey, LocTerms.ItemsTabKeys),
             QuestItems = new(nameof(QuestItems), i => i.IsQuestItem, LocTerms.ItemsTabQuestItems, new []{ All, Keys }, i => i.IsKey),
-            Others = new(nameof(Others), i => i.IsOther(), LocTerms.ItemsTabOther, new []{ All, Keys }, i => i.IsKey),
+            RestOthers = new(nameof(RestOthers), i => i.IsOther() && !i.IsKey, LocTerms.ItemTypeOther),
+            Others = new(nameof(Others), i => i.IsOther(), LocTerms.OtherItems, new []{ All, Keys, RestOthers }, i => i.IsKey),
             
             Cuirass = new(nameof(Cuirass), i => i.EquipmentType == EquipmentType.Cuirass, LocTerms.ItemTypeCuirass),
             Helmet = new(nameof(Helmet), i => i.EquipmentType == EquipmentType.Helmet, LocTerms.ItemTypeHelmet),
@@ -116,8 +127,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs {
             Gem = new(nameof(Gem), i => i.IsGem, LocTerms.ItemsTabGems, new[] { All, ArmorGem, WeaponGem }),
             Recipes = new(nameof(Recipes), i => i.IsRecipe, LocTerms.ItemsTabRecipes),
             
-            HorseArmor = new(nameof(HorseArmor), i => i.EquipmentType == EquipmentType.HorseArmor, LocTerms.ItemTypeHorseArmor);
-
+            HorseArmor = new(nameof(HorseArmor), i => i.EquipmentType == EquipmentType.HorseArmor, LocTerms.ItemTypeHorseArmor),
+            TransmogChooseSortingTab = new(nameof(TransmogChooseSortingTab), _ => true, LocTerms.ItemsTabAll);
+                
         public static readonly ItemsTabType[] MainHands = { All, OneHanded, TwoHanded, Magic, Ranged, Shields, };
         public static readonly ItemsTabType[] OffHands = { All, OneHanded, TwoHanded, Magic, Shields, };
         public static readonly ItemsTabType[] Quivers = { All, };
@@ -132,6 +144,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs {
         public static readonly ItemsTabType[] Shop = { All, Weapons, Magic, Armor, Jewelry, Gem, Potion, Consumable, Crafting, Readable, Recipes, Others };
         public static readonly ItemsTabType[] Storage = { All, Weapons, Magic, Armor, Jewelry, Gem, Potion, Consumable, Crafting, Readable, Recipes, Others };
         public static readonly ItemsTabType[] Relics = { All, UpgradableWeapons, Armor };
+        public static readonly ItemsTabType[] Transmog = { UpgradableWeapons, Armor };
         public static readonly ItemsTabType[] Identify = { All };
     }
 }

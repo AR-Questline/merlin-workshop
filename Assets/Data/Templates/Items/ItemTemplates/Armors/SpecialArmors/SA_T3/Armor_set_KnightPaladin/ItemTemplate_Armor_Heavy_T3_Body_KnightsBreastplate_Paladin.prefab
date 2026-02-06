@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
@@ -26,12 +26,22 @@ PrefabInstance:
     - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[2].name
+      value: ValuePreCalculated
+      objectReference: {fileID: 0}
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[3].name
       value: ValueCalculated
       objectReference: {fileID: 0}
     - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
       propertyPath: skills.Array.data[0].variables.Array.data[0].value
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
+        type: 3}
+      propertyPath: skills.Array.data[0].variables.Array.data[1].value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4047062517618786039, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
@@ -82,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
       propertyPath: EDITOR_bakedDescription
-      value: 
+      value: "Increases Mana Shield by 20\_%."
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
@@ -92,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}
       propertyPath: description.locString.IdOverride
-      value: description_generic_increase
+      value: description_generic_increase_percent
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: a693847416222134ab3c1fcdb326c603,
         type: 3}

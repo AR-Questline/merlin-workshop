@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Tabs {
     [Serializable]
-    public class TalentTreeTabType : TalentTreeTabs.ITabType {
+    public class TalentTreeTabType : TreeTabTypeBase<VTalentOverviewUI, VTalentTreeTabs> {
         [SerializeField, TemplateType(typeof(TalentTreeTemplate))] TemplateReference talentTree;
         
-        public TalentTreeTemplate Tree => talentTree.Get<TalentTreeTemplate>();
+        public override TalentTreeTemplate Tree => talentTree.Get<TalentTreeTemplate>();
         
-        public TalentTree Spawn(TalentOverviewUI target) => new(Tree);
-        public bool IsVisible(TalentOverviewUI target) => Tree.CurrencyStatType != HeroStatType.WyrdMemoryShards || (Tree.CurrencyStatType == HeroStatType.WyrdMemoryShards && WyrdTalentsUnlocked());
         static bool WyrdTalentsUnlocked() => Hero.Current.Development.WyrdSoulFragments.UnlockedFragments.Contains(WyrdSoulFragmentType.Excalibur);
+        public override TalentTreeBase<VTalentOverviewUI, VTalentTreeTabs> Spawn(TalentOverviewBase<VTalentOverviewUI, VTalentTreeTabs> target) => new TalentTree(Tree);
+        public override bool IsVisible(TalentOverviewBase<VTalentOverviewUI, VTalentTreeTabs> target) => Tree.CurrencyStatType != HeroStatType.WyrdMemoryShards || (Tree.CurrencyStatType == HeroStatType.WyrdMemoryShards && WyrdTalentsUnlocked());
     }
 }

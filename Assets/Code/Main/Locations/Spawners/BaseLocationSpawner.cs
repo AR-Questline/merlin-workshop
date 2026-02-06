@@ -12,14 +12,17 @@ using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.Grounds.CullingGroupSystem;
 using Awaken.TG.Main.Grounds.CullingGroupSystem.CullingGroups;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.Statuses;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Scenes;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.Tags;
+using Awaken.TG.Main.VisualGraphUtils;
 using Awaken.TG.Main.Wyrdnessing;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
@@ -133,10 +136,12 @@ namespace Awaken.TG.Main.Locations.Spawners {
         List<WeakModelRef<Location>> _aliveLocationsToRestore;
 
         Action<Location> _onLocationSpawned;
-
+        
+        protected StatusToApplySettings _statusToApply;
         protected FlagLogic _availability;
-        protected int _batchQuantityToSpawn;
-        int _currentBatchQuantitySpawned;
+        protected byte _batchQuantityToSpawn;
+        protected byte _totalSpawnCap;
+        byte _currentBatchQuantitySpawned;
         protected bool _canTriggerAmbush;
         protected bool _spawnOnlyOnAmbush;
         protected bool _partialCanSpawnWyrdSpawns;
@@ -174,15 +179,17 @@ namespace Awaken.TG.Main.Locations.Spawners {
         }
         
         protected int CurrentlySpawned => spawnedLocations.Count + (_isSpawningWyrdSpawns ? spawnedWyrdSpawns.Count : 0);
+        protected virtual bool AllKilled => spawnedAliveLocations.IsEmpty();
 
-        bool IsValidState => CurrentDomain == Domain.CurrentScene();
-        bool DistanceCondition => (_inSpawnBand || SpawnersDistanceIgnore) && _wasAwayEnough;
+        bool IsValidState => CurrentDomain == Domain.CurrentScene() && (!_isSpawningWyrdSpawns || !World.Any<HeroDialogueInvolvement>());
+        protected virtual bool DistanceCondition => (_inSpawnBand || SpawnersDistanceIgnore) && _wasAwayEnough;
         bool DistanceConditionWithoutIgnore => _inSpawnBand && _wasAwayEnough;
         bool TimeOfDayCondition => !SpawnOnlyAtNight || GameRealTime.WeatherTime.IsNight;
         bool CooldownCondition => !IsOnCooldown(GameRealTime.PlayRealTime.TotalSeconds);
         bool CanSpawnWyrdSpawns => _partialCanSpawnWyrdSpawns && CurrentlySpawned == 0 && DistanceConditionWithoutIgnore;
         
-        bool DiscardAllSpawnedCondition => IsDisabledByFlag || (SpawnOnlyAtNight && !GameRealTime.WeatherTime.IsNight);
+        bool DiscardAllSpawnedCondition => IsDisabledByFlag || (SpawnOnlyAtNight && !GameRealTime.WeatherTime.IsNight); 
+        protected bool HasAnyDiscardConditions => _availability.HasFlag || SpawnOnlyAtNight; 
         
         bool SpawnersDistanceIgnore {
             get {
@@ -206,7 +213,11 @@ namespace Awaken.TG.Main.Locations.Spawners {
         
         GameRealTime _gameRealTime;
         GameRealTime GameRealTime => _gameRealTime ??= World.Only<GameRealTime>();
-        
+
+        public new static class Events {
+            public static readonly Event<BaseLocationSpawner, Location> LocationSpawned = new(nameof(LocationSpawned));
+        }
+
         // === Initialization
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         protected BaseLocationSpawner() { }
@@ -255,17 +266,18 @@ namespace Awaken.TG.Main.Locations.Spawners {
                 // Spawner inside wyrd repeller, no wyrdspawns here
                 return;
             }
+
+            var sceneService = Services.Get<SceneService>();
+            var mainScene = sceneService.MainSceneRef;
+            var mainSceneDomain = sceneService.MainDomain;
             
-            var mainScene = Services.Get<SceneService>().MainSceneRef;
-            
-            if (CurrentDomain != Domain.Scene(mainScene)) {
+            if (CurrentDomain != mainSceneDomain) {
                 // Spawner on an additive scene, no wyrdspawns here
                 return;
             }
 
-            bool spawnerInOpenWorld = CommonReferences.Get.SceneConfigs.IsOpenWorld(mainScene);
-            
-            if (spawnerInOpenWorld && CanSpawnWyrdSpawns) {
+            var sceneData = CommonReferences.Get.SceneConfigs.GetSceneData(mainScene);
+            if (sceneData is { openWorld: true, allowWyrdNight: true } && CanSpawnWyrdSpawns) {
                 // It's in the open world and doesn't restrict wyrdspawns, let's go!
                 _isSpawningWyrdSpawns = true;
                 SpawnPrefab().Forget();
@@ -279,7 +291,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
             foreach (var spawnedLocation in _locationsToRestore) {
                 Location location = spawnedLocation.location.Get();
                 if (location != null) {
-                    location.ListenTo(Events.AfterDiscarded, AfterLocationDiscarded, this);
+                    location.ListenTo(Model.Events.AfterDiscarded, AfterLocationDiscarded, this);
                 } else {
                     spawnedLocations.Remove(spawnedLocation);
                     _aliveLocationsToRestore.Remove(spawnedLocation.location);
@@ -302,7 +314,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
             _locationsToRestore = null;
             _aliveLocationsToRestore = null;
 
-            if (anyAliveLocations && spawnedAliveLocations.IsEmpty()) {
+            if (AllAliveLocationsKilledOnRestore(anyAliveLocations)) {
                 OnAllAliveLocationKilled();
                 if (HasBeenDiscarded) {
                     return;
@@ -319,6 +331,10 @@ namespace Awaken.TG.Main.Locations.Spawners {
             }
         }
 
+        protected virtual bool AllAliveLocationsKilledOnRestore(bool anyAliveLocations) {
+            return anyAliveLocations && AllKilled;
+        }
+
         void AssignHeroController(Hero hero) {
             World.SpawnView<VLocationSpawner>(this, true);
         }
@@ -329,8 +345,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         [UnityEngine.Scripting.Preserve] public bool WasLocationKilled(int id) => killedLocations.Contains(id);
         public bool IsOnCooldown(double timeSinceLevelLoad) {
             if (lastClearOfGroup == null) return true;
-            return timeSinceLevelLoad <= lastSpawnInstance + SpawnCooldown
-                   || timeSinceLevelLoad <= lastClearOfGroup + SpawnCooldownAfterKilled;
+            return timeSinceLevelLoad <= lastSpawnInstance + SpawnCooldown || timeSinceLevelLoad <= lastClearOfGroup + SpawnCooldownAfterKilled;
         }
         
         public LocationTemplate WyrdSpawnTemplate() {
@@ -347,11 +362,10 @@ namespace Awaken.TG.Main.Locations.Spawners {
             foreach (var location in SpawnedLocationsCache[spawnedLocations]) {
                 location.location.Get()?.Discard();
             }
-
             lastClearOfGroup = float.NegativeInfinity;
         }
         
-        public async UniTaskVoid SpawnPrefab() {
+        public async UniTask SpawnPrefab() {
             if (!IsValidState) {
                 SpawnAtFirstValidState = true;
                 return;
@@ -361,6 +375,10 @@ namespace Awaken.TG.Main.Locations.Spawners {
             _isBatchSpawning = true;
             await SpawnBatchStaggered();
             _isSpawningWyrdSpawns = false;
+        }
+        
+        public void UnlockAutomaticSpawning() {
+            _isManualSpawner = false;
         }
         
         async UniTaskVoid SpawnPrefabIsValidState() {
@@ -457,9 +475,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
         // === Event Reactions
         
         void AfterLocationKilled(int id, Location location, DamageOutcome damageOutcome) {
-            if (damageOutcome.Attacker != location.TryGetElement<ICharacter>()) {
-                killedLocations.Add(id);
-            }
+            killedLocations.Add(id);
 
             SpawnedLocation spawnedLocation = spawnedLocations.FirstOrDefault(r => r.location.ID == location.ID);
             if (!spawnedLocation.location.IsSet) {
@@ -469,7 +485,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
                 spawnedLocations.Remove(spawnedLocation);
             }
 
-            if (spawnedAliveLocations.Remove(new(location)) && spawnedAliveLocations.IsEmpty()) {
+            if (spawnedAliveLocations.Remove(new(location)) && AllKilled) {
                 OnAllAliveLocationKilled();
                 if (HasBeenDiscarded) {
                     return;
@@ -497,7 +513,7 @@ namespace Awaken.TG.Main.Locations.Spawners {
             }
             
             spawnedLocations.Add(new SpawnedLocation(location, id));
-            location.ListenTo(Events.AfterDiscarded, AfterLocationDiscarded, this);
+            location.ListenTo(Model.Events.AfterDiscarded, AfterLocationDiscarded, this);
             
             var alive = location.TryGetElement<IAlive>();
             if (alive == null) {
@@ -509,6 +525,16 @@ namespace Awaken.TG.Main.Locations.Spawners {
             if (ParentModel.TryGetElement(out IdleDataElement idleDataElement)) {
                 location.AddElement(new IdleDataOverride(idleDataElement));
             }
+            
+            if (alive is ICharacter character && _statusToApply != null) {
+                VGUtils.ApplyStatus(character.Statuses, _statusToApply.status, 
+                    StatusSourceInfo.FromStatus(_statusToApply.status), 
+                    _statusToApply.buildupStrength, 
+                    _statusToApply.durationOverride, 
+                    null);
+            }
+
+            this.Trigger(Events.LocationSpawned, location);
         }
 
         void OnWyrdSpawnSpawned(Location location) {
@@ -517,8 +543,22 @@ namespace Awaken.TG.Main.Locations.Spawners {
         }
         
         void AfterLocationDiscarded(Model model) {
-            SpawnedLocation spawnedLocation = spawnedLocations.FirstOrDefault(r => r.location.ID == model.ID);
-            spawnedLocations.Remove(spawnedLocation);
+            int spawnedLocationIndex = -1;
+            for (int i = 0; spawnedLocationIndex == -1 && i < spawnedLocations.Count; i++) {
+                var spawned = spawnedLocations[i];
+                if (spawned.location.ID == model.ID) {
+                    spawnedLocationIndex = i;
+                }
+            }
+            if (spawnedLocationIndex != -1) {
+                spawnedLocations.RemoveAt(spawnedLocationIndex);
+            }
+            if (model is Location location) {
+                // Trying to remove from spawned Alive Location but not doing "OnAllAliveLocationKilled"
+                // If location was properly killed it should be "Killed" before "Discarded"
+                // Some mechanics (like only night spawners) discard without killing and could leave already discarded locations on alive list.
+                spawnedAliveLocations.Remove(new(location));
+            }
             OnLocationDiscardedOrKilled();
         }
 
@@ -535,17 +575,23 @@ namespace Awaken.TG.Main.Locations.Spawners {
         }
         public static Vector3 VerifyPosition(Vector3 position, bool isNpc, bool allowSnapToGround = true) {
             try {
-                if (allowSnapToGround) {
-                    position.y = Ground.HeightAt(position, findClosest: true, performExtraChecks: true);
-                }
                 if (isNpc) {
                     float originalMaxNearestNodeDistance = AstarPath.active.maxNearestNodeDistance;
                     AstarPath.active.maxNearestNodeDistance = 5f;
+                    if (allowSnapToGround) {
+                        position = Ground.SnapNpcToGround(position);
+                    }
                     NNInfo nearest = AstarPath.active.GetNearest(position, NNConstraint.Walkable);
                     if (nearest.node != null) {
-                        position = nearest.position;
+                        if (allowSnapToGround) {
+                            position = Ground.SnapNpcToGround(nearest.position);
+                        } else {
+                            position = nearest.position;
+                        }
                     }
                     AstarPath.active.maxNearestNodeDistance = originalMaxNearestNodeDistance;
+                } else if (allowSnapToGround) {
+                    position.y = Ground.HeightAt(position, findClosest: true, performExtraChecks: true);
                 }
             } catch (Exception) {
                 //Ignore

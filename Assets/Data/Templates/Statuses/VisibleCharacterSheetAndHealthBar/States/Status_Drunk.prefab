@@ -74,6 +74,7 @@ MonoBehaviour:
   alwaysShowSeparately: 1
   invertProgressUI: 0
   overrideToAddForDifferentItems: 0
+  overrideToAddForUniqueItems: 0
   addType: 2
   addTypeOnStacking: 2
   timerShouldDeStack: 0
@@ -149,8 +150,10 @@ MonoBehaviour:
   buildupStatusType:
     _enumRef: Awaken.TG.Main.Heroes.Statuses.BuildupStatusType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Drunk
-  buildupDurationOverride: 0
-  buildupDuration: 10
+  buildupDurationOverride: 1
+  buildupDuration: 60
   buildupGainOverride: 0
   buildupGainMultiplier: 1
+  isEffectModifierUsingStatusStrengthModifier: 1
   isDecayUsingEffectModifier: 1
+  isDecayUsingStatusDurationModifier: 1

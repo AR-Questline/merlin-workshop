@@ -8,9 +8,9 @@ using UnityEditor;
 
 namespace Awaken.TG.Editor.Main.Stories.Drawers {
     public static class ElementDrawer {
-        static Dictionary<NodeElement, ElementEditor> s_drawersByStep = new Dictionary<NodeElement, ElementEditor>();
+        static Dictionary<NodeElement, ElementEditor> s_drawersByStep = new ();
 
-        public static void DrawElement(NodeElement element) {
+        public static void DrawElement(NodeElement element, bool isEditMode) {
             // fix broken editors
             if (s_drawersByStep.TryGetValue(element, out ElementEditor editor)) {
                 if (editor.target == null || editor.target != element) {
@@ -24,7 +24,7 @@ namespace Awaken.TG.Editor.Main.Stories.Drawers {
             }
 
             // draw
-            s_drawersByStep[element].DrawElementGUI();
+            s_drawersByStep[element].DrawElementGUI(isEditMode);
         }
 
         static void CreateEditor(NodeElement element) {

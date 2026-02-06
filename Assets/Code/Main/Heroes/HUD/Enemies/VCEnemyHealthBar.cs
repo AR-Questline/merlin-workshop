@@ -46,6 +46,7 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
         Sequence _staggerBarPulsating;
         CancellationTokenSource _blinkTokenSource;
         VCEnemyBars _currentBars;
+        string _currentlyDisplayedName;
         
         bool InCombat => Target.HeroCombat.IsHeroInFight;
         bool IsBeingShown {
@@ -69,7 +70,8 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
         // === Initialization
         protected override void OnAttach() {
             canvasGroup.alpha = 0;
-            canvasGroup.TrySetActiveOptimized(false);
+            canvasGroup.TrySetActiveOptimized(true);
+            enemyName.TrySetActiveOptimized(false);
             IsBeingShown = false;
             
             Target.ListenTo(VCHeroRaycaster.Events.PointsTowardsIWithHealthBar, OnPointingTowardsLocationWithHP, this);
@@ -77,7 +79,7 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
             Target.ListenTo(ICharacter.Events.CombatExited, OnCombatExited, this);
             Target.ListenTo(HealthElement.Events.BeforeDamageDealt, BeforeDamageDealt, this);
             Target.ListenTo(Events.EnemyHealthBarShown, statusHUD.Refresh, this);
-            World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelFullyInitialized<DeathUI>(), this, TryHideHealthBar);
+            World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelFullyInitialized<DeathUI>(), this, _ => TryHideHealthBar());
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelFullyInitialized<LoadingScreenUI>(), this, HideHealthBarInstant);
         }
 
@@ -114,7 +116,7 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
         }
 
         void BeforeDamageDealt(Damage damage) {
-            if (!_isPointing && damage.Target is Element<Location> element) {
+            if (!_isVisible && !_isPointing && damage.TargetPure is Element<Location> element) {
                 BlinkWith(element.ParentModel).Forget();
             }
         }
@@ -148,13 +150,19 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
             float percent = withHealthBar.HealthStat.Percentage;
             NpcElement npcElement = location.TryGetElement<NpcElement>();
             _currentLocation.TryGet(out var currentLocation);
-            enemyName.text = DebugProjectNames.Basic ? location.DebugName : location.DisplayName;
-            if (_currentBars != null) _currentBars.TrySetActiveOptimized(false);
+
+            if (currentLocation != location) {
+                _currentlyDisplayedName = DebugProjectNames.Basic ? location.DebugName : location.DisplayName;
+                if (!string.IsNullOrEmpty(_currentlyDisplayedName) && _currentlyDisplayedName != enemyName.text) {
+                    enemyName.text = _currentlyDisplayedName;
+                }
+            }
 
             if (npcElement == null) {
                 SetupNonNpcHpBarVisuals();
             } else {
                 SetupNpcHpBarVisuals(npcElement);
+                npcElement.ListenTo(IAlive.Events.AfterDeath, dmg => TryHideHealthBar(dmg), this);
             }
             
             if (currentLocation != location) {
@@ -173,6 +181,10 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
         }
 
         void SetupNonNpcHpBarVisuals() {
+            if (_currentBars == normalEnemyBars) return;
+            if (_currentBars != null) {
+                _currentBars.TrySetActiveOptimized(false);
+            }
             _currentBars = normalEnemyBars;
             _currentBars.TrySetActiveOptimized(true);
         }
@@ -180,15 +192,21 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
         void SetupNpcHpBarVisuals(NpcElement npcElement) {
             int currentLevelDiff = npcElement.CharacterStats.Level.ModifiedInt - Hero.Current.CharacterStats.Level.ModifiedInt;
             bool isEnemyTooStrong = currentLevelDiff >= GameConstants.Get.tooStrongEnemyLevelDiff;
-            
-            _currentBars = npcElement.NpcType switch {
+           
+            var barToShow = npcElement.NpcType switch {
                 NpcType.Critter => null,
-                NpcType.Trash or NpcType.Normal => isEnemyTooStrong ? tooStrongEnemyBars : normalEnemyBars,
+                NpcType.Trash or NpcType.Normal or NpcType.HeroSummon => isEnemyTooStrong ? tooStrongEnemyBars : normalEnemyBars,
                 NpcType.Elite => eliteEnemyBars,
                 NpcType.MiniBoss or NpcType.Boss => bossEnemyBars,
                 _ => throw new ArgumentOutOfRangeException()
             };
             
+            if (_currentBars == barToShow) return;
+            if (_currentBars != null) {
+                _currentBars.TrySetActiveOptimized(false);
+            }
+            
+            _currentBars = barToShow;
             if (_currentBars != null) _currentBars.TrySetActiveOptimized(true);
         }
 
@@ -215,10 +233,16 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
             if (IsBeingShown) return;
             ResetAlphaSequence();
             IsBeingShown = true;
-            canvasGroup.TrySetActiveOptimized(true);
+            enemyName.TrySetActiveOptimized(true);
             _alphaSequence = DOTween.Sequence().SetUpdate(true).Append(canvasGroup.DOFade(1f, FadeDuration));
         }
 
+        void TryHideHealthBar(DamageOutcome damageOutcome) {
+            if (damageOutcome.Target is Element<Location> element && _currentLocation.TryGet(out var loc) && loc == element.ParentModel) {
+                TryHideHealthBar();
+            }
+        }
+        
         void TryHideHealthBar() {
             if (!_isVisible && (_currentLocation.Equals(default) || (_alphaSequence?.active ?? false))) return;
             _isVisible = false;
@@ -244,11 +268,12 @@ namespace Awaken.TG.Main.Heroes.HUD.Enemies {
             }
             ResetAlphaSequence();
             HideHealthBarInstantInternal();
+            canvasGroup.TrySetActiveOptimized(false);
         }
 
         void HideHealthBarInstantInternal() {
             canvasGroup.alpha = 0f;
-            canvasGroup.TrySetActiveOptimized(false);
+            enemyName.TrySetActiveOptimized(false);
             _currentLocation = default;
             IsBeingShown = false;
             _alphaSequence = null;

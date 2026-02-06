@@ -1,6 +1,7 @@
 ﻿using System;
 using Awaken.TG.Assets;
 using Awaken.TG.Main.AI.Combat.Utils;
+using Awaken.TG.Main.AI.Fights.Projectiles;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.DamageInfo;
@@ -27,9 +28,9 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
         [SerializeField, Range(0, 5f), InfoBox("0 - hit target, 1 - hit +/- 1m from the target")] float inaccuracyOffset = 0f;
         [SerializeField] bool useParabolicShot;
         [SerializeField, ShowIf(nameof(useParabolicShot))] bool useHighParabolicShot;
-        [SerializeField] ItemProjectileAttachment.ItemProjectileData projectileData = new();
+        [SerializeField] protected ItemProjectileAttachment.ItemProjectileData projectileData = new();
         [SerializeField, Range(1, 25)] int projectilesAmount = 1;
-        [SerializeField] NpcDamageData damageData = NpcDamageData.DefaultMagicAttackData;
+        [SerializeField] protected NpcDamageData damageData = NpcDamageData.DefaultMagicAttackData;
         [SerializeField] bool exposeWeakspot;
         
         protected override bool ExposeWeakspot => exposeWeakspot;
@@ -48,7 +49,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
                 shootParams.rawDamageData = damageData.GetRawDamageData(Npc);
                 shootParams.damageTypeData = damageData.GetDamageTypeData(Npc);
                 shootParams = shootParams.WithCustomProjectile(projectileData.ToProjectileData());
-                CombatBehaviourUtils.FireProjectile(fireParams, shootParams);
+                FireProjectile(fireParams, shootParams);
                 
                 PlaySpecialAttackReleaseAudio();
                 
@@ -61,6 +62,11 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
             if (returnFireballInHandAfterSpawned) {
                 ReturnInstantiatedPrefabs();
             }
+        }
+
+        protected virtual ProjectileWrapper FireProjectile(CombatBehaviourUtils.FireProjectileParams fireParams,
+            VGUtils.ShootParams shootParams) {
+            return CombatBehaviourUtils.FireProjectile(fireParams, shootParams);
         }
 
         protected virtual CombatBehaviourUtils.FireProjectileParams GetFireParams(ICharacterView parentView) {

@@ -33,7 +33,17 @@ namespace Awaken.TG.Main.Locations.Setup.Editor {
         }
 
         public static void RegisterPreview(LocationSpec owner, GameObject preview) {
-            s_previews.Add(owner, preview);
+            if (owner == null) return;
+            
+            // Clean up any existing preview for this owner first
+            if (s_previews.TryGetValue(owner, out var existingPreview)) {
+                if (existingPreview != null && existingPreview != preview) {
+                    Object.DestroyImmediate(existingPreview);
+                }
+            }
+            
+            // Use indexer assignment to avoid duplicate key exceptions
+            s_previews[owner] = preview;
         }
 
         public static void UnregisterPreview(LocationSpec owner) {

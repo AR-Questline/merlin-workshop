@@ -5,6 +5,7 @@ using Awaken.TG.Main.Grounds.CullingGroupSystem.CullingGroups;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.MVC;
+using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
 using Awaken.Utility.GameObjects;
@@ -77,9 +78,11 @@ namespace Awaken.TG.Graphics.VFX {
         [SerializeField, BoxGroup("Setup")]
         LightSize _lightSize = LightSize.Medium;
 
+        [SerializeField, DisableIf("@" + nameof(fadeEffects) + "." + nameof(FadeEffectsToggleObject.useFadeEffects))] bool animatesOnConsoles = false;
         [SerializeField] bool forceStaticIfInitiallyOnScene = true;
         [SerializeField, HideInInspector] NativeIntensityData bakedNativeIntensity;
         [SerializeField, HideInInspector] bool bakedIsStatic;
+        
         HDAdditionalLightData _lightData;
         Light _light;
         float _timeMult, _timeLoopValue, _curvesTime;
@@ -102,6 +105,13 @@ namespace Awaken.TG.Graphics.VFX {
         void Awake() {
             EnsureCorrectStaticStatusInEditorPlaymode();
             TryMakeStatic();
+            
+#if UNITY_EDITOR
+            if (Application.isPlaying)
+#endif
+            {
+                animatesOnConsoles &= !fadeEffects.useFadeEffects;
+            }
         }
 
         void Start() {
@@ -109,9 +119,22 @@ namespace Awaken.TG.Graphics.VFX {
             EnsureBakedIntensity();
             StartFadingInOnEnable();
             UpdateOnce();
+            
+            if (PlatformUtils.IsConsole && !animatesOnConsoles) {
+#if UNITY_EDITOR
+                if (Application.isPlaying)
+#endif
+                {
+                    Destroy(this);
+                }
+            }
         }
 
         void OnEnable() {
+            if (PlatformUtils.IsConsole && !animatesOnConsoles) {
+                return;
+            }
+            
 #if UNITY_EDITOR
             if (Application.isPlaying == false) {
                 _currentUpdateType = UpdateType.ActiveUpdate;
@@ -250,7 +273,7 @@ namespace Awaken.TG.Graphics.VFX {
             var locationSpec = gameObject.GetComponentInParent<LocationSpec>();
             if (locationSpec != null) {
                 return locationSpec.IsNonMovable
-                       || locationSpec.prefabReference.IsSet == false 
+                       || locationSpec.PrefabReference.IsSet == false 
                        || locationSpec.IsHidableStatic;
             }
             return false;
@@ -307,10 +330,17 @@ namespace Awaken.TG.Graphics.VFX {
         }
 #endif
         public void ActiveLightUpdate() {
-            HandleDayNightCycle();
-            HandleFadeEffects();
-            UpdateEveryFrame();
-            UpdatePositionForCulling();
+            try {
+                HandleDayNightCycle();
+                HandleFadeEffects();
+                UpdateEveryFrame();
+                UpdatePositionForCulling();
+            } catch (Exception e) {
+                Log.Important?.Error($"LightController {(this != null && gameObject != null ? gameObject.PathInSceneHierarchy(true) : "Destroyed GO")} has thrown exception below when light is {(_light != null ? "valid" : "null")} and light data is {(_lightData != null ? "valid" : "null")}");
+                Debug.LogException(e, this);
+                UnityUpdateProvider.TryGet()?.UnregisterLightControllerActive(this);
+                _currentUpdateType = UpdateType.None;
+            }
 #if UNITY_EDITOR || AR_DEBUG
             if (bakedIsStatic) {
                 DEBUG_CheckAndFixIfStaticIsMoving();

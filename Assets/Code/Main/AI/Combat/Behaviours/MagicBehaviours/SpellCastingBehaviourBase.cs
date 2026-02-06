@@ -6,11 +6,9 @@ using Awaken.TG.Main.AI.Combat.Attachments;
 using Awaken.TG.Main.AI.Combat.Behaviours.Abstracts;
 using Awaken.TG.Main.AI.Movement.States;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
-using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.NPCs;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Audio;
 using Awaken.TG.MVC;
@@ -20,7 +18,6 @@ using Cysharp.Threading.Tasks;
 using FMODUnity;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
     [Serializable]
@@ -107,7 +104,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
             ReturnInstantiatedPrefabs();
         }
         
-        public override void TriggerAnimationEvent(ARAnimationEvent animationEvent) {
+        public override void TriggerAnimationEvent(ARAnimationEvent animationEvent) {   
             if (animationEvent.actionType == ARAnimationEvent.ActionType.SpecialAttackStart) {
                 SpawnFireBallInHand().Forget();
             } else if (animationEvent.actionType == ARAnimationEvent.ActionType.SpecialAttackTrigger) {
@@ -121,7 +118,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
 
         // === Helpers
         protected virtual async UniTask SpawnFireBallInHand() {
-            if (InHandPrefab is not { IsSet: true }) {
+            if (InHandPrefab is not { IsSet: true } || _fireBallInstance != null) {
                 return;
             }
             

@@ -23,8 +23,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Bosses {
         WightPhase _currentWightPhase;
         float _guardPhaseTimer;
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             NpcElement.HealthElement.ListenTo(HealthElement.Events.OnDamageBlocked, OnDamageBlocked, this);
         }
         

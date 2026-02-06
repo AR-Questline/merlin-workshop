@@ -6,29 +6,23 @@ using Awaken.TG.MVC;
 namespace Awaken.TG.Main.Heroes.Items.Tooltips.Components {
     [Serializable]
     public class ItemTooltipDescriptionsEffectsComponent : ItemTooltipDescriptionsBaseComponent<string> {
-        bool _hasContent;
-        
-        public ItemTooltipDescriptionsEffectsComponent(DescriptionComponentConfig config) : base(config) { }
-        
-        public override void ToggleSectionActive(bool active) {
-            if (_hasContent) {
-                SetParentSectionVisibility(active);
-            }
+        public override void ToggleSectionActive(bool active) { 
+            SetParentSectionVisibility(active);
         }
 
         protected override void Setup(IItemDescriptor descriptor, View view) {
             string description = descriptor.ItemDescription;
-            _hasContent = false;
+            bool hasContent = false;
             
             if (!string.IsNullOrWhiteSpace(description)) {
                 PrepareDescription(description, view);
-                _hasContent = true;
+                hasContent = true;
             } else if (descriptor.Effects.Any()) {
                 PrepareDescription(descriptor.Effects, view);
-                _hasContent = true;
+                hasContent = true;
             }
             
-            SetParentSectionVisibility(_hasContent);
+            Visibility.SetInternal(hasContent);
         }
 
         protected override void PrepareItemDescription(string item, ItemDescriptionElement descriptionElement, View view) {

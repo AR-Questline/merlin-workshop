@@ -1,12 +1,45 @@
+using System;
 using System.Collections.Generic;
 using Awaken.TG.Assets;
+using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Tutorials.Utility;
 using Awaken.TG.MVC;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.VFX;
+using Object = UnityEngine.Object;
 
 namespace Awaken.TG.Graphics.VFX {
     public static class VFXUtils {
+        public static void PlayVfx(VisualEffect vfx) {
+            if (vfx == null) {
+                return;
+            }
+            PlayVfxInternal(vfx, vfx.gameObject.GetComponentsInChildren<IVFXOnPlayEffects>());
+        }
+        
+        public static void PlayVfx(GameObject vfx) {
+            if (vfx == null) {
+                return;
+            }
+            PlayVfxInternal(vfx.GetComponentInChildren<VisualEffect>(), vfx.GetComponentsInChildren<IVFXOnPlayEffects>());
+        }
+
+        static void PlayVfxInternal(VisualEffect vfx, IEnumerable<IVFXOnPlayEffects> onPlayEffects) {
+            try {
+                if (vfx != null) {
+                    vfx.Play();
+                }
+
+                foreach (var onPlayEffect in onPlayEffects) {
+                    onPlayEffect.VFXPlayed();
+                }
+            } catch (Exception e) {
+                // We need to catch all exceptions here because broken visuals can't break logic (addresables, pooling etc.)
+                Debug.LogException(e);
+            }
+        }
+        
         public static void StopVfx(VisualEffect vfx) {
             if (vfx == null) {
                 return;
@@ -22,12 +55,17 @@ namespace Awaken.TG.Graphics.VFX {
         }
 
         static void StopVfxInternal(VisualEffect vfx, IEnumerable<IVFXOnStopEffects> onStopEffects) {
-            if (vfx != null) {
-                vfx.Stop();
-            }
+            try {
+                if (vfx != null) {
+                    vfx.Stop();
+                }
 
-            foreach (var onStopEffect in onStopEffects) {
-                onStopEffect.VFXStopped();
+                foreach (var onStopEffect in onStopEffects) {
+                    onStopEffect.VFXStopped();
+                }
+            } catch (Exception e) {
+                // We need to catch all exceptions here because broken visuals can't break logic (addresables, pooling etc.)
+                Debug.LogException(e);
             }
         }
         
@@ -39,6 +77,11 @@ namespace Awaken.TG.Graphics.VFX {
         public static void StopVfxAndDestroy(GameObject vfx, float destroyDelay) {
             StopVfx(vfx);
             Object.Destroy(vfx, destroyDelay);
+        }
+        
+        public static void StopVfxAndDisableGameObject(VisualEffect vfx, GameObject gameObject, float delay = 5f) {
+            StopVfx(vfx);
+            AsyncUtil.GameObjectDisableDelay(gameObject, delay).Forget();
         }
         
         public static void StopVfxAndDiscard(Model model, float destroyDelay) {

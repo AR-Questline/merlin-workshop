@@ -2,5 +2,6 @@
     public struct ARHeroSpineGeneralIKData {
         public bool isActive;
         public float cameraPitch;
+        public float ikStrength;
     }
 }

@@ -14,7 +14,7 @@ namespace Awaken.TG.Main.Heroes.Stats {
         bool _isMultiplicative;
         readonly List<Stat> _stats;
         
-        public IEnumerable<Stat> Stats => _stats;
+        public List<Stat> Stats => _stats;
         public override StatType Type => _stats.FirstOrDefault()?.Type;
         public override float BaseValue => _isMultiplicative 
             ? 1f + _stats.Sum(s => s.BaseValue - 1f) 

@@ -27,7 +27,7 @@ namespace Awaken.TG.Main.Skills.Units.Passives {
             yield return stat.Owner.ListenTo(Stat.Events.StatChangedBy(statType), s => {
                 var f = AutoDisposableFlow.New(reference);
                 f.flow.SetValue(_changeValue, s.value);
-                Trigger(f);
+                Trigger(f, 0);
             }, skill);
         }
     }

@@ -2,8 +2,10 @@ using System;
 using Awaken.TG.Main.General.NewThings;
 using Awaken.TG.Main.Heroes.Development;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
@@ -27,6 +29,7 @@ namespace Awaken.TG.Main.Crafting.Fireplace {
         [SerializeField] protected ButtonWithDescription cooking; 
         [SerializeField] protected ButtonWithDescription goToSleep;
         [SerializeField] protected ButtonWithDescription levelUp;
+        [SerializeField] protected ButtonWithDescription stash;
         [Title("Prompts")]
         [SerializeField] VBrightPromptUI closePrompt;
 
@@ -43,20 +46,20 @@ namespace Awaken.TG.Main.Crafting.Fireplace {
         protected override void OnInitialize() {
             World.Services.Get<NewThingsTracker>().RegisterContainer(this);
             descriptionGroup.alpha = 0;
-            Target.ListenTo(Model.Events.AfterChanged, OnTargetChanged, this);
-            cooking.RegisterButton(Target.CookAction, LocTerms.Cook.Translate(), LocTerms.CookDescription.Translate(), ShowDescription);
-            goToSleep.RegisterButton(Target.GoToSleepAction, LocTerms.Rest.Translate(), LocTerms.RestDescription.Translate(), ShowDescription);
-            levelUp.RegisterButton(Target.LevelUpAction, LocTerms.LevelUp.Translate(), LocTerms.LevelUpDescription.Translate(), ShowDescription);
+            Target.ListenTo(Model.Events.AfterChanged, () => SetVisibility(Target.UiVisible), this);
+            cooking.RegisterButton(() => UIUtils.AddOverlayUIView(Target.CookAction(), this, () => Target.UpdateUiVisibility(true)), LocTerms.Cook.Translate(), LocTerms.CookDescription.Translate(), ShowDescription);
+            goToSleep.RegisterButton(() => UIUtils.AddOverlayUIView(Target.GoToSleepAction(), this, () => Target.UpdateUiVisibility(true)), LocTerms.Rest.Translate(), LocTerms.RestDescription.Translate(), ShowDescription);
+            levelUp.RegisterButton(() => UIUtils.AddOverlayUIView(Target.LevelUpAction(), this, () => Target.UpdateUiVisibility(true)), LocTerms.LevelUp.Translate(), LocTerms.LevelUpDescription.Translate(), ShowDescription);
+            stash.RegisterButton(() => UIUtils.AddOverlayUIView(Target.OpenHeroStorage(), this, () => Target.UpdateUiVisibility(true)), LocTerms.Stash.Translate(), LocTerms.StashDescription.Translate(), ShowDescription);
             
             SetVisibility(true);
         }
-        
-        void OnTargetChanged(Model target) {
-            SetVisibility(Target.UiVisible);
+
+        public void EnableView(bool enable) {
+            gameObject.SetActive(enable);
         }
         
         void SetVisibility(bool visible) {
-            gameObject.SetActiveOptimized(visible);
             canvasGroup.blocksRaycasts = visible;
             buttonContent.SetActive(visible);
             

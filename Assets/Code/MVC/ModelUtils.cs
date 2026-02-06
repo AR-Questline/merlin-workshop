@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
 using Awaken.Utility.Collections;
@@ -22,6 +23,7 @@ namespace Awaken.TG.MVC {
             typeof(IElement),
             typeof(IListenerOwner),
             typeof(IEventSource),
+            typeof(IRefreshedByAttachment),
         };
 
         static readonly Type[] ModelHierarchyBlackListClassGeneric = new[] {
@@ -30,6 +32,7 @@ namespace Awaken.TG.MVC {
 
         static readonly Type[] ModelHierarchyBlackListInterfaceGeneric = new[] {
             typeof(IElement<>),
+            typeof(IRefreshedByAttachment<>),
         };
 
         static readonly OnDemandCache<Type, Type[]> ModelHierarchyTypesCache = new(t => ModelHierarchyTypesGenerate(t).ToArray());
@@ -128,7 +131,7 @@ namespace Awaken.TG.MVC {
         /// Executes given callback on first model of given type, either existing or next that will appear 
         /// </summary>
         public static IEventListener DoForFirstModelOfType<T>(Action<T> callback, IListenerOwner owner) where T : Model {
-            T model = World.AllInOrder<T>().FirstOrDefault();
+            var model = World.FirstOrNull<T>();
             if (model != null) {
                 callback(model);
                 return null;
@@ -146,7 +149,8 @@ namespace Awaken.TG.MVC {
         /// </summary>
         public static IEventListener ListenToFirstModelOfType<TSource, TPayload>(IEvent<TSource, TPayload> evt, Action<TPayload> callback, IListenerOwner owner)
             where TSource : class, IModel {
-            TSource model = World.AllInOrder<TSource>().FirstOrDefault();
+            var model = World.FirstOrNull<TSource>();
+
             if (model != null) {
                 return model.ListenTo(evt, callback, owner);
             } else {

@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 9102533663763092846}
   - component: {fileID: 6311307121577302410}
   - component: {fileID: 2554839777941809350}
-  - component: {fileID: -7164894458602889741}
   - component: {fileID: -8740999093761986849}
   - component: {fileID: -638429977149788653}
+  - component: {fileID: 266571145223743239}
+  - component: {fileID: -6371357103092161567}
   m_Layer: 0
   m_Name: Spec_Pet_Qrko
   m_TagString: Untagged
@@ -100,32 +101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5260ecaa9854d85bc0fe511241273dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-7164894458602889741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4443325589952417686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d37e3c32bf3340a4a89591352ed323a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customDialogueLabel:
-    IdOverride: 
-    ID: Template/customDialogueLabel_11281849615106661875_cc30c92e0699e3c41be92d1e99057354
-  bookmark:
-    story:
-      _guid: 70ca148d1baf9ea4f8ef42b9ce829724
-    chapterName: 
-  gesturesWrapper:
-    embedOverrides:
-      gestures: []
-    explicitOverrides:
-      _guid: 
-  viewFocus: {fileID: 0}
-  endStoryDistance: 1
 --- !u!114 &-8740999093761986849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +195,89 @@ MonoBehaviour:
           Data3: 1069051796
           Data4: 184892103
         Path: 
+  usesExplicitWyrdConvertedAudio: 0
+  wyrdConvertedAudioContainerWrapper:
+    assetType: 1
+    dataAsset: {fileID: 0}
+    data:
+      audioType: 0
+      idle:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      hurt:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      die:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialAttack:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialBegin:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      specialRelease:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      fall:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      dash:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      footStep:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      roar:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
 --- !u!114 &-638429977149788653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,3 +312,55 @@ MonoBehaviour:
           mapMarkerOrderOverride: 0
           ignoreDistanceRequirement: 0
           ignoreAngleRequirement: 0
+--- !u!114 &266571145223743239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b0231421454206af074ab8a48e8b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasDuration: 0
+  duration: 0
+  prolongDuration: 0
+  spawnDelayOnStart: 0
+  spawnDelayAfterVfx: 0
+  disappearDelayOnEnd: 0
+  disappearDelayAfterVfx: 0
+  variantSpawnVFX:
+    arReference:
+      address: 
+      subObjectName: 
+  variantEndVFX:
+    arReference:
+      address: 
+      subObjectName: 
+  variantType: 0
+--- !u!114 &-6371357103092161567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443325589952417686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393a3b078cd94907ab76efd742cdea30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customDialogueLabel:
+    IdOverride: 
+    ID: Template/customDialogueLabel_12075386970617390049_cc30c92e0699e3c41be92d1e99057354
+  bookmark:
+    story:
+      _guid: 70ca148d1baf9ea4f8ef42b9ce829724
+    chapterName: 
+  gesturesWrapper:
+    explicitOverrides:
+      _guid: 
+  viewFocus: {fileID: 0}
+  endStoryDistance: 1

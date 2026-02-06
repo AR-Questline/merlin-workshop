@@ -24,7 +24,7 @@ namespace Awaken.Utility.Editor.Helpers {
         protected virtual void OnGUI() {
             _windowObject.Update();
 
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, GUILayout.ExpandHeight(false));
             var propertiesIterator = _windowObject.GetIterator();
             for (var enterChildren = true; propertiesIterator.NextVisible(enterChildren); enterChildren = false) {
                 if (propertiesIterator.name == "m_Script") {
@@ -40,7 +40,8 @@ namespace Awaken.Utility.Editor.Helpers {
 
             _windowObject.ApplyModifiedProperties();
 
-            foreach (var button in _buttons) {
+            for (var i = 0; i < _buttons.Count; i++) {
+                var button = _buttons[i];
                 if (button.visible()) {
                     if (GUILayout.Button(button.label)) {
                         button.action?.Invoke();

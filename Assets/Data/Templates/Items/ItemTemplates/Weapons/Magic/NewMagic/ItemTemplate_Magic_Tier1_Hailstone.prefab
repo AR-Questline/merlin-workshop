@@ -54,6 +54,8 @@ MonoBehaviour:
   _isAbstract: 0
   _abstractTypes:
   - _guid: 11a07a8cdfbe00344b9a173f3aefa854
+  - _guid: c11a64f190b524641b2f575710ed11dd
+  - _guid: 575c6a7e149286b4db9158e0d8892ded
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -157,6 +159,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -270,10 +276,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 25
+      - name: NGBuildup
+        value: 80
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -318,10 +330,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 50
+      - name: NGBuildup
+        value: 100
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -366,10 +384,16 @@ MonoBehaviour:
         value: 1
       - name: Stacks
         value: 1
+      - name: NGStacks
+        value: 1
       - name: Duration
         value: 0
       - name: Buildup
         value: 65
+      - name: NGBuildup
+        value: 110
+      - name: RangeForDescription
+        value: 0
       enums: []
       datums:
       - name: ApplyAsAOE
@@ -420,7 +444,7 @@ MonoBehaviour:
   pushStaminaCost: 0
   minDamage: 4
   maxDamage: 6
-  damageGain: 0
+  damageGain: 1
   heavyAttackDamageMultiplier: 0
   pushDamageMultiplier: 0
   backStabDamageMultiplier: 1
@@ -453,8 +477,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 5
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 10
+  heavyCastManaCostGain: 1.5
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-8418636394755517277
 MonoBehaviour:

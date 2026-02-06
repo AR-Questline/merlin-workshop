@@ -14,9 +14,35 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
     public partial class RuntimeDamageTypeData : DamageTypeDataBase {
         public override ushort TypeForSerialization => SavedTypes.RuntimeDamageTypeData;
 
-        public RuntimeDamageTypeData(DamageType sourceType, DamageSubType subtype = DamageSubType.Default) : base(sourceType, subtype) { }
-        public RuntimeDamageTypeData(DamageType sourceType, IEnumerable<DamageTypeDataPart> defaultParts) : base(sourceType, defaultParts) { }
-        public RuntimeDamageTypeData(DamageType sourceType, UnsafePinnableList<DamageTypeDataPart> defaultParts) : base(sourceType, defaultParts) { }
+        [Saved] UnsafePinnableList<DamageTypeDataPart> OriginalParts { get; set; }
+
+        public RuntimeDamageTypeData(DamageType sourceType, DamageSubType subtype = DamageSubType.Default) : base(sourceType, subtype) {
+            InitOriginalParts();
+        }
+
+        public RuntimeDamageTypeData(DamageType sourceType, IEnumerable<DamageTypeDataPart> defaultParts) : base(sourceType, defaultParts) {
+            InitOriginalParts();
+        }
+
+        public RuntimeDamageTypeData(DamageType sourceType, UnsafePinnableList<DamageTypeDataPart> defaultParts) : base(sourceType, defaultParts) {
+            InitOriginalParts();
+        }
+
+        void InitOriginalParts() {
+            this.OriginalParts = new UnsafePinnableList<DamageTypeDataPart>(Parts.Count);
+            foreach (DamageTypeDataPart part in Parts) {
+                this.OriginalParts.Add(part);
+            }
+        }
+
+        [UnityEngine.Scripting.Preserve]
+        public DamageTypeData GetOriginalDamageTypeData() {
+            List<DamageTypeDataPart> parts = new(OriginalParts.Count);
+            foreach (DamageTypeDataPart part in OriginalParts) {
+                parts.Add(part);
+            }
+            return new DamageTypeData(SourceType, parts);
+        }
     }
     
     public partial class DamageTypeData : DamageTypeDataBase {
@@ -79,7 +105,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
                 
                 if (damage.CanBeReducedByArmor) {
                     float armorValue = target.TotalArmor(dataPart.SubType);
-                    armorValue -= damage.Parameters.ArmorPenetration; //TODO different Armor and Magic Armor penetration?
+                    armorValue -= damage.Parameters.ArmorPenetration;
                     armorMultiplier = armorValue > 0f ? Damage.GetArmorMitigatedMultiplier(armorValue) : 1f;
                 }
                 
@@ -134,7 +160,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
 
     public partial struct DamageTypeDataPart {
         public ushort TypeForSerialization => SavedTypes.DamageTypeDataPart;
-
+        
         [Saved] public DamageSubType SubType { get; private set; }
         [Saved] public int Percentage { get; private set; }
         [Saved] public float DamageTaken { get; private set; }
@@ -187,7 +213,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subType == part.SubType) {
                     return true;
-                };
+                }
             }
             return false;
         } 
@@ -197,7 +223,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subTypes.Contains(part.SubType)) {
                     return true;
-                };
+                }
             }
             return false;
         }
@@ -207,7 +233,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subType == part.SubType) {
                     return part;
-                };
+                }
             }
             return default;
         } 
@@ -218,7 +244,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subTypes.Contains(part.SubType)) {
                     parts.Add(part);
-                };
+                }
             }
             return parts;
         }
@@ -228,7 +254,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subType == part.SubType) {
                     return part.DamageTaken;
-                };
+                }
             }
             return 0;
         } 
@@ -239,7 +265,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subTypes.Contains(part.SubType)) {
                     damageSum += part.DamageTaken;
-                };
+                }
             }
             return damageSum;
         }
@@ -249,7 +275,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subType == part.SubType) {
                     return part.PercentageAsFloat;
-                };
+                }
             }
             return 0;
         } 
@@ -260,9 +286,36 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             foreach (var part in data.Parts) {
                 if (subTypes.Contains(part.SubType)) {
                     percentageSum += part.PercentageAsFloat;
-                };
+                }
             }
             return percentageSum;
+        }
+        
+        [UnityEngine.Scripting.Preserve]
+        public static void SetSubtypePercentage(this DamageTypeDataBase data, DamageSubType subType, int newPercentage) {
+            for (int i = 0; i < data.Parts.Count; i++) {
+                ref var part = ref data.Parts[i];
+                if (subType == part.SubType) {
+                    part = new DamageTypeDataPart(part.SubType, newPercentage, part.IsDefault);
+                    return;
+                }
+            }
+        }
+        
+        [UnityEngine.Scripting.Preserve]
+        public static void OverrideSubtypesTo(this DamageTypeDataBase data, DamageSubType newSubType) {
+            if (newSubType == DamageSubType.Default) {
+                newSubType = data.SourceType.DefaultSubtype();
+            }
+            
+            // If we had an item that increased percentage above 100% we want to keep the total percentage
+            int currentTotal = 0;
+            foreach (var part in data.Parts) {
+                currentTotal += part.Percentage;
+            }
+
+            data.Parts.Clear();
+            data.Parts.Add(new DamageTypeDataPart(newSubType, currentTotal, true));
         }
 
         public static RuntimeDamageTypeData CombineWeaponAndAmmoType(DamageTypeDataBase weaponDamage, DamageTypeDataBase ammoDamage) {

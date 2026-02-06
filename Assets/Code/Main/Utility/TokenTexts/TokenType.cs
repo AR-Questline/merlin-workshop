@@ -106,13 +106,13 @@ namespace Awaken.TG.Main.Utility.TokenTexts {
                 return;
             }
             
-            string requiredText = $"{requiredStat.ModifiedInt} {targetStat.Type.DisplayName}\n";
+            string requiredText = $"{requiredStat.ModifiedInt} {targetStat.Type.DisplayName}\n".FontSemiBold();
             Color color = targetStat >= requiredStat ? ARColor.MainGreen : ARColor.MainRed;
 
             if (string.IsNullOrEmpty(text)) {
-                text += $"{LocTerms.Requires.Translate()} {requiredText}".ColoredText(color);;
+                text += $"{LocTerms.Requires.Translate().ColoredText(ARColor.MainGrey)} {requiredText.ColoredText(color)}";
             } else {
-                text += $"{LocTerms.Requires.Translate().ColoredText(ARColor.Transparent)} {requiredText.ColoredText(color)}";
+                text += $"{LocTerms.Requires.Translate().ColoredText("0000")} {requiredText.ColoredText(color)}";
             }
         }
         

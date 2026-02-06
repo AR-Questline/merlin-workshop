@@ -86,7 +86,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_effectOverridenToken_locString_2543871262668956605_e2dd4dc32470f6845bb11b00967d6893
     costType:
       _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null:Mana
@@ -153,6 +153,10 @@ MonoBehaviour:
     arReference:
       address: 73ccab177b38ef9459354d80f50194df
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &2171448430345750879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,12 +175,20 @@ MonoBehaviour:
     variables:
     - name: Buildup
       value: 20
+    - name: BuildupGain
+      value: 0
+    - name: BuildupCalculated
+      value: 0
     - name: Duration
       value: 0
     - name: ChanceToApply
       value: 1
     - name: StackCount
       value: 1
+    - name: ValuePreCalculated
+      value: 0
+    - name: DurationGainValue
+      value: 0
     enums: []
     datums:
     - name: OnNormalAttack

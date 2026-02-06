@@ -56,6 +56,7 @@ MonoBehaviour:
     verifiedDesign: 0
     notes: 
   tags: []
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 619a51796c5fb1445890f18d62c02440
@@ -152,6 +153,10 @@ MonoBehaviour:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,15 +180,15 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: ec1609f89f4d90c4a8f9553b49e46008
     variables:
-    - name: Duration
-      value: 30
-    - name: DurationCalculated
-      value: 0
-    - name: Gain
-      value: 3
     - name: AddValue
       value: 1
     - name: AddValueCalculated
+      value: 0
+    - name: Duration
+      value: 30
+    - name: Gain
+      value: 3
+    - name: DurationCalculated
       value: 0
     enums:
     - name: StatEnum

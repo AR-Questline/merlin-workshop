@@ -79,10 +79,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_0d9b34b60e8030e4780149a666b2ae46
-  EDITOR_bakedDescription: 'Health Regeneration Spell.
-
-    Healing Value: 30HP over
-    10 sec'
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -159,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: e9882f03bbecca447b4ce3b0dadfc6a4
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,8 +215,16 @@ MonoBehaviour:
     variables:
     - name: LightCastHealValue
       value: 50
+    - name: LightCastHealGain
+      value: 2
+    - name: LightCastHealCalculated
+      value: 0
     - name: HeavyCastHealPerSecond
       value: 8
+    - name: HeavyCastHealPerSecondGain
+      value: 0.3
+    - name: HeavyCastHealPerSecondCalculated
+      value: 0
     - name: MaxHealMultiplier
       value: 2.5
     - name: MaxHealDelay
@@ -286,8 +295,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 100
+  lightCastManaCostGain: 1.5
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 24
+  heavyCastManaCostPerSecondGain: 1.5
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &7142433467801055508
 MonoBehaviour:

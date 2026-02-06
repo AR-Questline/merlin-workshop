@@ -52,6 +52,9 @@ namespace Awaken.TG.Main.Settings.Gameplay {
             if (tool == ToolType.Fishing) {
                 return _fishing.Enabled;
             }
+            if (tool == ToolType.Cutting) {
+                return _mining.Enabled;
+            }
             throw new ArgumentOutOfRangeException($"Tool type {tool} is unsupported");
         }
     }

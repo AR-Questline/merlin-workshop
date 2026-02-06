@@ -78,7 +78,7 @@ MonoBehaviour:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_929560737909dad498d5abbb4dde000c
   EDITOR_bakedDescription: "Each blocked hit increases the hero\u2019s melee damage
-    by 5%. Effect resets after 10s of not blocking any damage."
+    by 5\_%. Effect resets after 15s of not blocking any damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -98,7 +98,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_costOverridenToken_locString_2543871262668956605_929560737909dad498d5abbb4dde000c
     magicDescription:
       toggled: 0
       locString:
@@ -128,11 +128,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_929560737909dad498d5abbb4dde000c
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 400
+  basePrice: 1000
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 2
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 5713203a08f5be244b21e1d98d6e01d2
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -203,16 +207,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 14
+  heavyAttackStaminaCost: 21
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 0.8
-  parryStaminaCost: 15
+  parryStaminaCost: 40
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 12
-  maxDamage: 16
+  minDamage: 18
+  maxDamage: 22
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -246,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3291696646231857555
 MonoBehaviour:

@@ -4,6 +4,7 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.Factions.Markers;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.Statuses.Duration;
 using Unity.Entities;
 
 namespace Awaken.TG.Main.Fights.Factions {
@@ -109,6 +110,30 @@ namespace Awaken.TG.Main.Fights.Factions {
 
             if (needNewMarker) {
                 me.AddElement(new CharacterAntagonism(layer, AntagonismType.Mutual, other, antagonism));
+            }
+        }
+        
+        public static void ApplyCombatHostility(this IWithFaction receiver, ICharacter attacker) {
+            if (receiver is NpcElement npc) {
+                AntagonismMarker.TryApplySingleton(
+                    new FactionAntagonism(AntagonismLayer.Default, AntagonismType.To, attacker.Faction, Antagonism.Hostile),
+                    new UntilIdle(npc),
+                    npc
+                );
+            } else if (receiver is Hero hero) {
+                AntagonismMarker.TryApplySingleton(
+                    new FactionAntagonism(AntagonismLayer.Default, AntagonismType.To, attacker.Faction, Antagonism.Hostile),
+                    new UntilHeroEndOfCombat(),
+                    hero
+                );
+            } else if (receiver is ICharacter character) {
+                AntagonismMarker.TryApplySingleton(
+                    new FactionAntagonism(AntagonismLayer.Default, AntagonismType.To, attacker.Faction, Antagonism.Hostile),
+                    new UntilEndOfFightDuration(character),
+                    character
+                );
+            } else {
+                receiver.TurnHostileTo(AntagonismLayer.Default, attacker);
             }
         }
     }

@@ -139,7 +139,7 @@ MonoBehaviour:
   basePrice: 500
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 3
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -158,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -248,8 +252,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -277,7 +284,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 10
     - name: GainValue
-      value: 0
+      value: 1
     - name: ValueCalculated
       value: 0
     enums:
@@ -294,7 +301,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 10
     - name: GainValue
-      value: 0
+      value: 1
     - name: ValueCalculated
       value: 0
     enums:
@@ -394,7 +401,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 10
     - name: GainValue
-      value: 0
+      value: 1
     - name: ValueCalculated
       value: 0
     enums:

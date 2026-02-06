@@ -13,11 +13,14 @@ namespace Awaken.TG.Main.Locations.Gems {
         [field: SerializeField] public Transform TooltipParentStatic { get; private set; }
         [field: SerializeField] public Transform TooltipParent { get; private set; }
 
+        [SerializeField] GameObject backgrounds;
+        
         [Title("Empty Info")]
         [SerializeField] CanvasGroup contentGroup;
         [SerializeField] VCEmptyInfo emptyInfo;
         
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
+        public GameObject Backgrounds => backgrounds;
         public CanvasGroup[] ContentGroups => new[] { contentGroup };
         public VCEmptyInfo EmptyInfoView => emptyInfo;
         

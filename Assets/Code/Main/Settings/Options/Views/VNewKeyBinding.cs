@@ -1,5 +1,5 @@
 ﻿using System;
-using Awaken.TG.Main.Settings.Windows;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
@@ -25,6 +25,7 @@ namespace Awaken.TG.Main.Settings.Options.Views {
         }
 
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             _handler = new AlwaysPresentHandlers(UIContext.All, this);

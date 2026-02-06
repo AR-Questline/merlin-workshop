@@ -81,7 +81,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_increase_percent
       ID: Template/description_locString_2543871262668956605_dc59ccd955e35c14397d20cea28399be
-  EDITOR_bakedDescription: Increases stamina loss for opponents on successful parries.
+  EDITOR_bakedDescription: "Increases Enemy Stamina Loss after a successful parry
+    by 36\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 147a46a7cbc77d04f986423664e72545
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-512101249687311467
 MonoBehaviour:
@@ -300,6 +308,23 @@ MonoBehaviour:
     datums: []
     templates: []
     assetReferences: []
+  - skillGraphRef:
+      _guid: 46e9ec2a44472f043ad23e100b6be969
+    variables: []
+    enums: []
+    datums: []
+    templates: []
+    assetReferences:
+    - name: VFX
+      assetReference:
+        arReference:
+          address: 5edd405ebd945eb4e9e0edee567ea83b
+          subObjectName: 
+    - name: WeaponVFX
+      assetReference:
+        arReference:
+          address: ab02de96fb606c24388f4494bdd4ccbe
+          subObjectName: 
 --- !u!114 &-690347261252870806
 MonoBehaviour:
   m_ObjectHideFlags: 0

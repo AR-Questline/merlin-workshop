@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Awaken.TG.Assets;
+using Awaken.TG.Main.AI.Combat.Behaviours.Abstracts;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
@@ -14,7 +16,7 @@ using UnityEngine;
 
 namespace Awaken.TG.Main.AI.Fights.Projectiles {
     public partial class ProjectileWrapper {
-         public void ApplyVariables(List<VSVariable> variables) {
+        public void ApplyVariables(List<VSVariable> variables) {
             ApplyToProjectile(new ProjectileVariableOverride(variables));
         }
 
@@ -22,28 +24,34 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
             ApplyToProjectile(new ConfigureShootProjectile(shootParams, arrowVelocity));
         }
 
-        public void ConfigureShotProjectileSimple(Vector3 projectileVelocity, ICharacter shooter, EquipmentSlotType slotType, float fireStrength, ProjectileOffsetData? offsetParams, DamageType? damageType) {
-            ApplyToProjectile(new ConfigureShotProjectileSimple(projectileVelocity, shooter, slotType, fireStrength, offsetParams, damageType));
+        public void ConfigureShotProjectileSimple(Vector3 projectileVelocity, ICharacter shooter,
+            EquipmentSlotType slotType, float fireStrength, ProjectileOffsetData? offsetParams,
+            DamageType? damageType) {
+            ApplyToProjectile(new ConfigureShotProjectileSimple(projectileVelocity, shooter, slotType, fireStrength,
+                offsetParams, damageType));
         }
 
         public void ConfigureHomingProjectile(ICharacter shooter, Item shootingItem, DamageTypeData damageTypeData) {
             ApplyToProjectile(new ConfigureHomingProjectile(shooter, shootingItem, damageTypeData));
         }
-        
+
         public void EnableLogic(bool enable) {
             ApplyToProjectile(new EnableLogic(enable));
         }
 
         [UnityEngine.Scripting.Preserve]
-        public void DuplicateProjectile(Vector3 spawnOffset, Vector3 aimOffset, bool consumeAmmo = false, ShareableARAssetReference overrideLogicPrefab = null,
-            ShareableARAssetReference overrideVisualPrefab = null, ProjectileLogicData? overrideLogicData = null, List<SkillReference> overrideSkills = null, float delayMove = 0f, float? damageMultiplier = null) {
-            ApplyToProjectile(new ProjectileDuplicate(spawnOffset, aimOffset, consumeAmmo, overrideLogicPrefab, overrideVisualPrefab, overrideLogicData, overrideSkills, delayMove, damageMultiplier));
+        public void DuplicateProjectile(Vector3 spawnOffset, Vector3 aimOffset, bool consumeAmmo = false,
+            ShareableARAssetReference overrideLogicPrefab = null,
+            ShareableARAssetReference overrideVisualPrefab = null, ProjectileLogicData? overrideLogicData = null,
+            List<SkillReference> overrideSkills = null, float delayMove = 0f, float? damageMultiplier = null) {
+            ApplyToProjectile(new ProjectileDuplicate(spawnOffset, aimOffset, consumeAmmo, overrideLogicPrefab,
+                overrideVisualPrefab, overrideLogicData, overrideSkills, delayMove, damageMultiplier));
         }
 
         public void MultiplyBaseDamage(float value) {
             ApplyToProjectile(new ProjectileMultiplyBaseDamage(value));
         }
-        
+
         public void SetAsSecondaryProjectile() {
             ApplyToProjectile(new SetAsSecondaryProjectile());
         }
@@ -51,7 +59,19 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
         public void HomingProjectileSetTarget(ICharacter target, float aimAtHeight = 0.5f) {
             ApplyToProjectile(new ProjectileHomingSetTarget(target, aimAtHeight));
         }
-    }
+
+        public void SetKnockdownData(KnockdownType type, float strength) {
+            ApplyToProjectile(new SetKnockdownData(type, strength));
+        }
+
+        public void ConfigureHomingOnContactProjectile(ICharacter target, Action onContact, Action onRelease) {
+            ApplyToProjectile(new ConfigureHomingOnContactProjectile(target, onContact, onRelease));
+        }
+        
+        public void AddAngularVelocityToProjectile(Vector3 angularVelocity) {
+            ApplyToProjectile(new ProjectileAddAngularVelocity(angularVelocity));
+        }
+}
     
     internal class ConfigureShootProjectile : IApplicableToProjectile {
         readonly VGUtils.ShootParams _shootParams;
@@ -249,6 +269,56 @@ namespace Awaken.TG.Main.AI.Fights.Projectiles {
         public void ApplyToProjectile(GameObject gameObject, Projectile projectile) {
             if (projectile is HomingProjectile hp) {
                 hp.SetTarget(_target, _aimAtHeight);
+            }
+        }
+    }
+
+    internal class SetKnockdownData : IApplicableToProjectile {
+        readonly KnockdownType _type;
+        readonly float _strength;
+        
+        public SetKnockdownData(KnockdownType type, float strength) {
+            _type = type;
+            _strength = strength;
+        }
+        
+        public void ApplyToProjectile(GameObject gameObject, Projectile projectile) {
+            if (projectile is DamageDealingProjectile ddp) {
+                ddp.SetKnockdownData(_type, _strength);
+            }
+        }
+    }
+    
+    internal class ConfigureHomingOnContactProjectile : IApplicableToProjectile {
+        readonly ICharacter _target;
+        readonly Action _onContact;
+        readonly Action _onRelease;
+        
+        public ConfigureHomingOnContactProjectile(ICharacter target, Action onContact, Action onRelease) {
+            _target = target;
+            _onContact = onContact;
+            _onRelease = onRelease;
+        }
+        
+        public void ApplyToProjectile(GameObject gameObject, Projectile projectile) {
+            if (projectile is CustomHomingOnContactProjectile onContactProjectile) {
+                onContactProjectile.SetTarget(_target);
+                onContactProjectile.AssignOnContactAction(_onContact);
+                onContactProjectile.AssignReleaseAction(_onRelease);
+            }
+        }
+    }
+    
+    internal class ProjectileAddAngularVelocity : IApplicableToProjectile {
+        readonly Vector3 _angularVelocity;
+        
+        public ProjectileAddAngularVelocity(Vector3 angularVelocity) {
+            _angularVelocity = angularVelocity;
+        }
+        
+        public void ApplyToProjectile(GameObject gameObject, Projectile projectile) {
+            if (projectile is DamageDealingProjectile damageDealingProjectile) {
+                damageDealingProjectile.SetAngularVelocity(_angularVelocity);
             }
         }
     }

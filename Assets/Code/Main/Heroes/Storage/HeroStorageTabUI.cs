@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Heroes.CharacterSheet.Items.Management;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs;
 using Awaken.TG.Main.Heroes.Items;
-using Awaken.TG.Main.Heroes.Items.Tooltips;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.EmptyContent;
@@ -18,6 +18,8 @@ using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Storage {
     public abstract partial class HeroStorageTabUI : HeroStorageTabs.Tab<VHeroStorageTabUI>, IItemsUIConfig {
+        StorageItemsBatchHandler _ingredientsHandler;
+        StorageItemsBatchBySubTabHandler _moveBySubTabHandler;
         Prompt _promptSelectItem;
         PopupUI _popup;
         InputItemQuantityUI _inputItemQuantityUI;
@@ -50,6 +52,12 @@ namespace Awaken.TG.Main.Heroes.Storage {
             ItemsUI.ListenTo(ItemsUI.Events.ClickedItemsChanged, SelectItem, this);
             ItemsUI.ListenTo(ItemsUI.Events.ItemsCollectionChanged, OnContentChange, this);
 
+            _ingredientsHandler = AddElement(new StorageItemsBatchHandler());
+            _ingredientsHandler.Initialize(Prompts, ItemsUI, item => item.MoveTo(InventoryTo, item.Quantity));
+            
+            _moveBySubTabHandler = AddElement(new StorageItemsBatchBySubTabHandler());
+            _moveBySubTabHandler.Initialize(Prompts, ItemsUI, item => item.MoveTo(InventoryTo, item.Quantity), ParentModel.DoublePromptsHost);
+            
             _promptSelectItem = Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, ActionName), this, false);
             World.Only<ItemNotificationBuffer>().SuspendPushingNotifications = true;
         }

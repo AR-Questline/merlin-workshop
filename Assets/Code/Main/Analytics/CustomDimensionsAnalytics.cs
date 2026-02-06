@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Settings;
 using Awaken.TG.Main.Settings.Gameplay;
@@ -67,7 +68,7 @@ namespace Awaken.TG.Main.Analytics {
         void UpdateAllDimensions() {
             SetDifficultyDimension();
             SetMainStoryProgressDimension();
-            SetPlaythroughDimension();
+            SetNewGamePlusDimension();
         }
 
         // --- Dimeension01
@@ -148,17 +149,10 @@ namespace Awaken.TG.Main.Analytics {
         }
         
         // --- Dimeension03
-        void SetPlaythroughDimension() {
-            return;
-            //TODO Implement Playthrough Count
-            // int playthroughNumber = 1;
-            // string dimension = playthroughNumber switch {
-            //     < 10 => playthroughNumber.ToString(),
-            //     < 15 => "10-14",
-            //     < 20 => "15-19",
-            //     _ => "20+"
-            // };
-            // GameAnalytics.SetCustomDimension02(dimension);
+        void SetNewGamePlusDimension() {
+            int ngLevel = NewGamePlusSystem.Level;
+            string dimension = ngLevel > 10 ? "10plus" : ngLevel.ToString();
+            // GameAnalytics.SetCustomDimension03(dimension);
         }
 
         enum MainStoryProgress : byte {

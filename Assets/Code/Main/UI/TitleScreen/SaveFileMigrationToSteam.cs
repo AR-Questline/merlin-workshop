@@ -1,4 +1,4 @@
-﻿#if !UNITY_GAMECORE && !UNITY_PS5
+﻿#if !UNITY_GAMECORE && !UNITY_PS5 && !MICROSOFT_GAME_CORE
 using System;
 using System.IO;
 using System.Linq;

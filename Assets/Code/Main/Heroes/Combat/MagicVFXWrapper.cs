@@ -90,7 +90,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 return;
             }
 
-            if (_return) {
+            if (_return || _pooledInstance.Instance == null) {
                 _pooledInstance.Return();
                 _pooledInstance = null;
                 return;

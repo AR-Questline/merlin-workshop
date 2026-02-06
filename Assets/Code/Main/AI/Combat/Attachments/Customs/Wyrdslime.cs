@@ -37,8 +37,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
             wightConversionChancePerAttack = copyFrom.wightConversionChancePerAttack;
         }
         
-        protected override void OnInitialize() {
-            base.OnInitialize();
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             NpcElement.ListenTo(NpcAI.Events.NpcStateChanged, OnWyrdslimeStateChanged, this);
         }
 
@@ -85,13 +85,11 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
             }
             
             _wightLocation = wightLocation.SpawnLocation(ParentModel.Coords, ParentModel.Rotation, spawnScene: ParentModel.MainView.gameObject.scene);
-            _wightLocation.ViewParent.localScale = Vector3.zero;
-
             OnWightSpawnInProgress();
         }
 
         void OnWightSpawnInProgress() {
-            SetTemporaryWightInvisibility(true);
+            _wightLocation.SetTemporaryScaleBasedInvisibility(true);
             
             var wight = _wightLocation.Element<NpcElement>();
             wight.StartInSpawn = true;
@@ -100,15 +98,8 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
         }
 
         void FinalizeWightSpawn() {
-            SetTemporaryWightInvisibility(false);
+            _wightLocation.SetTemporaryScaleBasedInvisibility(false);
             NpcElement.SetAnimatorState(NpcFSMType.OverridesFSM, NpcStateType.CustomAction, 0);
-        }
-        
-        void SetTemporaryWightInvisibility(bool invisible) {
-            if (_wightLocation) {
-                var nearZeroScale = Vector3.one * 0.01f;
-                _wightLocation.ViewParent.localScale = invisible ? nearZeroScale : Vector3.one;
-            }
         }
 
         void OnWightStateChanged(Change<IState> change) {

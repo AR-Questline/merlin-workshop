@@ -2,6 +2,7 @@
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors;
 using Awaken.TG.Main.UI.Components;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -28,7 +29,8 @@ namespace Awaken.TG.Main.Crafting.Slots {
         Item _wantedItem;
         
         public override Transform DetermineHost() => Target.DeterminedHost;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         public void Submit() => Target.Submit();
         
         protected override void OnNewTarget() {

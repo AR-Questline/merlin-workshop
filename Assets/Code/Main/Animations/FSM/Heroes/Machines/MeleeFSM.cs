@@ -129,8 +129,10 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
             if (CurrentAnimatorState?.GeneralType == HeroGeneralStateType.Block) {
                 ParentModel.TryGetElement<HeroBlock>()?.Discard();
             }
-            
-            SetCurrentState(HeroStateType.Idle);
+
+            if (!IsInsideSafeZone) {
+                SetCurrentState(HeroStateType.Idle);
+            }
             ParentModel.FoV.EndBowZoomFoV();
         }
         
@@ -323,7 +325,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
 
         protected override void OnEnteredState(HeroAnimatorState state) {
             if (state.GeneralType != HeroGeneralStateType.General) {
-                CancelHitStop();
+                CancelHitStop(false, false);
             }
             if (state.GeneralType != HeroGeneralStateType.Block) {
                 ParentModel.RemoveElementsOfType<HeroBlock>();
@@ -363,7 +365,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         }
 
         protected override void OnDisable(bool fromDiscard) {
-            CancelHitStop(fromDiscard);
+            CancelHitStop(fromDiscard, true);
             AdditionalSynchronizedLayer?.SetEnable(false);
             HeadLayerIndex?.SetEnable(false);
         }
@@ -381,8 +383,8 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
             AddElement(new MeleeHitStop(hitStopData));
         }
 
-        void CancelHitStop(bool instant = false) {
-            TryGetElement<MeleeHitStop>()?.ExitHitStop(instant);
+        void CancelHitStop(bool instant, bool fromDisable) {
+            TryGetElement<MeleeHitStop>()?.ExitHitStop(instant, fromDisable);
         }
     }
 }

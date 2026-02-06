@@ -21,14 +21,16 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
 
         protected override void OnInitialize() {
             _stat = RetrieveStat();
+        }
+
+        protected override void StartTracking() {
             if (_stat == null) {
                 Log.Important?.Error($"Can't find stat owner in quest {ParentModel.ParentModel.DisplayName}, " +
                                $"objective {ParentModel.Name} (guid: {ParentModel.Guid}), for stat {TrackedStat.EnumName}");
                 return;
             }
-            
             _stat.Owner.ListenTo(Stat.Events.StatChangedBy(TrackedStat), StatChanged, this);
-            StatChanged(new Stat.StatChange(_stat, 0f));
+            StatChanged(new Stat.StatChange(_stat, 0f), true);
         }
 
         Stat RetrieveStat() {
@@ -36,15 +38,19 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
         }
 
         void StatChanged(Stat.StatChange change) {
+            StatChanged(change, false);
+        }
+        
+        void StatChanged(Stat.StatChange change, bool fromInitialCheck) {
             if (_trackType == StatTrackType.Current) {
-                SetTo(_stat.ModifiedValue);
+                SetTo(_stat.ModifiedValue, fromInitialCheck);
             } else if (_trackType == StatTrackType.Gain) {
                 if (change.value > 0) {
-                    ChangeBy(change.value);
+                    ChangeBy(change.value, fromInitialCheck);
                 }
             } else if (_trackType == StatTrackType.Loss) {
                 if (change.value < 0) {
-                    ChangeBy(-change.value);
+                    ChangeBy(-change.value, fromInitialCheck);
                 }
             }
         }

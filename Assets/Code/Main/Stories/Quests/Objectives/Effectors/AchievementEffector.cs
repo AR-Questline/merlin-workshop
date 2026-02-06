@@ -50,6 +50,9 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Effectors {
         }
 
         void InitTrackerListeners() {
+            if (HasBeenDiscarded) {
+                return;
+            }
             foreach (var tracker in ParentModel.Trackers) {
                 tracker.ListenTo(Model.Events.AfterChanged, OnTrackerChanged, this);
             }

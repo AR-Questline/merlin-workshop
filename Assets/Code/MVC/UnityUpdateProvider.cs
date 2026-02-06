@@ -104,6 +104,9 @@ namespace Awaken.TG.MVC {
 
         public static void EDITOR_RuntimeReset() {
             Instance = null;
+            PlayerLoopUtils.RemoveFromPlayerLoop<UnityUpdateProvider, Update>();
+            PlayerLoopUtils.RemoveFromPlayerLoop<UnityUpdateProvider, PreLateUpdate>();
+            PlayerLoopUtils.RemoveFromPlayerLoop<UnityUpdateProvider, FixedUpdate>();
         }
 
         UnityUpdateProvider() {

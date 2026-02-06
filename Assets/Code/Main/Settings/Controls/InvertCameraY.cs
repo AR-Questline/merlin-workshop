@@ -31,8 +31,13 @@ namespace Awaken.TG.Main.Settings.Controls {
 
         void Set() {
             bool value = _invert.Enabled;
-            AssignFor(ControllerType.Mouse, !value);
             AssignFor(ControllerType.Joystick, !value);
+            
+#if UNITY_GAMECORE
+            AssignFor(ControllerType.Mouse, value);
+#else
+            AssignFor(ControllerType.Mouse, !value);
+#endif
         }
 
         void AssignFor(ControllerType controller, bool value) {

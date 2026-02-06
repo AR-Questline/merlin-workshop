@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Awaken.TG.MVC.Domains;
 
 namespace Awaken.TG.MVC.Elements {

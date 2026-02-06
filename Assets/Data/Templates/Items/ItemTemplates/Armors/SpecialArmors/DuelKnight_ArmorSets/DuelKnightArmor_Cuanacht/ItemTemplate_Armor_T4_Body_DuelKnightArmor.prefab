@@ -23,6 +23,11 @@ PrefabInstance:
       propertyPath: enduranceRequired
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: -2030504492413747376, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: perceptionRequired
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1342416209863646601, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
       propertyPath: armor
@@ -82,6 +87,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
+      propertyPath: EDITOR_bakedDescription
+      value: "Increases Physical Damage by 33\_% when your Health is below 25\_%.\nIncreases
+        Attack Speed by 50\_% when your Stamina is below 50\_%."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
       propertyPath: description.locString.ID
       value: Template/description_locString_9211682420203416995_722d8130f61aca243a8decca544c8652
       objectReference: {fileID: 0}
@@ -99,6 +110,16 @@ PrefabInstance:
         type: 3}
       propertyPath: iconReference.arSpriteReference.address
       value: 2180fc3034aa3bb42b10efe11e57fae3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: heavyCastInfo.magicDescription.locString.ID
+      value: Template/heavyCastInfo_magicDescription_locString_9211682420203416995_722d8130f61aca243a8decca544c8652
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543871262668956605, guid: 063d12280a187214dbec00b4b3c68671,
+        type: 3}
+      propertyPath: lightCastInfo.magicDescription.locString.ID
+      value: Template/lightCastInfo_magicDescription_locString_9211682420203416995_722d8130f61aca243a8decca544c8652
       objectReference: {fileID: 0}
     - target: {fileID: 7123199763436368482, guid: 063d12280a187214dbec00b4b3c68671,
         type: 3}
@@ -197,7 +218,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 0.33
     - name: ValueGain
-      value: 0
+      value: 0.03
     - name: ValueCalculated
       value: 0
     enums:

@@ -1,13 +1,11 @@
 ﻿using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Pets;
-using Awaken.TG.Main.Stories.Api;
+using Awaken.TG.Main.Locations.Pets.Variants;
 using Awaken.TG.Main.Stories.Conditions.Core;
-using Awaken.TG.Main.Stories.Core;
 using Awaken.TG.Main.Stories.Core.Attributes;
 using Awaken.TG.Main.Stories.Runtime;
 using Awaken.TG.Main.Stories.Runtime.Nodes;
-using JetBrains.Annotations;
 
 namespace Awaken.TG.Main.Stories.Conditions {
     /// <summary>
@@ -31,27 +29,34 @@ namespace Awaken.TG.Main.Stories.Conditions {
         public Status statusToCheck;
         
         public override bool Fulfilled(Story story, StoryStep step) {
-            if (TryGetPet(story, out var pet)) {
-                if (statusToCheck == Status.FollowsHero) {
-                    return pet.ShouldFollowTarget && pet.TargetToFollow == Hero.Current;
+            foreach (var location in locationRef.MatchingLocations(story)) {
+                if (FulfilledForLocation(location)) {
+                    return true;
                 }
             }
             return false;
         }
 
-
-        bool TryGetPet([CanBeNull] Story story, out PetElement pet) {
-            foreach (var location in locationRef.MatchingLocations(story)) {
-                if (location.TryGetElement(out pet)) return true;
+        bool FulfilledForLocation(Location location) {
+            if (location.TryGetElement<PetElement>(out var pet)) {
+                if (statusToCheck == Status.FollowsHero) {
+                    return pet.WantsToFollowTarget && pet.TargetToFollow == Hero.Current;
+                }
+            }
+            
+            if (location.TryGetElement<PetVariantBase>(out var petVariant)) {
+                if (statusToCheck == Status.IsNonPetVariant) {
+                    return petVariant is not PetVariant;
+                }
             }
 
-            pet = null;
             return false;
         }
         
         [System.Serializable]
         public enum Status : byte {
-            FollowsHero
+            FollowsHero,
+            IsNonPetVariant,
         }
     }
 }

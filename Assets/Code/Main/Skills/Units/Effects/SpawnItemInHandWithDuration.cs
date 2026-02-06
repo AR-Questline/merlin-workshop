@@ -28,11 +28,11 @@ namespace Awaken.TG.Main.Skills.Units.Effects {
             var magicProjectileManaCost = FallbackARValueInput("magicProjectileManaCost", _ => DefaultManaCost);
             DefineSimpleAction(flow => {
                 Item skillItem = this.Skill(flow).SourceItem;
-                LockItemSlot itemSlotLocker = skillItem.AddElement<LockItemSlot>();
+                LockItemSlot itemSlotLocker = skillItem.AddElement(new LockItemSlot(true, LockItemSlot.LockSource.TemporaryItemSource));
                 
                 ItemTemplate template = itemTemplate.Value(flow).Template;
                 Item item = character.Value(flow).Inventory.Add(new Item(template));
-                item.AddElement<LockItemSlot>();
+                item.AddElement(new LockItemSlot(true, LockItemSlot.LockSource.TemporaryItem));
                 Hero.Current.Trigger(MagicHeavyLoop.Events.BeforeSpawnedNewItemInHand, item);
 
                 Hero hero = Hero.Current;

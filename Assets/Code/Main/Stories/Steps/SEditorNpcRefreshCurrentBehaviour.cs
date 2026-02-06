@@ -43,6 +43,7 @@ namespace Awaken.TG.Main.Stories.Steps {
 
             [Saved] bool _shouldPerformAndWait;
             
+            public override bool RequireVisualLoaded => true;
             public override bool ShouldPerformAndWait => _shouldPerformAndWait;
 
             [JsonConstructor, Preserve]

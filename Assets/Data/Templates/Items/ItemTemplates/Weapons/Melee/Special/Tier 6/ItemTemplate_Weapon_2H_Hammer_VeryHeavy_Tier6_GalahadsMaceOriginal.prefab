@@ -80,7 +80,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_a3b7015480fa5b940a67a2a0c76ab8f4
-  EDITOR_bakedDescription: Inflicts 50 Burn on hit.
+  EDITOR_bakedDescription: Each attack is critical.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -157,6 +157,10 @@ MonoBehaviour:
     arReference:
       address: 24c66937880f5f14bb46e69fbe1c563b
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,8 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 43
-  heavyAttackStaminaCost: 65
+  lightAttackStaminaCost: 65
+  heavyAttackStaminaCost: 97.5
   heavyAttackHoldCostPerTick: 12
   blockStaminaCostMultiplier: 1.5
   parryStaminaCost: 10
@@ -249,8 +253,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &2250481005308889846
 MonoBehaviour:
@@ -573,6 +580,8 @@ MonoBehaviour:
     - name: ModifyValue
       value: 1
     - name: GainValue
+      value: 0
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0

@@ -29,6 +29,8 @@ namespace Awaken.TG.Main.Heroes.Combat {
         }
             
         // === IHandOwner
+        public void SetActiveWeakspot(bool active) { }
+        
         public void OnFinisherRelease(Vector3 weaponPosition) {
             ParentModel.TryGetElement<IFinisher>()?.Release(weaponPosition);
         }

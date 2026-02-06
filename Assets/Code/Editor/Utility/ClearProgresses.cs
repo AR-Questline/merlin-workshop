@@ -29,7 +29,7 @@ namespace Awaken.TG.Editor.Utility {
         static void ShowSaveSlotsLocation() {
             string path;
             if (Application.isPlaying) {
-                path = Path.Combine(CloudService.Get.DataPath, Domain.SaveSlot.ConstructSavePath(SaveSlot.LastSaveSlotOfCurrentHero));
+                path = Path.Combine(CloudService.Get.DataPath, SaveSlot.LastSaveSlotOfCurrentHero.GetDirectory());
             } else {
                 path = Path.Combine(CloudService.Get.DataPath, CloudService.SavedGamesDirectory);
             }

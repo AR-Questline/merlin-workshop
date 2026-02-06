@@ -7,7 +7,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorOpenGemsUI))]
     public class SOpenGemsUIEditor : ElementEditor {
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawProperties();
 
             GUILayout.BeginHorizontal();

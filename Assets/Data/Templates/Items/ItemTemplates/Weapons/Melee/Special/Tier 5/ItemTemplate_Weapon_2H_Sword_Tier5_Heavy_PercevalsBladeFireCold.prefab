@@ -159,6 +159,10 @@ MonoBehaviour:
     arReference:
       address: b7932cd6e47a9dc44a1ef0af0c8fd62e
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,8 +257,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-690347261252870806
 MonoBehaviour:
@@ -591,17 +598,21 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: bb6d026ac4b23a144a2edfa026a363f9
     variables:
-    - name: Buildup
-      value: 95
-    - name: Duration
-      value: 0
     - name: ChanceToApply
       value: 1
-    - name: StackCount
-      value: 1
-    - name: ValuePreCalculated
+    - name: Buildup
+      value: 95
+    - name: NGBuildup
+      value: 150
+    - name: Duration
       value: 0
     - name: DurationGainValue
+      value: 0
+    - name: StackCount
+      value: 1
+    - name: NGStackCount
+      value: 1
+    - name: ValuePreCalculated
       value: 0
     enums:
     - name: StatEnum
@@ -707,17 +718,21 @@ MonoBehaviour:
   - skillGraphRef:
       _guid: bb6d026ac4b23a144a2edfa026a363f9
     variables:
-    - name: Buildup
-      value: 95
-    - name: Duration
-      value: 0
     - name: ChanceToApply
       value: 1
-    - name: StackCount
-      value: 1
-    - name: ValuePreCalculated
+    - name: Buildup
+      value: 95
+    - name: NGBuildup
+      value: 150
+    - name: Duration
       value: 0
     - name: DurationGainValue
+      value: 0
+    - name: StackCount
+      value: 1
+    - name: NGStackCount
+      value: 1
+    - name: ValuePreCalculated
       value: 0
     enums: []
     datums:

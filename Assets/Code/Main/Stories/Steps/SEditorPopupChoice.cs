@@ -54,8 +54,8 @@ namespace Awaken.TG.Main.Stories.Steps {
             }
             
             var prompt = promptType switch {
-                PromptType.Tap => Prompt.Tap(KeyBinding, choice.text.Translate(), PerformChoice),
-                PromptType.Hold => Prompt.Hold(KeyBinding, choice.text.Translate(), PerformChoice),
+                PromptType.Tap => Prompt.Tap(KeyBinding, choice.TranslatedText, PerformChoice),
+                PromptType.Hold => Prompt.Hold(KeyBinding, choice.TranslatedText, PerformChoice),
                 _ => throw new System.ArgumentOutOfRangeException(nameof(promptType), promptType, null)
             };
             prompt.AddAudio();

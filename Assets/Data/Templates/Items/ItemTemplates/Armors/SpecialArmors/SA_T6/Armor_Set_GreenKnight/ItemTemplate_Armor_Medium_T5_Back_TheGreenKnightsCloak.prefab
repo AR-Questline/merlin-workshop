@@ -77,12 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: description_decreasestatonthreshold
       ID: Template/description_locString_2543871262668956605_ffa109f9af01747448a522d4bb35f10d
-  EDITOR_bakedDescription: 'Increases Physical Damage by 20%.
-
-    Increases Attack
-    Speed by 20%.
-
-    Increases Critical Chance by 20%.'
+  EDITOR_bakedDescription: "Decreases Incoming Damage by 33\_% when your Stamina
+    is below 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -107,7 +103,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_281f78c7213e5cc4aa1e760ffccb79bb
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_ffa109f9af01747448a522d4bb35f10d
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -132,7 +128,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_281f78c7213e5cc4aa1e760ffccb79bb
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_ffa109f9af01747448a522d4bb35f10d
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -158,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &551714228796248067
 MonoBehaviour:
@@ -248,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5170670584440967936
 MonoBehaviour:

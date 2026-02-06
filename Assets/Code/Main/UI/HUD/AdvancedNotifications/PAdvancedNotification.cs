@@ -15,11 +15,11 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
         void ForceShow();
     }
     
-    public interface IPAdvancedNotification<TNotification> : IPAdvancedNotification where TNotification : class, IAdvancedNotification {
+    public interface IPAdvancedNotification<TNotification> : IPAdvancedNotification where TNotification : AdvancedNotification {
         void Show(TNotification notification);
     }
     
-    public abstract class PAdvancedNotification<TNotification, TNotificationData> : Presenter<AdvancedNotificationBuffer>, IPAdvancedNotification<TNotification> where TNotification : class, IAdvancedNotification where TNotificationData : IPresenterNotificationData {
+    public abstract class PAdvancedNotification<TNotification, TNotificationData> : Presenter<AdvancedNotificationBuffer>, IPAdvancedNotification<TNotification> where TNotification : AdvancedNotification where TNotificationData : IPresenterNotificationData {
         bool _isOccupied;
         Sequence _sequence;
         
@@ -59,6 +59,8 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
                 _sequence.Kill();
             }
             
+            notification.ListenTo(Model.Events.AfterDiscarded, () => ClearNotification(notification), this);
+            
             _isOccupied = true;
             KeepIncomingNotificationLast();
             Content.SetActiveOptimized(true);
@@ -90,11 +92,11 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
         }
 
         void ClearNotification(TNotification notification) {
+            _isOccupied = false;
+            
             if (notification.HasBeenDiscarded) {
                 return;
             }
-            
-            _isOccupied = false;
 
             Content.SetActiveOptimized(false);
             Content.Hide();

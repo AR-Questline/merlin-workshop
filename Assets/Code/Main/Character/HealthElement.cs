@@ -166,8 +166,8 @@ namespace Awaken.TG.Main.Character {
             damage.WeakSpotHit = damage.WeakSpotMultiplier > 1f;
 
             // Run hooks
-            if (damage.DamageDealer != null) {
-                var dealingHookResult = Events.DealingDamage.RunHooks(damage.DamageDealer, damage);
+            if (damage.DamageDealerPure != null) {
+                var dealingHookResult = Events.DealingDamage.RunHooks(damage.DamageDealerPure, damage);
                 if (dealingHookResult.Prevented) {
                     this.Trigger(Events.DamagePreventedByHook, damage);
                     return;
@@ -208,7 +208,11 @@ namespace Awaken.TG.Main.Character {
                 damage.RawData.MultiplyMultModifier(multiplier);
             }
             
+            // Consume some damage if we have mana shield
+            HandleManaShield(damage, out var damageToMana);
+            
             // Before final hook check all kill preventions with correct (not random) priority.
+            var damageValueBeforeKillPrevention = damage.RawData.CalculatedValue;
             hookResult = Events.KillPreventionBeforeTakenFinalDamage.RunHooks(this, damage);
             if (hookResult.Prevented) {
                 this.Trigger(Events.DamagePreventedByHook, damage);
@@ -222,29 +226,36 @@ namespace Awaken.TG.Main.Character {
                 return;
             }
 
-            if (dmgModifiersInfo.AnyCritical && damage.DamageDealer != null) {
-                damage.DamageDealer.Trigger(Events.OnModifiedDamageDealt, dmgModifiersInfo);
+            if (dmgModifiersInfo.AnyCritical && damage.DamageDealerPure != null) {
+                damage.DamageDealerPure.Trigger(Events.OnModifiedDamageDealt, dmgModifiersInfo);
             }
 
-            if (dmgModifiersInfo.IsWeakSpot && damage.DamageDealer != null) {
-                damage.DamageDealer.Trigger(Events.OnWeakspotHit, dmgModifiersInfo);
+            if (dmgModifiersInfo.IsWeakSpot && damage.DamageDealerPure != null) {
+                damage.DamageDealerPure.Trigger(Events.OnWeakspotHit, dmgModifiersInfo);
             }
-
-            // Consume some damage if we have mana shield
-            HandleManaShield(damage, out var damageToMana);
 
             // Send before events
             BeforeHealthDecreaseEvents(damage);
+            // Check Kill Prevention Again if damage was increased by BeforeHealthDecreaseEvents
+            if (damageValueBeforeKillPrevention < damage.RawData.CalculatedValue) {
+                //TODO Remove this when BeforeHealthDecreaseEvents dont modify damage value or are moved to better place.
+                Log.Important?.Warning("Final damage value changed in BeforeHealthDecreaseEvents!");
+                hookResult = Events.KillPreventionBeforeTakenFinalDamage.RunHooks(this, damage);
+                if (hookResult.Prevented) {
+                    this.Trigger(Events.DamagePreventedByHook, damage);
+                    return;
+                }
+            }
             if (HasBeenDiscarded) return;
             
             // Decrement the stamina by taken stamina damage.
             if (damage.StaminaDamageAmount > 0 && character != null) {
-                ContractContext context = new(damage.DamageDealer, ParentModel, ChangeReason.CombatDamage);
+                ContractContext context = new(damage.DamageDealerPure, ParentModel, ChangeReason.CombatDamage);
                 character.CharacterStats.Stamina.DecreaseBy(damage.StaminaDamageAmount, context);
             }
 
             // Decrement the health by taken damage.
-            damage.RawData.FinalCalculation();
+            damage.RawData.FinalCalculation(damage.IsDamageOverTime);
             damage.DamageTypeData.FinalizeDamage(damage.Amount);
             float healthBeforeDecrease = Health.ModifiedValue;
             Health.DecreaseBy(damage.Amount);
@@ -258,7 +269,7 @@ namespace Awaken.TG.Main.Character {
             if (HasBeenDiscarded) return;
 
             _machineOwners.ForEach(m => {
-                CustomEvent.Trigger(m, "GetHit", position, direction, damage.DamageDealer?.ParentTransform);
+                CustomEvent.Trigger(m, "GetHit", position, direction, damage.DamageDealerPure?.ParentTransform);
                 if (damage.Amount <= 0) {
                     CustomEvent.Trigger(m, "DamageBlocked", damage.RawData.UncalculatedValue);
                 }
@@ -276,9 +287,9 @@ namespace Awaken.TG.Main.Character {
             }
             
             // --- Retaliation
-            if (damage.Parameters.IsPrimary && damage.DamageDealer is {IsAlive: true, IsDying: false} && ParentModel is ICharacter icharacter && damage.DamageDealer != icharacter) {
-                HandleManaShieldRetaliation(icharacter, damage.DamageDealer, damageToMana);
-                HandleMeleeRetaliation(icharacter, damage.DamageDealer, damage.Item, damage.Amount / armorAndDamageTypeMultiplier);
+            if (damage.Parameters.IsPrimary && damage.DamageDealerPure is {IsAlive: true, IsDying: false} && ParentModel is ICharacter icharacter && damage.DamageDealerPure != icharacter) {
+                HandleManaShieldRetaliation(icharacter, damage.DamageDealerPure, damageToMana);
+                HandleMeleeRetaliation(icharacter, damage.DamageDealerPure, damage.Item, damage.Amount / armorAndDamageTypeMultiplier);
             }
 
             // --- HitSurface
@@ -309,7 +320,7 @@ namespace Awaken.TG.Main.Character {
             if (hitSurface != null) {
                 HitAudio(damage, hitSurface, dmgModifiersInfo, IsDead);
             } else {
-                Log.Important?.Error($"Missing HitSurface for {LogUtils.GetDebugName(damage.DamageDealer)} attacking {LogUtils.GetDebugName(damage.Target)} with item {LogUtils.GetDebugName(damage.Item)}");
+                Log.Important?.Error($"Missing HitSurface for {LogUtils.GetDebugName(damage.DamageDealerPure)} attacking {LogUtils.GetDebugName(damage.TargetPure)} with item {LogUtils.GetDebugName(damage.Item)}");
             }
             // --- Vibration
             bool isHero = ParentModel is Hero;
@@ -330,23 +341,26 @@ namespace Awaken.TG.Main.Character {
             
             if (knockDown && npc) {
                 npc.CharacterStats.Stamina.SetTo(0, false,
-                    new ContractContext(damage.DamageDealer, ParentModel, ChangeReason.CombatDamage));
+                    new ContractContext(damage.DamageDealerPure, ParentModel, ChangeReason.CombatDamage));
             } else if (isHero) {
                 bool heroMountedKnockdown = Hero.Current.MovementSystem is MountedMovement &&
                                             !damage.IsDamageOverTime && damage.IsPrimary;
                 if (knockDown || heroMountedKnockdown) {
-                    HeroKnockdown.EnterKnockdown(damage.DamageDealer, damage.ForceDirection ?? Vector3.zero,
+                    HeroKnockdown.EnterKnockdown(damage.DamageDealerPure, damage.ForceDirection ?? Vector3.zero,
                         damage.Parameters.KnockdownStrength);
                 }
             }
         }
 
-        public void Kill(ICharacter killer = null, bool allowPrevention = false) {
+        public void Kill(ICharacter killer = null, bool allowPrevention = false, Vector3? forceDirection = null, float? ragdollForce = null) {
             if (IsDead) {
                 return;
             }
 
-            Damage damage = new(DamageParameters.Default, killer, ParentModel, new RawDamageData(Health.ModifiedValue));
+            var parameters = DamageParameters.Default;
+            parameters.ForceDirection = forceDirection;
+            parameters.RagdollForce = ragdollForce ?? 1;
+            Damage damage = new(parameters, killer, ParentModel, new RawDamageData(Health.ModifiedValue));
             if (allowPrevention) {
                 if (KillPreventionDispatcher.HasActivePrevention(ParentModel)) {
                     var hookResult = Events.KillPreventionBeforeTakenFinalDamage.RunHooks(this, damage);
@@ -383,11 +397,11 @@ namespace Awaken.TG.Main.Character {
 
         void OnKillingDamage(Damage damage, bool silent = false) {
             if (!silent) {
-                damage.Target?.PlayAudioClip(AliveAudioType.Die, true);
+                damage.TargetPure?.PlayAudioClip(AliveAudioType.Die, true);
             }
             IsDead = true;
             if (ParentModel is Hero) {
-                Log.Marking?.Warning("[Hero Death] Source: " + LogUtils.GetDebugName(damage.DamageDealer) + ", amount:" + damage.Amount + ", type: " + damage.Type + ", location: " + ParentModel.Coords);
+                Log.Marking?.Warning("[Hero Death] Source: " + LogUtils.GetDebugName(damage.DamageDealerPure) + ", amount:" + damage.Amount + ", type: " + damage.Type + ", location: " + ParentModel.Coords);
             }
         }
 
@@ -438,10 +452,10 @@ namespace Awaken.TG.Main.Character {
         }
         
         void OnDeathEvents(DamageOutcome outcome) {
-            outcome.Damage.DamageDealer?.Trigger(Events.OnKill, outcome);
+            outcome.Damage.DamageDealerPure?.Trigger(Events.OnKill, outcome);
 
-            if (outcome.Attacker is NpcElement npc && npc.IsSummon && npc.HasElement<NpcHeroSummon>()) {
-                outcome.Damage.DamageDealer?.Trigger(Events.OnHeroSummonKill, outcome);
+            if (outcome.AttackerPure is NpcElement npc && npc.IsSummon && npc.HasElement<NpcHeroSummon>()) {
+                outcome.Damage.DamageDealerPure?.Trigger(Events.OnHeroSummonKill, outcome);
             }
             
             ParentModel.DieFromDamage(outcome);
@@ -449,7 +463,7 @@ namespace Awaken.TG.Main.Character {
 
         void AfterHealthDecreaseEvents(DamageOutcome outcome) {
             var damage = outcome.Damage;
-            ICharacter damageDealer = damage.DamageDealer;
+            ICharacter damageDealer = damage.DamageDealerPure;
             
             damageDealer?.Trigger(Events.OnDamageDealt, outcome);
             this.Trigger(Events.OnDamageTaken, outcome);
@@ -460,7 +474,7 @@ namespace Awaken.TG.Main.Character {
             }
 
             bool canApplyLifesteal = damageDealer is { HasBeenDiscarded: false } attacker && 
-                                     attacker != damage.Target && attacker.CharacterStats.LifeSteal.ModifiedValue > 0f;
+                                     attacker != damage.TargetPure && attacker.CharacterStats.LifeSteal.ModifiedValue > 0f;
             if (canApplyLifesteal) {
                 damageDealer.HealthElement.GetLifeFromLifesteal(outcome);
             }
@@ -474,25 +488,25 @@ namespace Awaken.TG.Main.Character {
         }
 
         void BeforeHealthDecreaseEvents(Damage damage) {
-            damage.DamageDealer?.Trigger(Events.BeforeDamageDealt, damage);
+            damage.DamageDealerPure?.Trigger(Events.BeforeDamageDealt, damage);
             this.Trigger(Events.BeforeDamageTaken, damage);
         }
         
         DamageModifiersInfo ApplyDamageModifiers(Damage damage, out float dmgModifier) {
             // Only Hero can deal critical damage, and tool interactions never deal critical damage.
-            if (damage.DamageDealer is not Hero hero || damage.Type == DamageType.Interact) {
+            if (damage.DamageDealerPure is not Hero hero || damage.Type == DamageType.Interact) {
                 dmgModifier = 1f;
-                return new DamageModifiersInfo(0,0,0,0);
+                return new DamageModifiersInfo(false, 0, false, 0, false, 0, false, 0);
             }
 
             ItemStats itemStats = damage.Item?.ItemStats;
-            float critical = GetCriticalMultiplier(hero, damage, itemStats);
-            float weakSpot = GetWeakSpotDamageMultiplier(hero, damage, itemStats);
-            float sneak = GetSneakDamageMultiplier(hero, damage, itemStats);
-            float backStab = GetBackStabDamageMultiplier(hero, damage);
-            dmgModifier = 1 + critical + weakSpot + sneak + backStab;
+            float critical = GetCriticalMultiplier(hero, damage, itemStats, out bool isCritical);
+            float sneak = GetSneakDamageMultiplier(hero, damage, itemStats, out bool isSneak);
+            float weakSpot = GetWeakSpotDamageMultiplier(hero, damage, itemStats, out bool isWeakSpot);
+            float backStab = GetBackStabDamageMultiplier(hero, damage, out bool isBackStab);
+            dmgModifier = 1 + critical + sneak + weakSpot + backStab;
 
-            return new DamageModifiersInfo(critical, sneak, weakSpot, backStab);
+            return new DamageModifiersInfo(isCritical, critical, isSneak, sneak, isWeakSpot, weakSpot, isBackStab, backStab);
         }
 
         public ref readonly HitboxData GetHitbox(Collider collider, out bool exists) {
@@ -509,7 +523,7 @@ namespace Awaken.TG.Main.Character {
                 return damage.HitSurfaceType;
             }
             
-            SurfaceType hitSurface = damage.Target?.AudioSurfaceType;
+            SurfaceType hitSurface = damage.TargetPure?.AudioSurfaceType;
             if (hitboxExists && ParentModel is ICharacter ch) {
                 foreach (var eqType in hitbox.ArmorType.EquipmentTypes) {
                     ItemAudio itemAudio = ch.Inventory.EquippedItem(eqType.MainSlotType)?.TryGetElement<ItemAudio>();
@@ -537,20 +551,20 @@ namespace Awaken.TG.Main.Character {
         
         // === Audio
         static void HurtAudio(Damage damage, ref FragileSemaphore dotAudioSemaphore) {
-            float healthTakenFactor = Mathf.Clamp01(damage.Amount / damage.Target.MaxHealth);
+            float healthTakenFactor = Mathf.Clamp01(damage.Amount / damage.TargetPure.MaxHealth);
             FMODParameter parameter = new("Force", healthTakenFactor);
             
             if (!damage.IsDamageOverTime) {
-                damage.Target?.PlayAudioClip(AliveAudioType.Hurt, true, parameter);
+                damage.TargetPure?.PlayAudioClip(AliveAudioType.Hurt, true, parameter);
                 dotAudioSemaphore.Set(true);
             } else if (dotAudioSemaphore.State) {
-                if (damage.Target is Hero hero) {
+                if (damage.TargetPure is Hero hero) {
                     var eventReference = CommonReferences.Get.AudioConfig.StatusAudioMap
                         .GetEventReference(damage.StatusDamageType, hero.GetGender());
                         
                     FMODManager.PlayOneShot(eventReference);
                 } else {
-                    damage.Target?.PlayAudioClip(AliveAudioType.Hurt, true, parameter);
+                    damage.TargetPure?.PlayAudioClip(AliveAudioType.Hurt, true, parameter);
                 }
 
                 dotAudioSemaphore.Set(true);
@@ -558,7 +572,7 @@ namespace Awaken.TG.Main.Character {
         }
         
         static void HitAudio(Damage damage, SurfaceType hitSurface, DamageModifiersInfo dmgmModifiers, bool kill) {
-            if (damage.Item == null || damage.Target == null || damage.IsDamageOverTime) {
+            if (damage.Item == null || damage.TargetPure == null || damage.IsDamageOverTime) {
                 return;
             }
             ItemAudio itemAudio = damage.Item.TryGetElement<ItemAudio>();
@@ -575,7 +589,7 @@ namespace Awaken.TG.Main.Character {
             FMODParameter[] parameters = { 
                 hitSurface, 
                 new("Kill", kill), 
-                new("CharacterHit", damage.Target is ICharacter),
+                new("CharacterHit", damage.TargetPure is ICharacter),
                 new("Critical", dmgmModifiers.IsCritical), 
                 new("WeakSpot", dmgmModifiers.IsWeakSpot),
                 new("Sneak", dmgmModifiers.IsSneak), 
@@ -587,7 +601,7 @@ namespace Awaken.TG.Main.Character {
 
             damage.Item.PlayAudioClip(eventReference, true, parameters);
             
-            if (damage.DamageDealer is Hero h) {
+            if (damage.DamageDealerPure is Hero h) {
                 EventReference heroHitEventReference = CommonReferences.Get.AudioConfig.HeroHitBonusAudio;
                 h.PlayAudioClip(heroHitEventReference, true, parameters);
             }
@@ -628,8 +642,8 @@ namespace Awaken.TG.Main.Character {
             return new DamageMultiplierResult { colliderHit = hitCollider, weakSpotMultiplier = hitbox.DamageMultiplier(item) };
         }
 
-        static float GetCriticalMultiplier(Hero hero, Damage damage, ItemStats itemStats) {
-            bool isCritical = damage.Parameters.CanBeCritical;
+        static float GetCriticalMultiplier(Hero hero, Damage damage, ItemStats itemStats, out bool isCritical) {
+            isCritical = damage.Parameters.CanBeCritical;
             isCritical = isCritical && (damage.Critical || CheckCriticalProbability(hero, damage));
             if (isCritical) {
                 float multi = hero.HeroStats.CriticalDamageMultiplier;
@@ -656,8 +670,9 @@ namespace Awaken.TG.Main.Character {
             return RandomUtil.WithProbability(totalChance * damage.AdditionalRandomnessData.RandomOccurrenceEfficiency);
         }
 
-        static float GetWeakSpotDamageMultiplier(Hero hero, Damage damage, ItemStats itemStats) {
-            if (damage.WeakSpotMultiplier > 1f) {
+        static float GetWeakSpotDamageMultiplier(Hero hero, Damage damage, ItemStats itemStats, out bool isWeakSpot) {
+            isWeakSpot = damage.WeakSpotMultiplier > 1f;
+            if (isWeakSpot) {
                 bool isMelee = damage.Item?.IsMelee ?? false;
                 float multi = isMelee ? hero.HeroStats.MeleeWeakSpotDamageMultiplier : hero.HeroStats.WeakSpotDamageMultiplier;
                 if (itemStats != null) {
@@ -669,18 +684,19 @@ namespace Awaken.TG.Main.Character {
             return 0;
         }
 
-        float GetSneakDamageMultiplier(Hero hero, Damage damage, ItemStats itemStats) {
+        float GetSneakDamageMultiplier(Hero hero, Damage damage, ItemStats itemStats, out bool isSneak) {
             if (!ParentModel.TryGetElement(out NpcAI npcAI)) {
                 // Sneak Damage can only be applied to NPCs, barrels (etc.) can't see player.
+                isSneak = false;
                 return 0;
             }
 
-            bool isSneakDamage = !npcAI.InAlert && !npcAI.InCombat && !npcAI.IsRunningToSpawn && !npcAI.InWyrdConversion && !npcAI.InFlee;
-            isSneakDamage = isSneakDamage && (npcAI.IsHostileTo(hero) || !npcAI.ParentModel.Element<NpcCrimeReactions>().IsSeeingHero);
-            isSneakDamage = isSneakDamage && damage.IsPrimary;
-            isSneakDamage = isSneakDamage && !damage.IsDamageOverTime;
+            isSneak = !npcAI.InAlert && !npcAI.InCombat && !npcAI.IsRunningToSpawn && !npcAI.InWyrdConversion && !npcAI.InFlee;
+            isSneak = isSneak && (npcAI.IsHostileTo(hero) || !npcAI.ParentModel.Element<NpcCrimeReactions>().IsSeeingHero);
+            isSneak = isSneak && damage.IsPrimary;
+            isSneak = isSneak && !damage.IsDamageOverTime;
             
-            if (isSneakDamage) {
+            if (isSneak) {
                 float totalMultiplier = 0;
                 if (damage.Item?.IsMelee ?? false) {
                     totalMultiplier += hero.HeroStats.MeleeSneakDamageMultiplier;
@@ -695,8 +711,9 @@ namespace Awaken.TG.Main.Character {
             return 0;
         }
         
-        static float GetBackStabDamageMultiplier(Hero hero, Damage damage) {
-            if (damage.Parameters.IsBackStab) {
+        static float GetBackStabDamageMultiplier(Hero hero, Damage damage, out bool isBackStab) {
+            isBackStab = damage.Parameters.IsBackStab;
+            if (isBackStab) {
                 float totalMultiplier = 0;
                 totalMultiplier += damage.Item?.ItemStats?.BackStabDamageMultiplier ?? 0f;
                 totalMultiplier += hero.HeroStats.BackStabDamageMultiplier;

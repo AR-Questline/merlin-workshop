@@ -85,7 +85,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             _vfxBodyMarker.MarkBeingUsed();
             _vfxCts = new CancellationTokenSource();
             _vfxInstance = await PrefabPool.Instantiate(_vfxReference, Vector3.zero, Quaternion.identity, _vfxBodyMarker.transform, Vector3.one, _vfxCts.Token, false);
-            if (_vfxInstance.Instance is { } instance) {
+            if (_vfxInstance?.Instance is { } instance) {
                 _vfx = instance.GetComponentInChildren<VisualEffect>();
                 _audioEmitter = instance.GetComponentInChildren<ARFmodEventEmitter>();
                 if (_audioEmitter != null) {
@@ -113,7 +113,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         }
 
         void OnResurrectorKilled(DamageOutcome damageOutcome) {
-            RemoveResurrector(damageOutcome.Damage.Target as ICharacter);
+            RemoveResurrector(damageOutcome.Damage.TargetPure as ICharacter);
         }
         
         protected override void OnAnyDangerEnded() { }

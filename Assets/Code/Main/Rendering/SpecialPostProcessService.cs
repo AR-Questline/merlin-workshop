@@ -10,6 +10,8 @@ namespace Awaken.TG.Main.Rendering {
         [field: SerializeField] public VolumeWrapper VolumeDirectionalBlur { get; private set; }
         [field: SerializeField] public VolumeWrapper VolumeDrunk { get; private set; }
         [field: SerializeField] public VolumeWrapper VolumeHigh { get; private set; }
+        [field: SerializeField] public VolumeWrapper VolumeFishMetro { get; private set; }
+        [field: SerializeField] public VolumeWrapper VolumeHallunEffect { get; private set; }
 
         void Update() {
             VolumeWyrdskillSlomotion.Update();
@@ -19,6 +21,8 @@ namespace Awaken.TG.Main.Rendering {
             VolumeDirectionalBlur.Update();
             VolumeDrunk.Update();
             VolumeHigh.Update();
+            VolumeFishMetro.Update();
+            VolumeHallunEffect.Update();
         }
     }
 }

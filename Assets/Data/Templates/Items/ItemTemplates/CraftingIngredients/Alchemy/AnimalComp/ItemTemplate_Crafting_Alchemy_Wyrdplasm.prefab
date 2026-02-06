@@ -75,7 +75,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_24c46f41f2f1ed14a9adb9edaccc63b1
-  EDITOR_bakedDescription: Restores 10% of Max Mana.
+  EDITOR_bakedDescription: "Restores 10\_% of Max Mana."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: c74ccf04ceaf5ed49909b330cbe0a71d
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &5128635444738983869
 MonoBehaviour:

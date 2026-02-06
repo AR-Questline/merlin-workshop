@@ -24,6 +24,7 @@ namespace Awaken.TG.Main.Heroes.Items {
     public partial class ArmorWeight : Element<Hero> {
         const float ManaUsageTalentReductionMultiplier = 0.5f;
         const int NoStaminaUsageIncreaseModifier = 0;
+        const float MinArmorWeightMultiplier = 0.0001f;
 
         public sealed override bool IsNotSaved => true;
 
@@ -33,8 +34,9 @@ namespace Awaken.TG.Main.Heroes.Items {
         public ItemWeight ArmorWeightType => ItemWeight.FromArmorScore(ArmorWeightScore);
 
         public float MaxEquipmentWeight => (ParentModel.HeroStats.EncumbranceLimit * GameConstants.Get.HeavyArmorThreshold) /
-                                           (ParentModel.HeroStats.ArmorWeightMultiplier <= 0 ? 0.0001f : ParentModel.HeroStats.ArmorWeightMultiplier);
+                                           Mathf.Max(ParentModel.HeroStats.ArmorWeightMultiplier, MinArmorWeightMultiplier);
         
+        public static float CurrentEquipmentWeight => Hero.Current.Element<ArmorWeight>().EquipmentWeight;
         public float EquipmentWeight => CalculateCurrentEquipmentWeight();
         /// <summary>
         /// Includes armor weight multiplier stat
@@ -88,13 +90,13 @@ namespace Awaken.TG.Main.Heroes.Items {
             var weightParamsEnumerable = GameConstants.Get.armorWeightScoreParams.Where(weightScore =>
                 _percentageStatsInDescription.Contains(weightScore.StatType) ||
                 _valueStatsInDescription.Contains(weightScore.StatType)).ToList();
-            int allParamsCount = weightParamsEnumerable.Count;
 
             Dictionary<float, List<string>> percentageStats = new();
             List<string> valueStats = new();
+            ItemWeight nextArmorWeightType = ItemWeight.LighterArmorType(ArmorWeightType);
 
             foreach (var weightParam in weightParamsEnumerable) {
-                float value = weightParam.GetValue(ArmorWeightType);
+                float value = GetEffectModifier(weightParam, nextArmorWeightType);
 
                 if (_percentageStatsInDescription.Contains(weightParam.StatType)) {
                     if (!percentageStats.ContainsKey(value)) {

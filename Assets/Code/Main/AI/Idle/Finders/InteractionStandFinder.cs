@@ -16,9 +16,7 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
         [Saved] IdlePosition _forward;
         [Saved] IdleDataElement _data;
 
-        StandInteraction _standInteraction;
-        StandInteraction StandInteraction => _standInteraction ??= new StandInteraction(_position, _forward, _data);
-        public override INpcInteraction Interaction(NpcElement npc) => StandInteraction;
+        public override INpcInteraction Interaction(NpcElement npc) => new StandInteraction(_position, _forward, _data);
 
         [JsonConstructor, UnityEngine.Scripting.Preserve] InteractionStandFinder() { }
         public InteractionStandFinder(IdlePosition position, IdlePosition forward, IdleDataElement data) {
@@ -26,11 +24,11 @@ namespace Awaken.TG.Main.AI.Idle.Finders {
             _forward = forward;
             _data = data;
         }
-        
-        public override Vector3 GetDesiredPosition(IdleBehaviours behaviours) => StandInteraction.GetPosition(behaviours);
+
+        public override Vector3 GetDesiredPosition(IdleBehaviours behaviours) => _position.WorldPosition(behaviours.Location, _data);
         public override float GetInteractionRadius(IdleBehaviours behaviours) => 0;
         public override bool CanFindInteraction(IdleBehaviours behaviours, INpcInteraction interaction, bool ignoreInteractionRequirements) {
-            return interaction == Interaction(behaviours.Npc);
+            return interaction is StandInteraction stand && stand.GetPosition(behaviours) == GetDesiredPosition(behaviours);
         }
     }
 }

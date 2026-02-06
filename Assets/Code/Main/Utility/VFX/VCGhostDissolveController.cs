@@ -1,4 +1,6 @@
 using Awaken.Kandra;
+using Awaken.Utility.Debugging;
+using Awaken.Utility.GameObjects;
 using Unity.Collections;
 using UnityEngine;
 
@@ -28,7 +30,9 @@ namespace Awaken.TG.Main.Utility.VFX {
                     _actualRenderers.RemoveAtSwapBack(i);
                     continue;
                 }
-
+                if (r.rendererData.RenderingMaterials == null) {
+                    continue;
+                }
                 var materials = r.rendererData.RenderingMaterials;
                 foreach (var material in materials) {
                     material.SetFloat(TransitionProperty, transition);
@@ -43,6 +47,9 @@ namespace Awaken.TG.Main.Utility.VFX {
                     _actualRenderers.RemoveAtSwapBack(i);
                     continue;
                 }
+                if (r.rendererData.RenderingMaterials == null) {
+                    continue;
+                }
                 var materials = r.rendererData.RenderingMaterials;
                 foreach (var material in materials) {
                     material.SetFloat(PSLProperty, enabled ? 1 : 0);
@@ -51,6 +58,10 @@ namespace Awaken.TG.Main.Utility.VFX {
         }
 
         protected override bool CanBeDissolved(KandraRenderer dissolvable) {
+            if (dissolvable.isActiveAndEnabled && dissolvable.rendererData.RenderingMaterials == null) {
+                Log.Important?.Error($"Trying to add a KandraRenderer {dissolvable.name} that has already disposed materials to {gameObject.PathInSceneHierarchy()}.");
+                return false;
+            }
             return true;
         }
     }

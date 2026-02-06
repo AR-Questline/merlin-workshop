@@ -61,7 +61,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
             bool wasWolfKilled = false;
             bool wasHeroWolfSummonAttacker = false;
 
-            if (damageOutcome.Target is NpcElement target) {
+            if (damageOutcome.TargetPure is NpcElement target) {
                 foreach (var wolf in _achievements.wolves) {
                     if (target.Template.InheritsFrom(wolf.Get<NpcTemplate>())) {
                         wasWolfKilled = true;
@@ -70,7 +70,7 @@ namespace Awaken.TG.Main.Stories.Quests.Objectives.Trackers {
                 }
             }
             
-            if (damageOutcome.Attacker is NpcElement attacker) {
+            if (damageOutcome.AttackerPure is NpcElement attacker) {
                 foreach (var summonWolf in _achievements.summonWolves) {
                     if (attacker.Template.InheritsFrom(summonWolf.Get<NpcTemplate>())) {
                         wasHeroWolfSummonAttacker = true;

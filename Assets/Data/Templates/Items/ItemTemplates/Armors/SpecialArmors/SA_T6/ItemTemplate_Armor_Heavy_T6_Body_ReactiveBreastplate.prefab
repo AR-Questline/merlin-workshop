@@ -63,7 +63,7 @@ MonoBehaviour:
   - item:tier6
   iconReference:
     arSpriteReference:
-      address: 87170f9c981db174ca29df0195d07b36
+      address: 87768f276b0277b46ab3600922ad672c
       subObjectName: 
   itemName:
     IdOverride: 
@@ -78,7 +78,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_6b82ede8c2c16d64ba673248b013a579
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: "Getting hit increases Max Health, Max Mana and Max Stamina
+    by 5\_% for 5 seconds."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,21 +178,14 @@ MonoBehaviour:
     gender: 1
     hand: 0
     itemPrefab:
-      address: 35879ca79c4c869479345fe76fd4009b
+      address: 9bc127b5d55206d4497237114c155016
       subObjectName: 
   - abstractNpcTemplates:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
     itemPrefab:
-      address: 67252bae782d59447a084255a14d1997
-      subObjectName: 
-  - abstractNpcTemplates:
-    - _guid: 12ba664a8c270634694a159ecf2d83f5
-    gender: 0
-    hand: 0
-    itemPrefab:
-      address: 35879ca79c4c869479345fe76fd4009b
+      address: 64c5374e5e1dea54580915d8d051a74b
       subObjectName: 
   equipmentType:
     _enumRef: Awaken.TG.Main.Heroes.Items.EquipmentType, TG.Main, Version=0.0.0.0,
@@ -251,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &215660845427092069
 MonoBehaviour:
@@ -575,7 +576,7 @@ MonoBehaviour:
     - name: AddValue
       value: 0.05
     - name: Gain
-      value: 0
+      value: 0.01
     - name: Duration
       value: 5
     - name: AddValueCalculated
@@ -594,7 +595,7 @@ MonoBehaviour:
     - name: AddValue
       value: 0.05
     - name: Gain
-      value: 0
+      value: 0.01
     - name: Duration
       value: 5
     - name: AddValueCalculated
@@ -613,7 +614,7 @@ MonoBehaviour:
     - name: AddValue
       value: 0.05
     - name: Gain
-      value: 0
+      value: 0.01
     - name: Duration
       value: 5
     - name: AddValueCalculated

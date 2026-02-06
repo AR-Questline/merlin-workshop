@@ -15,8 +15,9 @@ namespace Awaken.TG.Editor.Debugging {
         [MenuItem("TG/Debug/Print saving models info")]
         public static void SaveInfo() {
             Dictionary<Type, int> count = new Dictionary<Type, int>();
-        
-            var allRoots = World.AllInOrder().Where(m => !(m is Element) && CanBeSaved(m));
+
+            var allInOrder = World.AllInOrder();
+            var allRoots = allInOrder.BackingArray.Take(allInOrder.Count).Where(m => !(m is Element) && CanBeSaved(m));
             Queue<Model> models = new Queue<Model>(allRoots);
             while (models.Count > 0) {
                 Model model = models.Dequeue();

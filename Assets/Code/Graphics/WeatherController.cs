@@ -1,5 +1,6 @@
 ﻿using System;
 using Awaken.TG.Code.Utility;
+using Awaken.TG.Main.AI.Idle.Data.Runtime;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.MVC;
@@ -39,7 +40,9 @@ namespace Awaken.TG.Graphics {
             private set {
                 if (value != _heavyRain) {
                     _heavyRain = value;
-                    HeavyRainStateChanged?.Invoke();
+                    foreach (var idleData in World.All<IdleDataElement>()) {
+                        idleData.ParentModel.Trigger(IIdleDataSource.Events.InteractionIntervalChanged, idleData);
+                    }
                 }
             }
         }
@@ -56,8 +59,6 @@ namespace Awaken.TG.Graphics {
         public ref DelayedValue RainBlendIn => ref _rainBlendIn;
         public ref DelayedValue SnowBlendIn => ref _snowBlendIn;
 
-        public event Action HeavyRainStateChanged;
-        
         protected override void OnInitialize() {
             Init();
             _lastTime = ParentModel.WeatherTime;
@@ -108,7 +109,7 @@ namespace Awaken.TG.Graphics {
                 SetCurrentPreset(RandomPresetIndex());
                 SetNextPreset(RandomPresetIndex());
             }
-            if (_lastTime.Day != time.Day) {
+            if (_lastTime.DayOfTheYear != time.DayOfTheYear) {
                 SetCurrentPreset(_nextIndex, _nextTranslation);
                 SetNextPreset(RandomPresetIndex());
             }
@@ -162,11 +163,6 @@ namespace Awaken.TG.Graphics {
 
         int RandomPresetIndex() {
             return RandomUtil.WeightedSelect(0, _presets.Length-1, i => _presets[i].weight);
-        }
-
-        protected override void OnDiscard(bool fromDomainDrop) {
-            HeavyRainStateChanged = null;
-            base.OnDiscard(fromDomainDrop);
         }
 
         [Serializable]

@@ -53,6 +53,7 @@ MonoBehaviour:
   - _guid: 939f8f626f06d9b4b93a76bb5071530b
   - _guid: ac284bdd722762346b747bef5ac29b16
   - _guid: c7cb1c70a3c09864d9672f485df27af2
+  - _guid: 9245178b54698f8469ef0edbb82b7f70
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -134,7 +135,7 @@ MonoBehaviour:
   basePrice: 12
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 10
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords: []
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 66e6ad146a6b3e54a85c0419f947ac7f
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &63064115641280915
 MonoBehaviour:
@@ -239,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &1127228968194787042
 MonoBehaviour:

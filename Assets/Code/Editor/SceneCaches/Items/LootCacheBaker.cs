@@ -453,7 +453,13 @@ namespace Awaken.TG.Editor.SceneCaches.Items {
         /// Helpers
         static bool IsStealable(GameObject go, CrimeItemValue crimeItemValue) {
             CrimeOwnerUtils.GetCrimeOwnersOfRegion(CrimeType.Theft, go.transform.position, out var factions);
-            return factions.AllOwners.Any(f => !f.IsAcceptable(CrimeArchetype.Theft(crimeItemValue)));
+            foreach (var owner in factions.AllOwners) {
+                if (!owner.IsAcceptable(CrimeArchetype.Theft(crimeItemValue))) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         static bool IsStealable(NpcTemplate npcTemplate) {

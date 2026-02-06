@@ -33,9 +33,9 @@ namespace Awaken.TG.Main.UI.Components {
                 $"{Target.CurrentQuantity.ToString().ColoredText(color)}/{Target.RequiredQuantity.ToString().Bold()}";
             quantityText.SetText(quantityFormatted);
 
-            if (Target.ItemTemplate.IconReference is {IsSet: true}) {
+            if (Target.ItemTemplate.IconReference() is {IsSet: true}) {
                 _iconReference?.Release();
-                _iconReference = Target.ItemTemplate.IconReference.Get();
+                _iconReference = Target.ItemTemplate.IconReference().Get();
                 _iconReference.SetSprite(itemIcon);
                 itemIcon.color = color;
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Scenes.SceneConstructors;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.Semaphores;
 using Awaken.TG.Main.Utility.UI;
@@ -33,6 +34,7 @@ namespace Awaken.TG.Main.UI.Components {
         public TMP_Text NameLabel => nameLabel;
         public TMP_Text ValueLabel => valueLabel;
         public bool IsHovered { get; private set; }
+        public bool IsValid => this.IsValidForUIHandle();
         
         CoyoteSemaphore _isHovered;
         Tween _hoverTween;

@@ -4,7 +4,7 @@ using Awaken.TG.MVC.UI.Handlers.Focuses;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.CharacterInfo {
-    [UsesPrefab("CharacterSheet/Overview/VCharacterInfoUI")]
+    [UsesPrefab("CharacterSheet/Overview/" + nameof(VCharacterInfoUI))]
     public class VCharacterInfoUI : View<CharacterInfoUI>, IAutoFocusBase {
         [SerializeField] Transform proficienciesParent;
         [SerializeField] Transform activeEffectsParent;

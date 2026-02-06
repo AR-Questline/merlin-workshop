@@ -81,10 +81,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_8f61365e006a9ef40a945400df3070ac
-  EDITOR_bakedDescription: 'Charged by spending 200% of Max Mana.
-
-    Release stored
-    mana, dealing it as  damage to a single enemy.'
+  EDITOR_bakedDescription: "Charged by spending 200\_% of Max Mana 0/200.\nRelease
+    stored Mana, dealing it as Damage to a single enemy."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 0aea65d7bb4af3449bdead6cd59aab41
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -326,8 +328,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

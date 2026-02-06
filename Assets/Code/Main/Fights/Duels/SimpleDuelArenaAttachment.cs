@@ -7,6 +7,7 @@ using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC.Elements;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace Awaken.TG.Main.Fights.Duels {
     [AttachesTo(typeof(LocationSpec), AttachmentCategory.Technical,
@@ -17,6 +18,8 @@ namespace Awaken.TG.Main.Fights.Duels {
         [BoxGroup("Positions"), SerializeField, ShowIf(nameof(ShowRandomOnCircle))] float duelistsSpawnRadius = 2;
         [BoxGroup("Positions"), SerializeField, ShowIf(nameof(ShowSpecificPositions))] SimpleDuelArena.GroupPosition[] specificPositions = Array.Empty<SimpleDuelArena.GroupPosition>();
         [SerializeField] GameObject objectToActivate;
+        [SerializeField] VisualEffect vfxToActivate;
+        [SerializeField, ShowIf(nameof(VfxIsSet))] float vfxDisableDelay = 10f;
 
         public SimpleDuelArena.PositionType PositionType => positionType;
         public float ArenaRadius => arenaRadius;
@@ -39,10 +42,12 @@ namespace Awaken.TG.Main.Fights.Duels {
         }
 
         public GameObject ObjectToActivate => objectToActivate;
-
+        public VisualEffect VfxToActivate => vfxToActivate;
+        public float VfxDisableDelay => vfxToActivate != null ? vfxDisableDelay : 0f;
         
         bool ShowRandomOnCircle => positionType == SimpleDuelArena.PositionType.RandomOnCircle;
         bool ShowSpecificPositions => positionType == SimpleDuelArena.PositionType.SpecifiedPositions;
+        bool VfxIsSet => vfxToActivate != null;
         
         public Element SpawnElement() {
             return new SimpleDuelArena();

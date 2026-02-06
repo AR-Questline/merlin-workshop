@@ -65,9 +65,9 @@ namespace Awaken.TG.Main.Fights.Factions.Crimes {
         // === Helpers
 
         static CrimeOwnerTemplate PrepFactionForUse(CrimeOwnerTemplate crimeOwner) {
-            CrimeOwnerUtils.GetCrimeOwnersOfRegion(CrimeType.Combat, Hero.Current.Coords, out var crimeOwners);
-            if (!crimeOwners.IsEmpty) {
-                crimeOwner = crimeOwners.PrimaryOwner;
+            var overrideCrimeOwner = CrimeOwnerUtils.GetCrimePrimaryOwnerOfRegion(CrimeType.Combat, Hero.Current.Coords);
+            if (overrideCrimeOwner != null) {
+                crimeOwner = overrideCrimeOwner;
             }
 
             TemporaryBounty.TryGet()?.GuardApplyCrimes();

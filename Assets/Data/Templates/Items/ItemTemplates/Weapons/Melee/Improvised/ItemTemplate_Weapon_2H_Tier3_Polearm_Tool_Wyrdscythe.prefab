@@ -61,6 +61,7 @@ MonoBehaviour:
   tags:
   - type:farmers
   - item:tier3
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 1225c69947b38e24583288c592b7126a
@@ -155,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: c88326b7d70763747a3926d90aa31cf2
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-4704836569250101899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +177,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: cb025103d5abf274dbf31e4403f9559c
       subObjectName: 
@@ -240,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-2635159252720630636
 MonoBehaviour:

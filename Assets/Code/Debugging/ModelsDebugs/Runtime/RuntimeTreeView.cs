@@ -104,10 +104,13 @@ namespace Awaken.TG.Debugging.ModelsDebugs.Runtime {
             _idByItem.Clear();
 
             // Collect root models
-            var rootModels = World
-                .AllInOrder()
+            var allInOrder = World.AllInOrder();
+            var rootModels = allInOrder
+                .BackingArray
+                .Take(allInOrder.Count)
                 .Where(m => !(m is Element) && m.IsInitialized)
-                .OrderBy(m => m.GetType().Name).ToArray();
+                .OrderBy(m => m.GetType().Name)
+                .ToArray();
 
             var uniqueRootsTypes = rootModels
                 .GroupBy(m => m.GetType())

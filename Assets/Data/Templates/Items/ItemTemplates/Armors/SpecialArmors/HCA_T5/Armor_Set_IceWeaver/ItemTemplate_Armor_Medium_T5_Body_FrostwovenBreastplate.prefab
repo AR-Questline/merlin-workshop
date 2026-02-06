@@ -103,7 +103,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_d6bdde95236da2140a0385f1aef583a5
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,7 +128,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_d6bdde95236da2140a0385f1aef583a5
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -244,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -288,7 +295,37 @@ MonoBehaviour:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Strength
     datums:
-    - name: DamageSubtype
+    - name: FireDamageSubType
+      type:
+        id: 259
+      value:
+        simpleValue:
+          rawValue: 22
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ColdDamageSubType
+      type:
+        id: 259
+      value:
+        simpleValue:
+          rawValue: 22
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: PoisonDamageSubType
+      type:
+        id: 259
+      value:
+        simpleValue:
+          rawValue: 22
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: ElectricDamageSubType
       type:
         id: 259
       value:
@@ -307,7 +344,7 @@ MonoBehaviour:
         _guid: b37cb48091a741a4fa869e314130b141
     - name: PoisonStatus
       templateReference:
-        _guid: 
+        _guid: b37cb48091a741a4fa869e314130b141
     assetReferences:
     - name: FireVFX
       assetReference:
@@ -317,17 +354,17 @@ MonoBehaviour:
     - name: ColdVFX
       assetReference:
         arReference:
-          address: 378dc9c810daf2c4aaaf8ae400a8abf8
+          address: 7e6832e21adce5d4fa44d8df5408ffd7
           subObjectName: 
     - name: PoisonVFX
       assetReference:
         arReference:
-          address: 8ebf4c7a3368f13459b970ef83306a11
+          address: 7e6832e21adce5d4fa44d8df5408ffd7
           subObjectName: 
     - name: ElectricVFX
       assetReference:
         arReference:
-          address: 844a7adefcb947b449a7cf9ea97de598
+          address: 7e6832e21adce5d4fa44d8df5408ffd7
           subObjectName: 
 --- !u!114 &215660845427092069
 MonoBehaviour:

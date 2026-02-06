@@ -81,10 +81,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_e25d4dd7fbf9dc14589dc78950b915a5
-  EDITOR_bakedDescription: 'Charged by spending 200% of Max Mana.
+  EDITOR_bakedDescription: 'Charged by spending 2 of Max Mana 0/200.
 
-    Consume stored
-    mana, making your spells free to cast for 5s.'
+    Consume
+    stored Mana, making your spells free to cast for 5s.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +160,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 9d0ad84f895642e41976a35b8ec6a29e
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -312,8 +316,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

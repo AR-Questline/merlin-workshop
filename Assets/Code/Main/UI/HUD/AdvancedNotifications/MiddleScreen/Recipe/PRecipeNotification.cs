@@ -1,5 +1,4 @@
 using Awaken.TG.Main.AudioSystem.Notifications;
-using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.UIToolkit;
 using Awaken.TG.Main.UIToolkit.PresenterData.Notifications;

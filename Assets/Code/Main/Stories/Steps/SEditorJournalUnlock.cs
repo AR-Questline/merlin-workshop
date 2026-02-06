@@ -40,7 +40,6 @@ namespace Awaken.TG.Main.Stories.Steps {
                 EntryType.Bestiary => JournalSubTabType.Bestiary,
                 EntryType.Characters => JournalSubTabType.Characters,
                 EntryType.Lore => JournalSubTabType.Lore,
-                EntryType.Recipes => JournalSubTabType.Recipes,
                 EntryType.Tutorials => JournalSubTabType.Tutorials,
                 EntryType.Fish => JournalSubTabType.Fish,
             };

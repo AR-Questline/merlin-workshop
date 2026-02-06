@@ -29,12 +29,6 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
         protected override IItemTooltipComponent[] AllSections => new IItemTooltipComponent[] { header, body, effects, requirements, recipes, gem, buff, keywords, footer, extraData };
         protected override IItemTooltipComponent[] ReadMoreSectionsToShow => new IItemTooltipComponent[] { header, keywords, requirements, buff, extraData };
         protected override IItemTooltipComponent[] ReadMoreSectionsToHide => new IItemTooltipComponent[] { body, effects, recipes, gem };
-        
-        protected override void OnMount() {
-            if (equippedLabel) {
-                equippedLabel.text = LocTerms.Equipped.Translate();
-            }
-        }
 
         public override void RefreshContent(IItemDescriptor descriptor, IItemDescriptor descriptorToCompare) {
             base.RefreshContent(descriptor, descriptorToCompare);
@@ -47,7 +41,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
             body.Refresh(descriptor, descriptorToCompare);
                 
             effects.Refresh(descriptor, descriptorToCompare);
-            requirements.Refresh( descriptor, descriptorToCompare);
+            requirements.Refresh(descriptor, descriptorToCompare);
             recipes.Refresh(descriptor, descriptorToCompare);
             gem.Refresh(descriptor, descriptorToCompare);
             buff.Refresh(descriptor, descriptorToCompare);
@@ -55,6 +49,11 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips {
             keywords.Refresh(descriptor, descriptorToCompare);
             footer.Refresh(descriptor, descriptorToCompare);
             extraData.Refresh(descriptor, descriptorToCompare);
+            
+            if (equippedLabel) {
+                equippedLabel.text = descriptor.IsEquipped ? LocTerms.Equipped.Translate() : LocTerms.Equipped.Translate();
+            }
+            
             this.Trigger(Events.ContentRefreshed, this);
         }
     }

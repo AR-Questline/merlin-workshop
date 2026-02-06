@@ -53,6 +53,16 @@ namespace Awaken.TG.Main.Locations.Actions.Customs {
                 }
                 return DeferredSystem.Result.Fail;
             }
+            
+            public override bool HasSimilarConditions(DeferredAction other) {
+                if (other is not TrialReactivateDeferredAction otherAction) {
+                    return false;
+                }
+                if (!_trial.Equals(otherAction._trial)) {
+                    return false;
+                }
+                return base.HasSimilarConditions(other);
+            }
         }
     }
 }

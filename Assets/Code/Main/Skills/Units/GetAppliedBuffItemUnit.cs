@@ -1,5 +1,4 @@
-﻿using Awaken.TG.Main.AudioSystem;
-using Awaken.TG.Main.Heroes.Items;
+﻿using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Buffs;
 using Awaken.Utility.Debugging;
 using Unity.VisualScripting;
@@ -9,6 +8,9 @@ namespace Awaken.TG.Main.Skills.Units {
     [TypeIcon(typeof(FlowGraph))]
     [UnityEngine.Scripting.Preserve]
     public class GetAppliedBuffItemUnit : Unit, ISkillUnit {
+        [Serialize, Inspectable, UnitHeaderInspectable]
+        public GetterType type;
+        
         protected override void Definition() {
             ValueOutput("weapon", Item);
         }
@@ -18,7 +20,9 @@ namespace Awaken.TG.Main.Skills.Units {
             if (skill.ParentModel is AppliedItemBuff appliedItemBuff) {
                 return appliedItemBuff.ParentModel;
             } else {
-                Log.Important?.Error($"{skill} is not attached to AppliedItemBuff", skill.Graph);
+                if (type == GetterType.Required) {
+                    Log.Important?.Error($"{skill} is not attached to AppliedItemBuff", skill.Graph);
+                }
                 return null;
             }
         }

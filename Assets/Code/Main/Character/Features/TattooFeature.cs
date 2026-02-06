@@ -87,10 +87,6 @@ namespace Awaken.TG.Main.Character.Features {
         }
 
         protected override void FinalizeCleanup() {
-            _config.Face?.ReleaseAsset();
-            _config.Torso?.ReleaseAsset();
-            _config.FaceNormal?.ReleaseAsset();
-            _config.TorsoNormal?.ReleaseAsset();
             _mapInstance = null;
             _normalInstance = null;
         }

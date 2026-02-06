@@ -56,6 +56,7 @@ MonoBehaviour:
   tags:
   - item:important
   - crazyconsumables:basic
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 5ede8dda67b509642b2d4d4d44391ec8
@@ -98,7 +99,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_828ac89f12529844fa5c9e5dcb4c155c
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -123,11 +124,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_828ac89f12529844fa5c9e5dcb4c155c
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 600
+  basePrice: 1000
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 1
@@ -149,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 391eade6e1f42e44f97e3b88fcc73f2d
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1825663986422285804
 MonoBehaviour:

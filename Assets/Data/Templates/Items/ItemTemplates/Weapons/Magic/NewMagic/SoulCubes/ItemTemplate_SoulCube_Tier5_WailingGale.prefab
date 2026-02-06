@@ -81,10 +81,10 @@ MonoBehaviour:
     locString:
       IdOverride: Item_SoulCube_TheWailingGale_Desc
       ID: Template/description_locString_2543871262668956605_8544c4dd58b8b534ab056017becb1f19
-  EDITOR_bakedDescription: 'Charged by killing.
+  EDITOR_bakedDescription: 'Charged by killing 0/10.
 
-    Summon a Tornado, which sucks
-    up everyone within a 5m radius.'
+    Summon a Tornado, which
+    sucks up everyone within a 5m radius.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -162,6 +162,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 3905699cdac95924e8db78caf0dc9a2d
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -323,8 +327,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

@@ -32,7 +32,7 @@ namespace Awaken.TG.Main.UI.Menu {
         public sealed override bool IsNotSaved => true;
 
         // === Properties
-        public UIState UIState => UIState.ModalState(HUDState.MiddlePanelShown | HUDState.CompassHidden).WithPauseTime();
+        public UIState UIState => UIState.ModalState(HUDState.EverythingHidden).WithPauseTime();
 
         Model _popup;
         
@@ -43,7 +43,7 @@ namespace Awaken.TG.Main.UI.Menu {
             this.ListenTo(VModalBlocker.Events.ModalDismissed, Close, this);
         }
 
-        public static void OpenLoadUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new LoadMenuUI()), parentView);
+        public static void OpenLoadUI(View parentView, bool onlyNewGamePlusEligible = false) => UIUtils.AddOverlayUIView(World.Add(new LoadMenuUI(onlyNewGamePlusEligible)), parentView);
         public static void OpenSaveUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new SaveMenuUI()), parentView);
         public static void OpenSettingUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new AllSettingsUI()), parentView);
         public static void OpenModUI(View parentView) => UIUtils.AddOverlayUIView(World.Add(new ModManagerUI()), parentView);
@@ -88,6 +88,14 @@ namespace Awaken.TG.Main.UI.Menu {
         public void ShowPhotoMode() {
             World.Add(new PhotoModeUI());
             Close();
+        }
+
+        public void Hide() {
+            View<VMenuUI>().gameObject.SetActive(false);;
+        }
+
+        public void UnHide() {
+            View<VMenuUI>().gameObject.SetActive(true);
         }
         
         // === Execution

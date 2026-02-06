@@ -50,6 +50,7 @@ using Awaken.TG.Main.Locations.Mobs;
 using Awaken.TG.Main.Locations.Shops;
 using Awaken.TG.Main.Locations.Shops.Prices;
 using Awaken.TG.Main.Maps.Markers;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Scenes.SceneConstructors.SceneInitialization;
 using Awaken.TG.Main.Settings.Accessibility;
@@ -123,6 +124,7 @@ namespace Awaken.TG.Main.Heroes {
         TimeDependent _cachedTimeDependent;
         GravityMarker _cachedGravityMarker;
         ToolInteractionFSM _toolInteractionFSM;
+        HeroOverridesFSM _overridesFSM;
         HeroCombat _heroCombat;
         HeroItems _heroItems;
         AnimatorSharedData _animatorSharedData;
@@ -163,7 +165,8 @@ namespace Awaken.TG.Main.Heroes {
         public float Radius => CachedView(ref _heroController).Controller.radius;
         public float Height => CachedView(ref _heroController).Controller.height;
         public int Tier => 0;
-        
+        public int NewGamePlusLevel => NewGamePlusSystem.Level;
+
         public IWithFaction WithFaction => this;
         public Vector3 VisionDetectionOrigin => Head.position;
         public VisionDetectionSetup[] VisionDetectionSetups {
@@ -200,13 +203,13 @@ namespace Awaken.TG.Main.Heroes {
         public HeroItems HeroItems => CachedElement(ref _heroItems);
         public HeroStorage Storage => Element<HeroStorage>();
         public HeroFoV FoV => Element<HeroFoV>();
-        public HeroDirectionalBlur DirectionalBlur => Element<HeroDirectionalBlur>();
         public ICharacterInventory Inventory => HeroItems;
         public HeroTweaks HeroTweaks => Element<HeroTweaks>();
         public HeroDash HeroDash => Element<HeroDash>();
         public HeroWyrdNight HeroWyrdNight => CachedElement(ref _cachedHeroWyrdNight);
         public FinisherHandlingElement FinisherHandling => CachedElement(ref _cachedFinisherHandlingElement);
         public ToolInteractionFSM ToolInteractionFSM => TryGetCachedElementWithChecks(ref _toolInteractionFSM);
+        public HeroOverridesFSM OverridesFSM => TryGetCachedElementWithChecks(ref _overridesFSM);
         public TimeDependent TimeDependent => TryGetCachedElementWithChecks(ref _cachedTimeDependent);
         public GravityMarker GravityMarker => TryGetCachedElementWithChecks(ref _cachedGravityMarker);
         HeroRagdollElement HeroRagdollElement => Element<HeroRagdollElement>();
@@ -261,7 +264,8 @@ namespace Awaken.TG.Main.Heroes {
         public bool CanDealDamageToFriendlies => true;
         public float RelativeForwardVelocity => RelativeVelocity.y;
         public float RelativeRightVelocity => RelativeVelocity.x;
-        public bool IsInInteractAnimation => ToolInteractionFSM?.IsInInteractAnimation ?? false;
+        public bool IsInInteractAnimation => (ToolInteractionFSM?.IsInInteractAnimation ?? false) ||
+                                             (OverridesFSM?.IsInInteractAnimation ?? false);
         public bool IsInToolAnimation => ToolInteractionFSM?.IsInToolAnimation ?? false;
         public bool MainViewInitialized { get; private set; }
         public bool PullingRangedWeapon => TryGetElement<BowFSM>()?.PullingRangedWeapon ?? false;
@@ -295,6 +299,7 @@ namespace Awaken.TG.Main.Heroes {
         public SurfaceType AudioSurfaceType => SurfaceType.HitFlesh;
         public void PlayAudioClip(AliveAudioType audioType, bool asOneShot = false, params FMODParameter[] eventParams) => CharacterView?.PlayAudioClip(audioType, asOneShot, null, eventParams);
         public void PlayAudioClip(EventReference eventReference, bool asOneShot = false, params FMODParameter[] eventParams) => CharacterView?.PlayAudioClip(eventReference, asOneShot, null, eventParams);
+        public bool MuteEquips { get; set; } = true;
         // === VFX
         public AliveVfx AliveVfx => TryGetElement<AliveVfx>();
         
@@ -323,6 +328,11 @@ namespace Awaken.TG.Main.Heroes {
         public LimitedStat Experience => HeroStats.XP;
         public Stat Level => CharacterStats.Level;
         public Stat MaxHealth => AliveStats.MaxHealth;
+        public Stat MaxHealthReservation => HeroStats.MaxHealthReservation;
+        public float MaxHealthWithReservation => !CharacterStats.IsInitialized
+            ? 0
+            : MaxHealth.ModifiedValue +
+              MaxHealthReservation.ModifiedValue;
         public Stat MaxStamina => CharacterStats.MaxStamina;
         public Stat MaxMana => CharacterStats.MaxMana;
         public ItemStats BlockRelatedStats {
@@ -343,6 +353,7 @@ namespace Awaken.TG.Main.Heroes {
         public bool IsEncumbered => TryGetElement<HeroEncumbered>()?.IsEncumbered ?? false;
 
         public bool WeaponsVisible { get; private set; }
+        bool CanSendDeathEvent { get; set; } = true;
         
         // === Fighting
         FightingPair.LeftStorage _possibleTargets;
@@ -366,10 +377,10 @@ namespace Awaken.TG.Main.Heroes {
             public static readonly Event<Hero, int> LevelUp = new(nameof(LevelUp));
             public static readonly Event<Hero, DamageOutcome> Died = new(nameof(Died));
             public static readonly Event<Hero, Hero> Revived = new(nameof(Revived));
-            public static readonly Event<Hero, Hero> HeroLongTeleported = new(nameof(HeroLongTeleported));
+            public static readonly Event<Hero, bool> HeroLongTeleported = new(nameof(HeroLongTeleported));
             public static readonly Event<Hero, Hero> WalkedThroughPortal = new(nameof(WalkedThroughPortal));
             public static readonly Event<Hero, Portal> ArrivedAtPortal = new(nameof(ArrivedAtPortal));
-            public static readonly Event<Hero, Hero> FastTraveled = new(nameof(FastTraveled));
+            public static readonly Event<Hero, bool> FastTraveled = new(nameof(FastTraveled));
             public static readonly Event<Hero, int> BeforeHeroRested = new(nameof(BeforeHeroRested));
             public static readonly Event<Hero, int> AfterHeroRested = new(nameof(AfterHeroRested));
             public static readonly Event<Hero, RegionChangedData> FactionRegionEntered = new(nameof(FactionRegionEntered));
@@ -378,6 +389,7 @@ namespace Awaken.TG.Main.Heroes {
             public static readonly Event<Hero, bool> HeroSlid = new(nameof(HeroSlid));
             public static readonly Event<Hero, bool> HeroJumped = new(nameof(HeroJumped));
             public static readonly Event<Hero, float> HeroLanded = new(nameof(HeroLanded));
+            public static readonly Event<Hero, bool> BeforeHeroDashed = new(nameof(BeforeHeroDashed));
             public static readonly Event<Hero, bool> HeroDashed = new(nameof(HeroDashed));
             public static readonly Event<Hero, bool> HeroAttacked = new(nameof(HeroAttacked));
             public static readonly Event<Hero, int> HeroFootstep = new(nameof(HeroFootstep));
@@ -463,6 +475,7 @@ namespace Awaken.TG.Main.Heroes {
         public void VisualLoaded() {
             _onVisualLoaded?.Invoke();
             _onVisualLoaded = null;
+            MuteEquips = false;
         }
 
         protected override void OnRestore() {
@@ -480,7 +493,11 @@ namespace Awaken.TG.Main.Heroes {
             var gender = this.BodyFeatures().Gender;
             CommonReferences.RefreshLocsGender(gender);
             Hero.LoadGenderSoundBanks(gender);
-            Services.Get<SceneInitializer>().SceneInitializationHandle.OnInitialized += () => RestoreStartingPosition(readCoords, readRotation);
+            Services.Get<SceneInitializer>().SceneInitializationHandle.OnInitialized += () => {
+                if (!HasBeenDiscarded) {
+                    RestoreStartingPosition(readCoords, readRotation);
+                }
+            };
 
             if (AstarPath.active != null) {
                 ClosestPointOnNavmesh = AstarPath.active.GetNearest(Coords);
@@ -506,7 +523,6 @@ namespace Awaken.TG.Main.Heroes {
             AddElement(new HeroPushForce());
             AddElement(new HeroCameraShakes());
             AddElement(new HeroFoV());
-            AddElement(new HeroDirectionalBlur());
             AddElement(new ProficiencyEventListener());
             AddElement(new TrespassingTracker());
             AddElement(new BountyTracker());
@@ -619,8 +635,11 @@ namespace Awaken.TG.Main.Heroes {
             AddElement(new SpyglassFSM(animator, animancer));
             
             TryGetElement<LegsFSM>()?.Discard();
+            TryGetElement<IdleFSM>()?.Discard();
             if (TppActive) {
                 AddElement(new LegsFSM(animator, animancer));
+            } else {
+                AddElement(new IdleFSM(animator, animancer));
             }
         }
 
@@ -656,6 +675,7 @@ namespace Awaken.TG.Main.Heroes {
 
         protected override void OnDiscard(bool fromDomainDrop) {
             Current = null;
+            HeroCombat.forceCombatCount = 0;
             _characterStats = null;
             _heroController = null;
             Hero.UnloadGenderSoundBanks();
@@ -689,13 +709,13 @@ namespace Awaken.TG.Main.Heroes {
             IsPortaling = false;
         }
         
-        public void TeleportTo(TeleportDestination destination, Action afterTeleported = null, bool overrideTeleport = false) {
+        public void TeleportTo(TeleportDestination destination, Action afterTeleported = null, bool overrideTeleport = false, bool fromAdditive = false) {
             if (TrySetTeleportMovement(out var teleportMovement)) {
                 this.Trigger(GroundedEvents.TeleportRequested, this);
                 teleportMovement.AssignDestinationTeleport(destination, _ => {
                     afterTeleported?.Invoke();
                     _heroController.ForceGroundTouchedTimeout();
-                }, overrideTeleport);
+                }, overrideTeleport, fromAdditive);
             }
         }
         
@@ -772,17 +792,22 @@ namespace Awaken.TG.Main.Heroes {
         
         // === Operations
         public void DieFromDamage(DamageOutcome damageOutcome) {
-            foreach (var animator in CachedView(ref _heroController).HeroAnimators) {
-                animator.enabled = false;
-            }
+            var vHero = VHeroController;
+            vHero.audioAnimator.enabled = false;
+            vHero.HeroAnimator.enabled = false;
 
             NotifyOnDeath(damageOutcome).Forget();
         }
 
-        public async UniTaskVoid NotifyOnDeath(DamageOutcome damageOutcome) {
+        public async UniTaskVoid NotifyOnDeath(DamageOutcome? damageOutcome) {
+            if (!CanSendDeathEvent) {
+                return;
+            }
+            CanSendDeathEvent = false;
             if (await AsyncUtil.DelayFrame(this)) {
-                HeroRagdollElement.OnDeath(damageOutcome);
-                this.Trigger(Events.Died, damageOutcome);
+                damageOutcome ??= new DamageOutcome(new Damage(DamageParameters.Default, null, this, new RawDamageData(0)), Coords, new DamageModifiersInfo(), 0);
+                HeroRagdollElement.OnDeath(damageOutcome.Value);
+                this.Trigger(Events.Died, damageOutcome.Value);
             }
         }
 
@@ -791,10 +816,12 @@ namespace Awaken.TG.Main.Heroes {
             HealthElement.Revive();
             HeroRagdollElement.OnRevive();
             this.Trigger(Events.Revived, this);
+            CanSendDeathEvent = true;
         }
         
         void Die() {
             if (HasElement<HeroDeath>()) return;
+            NotifyOnDeath(null).Forget();
             AddElement(new HeroDeath());
         }
 
@@ -847,9 +874,20 @@ namespace Awaken.TG.Main.Heroes {
 
         void ChangingStatXp(HookResult<IWithStats, Stat.StatChange> statChange) {
             // exp multiplier
+            if (statChange.Value.context?.reason 
+                is ChangeReason.Proficiency
+                or ChangeReason.Crafting
+                or ChangeReason.Forceful
+                or ChangeReason.Exploration) {
+                return;
+            }
             if (statChange.Value.value > 0) {
+                float multiplier = HeroMultStats.ExpMultiplier;
+                if (statChange.Value.context?.reason is ChangeReason.Quest or ChangeReason.Objective) {
+                    multiplier /= NewGamePlusSystem.CalculatedXPMultiplier;
+                }
                 statChange.Value = new(statChange.Value.stat,
-                    statChange.Value.value * HeroMultStats.ExpMultiplier);
+                    statChange.Value.value * multiplier);
             }
         }
         
@@ -964,15 +1002,30 @@ namespace Awaken.TG.Main.Heroes {
         }
 
         public void CallMount() {
-            if (Mounted || !OwnedMount.TryGet(out MountElement ownedMount) || ownedMount is {HasBeenDiscarded: true} || !World.Services.Get<SceneService>().IsOpenWorld) {
+            if (!CanCallMount(out MountElement ownedMount)) {
                 return;
             }
 
             ownedMount.View<VMount>().StartSeekingPlayer();
         }
         
+        // === IWyrdnessReactor
+        public void OnWyrdNightRepellerChanged() {
+            HeroWyrdNight.OnWyrdNightRepellerChanged();
+        }
+
         // === Utils
-        
+        public bool CanCallMount(out MountElement ownedMount) {
+            return OwnedMount.TryGet(out ownedMount) && ownedMount is { HasBeenDiscarded: false }
+                                                     && CanUseMount();
+        }
+
+        public bool CanUseMount() {
+            return !Mounted
+                   && World.Services.Get<SceneService>().IsOpenWorld
+                   && !LastOpenWorldUtils.WasLastOne(LastOpenWorldUtils.Worlds.Sarras);
+        }
+
         public static void LoadGenderSoundBanks(Gender gender) {
             if (gender == Gender.Female) {
                 FmodRuntimeManagerUtils.LoadSoundBanksAsyncAndForget(FemaleSounds);

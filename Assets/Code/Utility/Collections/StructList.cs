@@ -60,6 +60,11 @@ namespace Awaken.Utility.Collections {
             _count = backingArray.Length;
         }
 
+        public void Uncreate() {
+            _items = null;
+            _count = 0;
+        }
+
         [Il2CppSetOption(Option.ArrayBoundsChecks, false), Il2CppSetOption(Option.NullChecks, false)]
         public ref T this[int index] {
             get {

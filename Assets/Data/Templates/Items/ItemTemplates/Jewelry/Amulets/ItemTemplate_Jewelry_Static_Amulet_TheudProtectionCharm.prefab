@@ -149,6 +149,10 @@ MonoBehaviour:
     _enumRef: 
   shareableDropPrefab:
     arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
       address: 92c7518cc9679d941b7dec412e66d874
       subObjectName: 
 --- !u!114 &1382325995290807351
@@ -240,8 +244,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -268,6 +275,12 @@ MonoBehaviour:
     variables:
     - name: Duration
       value: 300
+    - name: DurationGain
+      value: 10
+    - name: DurationPreCalculated
+      value: 0
+    - name: DurationCalculated
+      value: 0
     enums:
     - name: StatEnum
       enumReference:

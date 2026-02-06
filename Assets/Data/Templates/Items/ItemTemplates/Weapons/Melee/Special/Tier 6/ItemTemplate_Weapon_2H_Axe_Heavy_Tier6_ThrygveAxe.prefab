@@ -82,7 +82,10 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_6d5d084c39f319d44888f4c23807b51f
-  EDITOR_bakedDescription: 
+  EDITOR_bakedDescription: 'Deals Critical Hits against enemies with 100% Health.
+
+    Critical
+    Hits with this weapon deal 100% more Damage.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -158,6 +161,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 0a830a80ff7be4544ac4ad2e949c177c
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
@@ -244,8 +251,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-6131117701537556194
 MonoBehaviour:

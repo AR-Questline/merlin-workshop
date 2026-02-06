@@ -1,5 +1,6 @@
 ﻿#if !UNITY_GAMECORE && !UNITY_PS5
 using System;
+using System.Collections.Generic;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.Main.Fights.Factions;
@@ -15,8 +16,9 @@ using Awaken.TG.Main.Heroes.Thievery;
 using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Actions;
 using Awaken.TG.Main.Locations.Attachments.Elements;
-using Awaken.TG.Main.Saving;
+using Awaken.TG.Main.NewGamePlus;
 using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.Utility.Video;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -35,9 +37,10 @@ namespace Awaken.TG.Main.Analytics {
             World.EventSystem.ListenTo(EventSelector.AnySource, CharacterCreator.Events.CharacterCreated, this, OnHeroCreated);
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelFullyInitialized<Hero>(), this, OnHeroInit);
             World.EventSystem.ListenTo(EventSelector.AnySource, Talent.Events.TalentConfirmed, this, OnTalentAcquired);
-            World.EventSystem.ListenTo(EventSelector.AnySource, Location.Events.Interacted, this, OnHeroInteracted);
+            //World.EventSystem.ListenTo(EventSelector.AnySource, Location.Events.Interacted, this, OnHeroInteracted);
             World.EventSystem.ListenTo(EventSelector.AnySource, UnconsciousElement.Events.LoseConscious, this, OnEnemyLoseConscious);
             World.EventSystem.ListenTo(EventSelector.AnySource, UnconsciousElement.Events.UnconsciousKilled, this, OnUnconsciousEnemyKilled);
+            World.EventSystem.ListenTo(EventSelector.AnySource, NewGamePlusSystem.Events.NewGamePlusStarted, this, OnNewGamePlusStarted);
         }
 
         // === Callbacks
@@ -214,7 +217,7 @@ namespace Awaken.TG.Main.Analytics {
             string cause;
             string causeName;
            
-            if (outcome.Damage.DamageDealer is NpcElement npc) {
+            if (outcome.Damage.DamageDealerPure is NpcElement npc) {
                 cause = "AI";
                 causeName = NiceName(npc.Template.name);
             } else {
@@ -226,14 +229,14 @@ namespace Awaken.TG.Main.Analytics {
                     DamageType.Trap => "Trap",
                     _ => "Unknown"
                 };
-                causeName = (outcome.Damage.DamageDealer is Hero) ? "Hero" : "Unknown";
+                causeName = (outcome.Damage.DamageDealerPure is Hero) ? "Hero" : "Unknown";
             }
             string evt = $"DeathFrom:{cause}:{causeName}";
             AnalyticsUtils.TrySendDesignEvent($"Hero:{evt}:HeroLevel", HeroLevel);
         }
         
         void OnHeroKilledSomething(DamageOutcome outcome) {
-            if (outcome.Target is not NpcElement npc) {
+            if (outcome.TargetPure is not NpcElement npc) {
                 return;
             }
             string npcName = NiceName(npc.Template.name);
@@ -243,7 +246,9 @@ namespace Awaken.TG.Main.Analytics {
                 itemType = ItemsAnalytics.ItemType(item);
                 itemName = ItemsAnalytics.ItemName(item.Template);
             }
-            string evt = $"Killed:{npcName}:{itemType}:{itemName}";
+
+            bool importantNpc = npc is { IsUnique: true } or { NpcType: NpcType.Boss or NpcType.Elite or NpcType.MiniBoss };
+            string evt = importantNpc ? $"Killed:{npcName}:{itemType}:{itemName}" : $"Killed:{npcName}";
             AnalyticsUtils.TrySendDesignEvent($"Hero:{evt}", HeroLevel);
         }
 
@@ -337,6 +342,22 @@ namespace Awaken.TG.Main.Analytics {
             string factionName = NiceName(crimeData.Faction.name);
             string crimeName = NiceName(crimeData.CrimeCommitted.Archetype.CrimeType.ToString());
             AnalyticsUtils.TrySendDesignEvent($"Hero:Crime:{factionName}:Committed:{crimeName}");
+        }
+
+        void OnNewGamePlusStarted(int newGamePlusLevel) {
+            string newGamePlusText = newGamePlusLevel switch {
+                < 0 => "0",
+                <= 10 => newGamePlusLevel.ToString(),
+                > 10 => "10+"
+            };
+            AnalyticsUtils.TrySendDesignEvent($"HeroCreated:NewGamePlusStarted:{newGamePlusText}");
+        }
+
+        public static void TrySendVideoSetEvent(ConditionalVideo[] videos, List<int> indexes, string analyticsPrefix) {
+            foreach (var index in indexes) {
+                string guid = videos[index].Video.video.Address;
+                AnalyticsUtils.TrySendDesignEvent($"{analyticsPrefix}:{index}:{guid}");
+            }
         }
     }
 }

@@ -54,6 +54,7 @@ MonoBehaviour:
   _abstractTypes:
   - _guid: fb3f705c21071314b8d3a9fa554e0ed3
   - _guid: 4709d7ba5f279cf4b8cc0be860b45ca2
+  - _guid: aa2bc01c92b5e4b44ad9343f0c682e70
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -154,6 +155,10 @@ MonoBehaviour:
     arReference:
       address: 5776682b63b80d540a976e1fdcc37d57
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &4073385374464319258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +172,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobItems:
+  - abstractNpcTemplates:
+    - _guid: 9470ba1c7a4c27f4d8bdd4c13ce5106c
+    gender: 0
+    hand: 0
+    itemPrefab:
+      address: c92161d0ef2f20346b6cb2e295731aa0
+      subObjectName: 
   - abstractNpcTemplates: []
     gender: 0
     hand: 0
@@ -238,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &7966323535490059107
 MonoBehaviour:

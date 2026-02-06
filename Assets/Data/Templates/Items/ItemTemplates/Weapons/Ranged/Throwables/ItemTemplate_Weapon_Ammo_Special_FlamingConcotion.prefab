@@ -154,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: e86ceb94010ca5b48b096521a997189d
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &4573730755203723746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,8 +236,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4508705400885166064
 MonoBehaviour:
@@ -301,6 +308,10 @@ MonoBehaviour:
         value: 0
       - name: Buildup
         value: 120
+      - name: RangeForDescription
+        value: 0
+      - name: NGBuildup
+        value: 160
       enums: []
       datums:
       - name: ApplyAsAOE

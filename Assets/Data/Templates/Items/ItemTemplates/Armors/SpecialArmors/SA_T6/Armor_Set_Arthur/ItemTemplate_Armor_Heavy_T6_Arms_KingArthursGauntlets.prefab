@@ -61,6 +61,12 @@ MonoBehaviour:
   tags:
   - item:tier6
   - item:important
+  conditionalIconReference:
+  - requiredFlag: ArthurSkin:ConquerorOfAvalon
+    icon:
+      arSpriteReference:
+        address: 710e2ee86ccc4504ba75c43bdc337c94
+        subObjectName: 
   iconReference:
     arSpriteReference:
       address: d150ad6961ac60d43b5f95ff089880fa
@@ -78,7 +84,9 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_812607902811483053_df8417fa541f68c489821dcccd25e974
-  EDITOR_bakedDescription: Increases Max Stamina by 7.
+  EDITOR_bakedDescription: "Critical Hits restore 10 Health and Mana.\nIncreases
+    Critical Chance by 25\_% when your Health is below 25\_%.\nYou deal increased
+    Damage to Fore-Dweller enemies."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -155,6 +163,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &6715794403806731267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +184,23 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: bd7fae09c30e33a4ab193fef5fb458bc
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 2
+    hand: 0
+    flag: ArthurSkin:ConquerorOfAvalon
+    itemPrefab:
+      address: 5a39efeda2431b243b6fbd7b5377f221
+      subObjectName: 
+  - abstractNpcTemplates:
+    - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
+    gender: 1
+    hand: 0
+    flag: 
     itemPrefab:
       address: f29aafb32287cd94b99300e0d9726326
       subObjectName: 
@@ -179,6 +208,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: 194f2decf111fc148bd22de444253182
       subObjectName: 
@@ -244,8 +274,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &6882398756405144067
 MonoBehaviour:
@@ -487,7 +520,7 @@ MonoBehaviour:
     - name: StatIncrease
       value: 0.25
     - name: ValueGain
-      value: 0.01
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

@@ -29,6 +29,7 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         bool _walkingToPosition;
         InteractionStartReason _interactionStartReason;
         CancellationTokenSource _interactPrepareToken;
+        CancellationTokenSource _interactWaitToStartToken;
 
         NpcElement Npc => ParentModel;
         NpcMovement Movement => Npc.Movement;
@@ -107,10 +108,16 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         }
 
         async UniTaskVoid TryStartInteraction() {
-            while (_stoppingInteraction?.IsStopping(ParentModel) ?? false) {
-                if (!await AsyncUtil.DelayFrame(this, 1)) {
+            _interactWaitToStartToken?.Cancel();
+            if (_stoppingInteraction?.IsStopping(ParentModel) ?? false) {
+                var token = new CancellationTokenSource();
+                _interactWaitToStartToken = token;
+                bool waitedSuccessfully = await AsyncUtil.WaitWhile(ParentModel, () => _stoppingInteraction?.IsStopping(ParentModel) ?? false, token);
+                if (!waitedSuccessfully || token.IsCancellationRequested) {
                     return;
                 }
+            } else {
+                _interactWaitToStartToken = null;
             }
 
             _stoppingInteraction = null;
@@ -150,13 +157,15 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
 
         async UniTaskVoid WaitForFullyEntered() {
             _interactPrepareToken?.Cancel();
-            var token = new CancellationTokenSource();
-            _interactPrepareToken = token;
-
-            bool waitedSuccessfully = await AsyncUtil.WaitUntil(ParentModel, () => CurrentInteraction is { FullyEntered: true }, token.Token);
-
-            if (!waitedSuccessfully || token.IsCancellationRequested) {
-                return;
+            if (CurrentInteraction is not { FullyEntered: true }) {
+                var token = new CancellationTokenSource();
+                _interactPrepareToken = token;
+                bool waitedSuccessfully = await AsyncUtil.WaitUntil(ParentModel, () => CurrentInteraction is { FullyEntered: true }, token.Token);
+                if (!waitedSuccessfully || token.IsCancellationRequested) {
+                    return;
+                }
+            } else {
+                _interactPrepareToken = null;
             }
 
             MarkFullyEntered();
@@ -176,6 +185,9 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         }
         
         public void Stop(InteractionStopReason reason, bool onlyPause) {
+            _interactWaitToStartToken?.Cancel();
+            _interactWaitToStartToken = null;
+            
             if (CurrentInteraction == null) {
                 return;
             }

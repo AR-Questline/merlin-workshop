@@ -12,6 +12,7 @@ using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.UI.TitleScreen;
 using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.Domains;
@@ -60,7 +61,16 @@ namespace Awaken.TG.Main.Settings.Windows {
 
         void SpawnSettings() {
             int lastTabIndex = World.HasAny<TitleScreenUI>() ? 0 : Facts?.Get<int>(LastSettingsTab) ?? 0;
-            ReplaceContent(View<VSettingsUI>().Tabs[lastTabIndex].Type);
+            var tabs = View<VSettingsUI>().Tabs.ToList();
+            SettingsTabType lastTabType = tabs[lastTabIndex].Type;
+            
+            if (lastTabType == SettingsTabType.GamepadControlsSettings && !RewiredHelper.IsGamepad) {
+                lastTabIndex = tabs.FindIndex(settingsTabButton => settingsTabButton.Type == SettingsTabType.ControlsSettings);
+            } else if (lastTabType == SettingsTabType.ControlsSettings && RewiredHelper.IsGamepad) {
+                lastTabIndex = tabs.FindIndex(settingsTabButton => settingsTabButton.Type == SettingsTabType.GamepadControlsSettings);
+            }
+            
+            ReplaceContent(tabs[lastTabIndex].Type);
         }
 
         // === Operations
@@ -169,6 +179,14 @@ namespace Awaken.TG.Main.Settings.Windows {
             
             // focus first selectable
             World.Only<Focus>().Select(firstSelectable);
+        }
+
+        public void Hide() {
+            View<VSettingsUI>().gameObject.SetActive(false);
+        }
+        
+        public void UnHide() {
+            View<VSettingsUI>().gameObject.SetActive(true);
         }
     }
 }

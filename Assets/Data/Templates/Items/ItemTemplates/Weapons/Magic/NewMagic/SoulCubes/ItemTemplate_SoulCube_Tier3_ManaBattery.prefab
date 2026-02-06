@@ -81,10 +81,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_6771c910eedd6ec438c11cab4aab70db
-  EDITOR_bakedDescription: 'Charged by spending 200% of Max Mana.
-
-    Consume stored
-    mana, increasing your Mana Regeneration by 100% for 10s.'
+  EDITOR_bakedDescription: "Charged by spending 200\_% of Max Mana 0/200.\nConsume
+    stored Mana, increasing your Mana Regeneration by 100\_% for 10s."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -160,6 +158,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 0e8a8a8ff5984934a801afa7b70ac209
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -310,8 +312,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

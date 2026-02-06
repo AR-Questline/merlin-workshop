@@ -23,7 +23,7 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
             return new RuntimeChoice {
                 targetChapter = parser.GetChapter(targetChapter),
                 isMainChoice = isMainChoice,
-                text = text,
+                text = parser.GetLightLocString(text),
                 Tooltip = tooltip
             };
         }
@@ -32,7 +32,10 @@ namespace Awaken.TG.Main.Stories.Steps.Helpers {
     public struct RuntimeChoice {
         public StoryChapter targetChapter;
         public bool isMainChoice;
-        public LocString text;
+        public LightLocString text;
+        public string alreadyTranslatedText;
         public string Tooltip { get; set; }
+
+        public string TranslatedText => string.IsNullOrEmpty(alreadyTranslatedText) ? text : alreadyTranslatedText;
     }
 }

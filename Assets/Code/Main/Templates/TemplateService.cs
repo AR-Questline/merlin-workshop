@@ -85,6 +85,18 @@ namespace Awaken.TG.Main.Templates {
         [FoldoutGroup("Weapons")] [SerializeField] [TemplateType(typeof(ItemTemplate))]
         TemplateReference _abstractWeaponRanged;
         public ItemTemplate AbstractWeaponRanged => _abstractWeaponRanged.Get<ItemTemplate>();
+        
+        [FoldoutGroup("Weapons")] [SerializeField] [TemplateType(typeof(ItemTemplate))]
+        TemplateReference _abstractShortBow;
+        public ItemTemplate AbstractShortBow => _abstractShortBow.Get<ItemTemplate>();
+
+        [FoldoutGroup("Weapons")] [SerializeField] [TemplateType(typeof(ItemTemplate))]
+        TemplateReference _abstractMediumBow;
+        public ItemTemplate AbstractMediumBow => _abstractMediumBow.Get<ItemTemplate>();
+
+        [FoldoutGroup("Weapons")] [SerializeField] [TemplateType(typeof(ItemTemplate))]
+        TemplateReference _abstractHeavyBow;
+        public ItemTemplate AbstractHeavyBow => _abstractHeavyBow.Get<ItemTemplate>();
 
         [FoldoutGroup("Weapons")] [SerializeField] [TemplateType(typeof(ItemTemplate))]
         TemplateReference _abstractArrow;
@@ -282,6 +294,14 @@ namespace Awaken.TG.Main.Templates {
         [FoldoutGroup("Npc")] [SerializeField] [TemplateType(typeof(NpcTemplate))]
         TemplateReference _abstractZombie;
         [UnityEngine.Scripting.Preserve] public NpcTemplate AbstractZombie => _abstractZombie.Get<NpcTemplate>();
+        
+        [FoldoutGroup("Npc")] [SerializeField] [TemplateType(typeof(NpcTemplate))]
+        TemplateReference _abstractSummon;
+        [UnityEngine.Scripting.Preserve] public NpcTemplate AbstractSummon => _abstractSummon.Get<NpcTemplate>();
+        
+        [FoldoutGroup("Npc")] [SerializeField] [TemplateType(typeof(NpcTemplate))]
+        TemplateReference _abstractWyrdnessBound;
+        [UnityEngine.Scripting.Preserve] public NpcTemplate AbstractWyrdnessBound => _abstractWyrdnessBound.Get<NpcTemplate>();
 
         public bool IsAnimal(NpcTemplate template) {
             return template.InheritsFrom(_abstractPreyAnimal.Get<NpcTemplate>()) ||

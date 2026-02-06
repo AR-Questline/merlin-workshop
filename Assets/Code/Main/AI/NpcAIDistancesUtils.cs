@@ -1,4 +1,6 @@
-﻿namespace Awaken.TG.Main.AI {
+﻿using Unity.Mathematics;
+
+namespace Awaken.TG.Main.AI {
     public static class NpcAIDistancesUtils {
         // --- Distance
         const float ReturnToSpawnBand0 = 15;
@@ -56,6 +58,18 @@
         
         public static bool IsOverBand4(this NpcAI npcAI) {
             return npcAI.SqrDistanceToOutOfCombatPoint > SqrReturnToSpawnBand4;
+        }
+        
+        public static bool ShouldForceEndAlert(this NpcAI npcAI) {
+            float multipliedDistance = npcAI.ParentModel.NpcStats.BackToSpawnPointDistanceMultiplier * SqrReturnToSpawnBand2;
+            multipliedDistance = math.max(multipliedDistance, SqrReturnToSpawnBand1 * 1.1f);
+            return npcAI.SqrDistanceToOutOfCombatPoint > multipliedDistance;
+        }
+        
+        public static bool ShouldForceEndCombat(this NpcAI npcAI) {
+            float multipliedDistance = npcAI.ParentModel.NpcStats.BackToSpawnPointDistanceMultiplier * SqrReturnToSpawnBand3;
+            multipliedDistance = math.max(multipliedDistance, SqrReturnToSpawnBand1 * 1.15f);
+            return npcAI.SqrDistanceToOutOfCombatPoint > multipliedDistance;
         }
 
         public static int GetDistanceToLastIdlePointBand(this NpcAI npcAI) {

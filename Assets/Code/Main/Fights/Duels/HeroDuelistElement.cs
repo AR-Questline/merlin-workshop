@@ -17,7 +17,7 @@ namespace Awaken.TG.Main.Fights.Duels {
         }
         
         protected override void OnDuelStarted() {
-            if (ParentModel is Hero hero) {
+            if (ParentModel is Hero { IsWeaponEquipped: false } hero) {
                 hero.Trigger(Hero.Events.ShowWeapons, true);
             }
         }

@@ -76,8 +76,18 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             DealDamageInSphereInternal(attacker, sphereDamageParameters, origin, sphereDamageParameters.endRadius, in AlreadyDamagedElements);
         }
         
+
+        public static void DealDamageInSphereWithAdditionalCheckInstantaneous([CanBeNull] IModel attacker, SphereDamageParameters sphereDamageParameters, Vector3 origin, Func<Collider, bool> additionalCheck) {
+            AlreadyDamagedElements.Clear();
+            DealDamageInSphereWithAdditionalCheckInternal(attacker, sphereDamageParameters, origin, sphereDamageParameters.endRadius, in AlreadyDamagedElements, additionalCheck);
+        }
+
         public static void DealDamageInSphereOverTime([CanBeNull] IModel attacker, SphereDamageParameters sphereDamageParameters, Vector3 origin, float radius, in HashSet<HealthElement> alreadyDamagedElements) {
             DealDamageInSphereInternal(attacker, sphereDamageParameters, origin, radius, alreadyDamagedElements);
+        }
+        
+        public static void DealDamageInSphereWithAdditionalCheckOverTime([CanBeNull] IModel attacker, SphereDamageParameters sphereDamageParameters, Vector3 origin, float radius, in HashSet<HealthElement> alreadyDamagedElements, Func<Collider, bool> additionalCheck) {
+            DealDamageInSphereWithAdditionalCheckInternal(attacker, sphereDamageParameters, origin, radius, alreadyDamagedElements, additionalCheck);
         }
         
         static void DealDamageInSphereInternal(IModel attacker, SphereDamageParameters sphereDamageParameters, Vector3 origin, float radius, in HashSet<HealthElement> alreadyDamagedElements) {
@@ -90,9 +100,31 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             World.Services.Get<MitigatedExecution>().RegisterOverTime(DamageActions, SphereDamageTickDuration, attacker, MitigatedExecution.Cost.Heavy, MitigatedExecution.Priority.High, 0.1f);
         }
         
+        static void DealDamageInSphereWithAdditionalCheckInternal(IModel attacker, SphereDamageParameters sphereDamageParameters, Vector3 origin, float radius, in HashSet<HealthElement> alreadyDamagedElements, Func<Collider, bool> additionalCheck) {
+            DamageActions.Clear();
+            var query = PhysicsQueries.OverlapSphere(origin, radius, sphereDamageParameters.hitMask, QueryTriggerInteraction.Collide);
+            var attackerHealthElement = attacker is IAlive alive ? alive.HealthElement : attacker?.TryGetElement<IAlive>()?.HealthElement;
+            foreach (var collider in query) {
+                if (additionalCheck.Invoke(collider)) {
+                    DealDamageInstanceInAreaInternal(collider, attacker, attackerHealthElement, sphereDamageParameters, origin, radius, alreadyDamagedElements);
+                }
+            }
+
+            World.Services.Get<MitigatedExecution>().RegisterOverTime(DamageActions, SphereDamageTickDuration, attacker, MitigatedExecution.Cost.Heavy, MitigatedExecution.Priority.High, 0.1f);
+        }
+        
+        public static void DealDamageInConeWithAdditionalCheckInstantaneous([CanBeNull] IModel attacker, ConeDamageParameters coneDamageParameters, Vector3 origin, Func<Collider, bool> additionalCheck) {
+            AlreadyDamagedElements.Clear();
+            DealDamageInConeWithAdditionalCheckInternal(attacker, coneDamageParameters, origin, coneDamageParameters.sphereDamageParameters.endRadius, in AlreadyDamagedElements, additionalCheck);
+        }
+        
         public static void DealDamageInConeInstantaneous([CanBeNull] IModel attacker, ConeDamageParameters coneDamageParameters, Vector3 origin) {
             AlreadyDamagedElements.Clear();
-            DealDamageInConeInternal(attacker, coneDamageParameters, origin, coneDamageParameters.sphereDamageParameters.endRadius, AlreadyDamagedElements);
+            DealDamageInConeInternal(attacker, coneDamageParameters, origin, coneDamageParameters.sphereDamageParameters.endRadius, in AlreadyDamagedElements);
+        }
+        
+        public static void DealDamageInConeWithAdditionalCheckOverTime([CanBeNull] IModel attacker, ConeDamageParameters coneDamageParameters, Vector3 origin, float radius, in HashSet<HealthElement> alreadyDamagedElements, Func<Collider, bool> additionalCheck) {
+            DealDamageInConeWithAdditionalCheckInternal(attacker, coneDamageParameters, origin, radius, alreadyDamagedElements, additionalCheck);
         }
         
         public static void DealDamageInConeOverTime([CanBeNull] IModel attacker, ConeDamageParameters coneDamageParameters, Vector3 origin, float radius, in HashSet<HealthElement> alreadyDamagedElements) {
@@ -105,6 +137,18 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             var attackerHealthElement = attacker is IAlive alive ? alive.HealthElement : attacker?.TryGetElement<IAlive>()?.HealthElement;
             foreach (var collider in query) {
                 DealDamageInstanceInAreaInternal(collider, attacker, attackerHealthElement, coneDamageParameters.sphereDamageParameters, origin, radius, alreadyDamagedElements);
+            }
+            World.Services.Get<MitigatedExecution>().RegisterOverTime(DamageActions, SphereDamageTickDuration, attacker, MitigatedExecution.Cost.Heavy, MitigatedExecution.Priority.High, 0.1f);
+        }
+        
+        static void DealDamageInConeWithAdditionalCheckInternal(IModel attacker, ConeDamageParameters coneDamageParameters, Vector3 origin, float radius, in HashSet<HealthElement> alreadyDamagedElements, Func<Collider, bool> additionalCheck) {
+            DamageActions.Clear();
+            var query = PhysicsQueries.OverlapConeApprox(origin, radius, coneDamageParameters.angle, coneDamageParameters.forward, coneDamageParameters.sphereDamageParameters.hitMask, QueryTriggerInteraction.Collide);
+            var attackerHealthElement = attacker is IAlive alive ? alive.HealthElement : attacker?.TryGetElement<IAlive>()?.HealthElement;
+            foreach (var collider in query) {
+                if (additionalCheck.Invoke(collider)) {
+                    DealDamageInstanceInAreaInternal(collider, attacker, attackerHealthElement, coneDamageParameters.sphereDamageParameters, origin, radius, alreadyDamagedElements);
+                }
             }
             World.Services.Get<MitigatedExecution>().RegisterOverTime(DamageActions, SphereDamageTickDuration, attacker, MitigatedExecution.Cost.Heavy, MitigatedExecution.Priority.High, 0.1f);
         }

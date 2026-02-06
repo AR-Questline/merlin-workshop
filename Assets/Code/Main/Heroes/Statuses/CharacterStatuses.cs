@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.NPCs;
+using Awaken.TG.Main.Heroes.Items.Gems;
 using Awaken.TG.Main.Heroes.Statuses.Attachments;
 using Awaken.TG.Main.Heroes.Statuses.BuildUp;
 using Awaken.TG.Main.Heroes.Statuses.Duration;
@@ -96,7 +97,7 @@ namespace Awaken.TG.Main.Heroes.Statuses {
                     }
                 } else {
                     if (string.Equals(statusRef.GUID, statusTemplate.GUID, StringComparison.InvariantCulture)) {
-                        ParentModel.Trigger(ICharacter.Events.TriedToApplyInvulnerableStatus, sourceInfo.SourceCharacter.Get());
+                        ParentModel.Trigger(ICharacter.Events.TriedToApplyInvulnerableStatus, sourceInfo);
                         return new AddResult { type = StatusAddType.None };
                     }
                 }
@@ -134,8 +135,13 @@ namespace Awaken.TG.Main.Heroes.Statuses {
         }
 
         AddResult ResultFromType(StatusTemplate statusTemplate, IDuration duration, SkillVariablesOverride variableOverride, StatusAddType addType, StatusSourceInfo sourceInfo) {
+            Status oldStatus = null;
+            if (duration is { Elapsed: true }) {
+                return new AddResult { type = StatusAddType.None };
+            }
             if (statusTemplate.OverrideToAddForDifferentItems && sourceInfo != null && sourceInfo.SourceItem.TryGet(out var sourceItem)) {
-                if (!AllStatuses.Any(s => s.SourceInfo?.SourceItem.Get()?.Template.GUID == sourceItem.Template.GUID)) {
+                oldStatus = AllStatuses.FirstOrDefault(OverideAddStatusCondition);
+                if (oldStatus == null) {
                     addType = StatusAddType.Add;
                 }
             }
@@ -151,7 +157,7 @@ namespace Awaken.TG.Main.Heroes.Statuses {
                         Log.Important?.Error("Cannot apply overrides for status that is upgradable", statusTemplate);
                     }
                     
-                    var oldStatus = FirstFrom(statusTemplate);
+                    oldStatus ??= FirstFrom(statusTemplate);
                     oldStatus.Discard();
                     var newStatus = AddStatus(statusTemplate.UpgradeReference, sourceInfo).newStatus;
                     return new AddResult {type = addType, oldStatus = oldStatus, newStatus = newStatus};
@@ -170,15 +176,20 @@ namespace Awaken.TG.Main.Heroes.Statuses {
                         Log.Important?.Error("Cannot apply overrides for status that is prolongable", statusTemplate);
                     }
 
-                    var oldStatus = FirstFrom(statusTemplate);
+                    oldStatus ??= FirstFrom(statusTemplate);
                     oldStatus.Prolong(duration);
                     return new AddResult {type = addType, oldStatus = oldStatus, newStatus = oldStatus};
                 }
                 case StatusAddType.AddAndProlong: {
                     var status = new Status(statusTemplate, sourceInfo, variableOverride);
                     AddNewStatus(status, duration);
-
-                    var oldStatuses = AllStatuses.Where(s => s.Template == statusTemplate);
+                    ModelsSet<Status>.WhereEnumerator oldStatuses;
+                    if (oldStatus != null) {
+                        sourceItem = sourceInfo.SourceItem.Get();
+                        oldStatuses = AllStatuses.Where(OverideAddStatusCondition);
+                    } else {
+                        oldStatuses = AllStatuses.Where(s => s.Template.Equals(statusTemplate));
+                    }
                     foreach (Status s in oldStatuses) {
                         s.Prolong(duration);
                     }
@@ -188,14 +199,20 @@ namespace Awaken.TG.Main.Heroes.Statuses {
                     var status = new Status(statusTemplate, sourceInfo, variableOverride);
                     AddNewStatus(status, duration);
 
-                    var oldStatuses = AllStatuses.Where(s => s.Template == statusTemplate);
+                    ModelsSet<Status>.WhereEnumerator oldStatuses;
+                    if (oldStatus != null) {
+                        sourceItem = sourceInfo.SourceItem.Get();
+                        oldStatuses = AllStatuses.Where(OverideAddStatusCondition);
+                    } else {
+                        oldStatuses = AllStatuses.Where(s => s.Template.Equals(statusTemplate));
+                    }
                     foreach (Status s in oldStatuses) {
                         s.Renew(duration);
                     }
                     return new AddResult {type = addType, oldStatus = null, newStatus = status};
                 }
                 case StatusAddType.Replace: {
-                    var oldStatus = FirstFrom(statusTemplate);
+                    oldStatus ??= FirstFrom(statusTemplate);
                     oldStatus.Discard();
                     
                     var newStatus = new Status(statusTemplate, sourceInfo, variableOverride);
@@ -203,7 +220,7 @@ namespace Awaken.TG.Main.Heroes.Statuses {
                     return new AddResult {type = addType, oldStatus = oldStatus, newStatus = newStatus};
                 }
                 case StatusAddType.Stack: {
-                    var oldStatus = FirstFrom(statusTemplate);
+                    oldStatus ??= FirstFrom(statusTemplate);
                     oldStatus.IncreaseStack();
                     
                     AddResult addResult = ResultFromType(statusTemplate, duration, variableOverride, statusTemplate.AddTypeOnStacking, sourceInfo);
@@ -215,10 +232,27 @@ namespace Awaken.TG.Main.Heroes.Statuses {
                 default:
                     throw new Exception($"There is no implementation for AddType({addType})");
             }
+
+            bool OverideAddStatusCondition(Status s) {
+                var statusSourceItem = s.SourceInfo?.SourceItem.Get();
+                if (statusSourceItem != null) {
+                    if (statusTemplate.OverrideToAddForUniqueItems) {
+                        return statusSourceItem.Equals(sourceItem);
+                    } else {
+                        return statusSourceItem.Template.GUID.Equals(sourceItem.Template.GUID)
+                               && statusSourceItem.Level == sourceItem.Level;
+                    }
+                }
+                return false;
+            }
         }
 
         [UnityEngine.Scripting.Preserve] public bool HasStatus(StatusType statusType) => AllStatuses.Any(s => s.Type == statusType);
         public bool HasStatus(StatusTemplate template) => AllStatuses.Any(s => s.Template == template);
+        public bool TryGetStatus(StatusTemplate template, out Status status) {
+            status = AllStatuses.FirstOrDefault(s => s.Template == template);
+            return status != null;
+        }
 
         public void RemoveStatus(StatusTemplate statusTemplate) {
             var status = AllStatuses.FirstOrDefault(s => s.Template == statusTemplate);

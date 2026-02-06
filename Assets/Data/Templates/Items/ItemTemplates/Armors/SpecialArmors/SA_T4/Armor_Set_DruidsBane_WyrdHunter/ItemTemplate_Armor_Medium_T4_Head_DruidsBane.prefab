@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_ae5122fefa075be4d9775e4e8ce1381e
-  EDITOR_bakedDescription: 'Increases Attack Speed by 30%.
-
-    Increases Sprint
-    Speed by 100%.'
+  EDITOR_bakedDescription: "Increases all Damage you deal by 15\_%, this effect is
+    doubled against enemies that use magic.\nFully inhibits your Mana Regeneration."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -246,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -308,8 +313,16 @@ MonoBehaviour:
     variables:
     - name: BonusDamageMultiplier
       value: 0.15
+    - name: BonusDamageGain
+      value: 0.01
+    - name: BonusDamageCalculated
+      value: 0
     - name: BonusDamageMultiplierSpecial
       value: 0.3
+    - name: BonusDamageSpecialGain
+      value: 0.02
+    - name: BonusDamageSpecialCalculated
+      value: 0
     enums: []
     datums:
     - name: AgainstMagicCastersUseSpecial
@@ -318,6 +331,26 @@ MonoBehaviour:
       value:
         simpleValue:
           rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: AddAsSubtype
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: DamageSubtype
+      type:
+        id: 259
+      value:
+        simpleValue:
+          rawValue: 0
         stringValue: 
         assetValue:
           address: 

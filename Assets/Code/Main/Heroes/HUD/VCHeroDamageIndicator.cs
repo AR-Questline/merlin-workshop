@@ -23,8 +23,8 @@ namespace Awaken.TG.Main.Heroes.HUD {
         }
         
         void OnDamageTaken(DamageOutcome damageOutcome) {
-            if (damageOutcome.Attacker != null) {
-                _attacker = damageOutcome.Attacker.ParentTransform;
+            if (damageOutcome.AttackerPure != null) {
+                _attacker = damageOutcome.AttackerPure.ParentTransform;
             } else {
                 return;
             }

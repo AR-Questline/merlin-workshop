@@ -1,6 +1,7 @@
 ﻿using Awaken.TG.Main.Fights.NPCs.Presences;
 using Awaken.TG.Main.Maps.Markers;
 using Awaken.TG.Main.Scenes;
+using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
@@ -15,6 +16,8 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
     public partial class GameplayUniqueLocation : Element<Location> {
         public override ushort TypeForSerialization => SavedModels.GameplayUniqueLocation;
 
+        static string CurrentScene => World.Services.Get<SceneService>()?.ActiveSceneRef?.Name;
+        
         [Saved] string _currentScene;
         [Saved] Vector3 _currentPos;
         [Saved] Quaternion _currentRot;
@@ -36,7 +39,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             }
             
             _hiddenInAbyss = false;
-            _currentScene = World.Services.Get<SceneService>()?.ActiveSceneRef?.Name;
+            _currentScene = CurrentScene;
             _currentPos = ParentModel.SpecInitialPosition;
             _currentRot = ParentModel.SpecInitialRotation;
 
@@ -52,18 +55,16 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         }
 
         void InitializeListeners() {
-            World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.AfterSceneFullyInitialized, this, OnSceneEnter);
-            World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.AfterSceneDiscarded, this, OnSceneDiscarded);
+            World.EventSystem.ListenTo(EventSelector.AnySource, SceneLifetimeEvents.Events.SafeAfterSceneChanged, this, OnSceneChanged);
+            World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelAdded<LoadingScreenUI>(), this, OnLoadingStarted);
         }
         
-        void OnSceneEnter(SceneLifetimeEventData data) {
-            ChangeSceneCheck(data.SceneReference.Name);
+        void OnSceneChanged(SceneLifetimeEvents _) {
+            ChangeSceneCheck(CurrentScene);
         }
-        
-        void OnSceneDiscarded(SceneLifetimeEventData data) {
-            if (!data.IsMainScene) {
-                ChangeSceneCheck(World.Services.Get<SceneService>()?.MainSceneRef?.Name);
-            }
+
+        void OnLoadingStarted(Model _) {
+            HideInAbyss();
         }
 
         void ChangeSceneCheck(string sceneName) {
@@ -103,7 +104,7 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
         }
         
         public void TeleportIntoCurrentScene(Vector3 position) {
-            _currentScene = World.Services.Get<SceneService>()?.ActiveSceneRef?.Name;
+            SetCurrentScene(CurrentScene);
             _currentPos = position;
 
             if (_hiddenInAbyss) {
@@ -113,11 +114,44 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
             }
         }
 
-        public static void InitializeForLocation(Location location) {
+        public void SetCurrentScene(string sceneName) {
+            _currentScene = sceneName;
+        }
+        
+        public void SetCurrentPosition(Vector3 position) {
+            _currentPos = position;
+        }
+        
+        public void TeleportToGameplayUniqueLocation(GameplayUniqueLocation other) {
+            if (!other.InCurrentScene) {
+                HideInAbyss();
+                _currentScene = other._currentScene;
+                _currentPos = other._currentPos;
+                _currentRot = other._currentRot;
+            } else if (other.InCurrentScene && !InCurrentScene) {
+                _currentScene = other._currentScene;
+                _currentPos = other.ParentModel.Coords;
+                _currentRot = other.ParentModel.Rotation;
+                RestoreFromAbyss();
+            }
+            
+            else if (other.InCurrentScene && InCurrentScene) {
+                ParentModel.SafelyMoveAndRotateTo(other.ParentModel.Coords, other.ParentModel.Rotation);
+            }
+        }
+
+        public void HideCompletely() {
+            _currentScene = null;
+            HideInAbyss();
+        }
+
+        public static GameplayUniqueLocation InitializeForLocation(Location location) {
             if (!location.HasElement<GameplayUniqueLocation>()) {
                 location.MoveToDomain(Domain.Gameplay);
-                location.AddElement(new GameplayUniqueLocation());
+                return location.AddElement(new GameplayUniqueLocation());
             }
+
+            return location.Element<GameplayUniqueLocation>();
         }
     }
 }

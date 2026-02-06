@@ -3,10 +3,12 @@ using Awaken.TG.Main.Fights.Factions;
 using Awaken.TG.Main.Fights.Factions.Crimes;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Utility;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
+using Awaken.Utility.Debugging;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -44,7 +46,14 @@ namespace Awaken.TG.Main.Heroes.Thievery {
         }
 
         public static string StolenText(Item item) {
-            var crimeOwnerName = item.Element<StolenItemElement>()._runtimeOwners.PrimaryOwner.DisplayName;
+            var primaryOwner = item.Element<StolenItemElement>()?._runtimeOwners.PrimaryOwner;
+            string crimeOwnerName;
+            if (primaryOwner != null) {
+                crimeOwnerName = primaryOwner.DisplayName;
+            } else {
+                Log.Important?.Error($"{LogUtils.GetDebugName(item)} has {nameof(StolenItemElement)} but no valid owners.");
+                crimeOwnerName = "";
+            }
             return $"<color=#{ColorUtility.ToHtmlStringRGB(ARColor.MainRed)}>{LocTerms.StolenItem.Translate()}:</color> {crimeOwnerName}";
         }
 

@@ -77,10 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_62e0c13810d1be8459c3559876c55614
-  EDITOR_bakedDescription: 'Increases Mana Shield by 25%.
-
-    On hit, restores 25%
-    of damage dealt as Mana.'
+  EDITOR_bakedDescription: "Increases Mana Shield by 10\_%.\nOn hit, restores 10\_%
+    of damage dealt as Mana."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -137,7 +135,7 @@ MonoBehaviour:
   basePrice: 26
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 2.6
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords:
@@ -158,6 +156,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 26fdaf4d8201fc941a62cd1beacdf29a
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -244,8 +246,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &705685050405466519
 MonoBehaviour:

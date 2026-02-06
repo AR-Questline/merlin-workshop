@@ -156,6 +156,10 @@ MonoBehaviour:
     arReference:
       address: 541f7933d82cd7b4e9092f4bd335c733
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,15 +208,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 12
+  heavyAttackStaminaCost: 18
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 1
-  parryStaminaCost: 15
+  parryStaminaCost: 40
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 12
+  minDamage: 13
   maxDamage: 16
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
@@ -230,7 +234,7 @@ MonoBehaviour:
     calculatedPercentage: 1
   armor: 20
   armorGain: 0
-  blockDamageReductionPercent: 70
+  blockDamageReductionPercent: 80
   blockAngle: 90
   blockGain: 1
   forceDamage: 8
@@ -247,8 +251,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3291696646231857555
 MonoBehaviour:
@@ -277,8 +284,12 @@ MonoBehaviour:
       value: 65
     - name: Stacks
       value: 1
+    - name: NGStacks
+      value: 1
     - name: Duration
       value: 0
+    - name: NGBuildup
+      value: 100
     enums: []
     datums:
     - name: ApplyToUser

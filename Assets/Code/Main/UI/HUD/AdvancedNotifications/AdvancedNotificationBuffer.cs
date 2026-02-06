@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Awaken.TG.Assets;
 using Awaken.TG.Main.Settings.Accessibility;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.BufferBlockers;
 using Awaken.TG.Main.UIToolkit;
-using Awaken.TG.Main.UIToolkit.PresenterData;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
@@ -15,7 +13,22 @@ using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
     public abstract partial class AdvancedNotificationBuffer : Element<HUD> {
-        readonly Queue<IAdvancedNotification> _notificationQueue = new();
+        public static bool AllNotificationsSuspended { get; set; }
+        public sealed override bool IsNotSaved => true;
+        
+        public bool IsPushing { get; protected set; }
+        
+        public abstract void ChangeForceVisible(bool value);
+        
+        public new static class Events {
+            public static readonly Event<AdvancedNotificationBuffer, bool> BeforePushingFirstNotification = new(nameof(BeforePushingFirstNotification));
+            public static readonly Event<AdvancedNotificationBuffer, bool> AfterPushingLastNotification = new(nameof(AfterPushingLastNotification));
+            public static readonly Event<AdvancedNotificationBuffer, AdvancedNotification> AfterPushingNewNotification = new(nameof(AfterPushingNewNotification));
+        }
+    }
+    
+    public abstract partial class AdvancedNotificationBuffer<TNotification> : AdvancedNotificationBuffer where TNotification : AdvancedNotification {
+        protected readonly Queue<TNotification> notificationQueue = new();
         
         int _shownCounter;
         UIStateStack _stateStack;
@@ -26,8 +39,6 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
         IEventListener _dependentBufferListener;
         
         protected IEventListener _stateStackListener;
-        
-        public bool IsPushing { get; private set; }
 
         protected bool IsReady { get; set; }
         protected virtual bool HideWhenMapNotInteractive => false;
@@ -49,14 +60,6 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             get => _suspendPushingNotifications || AllNotificationsSuspended;
             set => _suspendPushingNotifications = value;
         }
-        
-        public static bool AllNotificationsSuspended { get; set; }
-
-        public new static class Events {
-            public static readonly Event<AdvancedNotificationBuffer, bool> BeforePushingFirstNotification = new(nameof(BeforePushingFirstNotification));
-            public static readonly Event<AdvancedNotificationBuffer, bool> AfterPushingLastNotification = new(nameof(AfterPushingLastNotification));
-            public static readonly Event<AdvancedNotificationBuffer, IAdvancedNotification> AfterPushingNewNotification = new(nameof(AfterPushingNewNotification));
-        }
 
         protected override void OnInitialize() {
             _stateStack = UIStateStack.Instance;
@@ -66,10 +69,6 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
         protected override void OnFullyInitialized() {
             IsReady = true;
             TryToPush();
-        }
-
-        public static void Push<TBuffer>(IAdvancedNotification notification) where TBuffer : AdvancedNotificationBuffer {
-            World.Only<TBuffer>().PushNotification(notification);
         }
         
         protected virtual void OnBeforePushingFirstNotification() { }
@@ -117,7 +116,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             }
             
             while (true) {
-                if (_notificationQueue.TryDequeue(out IAdvancedNotification notification)) {
+                if (notificationQueue.TryDequeue(out TNotification notification)) {
                     if (notification.HasBeenDiscarded) {
                         continue;
                     }
@@ -125,6 +124,10 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
                     if (!notification.IsValid) {
                         notification.Discard();
                         continue;
+                    }
+
+                    if (notification.IsMergeable) {
+                        MergeSimilarNotifications(notification);
                     }
                     
                     if (_shownCounter == 0 && !IsPushing) {
@@ -150,6 +153,8 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             }
         }
         
+        protected virtual void MergeSimilarNotifications(TNotification notification) { }
+        
         void OnExternalBufferBlockerDiscarded() {
             _bufferBlockerListener = null;
             TryToPush();
@@ -167,14 +172,14 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             }
             
             SetBufferCanvasGroupAlpha(IsPushing ? 1f : 0f);
-            int minToPush = Mathf.Min(_notificationQueue.Count, MaxVisibleNotifications);
+            int minToPush = Mathf.Min(notificationQueue.Count, MaxVisibleNotifications);
             if (!ShouldBeHidden && minToPush > 0) {
                 for (var i = 0; i < minToPush; i++) {
                     TryToPush();
                 }
             }
 
-            if (!ShouldBeHidden && _shownCounter == 0 && _notificationQueue.Count == 0 && IsPushing) {
+            if (!ShouldBeHidden && _shownCounter == 0 && notificationQueue.Count == 0 && IsPushing) {
                 SetBufferCanvasGroupAlpha(0f);
                 TryToPush();
             }
@@ -185,7 +190,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             TryToPush();
         }
 
-        void ShowNotification(IAdvancedNotification notification) {
+        void ShowNotification(TNotification notification) {
             notification.Show(); //old way of showing notifications - to be removed when all notifications are converted to UIToolkit
             ShowPresenterNotification(notification); //new way of showing notifications with UIToolkit
             _shownCounter++;
@@ -193,7 +198,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             this.Trigger(Events.AfterPushingNewNotification, notification);
             OnAfterPushingNewNotification();
 
-            if (_notificationQueue.Count == 0) {
+            if (notificationQueue.Count == 0) {
                 OnBeforePushingLastNotification();
             }
         }
@@ -205,33 +210,32 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
 
             NotificationsParent?.SetActiveOptimized(alpha > 0f);
         }
-        
-        public void ClearBuffer() {
-            var notifications = Elements<IAdvancedNotification>();
-            foreach (var notification in notifications) {
-                notification.Discard();
-            }
-            
-            _notificationQueue.Clear();
-        }
 
-        public void PushNotification(IAdvancedNotification notificationElement) {
+        public void PushNotification(TNotification notificationElement) {
             if (SuspendPushingNotifications || notificationElement == null) {
                 return;
             }
             
-            AddElement(notificationElement);
-            _notificationQueue.Enqueue(notificationElement);
-
-            var notifications = Elements<IAdvancedNotification>();
-            if (notifications.CountGreaterThan(MaxVisibleNotifications) && StrictMaxVisibleNotifications) {
-                notifications.First().Discard();
-            } else {
-                TryToPush();
+            var notifications = Elements<AdvancedNotification>();
+            if (notifications.Count() + 1 > MaxVisibleNotifications && StrictMaxVisibleNotifications) {
+                return;
             }
+            
+            AddElement(notificationElement);
+            notificationQueue.Enqueue(notificationElement);
+            TryToPush();
         }
-        
-        public void ChangeForceVisible(bool value) {
+
+        public void ClearBuffer() {
+            var notifications = Elements<AdvancedNotification>().ToArraySlow();
+            foreach (var notification in notifications) {
+                notification.Discard();
+            }
+            
+            notificationQueue.Clear();
+        }
+
+        public override void ChangeForceVisible(bool value) {
             if (_forceVisible == value) {
                 return;
             }
@@ -239,10 +243,10 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             OnUIStateChanged(_stateStack.State);
         }
 
-        protected virtual void ShowPresenterNotification(IAdvancedNotification notification) { }
+        protected virtual void ShowPresenterNotification(TNotification notification) { }
 
-        public class SuspendNotifications<T> : IDisposable where T : AdvancedNotificationBuffer {
-            readonly AdvancedNotificationBuffer _buffer;
+        public class SuspendNotifications<T> : IDisposable where T : AdvancedNotificationBuffer<TNotification> {
+            readonly AdvancedNotificationBuffer<TNotification> _buffer;
             readonly bool _previousState;
             
             public SuspendNotifications() {
@@ -254,57 +258,6 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications {
             public void Dispose() {
                 _buffer.SuspendPushingNotifications = _previousState;
             }
-        }
-    }
-
-    public abstract partial class AdvancedNotificationBuffer<TNotification> : AdvancedNotificationBuffer, IAdvancedNotificationBufferPresenter where TNotification : class, IAdvancedNotification {
-        protected override bool HideWhenMapNotInteractive => true;
-        ARAssetReference _notificationPrototypeReference;
-        readonly Queue<IPAdvancedNotification<TNotification>> _notificationPresenters = new();
-        
-        protected static PresenterDataProvider PresenterDataProvider => Services.Get<PresenterDataProvider>();
-        
-        protected override void OnFullyInitialized() {
-            var uxml = RetrieveNotificationBaseData().uxml;
-            if (uxml is {IsSet: true}) {
-                _notificationPrototypeReference = uxml.GetAndLoad<VisualTreeAsset>(handle => PrewarmBuffer(handle.Result));
-            }
-        }
-
-        public void ForceDisplayingNotifications() {
-            World.EventSystem.RemoveListener(_stateStackListener);
-            
-            NotificationsParent.SetActiveOptimizedWithFullFade(true, 0.1f);
-            foreach (var presenter in Presenters) {
-                IPAdvancedNotification notification = presenter as IPAdvancedNotification;
-                notification?.ForceShow();
-            }
-        }
-
-        void PrewarmBuffer(VisualTreeAsset prototype) {
-            for (int i = 0; i < MaxVisibleNotifications; i++) {
-                var presenter = MakeNotificationPresenter(prototype);
-                _notificationPresenters.Enqueue(presenter);
-                NotificationsParent.Add(presenter.Content);
-            }
-            
-            IsReady = true;
-            TryToPush();
-        }
-
-        protected abstract PBaseData RetrieveNotificationBaseData();
-        protected abstract IPAdvancedNotification<TNotification> MakeNotificationPresenter(VisualTreeAsset prototype);
-
-        protected override void ShowPresenterNotification(IAdvancedNotification notification) {
-            if (_notificationPresenters.TryDequeue(out var freePresenter)) {
-                _notificationPresenters.Enqueue(freePresenter);
-                freePresenter.Show(notification as TNotification);
-            }
-        }
-        
-        protected override void OnDiscard(bool fromDomainDrop) {
-            _notificationPrototypeReference?.ReleaseAsset();
-            base.OnDiscard(fromDomainDrop);
         }
     }
 }

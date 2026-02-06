@@ -73,6 +73,7 @@ namespace Awaken.TG.Main.Crafting {
         protected Crafting(Hero hero, CraftingTemplate genericTemplate) {
             Hero = hero;
             GenericTemplate = genericTemplate;
+            Hero.Storage.RequestItems();
             SimilarItemsData.FillSimilarItemsDataList(FilteredHeroItems);
         }
 
@@ -266,11 +267,38 @@ namespace Awaken.TG.Main.Crafting {
             PossibleResultTooltipUI = new CraftingItemTooltipUI(typeof(VCraftingTooltipSystemUI), View<IVCrafting>().StaticTooltip, TooltipAppearDelay, 
                 TooltipAppearDelay, TooltipTweenTime, true, false, TooltipPreventDisappearing);
             AddElement(PossibleResultTooltipUI);
-            World.Only<ItemNotificationBuffer>().SuspendPushingNotifications = true;
+            ModifyItemNotificationBuffer();
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {
-            World.Only<ItemNotificationBuffer>().SuspendPushingNotifications = false;
+            if (!fromDomainDrop) {
+                Hero.Storage.ReleaseItems();
+            }
+            ResetItemNotificationBuffer();
+        }
+
+        static void ModifyItemNotificationBuffer() {
+            ItemNotificationBuffer itemNotificationBuffer = World.Only<ItemNotificationBuffer>();
+            itemNotificationBuffer.SetMaxVisibleNotifications(2);
+            itemNotificationBuffer.ClearBuffer();
+            itemNotificationBuffer.ChangeVisualElementParentStyle("item-notifications-parent", "item-notifications-parent-crafting");
+            itemNotificationBuffer.ChangeForceVisible(true);
+            itemNotificationBuffer.SetNotificationFilter(notification => {
+                ItemTemplate template = notification.itemData.itemTemplate;
+                if (template == null || template == CommonReferences.Get.AlchemyGarbageItemTemplate || template == CommonReferences.Get.HandcraftingGarbageItemTemplate) {
+                    return false;
+                }
+                
+                return notification.itemData.gain && (template.IsCraftingComponent || template.IsCookingComponent);
+            });
+        }
+
+        static void ResetItemNotificationBuffer() {
+            ItemNotificationBuffer itemNotificationBuffer = World.Only<ItemNotificationBuffer>();
+            itemNotificationBuffer.ResetMaxVisibleNotifications();
+            itemNotificationBuffer.ChangeVisualElementParentStyle("item-notifications-parent-crafting", "item-notifications-parent");
+            itemNotificationBuffer.ChangeForceVisible(false);
+            itemNotificationBuffer.ClearNotificationFilter();
         }
     }
 

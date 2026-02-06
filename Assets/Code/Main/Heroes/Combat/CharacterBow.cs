@@ -1,22 +1,27 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Awaken.TG.Assets;
 using Awaken.TG.Graphics.Cutscenes;
+using Awaken.TG.Graphics.VFX.Binders;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
+using Awaken.TG.Main.Utility.Debugging;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.Utility;
 using Awaken.Utility.Animations;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Combat {
-    public class CharacterBow : CharacterWeapon {
+    public class CharacterBow : CharacterWeapon, IVfxWeaponMeshBinderModeDisabler {
         [SerializeField] Transform visualFirePoint;
         public Transform arrowController;
 
+        public VFXWeaponMeshBinder.Mode ModesToDisable => VFXWeaponMeshBinder.Mode.DrakeMesh;
         public override Transform VisualFirePoint => visualFirePoint;
         protected override string[] LayersToEnable => layersToEnable;
         protected override ARAssetReference AnimatorControllerRef => Hero.TppActive ? animatorControllerRefTpp : animatorControllerRef;
@@ -125,8 +130,11 @@ namespace Awaken.TG.Main.Heroes.Combat {
                 bool hasArrows = quiver?.Quantity > 0;
                 if (hasArrows && !ArrowsSpawned) {
                     await ClearInstancedArrows(false);
-                    
                     ItemProjectile itemProjectile = quiver.TryGetElement<ItemProjectile>();
+                    if (itemProjectile is { IsSetUp: false }) {
+                        Debug.LogException(new Exception($"Verifying arrows failed for Item: {LogUtils.GetDebugName(Item)}"));
+                        itemProjectile = null;
+                    }
                     var mainHandArrowHandle = itemProjectile?.GetInHandProjectile(null, null) ?? ItemProjectile.GetDefaultInHandProjectile(null, null);
                     var ctrlArrowHandle = itemProjectile?.GetInHandProjectile(null, null) ?? ItemProjectile.GetDefaultInHandProjectile(null, null);
                     (IPooledInstance mainHandArrow, IPooledInstance ctrlArrow) = await UniTask.WhenAll(mainHandArrowHandle, ctrlArrowHandle);

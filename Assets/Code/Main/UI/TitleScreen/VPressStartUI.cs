@@ -1,4 +1,5 @@
 ﻿using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
 using Awaken.TG.MVC.UI;
@@ -19,6 +20,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         
         public bool ForceFocus => true;
         public Component DefaultFocus => this;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
 

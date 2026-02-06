@@ -41,7 +41,7 @@ namespace Awaken.TG.Editor.Main.Stories.Conditions {
             _mode = HasTemplateSettings ? Mode.Templates : Mode.Tags;
         }
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawModeToolbar();
             CustomDrawProperties();
         }
@@ -161,7 +161,7 @@ namespace Awaken.TG.Editor.Main.Stories.Conditions {
 
             foreach (string tag in tags) {
                 string id = TagUtils.GetTagID(tag);
-                if (LocalizationHelper.GetTableEntry(id).entry == null && !notFoundTags.Contains(tag)) {
+                if (LocalizationHelper.EditorOnly_GetTableEntry(id).entry == null && !notFoundTags.Contains(tag)) {
                     notFoundTags.Add(tag);
                 }
             }

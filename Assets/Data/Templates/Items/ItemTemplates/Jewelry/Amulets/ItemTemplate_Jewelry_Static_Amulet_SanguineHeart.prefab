@@ -60,6 +60,7 @@ MonoBehaviour:
   - item:important
   - item:amulet
   - amulets:t1
+  - item:tier4
   iconReference:
     arSpriteReference:
       address: b058d90e71a8bab45ac6ea6af0faef72
@@ -75,9 +76,10 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: description_generic_increase
+      IdOverride: 
       ID: Template/description_locString_2543871262668956605_69f89637114ab8c46a139f67b51a505d
-  EDITOR_bakedDescription: Increases Armor by 2.
+  EDITOR_bakedDescription: "<color=#04959A>Bleed</color> you apply has 100\_% increased
+    duration, but deals 50\_% less Damage."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,7 +154,11 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
     arReference:
-      address: fd33dc5da49acd34481165e3463f8315
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -243,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -267,20 +276,45 @@ MonoBehaviour:
   consumeOnUse: 0
   skills:
   - skillGraphRef:
-      _guid: e699a32c4d76b8b48aa933b6586a5bca
+      _guid: b4e14744c23ad0744a1bcc8c66551108
     variables:
-    - name: ModifyValue
-      value: 2
-    - name: GainValue
-      value: 0
-    - name: ValueCalculated
-      value: 0
+    - name: VariableValue
+      value: 1
     enums:
     - name: StatEnum
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:Armor
-    datums: []
+    datums:
+    - name: VariableName
+      type:
+        id: 4
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: SanguineHeartBleedDuration
+        assetValue:
+          address: 
+          subObjectName: 
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
+      _guid: b4e14744c23ad0744a1bcc8c66551108
+    variables:
+    - name: VariableValue
+      value: 0.5
+    enums: []
+    datums:
+    - name: VariableName
+      type:
+        id: 4
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: SanguineHeartBleedDamage
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
 --- !u!114 &-1928020272294107727

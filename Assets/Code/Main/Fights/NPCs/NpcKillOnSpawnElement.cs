@@ -10,6 +10,7 @@ using Awaken.TG.Main.Locations;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.Main.Locations.Attachments.Elements;
 using Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours;
+using Awaken.TG.Main.Utility.VFX;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Utils;
@@ -59,6 +60,20 @@ namespace Awaken.TG.Main.Fights.NPCs {
             }
             
             _location ??= npc.ParentModel;
+            if (_spec.disableCustomDeathEffects) {
+                foreach (var vc in _location.ViewParent.GetComponentsInChildren<ViewComponent>(true)) {
+                    if (vc is VCDissolveController or VCGhostDissolveController) {
+                        Object.Destroy(vc);
+                    }
+                }
+                var customDeathController = _location.ViewParent.GetComponentInChildren<CustomDeathController>(true);
+                if (customDeathController != null) {
+                    foreach (var deathBehaviour in customDeathController.GetComponents<IDeathBehaviour>()) {
+                        Object.Destroy((Component) deathBehaviour);
+                    }
+                    Object.Destroy(customDeathController);
+                }
+            }
             if (_spec.useCustomAnimation) {
                 _location.AddElement(new NpcKillOnSpawnDeathAnimationForwarder(this));
             }

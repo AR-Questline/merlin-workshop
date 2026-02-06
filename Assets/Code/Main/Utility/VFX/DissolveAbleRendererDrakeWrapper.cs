@@ -77,7 +77,7 @@ namespace Awaken.TG.Main.Utility.VFX {
                 ChangeMaterials(_instancedMaterials);
                 return;
             }
-            LoadAndChangeMaterial(_dar.dissolveAbleMaterialRefs.Select(m => m.RuntimeKey).ToArray()).Forget();
+            LoadAndChangeMaterial(_dar.DissolveAbleMaterialRefsUnsafeToLoad.Select(m => m.RuntimeKey).ToArray()).Forget();
         }
 
         public void RestoreToOriginalMaterials() {

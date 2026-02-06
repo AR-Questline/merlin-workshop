@@ -22,6 +22,7 @@ using Awaken.TG.MVC.Events;
 using Awaken.Utility.Automation;
 using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Awaken.TG.Main.UI.TitleScreen {
@@ -46,16 +47,31 @@ namespace Awaken.TG.Main.UI.TitleScreen {
         public static void StartNewGame(StartGameData data) {
             ClosePopup();
 
-            s_needToSetInitialSettings = true;
-            s_needToCreateHero = data.withHeroCreation;
-            s_needTransitionToCamera = data.withTransitionToCamera;
-            s_intendedScene = data.sceneReference;
-            s_preset = data.characterPresetData;
+            NewGameSetup(data);
 
             Log.Marking?.Warning($"Starting new game: {s_intendedScene.Name}");
             
             data.onStart?.Invoke();
             ScenePreloader.StartNewGame(data.sceneReference);
+        }
+        
+        public static void StartNewGamePlus(StartGameData data, [CanBeNull] SaveSlot saveSlotToLoad, int newGamePlusLevel) {
+            ClosePopup();
+
+            NewGameSetup(data);
+
+            Log.Marking?.Warning($"Starting new game plus: {s_intendedScene.Name}");
+            
+            data.onStart?.Invoke();
+            ScenePreloader.StartNewGamePlus(data.sceneReference, saveSlotToLoad, newGamePlusLevel);
+        }
+
+        static void NewGameSetup(StartGameData data) {
+            s_needToSetInitialSettings = true;
+            s_needToCreateHero = data.withHeroCreation;
+            s_needTransitionToCamera = data.withTransitionToCamera;
+            s_intendedScene = data.sceneReference;
+            s_preset = data.characterPresetData;
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -120,7 +136,7 @@ namespace Awaken.TG.Main.UI.TitleScreen {
                     _ => {
                         s_preset.Apply();
                         if (LoadSave.Get.CanAutoSave()) {
-                            LoadSave.Get.Save(SaveSlot.GetAutoSave());
+                            LoadSave.Get.Save(SaveSlot.GetAutoSave(out bool createdNew), deleteSaveSlotIfSavingFailed: createdNew);
                         }
                     },
                     1);
@@ -128,6 +144,11 @@ namespace Awaken.TG.Main.UI.TitleScreen {
                 s_needToSetCharacterCreatorRandomPreset = false;
                 SetRandomCharacterCreatorPreset();
             }
+        }
+
+        public static async UniTask RerunCharacterCreator(MapScene requester) {
+            var creator = World.Add(new CharacterCreator(Hero.Current.BodyFeatures(), requester, s_preset, onlyCharacterPanel: true));
+            await AsyncUtil.WaitForDiscard(creator);
         }
 
         static void SetRandomCharacterCreatorPreset() {

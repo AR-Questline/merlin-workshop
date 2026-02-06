@@ -238,7 +238,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
                 // Handling 2 or more resurrecting NPCs
                 waitingToBeResurrectedElement.AddResurrector(Npc);
             } else {
-                waitingToBeResurrectedElement = new WaitingToBeResurrectedElement(hook.Value.DamageDealer, Npc, beingDeadNpcVfx);
+                waitingToBeResurrectedElement = new WaitingToBeResurrectedElement(hook.Value.DamageDealerPure, Npc, beingDeadNpcVfx);
                 npc.AddElement(waitingToBeResurrectedElement);
             }
 
@@ -273,7 +273,7 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.MagicBehaviours {
             Transform hand = GetConnectVfxHand();
             data.cancellationToken = new CancellationTokenSource();
             data.vfxInstance = await PrefabPool.Instantiate(connectVfxToTarget, connectingCastingPointOffset, Quaternion.identity, hand, cancellationToken: data.cancellationToken.Token);
-            if (data.vfxInstance.Instance == null || !data.vfxInstance.Instance.TryGetComponent(out VisualEffect vfx)) {
+            if (data.vfxInstance?.Instance == null || !data.vfxInstance.Instance.TryGetComponent(out VisualEffect vfx)) {
                 return;
             }
             vfx.SetVector3("TargetPosition", data.element.ParentModel.Hips.position);

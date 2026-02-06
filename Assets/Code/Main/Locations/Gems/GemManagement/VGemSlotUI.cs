@@ -52,7 +52,7 @@ namespace Awaken.TG.Main.Locations.Gems.GemManagement {
         }
         
         void OnHoverEntered() {
-            _itemDescriptor = new TempItemDescriptor(Target.ItemInSlot, Target);
+            _itemDescriptor = new TempItemDescriptor(Target.ItemInSlot, Target, 1, Target.ItemLevelInSlot, 0, Target.ItemNewGamePlusLevelInSlot);
             IngredientTooltip.SetPosition(leftTooltipPosition, rightTooltipPosition);
             IngredientTooltip.SetDescriptor(_itemDescriptor);
         }

@@ -1,6 +1,7 @@
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Crafting.Fireplace;
 using Awaken.TG.Main.General.StatTypes;
+using Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;
@@ -93,7 +94,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet {
             
             bool pointsVisible = GetStatValue(BaseStatType) > 0 ||
                                  GetStatValue(TalentStatType) > 0 ||
-                                 GetStatValue(ShardsStatType) > 0;
+                                 (GetStatValue(ShardsStatType) > 0 && WyrdArthurUI.IsViewAvailable());
             
             pointsText.transform.parent.gameObject.SetActive(pointsVisible);
             memoriesText.transform.parent.gameObject.SetActive(_whispersVisible);

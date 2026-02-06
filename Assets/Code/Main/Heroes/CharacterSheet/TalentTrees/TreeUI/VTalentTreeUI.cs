@@ -1,8 +1,10 @@
 using System.Linq;
+using Awaken.TG.Assets;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.Pattern;
 using Awaken.TG.Main.Heroes.Development.Talents;
 using Awaken.TG.Main.UI.Components.Tabs;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -30,6 +32,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         [SerializeField] Transform zoomInParent;
         [SerializeField] Image icon;
         [SerializeField] Image subTreeIcon;
+        [SerializeField, ARAssetReferenceSettings(new []{typeof(Sprite), typeof(Texture2D)}, true)] 
+        ShareableSpriteReference lineSpriteReference;
 
         [Title("Gamepad input")] 
         [SerializeField, Range(0, 2)] float directionWeight = 0.9f;
@@ -51,40 +55,63 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         VTalentTreeSlotUI _currentSelected;
         AlwaysPresentHandlers _presentHandler;
         SkillTalentSubTree _currentSubTreeBase;
-        VTalentOverviewUI _vTalentOverviewUI;
+        IVTalentOverview _vTalentOverviewUI;
+        SpriteReference _lineSpriteReferenceCache;
         
         public Transform TreeParent => treeParent;
         public override Transform DetermineHost() => Target.ParentModel.View<ITabParentView>().ContentHost;
+        public SpriteReference LineSpriteReference => _lineSpriteReferenceCache ?? lineSpriteReference.Get();
+        public bool IsValid => this.IsValidForUIHandle();
+        
+        TalentTreeTemplate Template => Target.ParentModel.Tree;
+        bool IsTreeIconSet => Template.Icon is { IsSet: true };
 
         protected override void OnFullyInitialized() {
             _material = new Material(subTreeIcon.material);
             subTreeIcon.material = _material;
             subTreeIcon.material.SetFloat(GreyScale, 1);
             subTreeIcon.TrySetActiveOptimized(false);
-            _vTalentOverviewUI = Target.ParentModel.View<VTalentOverviewUI>();
+            _vTalentOverviewUI = Target.ParentModel.View<IVTalentOverview>();
         }
 
         public void SetupPattern(VTalentTreePattern vPattern) {
-            var treeIcon = Target.ParentModel.CurrentType.Tree.Icon;
-            treeIcon.RegisterAndSetup(this, icon);
-            treeIcon.RegisterAndSetup(this, subTreeIcon);
+            SetupIcon();
             _contentPosition = contentParent.position;
-
             _pattern = vPattern;
             PrepareSubtrees();
-            _selectableElements = new VTalentTreeSlotUI[_pattern.TalentNodes.Count];
+            _selectableElements = new VTalentTreeSlotUI[Target.CurrentTable.TreeTemplate.TalentNodes.Count];
+        }
+        
+        void SetupIcon() {
+            if (!IsTreeIconSet) {
+                return;
+            }
+            
+            var treeIcon = Target.ParentModel.Tree.Icon;
+            if (Template.ShowMainIcon) {
+                treeIcon.RegisterAndSetup(this, icon);
+            } else {
+                icon.TrySetActiveOptimized(false);
+            }
+            
+            if (Template.ShowSubtreeIcon) {
+                treeIcon.RegisterAndSetup(this, subTreeIcon);
+            } else {
+                subTreeIcon.TrySetActiveOptimized(false);
+            }
         }
         
         void PrepareSubtrees() {
             foreach (var subTree in _pattern.SkillTalentTree) {
                 subTree.SetupName();
-
-                subTree.ButtonConfig.InitializeButton(() => {
-                    _currentSubTreeBase = subTree;
-                    ZoomSubtree(true);
-                    Target.GoToSubTree();
-                });
+                subTree.ButtonConfig.InitializeButton(() => ChooseSubtree(subTree));
             }
+        }
+
+        void ChooseSubtree(SkillTalentSubTree subTree) {
+            _currentSubTreeBase = subTree;
+            ZoomSubtree(true);
+            Target.GoToSubTree();
         }
         
         public void Back() {
@@ -98,14 +125,30 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         void ZoomSubtree(bool zoomIn) {
             _vTalentOverviewUI.SetupRequiredInfo(!zoomIn);
             _currentSubTreeBase.SetNameActive(!zoomIn);
-            icon.TrySetActiveOptimized(!zoomIn);
-            subTreeIcon.TrySetActiveOptimized(zoomIn);
-            Target.ParentModel.CurrentTabButton.RefreshFeedback(!zoomIn);
+            ToggleIcon(!zoomIn);
+            
+            Target.ParentModel.RefreshFeedback(!zoomIn);
+            Target.Trigger(TalentTreeUI.Events.TreeZoomedIn, zoomIn);
 
             if (zoomIn) {
                 ZoomInSubtree();
             } else {
                 ZoomOutSubtree();
+            }
+        }
+        
+        void ToggleIcon(bool mainIconState) {
+            if (!IsTreeIconSet) {
+                return;
+                
+            }
+            
+            if (Template.ShowMainIcon) {
+                icon.TrySetActiveOptimized(mainIconState);
+            }
+            
+            if (Template.ShowSubtreeIcon) {
+                subTreeIcon.TrySetActiveOptimized(!mainIconState);
             }
         }
 
@@ -128,8 +171,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
             Vector3 iconOffset = _currentSubTreeBase.IconPosition - contentParent.position.XY();
             contentParent.position = zoomInParent.position - iconOffset;
 
-            if (_currentSubTreeBase.Segments.Count > 0) {
-                SetSelected(_currentSubTreeBase.Segments.First().treeNodes.First().UISlot.GetComponentsInChildren<VTalentTreeSlotUI>().First());
+            if (_pattern.FirstSlot != null && _pattern.TryGetComponentInChildren<VTalentTreeSlotUI>(out var firstSlot)) {
+                SetSelected(firstSlot);
             }
         }
         
@@ -140,8 +183,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
             }
         }
         
-        public void SpawnSlot(TalentTreeSlotUI talentSlot, int index) {
-            _selectableElements[index] = World.SpawnView<VTalentTreeSlotUI>(talentSlot, true, true, _pattern.TalentNodes[index].UISlot);
+        public void SetupSlot(VTalentTreeSlotUI slotView, int index) {
+            _selectableElements[index] = slotView;
         }
         
         public void ShowTooltip(Talent talent) {
@@ -215,7 +258,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         }
         
         public UIResult Handle(UIEvent evt) {
-            if (Target is { HasBeenDiscarded: false, InCategory: false } && !RewiredHelper.IsGamepad) return UIResult.Ignore;
+            if (Target is { InCategory: false } && !RewiredHelper.IsGamepad) return UIResult.Ignore;
             Vector2 input = Vector2.zero;
 
             if (evt is UIKeyDownAction action) {
@@ -247,6 +290,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
         protected override IBackgroundTask OnDiscard() {
             Destroy(_material);
             UnityUpdateProvider.TryGet()?.UnregisterGeneric(this);
+            _lineSpriteReferenceCache?.Release();
+            _lineSpriteReferenceCache = null;
             return base.OnDiscard();
         }
     }

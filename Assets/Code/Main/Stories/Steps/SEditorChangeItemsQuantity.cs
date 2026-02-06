@@ -215,7 +215,7 @@ namespace Awaken.TG.Main.Stories.Steps {
             string id = World.Services.Get<UITooltipStorage>().Register(item, "description", item.Flavor, api);
             string text = $"{LocTerms.StoryGiveItem.Translate(item.DisplayName, item.Inventory.NumberOfItems(item.Template)).AddTooltip(id)}{currentlyEquipped}";
             var choice = new RuntimeChoice {
-                text = (LocString) text,
+                alreadyTranslatedText = text,
                 Tooltip = item.Flavor
             };
 
@@ -233,7 +233,7 @@ namespace Awaken.TG.Main.Stories.Steps {
             World.Services.Get<UITooltipStorage>().Register(itemTemplate.DescriptionLoc.ID, ItemUtils.GetTemplateDescription(itemTemplate, hero), api);
             string text = $"{LocTerms.StoryGetItem.Translate(itemTemplate.ItemName, hero.Inventory.NumberOfItems(itemTemplate)).AddTooltip(itemTemplate.DescriptionLoc.ID)}";
             var choice = new RuntimeChoice {
-                text = (LocString) text,
+                alreadyTranslatedText = text,
                 Tooltip = ItemUtils.CreateItemFlavorFromTemplate(itemTemplate, api.Hero)
             };
 
@@ -244,12 +244,12 @@ namespace Awaken.TG.Main.Stories.Steps {
                 onChoose();
             }
 
-            api.OfferChoice(ChoiceConfig.WithCallback(choice, TakeItem).WithSpriteIcon(itemTemplate.IconReference));
+            api.OfferChoice(ChoiceConfig.WithCallback(choice, TakeItem).WithSpriteIcon(itemTemplate.IconReference()));
         }
 
         void OfferLeaveChoice(Story api, StepResult result) {
             var choice = new RuntimeChoice {
-                text = (LocString) LocTerms.Leave.Translate(),
+                alreadyTranslatedText = LocTerms.Leave.Translate(),
                 targetChapter = leaveChapter,
             };
 

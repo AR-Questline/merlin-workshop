@@ -74,8 +74,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_ad1f47807374b614ab4fa638b54e96ff
-  EDITOR_bakedDescription: When receiving damage, returns 33% of it back to attacker
-    for 30 seconds.
+  EDITOR_bakedDescription: "When receiving Damage, returns 33\_% of it back to attacker
+    for 30 seconds."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 50951428549ef924597932bb8cc96ad9
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-3093218543943943464
 MonoBehaviour:

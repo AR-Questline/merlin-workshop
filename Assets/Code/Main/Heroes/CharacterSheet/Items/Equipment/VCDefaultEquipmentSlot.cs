@@ -7,7 +7,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Equipment {
         [Space(10f)]
         [SerializeField, RichEnumExtends(typeof(EquipmentSlotType))] RichEnumReference type;
         public override bool Hidden => false;
-        public override bool Locked => false;
+        public override bool Locked => !Target.HeroItems.AllowEquipping;
         public override EquipmentSlotType Type => type.EnumAs<EquipmentSlotType>();
     }
 }

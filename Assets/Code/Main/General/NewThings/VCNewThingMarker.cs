@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI;
 using Awaken.TG.MVC.UI.Events;
@@ -18,7 +19,8 @@ namespace Awaken.TG.Main.General.NewThings {
         bool _isHiding;
         IUINewThing _newThing;
         IUINewThing NewThing => _newThing ??= TryFindNewThing();
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         IUINewThing TryFindNewThing() {
             if (GenericTarget is IUINewThing nt) {
                 return nt;

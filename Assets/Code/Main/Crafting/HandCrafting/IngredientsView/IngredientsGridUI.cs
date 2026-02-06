@@ -14,10 +14,11 @@ namespace Awaken.TG.Main.Crafting.HandCrafting.IngredientsView {
         public IEnumerable<IngredientTabType> Tabs => IngredientTabType.ExperimentalCooking;
         public IEnumerable<Item> Items => ParentModel.FilteredHeroItems;
         public IngredientsSorting CurrentSorting { get; private set; } = IngredientsSorting.AlphabeticallyAscending;
-        public IngredientTabContents IngredientTabContents => Element<IngredientTabContents>();
+        public IngredientTabContents IngredientTabContents { get; private set; }
 
         protected override void OnFullyInitialized() {
             AddElement(new IngredientTabs());
+            IngredientTabContents = Element<IngredientTabContents>();
         }
         
         public void ChangeItemsComparer(IngredientsSorting sorting) {

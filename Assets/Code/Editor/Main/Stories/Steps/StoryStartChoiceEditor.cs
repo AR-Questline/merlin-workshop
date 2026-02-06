@@ -1,5 +1,4 @@
 ﻿using Awaken.TG.Editor.Main.Stories.Drawers;
-using Awaken.TG.Editor.Utility;
 using Awaken.TG.Editor.Utility.StoryGraphs;
 using Awaken.TG.Main.Stories.Steps;
 using UnityEditor;
@@ -9,7 +8,7 @@ using XNodeEditor;
 namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorStoryStartChoice))]
     public class StoryStartChoiceEditor : ElementEditor {
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             SEditorStoryStartChoice choice = Target<SEditorStoryStartChoice>();
             if (choice.Parent == null) {
                 return;

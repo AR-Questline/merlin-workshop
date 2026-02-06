@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -30,7 +31,7 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
 
         static GUIDCache s_instance;
         static readonly Regex GUIDRegex = new(@"[^a-z0-9]([a-z0-9]{32})[^a-z0-9]", RegexOptions.Compiled);
-        static readonly Regex SerializedGUIDRegex = new(@"graphGuid:[\s\n]+_guidPart1:\s(\d+)[\s\n]+_guidPart2:\s(\d+)[\s\n]+_guidPart3:\s(\d+)[\s\n]+_guidPart4:\s(\d+)", RegexOptions.Compiled);
+        static readonly Regex SerializedGUIDRegex = new(@"_guidPart1:\s(\-?\d+)[\s\n]+_guidPart2:\s(\-?\d+)[\s\n]+_guidPart3:\s(\-?\d+)[\s\n]+_guidPart4:\s(\-?\d+)", RegexOptions.Compiled);
         static readonly Regex RichEnumRegex = new(@"(Awaken\.[A-Za-z0-9_\.]+),\s+([A-Za-z0-9_\.]+),\s+(Version=\d+\.\d+\.\d+\.\d+),\s+(Culture=[a-z]+),\s+(PublicKeyToken=null):(\w+)", RegexOptions.Compiled);
         static readonly Regex IdOverrideRegex = new("IdOverride: (.+)", RegexOptions.Compiled);
         public static GUIDCache Instance => s_instance;
@@ -69,19 +70,19 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
             
             var values = _cache.GetValues(guid, true);
             if (ignoreIrrelevant) {
-                return values.Where(IgnoreIrrelevant);
+                return values.Where(IsRelevant);
             } else {
                 return values;
             }
             
-            bool IgnoreIrrelevant(string p) {
+            bool IsRelevant(string p) {
                 string pathAltSlash = p.Replace('\\', '/');
                 
                 return !p.Contains("Addressable") // not addressable
                        && pathAltSlash != Path // not guid cache itself
                        && pathAltSlash != path // not object it self
+                       && pathAltSlash != $"{path}.meta" // not its meta file
                        && !p.Contains("Assets\\Localizations\\") // not localizations
-                       && !p.EndsWith(".meta") // not its meta file
                        && !p.Contains("SceneConfigs"); // not scenes config that holds all scenes (used and unused)
             }
         }
@@ -89,6 +90,46 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
         public IEnumerable<string> GetDependent(Object obj, bool ignoreIrrelevant = false) {
             string guid = GetGuid(obj);
             return guid != null ? GetDependent(guid, ignoreIrrelevant) : Enumerable.Empty<string>();
+        }
+
+        public IEnumerable<(string path, string objectPath)> GetAlwaysLoadedRoot(string guid, bool ignoreIrrelevant, bool performDeepSearch, List<string> alreadyChecked, string objectPath) {
+            var dependents = GetDependent(guid, ignoreIrrelevant);
+            foreach (var dependent in dependents) {
+                if (alreadyChecked.Contains(dependent)) {
+                    continue;
+                }
+                alreadyChecked.Add(dependent);
+                
+                var dependentGuid = AssetDatabase.AssetPathToGUID(dependent);
+                
+                var nawObjectPath = objectPath == null 
+                    ? System.IO.Path.GetFileName(dependent) 
+                    : $"{objectPath} -> {System.IO.Path.GetFileName(dependent)}";
+                
+                var result = AlwaysLoadedSearchWindow.IsAlwaysLoaded(dependentGuid, dependent);
+                if (performDeepSearch && result == AlwaysLoadedSearchWindow.AlwaysLoadedResult.MostLikelyNot) {
+                    result = AlwaysLoadedSearchWindow.AlwaysLoadedResult.RequireFurtherChecks;
+                }
+                
+                switch (result) {
+                    case AlwaysLoadedSearchWindow.AlwaysLoadedResult.InProjectSettings:
+                        nawObjectPath = $"{nawObjectPath} -> {result.ToString()}";
+                        yield return (dependent, nawObjectPath);
+                        break;
+                    case AlwaysLoadedSearchWindow.AlwaysLoadedResult.AlwaysLoaded:
+                        yield return (dependent, nawObjectPath);
+                        break;
+                    case AlwaysLoadedSearchWindow.AlwaysLoadedResult.RequireFurtherChecks:
+                        foreach (var root in GetAlwaysLoadedRoot(dependentGuid, ignoreIrrelevant, performDeepSearch, alreadyChecked, nawObjectPath)) {
+                            yield return root;
+                        }
+                        break;
+                    case AlwaysLoadedSearchWindow.AlwaysLoadedResult.MostLikelyNot:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         public IEnumerable<string> GetIdOverrideUsages(string idOverride) {

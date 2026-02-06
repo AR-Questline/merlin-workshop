@@ -75,9 +75,10 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: description_increasestatatthreshold_percent
+      IdOverride: item_armor_obscureset_desc
       ID: Template/description_locString_2543871262668956605_d59fe80f72a33b742ab0ad8d43a624f0
-  EDITOR_bakedDescription: Increases Evasion by 10% when below 20% Max Health.
+  EDITOR_bakedDescription: "Increases Dash invincibility window by 0.1 seconds when
+    below 20\_% Max Health."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4047062517618786039
 MonoBehaviour:
@@ -280,8 +288,8 @@ MonoBehaviour:
     enums:
     - name: ModifiedStat
       enumReference:
-        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:Evasion
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:DashIFramesBonus
     - name: StatToCheck
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.AliveStatType, TG.Main, Version=0.0.0.0,

@@ -65,7 +65,7 @@ namespace Awaken.TG.Main.AI.Idle.Data.Runtime {
             
             var interaction = Finder.FindInteraction(ParentModel);
             if (interaction == null) {
-                Log.Important?.Error($"Interaction not found for scene {_sceneName} on scene {enteredSceneName}");
+                Log.Important?.Error($"Interaction from finder {Finder.DebugInfo()} not found for scene {_sceneName} on scene {enteredSceneName}");
                 OnCorrectSceneEnteredWithoutInteraction();
                 _justRestored = false;
                 return;
@@ -110,7 +110,7 @@ namespace Awaken.TG.Main.AI.Idle.Data.Runtime {
         protected abstract void OnInteractionProperlyBooked();
         
         void OnInteractionEnd() {
-            if (Npc.HasBeenDiscarded || Npc.IsInCombat()) return;
+            if (HasBeenDiscarded || Npc.HasBeenDiscarded || Npc.IsInCombat()) return;
             OnInteractionEnded();
             DiscardAndRefresh();
         }

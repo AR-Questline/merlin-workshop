@@ -118,6 +118,10 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements {
                 }
             }
 
+            foreach (var behaviour in _behaviours) {
+                behaviour.AfterOnDeath(damageOutcome, useDeathAnim, deathAnimType);
+            }
+
             if (useDeathAnim && ParentModel != null) {
                 var animatorSubstateMachine = ParentModel.GetAnimatorSubstateMachine(NpcFSMType.OverridesFSM);
                 ((NpcOverridesFSM)animatorSubstateMachine).SetDeathAnimationType(deathAnimType);

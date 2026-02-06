@@ -68,6 +68,7 @@ namespace Awaken.TG.Main.Heroes.Combat {
         protected abstract void DealDamageOverTime(float percentage);
 
         protected override void OnDiscard(bool fromDomainDrop) {
+            if (ParentModel.HasBeenDiscarded) return;
             ParentModel.GetTimeDependent()?.WithoutUpdate(ProcessUpdate);
         }
     }

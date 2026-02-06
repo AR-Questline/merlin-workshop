@@ -77,8 +77,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_92a54155708faae48bd8e234f020b30e
-  EDITOR_bakedDescription: Deals 25% of your Armor as damage to attacking enemies
-    on block, 100% on a successful parry.
+  EDITOR_bakedDescription: "Deals 25\_% of your Armor as Damage to attacking enemies
+    on block, 100\_% on a successful Parry."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -98,12 +98,12 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_costOverridenToken_locString_2543871262668956605_92a54155708faae48bd8e234f020b30e
     magicDescription:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_92a54155708faae48bd8e234f020b30e
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,11 +128,11 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_92a54155708faae48bd8e234f020b30e
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 500
+  basePrice: 1000
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 2
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 8bf741944a1358c4cab52f921d71bbeb
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
@@ -203,16 +207,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 14
+  heavyAttackStaminaCost: 21
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 0.7
-  parryStaminaCost: 15
+  parryStaminaCost: 40
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 4
-  maxDamage: 8
+  minDamage: 18
+  maxDamage: 22
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -246,8 +250,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-5142660982929892319
 MonoBehaviour:
@@ -570,7 +577,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.25
     - name: ValueGain
-      value: 0
+      value: 0.02
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
@@ -589,7 +596,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 1
     - name: ValueGain
-      value: 0
+      value: 0.1
     - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated

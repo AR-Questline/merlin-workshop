@@ -2,13 +2,17 @@ using Awaken.TG.Main.Crafting.Fireplace;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.CharacterInfo;
 using Awaken.TG.Main.Heroes.CharacterSheet.Overviews.Tabs.CharacterStats;
+using Awaken.TG.Main.Heroes.CharacterSheet.SarrasTalents;
 using Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees;
 using Awaken.TG.Main.Heroes.CharacterSheet.WyrdArthur;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.Components.Tabs;
 using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.UI.Handlers.Focuses;
+using Awaken.TG.Utility;
 using Cysharp.Threading.Tasks;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.Character {
@@ -16,10 +20,12 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Character {
         protected override KeyBindings Previous => null;
         protected override KeyBindings Next =>  null;
         CharacterSheetUI CharacterSheetUI => ParentModel.ParentModel;
+        Prompt _openPrompt;
         
         protected override void ChangeTab(CharacterSubTabType type) {
             ParentModel.SubTabParent.ToggleTabAndContent(false);
             base.ChangeTab(type);
+            _openPrompt.SetVisible(false);
         }
         
         public void SetNone() {
@@ -30,12 +36,14 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Character {
 
         protected override void OnInitialize() {
             base.OnInitialize();
+            _openPrompt = CharacterSheetUI.Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Open.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad), this);
             RefreshNoneTab().Forget();
         }
 
         async UniTaskVoid RefreshNoneTab() {
+            _openPrompt.SetVisible(true);
             CharacterSheetUI.SetHeroOnRenderVisible(false);
-            
+
             if (await AsyncUtil.DelayFrame(this)) {
                 World.Only<Focus>().Select(FirstVisible.button);
             }
@@ -59,7 +67,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Character {
             Overview = new(nameof(Overview), LocTerms.CharacterTabOverview, _ => new CharacterInfoUI(), _ => !World.HasAny<FireplaceUI>()),
             Talents = new(nameof(Talents), LocTerms.CharacterTabTalents, _ => new TalentOverviewUI(), _ => TalentOverviewUI.IsViewAvailable()),
             StatsSummary = new(nameof(StatsSummary), LocTerms.CharacterStatsSummary, _ => new CharacterStatsUI(), Always),
-            WyrdArthur = new(nameof(WyrdArthur), LocTerms.CharacterTabWyrdArthur, _ => new WyrdArthurUI(), _ => WyrdArthurUI.IsViewAvailable());
+            WyrdArthur = new(nameof(WyrdArthur), LocTerms.CharacterTabWyrdArthur, _ => new WyrdArthurUI(), _ => WyrdArthurUI.IsViewAvailable()),
+            SarrasTalents = new(nameof(SarrasTalents), LocTerms.CharacterTabSarrasTalents, _ => new SarrasTalentOverviewUI(), _ => SarrasTalentOverviewUI.IsViewAvailable());
         
         protected CharacterSubTabType(string enumName, string title, SpawnDelegate spawn, VisibleDelegate visible) : base(enumName, title, spawn, visible) { }
     }

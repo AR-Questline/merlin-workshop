@@ -10,7 +10,8 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
         [SerializeField] EventReference keyDownSound;
         [SerializeField] protected EventReference keyUpSound;
         [SerializeField] EventReference tapSound;
-
+        [SerializeField] EventReference holdCompletedSound;
+        
         public EventReference KeyDownSound {
             get => keyDownSound;
             init => keyDownSound = value;
@@ -24,6 +25,11 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
         public EventReference TapSound {
             get => tapSound;
             init => tapSound = value;
+        }
+        
+        public EventReference HoldCompletedSound {
+            get => holdCompletedSound;
+            init => holdCompletedSound = value;
         }
 
         ARFmodEventEmitter _audioEmitter;
@@ -46,6 +52,10 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
 
         public virtual void OnHoldKeyUp(Prompt source, bool completed) {
             //AudioEmitter.Stop();
+            if (completed && CheckEventReference(HoldCompletedSound)) {
+                FMODManager.PlayOneShot(holdCompletedSound);
+                return;
+            }
             if (CheckEventReference(KeyUpSound)) {
                 FMODManager.PlayOneShot(KeyUpSound);
             }
@@ -59,6 +69,13 @@ namespace Awaken.TG.Main.UI.ButtonSystem {
         
         public void OnHoldPromptInterrupted(Prompt source) {
             //AudioEmitter.Stop();
+        }
+
+        public void OnHoldPromptCompleted(Prompt source) {
+            //AudioEmitter.Stop();
+            if (CheckEventReference(HoldCompletedSound)) {
+                FMODManager.PlayOneShot(HoldCompletedSound);
+            }
         }
 
         public void SetName(string name) { }

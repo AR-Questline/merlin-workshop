@@ -59,6 +59,7 @@ MonoBehaviour:
     notes: 
   tags:
   - item:tier3
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 23a49936fe04c4f4887c06242e4712ea
@@ -74,12 +75,9 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: 
+      IdOverride: description_increase_increaseoutofcombat_double
       ID: Template/description_locString_2543871262668956605_0632a79c7ec51e74cb81e1ea68f7dc5a
-  EDITOR_bakedDescription: 'Increases Mana Shield by 10%.
-
-    Increases Mana Regeneration
-    by 0.5.'
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -156,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &7419740545042073915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +175,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: 0c8c71727eca89c4abcf007168afec86
       subObjectName: 
@@ -180,6 +183,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: b2984a749f4ffc549bc5767b3e95f142
       subObjectName: 
@@ -245,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &5117576088540074555
 MonoBehaviour:
@@ -275,6 +282,8 @@ MonoBehaviour:
       value: 10
     - name: GainValue
       value: 1
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:
@@ -282,7 +291,17 @@ MonoBehaviour:
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null:MaxMana
-    datums: []
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
   - skillGraphRef:

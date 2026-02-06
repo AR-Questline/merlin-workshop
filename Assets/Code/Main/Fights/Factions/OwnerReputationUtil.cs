@@ -12,6 +12,7 @@ using Awaken.TG.MVC;
 using Awaken.TG.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.Debugging;
+using Awaken.Utility.Extensions;
 using UnityEngine;
 using LogType = Awaken.Utility.Debugging.LogType;
 
@@ -27,21 +28,24 @@ namespace Awaken.TG.Main.Fights.Factions {
         [UnityEngine.Scripting.Preserve] static FactionService FactionService => World.Services.Get<FactionService>();
         static FactionProvider FactionProvider => World.Services.Get<FactionProvider>();
         
-        static string FameKey(string templateGUID, bool points = false) => $"{templateGUID}_{FameContext}{(points ? "Points" : "")}";
-        static string InfamyKey(string templateGUID, bool points = false) => $"{templateGUID}_{InfamyContext}{(points ? "Points" : "")}";
-        
+        public static string FameKeyReputation(string templateGUID) => $"{templateGUID}_{FameContext}";
+        public static string FameKeyPoints(string templateGUID) => $"{templateGUID}_{FameContext}Points";
+        public static string InfamyKeyReputation(string templateGUID, bool points = false) => $"{templateGUID}_{InfamyContext}{(points ? "Points" : "")}";
+        public static string InfamyKeyPoints(string templateGUID, bool points = false) => $"{templateGUID}_{InfamyContext}{(points ? "Points" : "")}";
+
         [UnityEngine.Scripting.Preserve]
         public static bool HasReputation(CrimeOwnerTemplate template) => template.hasReputation;
         [UnityEngine.Scripting.Preserve] public static int MaxReputation(CrimeOwnerTemplate template) => template.MaxReputation;
         
-        public static int CurrentFamePoints(string templateGUID) => FactionsFacts.Get(FameKey(templateGUID, true), 0);
-        public static int CurrentInfamyPoints(string templateGUID) => FactionsFacts.Get(InfamyKey(templateGUID, true), 0);
+        public static int CurrentFamePoints(string templateGUID) => FactionsFacts.Get(FameKeyPoints(templateGUID), 0);
+        public static int CurrentInfamyPoints(string templateGUID) => FactionsFacts.Get(InfamyKeyPoints(templateGUID), 0);
         
-        public static int CurrentFameIndex(string templateGUID) => FactionsFacts.Get(FameKey(templateGUID), 0);
-        public static int CurrentInfamyIndex(string templateGUID) => FactionsFacts.Get(InfamyKey(templateGUID), 0);
-        public static int CurrentReputation(string templateGUID) => CurrentFameIndex(templateGUID) - CurrentInfamyIndex(templateGUID);
+        public static int CurrentReputation(string fameKeyReputation, string infamyKeyReputation) {
+            return FactionsFacts.Get(fameKeyReputation, 0) - FactionsFacts.Get(infamyKeyReputation, 0);
+        }
+
         public static (int infamy, int fame) CurrentReputations(string templateGUID) {
-            return (CurrentInfamyIndex(templateGUID), CurrentFameIndex(templateGUID));
+            return (FactionsFacts.Get(InfamyKeyReputation(templateGUID), 0), FactionsFacts.Get(FameKeyReputation(templateGUID), 0));
         }
 
         public static void ChangeReputation(CrimeOwnerTemplate template, int change, ReputationType type) {
@@ -67,7 +71,7 @@ namespace Awaken.TG.Main.Fights.Factions {
         
         [UnityEngine.Scripting.Preserve]
         public static ReputationInfo GetCurrentReputationInfo(NpcElement npc) {
-            CrimeOwners currentCrimeOwnersFor = npc.GetCurrentCrimeOwnersFor(CrimeArchetype.None);
+            using var currentCrimeOwnersFor = npc.GetCurrentCrimeOwnersFor(CrimeArchetype.None);
             if (currentCrimeOwnersFor.IsEmpty) {
                 return default;
             }
@@ -112,14 +116,14 @@ namespace Awaken.TG.Main.Fights.Factions {
         
         public static void SetReputationPoints(CrimeOwnerTemplate template, ReputationType type, int newReputation) {
             if (type == ReputationType.Fame) {
-                FactionsFacts.Set(FameKey(template.GUID, true), newReputation);
+                FactionsFacts.Set(FameKeyPoints(template.GUID), newReputation);
             } else {
-                FactionsFacts.Set(InfamyKey(template.GUID, true), newReputation);
+                FactionsFacts.Set(InfamyKeyPoints(template.GUID), newReputation);
             }
 
             (int infamyIndex, int fameIndex) = GetCurrentReputationIndexes(template);
-            FactionsFacts.Set(FameKey(template.GUID), fameIndex);
-            FactionsFacts.Set(InfamyKey(template.GUID), infamyIndex);
+            FactionsFacts.Set(FameKeyReputation(template.GUID), fameIndex);
+            FactionsFacts.Set(InfamyKeyReputation(template.GUID), infamyIndex);
         }
 
         [UnityEngine.Scripting.Preserve]
@@ -130,7 +134,7 @@ namespace Awaken.TG.Main.Fights.Factions {
             
             var factionEffectsBuilder = new StringBuilder();
             foreach (var factionEffect in template.factionEffects) {
-                if (!factionEffect.reputationKind.HasFlag(reputationKind)) {
+                if (!factionEffect.reputationKind.HasFlagFast(reputationKind)) {
                     continue;
                 }
 
@@ -153,7 +157,7 @@ namespace Awaken.TG.Main.Fights.Factions {
             }
             
             var availableFactionEffects =
-                template.factionEffects.Where(fe => fe.reputationKind.HasFlag(currentReputationKind));
+                template.factionEffects.Where(fe => fe.reputationKind.HasFlagFast(currentReputationKind));
             return availableFactionEffects;
         }
     }

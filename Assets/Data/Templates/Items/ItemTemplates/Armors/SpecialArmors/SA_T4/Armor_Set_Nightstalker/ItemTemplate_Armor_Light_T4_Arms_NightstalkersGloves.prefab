@@ -75,9 +75,10 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: description_generic_increase_percent
+      IdOverride: description_generic_criticalhitsrestore_double_increasepercent
       ID: Template/description_locString_2543871262668956605_b1f7616871a007c439924abf5ba50172
-  EDITOR_bakedDescription: Increases Magic Critical Chance by 1%.
+  EDITOR_bakedDescription: "Critical Hits restore 25 Mana.\nIncreases Critical Damage
+    by 15\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -153,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &2498079568710489046
 MonoBehaviour:
@@ -243,8 +248,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-4120797596088334252
 MonoBehaviour:
@@ -267,11 +275,114 @@ MonoBehaviour:
   consumeOnUse: 0
   skills:
   - skillGraphRef:
+      _guid: 36740901848264840828a9bf38891bc7
+    variables:
+    - name: Chance
+      value: 1
+    - name: StatValue
+      value: 25
+    - name: StatValueSpecial
+      value: 0
+    - name: StatMultiply
+      value: 0
+    - name: StatMultiplySpecial
+      value: 0
+    enums:
+    - name: Stat
+      enumReference:
+        _enumRef: Awaken.TG.Main.General.StatTypes.CharacterStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:Mana
+    datums:
+    - name: AgainstMagicCastersUseSpecial
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnNormalAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnHeavyAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnCriticalAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 1
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnSneakAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnWeakSpotAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnBackstabAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    - name: OnPushAttack
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
+    templates: []
+    assetReferences: []
+  - skillGraphRef:
       _guid: e699a32c4d76b8b48aa933b6586a5bca
     variables:
     - name: ModifyValue
-      value: 0.01
+      value: 0.15
     - name: GainValue
+      value: 0.02
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
@@ -279,7 +390,7 @@ MonoBehaviour:
     - name: StatEnum
       enumReference:
         _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:MagicCriticalChance
+          Culture=neutral, PublicKeyToken=null:CriticalDamageMultiplier
     datums: []
     templates: []
     assetReferences: []

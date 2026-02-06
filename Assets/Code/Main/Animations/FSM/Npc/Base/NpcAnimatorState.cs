@@ -5,6 +5,7 @@ using Awaken.TG.Main.Animations.FSM.Shared;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.Main.Utility.Animations;
 using Awaken.TG.Main.Utility.Animations.ARAnimator;
 using Awaken.TG.Main.Utility.Animations.ARTransitions;
 using Awaken.TG.Main.Utility.Debugging;
@@ -128,7 +129,6 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.Base {
 
         public override void Exit(bool restarted = false) {
             Entered = false;
-            Npc.Controller.UnmarkTargetRootRotationForState(Type);
             
             if (_registeredAnimatorBridge != null) {
                 _registeredAnimatorBridge.UnregisterStateProvider(this as IAnimatorBridgeStateProvider);
@@ -146,11 +146,12 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.Base {
 
             float fadeDuration = overrideCrossFadeTime ?? node.FadeDuration;
             FadeMode fadeMode = overrideCrossFadeTime.HasValue ? FadeMode.FixedDuration : node.FadeMode;
-                
-            if (_currentStateIsClipTransition && CurrentState is { IsPlaying: true } && CurrentState.Key == node.Key) {
+
+            if (_currentStateIsClipTransition && AnimancerLayer.CurrentState is { IsPlaying: true } animancerState &&
+                animancerState.Key == node.Key) {
                 fadeMode = FadeMode.FromStart;
             }
-            
+
             if (node is ClipTransition { IsLooping: false }) {
                 fadeMode = FadeMode.FromStart;
             }
@@ -166,8 +167,8 @@ namespace Awaken.TG.Main.Animations.FSM.Npc.Base {
             }
             _currentStateIsClipTransition = CurrentState is ClipState;
             
-            if (node is ARClipTransition clipTransition && clipTransition.RootRotationDelta != 0.0f) {
-                Npc.Controller.SetTargetRootRotationFromState(Type, clipTransition.RootRotationDelta);
+            if (node is ARClipTransition clipTransition && clipTransition.TargetRootRotation != 0.0f) {
+                Npc.Controller.AddTargetRootRotationProvider(new RootRotationProvider(clipTransition, CurrentState));
             }
             
             NpcAnimancer.RefreshUpdateSpeedsForState(CurrentState);

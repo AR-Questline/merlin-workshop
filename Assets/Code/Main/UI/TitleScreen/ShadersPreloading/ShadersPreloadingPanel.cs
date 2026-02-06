@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using Awaken.TG.Assets.ShadersPreloading;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -14,23 +17,30 @@ using UnityEngine.Experimental.Rendering;
 namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
     [SpawnsView(typeof(VShadersPreloadingPanel))]
     public partial class ShadersPreloadingPanel : Element<TitleScreenUI> {
-        const int PreloadVariantsPerFrameCount = 20;
+        const int DefaultPreloadVariantsPerFrameCount = 20;
+        const int DefaultMaxPreloadTimeForCollection = 25;
         const string PreloadVariantsPerFrameCountConfigName = "preload_shader_variants_per_frame_count";
+        const string MaxPreloadTimeForCollectionConfigName = "shader_variants_collection_max_preload_time";
+        const string ForceSyncPreloadIfExceededTimeConfigName = "shader_variants_collection_force_sync_preload_if_exceeded_time";
 
         public sealed override bool IsNotSaved => true;
 
         ShaderVariantCollection[] _shaderVariantCollections;
         GraphicsStateCollection[] _graphicsStateCollections;
-        
-        int _allItemsToPrewarmCount;
-        int _prewarmPerFrameCount;
+
+        readonly int _allItemsToPrewarmCount;
+        readonly int _prewarmPerFrameCount;
+        readonly float _maxPreloadTimeForCollection;
+        readonly bool _forceSyncPreloadIfExceededTime;
 
         public new static class Events {
             public static readonly Event<ShadersPreloadingPanel, float> ProgressChanged = new(nameof(ProgressChanged));
         }
 
         public ShadersPreloadingPanel() {
-            _prewarmPerFrameCount = Configuration.GetInt(PreloadVariantsPerFrameCountConfigName, PreloadVariantsPerFrameCount);
+            _prewarmPerFrameCount = Configuration.GetInt(PreloadVariantsPerFrameCountConfigName, DefaultPreloadVariantsPerFrameCount);
+            _maxPreloadTimeForCollection = Configuration.GetFloat(MaxPreloadTimeForCollectionConfigName, DefaultMaxPreloadTimeForCollection);
+            _forceSyncPreloadIfExceededTime = Configuration.GetBool(ForceSyncPreloadIfExceededTimeConfigName, true);
 
             _shaderVariantCollections = ShadersPreloader.TryGetShaderVariantCollectionsToPreload();
             _graphicsStateCollections = ShadersPreloader.TryGetGraphicsStateCollectionsToPreload();
@@ -60,12 +70,39 @@ namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
             await UniTask.NextFrame();
 
             var completedWarmups = 0;
-
+            var collectionBatchesWarmupTimes = new List<float>();
+            var sb = new StringBuilder(64);
             foreach (var variantCollection in _shaderVariantCollections) {
+                collectionBatchesWarmupTimes.Clear();
+                int lastWarmedUpVariantCount = 0;
+                float currentCollectionPreloadStartTime = Time.realtimeSinceStartup;
+                float lastWarmupStartTime = Time.realtimeSinceStartup;
+                
                 while (!variantCollection.isWarmedUp) {
+                    if (Time.realtimeSinceStartup - currentCollectionPreloadStartTime > _maxPreloadTimeForCollection) {
+                        var currentProgress = GetProgress(completedWarmups + variantCollection.warmedUpVariantCount);
+                        
+                        sb.Length = 0;
+                        AppendWarmupTimesToStringBuilder(sb, collectionBatchesWarmupTimes);
+
+                        Debug.LogException(new Exception($"ShaderVariantCollection {variantCollection.name} async preWarming took longer than {_maxPreloadTimeForCollection} seconds. Current global progress = {currentProgress * 100}%. Prewarm collection synchronously = {_forceSyncPreloadIfExceededTime}. Prewarm per frame count = {_prewarmPerFrameCount}. Collection batches warmup times: {sb}"));
+                        if (_forceSyncPreloadIfExceededTime) {
+                            variantCollection.WarmUp();
+                            await UniTask.NextFrame();
+                        }
+                        break;
+                    }
+                    
                     var warmedUpVariantsCount = variantCollection.warmedUpVariantCount;
                     variantCollection.WarmUpProgressively(_prewarmPerFrameCount);
                     await UniTask.NextFrame();
+                    
+                    if (variantCollection.warmedUpVariantCount != lastWarmedUpVariantCount) {
+                        collectionBatchesWarmupTimes.Add(Time.realtimeSinceStartup - lastWarmupStartTime);
+                        lastWarmedUpVariantCount = variantCollection.warmedUpVariantCount;
+                        lastWarmupStartTime = Time.realtimeSinceStartup;
+                    }
+                    
                     ReportProgress(completedWarmups + variantCollection.warmedUpVariantCount);
                     if (warmedUpVariantsCount == variantCollection.warmedUpVariantCount) {
                         // Sometimes WarmUpProgressively lefts some items unprocessed, so we call WarmUp to process them
@@ -83,16 +120,43 @@ namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
             }
 
             foreach (var graphicsStateCollection in _graphicsStateCollections) {
+                collectionBatchesWarmupTimes.Clear();
+                int lastWarmedUpVariantCount = 0;
+                float currentCollectionPreloadStartTime = Time.realtimeSinceStartup;
+                float lastWarmupStartTime = Time.realtimeSinceStartup;
+
                 while (!graphicsStateCollection.isWarmedUp) {
+                    if (Time.realtimeSinceStartup - currentCollectionPreloadStartTime > _maxPreloadTimeForCollection) {
+                        var currentProgress = GetProgress(completedWarmups + graphicsStateCollection.completedWarmupCount);
+                        
+                        sb.Length = 0;
+                        AppendWarmupTimesToStringBuilder(sb, collectionBatchesWarmupTimes);
+                        
+                        Debug.LogException(new Exception($"GraphicsStateCollection {graphicsStateCollection.name} async preWarming took longer than {_maxPreloadTimeForCollection} seconds. Current global progress = {currentProgress * 100}%. Prewarm collection synchronously = {_forceSyncPreloadIfExceededTime}. Prewarm per frame count = {_prewarmPerFrameCount}. Collection batches warmup times: {sb}"));
+                        if (_forceSyncPreloadIfExceededTime) {
+                            var finalWarmupJob = graphicsStateCollection.WarmUp();
+                            await UniTask.NextFrame();
+                            finalWarmupJob.Complete();
+                        }
+                        break;
+                    }
                     var warmedUpVariantsCount = graphicsStateCollection.completedWarmupCount;
                     var warmupJob = graphicsStateCollection.WarmUpProgressively(_prewarmPerFrameCount);
                     await UniTask.NextFrame();
                     warmupJob.Complete();
+                    
+                    if (graphicsStateCollection.completedWarmupCount != lastWarmedUpVariantCount) {
+                        collectionBatchesWarmupTimes.Add(Time.realtimeSinceStartup - lastWarmupStartTime);
+                        lastWarmedUpVariantCount = graphicsStateCollection.completedWarmupCount;
+                        lastWarmupStartTime = Time.realtimeSinceStartup;
+                    }
+                    
                     ReportProgress(completedWarmups + graphicsStateCollection.completedWarmupCount);
                     if (warmedUpVariantsCount == graphicsStateCollection.completedWarmupCount) {
                         // Sometimes WarmUpProgressively lefts some items unprocessed, so we call WarmUp to process them
-                        graphicsStateCollection.WarmUp();
+                        warmupJob = graphicsStateCollection.WarmUp();
                         await UniTask.NextFrame();
+                        warmupJob.Complete();
                         break;
                     }
                 }
@@ -122,8 +186,17 @@ namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
         }
 
         void ReportProgress(int warmedUpCount) {
-            var progress = warmedUpCount / (float)_allItemsToPrewarmCount;
-            this.Trigger(Events.ProgressChanged, progress);
+            this.Trigger(Events.ProgressChanged, GetProgress(warmedUpCount));
+        }
+
+        float GetProgress(int warmedUpCount) => warmedUpCount / (float)_allItemsToPrewarmCount;
+        
+        static void AppendWarmupTimesToStringBuilder(StringBuilder sb, List<float> collectionBatchesWarmupTimes) {
+            for (int i = 0; i < collectionBatchesWarmupTimes.Count; i++) {
+                sb.Append(collectionBatchesWarmupTimes[i].ToString(CultureInfo.InvariantCulture));
+                sb.Append(',').Append(' ');
+            }
+            sb.Length--;
         }
     }
 }

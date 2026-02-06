@@ -1,5 +1,4 @@
-﻿using Awaken.TG.Main.Heroes.CharacterSheet;
-using Awaken.TG.Main.Localization;
+﻿using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Locations.Shops;
 using Awaken.TG.MVC;
 using Awaken.TG.Utility;
@@ -20,7 +19,7 @@ namespace Awaken.TG.Main.Locations.Gems {
         [SerializeField] Image coinIcon;
 
         protected override void OnAttach() {
-            Target.ListenTo(IGemBase.Events.GemActionPerformed, Refresh, this);
+            Target.ListenTo(IGemBase.Events.AfterRefreshed, Refresh, this);
             Target.ListenTo(IGemBase.Events.CostRefreshed, Refresh, this);
             Target.ListenTo(IGemBase.Events.ClickedItemChanged, item => Refresh(item != null), this);
             Refresh(true);

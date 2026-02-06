@@ -586,7 +586,7 @@ namespace Awaken.TG.Graphics.Culling {
                 if (location.IsHidableStatic) {
                     return true;
                 }
-                var prefabReference = location.prefabReference;
+                var prefabReference = location.PrefabReference;
                 return prefabReference is not { IsSet: true };
             }
         }

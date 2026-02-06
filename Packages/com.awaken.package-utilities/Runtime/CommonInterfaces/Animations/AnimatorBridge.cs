@@ -36,6 +36,7 @@ namespace Awaken.CommonInterfaces.Animations {
         bool _isForcedToCullCompletely;
         
         readonly HashSet<IAnimatorBridgeStateProvider> _stateProviders = new();
+        bool _initialized;
         
         public bool IsVisible => _isVisible;
         public bool IsValid => this && _animator;
@@ -62,14 +63,17 @@ namespace Awaken.CommonInterfaces.Animations {
                     onCullingMode = AnimatorCullingMode.CullCompletely,
                 };
                 animatorBridge.Init();
-                animatorBridge.Recalculate();
+            } else if (!animatorBridge._initialized) {
+                animatorBridge.Init();
             }
             return animatorBridge;
         }
 
         void OnEnable() {
+            if (_initialized) {
+                return;
+            }
             Init();
-            Recalculate();
         }
 
         public void SetNonUnityVisible(bool visible) {
@@ -88,10 +92,13 @@ namespace Awaken.CommonInterfaces.Animations {
         }
 
         void Init() {
-            if (!_animator) {
-                _animator = GetComponent<Animator>();
-                _animatorComponent = GetComponent<IAnimatorComponent>();
+            if (_initialized) {
+                return;
             }
+            _animator = GetComponent<Animator>();
+            _animatorComponent = GetComponent<IAnimatorComponent>();
+            Recalculate();
+            _initialized = true;
         }
 
         void ResolveStateProviders() {

@@ -1,0 +1,194 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1041932423379231320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2158240342548512044}
+  - component: {fileID: 4490962975131473784}
+  m_Layer: 0
+  m_Name: NPCTemplate_EnemyMonster_T1_Qrko_Knight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2158240342548512044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041932423379231320}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4490962975131473784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041932423379231320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27df3c5a96dc924997ffdff14d55e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateType: 0
+  _isAbstract: 0
+  _abstractTypes:
+  - _guid: 2d7c1ad6da67a3d488494e26b7e5af97
+  - _guid: 30fee903493e89e4089f2aeeb5e42d2a
+  metadata:
+    verifiedArt: 0
+    verifiedDesign: 0
+    notes: 
+  faction:
+    _guid: 4c90d92d219d54a4f8918310ba9998a7
+  defaultCrimeOwner:
+    _guid: 
+  level: 5
+  npcData: {fileID: 11400000, guid: 1654c05ae57f498498a39c8c72561b46, type: 2}
+  fightingStyle:
+    _guid: f64b7d903ebc70048a760e0541fdd049
+  isNotGrounded: 0
+  useRichAISlowdownTime: 1
+  requiresPathToTarget: 1
+  isSpellCaster: 1
+  canDealDamageToFriendlies: 0
+  returnToSpawnPointArchetype: 0
+  maxHealth: 999999
+  healthRegen: 999999
+  maxStamina: 999999
+  staminaRegenPerTick: 999999
+  staminaUsageMultiplier: 0.001
+  canBeWyrdEmpowered: 0
+  canEnterCombat: 1
+  meleeDamage: 30
+  rangedDamage: 20
+  magicDamage: 20
+  armor: 0
+  armorMultiplier: 1
+  damageReceivedMultipliers: []
+  statusResistance: 0
+  forceStumbleThreshold: 25
+  npcWeight: 150
+  npcHitMask:
+    serializedVersion: 2
+    m_Bits: 2164260864
+  poiseThreshold: 33
+  blockValue: 50
+  blockPenaltyMultiplier: 1
+  combatSlotsLimit: 2
+  heroKnockBack: 100
+  statusStats:
+    displayType: 0
+    invulnerableToStatuses: []
+    _bleed:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Bleed
+    _burn:
+      buildupThreshold: 3
+      effectStrength: 2
+      buildupName: Burn
+    _frenzy:
+      buildupThreshold: 3
+      effectStrength: 2
+      buildupName: Frenzy
+    _confusion:
+      buildupThreshold: 3
+      effectStrength: 2
+      buildupName: Confusion
+    _corruption:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Corruption
+    _mute:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Mute
+    _poison:
+      buildupThreshold: 3
+      effectStrength: 2
+      buildupName: Poison
+    _slow:
+      buildupThreshold: 3
+      effectStrength: 2
+      buildupName: Slow
+    _stun:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Stun
+    _weak:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Weak
+    _drunk:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Drunk
+    _intoxicated:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Intoxicated
+    _full:
+      buildupThreshold: 1
+      effectStrength: 1
+      buildupName: Full
+  crimeNpcValue: 0
+  crimeReactionArchetype: 0
+  npcType: 6
+  expLevel: 0
+  expTier: 0
+  expReward: 0
+  isPickpocketable: 0
+  isDeadBodyLootable: 0
+  fistsTemplate:
+    _guid: cdcb3f1324b53984e8adb5c020750869
+  inventoryItems:
+    lootType: 0
+    lootReference:
+      _guid: 
+    table:
+      rid: 8168581429660745843
+  lootTables: []
+  corpseLootTables: []
+  wyrdConvertedLootTables: []
+  tags: []
+  difficultyTag: 
+  surfaceType:
+    _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null:ArmorMetal
+  canTriggerAggroMusic: 0
+  onHitCriticalVFX:
+    arReference:
+      address: 
+      subObjectName: 
+  tattooType: 0
+  dummyDeathClipTransition:
+    address: 
+    subObjectName: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 8168581429660745843
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: 5e980c8a0126a6b4188450665adf8bdf
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0

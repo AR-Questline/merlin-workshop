@@ -1,5 +1,4 @@
-﻿using Awaken.TG.Main.Saving.SaveSlots;
-using Awaken.TG.Main.UI.RoguePreloader;
+﻿using Awaken.TG.Main.UI.RoguePreloader;
 using Awaken.TG.Main.UI.TitleScreen;
 using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.Main.Utility.Debugging;
@@ -37,15 +36,6 @@ namespace Awaken.TG.Main.Saving {
         
         public void InformThatLoadingCachedDomainFailed(Domain domain, string errorMessage) {
             InformThatSavingOrLoadingCachedDomainFailed(domain, $"Failed to load {domain} from cache. Error: {errorMessage}");
-        }
-
-        public void DiscardSaveIfCorrupted(SaveSlot saveSlot) {
-            if (!_saveIsCorrupted) {
-                return;
-            }
-            _saveIsCorrupted = false;
-            Log.Marking?.Warning($"Save {LogUtils.GetDebugName(saveSlot)} failed. Discarding save slot.");
-            saveSlot.Discard();
         }
 
         void InformThatSavingOrLoadingCachedDomainFailed(Domain domain, string errorMessage) {

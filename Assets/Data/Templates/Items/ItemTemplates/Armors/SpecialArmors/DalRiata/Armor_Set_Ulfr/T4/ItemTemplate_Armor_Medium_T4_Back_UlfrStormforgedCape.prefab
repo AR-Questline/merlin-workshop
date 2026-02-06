@@ -76,9 +76,9 @@ MonoBehaviour:
   description:
     toggled: 1
     locString:
-      IdOverride: description_generic_increase_percent
+      IdOverride: description_generic_increase_multiply_percent
       ID: Template/description_locString_2543871262668956605_974719a2d76e1b242a58c5d198b6dda6
-  EDITOR_bakedDescription: Increases Max Health by 5%.
+  EDITOR_bakedDescription: "Increases Max Health by 5\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -132,7 +132,7 @@ MonoBehaviour:
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Magic
-  basePrice: 18
+  basePrice: 100
   overrideBuyPrice: 0
   buyPrice: 0
   priceLevelMultiplier: 1.1
@@ -154,6 +154,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &551714228796248067
 MonoBehaviour:
@@ -258,8 +262,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-8560320607058129761
 MonoBehaviour:
@@ -281,12 +288,14 @@ MonoBehaviour:
   consumeOnUse: 0
   skills:
   - skillGraphRef:
-      _guid: fe04e2d36a8ebff4ca5ebd73d78c36b9
+      _guid: 1b5b2de6740e49e4a829246bbd414e11
     variables:
     - name: ModifyValue
       value: 0.05
     - name: GainValue
       value: 0.01
+    - name: ValuePreCalculated
+      value: 0
     - name: ValueCalculated
       value: 0
     enums:

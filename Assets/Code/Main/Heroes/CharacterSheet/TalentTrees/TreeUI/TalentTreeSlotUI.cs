@@ -4,12 +4,14 @@ using Awaken.TG.MVC.Elements;
 
 namespace Awaken.TG.Main.Heroes.CharacterSheet.TalentTrees.TreeUI {
     public partial class TalentTreeSlotUI : Element<TalentTreeUI> {
+        public override bool IsNotSaved => true;
         TalentTable CurrentTable => ParentModel.CurrentTable;
         TalentTreeUI TalentTreeUI => ParentModel;
         
         public Talent Talent { get; }
         public bool IsLocked => Talent != null && CurrentTable != null && (Talent.IsLockedByParentTalent || Talent.RequiredTreeLevelToUnlock > CurrentTable.CurrentTreeLevel);
         public bool IsUpgraded => Talent is { IsUpgraded: true };
+        public bool HasHiddenLevels => TalentTreeUI.ParentModel.HasHiddenTalentLevels;
 
         public TalentTreeSlotUI(Talent talent) {
             Talent = talent;

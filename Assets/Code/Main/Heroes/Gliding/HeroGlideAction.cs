@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Awaken.TG.Main.Fights.Factions.Markers;
 using Awaken.TG.Main.Grounds;
-using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Heroes.MovementSystems;
-using Awaken.TG.Main.Saving;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Elements;
@@ -22,6 +21,7 @@ namespace Awaken.TG.Main.Heroes.Gliding {
         const float TrackContinuanceMargin = 0.5f;
 
         public sealed override bool IsNotSaved => true;
+        public bool IsValid => this.IsValidForUIHandle();
 
         public IEnumerable<KeyBindings> PlayerKeyBindings => KeyBindings.Gameplay.Jump.Yield();
 

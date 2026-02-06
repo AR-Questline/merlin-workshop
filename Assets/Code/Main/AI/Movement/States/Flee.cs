@@ -45,6 +45,10 @@ namespace Awaken.TG.Main.AI.Movement.States {
             if (_nextPathUpdateTimer.HasValue) {
                 _nextPathUpdateTimer -= deltaTime;
                 if (_nextPathUpdateTimer.Value <= 0) {
+                    if (_toAvoid is not { HasBeenDiscarded: false }) {
+                        End();
+                        return;
+                    }
                     CalculateFleePath();
                 }
             }
@@ -84,6 +88,10 @@ namespace Awaken.TG.Main.AI.Movement.States {
         }
 
         void OnPathCalculated(Path path) {
+            if (Movement is not { HasBeenDiscarded: false, Controller: not null }) {
+                return;
+            }
+            
             if (path.error) {
                 Log.Important?.Error($"Failed to create flee path for: {Npc}", Npc.Controller);
                 return;

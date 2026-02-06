@@ -17,7 +17,7 @@ namespace Awaken.TG.Main.Utility.UI.Keys.Components {
         
         ByControlScheme<IIconSearchResult> _icons;
         [CanBeNull] UIKeyMapping _internalKeyMapping;
-        readonly IEventListener[] _refreshListeners = new IEventListener[2];
+        IEventListener _refreshListeners;
         
         protected string KeyBindingLog => _currentScheme == ControlScheme.Gamepad 
             ? $"Scheme: {_currentScheme} Gamepad: {_data.GamepadKey.EnumName} Hold: {_data.IsHold}" 
@@ -27,8 +27,7 @@ namespace Awaken.TG.Main.Utility.UI.Keys.Components {
             _data = data;
             
             var focus = World.Only<Focus>();
-            _refreshListeners[0] = focus.ListenTo(Focus.Events.KeyMappingRefreshed, RefreshIcons, listenerOwner);
-            _refreshListeners[1] = focus.ListenTo(Focus.Events.ControllerChanged, RefreshIcon, listenerOwner);
+            _refreshListeners = focus.ListenTo(Focus.Events.KeyMappingRefreshed, RefreshIcons, listenerOwner);
             
             RefreshIcons();
         }
@@ -58,7 +57,7 @@ namespace Awaken.TG.Main.Utility.UI.Keys.Components {
                 return;
             }
 
-            if (Configuration.GetBool("ui.disable-prompts")) {
+            if (Configuration.GetBoolExact("ui.disable-prompts")) {
                 OnIconNull();
                 return;
             }
@@ -83,9 +82,7 @@ namespace Awaken.TG.Main.Utility.UI.Keys.Components {
         
         void OnDestroy() {
             var eventSystem = World.Services.Get<EventSystem>();
-            for (int i = 0; i < _refreshListeners.Length; i++) {
-                eventSystem.TryDisposeListener(ref _refreshListeners[i]);
-            }
+            eventSystem.TryDisposeListener(ref _refreshListeners);
             
             _loadedIconRef?.Release();
             _loadedHoldRef?.Release();

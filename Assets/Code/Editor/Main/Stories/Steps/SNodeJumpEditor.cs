@@ -6,7 +6,7 @@ using XNodeEditor;
 namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorNodeJump))]
     public class SNodeJumpEditor : ElementEditor {
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawProperties();
 
             GUILayout.BeginHorizontal();

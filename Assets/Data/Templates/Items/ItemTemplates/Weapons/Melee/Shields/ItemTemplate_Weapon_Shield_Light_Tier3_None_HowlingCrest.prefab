@@ -77,11 +77,11 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_73d21f39df2d0a44d92d6bcfbdd24882
-  EDITOR_bakedDescription: 'Pushing creates a strong gust of wind, dealing damage
-    to enemies in front.
+  EDITOR_bakedDescription: 'Pushing costs 30 Mana and creates a strong gust of wind,
+    dealing Damage to enemies in front.
 
-    Blocking damage before a push increases the distance
-    and damage dealt.'
+    Successful Blocks right before a Push
+    increase the Damage dealt.'
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -158,6 +158,10 @@ MonoBehaviour:
     arReference:
       address: 62f1c0ae635cc4a419c623c57617a332
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &3271092193668269831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,16 +210,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8683e01bc1364278881ef7773463e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackStaminaCost: 24
-  heavyAttackStaminaCost: 30
+  lightAttackStaminaCost: 9
+  heavyAttackStaminaCost: 14
   heavyAttackHoldCostPerTick: 5
   blockStaminaCostMultiplier: 0.8
   parryStaminaCost: 15
   drawBowStaminaCostPerTick: 0
   holdItemStaminaCostPerTick: 5
   pushStaminaCost: 25
-  minDamage: 15
-  maxDamage: 18
+  minDamage: 9
+  maxDamage: 14
   damageGain: 1
   heavyAttackDamageMultiplier: 1.5
   pushDamageMultiplier: 0.1
@@ -232,7 +236,7 @@ MonoBehaviour:
     calculatedPercentage: 1
   armor: 20
   armorGain: 0
-  blockDamageReductionPercent: 85
+  blockDamageReductionPercent: 80
   blockAngle: 90
   blockGain: 1
   forceDamage: 8
@@ -249,8 +253,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 30
+  lightCastManaCostGain: 0
   heavyCastManaCost: 30
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3291696646231857555
 MonoBehaviour:

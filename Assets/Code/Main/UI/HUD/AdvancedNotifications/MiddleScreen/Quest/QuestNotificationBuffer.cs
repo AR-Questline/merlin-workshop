@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
-using Awaken.TG.Main.ActionLogs;
-using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.Stories;
 using Awaken.TG.Main.Stories.Quests;
 using Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Objective;
 using Awaken.TG.Main.UIToolkit.PresenterData;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
-using Awaken.TG.Utility;
 using UnityEngine.UIElements;
 
 namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Quest {
-    public partial class QuestNotificationBuffer : AdvancedNotificationBuffer<QuestNotification> {
+    public partial class QuestNotificationBuffer : AdvancedNotificationBufferPresenter<QuestNotification> {
         protected override VisualElement NotificationsParent => ParentModel.NotificationsContainerUI.QuestNotificationsParent;
         protected override IEnumerable<Type> DependentBuffers {
             get {
@@ -47,7 +45,7 @@ namespace Awaken.TG.Main.UI.HUD.AdvancedNotifications.MiddleScreen.Quest {
             if (!stateChange.quest.VisibleInQuestLog || stateChange.oldState == stateChange.newState) return;
 
             var questData = new QuestData(stateChange);
-            AdvancedNotificationBuffer.Push<QuestNotificationBuffer>(new QuestNotification(questData));
+            NotificationUtils.Push(new QuestNotification(questData));
         }
     }
 }

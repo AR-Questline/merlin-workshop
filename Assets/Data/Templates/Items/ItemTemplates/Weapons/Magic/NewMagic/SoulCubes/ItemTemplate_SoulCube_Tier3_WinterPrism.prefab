@@ -81,7 +81,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_4205013fc5163184aa0d2870b531ba2a
-  EDITOR_bakedDescription: 'Charged by dealing Cold Damage.
+  EDITOR_bakedDescription: 'Charged by dealing Cold Damage 0/1000.
 
     Summon <color=#04959A>Chilling</color>
     ice spikes in an area for 12s.'
@@ -162,6 +162,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 8d5d4cd08fbab514681a9e8c17c87dad
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &6423854835304496968
 MonoBehaviour:
@@ -328,8 +332,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3154006170619675142
 MonoBehaviour:

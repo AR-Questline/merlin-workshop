@@ -57,16 +57,17 @@ namespace Awaken.TG.Main.Heroes {
             float dashMultiplier = 1;
             if (_persistentStatusDashOptimal != null) {
                 int stacks = _persistentStatusDashOptimal.StackLevel - 1;
-                if (stacks > 0) {
+                if (stacks >= 0) {
                     ApplyOptimalStatus(stacks);
                 } else {
                     ApplyExhaustStatus();
                 }
             } else if (_statusDashOptimal != null) {
-                _statusDashOptimal.ConsumeStack();
-                _statusDashOptimal.TryGetElement<IDuration>()?.ResetDuration();
-                if (_statusDashOptimal.StackLevel <= 0) {
+                if (_statusDashOptimal.StackLevel == 0) {
                     ApplyExhaustStatus();
+                } else {
+                    _statusDashOptimal.ConsumeStack();
+                    _statusDashOptimal.TryGetElement<IDuration>()?.ResetDuration();
                 }
             } else {
                 dashMultiplier = _statusDashExhaust.StackLevel.RemapInt(0, MaxExhaustDashStacks, 1, 0.5f);
@@ -89,12 +90,13 @@ namespace Awaken.TG.Main.Heroes {
         }
 
         void OnHeroDashLimitChanged(Stat stat) {
+            int statValue = stat.ModifiedInt - 1;
             if (_persistentStatusDashOptimal != null) {
-                _persistentStatusDashOptimal.SetStacksTo(stat.ModifiedInt);
+                _persistentStatusDashOptimal.SetStacksTo(statValue);
             }
             if (_statusDashOptimal != null) {
-                if (_statusDashOptimal.StackLevel > stat.ModifiedInt) {
-                    _statusDashOptimal.SetStacksTo(stat.ModifiedInt);
+                if (_statusDashOptimal.StackLevel > statValue) {
+                    _statusDashOptimal.SetStacksTo(statValue);
                 }
             }
         }
@@ -106,7 +108,7 @@ namespace Awaken.TG.Main.Heroes {
             RemoveStatus(ref _statusDashExhaust);
             
             _persistentStatusDashOptimal = ApplyStatus(PersistentOptimalTemplate, false);
-            _persistentStatusDashOptimal.SetStacksTo(DashMaxOptimalCounter.ModifiedInt);
+            _persistentStatusDashOptimal.SetStacksTo(DashMaxOptimalCounter.ModifiedInt - 1);
         }
         
         void ApplyOptimalStatus(int stacks) {
@@ -125,7 +127,7 @@ namespace Awaken.TG.Main.Heroes {
             RemoveStatus(ref _statusDashOptimal);
             
             _statusDashExhaust = ApplyStatus(ExhaustTemplate, true);
-            _statusDashExhaust.SetStacksTo(1);
+            _statusDashExhaust.SetStacksTo(0);
             _statusListener = _statusDashExhaust.ListenTo(Events.AfterDiscarded, ApplyPersistentOptimalStatus, this);
         }
 

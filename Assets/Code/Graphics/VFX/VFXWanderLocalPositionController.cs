@@ -1,4 +1,5 @@
-﻿using Awaken.TG.Code.Utility;
+﻿using System;
+using Awaken.TG.Code.Utility;
 using Awaken.TG.Utility;
 using Unity.Mathematics;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Awaken.TG.Graphics.VFX {
         [SerializeField] Vector3 zoneAxisRanges;
         [SerializeField] Vector3 wanderSpeeds;
         [SerializeField] float centerAvoidanceScale;
-
+        [SerializeField] float alignToDirectionSpeed = 90;
         Vector3 _interpolationState;
         Vector3 _interpolationSpeeds;
         Vector3 _targetPositions;
@@ -40,8 +41,11 @@ namespace Awaken.TG.Graphics.VFX {
             HandleAxisMovement(AxisIndexX);
             HandleAxisMovement(AxisIndexY);
             HandleAxisMovement(AxisIndexZ);
-
-            _transform.localPosition = _currentPosition;
+            transform.GetLocalPositionAndRotation(out var localPosition, out var localRotation);
+            Vector3 movementDirection = _currentPosition - localPosition;
+            var targetRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            var finalRotation = Quaternion.RotateTowards(localRotation, targetRotation, alignToDirectionSpeed * Time.deltaTime);
+            _transform.SetLocalPositionAndRotation(_currentPosition, finalRotation);
         }
 
         void HandleAxisMovement(int axisIndex) {

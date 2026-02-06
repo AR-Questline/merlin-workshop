@@ -56,6 +56,8 @@ MonoBehaviour:
     notes: 
   tags:
   - item:book
+  - item:quest
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: b2ded0f50eedb0f4a8e20c023484cbce
@@ -126,7 +128,7 @@ MonoBehaviour:
         ID: 
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null:Garbage
+      Culture=neutral, PublicKeyToken=null:Quest
   basePrice: 1
   overrideBuyPrice: 0
   buyPrice: 0
@@ -140,7 +142,7 @@ MonoBehaviour:
   upgradeChance: 0.5
   crimeItemValue: 4
   canStack: 1
-  cannotBeDropped: 0
+  cannotBeDropped: 1
   hiddenOnUI: 0
   visibleOnUIForLoadout: 0
   damageSurfaceType:
@@ -149,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 62f2c5eb6f1e9d64aa39e4c8a221e667
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4838591279151652239
 MonoBehaviour:

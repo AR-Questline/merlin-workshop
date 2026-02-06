@@ -57,6 +57,7 @@ MonoBehaviour:
   - ingredients:cooking
   - cook:seafood
   - craft:special
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: c675c4ed32945924caaa9d8ce733f0f7
@@ -70,11 +71,11 @@ MonoBehaviour:
       IdOverride: 
       ID: Template/flavor_locString_2543871262668956605_4d0945ca7d6620e428bf23ecfe796a34
   description:
-    toggled: 1
+    toggled: 0
     locString:
       IdOverride: desc_fishing_SpecialHerring
       ID: Template/description_locString_2543871262668956605_4d0945ca7d6620e428bf23ecfe796a34
-  EDITOR_bakedDescription: Restores 3 health over 10s.
+  EDITOR_bakedDescription: 
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +151,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: f3226a94d87bacb4bbcc2cf2e0c73c52
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &-4234476124961808661
 MonoBehaviour:

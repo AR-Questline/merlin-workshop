@@ -1,27 +1,22 @@
 using System.Collections.Generic;
-using Awaken.TG.Main.Animations.FSM.Heroes.Machines;
 using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Crafting.Cooking;
 using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.CharacterSheet;
 using Awaken.TG.Main.Heroes.CharacterSheet.Tabs;
-using Awaken.TG.Main.Heroes.Combat;
-using Awaken.TG.Main.Heroes.Development;
 using Awaken.TG.Main.Heroes.Resting;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Saving;
-using Awaken.TG.Main.Settings.Gameplay;
 using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.HUD;
 using Awaken.TG.Main.UI.Popup;
 using Awaken.TG.Main.Utility;
-using Awaken.TG.Main.VisualGraphUtils;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.UI.Handlers.States;
 using Awaken.TG.Utility;
-using Awaken.Utility.Debugging;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Crafting.Fireplace {
@@ -63,45 +58,55 @@ namespace Awaken.TG.Main.Crafting.Fireplace {
             _prompts = AddElement(new Prompts(this));
             var view = View<VFireplaceUI>();
             _closePrompt = _prompts.BindPrompt(Prompt.Tap(KeyBindings.UI.Generic.Cancel, LocTerms.Close.Translate(), () => Close(true)), this, view.ClosePrompt, view.ClosePromptActive);
+            _prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad), this);
         }
 
-        public void CookAction() {
-            VGUtils.ToggleCrafting(_cookingTabSet);
+        public Model CookAction() {
+            UpdateUiVisibility(false);
+            return World.Add(new CraftingTabsUI(_cookingTabSet));
         }
 
-        public void AlchemyAction() {
-            VGUtils.ToggleCrafting(_alchemyTabSet);
+        public Model AlchemyAction() {
+            UpdateUiVisibility(false);
+            return World.Add(new CraftingTabsUI(_alchemyTabSet));
         }
         
-        public void HandcraftingAction() {
+        public Model HandcraftingAction() {
+            UpdateUiVisibility(false);
             var handCrafting = GameConstants.Get.GetBonfireCraftingUpgrade(Hero.Current.Development.BonfireCraftingLevel);
             var tabsDictionary = new Dictionary<CraftingTabTypes, CraftingTemplate>() {
                 { CraftingTabTypes.RecipeHandcrafting, handCrafting }
             };
             var craftingTabSet = new TabSetConfig(tabsDictionary);
-            VGUtils.ToggleCrafting(craftingTabSet);
+            return World.Add(new CraftingTabsUI(craftingTabSet));
         }
 
         public virtual void Upgrade() {
             IsUpgraded = true;
         }
 
-        public void GoToSleepAction() {
-            _restPopup = World.Add(new RestPopupUI(View<VFireplaceUI>().transform, true));
+        public Model GoToSleepAction() {
+            UpdateUiVisibility(false);
+            _restPopup = World.Add(new RestPopupUI(Services.Get<ViewHosting>().OnMainCanvas(), true));
             _restPopup.ListenTo(RestPopupUI.Events.RestingInitiated, Resting, this);
+            return _restPopup;
         }
 
-        public void LevelUpAction() {
+        public Model LevelUpAction() {
             UpdateUiVisibility(false);
-            var characterSheetUI = CharacterSheetUI.ToggleCharacterSheet(CharacterSheetTabType.Character, true, CharacterSheetTabType.LevelUpTabs);
-            characterSheetUI.ListenTo(Events.AfterDiscarded, () => UpdateUiVisibility(true), this);
+            return CharacterSheetUI.ToggleCharacterSheet(CharacterSheetTabType.Character, true, CharacterSheetTabType.LevelUpTabs);
+        }
+
+        public Model OpenHeroStorage() {
+            UpdateUiVisibility(false);
+            return Hero.Current.Storage.Open();
         }
 
         public void SaveGame() {
             SaveGame(false);
         }
         
-        protected void UpdateUiVisibility(bool state) {
+        public void UpdateUiVisibility(bool state) {
             if (UiVisible == state) return;
             UiVisible = state;
             var view = View<VFireplaceUI>();

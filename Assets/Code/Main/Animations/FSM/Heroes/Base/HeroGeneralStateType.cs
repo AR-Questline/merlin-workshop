@@ -33,18 +33,19 @@
         Spyglass = 7,
         Overrides = 8,
         Legs = 9,
+        Idle = 10,
         
-        HeadMainHand = 10,
-        HeadOffHand = 11,
-        HeadBothHands = 12,
-        HeadTools = 13,
-        HeadFishing = 14,
-        HeadSpyglass = 15,
-        HeadOverrides = 16,
+        HeadMainHand = 11,
+        HeadOffHand = 12,
+        HeadBothHands = 13,
+        HeadTools = 14,
+        HeadFishing = 15,
+        HeadSpyglass = 16,
+        HeadOverrides = 17,
         
         ActiveMainHand = 18,
         ActiveOffHand = 19,
         
-        CameraShakes = 20,
+        CameraShakes = 20
     }
 }

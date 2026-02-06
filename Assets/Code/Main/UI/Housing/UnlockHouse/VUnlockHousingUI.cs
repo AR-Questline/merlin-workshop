@@ -1,4 +1,5 @@
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Attributes;
@@ -35,8 +36,15 @@ namespace Awaken.TG.Main.UI.Housing.UnlockHouse {
 
         bool _isBought;
         Sequence _sequence;
+        BlurBackground _buyBlurBackground;
+        BlurBackground _successBlurBackground;
+        BlurConfig _blurConfig = new() {
+            delayFrames = 2,
+            useBlurVolume = true,
+        };
         
         public override Transform DetermineHost() => Services.Get<ViewHosting>().OnMainCanvas();
+        public bool IsValid => this.IsValidForUIHandle();
 
         protected override void OnInitialize() {
             glowOutlineFilter.Size = 0f;
@@ -53,10 +61,18 @@ namespace Awaken.TG.Main.UI.Housing.UnlockHouse {
             houseSpriteRef.RegisterAndSetup(this, congratulationsImage);
         }
 
+        protected override void OnMount() {
+            _buyBlurBackground = World.Add(new BlurBackground(Target, _blurConfig));
+            _buyBlurBackground.ShowBackground(this);
+        }
+
         public void HandleBuyingSuccess() {
             _isBought = true;
             successContentCanvasGroup.TrySetActiveOptimized(true);
             buyContentCanvasGroup.TrySetActiveOptimized(false);
+            _successBlurBackground = World.Add(new BlurBackground(Target, _blurConfig));
+            _successBlurBackground.ShowBackground(this);
+            _buyBlurBackground.HideBackground();
             _sequence = DOTween.Sequence().SetUpdate(true)
                 .Join(buyContentCanvasGroup.DOFade(0f, ContentFadeDuration))
                 .Join(successContentCanvasGroup.DOFade(1f, ContentFadeDuration))

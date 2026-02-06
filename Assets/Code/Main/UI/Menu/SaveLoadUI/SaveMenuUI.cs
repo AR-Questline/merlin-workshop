@@ -30,6 +30,8 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
         
         public override string TitleName => LocTerms.SaveGame.Translate();
         public bool CanCreateNewSaveSlot => Elements<SaveLoadSlotUI>().CountLessThan(MaxSlotsCount);
+
+        public SaveMenuUI() : base(false) { }
         
         protected override void OnFullyInitialized() {
             base.OnFullyInitialized();
@@ -83,8 +85,7 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
                 return;
             }
 
-            _isSaving = true;
-            View.SetActiveSavingBlend(true);
+            using var savingHandle = new SavingScope(this);
             
             string slotNewName = _editNameUI.Value;
             bool withCustomName = _editNameUI.InitialValueChanged;
@@ -93,8 +94,8 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
             if (!await AsyncUtil.DelayFrame(this)) {
                 return;
             }
-            
-            var saveSlot = SaveSlot.GetAndSave(slotNewName, withCustomName);
+
+            var saveSlot = SaveSlot.CreateAndSave(slotNewName, withCustomName);
 
             if (!await AsyncUtil.WaitUntil(this, () => !World.HasAny<SavingWorldMarker>())) {
                 return;
@@ -105,8 +106,6 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
             } else {
                 AddNewSaveSlot(saveSlot);
             }
-            View.SetActiveSavingBlend(false);
-            _isSaving = false;
         }
         
         void AddNewSaveSlot(SaveSlot newSaveSlot) {
@@ -124,26 +123,37 @@ namespace Awaken.TG.Main.UI.Menu.SaveLoadUI {
             if (_isSaving) {
                 return;
             }
-            _isSaving = true;
-            View.SetActiveSavingBlend(true);
+
+            using var savingHandle = new SavingScope(this);
 
             if (!await AsyncUtil.DelayFrame(this)) {
                 return;
             }
 
-            var newSaveSlot = SaveSlot.OverrideAndSave(saveSlotUI.saveSlot);
+            LoadSave.Get.Save(saveSlotUI.saveSlot, false);
             
             if (!await AsyncUtil.WaitUntil(this, () => !World.HasAny<SavingWorldMarker>())) {
                 return;
             }
-            
-            if (newSaveSlot.HasBeenDiscarded) {
+
+            if (saveSlotUI.saveSlot.HasBeenDiscarded) {
                 View.RecyclableCollectionManager.OrderChangedRefresh();
-            } else {
-                AddNewSaveSlot(newSaveSlot);
             }
-            View.SetActiveSavingBlend(false);
-            _isSaving = false;
+        }
+
+        readonly struct SavingScope : IDisposable {
+            readonly SaveMenuUI _saveMenuUI;
+
+            public SavingScope(SaveMenuUI saveMenuUI) {
+                _saveMenuUI = saveMenuUI;
+                _saveMenuUI._isSaving = true;
+                _saveMenuUI.View.SetActiveSavingBlend(true);
+            }
+
+            public void Dispose() {
+                _saveMenuUI._isSaving = false;
+                _saveMenuUI.View.SetActiveSavingBlend(false);
+            }
         }
     }
 }

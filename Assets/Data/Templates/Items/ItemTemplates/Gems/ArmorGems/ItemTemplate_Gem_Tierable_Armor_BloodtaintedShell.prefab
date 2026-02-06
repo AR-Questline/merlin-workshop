@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_onkill_restore
       ID: Template/description_locString_2543871262668956605_4349b8eb0c326bb4088e47eadcc484e2
-  EDITOR_bakedDescription: Increases Lifesteal by 1%.
+  EDITOR_bakedDescription: Restores 10 Health after killing an enemy.
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -131,7 +131,7 @@ MonoBehaviour:
   basePrice: 100
   overrideBuyPrice: 0
   buyPrice: 0
-  priceLevelMultiplier: 150
+  priceLevelMultiplier: 2
   overrideBuyPriceMultiplier: 0
   buyPriceMultiplier: 1
   keywords:
@@ -150,6 +150,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: 958bb6b4da27e2043890935648a165ae
       subObjectName: 
@@ -172,7 +176,7 @@ MonoBehaviour:
     - name: ModifyValue
       value: 10
     - name: ValueGain
-      value: 0
+      value: 0.5
     - name: ValueCalculated
       value: 0
     enums:

@@ -7,6 +7,9 @@ namespace Awaken.TG.Main.AI {
     public partial class HeroSummonTargetOverride : TargetOverrideElement {
         readonly NpcHeroSummon _summon;
         
+        public override ICharacter Target => _active && InRange ? _target : null;
+        bool InRange => _target != null && _summon.InTripledAllyRange(_target.Coords);
+        
         public static void AddSummonTargetOverrideElement(NpcHeroSummon summon, ICharacter target, int priority, Status status = null) {
             summon.ParentModel.RemoveMarkerElement<HeroSummonTargetOverride>();
             summon.ParentModel.AddMarkerElement(() => new HeroSummonTargetOverride(summon, target, priority, status));
@@ -17,7 +20,9 @@ namespace Awaken.TG.Main.AI {
         }
 
         protected override void OnInitialize() {
-            _summon.EnterCombat();
+            if (_summon.ParentModel is { HasCompletelyInitialized: true }) {
+                _summon.EnterCombat();
+            }
             base.OnInitialize();
         }
         

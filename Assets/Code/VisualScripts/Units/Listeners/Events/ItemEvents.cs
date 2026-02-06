@@ -85,6 +85,13 @@ namespace Awaken.TG.VisualScripts.Units.Listeners.Events {
     
     [UnitCategory("AR/General/Events/Items")]
     [UnityEngine.Scripting.Preserve]
+    public class EvtOnAnyEquipSlotChanged : GraphEvent<ICharacterInventory, EquipmentSlotType> {
+        protected override  Event<ICharacterInventory, EquipmentSlotType> Event => ICharacterInventory.Events.AnySlotChanged;
+        protected override ICharacterInventory Source(IListenerContext context) => context.Character.Inventory;
+    }
+    
+    [UnitCategory("AR/General/Events/Items")]
+    [UnityEngine.Scripting.Preserve]
     public class EvtOnUnequip : GraphEvent<ICharacterInventory, Item> {
         [Serialize, Inspectable, UnitHeaderInspectable]
         [RichEnumExtends(typeof(EquipmentSlotType))]

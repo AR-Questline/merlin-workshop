@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.UI.Components.PadShortcuts;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.MVC.UI.Handlers.Selections;
+using Awaken.Utility.Collections;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Awaken.TG.MVC.UI.Handlers.States {
@@ -25,25 +23,29 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
         [Il2CppEagerStaticClassConstruction]
         public new static class Events {
             public static readonly Event<UIStateStack, UIState> UIStateChanged = new(nameof(UIStateChanged));
-            public static readonly Event<UIStateStack, UIState> UIStatePopped = new(nameof(UIStatePopped));
-            public static readonly Event<UIStateStack, UIState> UIStatePushed = new(nameof(UIStatePushed));
         }
 
+        // === Cache
+        UIState _determinantState = UIState.BaseState;
+        StructList<UIState> _removedStatesCache = new StructList<UIState>(1);
+
         // === State
-        List<UIState> _stateStack = new List<UIState>();
+        StructList<UIState> _orderedStates = new StructList<UIState>(12);
+
         public UIState State { get; private set; }
 
         // === Initialization
         protected override void OnInitialize() {
             Instance = this;
-            _stateStack.Add(UIState.NewShortcutLayer);
+            var shortcutLayer = UIState.NewShortcutLayer;
+            shortcutLayer.AssignOwner(this);
+            _orderedStates.Add(shortcutLayer);
             Init();
         }
 
         void Init() {
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelInitialized<IUIStateSource>(), this, OnStateSourceAdded);
             World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelInitialized<IShortcut>(), this, AddShortcut);
-            World.EventSystem.ListenTo(EventSelector.AnySource, Model.Events.BeforeDiscarded, this, ReleaseAllOwnedBy);
             World.EventSystem.ListenTo(EventSelector.AnySource, Selection.Events.SelectionChanged, this, ForceRefresh);
             DetermineState();
             this.Trigger(Events.UIStateChanged, State);
@@ -52,47 +54,71 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
         // === UI State operations
         public void PushState(UIState state, IModel owner) {
             state.AssignOwner(owner);
-            ModifyStateCollection(() => {
-                _stateStack.Add(state);
-            });
-            this.Trigger(Events.UIStatePushed, state);
-        }
 
-        public void RemoveState(UIState state) {
-            ModifyStateCollection(() => {
-                for (int i = 0; i < _stateStack.Count; i++) {
-                    if (!ReferenceEquals(_stateStack[i], state)) {
-                        continue;
-                    }
-                
-                    _stateStack.RemoveAt(i);
-                    DetermineState();
-                    if (state.IsShortcutLayer) {
-                        State.ShortcutLayer.AppendShortcuts(state.GetShortcuts());
-                    }
-                    this.Trigger(Events.UIStatePopped, state);
-                    break;
-                }
-            });
-        }
-
-        public void ReleaseAllOwnedBy(IModel owner) {
-            List<UIState> toRemove = _stateStack.Where(s => ReferenceEquals(s.Owner.Get(), owner)).ToList();
-            if (toRemove.Count == 0) return;
-
-            ModifyStateCollection(() => RemoveAllFromOwner(owner));
-            foreach (var state in toRemove) {
-                this.Trigger(Events.UIStatePopped, state);
+            // This is not ideal if owner owns multiple states, but should be better than calling changes multiple times.
+            owner.ListenTo(Model.Events.BeforeDiscarded, ReleaseAllOwnedBy, this);
+            _orderedStates.Add(state);
+            if (DetermineState()) {
+                this.Trigger(Events.UIStateChanged, State);
             }
         }
 
-        void RemoveAllFromOwner(IModel owner) {
+        public void RemoveState(UIState state) {
+            var stateChanged = false;
+            for (int i = _orderedStates.Count - 1; i >= 0; i--) {
+                if (ReferenceEquals(_orderedStates[i], state)) {
+                    _orderedStates.RemoveAt(i);
+                    stateChanged = DetermineState();
+                    if (state.IsShortcutLayer) {
+                        State.ShortcutLayer.AppendShortcuts(state);
+                    }
+
+                    var selection = World.Any<Selection>();
+                    if (selection) {
+                        selection.ClearSelectionLayer(state.SelectionLayer);
+                    }
+                    break;
+                }
+            }
+
+            if (stateChanged) {
+                this.Trigger(Events.UIStateChanged, State);
+            }
+        }
+
+        public void ReleaseAllOwnedBy(IModel owner) {
+            for (int i = _orderedStates.Count - 1; i >= 0; i--) {
+                UIState uiState = _orderedStates[i];
+                if (ReferenceEquals(uiState.Owner.Get(), owner)) {
+                    _removedStatesCache.Add(uiState);
+                    _orderedStates.RemoveAt(i);
+                }
+            }
+
+            if (_removedStatesCache.Count == 0) {
+                return;
+            }
+
+            var stateChanged = DetermineState();
+
             // We want to save all shortcuts from removed states to the newly active shortcuts, so that the only way for removal of a shortcut is by the person who registered them.
-            var cache = _stateStack.Where(sm => ReferenceEquals(sm.Owner.Get(), owner)).ToList();
-            _stateStack.RemoveAll(sm => ReferenceEquals(sm.Owner.Get(), owner));
-            DetermineState();
-            foreach (UIState uiState in cache.Where(x => x.IsShortcutLayer)) {
-                State.ShortcutLayer.AppendShortcuts(uiState.GetShortcuts());
+            foreach (var uiState in _removedStatesCache) {
+                if (uiState.IsShortcutLayer) {
+                    State.ShortcutLayer.AppendShortcuts(uiState);
+                }
+            }
+
+            var selection = World.Any<Selection>();
+            if (selection) {
+                foreach (var state in _removedStatesCache) {
+                    selection.ClearSelectionLayer(state.SelectionLayer);
+                }
+            }
+
+            _removedStatesCache.Clear();
+
+            if (stateChanged) {
+                this.Trigger(Events.UIStateChanged, State);
             }
         }
         
@@ -104,30 +130,33 @@ namespace Awaken.TG.MVC.UI.Handlers.States {
         }
 
         public void ForceRefresh() {
-            UIState previous = State;
-            DetermineState();
-            if (!previous.Equals(State)) {
+            if (DetermineState()) {
                 this.Trigger(Events.UIStateChanged, State);
             }
         }
 
-        void ModifyStateCollection(Action action) {
-            UIState previous = State;
-            action();
-            DetermineState();
-            if (!previous.Equals(State)) {
-                this.Trigger(Events.UIStateChanged, State);
+        bool DetermineState() {
+            var selected = World.Any<Selection>()?.Selected;
+            foreach (var uiState in _orderedStates) {
+                if (uiState.OnlyWhenSelected.id == null || ReferenceEquals(uiState.OnlyWhenSelected.Get(), selected)) {
+                    uiState.RefreshShortcuts();
+                    _determinantState.Union(uiState);
+                }
             }
-        }
 
-        void DetermineState() {
-            IModel selected = World.Any<Selection>()?.Selected;
-            State = _stateStack
-                .Where(state => state.OnlyWhenSelected.id == null || ReferenceEquals(state.OnlyWhenSelected.Get(), selected))
-                .Aggregate(UIState.BaseState, (s1, s2) => {
-                    s2.RefreshShortcuts();
-                    return s1.Merge(s2);
-                });
+            if (_determinantState.Equals(State)) {
+                if (State.ShortcutLayer == _determinantState.ShortcutLayer) {
+                    _determinantState.ResetToBase();
+                } else {
+                    State = _determinantState;
+                    _determinantState = UIState.BaseState;
+                }
+                return false;
+            } else {
+                State = _determinantState;
+                _determinantState = UIState.BaseState;
+                return true;
+            }
         }
 
         [Conditional("DEBUG")]

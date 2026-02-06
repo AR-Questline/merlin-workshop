@@ -4,6 +4,8 @@ using Awaken.TG.Main.UI.TitleScreen.Loading;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Events;
+using Awaken.Utility.Debugging;
+using Awaken.Utility.GameObjects;
 using UnityEngine;
 
 namespace Awaken.TG.Graphics.Scene {
@@ -21,8 +23,18 @@ namespace Awaken.TG.Graphics.Scene {
             if (World.Services.TryGet(out SceneService service)) {
                 indoors = !service.IsOpenWorld;
             }
-            outdoor?.SetActive(!indoors);
-            indoor?.SetActive(indoors);
+
+            if (outdoor != null) {
+                outdoor.SetActive(!indoors);
+            } else {
+                Log.Important?.Error($"Outdoor GameObject is not assigned in IndoorGameObjectSwapper on {this}: {(this != null ? gameObject.PathInSceneHierarchy() : null)}", this);
+            }
+
+            if (indoor != null) {
+                indoor.SetActive(indoors);
+            } else {
+                Log.Important?.Error($"Indoor GameObject is not assigned in IndoorGameObjectSwapper on {this}: {(this != null ? gameObject.PathInSceneHierarchy() : null)}", this);
+            }
         }
     }
 }

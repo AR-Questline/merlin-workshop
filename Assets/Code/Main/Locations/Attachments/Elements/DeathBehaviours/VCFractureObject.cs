@@ -25,10 +25,12 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
         [FoldoutGroup("Force"), SerializeField] float upwardsModifier = 3f;
         [SerializeField] bool fractureOnDeath = true;
         [SerializeField] bool discardAfterFracture = true;
+        ARAsyncOperationHandle<GameObject> _fractureHandle;
+        ARAsyncOperationHandle<GameObject> _vfxHandle;
         GameObject _fractureResult;
         GameObject _vfxResult;
         int _fractureCount;
-
+        
         protected override void OnAttach() {
             Target.OnVisualLoaded(AttachCallbacks);
         }
@@ -50,10 +52,16 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
         }
 
         void ReleaseAssets() {
-            _fractureResult = null;
-            fracturedObjectReference.ReleaseAsset();
-            _vfxResult = null;
-            vfxObjectReference.ReleaseAsset();
+            if (_fractureHandle.IsValid()) {
+                _fractureResult = null;
+                _fractureHandle = default;
+                fracturedObjectReference.ReleaseAsset();
+            }
+            if (_vfxHandle.IsValid()) {
+                _vfxResult = null;
+                _vfxHandle = default;
+                vfxObjectReference.ReleaseAsset();
+            }
         }
         
         [Button("Fracture")]
@@ -63,16 +71,20 @@ namespace Awaken.TG.Main.Locations.Attachments.Elements.DeathBehaviours {
                 return;
             }
 
-            if (_fractureResult == null) {
-                fracturedObjectReference.LoadAsset<GameObject>().OnComplete(InitFracturedObject);
-            } else {
-                InstantiateFracturedObject();
+            if (fracturedObjectReference.IsSet) {
+                if (_fractureHandle.IsValid() == false) {
+                    _fractureHandle = fracturedObjectReference.LoadAsset<GameObject>();
+                    _fractureHandle.OnComplete(InitFracturedObject);
+                } else if (_fractureResult != null) {
+                    InstantiateFracturedObject();
+                }
             }
 
             if (vfxObjectReference.IsSet) {
-                if (_vfxResult == null) {
-                    vfxObjectReference.LoadAsset<GameObject>().OnComplete(InitVFXObject);
-                } else {
+                if (_vfxHandle.IsValid() == false) {
+                    _vfxHandle = vfxObjectReference.LoadAsset<GameObject>();
+                    _vfxHandle.OnComplete(InitVFXObject);
+                } else if (_vfxResult != null) {
                     InstantiateVFXObject();
                 }
             }

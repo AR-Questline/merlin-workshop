@@ -59,6 +59,7 @@ MonoBehaviour:
   tags:
   - armors:weak
   - item:tier0
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 356793b0596cd5147a875081c59e7ac0
@@ -153,6 +154,10 @@ MonoBehaviour:
     arReference:
       address: fd33dc5da49acd34481165e3463f8315
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &1382325995290807351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +175,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 1
     hand: 0
+    flag: 
     itemPrefab:
       address: 3117bd4c0a87c874ca0145a324085799
       subObjectName: 
@@ -177,6 +183,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 2
     hand: 0
+    flag: 
     itemPrefab:
       address: cb6a27489a93ea941b0f393f02c7fee8
       subObjectName: 
@@ -242,8 +249,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &215660845427092069
 MonoBehaviour:

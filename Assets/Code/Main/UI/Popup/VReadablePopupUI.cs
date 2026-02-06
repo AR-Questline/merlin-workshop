@@ -46,6 +46,10 @@ namespace Awaken.TG.Main.UI.Popup {
             UIStateStack.Instance.PushState(UIState.ModalState(HUDState.MiddlePanelShown).WithPauseTime(), Target);
             Target.AddElement(new StoryOnTop());
         }
+        
+        protected override void OnMount() {
+            World.Add(new BlurBackground(Target, BlurConfig.WithBlurVolume)).ShowBackground(this);
+        }
 
         protected override void OnFullyInitialized() {
             InitPrompts();
@@ -79,7 +83,8 @@ namespace Awaken.TG.Main.UI.Popup {
             Hero.Current.Element<HeroReadables>().RegisterTemplateAsRead(Target.Item.Template);
 
             if (Target.Item.TryGetElement(out ItemBeingPicked picked)) {
-                if (Crime.Theft(Target.Item, picked).IsCrime()) {
+                using var crime = Crime.Theft(Target.Item, picked);
+                if (crime.IsCrime()) {
                     _stealPrompt?.SetVisible(true);
                 } else {
                     _takePrompt?.SetVisible(true);

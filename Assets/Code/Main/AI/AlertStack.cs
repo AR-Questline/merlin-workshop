@@ -36,6 +36,7 @@ namespace Awaken.TG.Main.AI {
             (AlertTransitionsPaused ? Mathf.Min(_stack[0].AlertValue, StateAlert.Alert2Combat) : _stack[0].AlertValue);
         public float AlertVisionGain { get; set; }
         public bool AlertTransitionsPaused { get; set; }
+        public bool AlertGainPaused { get; set; }
 
         public VelocityScheme VelocityScheme => AlertValue > StateAlert.PatrolWalk2RunPercentage ?
             VelocityScheme.Run :
@@ -105,6 +106,9 @@ namespace Awaken.TG.Main.AI {
         }
 
         void NewPoi(float alertPoints, Vector3 position, bool knownPosition, IGrounded grounded) {
+            if (AlertGainPaused) {
+                return;
+            }
             alertPoints *= ParentModel.NewAlertModifierByDistanceToLastIdlePoint();
             AlertElement toMerge = null;
             foreach (var stackValue in _stack) {

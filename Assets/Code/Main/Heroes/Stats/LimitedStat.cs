@@ -9,6 +9,7 @@ using Awaken.Utility;
 using Awaken.Utility.Collections;
 using Newtonsoft.Json;
 using Unity.IL2CPP.CompilerServices;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Stats {
@@ -105,17 +106,18 @@ namespace Awaken.TG.Main.Heroes.Stats {
             AllowOverflow = allowOverflow;
         }
 
-        public LimitedStat(IWithStats owner, StatType type, float initialValue, float lowerLimit, StatType upperLimit, bool allowOverflow = false) : base(owner, type, initialValue) {
+        public LimitedStat(IWithStats owner, StatType type, float initialValue, float lowerLimit, StatType upperLimit, bool allowOverflow = false, float upperLimitMinimumValue = float.MinValue) : base(owner, type, initialValue) {
             _lowerLimit = new LimitedStatLimit {constValue = lowerLimit};
-            _upperLimit = new LimitedStatLimit {statReference = upperLimit};
+            _upperLimit = new LimitedStatLimit {constValue = upperLimitMinimumValue, statReference = upperLimit};
+
             _cachedLower = LowerLimit;
             _cachedUpper = UpperLimit;
             AllowOverflow = allowOverflow;
         }
 
-        public LimitedStat(IWithStats owner, StatType type, float initialValue, StatType lowerLimit, StatType upperLimit, bool allowOverflow = false) : base(owner, type, initialValue) {
-            _lowerLimit = new LimitedStatLimit {statReference = lowerLimit};
-            _upperLimit = new LimitedStatLimit {statReference = upperLimit};
+        public LimitedStat(IWithStats owner, StatType type, float initialValue, StatType lowerLimit, StatType upperLimit, bool allowOverflow = false, float upperLimitMinimumValue = float.MinValue) : base(owner, type, initialValue) {
+            _lowerLimit = new LimitedStatLimit {constValue = float.MinValue, statReference = lowerLimit};
+            _upperLimit = new LimitedStatLimit {constValue = upperLimitMinimumValue, statReference = upperLimit};
             _cachedLower = LowerLimit;
             _cachedUpper = UpperLimit;
             AllowOverflow = allowOverflow;
@@ -216,7 +218,7 @@ namespace Awaken.TG.Main.Heroes.Stats {
         float LimitValue(LimitedStatLimit limit) {
             if (limit.statReference != null) {
                 Stat limitStat = RetrieveStat(limit);
-                return limitStat.ModifiedValue;
+                return math.max(limit.constValue, limitStat.ModifiedValue);
             } else {
                 return limit.constValue;
             }

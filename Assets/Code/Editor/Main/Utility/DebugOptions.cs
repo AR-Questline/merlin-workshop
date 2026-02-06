@@ -192,6 +192,11 @@ namespace Awaken.TG.Editor.Main.Utility {
             }
         }
         
+        [MenuItem("TG/Debug/ForceDomainReload")]
+        static void ForceDomainReload() {
+            EditorUtility.RequestScriptReload();
+        }
+        
         // Vegetation
         const string VegetationSwitchKey = "TG/Debug/Vegetation Disabled";
         public static readonly ToggleOption DebugVegetationDisabled = new ToggleOption("debug.vegetation.disabled", VegetationSwitchKey);

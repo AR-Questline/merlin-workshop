@@ -7,15 +7,23 @@ using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.Main.Heroes.Items.Tooltips.Components;
 using Awaken.TG.Main.Heroes.Items.Weapons;
 using Awaken.TG.Main.Localization;
+using Awaken.TG.Main.Stories.Tags;
 using Awaken.TG.Main.Utility.TokenTexts;
 using Awaken.TG.Utility;
 using Awaken.Utility;
 using Awaken.Utility.Debugging;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
     public interface IItemTypeSpecificDescriptor {
+        protected static string FormatDamageRange(int min, int max, Color minColor, Color maxColor) {
+            var minText = min.ToString().ColoredText(minColor);
+            var maxText = max.ToString().ColoredText(maxColor);
+            return min == max ? minText : $"{minText}-{maxText}";
+        }
+
         public static IItemTypeSpecificDescriptor ItemTypeSpecificDescriptor(Item item) {
             ItemStats itemStats = item.ItemStats;
 
@@ -40,6 +48,11 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
             public int Block { get; }
             public int ModifiedBlock { get; }
 
+
+            static WeaponDescriptor GetComparingWeapon(IItemDescriptor descriptorToCompare) {
+                return descriptorToCompare?.TypeSpecificDescriptor as WeaponDescriptor;
+            }
+
             public WeaponDescriptor(Item item) {
                 var itemStats = item.ItemStats;
                 Damage.GetStatModifiers(Hero.Current, itemStats, out float multi, out float linear);
@@ -60,30 +73,21 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
                 magicStats?.SetActiveState(false);
                 string dmg = GetDamageText(descriptorToCompare);
                 string block = GetBlockText(descriptorToCompare);
-                string staminaCost = StaminaCost == 0 ? string.Empty : $"{StaminaCost.ToString().ColoredText(stats.sideStatsColor)} {LocTerms.StaminaAbbreviation.Translate()}";
+                string staminaCost = StaminaCost == 0 ? string.Empty : $"{StaminaCost.ToString().ColoredText(stats.sideStatsColor)} {LocTerms.Stamina.Translate()} {LocTerms.Cost.Translate()}";
                 stats.SetupStats(dmg, Block != 0 ? block : null, staminaCost);
             }
 
             protected string GetDamageText(IItemDescriptor descriptorToCompare, bool withoutUnit = false) {
-                var other = descriptorToCompare is {TypeSpecificDescriptor: WeaponDescriptor } ? descriptorToCompare.TypeSpecificDescriptor as WeaponDescriptor : null;
+                var other = GetComparingWeapon(descriptorToCompare);
                 
-                var baseMinValue = BaseMinDamage.ToString().ColoredText(ItemUtils.ColorEqual);
-                var baseMaxValue = BaseMaxDamage.ToString().ColoredText(ItemUtils.ColorEqual);
-                
-                string baseDamageText = BaseMinDamage == BaseMaxDamage ? baseMinValue : $"{baseMinValue}-{baseMaxValue}";
-                
-                // Compare to other item or base item stats if other is null
-                var minValue = MinDamage.ToString().ColoredText(ItemUtils.StatColor(MinDamage, other?.MinDamage ?? BaseMinDamage));
-                var maxValue = MaxDamage.ToString().ColoredText(ItemUtils.StatColor(MaxDamage, other?.MaxDamage ?? BaseMaxDamage));
+                string baseDamageText = FormatDamageRange(BaseMinDamage, BaseMaxDamage, ItemUtils.ColorEqual, ItemUtils.ColorEqual);
                 
                 bool showModifiedDamage = BaseMinDamage != MinDamage || BaseMaxDamage != MaxDamage;
                 string modifiedDamageText = string.Empty;
                 if (showModifiedDamage) {
-                    if (MinDamage == MaxDamage) {
-                        modifiedDamageText = $" ({minValue})";
-                    } else {
-                        modifiedDamageText = $" ({minValue}-{maxValue})";
-                    }
+                    var minColor = ItemUtils.StatColor(MinDamage, other?.MinDamage ?? BaseMinDamage);
+                    var maxColor = ItemUtils.StatColor(MaxDamage, other?.MaxDamage ?? BaseMaxDamage);
+                    modifiedDamageText = $" ({FormatDamageRange(MinDamage, MaxDamage, minColor, maxColor)})";
                 }
                 
                 var value = $"{baseDamageText}{modifiedDamageText}";
@@ -97,16 +101,17 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
             }
             
             protected string GetBlockText(IItemDescriptor descriptorToCompare) {
-                var other = descriptorToCompare is {TypeSpecificDescriptor: WeaponDescriptor } ? descriptorToCompare.TypeSpecificDescriptor as WeaponDescriptor : null;
+                var other = GetComparingWeapon(descriptorToCompare);
                 bool showModifiedBlock = Block != ModifiedBlock;
-
+                string blockUnit = LocTerms.UnitBlock.Translate().ToLower().FirstCharToUpper();
+                
                 if (showModifiedBlock) {
                     var baseValue = Block.ToString().ColoredText(ItemUtils.ColorEqual);
                     var modifiedValue = ModifiedBlock.ToString().ColoredText(ItemUtils.StatColor(ModifiedBlock, other?.ModifiedBlock ?? Block));
-                    return $"{baseValue} ({modifiedValue}) {LocTerms.UnitBlock.Translate()}";
+                    return $"{baseValue} ({modifiedValue}) {blockUnit}";
                 } else {
                     var baseValue = Block.ToString().ColoredText(ItemUtils.StatColor(Block, other?.ModifiedBlock));
-                    return $"{baseValue} {LocTerms.UnitBlock.Translate()}";
+                    return $"{baseValue} {blockUnit}";
                 }
             }
         }
@@ -120,7 +125,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
 
             public void SetupStatTexts(ItemTooltipStatsComponent stats, ItemTooltipMagicStatsComponent magicStats, IItemDescriptor descriptorToCompare) {
                 magicStats?.SetActiveState(false);
-                var other = descriptorToCompare is {TypeSpecificDescriptor: ArrowDescriptor } ? descriptorToCompare.TypeSpecificDescriptor as ArrowDescriptor : null;
+                var other = descriptorToCompare?.TypeSpecificDescriptor as ArrowDescriptor;
                 var value = Damage.ToString().ColoredText(ItemUtils.StatColor(Damage, other?.Damage));
                 value = $"+{value}";
                 string text = $"{value} {LocTerms.UnitDamage.Translate()}";
@@ -139,18 +144,19 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
             
             public void SetupStatTexts(ItemTooltipStatsComponent stats, ItemTooltipMagicStatsComponent magicStats, IItemDescriptor descriptorToCompare) {
                 magicStats.SetActiveState(false);
-                var other = descriptorToCompare is {TypeSpecificDescriptor: ArmorDescriptor } ? descriptorToCompare.TypeSpecificDescriptor as ArmorDescriptor : null;
+                var other = descriptorToCompare?.TypeSpecificDescriptor as ArmorDescriptor;
                 bool showModifiedArmor = BaseArmor != ModifiedArmor;
-
+                string armorUnit = LocTerms.UnitArmor.Translate().ToLower().FirstCharToUpper();
+                
                 if (showModifiedArmor) {
                     string baseArmorText = BaseArmor.ToString("F1").ColoredText(ItemUtils.ColorEqual);
                     string modifiedArmorText = ModifiedArmor.ToString("F1").ColoredText(ItemUtils.StatColor(ModifiedArmor, other?.ModifiedArmor ?? BaseArmor));
 
-                    string armorStatText = $"{baseArmorText} ({modifiedArmorText}) {LocTerms.UnitArmor.Translate()}";
+                    string armorStatText = $"{baseArmorText} ({modifiedArmorText}) {armorUnit}";
                     stats.SetupStats(armorStatText);
                 } else {
                     string baseArmorText = BaseArmor.ToString("F1").ColoredText(ItemUtils.StatColor(BaseArmor, other?.ModifiedArmor));
-                    string armorStatText = $"{baseArmorText} {LocTerms.UnitArmor.Translate()}";
+                    string armorStatText = $"{baseArmorText} {armorUnit}";
                     stats.SetupStats(armorStatText);
                 }
             }
@@ -325,24 +331,19 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
                 int modifiedMin = Mathf.CeilToInt(baseMin * multi + linear);
                 int modifiedMax = Mathf.CeilToInt(baseMax * multi + linear);
                 
-                var other = descriptorToCompare is {TypeSpecificDescriptor: WeaponDescriptor } ? descriptorToCompare.TypeSpecificDescriptor as WeaponDescriptor : null;
+                var other = descriptorToCompare?.TypeSpecificDescriptor as WeaponDescriptor;
                 
-                var baseMinValue = baseMin.ToString().ColoredText(ItemUtils.ColorEqual);
-                var baseMaxValue = baseMax.ToString().ColoredText(ItemUtils.ColorEqual);
-                
-                string baseDamageText = baseMin == baseMax ? baseMinValue : $"{baseMinValue}-{baseMaxValue}";
-                
-                // Compare to other item or base item stats if other is null
-                var minValue = modifiedMin.ToString().ColoredText(ItemUtils.StatColor(modifiedMin, other?.MinDamage ?? baseMin));
-                var maxValue = modifiedMax.ToString().ColoredText(ItemUtils.StatColor(modifiedMax, other?.MaxDamage ?? baseMax));
+                string baseDamageText = FormatDamageRange(baseMin, baseMax, ItemUtils.ColorEqual, ItemUtils.ColorEqual);
                 
                 bool showModifiedDamage = baseMin != modifiedMin || baseMax != modifiedMax;
-                string modifiedDamageText = string.Empty;
                 if (showModifiedDamage) {
-                    modifiedDamageText = modifiedMin == modifiedMax ? $" ({minValue})" : $" ({minValue}-{maxValue})";
+                    var minColor = ItemUtils.StatColor(modifiedMin, other?.MinDamage ?? baseMin);
+                    var maxColor = ItemUtils.StatColor(modifiedMax, other?.MaxDamage ?? baseMax);
+                    string modifiedDamageText = FormatDamageRange(modifiedMin, modifiedMax, minColor, maxColor);
+                    return $"{baseDamageText} ({modifiedDamageText})";
                 }
                 
-                return $"{baseDamageText}{modifiedDamageText}";
+                return baseDamageText;
             }
             
             //TODO: after setup spells item template to use new magic cast, remove this method
@@ -353,7 +354,7 @@ namespace Awaken.TG.Main.Heroes.Items.Tooltips.Descriptors {
                     main = CreateEffectText(BaseMinDamage, BaseMaxDamage, descriptorToCompare) + " " + LocTerms.UnitDamage.Translate();
                 }
                 
-                string mana = CreateCostText(BaseManaCost) + " " + LocTerms.Mana.Translate();
+                string mana = $"{CreateCostText(BaseManaCost)} {LocTerms.Mana.Translate()} {LocTerms.Cost.Translate()}";
                 stats.SetupStats(main, null, mana);
             }
         }

@@ -12,6 +12,7 @@ namespace Awaken.TG.Main.Locations.Deferred {
         [Saved] SceneReference _sceneReference;
 
         public SceneReference SceneReference => _sceneReference;
+        protected virtual bool CanBeExecuted => true;
         
         [JsonConstructor, UnityEngine.Scripting.Preserve]
         protected DeferredAction() {}
@@ -22,9 +23,21 @@ namespace Awaken.TG.Main.Locations.Deferred {
         }
 
         public bool ConditionsFulfilled() {
-            return _conditions.All(c => c.Fulfilled());
+            return CanBeExecuted && _conditions.All(c => c.Fulfilled());
         }
 
         public abstract DeferredSystem.Result TryExecute();
+
+        public virtual bool HasSimilarConditions(DeferredAction other) { 
+            if (other._conditions.Length != _conditions.Length) { 
+                return false; 
+            }
+            for (int i = 0; i < _conditions.Length; i++) {
+                if (!_conditions[i].Equals(other._conditions[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

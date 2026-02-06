@@ -10,10 +10,14 @@ using Awaken.TG.Main.General.Configs;
 using Awaken.TG.Main.General.StatTypes;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Heroes.Items;
+using Awaken.TG.Main.Heroes.Stats;
 using Awaken.TG.Main.Localization;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Stories.Tags;
+using Awaken.TG.Main.UI.ButtonSystem;
 using Awaken.TG.Main.UI.EmptyContent;
+using Awaken.TG.Main.Utility;
+using Awaken.TG.Main.Utility.UI.Keys;
 using Awaken.TG.Utility;
 using Awaken.Utility.Collections;
 using FMODUnity;
@@ -32,6 +36,8 @@ namespace Awaken.TG.Main.Crafting.Cooking {
         public override bool TooltipPreventDisappearing => false;
         public override bool ButtonInteractability => CurrentRecipe != null;
         public bool WorkbenchHasItems => WorkbenchItemsData.Any();
+        public bool IsEmpty => IngredientsTabContents.IsEmpty;
+        public override Transform InventoryParent => Element<IngredientsGridUI>().Element<IngredientTabContents>().View<VIngredientTabContents>().IngredientsHost;
         public override EventReference CraftCompletedSound {
             get {
                 int score = CalculateScore(WorkbenchCraftingItems);
@@ -44,20 +50,23 @@ namespace Awaken.TG.Main.Crafting.Cooking {
                 return CommonReferences.Get.AudioConfig.CraftingAudio.CraftingResultGreat;
             } 
         }
+        
+        IngredientsGridUI IngredientsGridUI { get; set; }
+        IngredientTabContents IngredientsTabContents { get; set; }
 
-        public override Transform InventoryParent => Element<IngredientsGridUI>().Element<IngredientTabContents>()
-            .View<VIngredientTabContents>().IngredientsHost;
+        bool _randomizationModeEnabled;
+        Prompt _selectPrompt;
 
         public ExperimentalCooking(Hero hero, CookingTemplate template) : base(hero, template) { }
 
         protected override bool KnownRecipe(IRecipe recipe) => true;
-
-        bool _randomizationModeEnabled = false;
-
+        
         public override void Init() {
             base.Init(); 
-            var ingredientsGridUI = AddElement(new IngredientsGridUI());
-            ShowEmptyInfo(!ingredientsGridUI.IngredientTabContents.IsEmpty);
+            IngredientsGridUI = AddElement(new IngredientsGridUI());
+            IngredientsTabContents = IngredientsGridUI.IngredientTabContents;
+            ShowEmptyInfo(!IsEmpty);
+            _selectPrompt = ParentModel.Prompts.AddPrompt(Prompt.VisualOnlyTap(KeyBindings.UI.Items.SelectItem, LocTerms.Select.Translate(), Prompt.Position.First, ControlSchemeFlag.Gamepad), this, !IsEmpty);
         }
 
         void PutRandomIngredients() {
@@ -93,6 +102,7 @@ namespace Awaken.TG.Main.Crafting.Cooking {
                 }
             }
 
+            PossibleResultTooltipUI.DisappearTooltip();
             TriggerChange();
         }
         
@@ -115,24 +125,27 @@ namespace Awaken.TG.Main.Crafting.Cooking {
         protected override void AfterCreate(Item item) {
             base.AfterCreate(item);
             _currentSlot.RemoveAllWorkbenchItems();
-            RefreshTooltipDescriptor(item.Level.ModifiedInt);
+            RefreshTooltipDescriptor(item.ModifiedLevelWithoutNewGamePlus);
 
             if (CurrentRecipe is not GenericOutcomeCookingRecipe) {
                 if (!IsLearned(CurrentRecipe)) {
                     ParentModel.AddElement(new ItemDiscoveredInfo(new[] {item})).ShowNewRecipeDiscoveredInfo(item.DisplayName);
                 }
                 DiscoverRecipe(CurrentRecipe);
-                Hero.Development.RewardExpAsPercentOfNextLevel(Services.Get<GameConstants>().RecipeLearnExpMulti);
+                Hero.Development.RewardExpAsPercentOfNextLevel(Services.Get<GameConstants>().RecipeLearnExpMulti, Hero, ChangeReason.Crafting);
                 Hero.ProficiencyStats.TryAddXP(ProfStatType.Cooking, Services.Get<GameConstants>().RecipeLearnCraftingExp);
             }
             
-            ShowEmptyInfo(!Element<IngredientsGridUI>().IngredientTabContents.IsEmpty);
+            IngredientsTabContents.RefreshInventory();
+            ShowEmptyInfo(!IsEmpty);
+            _selectPrompt.SetActive(!IsEmpty);
 
             if (_randomizationModeEnabled) {
                 PutRandomIngredients();
             }
             
             OnWorkbenchSlotsChange();
+            PossibleResultTooltipUI.AfterCreated();
         }
 
         public bool TryReceiveFocus() => true;

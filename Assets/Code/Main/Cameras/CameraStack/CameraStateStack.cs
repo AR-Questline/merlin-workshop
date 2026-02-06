@@ -16,7 +16,6 @@ namespace Awaken.TG.Main.Cameras.CameraStack {
 
         // === State
         List<CameraState> _cameras = new List<CameraState>();
-        List<CameraHandle> _cameraHolders = new List<CameraHandle>();
 
         CameraState _previousState;
 
@@ -32,9 +31,7 @@ namespace Awaken.TG.Main.Cameras.CameraStack {
 
         // === Initialization
         protected override void OnInitialize() {
-            World.EventSystem.ListenTo(EventSelector.AnySource, Model.Events.BeforeDiscarded, this, ReleaseAllOwnedBy);
             MainHandle = new CameraHandle();
-            PushCameraHandle(MainHandle);
         }
 
         // == Operations
@@ -45,12 +42,7 @@ namespace Awaken.TG.Main.Cameras.CameraStack {
 
         public void ReleaseAllOwnedBy(IModel owner) {
             _cameras.RemoveAll(c => c.Owner == owner);
-            _cameraHolders.RemoveAll(h => h.Owner == owner);
             OnCameraChanged();
-        }
-
-        public void PushCameraHandle(CameraHandle handle) {
-            _cameraHolders.Add(handle);
         }
 
         public static int CullAllOnMainCamera() {
@@ -86,7 +78,7 @@ namespace Awaken.TG.Main.Cameras.CameraStack {
                 }
 
                 if (CurrentState != null) {
-                    _cameraHolders.ForEach(h => h.ChangeCamera(CurrentState.Camera));
+                    MainHandle.ChangeCamera(CurrentState.Camera);
                 }
 
                 CurrentCamera.Value = MainCamera;

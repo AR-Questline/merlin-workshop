@@ -58,7 +58,7 @@ namespace Awaken.TG.Main.Stories.Steps {
                 var deferredSystem = World.Only<DeferredSystem>();
                 foreach (var presenceSource in matchingPresenceSources) {
                     LocationReference.MatchByAllTags match = new (presenceSource.tags);
-                    if (DeferredActionWithLocationMatch.TryExecute(match, execution) == DeferredSystem.Result.Success) {
+                    if (DeferredActionWithLocationMatch.TryExecute(match, execution, null) == DeferredSystem.Result.Success) {
                         continue;
                     }
                     deferredSystem.RegisterAction(new DeferredActionWithLocationMatch(match, execution));
@@ -77,7 +77,7 @@ namespace Awaken.TG.Main.Stories.Steps {
             if (locationRef.TryGetDistinctiveMatches(out var matches)) {
                 var deferredSystem = World.Only<DeferredSystem>();
                 foreach (var match in matches) {
-                    if (DeferredActionWithLocationMatch.TryExecute(match, execution) == DeferredSystem.Result.Success) {
+                    if (DeferredActionWithLocationMatch.TryExecute(match, execution, null) == DeferredSystem.Result.Success) {
                         continue;
                     }
 

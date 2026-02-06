@@ -85,8 +85,7 @@ namespace Awaken.TG.Main.Heroes {
         }
         
         bool IsDlcInstalled() {
-            var dlcIds = CommonReferences.Get.HorseDlcIds;
-            return dlcIds.Any(SocialService.Get.HasDlc);
+            return SocialService.Get.HasDlc(DlcCategoryFlags.HorseArmor);
         }
     }
 }

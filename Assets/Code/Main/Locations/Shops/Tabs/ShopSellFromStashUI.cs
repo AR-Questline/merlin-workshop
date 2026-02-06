@@ -6,15 +6,8 @@ using Awaken.TG.Main.UI.EmptyContent;
 using Awaken.TG.Utility;
 
 namespace Awaken.TG.Main.Locations.Shops.Tabs {
-    public partial class ShopSellFromStashUI : ShopVendorBaseUI {
-        protected override string TradeActionName => LocTerms.Sell.Translate();
-        public override IMerchant Seller => Hero;
-        public override IMerchant Buyer => Shop;
+    public partial class ShopSellFromStashUI : ShopSellUI {
         public override IEnumerable<Item> Items => Hero.Element<HeroStorage>().SellableInventory(Shop.AdditionalSellCondition);
-
-        protected override void OnSuccessfulTrade() {
-            View.PlaySellSfx();
-        }
         
         protected override void SetupEmptyInfoLabels() {
             View<IEmptyInfo>().EmptyInfoView.SetupLabels(LocTerms.EmptyShopSellInfo.Translate(), LocTerms.EmptyShopSellFromStashDesc.Translate());

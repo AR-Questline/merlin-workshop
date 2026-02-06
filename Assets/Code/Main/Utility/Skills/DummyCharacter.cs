@@ -40,6 +40,7 @@ namespace Awaken.TG.Main.Utility.Skills {
         public AliveStats.ITemplate AliveStatsTemplate => null;
         public float Height => 0;
         public int Tier => 0;
+        public int NewGamePlusLevel => 0;
         public CharacterStats CharacterStats => null;
         public CharacterStats.ITemplate CharacterStatsTemplate => null;
         public ProficiencyStats ProficiencyStats => null;

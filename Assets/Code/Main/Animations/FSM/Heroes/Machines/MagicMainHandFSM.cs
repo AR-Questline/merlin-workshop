@@ -24,7 +24,7 @@ namespace Awaken.TG.Main.Animations.FSM.Heroes.Machines {
         public override string ParentLayerName => LayerName;
         public override CastingHand CastingHand => CastingHand.MainHand;
         public override HeroLayerType LayerType => HeroLayerType.MainHand;
-        public override HeroStateType DefaultState => HeroStateType.EquipWeapon;
+        public override HeroStateType DefaultState => DefaultEquipState;
         // --- When equipping magic in main hand we can only attack & push with OffHand item, that's why we use OffHandItemStats
         public override float LightAttackCost => OffHandItemStats?.LightAttackCost.ModifiedValue ?? 0;
         public override float HeavyAttackCost => OffHandItemStats?.HeavyAttackCost.ModifiedValue ?? 0;

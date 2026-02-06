@@ -22,10 +22,12 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         InteractionStartReason _startReason;
         
         List<IdleStackItem> _pushWaitingItems = new();
+        IInteractionSource _pushWaitingSource;
         bool _activateNextItem;
         
         NpcElement Npc => _behaviours.ParentModel;
         public IInteractionSource Source => _currentSource;
+        public IInteractionSource WaitingOrCurrentSource => _pushWaitingSource ?? _currentSource;
         public bool IsCurrentStackEmpty => !_stack.Any(i => i.IsValid);
         public bool IsWaitingStackEmpty => _pushWaitingItems.Count == 0;
         public bool WaitingStackHasAnchor => _pushWaitingItems.Any(i => i.isAnchor);
@@ -33,6 +35,7 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         public bool IsDropping => _isDropping;
         public int MaxPriority => Mathf.Max(IsCurrentStackEmpty ? -1 : _stack.Max(i => i.interaction.Priority), IsWaitingStackEmpty ? -1 : _pushWaitingItems.Max(i => i.interaction.Priority));
         public bool HasAnchor => _stack.Any(i => i.isAnchor) || _pushWaitingItems.Any(i => i.isAnchor);
+        public bool CanBeDroppedNow => !_isDropping && CanBeInterrupted();
         
         public IdleStack(IdleBehaviours behaviours) {
             _behaviours = behaviours;
@@ -62,6 +65,7 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
 
         public async UniTask Drop(IInteractionSource source, InteractionStopReason reason = InteractionStopReason.ChangeInteraction, bool toAnchor = false) {
             _pushWaitingItems.Clear();
+            _pushWaitingSource = source;
             if (_isDropping) {
                 return;
             }
@@ -88,7 +92,8 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
 
             _isDropping = false;
             _shouldDropLater = false;
-            _currentSource = source;
+            _currentSource = _pushWaitingSource;
+            _pushWaitingSource = null;
         }
         
         public INpcInteraction Peek() {
@@ -308,6 +313,7 @@ namespace Awaken.TG.Main.AI.Idle.Behaviours {
         }
 
         // --- Debug
+        public string CurrentStackInfo => string.Join("\n", _stack.Select(s => s.interaction?.ToString()));
         string LogInfo => $"Exception below happened for {Npc} {Npc.Name}.\nCurrent Interaction {Npc.Interactor.CurrentInteraction}\nStack {string.Join("\n", _stack.Select(s => s.interaction.ToString()))}\nSource {_currentSource}";
 
         void LogWarningInfo() {

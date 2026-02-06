@@ -115,13 +115,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
+      propertyPath: lootTables.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
       propertyPath: corpseLootTables.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
+      propertyPath: lootTables.Array.data[1].table
+      value: 6720257270644998214
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
       propertyPath: statusStats._burn.effectStrength
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
+      propertyPath: lootTables.Array.data[1].lootType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
@@ -195,8 +210,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
+      propertyPath: 'managedReferences[6720257270644998214]'
+      value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.LootTableNewGamePlusConditional
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
+      propertyPath: 'managedReferences[6720257270644998215]'
+      value: TG.Main Awaken.TG.Main.Heroes.Items.LootTables.ItemSpawningData
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
       propertyPath: lootTables.Array.data[0].lootReference._guid
       value: 3df1d1c517da7424d9df4143b12a9c6b
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998214].ifTrue
+      value: 6720257270644998215
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998214].ifFalse
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
@@ -241,6 +276,11 @@ PrefabInstance:
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
       propertyPath: managedReferences[4216336002215837704].quantity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998215].quantity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
@@ -290,6 +330,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
+      propertyPath: managedReferences[6720257270644998215].itemLvl.low
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
       propertyPath: managedReferences[1901780467987251200].itemLvl.high
       value: 0
       objectReference: {fileID: 0}
@@ -331,6 +376,11 @@ PrefabInstance:
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
       propertyPath: managedReferences[4216336002215837704].itemLvl.high
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998215].itemLvl.high
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
@@ -405,6 +455,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}
+      propertyPath: managedReferences[6720257270644998214].minimumNewGamePlusLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
       propertyPath: managedReferences[1901780467987251200].itemTemplateReference._guid
       value: 580909fd3d1d23741859e71009414904
       objectReference: {fileID: 0}
@@ -447,6 +502,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[4216336002215837704].itemTemplateReference._guid
       value: 4e09a96e76a795f4c90b6784eab25958
+      objectReference: {fileID: 0}
+    - target: {fileID: 726195311909070341, guid: b28fd7a452fad1848a9e310c6a7d4709,
+        type: 3}
+      propertyPath: managedReferences[6720257270644998215].itemTemplateReference._guid
+      value: 50e90e9c630cc5f49a6b1348e89f8322
       objectReference: {fileID: 0}
     - target: {fileID: 2060614182114357957, guid: b28fd7a452fad1848a9e310c6a7d4709,
         type: 3}

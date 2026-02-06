@@ -1,5 +1,4 @@
-﻿using System;
-using Awaken.ECS.DrakeRenderer.Systems;
+﻿using Awaken.ECS.DrakeRenderer.Systems;
 using Awaken.TG.Debugging;
 using Awaken.TG.Graphics;
 using Awaken.TG.Graphics.Transitions;
@@ -35,8 +34,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet {
         Prompt _markAllAsSeenPromptGamepad;
         Prompt _escapePrompt;
         bool _useTransitionsOnExitSequence = true;
-
-        NewThingsTracker NewThingsTracker => Services.Get<NewThingsTracker>();
+        
         public HeroRenderer HeroRenderer { get; private set; }
         
         public override Domain DefaultDomain => Domain.Gameplay;
@@ -50,17 +48,19 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet {
         public CharacterSheetTabType CurrentType { get; set; } = CharacterSheetTabType.Character;
         public Tabs<CharacterSheetUI, VCharacterSheetTabs, CharacterSheetTabType, ICharacterSheetTab> TabsController { get; set; }
 
-        public CharacterSheetTabType[] OverrideAvailableTabs { get; set; }
-        public Action AfterViewSpawnedCallback { get; set; }
+        public CharacterSheetTabType[] OverrideAvailableTabs { get; private set; }
         public Hero Hero { get; }
         public Prompts Prompts { get; private set; }
-        
-        VCharacterSheetUI View => View<VCharacterSheetUI>();
         public Transform OverlayLayer => View.TooltipParent;
         public Transform StaticTooltip => View.StaticTooltip;
         
-        CharacterSheetUI() {
+        VCharacterSheetUI View => View<VCharacterSheetUI>();
+        static NewThingsTracker NewThingsTracker => Services.Get<NewThingsTracker>();
+
+        CharacterSheetUI(CharacterSheetTabType initialTab, CharacterSheetTabType[] availableTabs) {
             Hero = Hero.Current;
+            CurrentType = initialTab;
+            OverrideAvailableTabs = availableTabs;
         }
         
         protected override void OnInitialize() {
@@ -111,14 +111,14 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet {
             }
         }
         
-        public static CharacterSheetUI ToggleCharacterSheet(CharacterSheetTabType initialTab, bool ignoreMapState = false, CharacterSheetTabType[] availableTabs = null, Action afterViewSpawnedCallback = null) {
+        public static CharacterSheetUI ToggleCharacterSheet(CharacterSheetTabType initialTab, bool ignoreMapState = false, CharacterSheetTabType[] availableTabs = null) {
             CharacterSheetUI sheet = World.Any<CharacterSheetUI>();
             if (sheet != null) {
                 if (sheet.HeroRenderer.IsLoading == false) {
                     sheet.Discard();
                 }
             } else if (ignoreMapState || UIStateStack.Instance.State.IsMapInteractive) {
-                return World.Add(new CharacterSheetUI { CurrentType = initialTab, OverrideAvailableTabs = availableTabs, AfterViewSpawnedCallback = afterViewSpawnedCallback });
+                return World.Add(new CharacterSheetUI(initialTab, availableTabs));
             }
             return null;
         }

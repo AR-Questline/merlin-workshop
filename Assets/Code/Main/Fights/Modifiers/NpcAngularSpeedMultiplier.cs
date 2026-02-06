@@ -22,21 +22,29 @@ namespace Awaken.TG.Main.Fights.Modifiers {
         
         // === Public API
         public static void AddAngularSpeedMultiplier(NpcElement npcElement, float multiplier, IDuration duration) {
+            multiplier = Mathf.Clamp(multiplier, 0, 1);
+            GetOrCreate(npcElement).AddMultiplierWithDuration(multiplier, duration);
+        }
+        
+        public static void AddUnclampedAngularSpeedMultiplier(NpcElement npcElement, float multiplier, IDuration duration) {
+            GetOrCreate(npcElement).AddMultiplierWithDuration(multiplier, duration);
+        }
+
+        static NpcAngularSpeedMultiplier GetOrCreate(NpcElement npcElement) {
             var currentMultiplier = npcElement.AngularSpeedMultiplier;
             if (currentMultiplier == null) {
                 currentMultiplier = new NpcAngularSpeedMultiplier();
                 npcElement.AddElement(currentMultiplier);
                 npcElement.AngularSpeedMultiplier = currentMultiplier;
             }
-            
-            multiplier = Mathf.Clamp(multiplier, 0, 1);
-            currentMultiplier.AddMultiplierWithDuration(multiplier, duration);
+            return currentMultiplier;
         }
         
         // === Helpers
         void AddMultiplierWithDuration(float multiplier, IDuration duration) {
-            Multiplier *= multiplier;
             AddElement(duration);
+            _multiplierRecords.Add(duration, multiplier);
+            RecalculateMultiplier();
             duration.ListenTo(Events.AfterDiscarded, () => OnUsedDurationDiscarded(duration), this);
         }
 

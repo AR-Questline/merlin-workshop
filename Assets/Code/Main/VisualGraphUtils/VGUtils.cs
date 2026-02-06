@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Assets;
 using Awaken.TG.Code.Utility;
+using Awaken.TG.Graphics.Cutscenes;
 using Awaken.TG.Main.Grounds;
 using Awaken.TG.Main.AI.Fights.Archers;
 using Awaken.TG.Main.AI.Fights.Projectiles;
@@ -16,6 +17,7 @@ using Awaken.TG.Main.Fights.Mounts;
 using Awaken.TG.Main.Fights.NPCs;
 using Awaken.TG.Main.Fights.Utils;
 using Awaken.TG.Main.Heroes;
+using Awaken.TG.Main.Heroes.Animations;
 using Awaken.TG.Main.Heroes.Development.WyrdPowers;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
@@ -188,7 +190,7 @@ namespace Awaken.TG.Main.VisualGraphUtils {
             UniTask<CombinedProjectile> projectileTask;
             if (shootParams.itemProjectile != null) {
                 projectileTask = shootParams.itemProjectile.GetProjectile(shootParams.startPosition, Quaternion.LookRotation(arrowVelocity, shootParams.upDirection), true, shootParams.shooter?.CharacterView.transform, firePoint, null);
-            } else if (shootParams.customProjectile.logicPrefab is {IsSet: true}) {
+            } else if (shootParams.customProjectile is { logicPrefab: { IsSet: true }, visualPrefab: { IsSet: true }}) {
                 projectileTask = ItemProjectile.GetCustomProjectile(shootParams.customProjectile, shootParams.startPosition, Quaternion.LookRotation(arrowVelocity, shootParams.upDirection), true, shootParams.shooter?.CharacterView.transform, firePoint, null);
             } else {
                 Log.Minor?.Error("Projectile prefab is not set, aborting");
@@ -225,6 +227,10 @@ namespace Awaken.TG.Main.VisualGraphUtils {
         
         public static ProjectileWrapper ShotProjectileSimple(Transform shooterTransform, ProjectileData projectileData, Vector3 shotPosition, Vector3 targetPosition, float velocity, Transform firePoint = null, EquipmentSlotType slotType = null, float fireStrength = 1, ProjectileOffsetData? offsetParams = null, DamageType? damageType = null, List<VSVariable> variables = null) {
             ICharacter shooter = shooterTransform.GetComponentInParent<ICharacterView>().Character;
+            if (projectileData is not { logicPrefab: { IsSet: true }, visualPrefab: { IsSet: true } }) {
+                Log.Important?.Error($"{(shooter != null ? LogUtils.GetDebugName(shooter) : shooterTransform)} is trying to shoot a projectile that is not setup correctly");
+                return null;
+            }
             Vector3 projectileVelocity = (targetPosition - shotPosition).normalized * velocity;
             var projectileTask = ItemProjectile.GetCustomProjectile(projectileData, shotPosition, Quaternion.LookRotation(projectileVelocity), true, shooterTransform, firePoint, null);
             var wrapper = ShotProjectileSimpleInternal(projectileTask, shooter, projectileVelocity, slotType, fireStrength, offsetParams, damageType);
@@ -252,6 +258,10 @@ namespace Awaken.TG.Main.VisualGraphUtils {
         }
 
         public static ProjectileWrapper FireHomingProjectile(ProjectileData projectileData, ICharacter shooter, Item shootingItem, DamageType? damageType, Transform firePoint) {
+            if (projectileData is not { logicPrefab: { IsSet: true }, visualPrefab: { IsSet: true } }) {
+                Log.Important?.Error($"{LogUtils.GetDebugName(shooter)} {LogUtils.GetDebugName(shootingItem)} is trying to shoot a projectile that is not setup correctly");
+                return null;
+            }
             var projectileTask = ItemProjectile.GetCustomProjectile(projectileData, shooter.Coords + Vector3.up, Quaternion.identity, true, shooter.CharacterView.transform, firePoint, null);
             var wrapper = new ProjectileWrapper(projectileTask);
             wrapper.ConfigureHomingProjectile(shooter, shootingItem, new DamageTypeData(damageType ?? DamageType.MagicalHitSource));
@@ -283,8 +293,8 @@ namespace Awaken.TG.Main.VisualGraphUtils {
                 baseProjectileItem.DecrementQuantityWithoutNotification();
             }
 
-            ShareableARAssetReference logicAssetRef = overrideLogicPrefab ?? projectile.CreationData.logicPrefab;
-            ShareableARAssetReference visualAssetRef = overrideVisualPrefab ?? projectile.CreationData.visualPrefab;
+            ShareableARAssetReference logicAssetRef = overrideLogicPrefab is { IsSet: true } ? overrideLogicPrefab : projectile.CreationData.logicPrefab;
+            ShareableARAssetReference visualAssetRef = overrideVisualPrefab is { IsSet: true } ? overrideVisualPrefab : projectile.CreationData.visualPrefab;
             ProjectileLogicData logicData = overrideLogicData ?? projectile.CreationData.logicData;
             IEnumerable<SkillReference> skills = overrideSkillsRef ?? projectile.CreationData.skills;
             var creationData = new ProjectileData(logicAssetRef, visualAssetRef, skills, logicData);
@@ -401,7 +411,7 @@ namespace Awaken.TG.Main.VisualGraphUtils {
 
         [UnityEngine.Scripting.Preserve]
         public static void SetFlagValue(string flagName, bool state) {
-            World.Services.Get<GameplayMemory>().Context().Set(flagName, state);
+            StoryFlags.Set(flagName, state);
         }
 
         [UnityEngine.Scripting.Preserve]
@@ -545,6 +555,7 @@ namespace Awaken.TG.Main.VisualGraphUtils {
                 Item item => GetModelFromItem<T>(item),
                 MountElement mountElement => mountElement.MountedHero as T,
                 null => null,
+                Cutscene => null,
                 Element ele => ele.GetModelInParent<T>() ?? throw new ConversionException(model, gameObject, typeof(T)),
                 _ => throw new ConversionException(model, gameObject, typeof(T))
             };
@@ -562,6 +573,7 @@ namespace Awaken.TG.Main.VisualGraphUtils {
                 Location location => location.TryGetElement<T>(),
                 Item item => GetModelFromItem<T>(item),
                 MountElement mountElement => mountElement.MountedHero as T,
+                Cutscene => null,
                 Element ele => ele.GetModelInParent<T>() ?? null,
                 _ => null,
             };
@@ -641,6 +653,26 @@ namespace Awaken.TG.Main.VisualGraphUtils {
             public ShootParams WithCustomProjectile(ProjectileData data) {
                 this.customProjectile = data;
                 return this;
+            }
+        }
+
+        [UnityEngine.Scripting.Preserve]
+        public static void RestorePlayerHand() {
+            Hero.Current.RemoveElementsOfType<HeroOffHandCutOff>();
+        }
+
+        [UnityEngine.Scripting.Preserve]
+        public static void IncreaseSarrasSickleCharge(float charges) {
+            var heroItems = World.Any<HeroItems>();
+            if (heroItems == null) {
+                return;
+            }
+            
+            foreach (var item in heroItems.Items) {
+                if (item.TryGetElement(out SarrasSickle sickle)) {
+                    sickle.IncrementCharge(charges);
+                    return;
+                }
             }
         }
     }

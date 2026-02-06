@@ -47,6 +47,21 @@ namespace Awaken.Utility.Maths {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void toAxisAngleRad(quaternion quaternion, out float3 axis, out float angle) {
+            if (math.abs(quaternion.value.w) > 1.0f) {
+                quaternion = math.normalize(quaternion);
+            }
+
+            angle = 2.0f * math.acos(quaternion.value.w); // angle
+            var den = (float)math.sqrt(1.0 - quaternion.value.w * quaternion.value.w);
+            if (den > 0.0001f) {
+                axis = quaternion.value.xyz / den;
+            } else {
+                axis = new float3(1, 0, 0);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 ProjectOnPlane(float3 vector, float3 planeNormal) {
             float num1 = math.dot(planeNormal, planeNormal);
             if (num1 < math.EPSILON)
@@ -216,6 +231,16 @@ namespace Awaken.Utility.Maths {
         public static float FindLerpEndValue(float lerpStart, float t, float lerpResult) {
             Asserts.IsTrue(t != 0);
             return (lerpResult - (lerpStart * (1 - t))) / t;
+        }
+        
+        public static float4 FindLerpEndValue(float4 lerpStart, float t, float4 lerpResult) {
+            Asserts.IsTrue(t != 0);
+            return (lerpResult - (lerpStart * (1 - t))) / t;
+        }
+
+        public static float angle(float3 from, float3 to) {
+            float num = math.sqrt(math.lengthsq(from) * math.lengthsq(to));
+            return num < math.EPSILON ? 0.0f : math.acos(math.clamp(math.dot(from, to) / num, -1f, 1f));
         }
     }
 }

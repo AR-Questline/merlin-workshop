@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc88cdec074e78e46bc67fe4e55b723d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  templateType: 0
+  templateType: 3
   _isAbstract: 0
   _abstractTypes:
   - _guid: 09f205029a6116a4bb824f269f3dc2da
@@ -77,7 +77,7 @@ MonoBehaviour:
     locString:
       IdOverride: description_generic_decrease_percent
       ID: Template/description_locString_2543871262668956605_36c8b4eef1b611147a678a5f536eac07
-  EDITOR_bakedDescription: Reduces Block Stamina Cost by 10%.
+  EDITOR_bakedDescription: "Reduces Stamina usage while blocking by 10\_%."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -151,6 +151,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: e16200f9066a3424c9c91b9b769c5e78
       subObjectName: 
@@ -243,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &-3194545928453086089
 MonoBehaviour:
@@ -272,15 +279,27 @@ MonoBehaviour:
     - name: ModifyValue
       value: 0.1
     - name: ValueGain
+      value: 0.01
+    - name: ValuePreCalculated
       value: 0
     - name: ValueCalculated
       value: 0
     enums:
     - name: StatEnum
       enumReference:
-        _enumRef: Awaken.TG.Main.Heroes.Items.ItemStatType, TG.Main, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null:BlockStaminaCostMultiplier
-    datums: []
+        _enumRef: Awaken.TG.Main.General.StatTypes.HeroStatType, TG.Main, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null:BlockingStaminaDamageMultiplier
+    datums:
+    - name: IsNegativeModification
+      type:
+        id: 0
+      value:
+        simpleValue:
+          rawValue: 0
+        stringValue: 
+        assetValue:
+          address: 
+          subObjectName: 
     templates: []
     assetReferences: []
 --- !u!114 &-1928020272294107727

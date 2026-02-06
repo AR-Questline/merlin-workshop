@@ -74,7 +74,7 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_3f4893c9b7ae98b4f89c80735338d737
-  EDITOR_bakedDescription: Applying to a weapon has a 5% chance to inflict Stun.
+  EDITOR_bakedDescription: "Applying to a weapon has a 5\_% chance to inflict <color=#04959A>Stun</color>."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -150,6 +150,10 @@ MonoBehaviour:
   shareableDropPrefab:
     arReference:
       address: 116473962917af44293a519f2a30c2c6
+      subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
       subObjectName: 
 --- !u!114 &7542759327545526615
 MonoBehaviour:

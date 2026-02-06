@@ -75,8 +75,8 @@ MonoBehaviour:
     locString:
       IdOverride: 
       ID: Template/description_locString_2543871262668956605_1a9425aed5a1de5479800238e91c87b1
-  EDITOR_bakedDescription: Hitting a target has a 25% chance to apply Frenzy for
-    8s.
+  EDITOR_bakedDescription: "Hitting a target has a 25\_% chance to build up <color=#04959A>Frenzy</color>
+    on them."
   lightCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -152,6 +152,10 @@ MonoBehaviour:
     _enumRef: Awaken.TG.Main.Utility.Animations.SurfaceType, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:DamageMetal
   shareableDropPrefab:
+    arReference:
+      address: 18f87c640f5e585468991d79565ed544
+      subObjectName: 
+  overridenPickablePrefab:
     arReference:
       address: a9a08763e2f12b04184b21e54fb4664c
       subObjectName: 

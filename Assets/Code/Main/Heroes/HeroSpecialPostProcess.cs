@@ -25,6 +25,7 @@ namespace Awaken.TG.Main.Heroes {
             _postProcess = _ppType switch {
                 SpecialPostProcessType.Drunk => ppService.VolumeDrunk,
                 SpecialPostProcessType.High => ppService.VolumeHigh,
+                SpecialPostProcessType.HallunEffect => ppService.VolumeHallunEffect,
                 _ => throw new ArgumentOutOfRangeException()
             };
             _postProcess.SetWeight(1.0f, _enableBlendSpeed);
@@ -37,6 +38,7 @@ namespace Awaken.TG.Main.Heroes {
     
     public enum SpecialPostProcessType : byte {
         Drunk = 0,
-        High = 1
+        High = 1,
+        HallunEffect = 2
     }
 }

@@ -7,7 +7,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     public class SMapChangeEditor : ElementEditor {
         public SEditorMapChange Target => (SEditorMapChange)target;
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawPropertiesExcept(nameof(Target.indexTag));
             EditorGUI.BeginDisabledGroup(Target.useDefaultPortal);
             DrawProperties(nameof(Target.indexTag));

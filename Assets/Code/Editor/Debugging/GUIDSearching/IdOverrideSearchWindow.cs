@@ -7,10 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Awaken.TG.Editor.Debugging.GUIDSearching {
-    public class IdOverrideSearchWindow : OdinEditorWindow {
-        const string OtherGUIDToolsGroup = "Other GUID Tools";
-        const string OtherGUIDToolsButtonsGroup = OtherGUIDToolsGroup+"/Buttons";
-        
+    public class IdOverrideSearchWindow : GUIDSearchWindowBase {
         [ShowInInspector, PropertyOrder(-10)]
         public string LastBake => GUIDCache.Instance?.LastBake;
         
@@ -21,6 +18,8 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
         [ShowInInspector, TableList(IsReadOnly = true, AlwaysExpanded = true), PropertyOrder(1), Space(10), Indent]
         List<GUIDSearchWindow.SearchResultObject> _foundUsages = new();
 
+        protected override bool ShowIdOverrideSearchButton => false;
+        
         public static void OpenWindow() {
             var window = GetWindow<IdOverrideSearchWindow>(GUIDSearchWindow.DesiredDockTypes);
             window.Show();
@@ -50,18 +49,6 @@ namespace Awaken.TG.Editor.Debugging.GUIDSearching {
                     _foundUsages.Add(so);
                 }
             }
-        }
-
-        [BoxGroup(OtherGUIDToolsGroup), HorizontalGroup(OtherGUIDToolsButtonsGroup), PropertyOrder(-1)]
-        [Button(ButtonSizes.Small)]
-        void OpenUnusedSearchWindow() {
-            UnusedSearchWindow.OpenWindow();
-        }
-
-        [HorizontalGroup(OtherGUIDToolsButtonsGroup), PropertyOrder(-1)]
-        [Button(ButtonSizes.Small)]
-        void OpenGUIDSearchWindow() {
-            GUIDSearchWindow.OpenWindow();
         }
     }
 }

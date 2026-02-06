@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Awaken.TG.Main.AudioSystem;
 using Awaken.TG.Main.Utility.Animations;
-using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using FMODUnity;
 using Unity.Collections;
@@ -40,12 +38,12 @@ namespace Awaken.TG.Main.Utility.Terrain {
             _splatmapSampleBuffer.Dispose();
         }
 
-        public async UniTask FillFootsteps(Texture2D[] splatmaps, int[] fmodParams, Vector2 uv, float noisiness, FMODParameter[] outputFootsteps, string defaultSurfaceFmodParamName) {
+        public async UniTask FillFootsteps(Texture2D[] splatmaps, int[] fmodParams, Vector2 uv, FMODParameter[] outputFootsteps, string defaultSurfaceFmodParamName) {
             var success = await SampleSplatmaps(splatmaps, uv);
             _lastRequest = null;
 
             if (success && _splatmapsPixel.IsCreated) {
-                FillFootsteps(fmodParams, noisiness, outputFootsteps, defaultSurfaceFmodParamName);
+                FillFootsteps(fmodParams, outputFootsteps, defaultSurfaceFmodParamName);
             }
         }
 
@@ -66,7 +64,7 @@ namespace Awaken.TG.Main.Utility.Terrain {
             return !request.hasError;
         }
         
-        void FillFootsteps(int[] fmodParams, float noisiness, FMODParameter[] outputFootsteps, string defaultSurfaceFmodParamName) {
+        void FillFootsteps(int[] fmodParams, FMODParameter[] outputFootsteps, string defaultSurfaceFmodParamName) {
             int layersCount = math.min(fmodParams.Length, MaxSplatmapsCount * PixelComponents);
             bool isAnyParamSetToNonZero = false;
             for (var layerIndex = 0; layerIndex < layersCount; layerIndex++) {
@@ -76,7 +74,7 @@ namespace Awaken.TG.Main.Utility.Terrain {
                 var terrainTypeIndex = fmodParams[layerIndex];
                 if (terrainTypeIndex != -1) {
                     var splatValue = _splatmapsPixel[splatmapIndex][pixelComponentIndex];
-                    var noise = splatValue * noisiness;
+                    var noise = splatValue;
                     var terrainTypeFmodParamName = SurfaceType.TerrainTypes[terrainTypeIndex].FModParameterName;
                     if (TryGetIndexOfParamWithName(outputFootsteps, terrainTypeFmodParamName, out int indexInArray) && noise > outputFootsteps[indexInArray].value) {
                         isAnyParamSetToNonZero |= noise != 0;

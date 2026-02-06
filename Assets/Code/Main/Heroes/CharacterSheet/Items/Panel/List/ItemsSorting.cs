@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.Tabs;
 using Awaken.TG.Main.Heroes.Items;
@@ -17,6 +18,7 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
 
         static readonly Comparer
             ByNewest = (x, y) => Compare(x.PickupTimestamp, y.PickupTimestamp),
+            Alphabetically = (x, y) => Compare(x.DisplayName, y.DisplayName),
             ByLevel = (x, y) => Compare(x.Level, y.Level),
             ByQuality = (x, y) => Compare(x.Quality, y.Quality),
             ByQuantity = (x, y) => Compare(x.Quantity, y.Quantity),
@@ -24,11 +26,14 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
             ByWeight = (x, y) => Compare(WeightOf(x), WeightOf(y)),
             ByDamage = (x, y) => Compare(DamageOf(x), DamageOf(y)),
             ByArmor = (x, y) => Compare(ArmorOf(x), ArmorOf(y)),
-            ByBlock = (x, y) => Compare(BlockOf(x), BlockOf(y));
+            ByBlock = (x, y) => Compare(BlockOf(x), BlockOf(y)),
+            ByTransmogrified = (x, y) => Compare(x.IsTransmogrified, y.IsTransmogrified);
 
         [UnityEngine.Scripting.Preserve]
         public static readonly ItemsSorting
             ByNewestDescending = new(nameof(ByNewestDescending), ByNewest, false, LocTerms.ItemsComparerByNewestDescending),
+            AlphabeticallyAscending = new(nameof(AlphabeticallyAscending), Alphabetically, true, LocTerms.RecipeComparerAlphabeticallyAscending),
+            AlphabeticallyDescending = new(nameof(AlphabeticallyDescending), Alphabetically, false, LocTerms.RecipeComparerAlphabeticallyDescending),
             ByLevelAscending = new(nameof(ByLevelAscending), ByLevel, true, LocTerms.ItemsComparerByLevelAscending),
             ByLevelDescending = new(nameof(ByLevelDescending), ByLevel, false, LocTerms.ItemsComparerByLevelDescending),
             ByQualityAscending = new(nameof(ByQualityAscending), ByQuality, true, LocTerms.ItemsComparerByQualityAscending),
@@ -41,7 +46,9 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
             ByWeightDescending = new(nameof(ByWeightDescending), ByWeight, false, LocTerms.ItemsComparerByWeightDescending),
             ByDamageDescending = new(nameof(ByDamageDescending), ByDamage, false, LocTerms.ItemsComparerByDamageDescending),
             ByArmorDescending = new(nameof(ByArmorDescending), ByArmor, false, LocTerms.ItemsComparerByArmorDescending),
-            ByBlockDescending = new(nameof(ByBlockDescending), ByBlock, false, LocTerms.ItemsComparerByBlockDescending);
+            ByBlockDescending = new(nameof(ByBlockDescending), ByBlock, false, LocTerms.ItemsComparerByBlockDescending),
+            ByTransmogrifiedDescending = new(nameof(ByTransmogrifiedDescending), ByTransmogrified, false, LocTerms.ItemsComparerByTransmogrifiedDescending);
+            
 
         ItemsSorting(string enumName, Comparer comparer, bool reverse, string nameID) : base(enumName, "ItemsComparer") {
             _comparer = comparer;
@@ -65,6 +72,8 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
         static int Compare(float x, float y) => y.CompareTo(x);
         static int Compare(int x, int y) => y.CompareTo(x);
         static int Compare(Stat x, Stat y) => Compare(x.ModifiedValue, y.ModifiedValue);
+        static int Compare(bool x, bool y) => y.CompareTo(x);
+        static int Compare(string x, string y) => string.Compare(y, x, StringComparison.InvariantCultureIgnoreCase);
 
         static float WeightOf(Item item) => item.Weight;
         static float DamageOf(Item item) => item.Stat(ItemStatType.BaseMaxDmg);
@@ -74,17 +83,28 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
         delegate int Comparer(Item x, Item y);
         
         static readonly List<ItemsSorting> BaseComparers = new() {
-            ItemsSorting.ByNewestDescending,
-            ItemsSorting.ByQualityDescending,
-            ItemsSorting.ByPriceDescending,
-            ItemsSorting.ByWeightDescending,
+            ByNewestDescending,
+            AlphabeticallyAscending,
+            AlphabeticallyDescending,
+            ByQualityDescending,
+            ByPriceDescending,
+            ByWeightDescending,
         };
 
+        static readonly List<ItemsSorting> TransmogComparers = new() {
+            AlphabeticallyAscending,
+            AlphabeticallyDescending,
+            ByQualityDescending,
+            ByTransmogrifiedDescending
+        };
         
         static readonly List<ItemsSorting> WeaponComparers = BaseComparers
-            .Prepend(ItemsSorting.ByDamageDescending)
-            .Append(ItemsSorting.ByBlockDescending).ToList();
-        static readonly List<ItemsSorting> ArmorComparers = BaseComparers.Prepend(ItemsSorting.ByArmorDescending).ToList();
+            .Prepend(ByDamageDescending)
+            .Append(ByBlockDescending)
+            .Append(ByTransmogrifiedDescending).ToList();
+        static readonly List<ItemsSorting> ArmorComparers = BaseComparers
+            .Prepend(ByArmorDescending)
+            .Append(ByTransmogrifiedDescending).ToList();
         static readonly List<ItemsSorting> AllComparers = BaseComparers
             .Union(WeaponComparers)
             .Union(ArmorComparers).ToList();
@@ -93,16 +113,16 @@ namespace Awaken.TG.Main.Heroes.CharacterSheet.Items.Panel.List {
         static readonly Dictionary<ItemsTabType, List<ItemsSorting>> ItemTypeSorting = new() {
             {ItemsTabType.All, AllComparers},
             {ItemsTabType.Weapons, WeaponComparers},
+            {ItemsTabType.UpgradableWeapons, WeaponComparers},
             {ItemsTabType.EquippableWeapons, WeaponComparers},
             {ItemsTabType.Armor, ArmorComparers},
             {ItemsTabType.QuestItems, AllComparers},
             {ItemsTabType.Others, AllComparers},
+            {ItemsTabType.TransmogChooseSortingTab, TransmogComparers}
         };
 
         public static List<ItemsSorting> GetItemsSorting(ItemsTabType itemsTabType) {
-            return ItemTypeSorting.TryGetValue(itemsTabType, out List<ItemsSorting> itemsSorting)
-                ? itemsSorting
-                : BaseComparers;
+            return ItemTypeSorting.GetValueOrDefault(itemsTabType, BaseComparers);
         }
 
         public static ItemsSorting DefaultSorting(ItemsTabType itemsTabType) {

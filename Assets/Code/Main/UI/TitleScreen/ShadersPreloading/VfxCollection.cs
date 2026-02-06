@@ -9,6 +9,10 @@ using UnityEngine.VFX;
 namespace Awaken.TG.Main.UI.TitleScreen.ShadersPreloading {
     [CreateAssetMenu(menuName = "TG/Assets/Shaders/Vfx collection")]
     public class VfxCollection : ScriptableObject {
+        [InfoBox("Add here custom VFX prefabs that might not be detected automatically")]
+        public GameObject[] customPrefabs = Array.Empty<GameObject>();
+        
+        [InfoBox("Automatically collected VFX prefabs and assets. Use the button below to refresh the list.")]
         public GameObject[] vfxPrefabs = Array.Empty<GameObject>();
         public VisualEffectAsset[] vfxAssets = Array.Empty<VisualEffectAsset>();
 

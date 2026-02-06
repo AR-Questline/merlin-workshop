@@ -8,11 +8,19 @@ using Awaken.TG.Main.Heroes.Statuses;
 using Awaken.TG.Main.Locations.Setup;
 using Awaken.TG.Main.Skills;
 using Awaken.TG.Main.Templates;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 
 namespace Awaken.TG.VisualScripts.Units.Typing {
-    public class TemplateWrapper<T> where T : class, ITemplate {
+    public interface ITemplateWrapper {
+        [UnityEngine.Scripting.Preserve, UsedImplicitly]
+        bool IsSet { get; }
+    }
+    
+    public class TemplateWrapper<T> : ITemplateWrapper where T : class, ITemplate {
         public T Template { get; }
+        [UnityEngine.Scripting.Preserve]
+        public bool IsSet => Template != null && !string.IsNullOrEmpty(Template.GUID);
 
         public TemplateWrapper(T template) {
             Template = template;

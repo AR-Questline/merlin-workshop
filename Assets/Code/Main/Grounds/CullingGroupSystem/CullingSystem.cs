@@ -22,7 +22,7 @@ namespace Awaken.TG.Main.Grounds.CullingGroupSystem {
 
         int _multiCallBlocker = 0;
         Dictionary<ICullingSystemRegistree, Registree> _registry = new ();
-        Dictionary<Type, BaseCullingGroup> _availableCullingGroups = new();
+        ListDictionary<Type, BaseCullingGroup> _availableCullingGroups = new();
 
         public T GetCullingGroupInstance<T>() where T : BaseCullingGroup => (T) _availableCullingGroups[typeof(T)];
 
@@ -79,7 +79,9 @@ namespace Awaken.TG.Main.Grounds.CullingGroupSystem {
         }
 
         public void Discard() {
-            _availableCullingGroups.Values.ForEach(x => x.Dispose());
+            foreach (var cullingGroup in _availableCullingGroups.Values) {
+                cullingGroup.Dispose();
+            }
             _availableCullingGroups.Clear();
             _registry.Clear();
         }
@@ -112,17 +114,15 @@ namespace Awaken.TG.Main.Grounds.CullingGroupSystem {
             _registry.Remove(group);
         }
         
-        async UniTaskVoid RequestChunkUpdate() {
+        public async UniTaskVoid RequestChunkUpdate() {
             _multiCallBlocker++;
             await UniTask.DelayFrame(3);
             _multiCallBlocker--;
-            if (_multiCallBlocker != 0) return;
-            
-            RequestAllUpdate.Begin();
-            foreach (var group in _availableCullingGroups.Values) {
-                group.ScheduleUpdateAll();
+            if (_multiCallBlocker != 0) {
+                return;
             }
-            RequestAllUpdate.End();
+
+            ScheduleUpdateAllGroups();
         }
 
         public int GetDistanceBand(ICullingSystemRegistree registree) {
@@ -138,6 +138,14 @@ namespace Awaken.TG.Main.Grounds.CullingGroupSystem {
             } else {
                 return fallback;
             }
+        }
+
+        void ScheduleUpdateAllGroups() {
+            RequestAllUpdate.Begin();
+            foreach (var group in _availableCullingGroups.Values) {
+                group.ScheduleUpdateAll();
+            }
+            RequestAllUpdate.End();
         }
     }
 }

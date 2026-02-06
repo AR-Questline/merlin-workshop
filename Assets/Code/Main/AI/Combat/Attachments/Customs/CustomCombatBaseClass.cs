@@ -16,6 +16,7 @@ using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Locations.Attachments;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Utils;
+using Awaken.Utility.Debugging;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -66,12 +67,15 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
             canBeSlidInto = baseClass.canBeSlidInto;
         }
 
-        protected override void OnInitialize() {
+        protected override void OnInitializeInternal() {
+            base.OnInitializeInternal();
             ParentModel.AfterFullyInitialized(() => {
+                if (HasBeenDiscarded) {
+                    return;
+                }
                 NpcElement.StartInSpawn = startInSpawn;
                 NpcElement.CanMoveInSpawn = canMoveInSpawn;
             });
-            base.OnInitialize();
         }
 
         protected override void AfterVisualLoaded(Transform parentTransform) {
@@ -155,6 +159,11 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
         
         // === Weapons
         protected void ToggleWeapons() {
+            if (HasBeenDiscarded || ParentModel.HasBeenDiscarded || NpcElement is not { HasBeenDiscarded: false }) {
+                Log.Important?.Error($"Trying to toggle weapons for CustomCombatBaseClass in invalid state. " +
+                                     $"This discarded {HasBeenDiscarded}, ParentModel discarded {(!HasBeenDiscarded ? ParentModel.HasBeenDiscarded : "N/A")}, NpcElement discarded {(!HasBeenDiscarded && !ParentModel.HasBeenDiscarded ? (NpcElement?.HasBeenDiscarded.ToString() ?? "Missing NPC") : "N/A")}");
+                return;
+            }
             if (WeaponsAlwaysEquipped) {
                 return;
             }
@@ -173,13 +182,24 @@ namespace Awaken.TG.Main.AI.Combat.Attachments.Customs {
                     // --- If we failed to enter equip weapon behaviour, attach weapons manually
                     if (!TryStartBehaviour<EquipWeaponBehaviour>() && NpcElement.TryGetElement(out NpcWeaponsHandler weaponsHandler)) {
                         ItemEquip mainHandItemEquip = MainHandItem?.TryGetElement<ItemEquip>();
+                        ItemEquip additionalMainHandItemEquip = AdditionalMainHandItem?.TryGetElement<ItemEquip>();
                         ItemEquip offHandItemEquip = OffHandItem?.TryGetElement<ItemEquip>();
+                        ItemEquip additionalOffHandItemEquip = AdditionalMainHandItem?.TryGetElement<ItemEquip>();
+                        
                         if (mainHandItemEquip != null) {
                             weaponsHandler.AttachWeaponToHand(mainHandItemEquip);
                         }
 
+                        if (additionalMainHandItemEquip != null) {
+                            weaponsHandler.AttachWeaponToHand(additionalMainHandItemEquip);
+                        }
+                        
                         if (offHandItemEquip != null) {
                             weaponsHandler.AttachWeaponToHand(offHandItemEquip);
+                        }
+
+                        if (additionalOffHandItemEquip) {
+                            weaponsHandler.AttachWeaponToHand(additionalOffHandItemEquip);
                         }
                     }
                 }

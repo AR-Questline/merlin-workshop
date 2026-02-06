@@ -75,9 +75,9 @@ MonoBehaviour:
   staminaUsageMultiplier: 1
   canBeWyrdEmpowered: 0
   canEnterCombat: 1
-  meleeDamage: 100
-  rangedDamage: 100
-  magicDamage: 100
+  meleeDamage: 170
+  rangedDamage: 170
+  magicDamage: 170
   armor: 0
   armorMultiplier: 1
   damageReceivedMultipliers: []
@@ -208,6 +208,7 @@ MonoBehaviour:
       data:
         array:
         - rid: 6843575191620288765
+        - rid: 6510160566313812102
     - rid: 5713351921499635712
       type: {class: LootArray, ns: Awaken.TG.Main.Heroes.Items.LootTables, asm: TG.Main}
       data:
@@ -219,6 +220,16 @@ MonoBehaviour:
       data:
         itemTemplateReference:
           _guid: 5d1744e2e84299c438eea584da90a4aa
+        quantity: 1
+        itemLvl:
+          low: 0
+          high: 0
+    - rid: 6510160566313812102
+      type: {class: ItemSpawningData, ns: Awaken.TG.Main.Heroes.Items.LootTables,
+        asm: TG.Main}
+      data:
+        itemTemplateReference:
+          _guid: aa2b952a30592ef498f8dcb26c11596a
         quantity: 1
         itemLvl:
           low: 0

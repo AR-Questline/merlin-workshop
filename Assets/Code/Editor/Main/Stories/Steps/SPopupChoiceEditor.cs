@@ -9,7 +9,7 @@ namespace Awaken.TG.Editor.Main.Stories.Steps {
     [CustomElementEditor(typeof(SEditorPopupChoice))]
     public class SPopupChoiceEditor : ElementEditor {
 
-        protected override void OnElementGUI() {
+        protected override void OnElementGUI(bool isEditMode) {
             DrawPropertiesExcept("choice");
             SEditorPopupChoice sPopupChoice = Target<SEditorPopupChoice>();
             int width = NodeGUIUtil.GetNodeWidth(sPopupChoice.Parent);

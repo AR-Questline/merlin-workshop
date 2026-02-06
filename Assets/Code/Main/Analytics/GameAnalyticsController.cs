@@ -1,7 +1,7 @@
 ﻿#if !UNITY_GAMECORE && !UNITY_PS5
 using System;
 using Awaken.TG.Main.Settings;
-using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.Settings.Other;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Domains;
 using Awaken.TG.MVC.Events;

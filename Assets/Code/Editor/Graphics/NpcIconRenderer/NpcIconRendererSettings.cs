@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Awaken.TG.Main.Animations.FSM.Npc.Base;
 using Awaken.TG.Main.Locations.Setup;
-using Awaken.TG.Main.Templates;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -21,7 +20,7 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
 
     [Serializable]
     public class Entry {
-        [SerializeField, TemplateType(typeof(LocationTemplate)),OnValueChanged(nameof(TryUpdatePreview))] TemplateReference location;
+        [SerializeField, OnValueChanged(nameof(TryUpdatePreview))] GameObject model;
         [SerializeField, Range(0, 360), OnValueChanged(nameof(TryUpdateRotation))] float rotY;
         [SerializeField, Range(0, 1), OnValueChanged(nameof(TryUpdateAnimDeltaTime))] float animDeltaTime;
         [SerializeField, OnValueChanged(nameof(TryUpdateCamera))] Vector3 cameraOffset;
@@ -34,7 +33,9 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
         public bool RenderWeapons => renderWeapons;
         
         public Quaternion GetRotation() => Quaternion.Euler(0, -rotY, 0);
-        public LocationTemplate GetLocationTemplate() => location.Get<LocationTemplate>();
+        public LocationTemplate GetLocationTemplate() => model.GetComponent<LocationTemplate>();
+        public LocationSpec GetLocationSpec() => model.GetComponent<LocationSpec>();
+        public GameObject GetModel() => model;
 
         [Button]
         public void Preview() {
@@ -43,7 +44,7 @@ namespace Awaken.TG.Editor.Graphics.NpcIconRenderer {
         
         [Button]
         public void RenderIcon() {
-            NpcIconRenderingUtils.RenderAndAssignIcon(GetLocationTemplate());
+            NpcIconRenderingUtils.RenderAndAssignIcon(this);
         }
         
         void TryUpdatePreview() {

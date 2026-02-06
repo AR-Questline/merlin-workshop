@@ -35,7 +35,7 @@ namespace Awaken.TG.Main.Character.Features {
             _destroyCancellationTokenSource?.Cancel();
             _destroyCancellationTokenSource = null;
             
-            (GameObject go, bool _) = await Features.BaseClothes.EquipTask(_asset);
+            (GameObject go, bool _) = await Features.BaseClothes.EquipTask(_asset, withEvent: false);
             _instance = go;
             if (_instance == null) {
                 return;

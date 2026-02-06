@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
-using Awaken.TG.Assets;
 using Awaken.TG.Debugging.Cheats;
 using Awaken.TG.Graphics.VFX;
 using Awaken.TG.Main.Heroes;
 using Awaken.TG.Main.Settings.Controllers;
 using Awaken.TG.Main.Timing;
+using Awaken.TG.Main.UI.RawImageRendering;
+using Awaken.TG.MVC;
+using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility;
 using Awaken.Utility.Collections;
 using Awaken.Utility.GameObjects;
@@ -637,7 +639,7 @@ namespace Awaken.TG.Graphics.DayNightSystem {
         float _labelAlpha;
 
         #endregion
-
+        
         // ---------
         void OnEnable() {
 #if UNITY_EDITOR
@@ -674,7 +676,7 @@ namespace Awaken.TG.Graphics.DayNightSystem {
             _sunLight = directionalLightObject.GetOrAddComponent<LightWithOverride>();
             _sunTransform = _sunLight.transform;
 
-            var moon = directionalLightObject.transform.parent.GetComponentInChildren<DayNightMoon>();
+            var moon = directionalLightObject.transform.parent.GetComponentInChildren<DayNightMoon>(true);
             if (moon != null) {
                 _moonLight = moon.GetOrAddComponent<LightWithOverride>();
             } else {
@@ -738,7 +740,13 @@ namespace Awaken.TG.Graphics.DayNightSystem {
 
             InitializeSkyTexturesLoaders();
         }
-
+        
+        protected override void OnInitialize() { 
+            base.OnInitialize();
+            World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelAdded<HeroRenderer>(),this, OnHeroRendererAdded);
+            World.EventSystem.ListenTo(EventSelector.AnySource, World.Events.ModelDiscarded<HeroRenderer>(),this, OnHeroRendererDiscarded);
+        }
+        
         void OnValidate() {
 #if UNITY_EDITOR
             EDITOR_ReloadSystem();
@@ -784,7 +792,7 @@ namespace Awaken.TG.Graphics.DayNightSystem {
             EditorUtility.SetDirty(_globalVolumeProfile);
         }
 #endif
-
+        
         void HandleTimeChange() {
             float minutes = TimeOfDay * TotalMinutesInDay;
 
@@ -1137,6 +1145,18 @@ namespace Awaken.TG.Graphics.DayNightSystem {
             skyNightTexture.UnloadTexture();
             skyWyrdnessTexture.UnloadTexture();
             skyWyrdnessMaskTexture.UnloadTexture();*/
+        }
+        
+        void OnHeroRendererDiscarded() {
+            TrySetEnableShadowCaster(true);
+        }
+
+        void OnHeroRendererAdded() {
+            TrySetEnableShadowCaster(false);
+        }
+        
+        void TrySetEnableShadowCaster(bool enable) {
+            if (_shadowCasterLight != null) _shadowCasterLight.Light.enabled = enable;
         }
         
         bool ShouldBeLoadedEmissionTextureDay() => WillUseEmissionTextureDay(skyBlendCurve.Evaluate((TimeOfDay + 0.1f) % 1));

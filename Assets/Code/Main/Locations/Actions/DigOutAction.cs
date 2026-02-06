@@ -5,6 +5,7 @@ using Awaken.TG.Main.AudioSystem;
 using UnityEngine;
 using Awaken.TG.MVC.Elements;
 using Awaken.TG.Main.Character;
+using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.DamageInfo;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Main.Heroes.Items;
@@ -25,7 +26,7 @@ using FMODUnity;
 using LogType = Awaken.Utility.Debugging.LogType;
 
 namespace Awaken.TG.Main.Locations.Actions {
-    public partial class DigOutAction : Element<Location>, IRefreshedByAttachment<DigOutAttachment> {
+    public partial class DigOutAction : Element<Location>, IRefreshedByAttachment<DigOutAttachment>, IKillPreventionListener {
         public override ushort TypeForSerialization => SavedModels.DigOutAction;
 
         // === Fields
@@ -71,12 +72,17 @@ namespace Awaken.TG.Main.Locations.Actions {
         // === Execution
         protected override void OnInitialize() {
             ParentModel.OnVisualLoaded(AttachCallbacks);
-            _toolInteractAction = ParentModel.AddElement(new ToolInteractAction(ToolType.Digging));
-            _toolInteractAction.MarkedNotSaved = true;
         }
 
         void AttachCallbacks(Transform parentTransform) {
             _baseGameObject = parentTransform.gameObject;
+            if (_dugOut) {
+                SearchAction?.SetSearchAvailable(true);
+                UpdateVisuals(true);
+                return;
+            }
+            _toolInteractAction = ParentModel.AddElement(new ToolInteractAction(ToolType.Digging));
+            _toolInteractAction.MarkedNotSaved = true;
             IAlive alive = ParentModel.TryGetElement<IAlive>();
             if (alive == null) {
                 Log.Important?.Error($"Failed to initialize DigOutAction! IAlive is null in location: {ParentModel}");
@@ -84,8 +90,9 @@ namespace Awaken.TG.Main.Locations.Actions {
             }
             _maxHp = alive.AliveStats.MaxHealth;
             alive.HealthElement.ListenTo(HealthElement.Events.TakingDamage, OnTakingDamage, this);
-            SearchAction?.SetSearchAvailable(_dugOut);
+            SearchAction?.SetSearchAvailable(false);
             UpdateVisuals(true);
+            KillPreventionDispatcher.RegisterListener(alive, this);
         }
 
         void OnTakingDamage(HookResult<HealthElement, Damage> damageHook) {
@@ -110,6 +117,11 @@ namespace Awaken.TG.Main.Locations.Actions {
             }
 
             damageHook.Prevent();
+        }
+        
+        // Kill Prevention
+        public bool OnBeforeTakingFinalDamage(HealthElement healthElement, Damage damage) {
+            return true;
         }
 
         public void DigOutOverride() {
@@ -150,6 +162,9 @@ namespace Awaken.TG.Main.Locations.Actions {
             }
             
             RemoveToolInteractionAction();
+            if (ParentModel.TryGetElement(out IAlive alive)) {
+                KillPreventionDispatcher.UnregisterListener(alive, this);
+            }
         }
 
         bool TryDig(float power) {

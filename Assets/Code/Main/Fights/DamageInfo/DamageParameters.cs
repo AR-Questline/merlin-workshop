@@ -53,7 +53,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
         /// <summary>
         /// Use this to get correct default values
         /// </summary>
-        public static readonly DamageParameters Default = new() {
+        public static DamageParameters Default => new() {
             IsPrimary = true,
             DamageTypeData = new RuntimeDamageTypeData(DamageType.PhysicalHitSource),
             CanBeCritical = true,
@@ -68,7 +68,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             IsDamageOverTime = false,
         };
 
-        public static readonly DamageParameters PassiveDamageOverTime = new() {
+        public static DamageParameters PassiveDamageOverTime => new() {
             IsPrimary = false,
             DamageTypeData = new RuntimeDamageTypeData(DamageType.Status),
             CanBeCritical = false,
@@ -83,23 +83,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             IsDamageOverTime = true,
         };
 
-        [UnityEngine.Scripting.Preserve]
-        public static readonly DamageParameters WyrdnessTravelling = new() {
-            IsPrimary = false,
-            DamageTypeData = new RuntimeDamageTypeData(DamageType.Environment, DamageSubType.Wyrdness),
-            CanBeCritical = false,
-            Critical = false,
-            IgnoreArmor = true,
-            Inevitable = true,
-            PoiseDamage = 0,
-            ForceDamage = 0,
-            Radius = 0,
-            IsBackStab = false,
-            IsFromProjectile = false,
-            IsDamageOverTime = true,
-        };
-
-        public static readonly DamageParameters ManaShieldRetaliation = new() {
+        public static DamageParameters ManaShieldRetaliation => new() {
             IsPrimary = false,
             DamageTypeData = new RuntimeDamageTypeData(DamageType.MagicalHitSource),
             CanBeCritical = false,
@@ -113,7 +97,7 @@ namespace Awaken.TG.Main.Fights.DamageInfo {
             IsDamageOverTime = false,
         };
         
-        public static readonly DamageParameters MeleeRetaliation = new() {
+        public static DamageParameters MeleeRetaliation => new() {
             IsPrimary = false,
             DamageTypeData = new RuntimeDamageTypeData(DamageType.PhysicalHitSource),
             CanBeCritical = false,

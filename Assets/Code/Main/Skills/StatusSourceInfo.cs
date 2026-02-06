@@ -4,6 +4,7 @@ using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Buffs;
 using Awaken.TG.Main.Heroes.Statuses;
+using Awaken.TG.Main.Localization;
 using Awaken.TG.MVC.Utils;
 using Awaken.TG.Utility.Attributes;
 using Awaken.Utility;
@@ -19,13 +20,33 @@ namespace Awaken.TG.Main.Skills {
         [Saved] public string SourceUniqueID { get; private set; }
         [Saved] public WeakModelRef<ICharacter> SourceCharacter { get; private set; }
         [Saved] public WeakModelRef<Item> SourceItem { get; private set; }
-        [Saved] public UnicodeString DisplayName { get; private set; }
-        [Saved] public UnicodeString SourceDescription { get; private set; }
         [Saved] public ShareableSpriteReference Icon { get; private set; }
         [Saved(false)] public bool HiddenOnUI { get; private set; }
         [Saved(false)] public bool AlwaysShowSeparately { get; private set; }
+        
+        [Saved] UnicodeString DisplayName { get; set; }
+        [Saved] LocString DisplayNameLoc { get; set; }
+        [Saved] UnicodeString SourceDescription { get; set; }
+        [Saved] LocString SourceDescriptionLoc { get; set; }
 
-        public string DisplayNameString => DisplayName;
+        public string DisplayNameString {
+            get {
+                if (DisplayNameLoc != null) {
+                    return DisplayNameLoc.Translate();
+                }
+                string displayNameString = DisplayName?.ToString();
+                if (string.IsNullOrEmpty(displayNameString)) {
+                    return string.Empty;
+                }
+                return displayNameString;
+            }
+        }
+
+        public string DescriptionString => SourceDescriptionLoc != null 
+            ? SourceDescriptionLoc.Translate() 
+            : string.IsNullOrEmpty(SourceDescription.ToString()) 
+                ? string.Empty 
+                : SourceDescription.ToString();
         
         [UsedImplicitly, UnityEngine.Scripting.Preserve]
         public ICharacter GetSourceCharacter => SourceCharacter.Get();
@@ -37,8 +58,8 @@ namespace Awaken.TG.Main.Skills {
             AlwaysShowSeparately = statusTemplate.alwaysShowSeparately;
             SourceUniqueID = NewGUID();
             
-            DisplayName = statusTemplate.displayName?.ToString();
-            SourceDescription = statusTemplate.description?.ToString();
+            DisplayNameLoc = statusTemplate.displayName;
+            SourceDescriptionLoc = statusTemplate.description;
             Icon = statusTemplate.iconReference;
             HiddenOnUI = statusTemplate.hiddenOnUI;
         }
@@ -54,7 +75,7 @@ namespace Awaken.TG.Main.Skills {
             }
             
             SourceCharacter = new WeakModelRef<ICharacter>(skill.Owner);
-            DisplayName = skill.DisplayName;
+            DisplayNameLoc = skill.DisplayNameLoc;
             SourceDescription = skill.SourceDescription;
             Icon = skill.Icon;
             if (Icon is not { IsSet: true }) {
@@ -67,8 +88,8 @@ namespace Awaken.TG.Main.Skills {
             SourceUniqueID = source.SourceUniqueID;
             SourceCharacter = source.SourceCharacter;
             SourceItem = source.SourceItem;
-            DisplayName = source.DisplayName;
-            SourceDescription = source.SourceDescription;
+            DisplayNameLoc = source.DisplayNameLoc;
+            SourceDescriptionLoc = source.SourceDescriptionLoc;
             Icon = source.Icon;
             HiddenOnUI = source.HiddenOnUI;
         }
@@ -86,9 +107,9 @@ namespace Awaken.TG.Main.Skills {
             ssi.SourceItem = itemBuff.Item;
             ssi.SourceUniqueID = itemBuff.Item?.ID ?? NewGUID();
             ssi.SourceCharacter = new WeakModelRef<ICharacter>(itemBuff.Character);
-            ssi.DisplayName = buffTemplate.ItemName;
-            ssi.SourceDescription = buffTemplate.Description;
-            ssi.Icon = buffTemplate.IconReference;
+            ssi.DisplayNameLoc = buffTemplate.itemName;
+            ssi.SourceDescriptionLoc = buffTemplate.DescriptionLoc;
+            ssi.Icon = buffTemplate.IconReference();
             ssi.HiddenOnUI = false;
             ssi.AlwaysShowSeparately = true;
             return ssi;

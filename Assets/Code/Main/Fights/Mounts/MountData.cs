@@ -43,6 +43,7 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
             [FoldoutGroup("Slopes")] public float slopeCriticalAngle = 45.0f;
             [FoldoutGroup("Slopes")] public float slopeStandTiltRotationSpeed = 50.0f;
+            [FoldoutGroup("Slopes")] public float stepOffset = 1.2f;
 
             [FoldoutGroup("Movement Trivia")] public float aheadWallDetectionDistance = 2.0f;
             [FoldoutGroup("Movement Trivia")] public float aheadWallDesiredDistance = 1.0f;
@@ -63,6 +64,14 @@ namespace Awaken.TG.Main.Fights.Mounts {
             [FoldoutGroup("Swimming")] public float maxDivingWaterDepth = 1.4f;
             [FoldoutGroup("Swimming")] public float bouyancyForce = 5.0f;
 
+            [FoldoutGroup("TPP")] public float tppMinForwardnessToStartMoving = 0.5f;
+            [FoldoutGroup("TPP")] public float tppTurningAccelScale = 5f;
+            [FoldoutGroup("TPP")] public float tppTurningDecelScale = 10f;
+            [FoldoutGroup("TPP")] public float tppTurningSpeedScale = 5f;
+            [FoldoutGroup("TPP")] public float tppCameraMovementForce = 1f;
+            [FoldoutGroup("TPP")] public float tppCameraCorrectionForce = 0.05f;
+            [FoldoutGroup("TPP")] public float tppTurningDampeningRange = 20f;
+            
             [FoldoutGroup("Game Logic")] public CrimeItemValue crimeValue = CrimeItemValue.High;
             [FoldoutGroup("Game Logic")] public float minDistanceForTeleportation = 150f;
             [FoldoutGroup("Game Logic")] public float requiredDistanceToSeekedPoint = 3.0f;
@@ -81,6 +90,18 @@ namespace Awaken.TG.Main.Fights.Mounts {
 
             [FoldoutGroup("Sounds")] public float horseNoiseRangeMultiplier = 150f;
             [FoldoutGroup("Sounds")] public float horseNoiseStrengthMultiplier = 1.5f;
+            
+            [FoldoutGroup("Animation Blending")] public float horseVerticalAnimatorUpdateSpeed = 10f;
+            [FoldoutGroup("Animation Blending")] public float horseHorizontalAccelerationAnimatorUpdateSpeed = 5f;
+            [FoldoutGroup("Animation Blending")] public float horseHorizontalDecelerationAnimatorUpdateSpeed = 3f;
+
+            [FoldoutGroup("Flying")] public bool canFly;
+            [FoldoutGroup("Flying"), ShowIf(nameof(canFly))] public float flyingSpeed = 15f;
+            [FoldoutGroup("Flying"), ShowIf(nameof(canFly))] public float flyingAcceleration = 10.0f;
+            [FoldoutGroup("Flying"), ShowIf(nameof(canFly))] public float flyingDeceleration = 8.0f;
+            [FoldoutGroup("Flying"), ShowIf(nameof(canFly)), Range(0.1f, 100f)] public float verticalSpeedChange = 10f;
+            [FoldoutGroup("Flying"), ShowIf(nameof(canFly)), Range(0.1f, 100f)] public float maxAscendSpeed = 25f;
+            [FoldoutGroup("Flying"), ShowIf(nameof(canFly)), Range(-100f, -0.1f)] public float maxDescendSpeed = -25f;
         }
 
         [Serializable]

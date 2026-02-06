@@ -14,6 +14,7 @@ using Awaken.TG.Main.Heroes.Items.Loadouts;
 using Awaken.TG.Main.Scenes.SceneConstructors;
 using Awaken.TG.Main.Timing;
 using Awaken.TG.Main.Timing.ARTime;
+using Awaken.TG.Main.UI.Helpers;
 using Awaken.TG.Main.Utility;
 using Awaken.TG.Main.Utility.UI;
 using Awaken.TG.MVC;
@@ -55,7 +56,7 @@ namespace Awaken.TG.Main.UI {
         Hero _hero;
         GameRealTime _gameRealTime;
         CommonReferences _commonReferences;
-        double _lastMiniGameTickTimestamp;
+        double _lastChangeDestinationTimestamp;
         bool _isMiniGameStarted;
         bool _isPlayerMovingUpwards;
         CancellationTokenSource _vfxCancellationToken;
@@ -76,7 +77,8 @@ namespace Awaken.TG.Main.UI {
         ref readonly FishingAudio Audio => ref _commonReferences.AudioConfig.FishingAudio;
         public sealed override bool IsNotSaved => true;
         public override Domain DefaultDomain => Domain.Gameplay;
-        
+        public bool IsValid => this.IsValidForUIHandle();
+
         public new static class Events {
             public static readonly Event<FishingMiniGame, bool> SetViewActive = new(nameof(SetViewActive));
             public static readonly Event<FishingMiniGame, FishingMiniGame> OnMiniGameStart = new(nameof(OnMiniGameStart));
@@ -156,16 +158,43 @@ namespace Awaken.TG.Main.UI {
                 MoveFish(deltaTime);
                 HandleRodDownfall(deltaTime);
                 UpdateFishingAnimationWeight();
+                CheckEndMinigameConditions();
 
                 var totalSeconds = _gameRealTime.PlayRealTime.TotalSeconds;
-                if (totalSeconds - _lastMiniGameTickTimestamp > _fish.changeDestinationInterval) {
-                    _lastMiniGameTickTimestamp = totalSeconds;
-                    MiniGameTick();
+                if (totalSeconds - _lastChangeDestinationTimestamp > _fish.changeDestinationInterval) {
+                    _lastChangeDestinationTimestamp = totalSeconds;
+                    DesignateFishDestination();
                 }
             }
             
             _isPlayerMovingUpwards = false;
             this.Trigger(Events.OnMiniGameTick, this);
+        }
+
+        void CheckEndMinigameConditions() {
+            if (FishHealth <= 0) {
+                this.Trigger(Events.SetViewActive, false);
+                
+                var catchAudio = _fish.quality switch {
+                    FishQuality.Common => Audio.catchCommonFish,
+                    FishQuality.Uncommon => Audio.catchUncommonFish,
+                    FishQuality.Rare => Audio.catchRareFish,
+                    FishQuality.Legendary => Audio.catchLegendaryFish,
+                    FishQuality.Garbage => Audio.catchGarbage,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                FMODManager.PlayOneShot(catchAudio, _fishingBobberPosition);
+                FishingFSM.CameraShakesMultiplier = 1f;
+                RewiredHelper.StopVibration();
+                FishingFSM.SetCurrentState(HeroStateType.FishingPullOut);
+                return;
+            }
+
+            if (RodHealth <= 0) {
+                this.Trigger(Events.SetViewActive, false);
+                FMODManager.PlayOneShot(Audio.lineBreak);
+                Hero.Current.Trigger(FishingFSM.Events.Fail, Hero.Current);
+            }
         }
         
         async UniTaskVoid SpawnVFX() {
@@ -212,8 +241,8 @@ namespace Awaken.TG.Main.UI {
                 _playingRodAudio = false;
                 FishHealth -= _rodDamage * deltaTime;
                 _currentVfx ??= _currentVfxPooledInstance?.Instance?.GetComponent<VisualEffect>();
-                
-                if (_currentVfx != null) {
+
+                if (_currentVfx != null && _currentVfx.HasFloat(SplashWaterIntensity)) {
                     _currentVfx.SetFloat(SplashWaterIntensity, FishHealth / MaxFishHealth);
                 }
 
@@ -250,35 +279,6 @@ namespace Awaken.TG.Main.UI {
                 > OneThird => VibrationStrength.Medium,
                 _ => VibrationStrength.VeryStrong
             };
-        }
-        
-        void MiniGameTick() {
-            if (FishHealth <= 0) {
-                this.Trigger(Events.SetViewActive, false);
-                
-                var catchAudio = _fish.quality switch {
-                    FishQuality.Common => Audio.catchCommonFish,
-                    FishQuality.Uncommon => Audio.catchUncommonFish,
-                    FishQuality.Rare => Audio.catchRareFish,
-                    FishQuality.Legendary => Audio.catchLegendaryFish,
-                    FishQuality.Garbage => Audio.catchGarbage,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-                FMODManager.PlayOneShot(catchAudio, _fishingBobberPosition);
-                FishingFSM.CameraShakesMultiplier = 1f;
-                RewiredHelper.StopVibration();
-                FishingFSM.SetCurrentState(HeroStateType.FishingPullOut);
-                return;
-            }
-
-            if (RodHealth <= 0) {
-                this.Trigger(Events.SetViewActive, false);
-                FMODManager.PlayOneShot(Audio.lineBreak);
-                Hero.Current.Trigger(FishingFSM.Events.Fail, Hero.Current);
-                return;
-            }
-
-            DesignateFishDestination();
         }
 
         protected override void OnDiscard(bool fromDomainDrop) {

@@ -83,7 +83,7 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         public void Submit() {
             if (!CanBePerformed) return;
             
-            if (ParentModel.Owner is Hero h) {
+            if (ParentModel.Owner is Hero { VHeroController: { Raycaster: { } raycaster } } h) {
                 h.Trigger(Hero.Events.HideWeapons, true);
                 _weaponEquipListener = h.ListenTo(Hero.Events.ShowWeapons, EndSpawnPlacement, this);
                 _weaponChangeListener = h.HeroItems.ListenTo(HeroLoadout.Events.LoadoutChanged, EndSpawnPlacement, this);
@@ -91,8 +91,10 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
                 World.Any<CharacterSheetUI>()?.Discard();
                 World.Any<QuickUseWheelUI>()?.Discard();
                 _heroAction = AddElement<ItemPlaceLocationHeroAction>();
-                h.VHeroController.Raycaster.SetInteractionOverride(_heroAction);
+                raycaster.SetInteractionOverride(_heroAction);
                 _regionChecker ??= h.VHeroController.GetComponentInChildren<VCHeroRegionChecker>();
+            } else {
+                return;
             }
             _uiStateChangeListener = UIStateStack.Instance.ListenTo(UIStateStack.Events.UIStateChanged, OnUIStateChanged, this);
             
@@ -241,7 +243,10 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
             World.EventSystem.TryDisposeListener(ref _uiStateChangeListener);
 
             if (_heroAction != null) {
-                Hero.Current.VHeroController.Raycaster.RemoveInteractionOverride(_heroAction);
+                var raycaster = Hero.Current.VHeroController.Raycaster;
+                if (raycaster != null) {
+                    raycaster.RemoveInteractionOverride(_heroAction);
+                }
                 _heroAction.Discard();
                 _heroAction = null;
             }
@@ -250,7 +255,10 @@ namespace Awaken.TG.Main.Heroes.Items.Attachments {
         bool HasBeenAccepted() {
             if (_heroActionPerformed) {
                 if (_heroAction != null) {
-                    Hero.Current.VHeroController.Raycaster.RemoveInteractionOverride(_heroAction);
+                    var raycaster = Hero.Current.VHeroController.Raycaster;
+                    if (raycaster != null) {
+                        raycaster.RemoveInteractionOverride(_heroAction);
+                    }
                     _heroAction.Discard();
                     _heroAction = null;
                 }

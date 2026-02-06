@@ -1,6 +1,7 @@
 ﻿using Awaken.TG.Main.Character;
 using Awaken.TG.Main.Fights;
 using Awaken.TG.Main.Fights.DamageInfo;
+using Awaken.TG.Main.Heroes.Combat;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.VisualScripts.Units.Listeners.Contexts;
@@ -118,5 +119,11 @@ namespace Awaken.TG.VisualScripts.Units.Listeners.Events {
     public class HookBeforeTakenFinalDamage : GraphHookableEvent<HealthElement, Damage> {
         protected override HookableEvent<HealthElement, Damage> Event => HealthElement.Events.BeforeTakenFinalDamage;
         protected override HealthElement Source(IListenerContext context) => context.Alive?.HealthElement;
+    }
+    
+    [UnityEngine.Scripting.Preserve]
+    public class EvtOnDamageNegated : EvtDamage<ICharacter, DamageNegatePayload> {
+        protected override Event<ICharacter, DamageNegatePayload> Event => CharacterInvulnerability.Events.OnDamageNegated;
+        protected override ICharacter Source(IListenerContext context) => context.Character;
     }
 }

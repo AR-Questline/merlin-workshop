@@ -39,7 +39,8 @@ namespace Awaken.TG.Main.Locations.Actions.Attachments {
         protected override void Interact(bool active, bool? forcedState = null) {
             if (IsIllegal) {
                 var crimeSource = new FakeCrimeSource(ParentModel.DefaultOwner, _attachment.bounty);
-                Crime.Custom(crimeSource).TryCommitCrime();
+                using var crime = Crime.Custom(crimeSource);
+                crime.TryCommitCrime();
             }
             if (active) {
                 if (forcedState.HasValue) {

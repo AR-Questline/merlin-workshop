@@ -13,6 +13,7 @@ using Awaken.TG.Main.Heroes.Items;
 using Awaken.TG.Main.Heroes.Items.Attachments;
 using Awaken.TG.Main.Locations.Mobs;
 using Awaken.TG.Main.Settings.Gameplay;
+using Awaken.TG.Main.Transmogrify;
 using Awaken.TG.MVC;
 using Awaken.TG.MVC.Events;
 using Awaken.TG.Utility.Attributes;
@@ -112,7 +113,10 @@ namespace Awaken.TG.Graphics.Cutscenes {
             instance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
             if (instance.TryGetComponent(out CharacterHandBase handBase)) {
-                handBase.AttachToCustomHeroClothes(this, equip);
+                // prevents attaching to the hand if the item is in a transmog preview process (case: issue with the bow)
+                if (!World.HasAny<TransmogrifyUI>()) { 
+                    handBase.AttachToCustomHeroClothes(this, equip);
+                }
             }
             
             this.Trigger(Events.WeaponEquipped, instance);

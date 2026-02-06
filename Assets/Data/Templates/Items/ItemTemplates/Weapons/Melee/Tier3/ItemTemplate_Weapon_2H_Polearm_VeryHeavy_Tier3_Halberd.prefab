@@ -54,6 +54,7 @@ MonoBehaviour:
   - _guid: fb3f705c21071314b8d3a9fa554e0ed3
   - _guid: 91c1a8aa11db5264da8b4f129b2bb1f8
   - _guid: 00e2ecb9a87647c42b02d08d71fc9c48
+  - _guid: 2ec1f2b91c4b91540a3d9d5544f2ad41
   metadata:
     verifiedArt: 0
     verifiedDesign: 0
@@ -61,6 +62,7 @@ MonoBehaviour:
   tags:
   - item:tier3
   - item:withIron
+  conditionalIconReference: []
   iconReference:
     arSpriteReference:
       address: 4920cbfb27a86c54cbb764b5709de665
@@ -103,7 +105,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/lightCastInfo_magicDescription_locString_2543871262668956605_080a25a31ed32da45893599e3ad40ee0
   heavyCastInfo:
     magicType:
       _enumRef: Awaken.TG.Main.Heroes.Items.Tooltips.MagicType, TG.Main, Version=0.0.0.0,
@@ -128,7 +130,7 @@ MonoBehaviour:
       toggled: 0
       locString:
         IdOverride: 
-        ID: 
+        ID: Template/heavyCastInfo_magicDescription_locString_2543871262668956605_080a25a31ed32da45893599e3ad40ee0
   quality:
     _enumRef: Awaken.TG.Main.Heroes.Items.ItemQuality, TG.Main, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null:Normal
@@ -155,6 +157,10 @@ MonoBehaviour:
     arReference:
       address: 5f5a30abbf7ea0b41a07c4a54c0b23dd
       subObjectName: 
+  overridenPickablePrefab:
+    arReference:
+      address: 
+      subObjectName: 
 --- !u!114 &-7115959648689163848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +178,7 @@ MonoBehaviour:
     - _guid: 2d89c9bd6158a1049b7460cee96ed7dd
     gender: 0
     hand: 0
+    flag: 
     itemPrefab:
       address: 558189e130535604c935142999536e20
       subObjectName: 
@@ -240,8 +247,11 @@ MonoBehaviour:
   rangedZoomModifier: -1
   bowDrawSpeedModifier: 1
   lightCastManaCost: 0
+  lightCastManaCostGain: 0
   heavyCastManaCost: 0
+  heavyCastManaCostGain: 0
   heavyCastManaCostPerSecond: 0
+  heavyCastManaCostPerSecondGain: 0
   magicHeldSpeedMultiplier: 0.3
 --- !u!114 &8036450029419874692
 MonoBehaviour:

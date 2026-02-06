@@ -62,6 +62,9 @@ namespace Awaken.TG.Main.AI.Combat.Behaviours.CustomBehaviours {
         
         protected override void OnDamagePrevented(Damage damage) {
             base.OnDamagePrevented(damage);
+            if (damage is not { IsPrimary: true, IsDamageOverTime: false }) {
+                return;
+            }
             _chargeHits++;
             int newThreshold = GetThresholdId(_chargeHits);
             if (newThreshold != _currentThreshold) {
